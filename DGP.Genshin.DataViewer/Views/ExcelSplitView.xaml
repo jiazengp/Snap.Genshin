@@ -17,6 +17,12 @@
                 </ui:ListView.ItemTemplate>
             </ui:ListView>
         </ui:SplitView.Pane>
-        <DataGrid ui:DataGridHelper.UseModernColumnStyles="True" Grid.Column="1" ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" CanUserAddRows="False"/>
+        <Grid>
+            <DataGrid 
+                ui:DataGridHelper.UseModernColumnStyles="True" 
+                Grid.Column="1" 
+                ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" 
+                CanUserAddRows="False"/>
+        </Grid>
     </ui:SplitView>
 </UserControl>

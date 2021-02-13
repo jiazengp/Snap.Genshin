@@ -34,22 +34,12 @@ namespace DGP.Genshin.Pages
                 .Where(item => WeaponHelper.IsTodaysMondstadtWeapon(item.Material))
                 .Where(item => WeaponManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
-                .Select(item =>
-                {
-                    WeaponIcon w = new WeaponIcon() { Weapon = item };
-                    w.IconClicked += this.OnWeaponClicked;
-                    return w;
-                });
+                .Select(item => new WeaponIcon() { Weapon = item });
             this.LiyueWeapons = weapons
                 .Where(item => WeaponHelper.IsTodaysLiyueWeapon(item.Material))
                 .Where(item => WeaponManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
-                .Select(item =>
-                {
-                    WeaponIcon w = new WeaponIcon() { Weapon = item };
-                    w.IconClicked += this.OnWeaponClicked;
-                    return w;
-                });
+                .Select(item => new WeaponIcon() { Weapon = item });
         }
         private void InitializeCharacters()
         {
@@ -58,22 +48,12 @@ namespace DGP.Genshin.Pages
                 .Where(item => TalentHelper.IsTodaysMondstadtMaterial(item.TalentMaterial))
                 .Where(item => CharacterManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
-                .Select(item =>
-                {
-                    CharacterIcon c = new CharacterIcon() { Character = item };
-                    c.IconClicked += this.OnCharacterClicked;
-                    return c;
-                });
+                .Select(item => new CharacterIcon() { Character = item });
             this.LiyueCharacters = chars
                 .Where(item => TalentHelper.IsTodaysLiyueMaterial(item.TalentMaterial))
                 .Where(item => CharacterManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
-                .Select(item =>
-                {
-                    CharacterIcon c = new CharacterIcon() { Character = item };
-                    c.IconClicked += this.OnCharacterClicked;
-                    return c;
-                });
+                .Select(item => new CharacterIcon() { Character = item });
         }
         private void SetVisibility()
         {
@@ -88,13 +68,15 @@ namespace DGP.Genshin.Pages
 
         private void OnCharacterClicked(object sender, EventArgs e)
         {
-            this.CharacterDetailDialog.Character = ((CharacterIcon)sender).Character;
-            this.CharacterDetailDialog.ShowAsync();
+            //this.CharacterDetailDialog.Character = ((CharacterIcon)sender).Character;
+            //this.CharacterDetailDialog.ShowAsync();
+            new CharacterDialog((CharacterIcon)sender).ShowAsync();
         }
         private void OnWeaponClicked(object sender, EventArgs e)
         {
-            this.WeaponDetailDialog.Weapon = ((WeaponIcon)sender).Weapon;
-            this.WeaponDetailDialog.ShowAsync();
+            //this.WeaponDetailDialog.Weapon = ((WeaponIcon)sender).Weapon;
+            //this.WeaponDetailDialog.ShowAsync();
+            new WeaponDialog((WeaponIcon)sender).ShowAsync();
         }
         #region propdp
 

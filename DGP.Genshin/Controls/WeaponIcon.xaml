@@ -3,52 +3,80 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.modernwpf.com/2019" 
              xmlns:local="clr-namespace:DGP.Genshin.Controls" 
              xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
              mc:Ignorable="d" 
-             Height="70" Width="70"
-             MouseUp="UserControl_MouseUp">
+             Height="70" Width="70">
     <UserControl.Resources>
         <CornerRadius x:Key="IconCornerRadius">4</CornerRadius>
         <converters:StarToImageSourceConverter x:Key="StarToImageSourceConverter"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
+            <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
+            <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="-3"/>
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="{DynamicResource IconCornerRadius}"/>
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" SnapsToDevicePixels="True">
+                            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid>
-        <Border CornerRadius="{StaticResource IconCornerRadius}">
-            <Border.Background>
-                <ImageBrush ImageSource="{Binding Weapon.Star, Converter={StaticResource StarToImageSourceConverter}}" Stretch="UniformToFill"/>
-            </Border.Background>
-        </Border>
-        <Border CornerRadius="{StaticResource IconCornerRadius}">
-            <Border.Background>
-                <ImageBrush ImageSource="{Binding Weapon.ImageUri}" Stretch="Uniform"/>
-            </Border.Background>
-        </Border>
-        <Border CornerRadius="{StaticResource IconCornerRadius}" Background="#99000000" Opacity="0">
-            <Border.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard >
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="1">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut"/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard >
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="0">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut"/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Border.Triggers>
-            <TextBlock 
+    <Button Click="IconClick">
+        <Grid>
+            <Border CornerRadius="{StaticResource IconCornerRadius}">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding Weapon.Star, Converter={StaticResource StarToImageSourceConverter}}" Stretch="UniformToFill"/>
+                </Border.Background>
+            </Border>
+            <Border CornerRadius="{StaticResource IconCornerRadius}">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding Weapon.ImageUri}" Stretch="Uniform"/>
+                </Border.Background>
+            </Border>
+            <Border CornerRadius="{StaticResource IconCornerRadius}" Background="#99000000" Opacity="0">
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="1">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="0">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+                <TextBlock 
                 Margin="6" 
                 TextWrapping="Wrap" 
                 TextAlignment="Center" 
@@ -58,6 +86,7 @@
                 Style="{StaticResource CaptionTextBlockStyle}" 
                 Text="{Binding Weapon.WeaponName}" 
                 SnapsToDevicePixels="True"/>
-        </Border>
-    </Grid>
+            </Border>
+        </Grid>
+    </Button>
 </UserControl>

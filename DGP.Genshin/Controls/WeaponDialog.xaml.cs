@@ -14,6 +14,11 @@ namespace DGP.Genshin.Controls
             this.DataContext = this;
             this.InitializeComponent();
         }
+        public WeaponDialog(Weapon w) : this()
+        {
+            this.Weapon = w;
+        }
+        public WeaponDialog(WeaponIcon wi) : this(wi.Weapon) { }
 
         public Weapon Weapon
         {

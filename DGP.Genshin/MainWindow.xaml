@@ -28,8 +28,8 @@
             PaneDisplayMode="Auto">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helper:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
-                <ui:NavigationViewItem Content="日常" helper:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
-                <ui:NavigationViewItem Content="周常" helper:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
+                <ui:NavigationViewItem Content="日常总览" helper:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
+                <ui:NavigationViewItem Content="周常总览" helper:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
                 <ui:NavigationViewItem Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame">

@@ -134,6 +134,7 @@
     <Compile Include="Data\Weapon\WeaponMaterial.cs" />
     <Compile Include="Data\Weapon\WeaponType.cs" />
     <Compile Include="Helper\ExpanderHelper.cs" />
+    <Compile Include="Helper\Json.cs" />
     <Compile Include="Helper\NavHelper.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
@@ -169,18 +170,6 @@
     <Compile Include="Simulation\Calculation\DamageType.cs" />
     <Compile Include="Simulation\Calculation\TalentBuffFunction.cs" />
     <Compile Include="Simulation\Calculation\Target.cs" />
-    <Compile Include="Views\Artifact\ArtifactView.xaml.cs">
-      <DependentUpon>ArtifactView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Box\RoleBoxView.xaml.cs">
-      <DependentUpon>RoleBoxView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dungon\DailyMaterialView.xaml.cs">
-      <DependentUpon>DailyMaterialView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dungon\WeeklyTalentView.xaml.cs">
-      <DependentUpon>WeeklyTalentView.xaml</DependentUpon>
-    </Compile>
     <Page Include="Controls\CharacterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,22 +252,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WeeklyMaterialPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Artifact\ArtifactView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Box\RoleBoxView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dungon\DailyMaterialView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dungon\WeeklyTalentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

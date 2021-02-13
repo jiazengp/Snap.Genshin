@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Models.Github;
+﻿using DGP.Genshin.Helper;
+using DGP.Genshin.Models.Github;
 using DGP.Snap.Framework.Net.Download;
 using System;
 using System.Diagnostics;

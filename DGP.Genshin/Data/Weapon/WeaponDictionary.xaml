@@ -684,7 +684,7 @@
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="LithicBlade"
-                  WeaponName="千岩斩刀"
+                  WeaponName="千岩古剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/lithic_blade.png"
                   Star="4"
                   Type="Claymore"
