@@ -23,18 +23,18 @@ namespace DGP.Genshin.Data.Weapon
         private int refineLevel = 1;
         public int RefineLevel
         {
-            get => refineLevel;
+            get => this.refineLevel;
             set
             {
-                if (Passives != null)
+                if (this.Passives != null)
                 {
-                    foreach (Passive p in Passives)
+                    foreach (Passive p in this.Passives)
                     {
                         p.RefineLevel = value;
                     }
                 }
 
-                refineLevel = value;
+                this.refineLevel = value;
             }
         }
     }

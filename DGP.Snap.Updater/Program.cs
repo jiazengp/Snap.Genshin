@@ -6,10 +6,7 @@ namespace DGP.Snap.Updater
 {
     internal class Program
     {
-        private static void Main(string[] args)
-        {
-            InstallPackage();
-        }
+        private static void Main(string[] args) => InstallPackage();
         private static void InstallPackage()
         {
             Thread.Sleep(2000);

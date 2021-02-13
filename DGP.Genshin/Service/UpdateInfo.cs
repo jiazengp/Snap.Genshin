@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Helper;
+﻿using DGP.Snap.Framework.Data.Behavior;
 
 namespace DGP.Genshin.Service
 {
@@ -9,9 +9,9 @@ namespace DGP.Genshin.Service
         private string progressText;
         private double progress;
 
-        public string Title { get => title; set => Set(ref title, value); }
-        public string Detail { get => detail; set => Set(ref detail, value); }
-        public string ProgressText { get => progressText; set => Set(ref progressText, value); }
-        public double Progress { get => progress; set => Set(ref progress, value); }
+        public string Title { get => this.title; set => this.Set(ref this.title, value); }
+        public string Detail { get => this.detail; set => this.Set(ref this.detail, value); }
+        public string ProgressText { get => this.progressText; set => this.Set(ref this.progressText, value); }
+        public double Progress { get => this.progress; set => this.Set(ref this.progress, value); }
     }
 }

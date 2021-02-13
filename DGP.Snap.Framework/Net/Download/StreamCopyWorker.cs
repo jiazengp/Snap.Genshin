@@ -31,8 +31,8 @@ namespace DGP.Snap.Framework.Net.Download
             this.copyBufferSize = copyBufferSize;
             this.safeWaitTimeout = safeWaitTimeout;
 
-            progressUpdateTimer = new System.Timers.Timer(progressUpdateInterval.TotalMilliseconds);
-            progressUpdateTimer.Elapsed += OnProgressUpdateTimerElapsed;
+            this.progressUpdateTimer = new System.Timers.Timer(progressUpdateInterval.TotalMilliseconds);
+            this.progressUpdateTimer.Elapsed += this.OnProgressUpdateTimerElapsed;
         }
 
         public event EventHandler<StreamCopyCompleteEventArgs> Completed;
@@ -51,34 +51,34 @@ namespace DGP.Snap.Framework.Net.Download
 
         public void CopyAsync(Stream source, Stream destination, long sizeInBytes)
         {
-            if (ChangeState(WorkerState.Started) == false)
+            if (this.ChangeState(WorkerState.Started) == false)
             {
                 return;
             }
 
-            sourceStream = source;
-            destinationStream = destination;
-            totalBytes = sizeInBytes;
+            this.sourceStream = source;
+            this.destinationStream = destination;
+            this.totalBytes = sizeInBytes;
 
-            ThreadPool.QueueUserWorkItem(stateInfo => RunCopyProcess());
+            ThreadPool.QueueUserWorkItem(stateInfo => this.RunCopyProcess());
         }
 
         public void Cancel()
         {
-            if (ChangeState(WorkerState.Canceled) == false)
+            if (this.ChangeState(WorkerState.Canceled) == false)
             {
                 return;
             }
 
-            if (!streamCopyFinished.WaitOne(safeWaitTimeout))
+            if (!this.streamCopyFinished.WaitOne(this.safeWaitTimeout))
             {
                 return;
             }
 
             ////We may reach this code when cancel is requested BEFORE the RunCopyProcess
             ////There are moments when worker is not started, but still can be cancelled.
-            FinalizeStream(ref destinationStream);
-            FinalizeStream(ref sourceStream);
+            this.FinalizeStream(ref this.destinationStream);
+            this.FinalizeStream(ref this.sourceStream);
         }
 
         private void OnCompleted(StreamCopyCompleteEventArgs args) => Completed.SafeInvoke(this, args);
@@ -87,7 +87,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void RunCopyProcess()
         {
-            if (!InitializeCopyProcess())
+            if (!this.InitializeCopyProcess())
             {
                 return;
             }
@@ -95,52 +95,52 @@ namespace DGP.Snap.Framework.Net.Download
             Exception error = null;
             try
             {
-                Copy();
-                EmitFinalProgress();
+                this.Copy();
+                this.EmitFinalProgress();
             }
             catch (Exception ex)
             {
-                completedState = CompletedState.Failed;
+                this.completedState = CompletedState.Failed;
                 error = ex;
             }
 
-            FinalizeCopyProcess(error);
+            this.FinalizeCopyProcess(error);
         }
 
         private bool InitializeCopyProcess()
         {
-            if (!streamCopyFinished.WaitOne(safeWaitTimeout))
+            if (!this.streamCopyFinished.WaitOne(this.safeWaitTimeout))
             {
                 return false;
             }
-            streamCopyFinished.Reset();
+            this.streamCopyFinished.Reset();
 
-            Position = 0;
-            ChangeState(WorkerState.Started);
+            this.Position = 0;
+            this.ChangeState(WorkerState.Started);
 
-            progressUpdateTimer.Start();
+            this.progressUpdateTimer.Start();
             return true;
         }
 
         private void Copy()
         {
-            var buffer = new byte[copyBufferSize];
-            using (var binaryWriter = new BinaryWriter(destinationStream))
+            byte[] buffer = new byte[this.copyBufferSize];
+            using (BinaryWriter binaryWriter = new BinaryWriter(this.destinationStream))
             {
                 int readBytes;
-                while ((readBytes = sourceStream.Read(buffer, 0, buffer.Length)) != 0)
+                while ((readBytes = this.sourceStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     binaryWriter.Write(buffer, 0, readBytes);
-                    Position = destinationStream.Position;
+                    this.Position = this.destinationStream.Position;
 
-                    if (GetState() == WorkerState.Canceled || GetState() == WorkerState.Finished)
+                    if (this.GetState() == WorkerState.Canceled || this.GetState() == WorkerState.Finished)
                     {
-                        completedState = CompletedState.Canceled;
+                        this.completedState = CompletedState.Canceled;
                         return;
                     }
                 }
 
-                completedState = CompletedState.Succeeded;
+                this.completedState = CompletedState.Succeeded;
             }
         }
 
@@ -148,28 +148,28 @@ namespace DGP.Snap.Framework.Net.Download
         {
             ////the last direct call to deliver most accurate and actual progress without timer
             ////without this we often have not 100% on the end of download
-            if (completedState == CompletedState.Succeeded)
+            if (this.completedState == CompletedState.Succeeded)
             {
-                if (Position != totalBytes)
+                if (this.Position != this.totalBytes)
                 {
-                    throw new System.Exception(String.Format("Stream incomplete. Expected size: {0}, actual size {1}", totalBytes, Position));
+                    throw new System.Exception(String.Format("Stream incomplete. Expected size: {0}, actual size {1}", this.totalBytes, this.Position));
                 }
 
-                OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
+                this.OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
             }
         }
 
         private void FinalizeCopyProcess(System.Exception error)
         {
-            progressUpdateTimer.Stop();
+            this.progressUpdateTimer.Stop();
 
-            FinalizeStream(ref sourceStream);
-            FinalizeStream(ref destinationStream);
+            this.FinalizeStream(ref this.sourceStream);
+            this.FinalizeStream(ref this.destinationStream);
 
-            ChangeState(WorkerState.Finished);
+            this.ChangeState(WorkerState.Finished);
 
-            streamCopyFinished.Set();
-            OnCompleted(new StreamCopyCompleteEventArgs { CompleteState = completedState, Exception = error });
+            this.streamCopyFinished.Set();
+            this.OnCompleted(new StreamCopyCompleteEventArgs { CompleteState = completedState, Exception = error });
         }
 
         private void FinalizeStream(ref Stream stream)
@@ -191,15 +191,15 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void OnProgressUpdateTimerElapsed(object sender, EventArgs eventArgs)
         {
-            if (GetState() != WorkerState.Started)
+            if (this.GetState() != WorkerState.Started)
             {
                 return;
             }
 
-            if (Position != previousReportedBytesReceived)
+            if (this.Position != this.previousReportedBytesReceived)
             {
-                previousReportedBytesReceived = Position;
-                OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
+                this.previousReportedBytesReceived = this.Position;
+                this.OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
             }
         }
 
@@ -207,33 +207,33 @@ namespace DGP.Snap.Framework.Net.Download
         {
             if (newState == WorkerState.Finished)
             {
-                Interlocked.Exchange(ref workerState, (int)newState);
+                Interlocked.Exchange(ref this.workerState, (int)newState);
                 return true;
             }
-            return Interlocked.CompareExchange(ref workerState, (int)newState, (int)newState - 1) == (int)newState - 1;
+            return Interlocked.CompareExchange(ref this.workerState, (int)newState, (int)newState - 1) == (int)newState - 1;
         }
 
-        private WorkerState GetState() => (WorkerState)workerState;
+        private WorkerState GetState() => (WorkerState)this.workerState;
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
-                    progressUpdateTimer.Dispose();
-                    streamCopyFinished.Close();
-                    ChangeState(WorkerState.Finished);
-                    FinalizeStream(ref sourceStream);
-                    FinalizeStream(ref destinationStream);
+                    this.progressUpdateTimer.Dispose();
+                    this.streamCopyFinished.Close();
+                    this.ChangeState(WorkerState.Finished);
+                    this.FinalizeStream(ref this.sourceStream);
+                    this.FinalizeStream(ref this.destinationStream);
                 }
-                disposed = true;
+                this.disposed = true;
             }
         }
     }

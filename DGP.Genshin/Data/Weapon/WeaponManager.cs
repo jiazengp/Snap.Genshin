@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Service;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -12,11 +11,11 @@ namespace DGP.Genshin.Data.Weapon
         {
             Source = new Uri("/Data/Weapon/WeaponDictionary.xaml", UriKind.Relative)
         };
-        public WeaponCollection Weapons => new WeaponCollection(weaponDictionary.Values.OfType<Weapon>().Where(i => UnreleasedPolicyFilter(i)));
+        public WeaponCollection Weapons => new WeaponCollection(this.weaponDictionary.Values.OfType<Weapon>().Where(i => UnreleasedPolicyFilter(i)));
         public Weapon this[string key]
         {
-            get { return (Weapon)weaponDictionary[key]; }
-            set { weaponDictionary[key] = value; }
+            get => (Weapon)this.weaponDictionary[key];
+            set => this.weaponDictionary[key] = value;
         }
         public static bool UnreleasedPolicyFilter(Weapon item) => item.IsReleased || SettingService.Instance.GetOrDefault(Setting.ShowUnreleasedData, false);
 

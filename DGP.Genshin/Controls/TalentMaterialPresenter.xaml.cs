@@ -11,14 +11,14 @@ namespace DGP.Genshin.Controls
     {
         public TalentMaterialPresenter()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         public TalentMaterial TalentMaterial
         {
-            get { return (TalentMaterial)GetValue(TalentMaterialProperty); }
-            set { SetValue(TalentMaterialProperty, value); }
+            get => (TalentMaterial)this.GetValue(TalentMaterialProperty);
+            set => this.SetValue(TalentMaterialProperty, value);
         }
         public static readonly DependencyProperty TalentMaterialProperty =
             DependencyProperty.Register("TalentMaterial", typeof(TalentMaterial), typeof(TalentMaterialPresenter), new PropertyMetadata(TalentMaterial.Ballad));

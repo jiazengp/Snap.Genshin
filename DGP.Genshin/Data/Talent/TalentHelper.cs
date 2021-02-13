@@ -18,14 +18,8 @@ namespace DGP.Genshin.Data.Talent
             new TalentMaterialEntry{MondstadtTalent=TalentMaterial.Ballad,LiyueTalent=TalentMaterial.Gold}
         };
 
-        private static bool IsMondstadtMaterial(TalentMaterial talent)
-        {
-            return talent == all || talent == TalentMaterial.Freedom || talent == TalentMaterial.Resistance || talent == TalentMaterial.Ballad;
-        }
-        private static bool IsLiyueMaterial(TalentMaterial talent)
-        {
-            return talent == all || talent == TalentMaterial.Prosperity || talent == TalentMaterial.Diligence || talent == TalentMaterial.Gold;
-        }
+        private static bool IsMondstadtMaterial(TalentMaterial talent) => talent == all || talent == TalentMaterial.Freedom || talent == TalentMaterial.Resistance || talent == TalentMaterial.Ballad;
+        private static bool IsLiyueMaterial(TalentMaterial talent) => talent == all || talent == TalentMaterial.Prosperity || talent == TalentMaterial.Diligence || talent == TalentMaterial.Gold;
 
         public static bool IsTodaysMondstadtMaterial(TalentMaterial talent)
         {

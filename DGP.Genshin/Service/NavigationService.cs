@@ -25,66 +25,63 @@ namespace DGP.Genshin.Service
             this.navigationView = navigationView;
             this.frame = frame;
 
-            this.navigationView.ItemInvoked += OnItemInvoked;
-            BackRequestedEventHandler += OnBackRequested;
-            TitleBar.AddBackRequestedHandler(window, BackRequestedEventHandler);
+            this.navigationView.ItemInvoked += this.OnItemInvoked;
+            this.BackRequestedEventHandler += this.OnBackRequested;
+            TitleBar.AddBackRequestedHandler(window, this.BackRequestedEventHandler);
         }
 
         public void SyncTabWith(Type pageType)
         {
             if (pageType == typeof(SettingsPage) || pageType == null)
             {
-                navigationView.SelectedItem = navigationView.SettingsItem;
+                this.navigationView.SelectedItem = this.navigationView.SettingsItem;
             }
             else
             {
-                NavigationViewItem target = navigationView.MenuItems.OfType<NavigationViewItem>()
+                NavigationViewItem target = this.navigationView.MenuItems.OfType<NavigationViewItem>()
                     .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
-                navigationView.SelectedItem = target;
+                this.navigationView.SelectedItem = target;
             }
-            selected = navigationView.SelectedItem as NavigationViewItem;
+            this.selected = this.navigationView.SelectedItem as NavigationViewItem;
         }
 
         public bool Navigate(Type pageType, bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null)
         {
             if (isSyncTabRequested)
             {
-                SyncTabWith(pageType);
+                this.SyncTabWith(pageType);
             }
 
-            backItemStack.Push(selected);
-            Debug.WriteLine(backItemStack.Count);
-            return frame.Navigate(pageType, data, info);
+            this.backItemStack.Push(this.selected);
+            Debug.WriteLine(this.backItemStack.Count);
+            return this.frame.Navigate(pageType, data, info);
         }
-        public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page
-        {
-            return Navigate(typeof(T), isSyncTabRequested, data, info);
-        }
+        public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);
 
-        public bool CanGoBack => frame.CanGoBack;
-        private void GoBack() => frame.GoBack();
+        public bool CanGoBack => this.frame.CanGoBack;
+        private void GoBack() => this.frame.GoBack();
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            selected = navigationView.SelectedItem as NavigationViewItem;
+            this.selected = this.navigationView.SelectedItem as NavigationViewItem;
             if (args.IsSettingsInvoked)
             {
-                Navigate<SettingsPage>();
+                this.Navigate<SettingsPage>();
             }
             else
             {
-                Navigate(selected.GetValue(NavHelper.NavigateToProperty) as Type);
+                this.Navigate(this.selected.GetValue(NavHelper.NavigateToProperty) as Type);
             }
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
-            if (CanGoBack)
+            if (this.CanGoBack)
             {
-                backItemStack.Pop();
-                var back = backItemStack.Peek();
-                SyncTabWith(back.GetValue(NavHelper.NavigateToProperty) as Type);
-                GoBack();
+                this.backItemStack.Pop();
+                NavigationViewItem back = this.backItemStack.Peek();
+                this.SyncTabWith(back.GetValue(NavHelper.NavigateToProperty) as Type);
+                this.GoBack();
             }
         }
     }

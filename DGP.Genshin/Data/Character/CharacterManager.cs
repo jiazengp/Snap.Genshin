@@ -11,11 +11,11 @@ namespace DGP.Genshin.Data.Character
         {
             Source = new Uri("/Data/Character/CharacterDictionary.xaml", UriKind.Relative)
         };
-        public CharacterCollection Characters => new CharacterCollection(characterDictionary.Values.OfType<Character>().Where(i => UnreleasedPolicyFilter(i)));
+        public CharacterCollection Characters => new CharacterCollection(this.characterDictionary.Values.OfType<Character>().Where(i => UnreleasedPolicyFilter(i)));
         public Character this[string key]
         {
-            get { return (Character)characterDictionary[key]; }
-            set { characterDictionary[key] = value; }
+            get => (Character)this.characterDictionary[key];
+            set => this.characterDictionary[key] = value;
         }
 
         public static bool UnreleasedPolicyFilter(Character item) => item.IsReleased || SettingService.Instance.GetOrDefault(Setting.ShowUnreleasedData, false);
@@ -25,7 +25,7 @@ namespace DGP.Genshin.Data.Character
         private static readonly object _lock = new object();
         private CharacterManager()
         {
-            
+
         }
         public static CharacterManager Instance
         {

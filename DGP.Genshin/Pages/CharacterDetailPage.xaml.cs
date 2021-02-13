@@ -7,9 +7,6 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class CharacterDetailPage : Page
     {
-        public CharacterDetailPage()
-        {
-            InitializeComponent();
-        }
+        public CharacterDetailPage() => this.InitializeComponent();
     }
 }

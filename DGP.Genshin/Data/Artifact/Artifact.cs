@@ -6,10 +6,7 @@ namespace DGP.Genshin.Data.Artifact
 {
     public abstract class Artifact
     {
-        public Artifact(Stat stat)
-        {
-            MainStat = stat;
-        }
+        public Artifact(Stat stat) => this.MainStat = stat;
         public ArtifactSet Set { get; set; }
         public Stat MainStat { get; protected set; }
         public double MainStatValue { get; set; }
@@ -25,16 +22,16 @@ namespace DGP.Genshin.Data.Artifact
 
         public void MaxmizeMainStatValue()
         {
-            switch (MainStat)
+            switch (this.MainStat)
             {
                 case Stat.HP:
-                    MainStatValue = 4780;
+                    this.MainStatValue = 4780;
                     break;
                 case Stat.ATK:
-                    MainStatValue = 311;
+                    this.MainStatValue = 311;
                     break;
                 case Stat.DEFPercent:
-                    MainStatValue = 0.583;
+                    this.MainStatValue = 0.583;
                     break;
                 case Stat.HPPercent:
                 case Stat.ATKPercent:
@@ -44,25 +41,25 @@ namespace DGP.Genshin.Data.Artifact
                 case Stat.CryoDMGPercent:
                 case Stat.HydroDMGPercent:
                 case Stat.ElectroDMGPercent:
-                    MainStatValue = 0.466;
+                    this.MainStatValue = 0.466;
                     break;
                 case Stat.PhysDMGPercent:
-                    MainStatValue = 0.583;
+                    this.MainStatValue = 0.583;
                     break;
                 case Stat.EnergyRechargePercent:
-                    MainStatValue = 0.518;
+                    this.MainStatValue = 0.518;
                     break;
                 case Stat.ElementalMastery:
-                    MainStatValue = 187;
+                    this.MainStatValue = 187;
                     break;
                 case Stat.CRITRatePercent:
-                    MainStatValue = 0.311;
+                    this.MainStatValue = 0.311;
                     break;
                 case Stat.CRITDMGPercent:
-                    MainStatValue = 0.622;
+                    this.MainStatValue = 0.622;
                     break;
                 case Stat.HealingBonusPercent:
-                    MainStatValue = 0.359;
+                    this.MainStatValue = 0.359;
                     break;
                 default:
                     throw new Exception();

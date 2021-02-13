@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Snap.Test
+﻿namespace DGP.Snap.Test
 {
     internal class Program
     {

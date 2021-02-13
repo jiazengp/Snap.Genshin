@@ -7,9 +7,6 @@ namespace DGP.Genshin.Views.Box
     /// </summary>
     public partial class RoleBoxView : UserControl
     {
-        public RoleBoxView()
-        {
-            InitializeComponent();
-        }
+        public RoleBoxView() => this.InitializeComponent();
     }
 }

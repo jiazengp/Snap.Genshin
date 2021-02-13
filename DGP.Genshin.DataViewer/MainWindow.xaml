@@ -16,17 +16,25 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource PaneToggleButtonStyle}" Click="PaneStateChangeRequested"/>
+            <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="6" VerticalAlignment="Center"/>
+            <ui:CommandBar Grid.Column="2" HorizontalAlignment="Right" Background="Transparent">
+                <ui:AppBarElementContainer>
+                    <ComboBox Margin="4" ui:ControlHelper.PlaceholderText="选择映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
+                </ui:AppBarElementContainer>
+                <ui:AppBarButton Label="选择文件夹" Click="OpenFolderRequested">
+                    <ui:AppBarButton.Icon>
+                        <ui:FontIcon Glyph="&#xED25;"/>
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
+            </ui:CommandBar>
+        </Grid>
         <views:ExcelSplitView x:Name="ExcelDataView" Grid.Row="1"/>
-        <TextBlock Margin="4" Text="1.选择包含Excel与TextMap的文件夹 2.选择一个语言 3.开始浏览数据"/>
-        <ui:CommandBar HorizontalAlignment="Right" Background="Transparent">
-            <ui:AppBarElementContainer>
-                <ComboBox Margin="4" ui:ControlHelper.PlaceholderText="选择语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
-            </ui:AppBarElementContainer>
-            <ui:AppBarButton Label="选择文件夹" Click="OpenFolderRequested">
-                <ui:AppBarButton.Icon>
-                    <ui:FontIcon Glyph="&#xED25;"/>
-                </ui:AppBarButton.Icon>
-            </ui:AppBarButton>
-        </ui:CommandBar>
     </Grid>
 </Window>

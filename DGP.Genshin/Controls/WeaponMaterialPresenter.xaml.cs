@@ -11,14 +11,14 @@ namespace DGP.Genshin.Controls
     {
         public WeaponMaterialPresenter()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         public WeaponMaterial WeaponMaterial
         {
-            get { return (WeaponMaterial)GetValue(WeaponMaterialProperty); }
-            set { SetValue(WeaponMaterialProperty, value); }
+            get => (WeaponMaterial)this.GetValue(WeaponMaterialProperty);
+            set => this.SetValue(WeaponMaterialProperty, value);
         }
         public static readonly DependencyProperty WeaponMaterialProperty =
             DependencyProperty.Register("WeaponMaterial", typeof(WeaponMaterial), typeof(WeaponMaterialPresenter), new PropertyMetadata(WeaponMaterial.Decarabians));

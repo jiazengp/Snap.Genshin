@@ -47,26 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Logging\Logger.cs" />
-    <Compile Include="Data\Json\ArrayMetadata.cs" />
-    <Compile Include="Data\Json\Condition.cs" />
-    <Compile Include="Data\Json\Delegates.cs" />
-    <Compile Include="Data\Json\FsmContext.cs" />
-    <Compile Include="Data\Json\IJsonWrapper.cs" />
-    <Compile Include="Data\Json\JsonData.cs" />
-    <Compile Include="Data\Json\JsonException.cs" />
-    <Compile Include="Data\Json\JsonMapper.cs" />
-    <Compile Include="Data\Json\JsonMockWrapper.cs" />
-    <Compile Include="Data\Json\JsonProperty.cs" />
-    <Compile Include="Data\Json\JsonReader.cs" />
-    <Compile Include="Data\Json\JsonToken.cs" />
-    <Compile Include="Data\Json\JsonType.cs" />
-    <Compile Include="Data\Json\JsonWriter.cs" />
-    <Compile Include="Data\Json\Lexer.cs" />
-    <Compile Include="Data\Json\ObjectMetadata.cs" />
-    <Compile Include="Data\Json\OrderedDictionaryEnumerator.cs" />
-    <Compile Include="Data\Json\ParserToken.cs" />
-    <Compile Include="Data\Json\PropertyMetadata.cs" />
-    <Compile Include="Data\Json\WriterContext.cs" />
+    <Compile Include="Data\Behavior\Observable.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />
     <Compile Include="Device\File\File.cs" />
     <Compile Include="Device\File\KnownPath.cs" />

@@ -46,17 +46,17 @@ namespace DGP.Snap.Framework.Net.Download
         /// <param name="downloadCache">IDownloadCache instance</param>
         public FileDownloader(IDownloadCache downloadCache)
         {
-            DnsFallbackResolver = null;
+            this.DnsFallbackResolver = null;
 
-            MaxAttempts = 60;
-            DelayBetweenAttempts = TimeSpan.FromSeconds(3);
-            SafeWaitTimeout = TimeSpan.FromSeconds(15);
-            SourceStreamReadTimeout = TimeSpan.FromSeconds(5);
+            this.MaxAttempts = 60;
+            this.DelayBetweenAttempts = TimeSpan.FromSeconds(3);
+            this.SafeWaitTimeout = TimeSpan.FromSeconds(15);
+            this.SourceStreamReadTimeout = TimeSpan.FromSeconds(5);
 
             this.downloadCache = downloadCache;
-            disposed = false;
+            this.disposed = false;
 
-            attemptTimer.Elapsed += OnDownloadAttemptTimer;
+            this.attemptTimer.Elapsed += this.OnDownloadAttemptTimer;
         }
 
         /// <summary>
@@ -109,195 +109,195 @@ namespace DGP.Snap.Framework.Net.Download
         /// </summary>
         public DateTime DownloadStartTime { get; set; }
 
-        private bool UseCaching => downloadCache != null;
+        private bool UseCaching => this.downloadCache != null;
 
         /// <summary>
         /// Start async download of source to destinationPath
         /// </summary>
         /// <param name="source">Source URI</param>
         /// <param name="destinationPath">Full path with file name.</param>
-        public void DownloadFileAsync(Uri source, string destinationPath) => DownloadFileAsync(source, destinationPath, false);
+        public void DownloadFileAsync(Uri source, string destinationPath) => this.DownloadFileAsync(source, destinationPath, false);
 
         /// <summary>
         /// Start download of source file to downloadDirectory. File would be saved with filename taken from server 
         /// </summary>
         /// <param name="source">Source URI</param>
         /// <param name="destinationDirectory">Destination directory</param>
-        public void DownloadFileAsyncPreserveServerFileName(Uri source, string destinationDirectory) => DownloadFileAsync(source, Path.Combine(destinationDirectory, Guid.NewGuid().ToString()), true);
+        public void DownloadFileAsyncPreserveServerFileName(Uri source, string destinationDirectory) => this.DownloadFileAsync(source, Path.Combine(destinationDirectory, Guid.NewGuid().ToString()), true);
 
         /// <summary>
         /// Cancel current download
         /// </summary>
         public void CancelDownloadAsync()
         {
-            lock (cancelSync)
+            lock (this.cancelSync)
             {
-                if (isCancelled)
+                if (this.isCancelled)
                 {
                     return;
                 }
-                isCancelled = true;
+                this.isCancelled = true;
             }
 
-            if (worker != null)
+            if (this.worker != null)
             {
-                worker.Cancel();
+                this.worker.Cancel();
             }
 
-            TriggerDownloadWebClientCancelAsync();
-            DeleteDownloadedFile();  ////todo: maybe this is equal to InvalidateCache? Can we get rid of DeleteDownloadedFile ?
+            this.TriggerDownloadWebClientCancelAsync();
+            this.DeleteDownloadedFile();  ////todo: maybe this is equal to InvalidateCache? Can we get rid of DeleteDownloadedFile ?
 
-            readyToDownload.Set();
+            this.readyToDownload.Set();
         }
 
-        private void DeleteDownloadedFile() => FileUtils.TryFileDelete(localFileName);
+        private void DeleteDownloadedFile() => FileUtils.TryFileDelete(this.localFileName);
 
         private void InvalidateCache(Uri uri)
         {
-            if (!UseCaching)
+            if (!this.UseCaching)
             {
                 return;
             }
 
-            downloadCache.Invalidate(uri);
+            this.downloadCache.Invalidate(uri);
         }
 
         private void DownloadFileAsync(Uri source, string destinationPath, bool useServerFileName)
         {
-            if (!WaitSafeStart())
+            if (!this.WaitSafeStart())
             {
                 throw new Exception("Unable to start download because another request is still in progress.");
             }
 
-            useFileNameFromServer = useServerFileName;
-            fileSource = source;
-            BytesReceived = 0;
-            destinationFileName = destinationPath;
-            destinationFolder = Path.GetDirectoryName(destinationPath);
-            isCancelled = false;
-            localFileName = String.Empty;
+            this.useFileNameFromServer = useServerFileName;
+            this.fileSource = source;
+            this.BytesReceived = 0;
+            this.destinationFileName = destinationPath;
+            this.destinationFolder = Path.GetDirectoryName(destinationPath);
+            this.isCancelled = false;
+            this.localFileName = String.Empty;
 
-            DownloadStartTime = DateTime.Now;
+            this.DownloadStartTime = DateTime.Now;
 
-            attemptNumber = 0;
+            this.attemptNumber = 0;
 
-            StartDownload();
+            this.StartDownload();
         }
 
-        private void OnDownloadAttemptTimer(object sender, EventArgs eventArgs) => StartDownload();
+        private void OnDownloadAttemptTimer(object sender, EventArgs eventArgs) => this.StartDownload();
 
         private void StartDownload()
         {
-            if (IsCancelled())
+            if (this.IsCancelled())
             {
                 return;
             }
 
-            localFileName = ComposeLocalFilename();
+            this.localFileName = this.ComposeLocalFilename();
 
-            if (!UseCaching)
+            if (!this.UseCaching)
             {
-                TriggerWebClientDownloadFileAsync();
+                this.TriggerWebClientDownloadFileAsync();
                 return;
             }
 
-            TotalBytesToReceive = -1;
-            var headers = GetHttpHeaders(fileSource);
+            this.TotalBytesToReceive = -1;
+            WebHeaderCollection headers = this.GetHttpHeaders(this.fileSource);
             if (headers != null)
             {
-                TotalBytesToReceive = headers.GetContentLength();
+                this.TotalBytesToReceive = headers.GetContentLength();
             }
 
-            if (TotalBytesToReceive == -1)
+            if (this.TotalBytesToReceive == -1)
             {
-                TotalBytesToReceive = 0;
-                TriggerWebClientDownloadFileAsync();
+                this.TotalBytesToReceive = 0;
+                this.TriggerWebClientDownloadFileAsync();
             }
             else
             {
-                ResumeDownload(headers);
+                this.ResumeDownload(headers);
             }
         }
 
         private void ResumeDownload(WebHeaderCollection headers)
         {
-            isFallback = false;
+            this.isFallback = false;
 
-            string downloadedFileName = GetDestinationFileName(headers);
+            string downloadedFileName = this.GetDestinationFileName(headers);
 
             if (!FileUtils.TryGetFileSize(downloadedFileName, out long downloadedFileSize))
             {
                 ////todo: handle this case in future. Now in case of error we simply proceed with downloadedFileSize=0
             }
 
-            if (UseCaching)
+            if (this.UseCaching)
             {
-                downloadCache.Add(fileSource, localFileName, headers);
+                this.downloadCache.Add(this.fileSource, this.localFileName, headers);
             }
 
-            if (downloadedFileSize > TotalBytesToReceive)
+            if (downloadedFileSize > this.TotalBytesToReceive)
             {
-                InvalidateCache(fileSource);
+                this.InvalidateCache(this.fileSource);
             }
 
-            if (downloadedFileSize != TotalBytesToReceive)
+            if (downloadedFileSize != this.TotalBytesToReceive)
             {
-                if (!FileUtils.ReplaceFile(downloadedFileName, localFileName))
+                if (!FileUtils.ReplaceFile(downloadedFileName, this.localFileName))
                 {
-                    InvalidateCache(fileSource);
+                    this.InvalidateCache(this.fileSource);
                 }
 
-                Download(fileSource, localFileName, TotalBytesToReceive);
+                this.Download(this.fileSource, this.localFileName, this.TotalBytesToReceive);
             }
             else
             {
-                DownloadFromCache(downloadedFileName);
+                this.DownloadFromCache(downloadedFileName);
             }
         }
 
         private void DownloadFromCache(string cachedResource)
         {
-            OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(100, TotalBytesToReceive, TotalBytesToReceive));
-            InvokeDownloadCompleted(CompletedState.Succeeded, cachedResource, null, true);
-            readyToDownload.Set();
+            this.OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(100, this.TotalBytesToReceive, this.TotalBytesToReceive));
+            this.InvokeDownloadCompleted(CompletedState.Succeeded, cachedResource, null, true);
+            this.readyToDownload.Set();
         }
 
         private void TriggerWebClientDownloadFileAsync()
         {
             try
             {
-                isFallback = true;
-                var destinationDirectory = Path.GetDirectoryName(localFileName);
+                this.isFallback = true;
+                string destinationDirectory = Path.GetDirectoryName(this.localFileName);
                 if (destinationDirectory != null && !Directory.Exists(destinationDirectory))
                 {
                     Directory.CreateDirectory(destinationDirectory);
                 }
-                TryCleanupExistingDownloadWebClient();
+                this.TryCleanupExistingDownloadWebClient();
 
-                downloadWebClient = CreateWebClient();
-                downloadWebClient.DownloadFileAsync(fileSource, localFileName);
+                this.downloadWebClient = this.CreateWebClient();
+                this.downloadWebClient.DownloadFileAsync(this.fileSource, this.localFileName);
             }
             catch (Exception ex)
             {
-                if (!AttemptDownload())
+                if (!this.AttemptDownload())
                 {
-                    InvokeDownloadCompleted(CompletedState.Failed, localFileName, ex);
+                    this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, ex);
                 }
             }
         }
 
         private DownloadWebClient CreateWebClient()
         {
-            var webClient = new DownloadWebClient();
-            webClient.DownloadFileCompleted += OnDownloadCompleted;
-            webClient.DownloadProgressChanged += OnDownloadProgressChanged;
-            webClient.OpenReadCompleted += OnOpenReadCompleted;
+            DownloadWebClient webClient = new DownloadWebClient();
+            webClient.DownloadFileCompleted += this.OnDownloadCompleted;
+            webClient.DownloadProgressChanged += this.OnDownloadProgressChanged;
+            webClient.OpenReadCompleted += this.OnOpenReadCompleted;
             return webClient;
         }
 
         private void TryCleanupExistingDownloadWebClient()
         {
-            if (downloadWebClient == null)
+            if (this.downloadWebClient == null)
             {
                 return;
             }
@@ -305,14 +305,14 @@ namespace DGP.Snap.Framework.Net.Download
             {
                 lock (this)
                 {
-                    if (downloadWebClient != null)
+                    if (this.downloadWebClient != null)
                     {
-                        downloadWebClient.DownloadFileCompleted -= OnDownloadCompleted;
-                        downloadWebClient.DownloadProgressChanged -= OnDownloadProgressChanged;
-                        downloadWebClient.OpenReadCompleted -= OnOpenReadCompleted;
-                        downloadWebClient.CancelAsync();
-                        downloadWebClient.Dispose();
-                        downloadWebClient = null;
+                        this.downloadWebClient.DownloadFileCompleted -= this.OnDownloadCompleted;
+                        this.downloadWebClient.DownloadProgressChanged -= this.OnDownloadProgressChanged;
+                        this.downloadWebClient.OpenReadCompleted -= this.OnOpenReadCompleted;
+                        this.downloadWebClient.CancelAsync();
+                        this.downloadWebClient.Dispose();
+                        this.downloadWebClient = null;
                     }
                 }
             }
@@ -323,31 +323,31 @@ namespace DGP.Snap.Framework.Net.Download
 
         private bool AttemptDownload()
         {
-            if (++attemptNumber <= MaxAttempts)
+            if (++this.attemptNumber <= this.MaxAttempts)
             {
-                attemptTimer.Interval = DelayBetweenAttempts.TotalMilliseconds;
-                attemptTimer.AutoReset = false;
-                attemptTimer.Start();
+                this.attemptTimer.Interval = this.DelayBetweenAttempts.TotalMilliseconds;
+                this.attemptTimer.AutoReset = false;
+                this.attemptTimer.Start();
                 return true;
             }
 
-            readyToDownload.Set();
+            this.readyToDownload.Set();
             return false;
         }
 
         private string GetDestinationFileName(WebHeaderCollection headers)
         {
-            if (!UseCaching)
+            if (!this.UseCaching)
             {
-                return localFileName;
+                return this.localFileName;
             }
 
-            var cachedDestinationPath = downloadCache.Get(fileSource, headers);
+            string cachedDestinationPath = this.downloadCache.Get(this.fileSource, headers);
             if (cachedDestinationPath == null)
             {
                 //logger.Debug("No cache item found. Source: {0} Destination: {1}", fileSource, localFileName);
-                DeleteDownloadedFile();
-                return localFileName;
+                this.DeleteDownloadedFile();
+                return this.localFileName;
             }
 
             //logger.Debug("Download resource was found in cache. Source: {0} Destination: {1}", fileSource, cachedDestinationPath);
@@ -356,11 +356,11 @@ namespace DGP.Snap.Framework.Net.Download
 
         private string ComposeLocalFilename()
         {
-            if (useFileNameFromServer)
+            if (this.useFileNameFromServer)
             {
-                return Path.Combine(destinationFolder, String.Format("{0}.tmp", Guid.NewGuid()));
+                return Path.Combine(this.destinationFolder, String.Format("{0}.tmp", Guid.NewGuid()));
             }
-            return Path.Combine(destinationFolder, destinationFileName);
+            return Path.Combine(this.destinationFolder, this.destinationFileName);
         }
 
         private void Download(Uri source, string fileDestination, long totalBytesToReceive)
@@ -369,15 +369,15 @@ namespace DGP.Snap.Framework.Net.Download
             {
                 FileUtils.TryGetFileSize(fileDestination, out long seekPosition);
 
-                TryCleanupExistingDownloadWebClient();
-                downloadWebClient = CreateWebClient();
-                downloadWebClient.OpenReadAsync(source, seekPosition);
+                this.TryCleanupExistingDownloadWebClient();
+                this.downloadWebClient = this.CreateWebClient();
+                this.downloadWebClient.OpenReadAsync(source, seekPosition);
             }
             catch (Exception e)
             {
-                if (!AttemptDownload())
+                if (!this.AttemptDownload())
                 {
-                    InvokeDownloadCompleted(CompletedState.Failed, localFileName, e);
+                    this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, e);
                 }
             }
         }
@@ -386,10 +386,10 @@ namespace DGP.Snap.Framework.Net.Download
         {
             try
             {
-                var webRequest = WebRequest.Create(source);
+                WebRequest webRequest = WebRequest.Create(source);
                 webRequest.Method = WebRequestMethods.Http.Head;
 
-                using (var webResponse = webRequest.GetResponse())
+                using (WebResponse webResponse = webRequest.GetResponse())
                 {
                     return webResponse.Headers;
                 }
@@ -402,67 +402,67 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
         {
-            var e = new DownloadFileProgressChangedArgs(args.ProgressPercentage, args.BytesReceived, args.TotalBytesToReceive);
+            DownloadFileProgressChangedArgs e = new DownloadFileProgressChangedArgs(args.ProgressPercentage, args.BytesReceived, args.TotalBytesToReceive);
 
-            OnDownloadProgressChanged(sender, e);
+            this.OnDownloadProgressChanged(sender, e);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadFileProgressChangedArgs args)
         {
-            if (BytesReceived < args.BytesReceived)
+            if (this.BytesReceived < args.BytesReceived)
             {
                 ////bytes growing? we have connection!
-                attemptNumber = 1;
+                this.attemptNumber = 1;
             }
 
-            BytesReceived = args.BytesReceived;
-            TotalBytesToReceive = args.TotalBytesToReceive;
+            this.BytesReceived = args.BytesReceived;
+            this.TotalBytesToReceive = args.TotalBytesToReceive;
 
             DownloadProgressChanged.SafeInvoke(sender, args);
         }
 
         private void InvokeDownloadCompleted(CompletedState downloadCompletedState, string fileName, System.Exception error = null, bool fromCache = false)
         {
-            var downloadTime = fromCache ? TimeSpan.Zero : DateTime.Now.Subtract(DownloadStartTime);
-            if (worker != null)
+            TimeSpan downloadTime = fromCache ? TimeSpan.Zero : DateTime.Now.Subtract(this.DownloadStartTime);
+            if (this.worker != null)
             {
-                BytesReceived = worker.Position;
+                this.BytesReceived = this.worker.Position;
             }
 
-            DownloadFileCompleted.SafeInvoke(this, new DownloadFileCompletedArgs(downloadCompletedState, fileName, fileSource, downloadTime, TotalBytesToReceive, BytesReceived, error));
+            DownloadFileCompleted.SafeInvoke(this, new DownloadFileCompletedArgs(downloadCompletedState, fileName, this.fileSource, downloadTime, this.TotalBytesToReceive, this.BytesReceived, error));
         }
 
         private void OnOpenReadCompleted(object sender, OpenReadCompletedEventArgs args)
         {
-            var webClient = sender as DownloadWebClient;
+            DownloadWebClient webClient = sender as DownloadWebClient;
             if (webClient == null)
             {
                 return;
             }
 
-            lock (cancelSync)
+            lock (this.cancelSync)
             {
-                if (isCancelled)
+                if (this.isCancelled)
                 {
                     return;
                 }
 
                 if (!webClient.HasResponse)
                 {
-                    TriggerWebClientDownloadFileAsync();
+                    this.TriggerWebClientDownloadFileAsync();
                     return;
                 }
 
                 bool appendExistingChunk = webClient.IsPartialResponse;
-                var destinationStream = CreateDestinationStream(appendExistingChunk);
+                Stream destinationStream = this.CreateDestinationStream(appendExistingChunk);
                 if (destinationStream != null)
                 {
-                    TrySetStreamReadTimeout(args.Result, (int)SourceStreamReadTimeout.TotalMilliseconds);
+                    this.TrySetStreamReadTimeout(args.Result, (int)this.SourceStreamReadTimeout.TotalMilliseconds);
 
-                    worker = new StreamCopyWorker();
-                    worker.Completed += OnWorkerCompleted;
-                    worker.ProgressChanged += OnWorkerProgressChanged;
-                    worker.CopyAsync(args.Result, destinationStream, TotalBytesToReceive);
+                    this.worker = new StreamCopyWorker();
+                    this.worker.Completed += this.OnWorkerCompleted;
+                    this.worker.ProgressChanged += this.OnWorkerProgressChanged;
+                    this.worker.CopyAsync(args.Result, destinationStream, this.TotalBytesToReceive);
                 }
             }
         }
@@ -485,13 +485,13 @@ namespace DGP.Snap.Framework.Net.Download
             FileStream destinationStream = null;
             try
             {
-                var destinationDirectory = Path.GetDirectoryName(localFileName);
+                string destinationDirectory = Path.GetDirectoryName(this.localFileName);
                 if (destinationDirectory != null && !Directory.Exists(destinationDirectory))
                 {
                     Directory.CreateDirectory(destinationDirectory);
                 }
 
-                destinationStream = new FileStream(localFileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+                destinationStream = new FileStream(this.localFileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
                 if (append)
                 {
                     destinationStream.Seek(0, SeekOrigin.End);
@@ -508,39 +508,39 @@ namespace DGP.Snap.Framework.Net.Download
                     destinationStream.Dispose();
                     destinationStream = null;
                 }
-                OnDownloadCompleted(downloadWebClient, new AsyncCompletedEventArgs(ex, false, null));
+                this.OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(ex, false, null));
             }
             return destinationStream;
         }
 
         private void OnWorkerProgressChanged(object sender, StreamCopyProgressEventArgs eventArgs)
         {
-            if (isCancelled)
+            if (this.isCancelled)
             {
                 return;
             }
 
-            if (TotalBytesToReceive == 0)
+            if (this.TotalBytesToReceive == 0)
             {
                 return;
             }
-            var progress = eventArgs.BytesReceived / TotalBytesToReceive;
-            var progressPercentage = (int)(progress * 100);
+            long progress = eventArgs.BytesReceived / this.TotalBytesToReceive;
+            int progressPercentage = (int)(progress * 100);
 
-            OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(progressPercentage, eventArgs.BytesReceived, TotalBytesToReceive));
+            this.OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(progressPercentage, eventArgs.BytesReceived, this.TotalBytesToReceive));
         }
 
         private void OnWorkerCompleted(object sender, StreamCopyCompleteEventArgs eventArgs)
         {
             try
             {
-                OnDownloadCompleted(downloadWebClient, new AsyncCompletedEventArgs(eventArgs.Exception, eventArgs.CompleteState == CompletedState.Canceled, null));
+                this.OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(eventArgs.Exception, eventArgs.CompleteState == CompletedState.Canceled, null));
             }
             finally
             {
-                worker.ProgressChanged -= OnWorkerProgressChanged;
-                worker.Completed -= OnWorkerCompleted;
-                worker.Dispose();
+                this.worker.ProgressChanged -= this.OnWorkerProgressChanged;
+                this.worker.Completed -= this.OnWorkerCompleted;
+                this.worker.Dispose();
             }
         }
 
@@ -551,66 +551,66 @@ namespace DGP.Snap.Framework.Net.Download
         /// <param name="args">AsyncCompletedEventArgs instance</param>
         protected void OnDownloadCompleted(object sender, AsyncCompletedEventArgs args)
         {
-            var webClient = sender as DownloadWebClient;
+            DownloadWebClient webClient = sender as DownloadWebClient;
             if (webClient == null)
             {
                 //logger.Warn("Wrong sender in OnDownloadCompleted: Actual:{0} Expected:{1}", sender.GetType(), typeof(DownloadWebClient));
-                InvokeDownloadCompleted(CompletedState.Failed, localFileName);
+                this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName);
                 return;
             }
 
             if (args.Cancelled)
             {
                 //logger.Debug("Download cancelled. Source: {0} Destination: {1}", fileSource, localFileName);
-                DeleteDownloadedFile();
+                this.DeleteDownloadedFile();
 
-                InvokeDownloadCompleted(CompletedState.Canceled, localFileName);
-                readyToDownload.Set();
+                this.InvokeDownloadCompleted(CompletedState.Canceled, this.localFileName);
+                this.readyToDownload.Set();
             }
             else if (args.Error != null)
             {
-                if (isFallback)
+                if (this.isFallback)
                 {
-                    DeleteDownloadedFile();
+                    this.DeleteDownloadedFile();
                 }
 
                 ////We may have NameResolutionFailure on internet connectivity problem.
                 ////We don't use DnsFallbackResolver if we successfully started downloading, and then got internet problem.
                 ////If we change [this.fileSource] here - we lose downloaded chunk in Cache (i.e. we create a new Cache item for new [this.fileSource]
-                if (attemptNumber == 1 && DnsFallbackResolver != null && IsNameResolutionFailure(args.Error))
+                if (this.attemptNumber == 1 && this.DnsFallbackResolver != null && this.IsNameResolutionFailure(args.Error))
                 {
-                    var newFileSource = DnsFallbackResolver.Resolve(fileSource);
+                    Uri newFileSource = this.DnsFallbackResolver.Resolve(this.fileSource);
                     if (newFileSource != null)
                     {
-                        fileSource = newFileSource;
-                        AttemptDownload();
+                        this.fileSource = newFileSource;
+                        this.AttemptDownload();
                         return;
                     }
                 }
 
-                if (!AttemptDownload())
+                if (!this.AttemptDownload())
                 {
-                    InvokeDownloadCompleted(CompletedState.Failed, null, args.Error);
-                    readyToDownload.Set();
+                    this.InvokeDownloadCompleted(CompletedState.Failed, null, args.Error);
+                    this.readyToDownload.Set();
                 }
             }
             else
             {
-                if (useFileNameFromServer)
+                if (this.useFileNameFromServer)
                 {
-                    localFileName = ApplyNewFileName(localFileName, webClient.GetOriginalFileNameFromDownload());
+                    this.localFileName = this.ApplyNewFileName(this.localFileName, webClient.GetOriginalFileNameFromDownload());
                 }
 
-                if (UseCaching)
+                if (this.UseCaching)
                 {
-                    downloadCache.Add(fileSource, localFileName, webClient.ResponseHeaders);
+                    this.downloadCache.Add(this.fileSource, this.localFileName, webClient.ResponseHeaders);
                 }
 
                 ////we may have the destination file not immediately closed after downloading
-                WaitFileClosed(localFileName, TimeSpan.FromSeconds(3));
+                this.WaitFileClosed(this.localFileName, TimeSpan.FromSeconds(3));
 
-                InvokeDownloadCompleted(CompletedState.Succeeded, localFileName, null);
-                readyToDownload.Set();
+                this.InvokeDownloadCompleted(CompletedState.Succeeded, this.localFileName, null);
+                this.readyToDownload.Set();
             }
         }
 
@@ -622,15 +622,15 @@ namespace DGP.Snap.Framework.Net.Download
         /// <returns>Full path to renamed file</returns>
         protected virtual string ApplyNewFileName(string oldFilePath, string newFileName)
         {
-            var downloadedFileName = Path.GetFileName(oldFilePath);
-            var downloadDirectory = Path.GetDirectoryName(oldFilePath);
+            string downloadedFileName = Path.GetFileName(oldFilePath);
+            string downloadDirectory = Path.GetDirectoryName(oldFilePath);
 
             if (newFileName == null || newFileName == downloadedFileName || downloadDirectory == null)
             {
                 return oldFilePath;
             }
 
-            var newFilePath = Path.Combine(downloadDirectory, newFileName);
+            string newFilePath = Path.Combine(downloadDirectory, newFileName);
 
             if (File.Exists(newFilePath))
             {
@@ -640,7 +640,7 @@ namespace DGP.Snap.Framework.Net.Download
                 }
                 catch (Exception)
                 {
-                    newFilePath = Path.Combine(CreateTempFolder(downloadDirectory), newFileName);
+                    newFilePath = Path.Combine(this.CreateTempFolder(downloadDirectory), newFileName);
                 }
             }
 
@@ -655,10 +655,10 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void TriggerDownloadWebClientCancelAsync()
         {
-            if (downloadWebClient != null)
+            if (this.downloadWebClient != null)
             {
-                downloadWebClient.CancelAsync();
-                downloadWebClient.OpenReadCompleted -= OnOpenReadCompleted;
+                this.downloadWebClient.CancelAsync();
+                this.downloadWebClient.OpenReadCompleted -= this.OnOpenReadCompleted;
             }
         }
 
@@ -666,7 +666,7 @@ namespace DGP.Snap.Framework.Net.Download
         {
             while (true)
             {
-                var folderPath = Path.Combine(rootFolderPath, Path.GetRandomFileName());
+                string folderPath = Path.Combine(rootFolderPath, Path.GetRandomFileName());
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
@@ -677,28 +677,28 @@ namespace DGP.Snap.Framework.Net.Download
 
         private bool IsNameResolutionFailure(System.Exception exception)
         {
-            var webException = exception as WebException;
+            WebException webException = exception as WebException;
             return webException != null && webException.Status == WebExceptionStatus.NameResolutionFailure;
         }
 
         private bool WaitSafeStart()
         {
-            if (!readyToDownload.WaitOne(SafeWaitTimeout))
+            if (!this.readyToDownload.WaitOne(this.SafeWaitTimeout))
             {
                 return false;
             }
-            readyToDownload.Reset();
+            this.readyToDownload.Reset();
             return true;
         }
 
         private void WaitFileClosed(string fileName, TimeSpan waitTimeout)
         {
-            var waitCounter = TimeSpan.Zero;
+            TimeSpan waitCounter = TimeSpan.Zero;
             while (waitCounter < waitTimeout)
             {
                 try
                 {
-                    var fileHandle = File.Open(fileName, FileMode.Open, FileAccess.Read);
+                    FileStream fileHandle = File.Open(fileName, FileMode.Open, FileAccess.Read);
                     fileHandle.Dispose();
                     Thread.Sleep(500);
                     return;
@@ -713,9 +713,9 @@ namespace DGP.Snap.Framework.Net.Download
 
         private bool IsCancelled()
         {
-            lock (cancelSync)
+            lock (this.cancelSync)
             {
-                if (isCancelled)
+                if (this.isCancelled)
                 {
                     return true;
                 }
@@ -729,7 +729,7 @@ namespace DGP.Snap.Framework.Net.Download
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -739,25 +739,25 @@ namespace DGP.Snap.Framework.Net.Download
         /// <param name="disposing">True if called from Dispose</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
-                    if (readyToDownload.WaitOne(TimeSpan.FromMinutes(10)))
+                    if (this.readyToDownload.WaitOne(TimeSpan.FromMinutes(10)))
                     {
-                        if (worker != null)
+                        if (this.worker != null)
                         {
-                            worker.Dispose();
+                            this.worker.Dispose();
                         }
-                        if (downloadWebClient != null)
+                        if (this.downloadWebClient != null)
                         {
-                            downloadWebClient.Dispose();
+                            this.downloadWebClient.Dispose();
                         }
-                        readyToDownload.Close();
-                        attemptTimer.Dispose();
+                        this.readyToDownload.Close();
+                        this.attemptTimer.Dispose();
                     }
                 }
-                disposed = true;
+                this.disposed = true;
             }
         }
     }

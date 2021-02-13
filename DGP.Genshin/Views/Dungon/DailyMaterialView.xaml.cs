@@ -14,20 +14,20 @@ namespace DGP.Genshin.Views.Dungon
             ;
         public DailyMaterialView()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
 
         private void HideGrid(FrameworkElement e)
         {
-            Storyboard storyboard = FindResource("CollapsedStoryboard") as Storyboard;
+            Storyboard storyboard = this.FindResource("CollapsedStoryboard") as Storyboard;
             e.BeginStoryboard(storyboard);
         }
 
         private void ShowGrid(FrameworkElement e)
         {
-            Storyboard storyboard = FindResource("VisibleStoryboard") as Storyboard;
+            Storyboard storyboard = this.FindResource("VisibleStoryboard") as Storyboard;
             e.BeginStoryboard(storyboard);
         }
 

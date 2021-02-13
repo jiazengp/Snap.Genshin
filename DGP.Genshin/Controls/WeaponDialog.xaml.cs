@@ -11,14 +11,14 @@ namespace DGP.Genshin.Controls
     {
         public WeaponDialog()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         public Weapon Weapon
         {
-            get { return (Weapon)GetValue(WeaponProperty); }
-            set { SetValue(WeaponProperty, value); }
+            get => (Weapon)this.GetValue(WeaponProperty);
+            set => this.SetValue(WeaponProperty, value);
         }
         public static readonly DependencyProperty WeaponProperty =
             DependencyProperty.Register("Weapon", typeof(Weapon), typeof(WeaponDialog), new PropertyMetadata(null));

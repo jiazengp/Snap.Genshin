@@ -7,9 +7,6 @@ namespace DGP.Genshin.Views.Artifact
     /// </summary>
     public partial class ArtifactView : UserControl
     {
-        public ArtifactView()
-        {
-            InitializeComponent();
-        }
+        public ArtifactView() => this.InitializeComponent();
     }
 }

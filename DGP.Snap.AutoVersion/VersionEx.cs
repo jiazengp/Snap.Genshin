@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DGP.Snap.AutoVersion
 {
+    /// <summary>
+    /// 可修改的<see cref="Version"/>类型增强类型
+    /// </summary>
     internal class VersionEx : ICloneable, IComparable, IComparable<VersionEx>, IEquatable<VersionEx>
     {
         internal enum ParseFailureKind
@@ -28,39 +31,36 @@ namespace DGP.Snap.AutoVersion
 
             internal void Init(string argumentName, bool canThrow)
             {
-                m_canThrow = canThrow;
-                m_argumentName = argumentName;
+                this.m_canThrow = canThrow;
+                this.m_argumentName = argumentName;
             }
 
-            internal void SetFailure(ParseFailureKind failure)
-            {
-                SetFailure(failure, string.Empty);
-            }
+            internal void SetFailure(ParseFailureKind failure) => this.SetFailure(failure, String.Empty);
 
             internal void SetFailure(ParseFailureKind failure, string argument)
             {
-                m_failure = failure;
-                m_exceptionArgument = argument;
-                if (m_canThrow)
+                this.m_failure = failure;
+                this.m_exceptionArgument = argument;
+                if (this.m_canThrow)
                 {
-                    throw GetVersionParseException();
+                    throw this.GetVersionParseException();
                 }
             }
 
             internal Exception GetVersionParseException()
             {
-                switch (m_failure)
+                switch (this.m_failure)
                 {
                     case ParseFailureKind.ArgumentNullException:
-                        return new ArgumentNullException(m_argumentName);
+                        return new ArgumentNullException(this.m_argumentName);
                     case ParseFailureKind.ArgumentException:
                         return new ArgumentException(/*Environment.GetResourceString("Arg_VersionString")*/);
                     case ParseFailureKind.ArgumentOutOfRangeException:
-                        return new ArgumentOutOfRangeException(m_exceptionArgument/*, Environment.GetResourceString("ArgumentOutOfRange_Version")*/);
+                        return new ArgumentOutOfRangeException(this.m_exceptionArgument/*, Environment.GetResourceString("ArgumentOutOfRange_Version")*/);
                     case ParseFailureKind.FormatException:
                         try
                         {
-                            int.Parse(m_exceptionArgument, CultureInfo.InvariantCulture);
+                            Int32.Parse(this.m_exceptionArgument, CultureInfo.InvariantCulture);
                         }
                         catch (FormatException result)
                         {
@@ -86,92 +86,44 @@ namespace DGP.Snap.AutoVersion
         {
             '.'
         };
-        private const int ZERO_CHAR_VALUE = 48;
 
         public int Major
         {
-            get
-            {
-                return _Major;
-            }
-            set
-            {
-                _Major = value;
-            }
+            get => this._Major;
+            set => this._Major = value;
         }
         public int Minor
         {
-            get
-            {
-                return _Minor;
-            }
-            set
-            {
-                _Minor = value;
-            }
+            get => this._Minor;
+            set => this._Minor = value;
         }
         public int Build
         {
-            get
-            {
-                return _Build;
-            }
-            set
-            {
-                _Build = value;
-            }
+            get => this._Build;
+            set => this._Build = value;
         }
         public int Revision
         {
-            get
-            {
-                return _Revision;
-            }
-            set
-            {
-                _Revision = value;
-            }
+            get => this._Revision;
+            set => this._Revision = value;
         }
-        public short MajorRevision
-        {
-            get
-            {
-                return (short)(_Revision >> 16);
-            }
-        }
-        public short MinorRevision
-        {
-            get
-            {
-                return (short)(_Revision & 0xFFFF);
-            }
-        }
+        public short MajorRevision => (short)(this._Revision >> 16);
+        public short MinorRevision => (short)(this._Revision & 0xFFFF);
         public VersionEx(int major, int minor, int build, int revision)
         {
             if (major < 0)
-            {
                 throw new ArgumentOutOfRangeException("major");
-            }
-
             if (minor < 0)
-            {
                 throw new ArgumentOutOfRangeException("minor");
-            }
-
             if (build < 0)
-            {
                 throw new ArgumentOutOfRangeException("build");
-            }
-
             if (revision < 0)
-            {
                 throw new ArgumentOutOfRangeException("revision");
-            }
 
-            _Major = major;
-            _Minor = minor;
-            _Build = build;
-            _Revision = revision;
+            this._Major = major;
+            this._Minor = minor;
+            this._Build = build;
+            this._Revision = revision;
         }
         public VersionEx(int major, int minor, int build)
         {
@@ -190,9 +142,9 @@ namespace DGP.Snap.AutoVersion
                 throw new ArgumentOutOfRangeException("build");
             }
 
-            _Major = major;
-            _Minor = minor;
-            _Build = build;
+            this._Major = major;
+            this._Minor = minor;
+            this._Build = build;
         }
         public VersionEx(int major, int minor)
         {
@@ -206,29 +158,31 @@ namespace DGP.Snap.AutoVersion
                 throw new ArgumentOutOfRangeException("minor");
             }
 
-            _Major = major;
-            _Minor = minor;
+            this._Major = major;
+            this._Minor = minor;
         }
         public VersionEx(string version)
         {
             VersionEx version2 = Parse(version);
-            _Major = version2.Major;
-            _Minor = version2.Minor;
-            _Build = version2.Build;
-            _Revision = version2.Revision;
+            this._Major = version2.Major;
+            this._Minor = version2.Minor;
+            this._Build = version2.Build;
+            this._Revision = version2.Revision;
         }
         public VersionEx()
         {
-            _Major = 0;
-            _Minor = 0;
+            this._Major = 0;
+            this._Minor = 0;
         }
         public object Clone()
         {
-            VersionEx version = new VersionEx();
-            version._Major = _Major;
-            version._Minor = _Minor;
-            version._Build = _Build;
-            version._Revision = _Revision;
+            VersionEx version = new VersionEx
+            {
+                _Major = this._Major,
+                _Minor = this._Minor,
+                _Build = this._Build,
+                _Revision = this._Revision
+            };
             return version;
         }
         public int CompareTo(object version)
@@ -244,9 +198,9 @@ namespace DGP.Snap.AutoVersion
                 throw new ArgumentException();
             }
 
-            if (_Major != version2._Major)
+            if (this._Major != version2._Major)
             {
-                if (_Major > version2._Major)
+                if (this._Major > version2._Major)
                 {
                     return 1;
                 }
@@ -254,9 +208,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Minor != version2._Minor)
+            if (this._Minor != version2._Minor)
             {
-                if (_Minor > version2._Minor)
+                if (this._Minor > version2._Minor)
                 {
                     return 1;
                 }
@@ -264,9 +218,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Build != version2._Build)
+            if (this._Build != version2._Build)
             {
-                if (_Build > version2._Build)
+                if (this._Build > version2._Build)
                 {
                     return 1;
                 }
@@ -274,9 +228,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Revision != version2._Revision)
+            if (this._Revision != version2._Revision)
             {
-                if (_Revision > version2._Revision)
+                if (this._Revision > version2._Revision)
                 {
                     return 1;
                 }
@@ -293,9 +247,9 @@ namespace DGP.Snap.AutoVersion
                 return 1;
             }
 
-            if (_Major != value._Major)
+            if (this._Major != value._Major)
             {
-                if (_Major > value._Major)
+                if (this._Major > value._Major)
                 {
                     return 1;
                 }
@@ -303,9 +257,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Minor != value._Minor)
+            if (this._Minor != value._Minor)
             {
-                if (_Minor > value._Minor)
+                if (this._Minor > value._Minor)
                 {
                     return 1;
                 }
@@ -313,9 +267,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Build != value._Build)
+            if (this._Build != value._Build)
             {
-                if (_Build > value._Build)
+                if (this._Build > value._Build)
                 {
                     return 1;
                 }
@@ -323,9 +277,9 @@ namespace DGP.Snap.AutoVersion
                 return -1;
             }
 
-            if (_Revision != value._Revision)
+            if (this._Revision != value._Revision)
             {
-                if (_Revision > value._Revision)
+                if (this._Revision > value._Revision)
                 {
                     return 1;
                 }
@@ -343,7 +297,7 @@ namespace DGP.Snap.AutoVersion
                 return false;
             }
 
-            if (_Major != version._Major || _Minor != version._Minor || _Build != version._Build || _Revision != version._Revision)
+            if (this._Major != version._Major || this._Minor != version._Minor || this._Build != version._Build || this._Revision != version._Revision)
             {
                 return false;
             }
@@ -357,7 +311,7 @@ namespace DGP.Snap.AutoVersion
                 return false;
             }
 
-            if (_Major != obj._Major || _Minor != obj._Minor || _Build != obj._Build || _Revision != obj._Revision)
+            if (this._Major != obj._Major || this._Minor != obj._Minor || this._Build != obj._Build || this._Revision != obj._Revision)
             {
                 return false;
             }
@@ -367,43 +321,43 @@ namespace DGP.Snap.AutoVersion
         public override int GetHashCode()
         {
             int num = 0;
-            num |= (_Major & 0xF) << 28;
-            num |= (_Minor & 0xFF) << 20;
-            num |= (_Build & 0xFF) << 12;
-            return num | (_Revision & 0xFFF);
+            num |= (this._Major & 0xF) << 28;
+            num |= (this._Minor & 0xFF) << 20;
+            num |= (this._Build & 0xFF) << 12;
+            return num | (this._Revision & 0xFFF);
         }
         public override string ToString()
         {
-            if (_Build == -1)
+            if (this._Build == -1)
             {
-                return ToString(2);
+                return this.ToString(2);
             }
 
-            if (_Revision == -1)
+            if (this._Revision == -1)
             {
-                return ToString(3);
+                return this.ToString(3);
             }
 
-            return ToString(4);
+            return this.ToString(4);
         }
         public string ToString(int fieldCount)
         {
             switch (fieldCount)
             {
                 case 0:
-                    return string.Empty;
+                    return String.Empty;
                 case 1:
-                    return _Major.ToString();
+                    return this._Major.ToString();
                 case 2:
                     {
                         StringBuilder stringBuilder = new StringBuilder();
-                        AppendPositiveNumber(_Major, stringBuilder);
+                        AppendPositiveNumber(this._Major, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Minor, stringBuilder);
+                        AppendPositiveNumber(this._Minor, stringBuilder);
                         return stringBuilder.ToString();
                     }
                 default:
-                    if (_Build == -1)
+                    if (this._Build == -1)
                     {
                         throw new ArgumentException();
                     }
@@ -411,15 +365,15 @@ namespace DGP.Snap.AutoVersion
                     if (fieldCount == 3)
                     {
                         StringBuilder stringBuilder = new StringBuilder();
-                        AppendPositiveNumber(_Major, stringBuilder);
+                        AppendPositiveNumber(this._Major, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Minor, stringBuilder);
+                        AppendPositiveNumber(this._Minor, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Build, stringBuilder);
+                        AppendPositiveNumber(this._Build, stringBuilder);
                         return stringBuilder.ToString();
                     }
 
-                    if (_Revision == -1)
+                    if (this._Revision == -1)
                     {
                         throw new ArgumentException();
                     }
@@ -427,13 +381,13 @@ namespace DGP.Snap.AutoVersion
                     if (fieldCount == 4)
                     {
                         StringBuilder stringBuilder = new StringBuilder();
-                        AppendPositiveNumber(_Major, stringBuilder);
+                        AppendPositiveNumber(this._Major, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Minor, stringBuilder);
+                        AppendPositiveNumber(this._Minor, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Build, stringBuilder);
+                        AppendPositiveNumber(this._Build, stringBuilder);
                         stringBuilder.Append('.');
-                        AppendPositiveNumber(_Revision, stringBuilder);
+                        AppendPositiveNumber(this._Revision, stringBuilder);
                         return stringBuilder.ToString();
                     }
 
@@ -533,7 +487,7 @@ namespace DGP.Snap.AutoVersion
         }
         private static bool TryParseComponent(string component, string componentName, ref VersionResult result, out int parsedComponent)
         {
-            if (!int.TryParse(component, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedComponent))
+            if (!Int32.TryParse(component, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedComponent))
             {
                 result.SetFailure(ParseFailureKind.FormatException, component);
                 return false;
@@ -547,14 +501,8 @@ namespace DGP.Snap.AutoVersion
 
             return true;
         }
-        public static bool operator ==(VersionEx v1, VersionEx v2)
-        {
-            return v1?.Equals(v2) ?? ((object)v2 == null);
-        }
-        public static bool operator !=(VersionEx v1, VersionEx v2)
-        {
-            return !(v1 == v2);
-        }
+        public static bool operator ==(VersionEx v1, VersionEx v2) => v1?.Equals(v2) ?? ((object)v2 == null);
+        public static bool operator !=(VersionEx v1, VersionEx v2) => !(v1 == v2);
         public static bool operator <(VersionEx v1, VersionEx v2)
         {
             if ((object)v1 == null)
@@ -573,13 +521,7 @@ namespace DGP.Snap.AutoVersion
 
             return v1.CompareTo(v2) <= 0;
         }
-        public static bool operator >(VersionEx v1, VersionEx v2)
-        {
-            return v2 < v1;
-        }
-        public static bool operator >=(VersionEx v1, VersionEx v2)
-        {
-            return v2 <= v1;
-        }
+        public static bool operator >(VersionEx v1, VersionEx v2) => v2 < v1;
+        public static bool operator >=(VersionEx v1, VersionEx v2) => v2 <= v1;
     }
 }

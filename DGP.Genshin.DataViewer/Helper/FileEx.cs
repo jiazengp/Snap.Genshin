@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace DGP.Genshin.DataViewer.Helper
 {
     public class FileEx
     {
-        public FileEx(string fullPath)
-        {
-            FullPath = fullPath;
-        }
+        public FileEx(string fullPath) => this.FullPath = fullPath;
         public string FullPath { get; set; }
-        public string FileName => Path
-            .GetFileNameWithoutExtension(FullPath)
-            .Replace("Excel","").Replace("Config", "").Replace("Data", "");
-        public override string ToString()
-        {
-            return FileName;
-        }
+        public string FullFileName => Path.GetFileNameWithoutExtension(this.FullPath);
+        public string FileName => Path.GetFileNameWithoutExtension(this.FullPath)
+            .Replace("Excel", "").Replace("Config", "").Replace("Data", "");
+        public override string ToString() => this.FileName;
 
         public string ReadFile()
         {
             string json;
-            using (StreamReader sr = new StreamReader(FullPath))
+            using (StreamReader sr = new StreamReader(this.FullPath))
             {
                 json = sr.ReadToEnd();
             }

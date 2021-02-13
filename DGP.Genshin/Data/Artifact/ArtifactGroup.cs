@@ -35,18 +35,18 @@ namespace DGP.Genshin.Data.Artifact
 
         public void ApplyArtifactBuff(Calculator c)
         {
-            countOf[FlowerofLife.Set] += 1;
-            countOf[PlumeofDeath.Set] += 1;
-            countOf[SandsofEon.Set] += 1;
-            countOf[GobletofEonothem.Set] += 1;
-            countOf[CircletofLogos.Set] += 1;
+            this.countOf[this.FlowerofLife.Set] += 1;
+            this.countOf[this.PlumeofDeath.Set] += 1;
+            this.countOf[this.SandsofEon.Set] += 1;
+            this.countOf[this.GobletofEonothem.Set] += 1;
+            this.countOf[this.CircletofLogos.Set] += 1;
             //染血4
-            if (countOf[ArtifactSet.BloodstainedChivalry] >= 4)
+            if (this.countOf[ArtifactSet.BloodstainedChivalry] >= 4)
             {
                 c.DamageBonus += 0.5;
             }
             //染血2
-            if (countOf[ArtifactSet.BloodstainedChivalry] >= 2)
+            if (this.countOf[ArtifactSet.BloodstainedChivalry] >= 2)
             {
                 if (c.DamageType == DamageType.PhysDMG)
                 {
@@ -54,7 +54,7 @@ namespace DGP.Genshin.Data.Artifact
                 }
             }
             //角斗4
-            if (countOf[ArtifactSet.GladiatorsFinale] >= 4)
+            if (this.countOf[ArtifactSet.GladiatorsFinale] >= 4)
             {
                 if (c.WeaponType == WeaponType.Sword || c.WeaponType == WeaponType.Claymore || c.WeaponType == WeaponType.Polearm)
                 {
@@ -65,17 +65,17 @@ namespace DGP.Genshin.Data.Artifact
                 }
             }
             //角斗2
-            if (countOf[ArtifactSet.GladiatorsFinale] >= 2)
+            if (this.countOf[ArtifactSet.GladiatorsFinale] >= 2)
             {
                 c.Attack.BonusByPercent += 0.18;
             }
             //如雷4
-            if (countOf[ArtifactSet.ThunderingFury] >= 4)
+            if (this.countOf[ArtifactSet.ThunderingFury] >= 4)
             {
                 //we cant calculate this effect, so just override it.
             }
             //如雷2
-            if (countOf[ArtifactSet.ThunderingFury] >= 2)
+            if (this.countOf[ArtifactSet.ThunderingFury] >= 2)
             {
                 if (c.DamageType == DamageType.ElectroDMG)
                 {
@@ -83,12 +83,12 @@ namespace DGP.Genshin.Data.Artifact
                 }
             }
             //风套4
-            if (countOf[ArtifactSet.ViridescentVenerer] >= 4)
+            if (this.countOf[ArtifactSet.ViridescentVenerer] >= 4)
             {
                 c.Resistance -= 0.4;
             }
             //风套2
-            if (countOf[ArtifactSet.ViridescentVenerer] >= 2)
+            if (this.countOf[ArtifactSet.ViridescentVenerer] >= 2)
             {
                 if (c.DamageType == DamageType.AnemoDMG)
                 {
@@ -96,12 +96,12 @@ namespace DGP.Genshin.Data.Artifact
                 }
             }
             //磐岩4
-            if (countOf[ArtifactSet.ArchaicPetra] >= 4)
+            if (this.countOf[ArtifactSet.ArchaicPetra] >= 4)
             {
                 c.Attack.BonusByPercent += 0.35;
             }
             //磐岩2
-            if (countOf[ArtifactSet.ArchaicPetra] >= 2)
+            if (this.countOf[ArtifactSet.ArchaicPetra] >= 2)
             {
                 if (c.DamageType == DamageType.GeoDMG)
                 {
@@ -109,12 +109,12 @@ namespace DGP.Genshin.Data.Artifact
                 }
             }
             //魔女4
-            if (countOf[ArtifactSet.ArchaicPetra] >= 4)
+            if (this.countOf[ArtifactSet.ArchaicPetra] >= 4)
             {
                 c.Attack.BonusByPercent += 0.35;
             }
             //魔女2
-            if (countOf[ArtifactSet.ArchaicPetra] >= 2)
+            if (this.countOf[ArtifactSet.ArchaicPetra] >= 2)
             {
                 if (c.DamageType == DamageType.PyroDMG)
                 {

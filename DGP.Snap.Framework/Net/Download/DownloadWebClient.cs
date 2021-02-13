@@ -15,35 +15,35 @@ namespace DGP.Snap.Framework.Net.Download
 
         private TimeSpan timeout = TimeSpan.FromMinutes(2);
 
-        public bool HasResponse => webResponse != null;
+        public bool HasResponse => this.webResponse != null;
 
-        public bool IsPartialResponse => webResponse is HttpWebResponse response && response.StatusCode == HttpStatusCode.PartialContent;
+        public bool IsPartialResponse => this.webResponse is HttpWebResponse response && response.StatusCode == HttpStatusCode.PartialContent;
 
         public void OpenReadAsync(Uri address, long newPosition)
         {
-            position = newPosition;
-            OpenReadAsync(address);
+            this.position = newPosition;
+            this.OpenReadAsync(address);
         }
 
         public string GetOriginalFileNameFromDownload()
         {
-            if (webResponse == null)
+            if (this.webResponse == null)
             {
                 return null;
             }
 
             try
             {
-                var contentDisposition = webResponse.Headers.GetContentDisposition();
+                System.Net.Mime.ContentDisposition contentDisposition = this.webResponse.Headers.GetContentDisposition();
                 if (contentDisposition != null)
                 {
-                    var filename = contentDisposition.FileName;
+                    string filename = contentDisposition.FileName;
                     if (!String.IsNullOrEmpty(filename))
                     {
                         return Path.GetFileName(filename);
                     }
                 }
-                return Path.GetFileName(webResponse.ResponseUri.LocalPath);
+                return Path.GetFileName(this.webResponse.ResponseUri.LocalPath);
             }
             catch (Exception)
             {
@@ -53,42 +53,42 @@ namespace DGP.Snap.Framework.Net.Download
 
         protected override WebResponse GetWebResponse(WebRequest request)
         {
-            var response = base.GetWebResponse(request);
-            webResponse = response;
+            WebResponse response = base.GetWebResponse(request);
+            this.webResponse = response;
             return response;
         }
 
         protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
         {
-            var response = base.GetWebResponse(request, result);
-            webResponse = response;
+            WebResponse response = base.GetWebResponse(request, result);
+            this.webResponse = response;
 
             return response;
         }
 
         protected override WebRequest GetWebRequest(Uri address)
         {
-            var request = base.GetWebRequest(address);
+            WebRequest request = base.GetWebRequest(address);
 
             if (request != null)
             {
-                request.Timeout = (int)timeout.TotalMilliseconds;
+                request.Timeout = (int)this.timeout.TotalMilliseconds;
             }
 
-            var webRequest = request as HttpWebRequest;
+            HttpWebRequest webRequest = request as HttpWebRequest;
             if (webRequest == null)
             {
                 return request;
             }
 
-            webRequest.ReadWriteTimeout = (int)timeout.TotalMilliseconds;
-            webRequest.Timeout = (int)timeout.TotalMilliseconds;
-            if (position != 0)
+            webRequest.ReadWriteTimeout = (int)this.timeout.TotalMilliseconds;
+            webRequest.Timeout = (int)this.timeout.TotalMilliseconds;
+            if (this.position != 0)
             {
-                webRequest.AddRange((int)position);
+                webRequest.AddRange((int)this.position);
                 webRequest.Accept = "*/*";
             }
-            webRequest.CookieContainer = cookieContainer;
+            webRequest.CookieContainer = this.cookieContainer;
             return request;
         }
     }

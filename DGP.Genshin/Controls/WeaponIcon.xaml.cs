@@ -12,22 +12,19 @@ namespace DGP.Genshin.Controls
     {
         public WeaponIcon()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         public Weapon Weapon
         {
-            get { return (Weapon)GetValue(WeaponProperty); }
-            set { SetValue(WeaponProperty, value); }
+            get => (Weapon)this.GetValue(WeaponProperty);
+            set => this.SetValue(WeaponProperty, value);
         }
         public static readonly DependencyProperty WeaponProperty =
             DependencyProperty.Register("Weapon", typeof(Weapon), typeof(WeaponIcon), new PropertyMetadata(null));
 
         public EventHandler IconClicked;
-        private void UserControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            IconClicked?.Invoke(this, null);
-        }
+        private void UserControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) => this.IconClicked?.Invoke(this, null);
     }
 }

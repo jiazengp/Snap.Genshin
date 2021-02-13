@@ -11,13 +11,13 @@ namespace DGP.Genshin.Controls
     {
         public MaterialIcon()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
         public Material Material
         {
-            get { return (Material)GetValue(MaterialProperty); }
-            set { SetValue(MaterialProperty, value); }
+            get => (Material)this.GetValue(MaterialProperty);
+            set => this.SetValue(MaterialProperty, value);
         }
         public static readonly DependencyProperty MaterialProperty =
             DependencyProperty.Register("Material", typeof(Material), typeof(MaterialIcon), new PropertyMetadata(null));

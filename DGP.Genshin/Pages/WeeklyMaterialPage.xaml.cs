@@ -7,9 +7,6 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class WeeklyMaterialPage : Page
     {
-        public WeeklyMaterialPage()
-        {
-            InitializeComponent();
-        }
+        public WeeklyMaterialPage() => this.InitializeComponent();
     }
 }

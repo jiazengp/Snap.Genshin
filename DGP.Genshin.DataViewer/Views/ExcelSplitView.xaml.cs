@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.DataViewer.Helper;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -16,8 +17,8 @@ namespace DGP.Genshin.DataViewer.Views
     {
         public ExcelSplitView()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         private string ReadFile(FileEx file)
@@ -30,49 +31,58 @@ namespace DGP.Genshin.DataViewer.Views
             return json;
         }
 
+        public Action<FileEx> SelectedFileChangedHandler;
         #region Property
         private string workingFolderPath;
         private IEnumerable<FileEx> excelConfigDataCollection;
         private FileEx selectedFile;
         private JArray presentDataTable;
+        private bool isPaneOpen;
 
         public string WorkingFolderPath
         {
-            get => workingFolderPath; set
+            get => this.workingFolderPath; set
             {
-                ExcelConfigDataCollection = Directory.GetFiles(value + @"\Excel\").Select(f => new FileEx(f));
-                Set(ref workingFolderPath, value);
+                this.ExcelConfigDataCollection = Directory.GetFiles(value + @"\Excel\").Select(f => new FileEx(f));
+                this.Set(ref this.workingFolderPath, value);
             }
         }
         public IEnumerable<FileEx> ExcelConfigDataCollection
         {
-            get => excelConfigDataCollection; set
-            {
-                Set(ref excelConfigDataCollection, value);
-            }
+            get => this.excelConfigDataCollection; set => this.Set(ref this.excelConfigDataCollection, value);
         }
         public FileEx SelectedFile
         {
-            get => selectedFile; set
+            get => this.selectedFile; set
             {
-                PresentDataTable = Json.ToObject<JArray>(ReadFile(value));
-                foreach (JObject o in PresentDataTable)
+                this.PresentDataTable = Json.ToObject<JArray>(this.ReadFile(value));
+                foreach (JObject o in this.PresentDataTable)
                 {
-                    foreach(JProperty p in o.Properties())
+                    foreach (JProperty p in o.Properties())
                     {
                         if (p.Name.Contains("TextMapHash"))
-                            p.Value = MainWindow.GetMapTextBy(p.Value.ToString());
+                            p.Value = MainWindow.GetMapTextBy(p);
+                        if (p.Value.Type == JTokenType.Array)
+                        {
+
+                        }
+                        if (p.Value.Type == JTokenType.Object)
+                        {
+
+                        }
                     }
                 }
-                Set(ref selectedFile, value);
+                this.SelectedFileChangedHandler?.Invoke(value);
+                this.Set(ref this.selectedFile, value);
             }
         }
         public JArray PresentDataTable
         {
-            get => presentDataTable; set
-            {
-                Set(ref presentDataTable, value);
-            }
+            get => this.presentDataTable; set => this.Set(ref this.presentDataTable, value);
+        }
+        public bool IsPaneOpen
+        {
+            get => this.isPaneOpen; set => this.Set(ref this.isPaneOpen, value);
         }
         #endregion
 
@@ -87,7 +97,7 @@ namespace DGP.Genshin.DataViewer.Views
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

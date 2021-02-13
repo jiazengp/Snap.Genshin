@@ -6,7 +6,7 @@ namespace DGP.Snap.Framework.Device
     {
         public static int CurrentRefreshRate()
         {
-            var vDevMode = new User32.DEVMODE();
+            User32.DEVMODE vDevMode = new User32.DEVMODE();
             return User32.EnumDisplaySettings(null, User32.ENUM_CURRENT_SETTINGS, ref vDevMode) ? vDevMode.dmDisplayFrequency : 60;
         }
     }

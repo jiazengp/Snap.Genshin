@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DGP.Genshin.Helper
+namespace DGP.Snap.Framework.Data.Behavior
 {
     public class Observable : INotifyPropertyChanged
     {
@@ -15,7 +15,7 @@ namespace DGP.Genshin.Helper
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

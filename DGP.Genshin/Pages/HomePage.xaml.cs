@@ -17,100 +17,100 @@ namespace DGP.Genshin.Pages
     {
         public HomePage()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeCharacters();
-            InitializeWeapons();
+            this.InitializeCharacters();
+            this.InitializeWeapons();
 
-            SetVisibility();
+            this.SetVisibility();
         }
         private void InitializeWeapons()
         {
             IEnumerable<Weapon> weapons = WeaponManager.Instance.Weapons;
-            MondstadtWeapons = weapons
+            this.MondstadtWeapons = weapons
                 .Where(item => WeaponHelper.IsTodaysMondstadtWeapon(item.Material))
                 .Where(item => WeaponManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
                 .Select(item =>
                 {
-                    var w = new WeaponIcon() { Weapon = item };
-                    w.IconClicked += OnWeaponClicked;
+                    WeaponIcon w = new WeaponIcon() { Weapon = item };
+                    w.IconClicked += this.OnWeaponClicked;
                     return w;
                 });
-            LiyueWeapons = weapons
+            this.LiyueWeapons = weapons
                 .Where(item => WeaponHelper.IsTodaysLiyueWeapon(item.Material))
                 .Where(item => WeaponManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
                 .Select(item =>
                 {
-                    var w = new WeaponIcon() { Weapon = item };
-                    w.IconClicked += OnWeaponClicked;
+                    WeaponIcon w = new WeaponIcon() { Weapon = item };
+                    w.IconClicked += this.OnWeaponClicked;
                     return w;
                 });
         }
         private void InitializeCharacters()
         {
             IEnumerable<Character> chars = CharacterManager.Instance.Characters;
-            MondstadtCharacters = chars
+            this.MondstadtCharacters = chars
                 .Where(item => TalentHelper.IsTodaysMondstadtMaterial(item.TalentMaterial))
                 .Where(item => CharacterManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
                 .Select(item =>
                 {
                     CharacterIcon c = new CharacterIcon() { Character = item };
-                    c.IconClicked += OnCharacterClicked;
+                    c.IconClicked += this.OnCharacterClicked;
                     return c;
                 });
-            LiyueCharacters = chars
+            this.LiyueCharacters = chars
                 .Where(item => TalentHelper.IsTodaysLiyueMaterial(item.TalentMaterial))
                 .Where(item => CharacterManager.UnreleasedPolicyFilter(item))
                 .OrderByDescending(item => item.Star)
                 .Select(item =>
                 {
                     CharacterIcon c = new CharacterIcon() { Character = item };
-                    c.IconClicked += OnCharacterClicked;
+                    c.IconClicked += this.OnCharacterClicked;
                     return c;
                 });
         }
         private void SetVisibility()
         {
             DayOfWeek today = DateTime.Now.DayOfWeek;
-            Visibility1 = today == DayOfWeek.Sunday || today == DayOfWeek.Monday || today == DayOfWeek.Thursday ?
+            this.Visibility1 = today == DayOfWeek.Sunday || today == DayOfWeek.Monday || today == DayOfWeek.Thursday ?
                 Visibility.Visible : Visibility.Collapsed;
-            Visibility2 = today == DayOfWeek.Sunday || today == DayOfWeek.Tuesday || today == DayOfWeek.Friday ?
+            this.Visibility2 = today == DayOfWeek.Sunday || today == DayOfWeek.Tuesday || today == DayOfWeek.Friday ?
                 Visibility.Visible : Visibility.Collapsed;
-            Visibility3 = today == DayOfWeek.Sunday || today == DayOfWeek.Wednesday || today == DayOfWeek.Saturday ?
+            this.Visibility3 = today == DayOfWeek.Sunday || today == DayOfWeek.Wednesday || today == DayOfWeek.Saturday ?
                 Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OnCharacterClicked(object sender, EventArgs e)
         {
-            CharacterDetailDialog.Character = ((CharacterIcon)sender).Character;
-            CharacterDetailDialog.ShowAsync();
+            this.CharacterDetailDialog.Character = ((CharacterIcon)sender).Character;
+            this.CharacterDetailDialog.ShowAsync();
         }
         private void OnWeaponClicked(object sender, EventArgs e)
         {
-            WeaponDetailDialog.Weapon = ((WeaponIcon)sender).Weapon;
-            WeaponDetailDialog.ShowAsync();
+            this.WeaponDetailDialog.Weapon = ((WeaponIcon)sender).Weapon;
+            this.WeaponDetailDialog.ShowAsync();
         }
         #region propdp
 
         #region Characters
         public IEnumerable<CharacterIcon> MondstadtCharacters
         {
-            get { return (IEnumerable<CharacterIcon>)GetValue(MondstadtCharactersProperty); }
-            set { SetValue(MondstadtCharactersProperty, value); }
+            get => (IEnumerable<CharacterIcon>)this.GetValue(MondstadtCharactersProperty);
+            set => this.SetValue(MondstadtCharactersProperty, value);
         }
         public static readonly DependencyProperty MondstadtCharactersProperty =
             DependencyProperty.Register("MondstadtCharacters", typeof(IEnumerable<CharacterIcon>), typeof(HomePage), new PropertyMetadata(null));
 
         public IEnumerable<CharacterIcon> LiyueCharacters
         {
-            get { return (IEnumerable<CharacterIcon>)GetValue(LiyueCharactersProperty); }
-            set { SetValue(LiyueCharactersProperty, value); }
+            get => (IEnumerable<CharacterIcon>)this.GetValue(LiyueCharactersProperty);
+            set => this.SetValue(LiyueCharactersProperty, value);
         }
         public static readonly DependencyProperty LiyueCharactersProperty =
             DependencyProperty.Register("LiyueCharacters", typeof(IEnumerable<CharacterIcon>), typeof(HomePage), new PropertyMetadata(null));
@@ -119,16 +119,16 @@ namespace DGP.Genshin.Pages
         #region Weapon
         public IEnumerable<WeaponIcon> MondstadtWeapons
         {
-            get { return (IEnumerable<WeaponIcon>)GetValue(MondstadtWeaponsProperty); }
-            set { SetValue(MondstadtWeaponsProperty, value); }
+            get => (IEnumerable<WeaponIcon>)this.GetValue(MondstadtWeaponsProperty);
+            set => this.SetValue(MondstadtWeaponsProperty, value);
         }
         public static readonly DependencyProperty MondstadtWeaponsProperty =
             DependencyProperty.Register("MondstadtWeapons", typeof(IEnumerable<WeaponIcon>), typeof(HomePage), new PropertyMetadata(null));
 
         public IEnumerable<WeaponIcon> LiyueWeapons
         {
-            get { return (IEnumerable<WeaponIcon>)GetValue(LiyueWeaponsProperty); }
-            set { SetValue(LiyueWeaponsProperty, value); }
+            get => (IEnumerable<WeaponIcon>)this.GetValue(LiyueWeaponsProperty);
+            set => this.SetValue(LiyueWeaponsProperty, value);
         }
         public static readonly DependencyProperty LiyueWeaponsProperty =
             DependencyProperty.Register("LiyueWeapons", typeof(IEnumerable<WeaponIcon>), typeof(HomePage), new PropertyMetadata(null));
@@ -137,22 +137,22 @@ namespace DGP.Genshin.Pages
         #region Visibility
         public Visibility Visibility1
         {
-            get { return (Visibility)GetValue(Visibility1Property); }
-            set { SetValue(Visibility1Property, value); }
+            get => (Visibility)this.GetValue(Visibility1Property);
+            set => this.SetValue(Visibility1Property, value);
         }
         public static readonly DependencyProperty Visibility1Property =
             DependencyProperty.Register("Visibility1", typeof(Visibility), typeof(HomePage), new PropertyMetadata(Visibility.Collapsed));
         public Visibility Visibility2
         {
-            get { return (Visibility)GetValue(Visibility2Property); }
-            set { SetValue(Visibility2Property, value); }
+            get => (Visibility)this.GetValue(Visibility2Property);
+            set => this.SetValue(Visibility2Property, value);
         }
         public static readonly DependencyProperty Visibility2Property =
             DependencyProperty.Register("Visibility2", typeof(Visibility), typeof(HomePage), new PropertyMetadata(Visibility.Collapsed));
         public Visibility Visibility3
         {
-            get { return (Visibility)GetValue(Visibility3Property); }
-            set { SetValue(Visibility3Property, value); }
+            get => (Visibility)this.GetValue(Visibility3Property);
+            set => this.SetValue(Visibility3Property, value);
         }
         public static readonly DependencyProperty Visibility3Property =
             DependencyProperty.Register("Visibility3", typeof(Visibility), typeof(HomePage), new PropertyMetadata(Visibility.Collapsed));

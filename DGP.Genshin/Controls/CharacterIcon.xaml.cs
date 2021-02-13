@@ -12,23 +12,20 @@ namespace DGP.Genshin.Controls
     {
         public CharacterIcon()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
 
         public Character Character
         {
-            get { return (Character)GetValue(CharacterProperty); }
-            set { SetValue(CharacterProperty, value); }
+            get => (Character)this.GetValue(CharacterProperty);
+            set => this.SetValue(CharacterProperty, value);
         }
         public static readonly DependencyProperty CharacterProperty =
             DependencyProperty.Register("Character", typeof(Character), typeof(CharacterIcon), new PropertyMetadata(null));
 
         public EventHandler IconClicked;
 
-        private void UserControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            IconClicked?.Invoke(this, null);
-        }
+        private void UserControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) => this.IconClicked?.Invoke(this, null);
     }
 }

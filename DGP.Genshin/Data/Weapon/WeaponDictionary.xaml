@@ -49,6 +49,46 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
+    <local:Weapon x:Key="HarbingerofDawn"
+                  WeaponName="黎明神剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/harbinger_of_dawn.png"
+                  Star="3"
+                  Type="Sword"
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"
+                  ATK="401"
+                  SubStat="CRITDMGPercent"
+                  SubStatValue="0.469">
+        <local:Weapon.Passives>
+            <passives:PassiveCollection>
+                <passives:CritRateBonus 
+                    Description="生命值高于90%时，暴击率提升*value*"
+                    Values="0.14 0.175 0.21 0.245 0.28"/>
+            </passives:PassiveCollection>
+        </local:Weapon.Passives>
+    </local:Weapon>
+    <local:Weapon x:Key="TravelersHandySword"
+                  WeaponName="旅行剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/travelers_handy_sword.png"
+                  Star="3"
+                  Type="Sword"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"
+                  ATK="448"
+                  SubStat="DEFPercent"
+                  SubStatValue="0.293">
+        <local:Weapon.Passives>
+            <passives:PassiveCollection>
+                <passives:NormalPassive 
+                    Description="获得元素晶球或元素微粒时，恢复*value*生命值"
+                    Values="0.01 0.0125 0.015 0.0175 0.02"/>
+            </passives:PassiveCollection>
+        </local:Weapon.Passives>
+    </local:Weapon>
     <local:Weapon x:Key="DarkIronSword"
                   WeaponName="暗铁剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/dark_iron_sword.png"
@@ -91,26 +131,6 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="HarbingerofDawn"
-                  WeaponName="黎明神剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/harbinger_of_dawn.png"
-                  Star="3"
-                  Type="Sword"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"
-                  ATK="401"
-                  SubStat="CRITDMGPercent"
-                  SubStatValue="0.469">
-        <local:Weapon.Passives>
-            <passives:PassiveCollection>
-                <passives:CritRateBonus 
-                    Description="生命值高于90%时，暴击率提升*value*"
-                    Values="0.14 0.175 0.21 0.245 0.28"/>
-            </passives:PassiveCollection>
-        </local:Weapon.Passives>
-    </local:Weapon>
     <local:Weapon x:Key="SkyriderSword"
                   WeaponName="飞天御剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/skyrider_sword.png"
@@ -127,47 +147,6 @@
             <passives:PassiveCollection>
                 <passives:ATKPercentBonus 
                     Description="释放元素爆发后，提高*value*攻击力和移动速度，持续15秒"
-                    Values="0.12 0.15 0.18 0.21 0.24"/>
-            </passives:PassiveCollection>
-        </local:Weapon.Passives>
-    </local:Weapon>
-    <local:Weapon x:Key="TravelersHandySword"
-                  WeaponName="旅行剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/travelers_handy_sword.png"
-                  Star="3"
-                  Type="Sword"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"
-                  ATK="448"
-                  SubStat="DEFPercent"
-                  SubStatValue="0.293">
-        <local:Weapon.Passives>
-            <passives:PassiveCollection>
-                <passives:NormalPassive 
-                    Description="获得元素晶球或元素微粒时，恢复*value*生命值"
-                    Values="0.01 0.0125 0.015 0.0175 0.02"/>
-            </passives:PassiveCollection>
-        </local:Weapon.Passives>
-    </local:Weapon>
-    <local:Weapon x:Key="BlackcliffLongsword"
-                  WeaponName="黑岩长剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_longsword.png"
-                  Star="4"
-                  Type="Sword"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"
-                  ATK="565"
-                  SubStat="CRITDMGPercent"
-                  SubStatValue="0.368">
-        <local:Weapon.Passives>
-            <passives:PassiveCollection>
-                <passives:ATKPercentBonus 
-                    MaxStack="3" 
-                    Description="打倒敌人后，攻击力提升*value*，持续30秒。该效果至多叠加三层，每层持续时间独立"
                     Values="0.12 0.15 0.18 0.21 0.24"/>
             </passives:PassiveCollection>
         </local:Weapon.Passives>
@@ -193,24 +172,65 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="IronSting"
-                  WeaponName="铁蜂刺"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/iron_sting.png"
+    <local:Weapon x:Key="TheFlute"
+                  WeaponName="笛剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_flute.png"
                   Star="4"
                   Type="Sword"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"
                   ATK="510"
-                  SubStat="ElementalMastery"
-                  SubStatValue="165">
+                  SubStat="ATKPercent"
+                  SubStatValue="0.413">
         <local:Weapon.Passives>
             <passives:PassiveCollection>
-                <passives:DealedDMGBonus 
-                    MaxStack="2" 
-                    Description="造成元素伤害后的6秒内，角色造成的伤害提高*value*，该效果最多叠加2层。该效果每1秒可以触发一次"
-                    Values="0.12 0.15 0.18 0.21 0.24"/>
+                <passives:ATKToDamage 
+                    Description="普通攻击或重击命中时，有100%的概率获得一个和音。积攒5个和音后，释放音律的力量，对周围的敌人造成*value*攻击力的伤害。和音最多存在30秒"
+                    Values="1 1.25 1.5 1.75 2"/>
+            </passives:PassiveCollection>
+        </local:Weapon.Passives>
+    </local:Weapon>
+    <local:Weapon x:Key="SacrificialSword"
+                  WeaponName="祭礼剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_sword.png"
+                  Star="4"
+                  Type="Sword"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"
+                  ATK="454"
+                  SubStat="EnergyRechargePercent"
+                  SubStatValue="0.613">
+        <local:Weapon.Passives>
+            <passives:PassiveCollection>
+                <passives:NormalPassive 
+                    Description="元素战技造成伤害时，有*value*的概率重置该技能的冷却时间，该效果每*time*秒只能触发一次"
+                    Values="0.4 0.5 0.6 0.7 0.8"
+                    Times="30 26 22 19 16"/>
+            </passives:PassiveCollection>
+        </local:Weapon.Passives>
+    </local:Weapon>
+    <local:Weapon x:Key="RoyalLongsword"
+                  WeaponName="宗室长剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_longsword.png"
+                  Star="4"
+                  Type="Sword"
+                  Material="Decarabians"
+                  DailyMaterial="{StaticResource Weapon_Decarabians}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"
+                  ATK="510"
+                  SubStat="ATKPercent"
+                  SubStatValue="0.413">
+        <local:Weapon.Passives>
+            <passives:PassiveCollection>
+                <passives:CritRateBonus 
+                    MaxStack="5" 
+                    Description="攻击造成伤害时，暴击率提升*value*，最多堆叠5次。攻击造成暴击后，移除已有的专注效果"
+                    Values="0.08 0.1 0.12 0.14 0.16"/>
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
@@ -255,58 +275,48 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="RoyalLongsword"
-                  WeaponName="宗室长剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_longsword.png"
+    <local:Weapon x:Key="IronSting"
+                  WeaponName="铁蜂刺"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/iron_sting.png"
                   Star="4"
                   Type="Sword"
-                  Material="Decarabians"
-                  DailyMaterial="{StaticResource Weapon_Decarabians}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"
                   ATK="510"
-                  SubStat="ATKPercent"
-                  SubStatValue="0.413">
+                  SubStat="ElementalMastery"
+                  SubStatValue="165">
         <local:Weapon.Passives>
             <passives:PassiveCollection>
-                <passives:CritRateBonus 
-                    MaxStack="5" 
-                    Description="攻击造成伤害时，暴击率提升*value*，最多堆叠5次。攻击造成暴击后，移除已有的专注效果"
-                    Values="0.08 0.1 0.12 0.14 0.16"/>
+                <passives:DealedDMGBonus 
+                    MaxStack="2" 
+                    Description="造成元素伤害后的6秒内，角色造成的伤害提高*value*，该效果最多叠加2层。该效果每1秒可以触发一次"
+                    Values="0.12 0.15 0.18 0.21 0.24"/>
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="SacrificialSword"
-                  WeaponName="祭礼剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_sword.png"
+    <local:Weapon x:Key="BlackcliffLongsword"
+                  WeaponName="黑岩长剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_longsword.png"
                   Star="4"
                   Type="Sword"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"
-                  ATK="454"
-                  SubStat="EnergyRechargePercent"
-                  SubStatValue="0.613">
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}"
+                  ATK="565"
+                  SubStat="CRITDMGPercent"
+                  SubStatValue="0.368">
         <local:Weapon.Passives>
             <passives:PassiveCollection>
-                <passives:NormalPassive 
-                    Description="元素战技造成伤害时，有*value*的概率重置该技能的冷却时间，该效果每*time*秒只能触发一次"
-                    Values="0.4 0.5 0.6 0.7 0.8"
-                    Times="30 26 22 19 16"/>
+                <passives:ATKPercentBonus 
+                    MaxStack="3" 
+                    Description="打倒敌人后，攻击力提升*value*，持续30秒。该效果至多叠加三层，每层持续时间独立"
+                    Values="0.12 0.15 0.18 0.21 0.24"/>
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="TheAlleyFlash"
-                  WeaponName="暗巷闪光"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_alley_flash.png"
-                  Star="4"
-                  Type="Sword"
-                  Material="DandelionGladiator"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="TheBlackSword"
                   WeaponName="黑剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/the_black_sword.png"
@@ -330,26 +340,20 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="TheFlute"
-                  WeaponName="笛剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_flute.png"
+    <local:Weapon x:Key="TheAlleyFlash"
+                  WeaponName="暗巷闪光"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_alley_flash.png"
                   Star="4"
                   Type="Sword"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"
-                  ATK="510"
-                  SubStat="ATKPercent"
-                  SubStatValue="0.413">
-        <local:Weapon.Passives>
-            <passives:PassiveCollection>
-                <passives:ATKToDamage 
-                    Description="普通攻击或重击命中时，有100%的概率获得一个和音。积攒5个和音后，释放音律的力量，对周围的敌人造成*value*攻击力的伤害。和音最多存在30秒"
-                    Values="1 1.25 1.5 1.75 2"/>
-            </passives:PassiveCollection>
-        </local:Weapon.Passives>
-    </local:Weapon>
+                  Material="DandelionGladiator"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+    <local:Weapon x:Key="ShatteredStar"
+                  WeaponName="碎星"
+                  Star="4"
+                  Type="Sword"></local:Weapon>
     <local:Weapon x:Key="SwordofDescension"
                   WeaponName="降临之剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/sword_of_descension.png"
@@ -450,6 +454,10 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
+    <local:Weapon x:Key="FreedomSworn"
+                  WeaponName="苍古自由之誓"
+                  Star="4"
+                  Type="Sword"></local:Weapon>
     <local:Weapon x:Key="SummitShaper"
                   WeaponName="斫峰之刃"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/summit_shaper.png"
@@ -499,18 +507,8 @@
             </passives:PassiveCollection>
         </local:Weapon.Passives>
     </local:Weapon>
-    <local:Weapon x:Key="BoreasPrecocity"
-                  WeaponName="Boreas Precocity"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/boreas_precocity.png"
-                  Star="5"
-                  Type="Sword"
-                  Material="DandelionGladiator"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="OneSide"
-                  WeaponName="One Side"
+                  WeaponName="凭虚"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/one_side.png"
                   Star="5"
                   Type="Sword"
@@ -519,6 +517,16 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
+    <local:Weapon x:Key="BoreasPrecocity"
+                  WeaponName="北风的早成"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/boreas_precocity.png"
+                  Star="5"
+                  Type="Sword"
+                  Material="DandelionGladiator"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <!--双手剑-->
     <local:Weapon x:Key="WasterGreatsword"
                   WeaponName="训练大剑"
@@ -538,24 +546,6 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="BloodtaintedGreatsword"
-                  WeaponName="沐浴龙血的剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/bloodtainted_greatsword.png"
-                  Star="3"
-                  Type="Claymore"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="DebateClub"
-                  WeaponName="以理服人"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/debate_club.png"
-                  Star="3"
-                  Type="Claymore"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="FerrousShadow"
                   WeaponName="铁影阔剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/ferrous_shadow.png"
@@ -565,25 +555,15 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="Quartz"
-                  WeaponName="Quartz"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/quartz.png"
+    <local:Weapon x:Key="BloodtaintedGreatsword"
+                  WeaponName="沐浴龙血的剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/bloodtainted_greatsword.png"
                   Star="3"
                   Type="Claymore"
-                  Material="Guyun"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
-    <local:Weapon x:Key="SkyriderGreatsword"
-                  WeaponName="飞天大御剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/skyrider_greatsword.png"
-                  Star="3"
-                  Type="Claymore"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
     <local:Weapon x:Key="WhiteIronGreatsword"
                   WeaponName="WhiteIronGreatsword"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/white_iron_greatsword.png"
@@ -594,15 +574,34 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="BlackcliffSlasher"
-                  WeaponName="黑岩斩刀"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_slasher.png"
-                  Star="4"
+    <local:Weapon x:Key="Quartz"
+                  WeaponName="Quartz"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/quartz.png"
+                  Star="3"
+                  Type="Claymore"
+                  Material="Guyun"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="DebateClub"
+                  WeaponName="以理服人"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/debate_club.png"
+                  Star="3"
                   Type="Claymore"
                   Material="MistVeiled"
                   DailyMaterial="{StaticResource Weapon_MistVeiled}"
                   EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+    <local:Weapon x:Key="SkyriderGreatsword"
+                  WeaponName="飞天大御剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/skyrider_greatsword.png"
+                  Star="3"
+                  Type="Claymore"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="FavoniusGreatsword"
                   WeaponName="西风大剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/favonius_greatsword.png"
@@ -612,52 +611,6 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
-    <local:Weapon x:Key="LithicBlade"
-                  WeaponName="千岩斩刀"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/lithic_blade.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="Guyun"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="PrototypeArchaic"
-                  WeaponName="试作古华"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_archaic.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="Rainslasher"
-                  WeaponName="雨裁"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/rainslasher.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
-    <local:Weapon x:Key="RoyalGreatsword"
-                  WeaponName="宗室大剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_greatsword.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="SerpentSpine"
-                  WeaponName="螭骨剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/serpent_spine.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="TheBell"
                   WeaponName="钟剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/the_bell.png"
@@ -667,15 +620,6 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="Whiteblind"
-                  WeaponName="白影剑"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/whiteblind.png"
-                  Star="4"
-                  Type="Claymore"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="SacrificialGreatsword"
                   WeaponName="祭礼大剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_greatsword.png"
@@ -685,6 +629,76 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
+    <local:Weapon x:Key="RoyalGreatsword"
+                  WeaponName="宗室大剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_greatsword.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="Rainslasher"
+                  WeaponName="雨裁"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/rainslasher.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="PrototypeArchaic"
+                  WeaponName="试作古华"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_archaic.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+    <local:Weapon x:Key="Whiteblind"
+                  WeaponName="白影剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/whiteblind.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+    <local:Weapon x:Key="BlackcliffSlasher"
+                  WeaponName="黑岩斩刀"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_slasher.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
+    <local:Weapon x:Key="SerpentSpine"
+                  WeaponName="螭骨剑"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/serpent_spine.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
+    <local:Weapon x:Key="LithicBlade"
+                  WeaponName="千岩斩刀"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/lithic_blade.png"
+                  Star="4"
+                  Type="Claymore"
+                  Material="Guyun"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}">
+        <local:Weapon.Passives>
+            <passives:PassiveCollection>
+                <passives:NormalPassive Description="队伍中每有一位璃月角色，装备该武器的角色便获得7%攻击力提升与3%暴击率提升。至多获得4层提升效果。"/>
+            </passives:PassiveCollection>
+        </local:Weapon.Passives>
+    </local:Weapon>
     <local:Weapon x:Key="SnowTombedStarsilver"
                   WeaponName="雪葬的星银"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/snow_tombed_starsilver.png"
@@ -712,6 +726,16 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="SongofBrokenPines"
+                  WeaponName="松籁响起之时"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/uprising_satire.png"
+                  Star="5"
+                  Type="Claymore"
+                  Material="Decarabians" 
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Decarabians}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="TheUnforged"
                   WeaponName="无工之剑"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/the_unforged.png"
@@ -721,18 +745,8 @@
                   DailyMaterial="{StaticResource Weapon_MistVeiled}"
                   EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
-    <local:Weapon x:Key="UprisingSatire"
-                  WeaponName="Uprising Satire"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/uprising_satire.png"
-                  Star="5"
-                  Type="Claymore"
-                  Material="Decarabians" 
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Decarabians}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="PrimordialJadeGreatsword"
-                  WeaponName="Primordial Jade Greatsword"
+                  WeaponName="砥厄鱼"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/primordial_jade_greatsword.png"
                   Star="5"
                   Type="Claymore"
@@ -742,7 +756,7 @@
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
     <local:Weapon x:Key="TheOtherSide"
-                  WeaponName="TheOtherSide"
+                  WeaponName="异史"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/the_other_side.png"
                   Star="5"
                   Type="Claymore"
@@ -770,24 +784,6 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Scroll}"/>
-    <local:Weapon x:Key="BlackTassel"
-                  WeaponName="黑缨枪"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/black_tassel.png"
-                  Star="3"
-                  Type="Polearm"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="Halbeld"
-                  WeaponName="钺矛"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/halberd.png"
-                  Star="3"
-                  Type="Polearm"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="WhiteTassel"
                   WeaponName="白缨枪"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/white_tassel.png"
@@ -797,6 +793,24 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
+    <local:Weapon x:Key="Halbeld"
+                  WeaponName="钺矛"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/halberd.png"
+                  Star="3"
+                  Type="Polearm"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
+    <local:Weapon x:Key="BlackTassel"
+                  WeaponName="黑缨枪"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/black_tassel.png"
+                  Star="3"
+                  Type="Polearm"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
     <local:Weapon x:Key="TheFlagstaff"
                   WeaponName="The Flagstaff"
                   ImageUri="{x:Null}"
@@ -807,33 +821,6 @@
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="BlackcliffPole"
-                  WeaponName="黑岩刺枪"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_pole.png"
-                  Star="4"
-                  Type="Polearm"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
-    <local:Weapon x:Key="CrescentPike"
-                  WeaponName="流月针"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/crescent_pike.png"
-                  Star="4"
-                  Type="Polearm"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
-    <local:Weapon x:Key="DeathMatch"
-                  WeaponName="决斗之枪"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/deathmatch.png"
-                  Star="4"
-                  Type="Polearm"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="DragonsBane"
                   WeaponName="匣里灭辰"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/dragons_bane.png"
@@ -843,6 +830,42 @@
                   DailyMaterial="{StaticResource Weapon_MistVeiled}"
                   EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="PrototypeStarglitter"
+                  WeaponName="试作星镰"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_starglitter.png"
+                  Star="4"
+                  Type="Polearm"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+    <local:Weapon x:Key="CrescentPike"
+                  WeaponName="流月针"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/crescent_pike.png"
+                  Star="4"
+                  Type="Polearm"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+    <local:Weapon x:Key="BlackcliffPole"
+                  WeaponName="黑岩刺枪"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_pole.png"
+                  Star="4"
+                  Type="Polearm"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
+    <local:Weapon x:Key="DeathMatch"
+                  WeaponName="决斗之枪"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/deathmatch.png"
+                  Star="4"
+                  Type="Polearm"
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="LithicSpear"
                   WeaponName="千岩长枪"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/lithic_spear.png"
@@ -853,15 +876,6 @@
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="PrototypeStarglitter"
-                  WeaponName="试作星镰"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_starglitter.png"
-                  Star="4"
-                  Type="Polearm"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="FavoniusLance"
                   WeaponName="西风长枪"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/favonius_lance.png"
@@ -889,6 +903,24 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
+    <local:Weapon x:Key="StaffofHoma"
+                  WeaponName="护摩之杖"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/staff_of_homa.png"
+                  Star="5"
+                  Type="Polearm"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="SkywardSpine"
+                  WeaponName="天空之脊"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/skyward_spine.png"
+                  Star="5"
+                  Type="Polearm"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="VortexVanquisher"
                   WeaponName="贯虹之槊"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/vortex_vanquisher.png"
@@ -907,31 +939,13 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
-    <local:Weapon x:Key="SkywardSpine"
-                  WeaponName="天空之脊"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/skyward_spine.png"
-                  Star="5"
-                  Type="Polearm"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="Deicide"
-                  WeaponName="Deicide"
+                  WeaponName="岩哀"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/deicide.png"
                   Star="5"
                   Type="Polearm"
                   Material="MistVeiled"
                   IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="StaffofHoma"
-                  WeaponName="护摩之杖"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/staff_of_homa.png"
-                  Star="5"
-                  Type="Polearm"
-                  Material="Aerosiderite"
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
@@ -954,25 +968,6 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
-    <local:Weapon x:Key="EbonyBow"
-                  WeaponName="Ebony Bow"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/ebony_bow.png"
-                  Star="3"
-                  Type="Bow"
-                  Material="Aerosiderite"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
-    <local:Weapon x:Key="Messenger"
-                  WeaponName="信使"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/messenger.png"
-                  Star="3"
-                  Type="Bow"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="RavenBow"
                   WeaponName="鸦羽弓"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/raven_bow.png"
@@ -982,15 +977,6 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="recurveBow"
-                  WeaponName="反曲弓"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/recurve_bow.png"
-                  Star="3"
-                  Type="Bow"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="SharpshootersOath"
                   WeaponName="神射手之誓"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/sharpshooters_oath.png"
@@ -1000,6 +986,15 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="recurveBow"
+                  WeaponName="反曲弓"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/recurve_bow.png"
+                  Star="3"
+                  Type="Bow"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="Slingshot"
                   WeaponName="弹弓"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/slingshot.png"
@@ -1009,40 +1004,22 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="TheStringless"
-                  WeaponName="绝弦"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_stringless.png"
-                  Star="4"
+    <local:Weapon x:Key="Messenger"
+                  WeaponName="信使"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/messenger.png"
+                  Star="3"
                   Type="Bow"
-                  Material="Decarabians"
-                  DailyMaterial="{StaticResource Weapon_Decarabians}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="AlleyHunter"
-                  WeaponName="Alley Hunter"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/alley_hunter.png"
-                  Star="4"
-                  Type="Bow"
-                  Material="Boreal"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
-    <local:Weapon x:Key="BlackcliffWarbow"
-                  WeaponName="黑岩战弓"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_warbow.png"
-                  Star="4"
-                  Type="Bow"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="CompoundBow"
-                  WeaponName="钢轮弓"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/compound_bow.png"
-                  Star="4"
+    <local:Weapon x:Key="EbonyBow"
+                  WeaponName="黑檀弓"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/ebony_bow.png"
+                  Star="3"
                   Type="Bow"
                   Material="Aerosiderite"
+                  IsReleased="False"
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
@@ -1055,15 +1032,24 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="PrototypeCrescent"
-                  WeaponName="试作澹月"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_crescent.png"
+    <local:Weapon x:Key="TheStringless"
+                  WeaponName="绝弦"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_stringless.png"
                   Star="4"
                   Type="Bow"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+                  Material="Decarabians"
+                  DailyMaterial="{StaticResource Weapon_Decarabians}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
+    <local:Weapon x:Key="SacrificialBow"
+                  WeaponName="祭礼弓"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_bow.png"
+                  Star="4"
+                  Type="Bow"
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"/>
     <local:Weapon x:Key="RoyalBow"
                   WeaponName="宗室长弓"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/royal_bow.png"
@@ -1082,15 +1068,33 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="SacrificialBow"
-                  WeaponName="祭礼弓"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_bow.png"
+    <local:Weapon x:Key="PrototypeCrescent"
+                  WeaponName="试作澹月"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_crescent.png"
                   Star="4"
                   Type="Bow"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"/>
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+    <local:Weapon x:Key="CompoundBow"
+                  WeaponName="钢轮弓"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/compound_bow.png"
+                  Star="4"
+                  Type="Bow"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
+    <local:Weapon x:Key="BlackcliffWarbow"
+                  WeaponName="黑岩战弓"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_warbow.png"
+                  Star="4"
+                  Type="Bow"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="TheViridescentHunt"
                   WeaponName="苍翠猎弓"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/the_viridescent_hunt.png"
@@ -1100,6 +1104,16 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
+    <local:Weapon x:Key="AlleyHunter"
+                  WeaponName="暗巷猎手"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/alley_hunter.png"
+                  Star="4"
+                  Type="Bow"
+                  Material="Boreal"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="SkywardHarp"
                   WeaponName="天空之翼"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/skyward_harp.png"
@@ -1118,6 +1132,16 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="ElegyfortheEnd"
+                  WeaponName="终末嗟叹之诗"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/serene_requiem.png"
+                  Star="5"
+                  Type="Bow"
+                  Material="Boreal"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
     <local:Weapon x:Key="DreamsofDragonfell"
                   WeaponName="陨龙之梦"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/dreams_of_dragonfell.png"
@@ -1128,18 +1152,8 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="SereneRequiem"
-                  WeaponName="Serene Requiem"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/serene_requiem.png"
-                  Star="5"
-                  Type="Bow"
-                  Material="Boreal"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
     <local:Weapon x:Key="PrimordialJadeVista"
-                  WeaponName="Primordial Jade Vista"
+                  WeaponName="悬黎千钧"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/primordial_jade_vista.png"
                   Star="5"
                   Type="Bow"
@@ -1149,7 +1163,7 @@
                   EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="MirrorBreaker"
-                  WeaponName="Mirror Breaker"
+                  WeaponName="破镜"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/mirror_breaker.png"
                   Star="5"
                   Type="Bow"
@@ -1177,25 +1191,6 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="AmberBead"
-                  WeaponName="Amber Bead"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/amber_bead.png"
-                  Star="3"
-                  Type="Catalyst"
-                  Material="Aerosiderite"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="EmeraldOrb"
-                  WeaponName="翡玉法球"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/emerald_orb.png"
-                  Star="3"
-                  Type="Catalyst"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="MagicGuide"
                   WeaponName="魔导绪论"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/magic_guide.png"
@@ -1205,15 +1200,6 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="OtherworldlyStory"
-                  WeaponName="异世界行记"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/otherworldly_story.png"
-                  Star="3"
-                  Type="Catalyst"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="ThrillingTalesofDragonSlayers"
                   WeaponName="讨龙英杰谭"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/thrilling_tales_of_dragon_slayers.png"
@@ -1223,6 +1209,24 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="OtherworldlyStory"
+                  WeaponName="异世界行记"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/otherworldly_story.png"
+                  Star="3"
+                  Type="Catalyst"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+    <local:Weapon x:Key="EmeraldOrb"
+                  WeaponName="翡玉法球"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/emerald_orb.png"
+                  Star="3"
+                  Type="Catalyst"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="TwinNephrite"
                   WeaponName="甲级宝钰"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/twin_nephrite.png"
@@ -1232,15 +1236,16 @@
                   DailyMaterial="{StaticResource Weapon_MistVeiled}"
                   EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_Insignia}"/>
-    <local:Weapon x:Key="BlackcliffAgate"
-                  WeaponName="黑岩绯玉"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_agate.png"
-                  Star="4"
+    <local:Weapon x:Key="AmberBead"
+                  WeaponName="琥珀玥"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/amber_bead.png"
+                  Star="3"
                   Type="Catalyst"
-                  Material="Guyun"
-                  DailyMaterial="{StaticResource Weapon_Guyun}"
-                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
+                  Material="Aerosiderite"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Nectar}"/>
     <local:Weapon x:Key="FavoniusCodex"
                   WeaponName="西风秘典"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/favonius_codex.png"
@@ -1250,33 +1255,15 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Horn}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="MappaMare"
-                  WeaponName="万国诸海图谱"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/mappa_mare.png"
+    <local:Weapon x:Key="TheWidsith"
+                  WeaponName="流浪乐章"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_widsith.png"
                   Star="4"
                   Type="Catalyst"
-                  Material="Aerosiderite"
-                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
-                  EliteMaterial="{StaticResource Elite_BoneShard}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"/>
-    <local:Weapon x:Key="PrototypeAmber"
-                  WeaponName="试作金珀"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_amber.png"
-                  Star="4"
-                  Type="Catalyst"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
-    <local:Weapon x:Key="RoyalGrimoire"
-                  WeaponName="宗室秘法录"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_grimoire.png"
-                  Star="4"
-                  Type="Catalyst"
-                  Material="Decarabians"
-                  DailyMaterial="{StaticResource Weapon_Decarabians}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
+                  Material="Boreal"
+                  DailyMaterial="{StaticResource Weapon_Boreal}"
+                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="SacrificialFragments"
                   WeaponName="祭礼残章"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/sacrificial_fragments.png"
@@ -1286,6 +1273,15 @@
                   DailyMaterial="{StaticResource Weapon_Decarabians}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
+    <local:Weapon x:Key="RoyalGrimoire"
+                  WeaponName="宗室秘法录"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/royal_grimoire.png"
+                  Star="4"
+                  Type="Catalyst"
+                  Material="Decarabians"
+                  DailyMaterial="{StaticResource Weapon_Decarabians}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Insignia}"/>
     <local:Weapon x:Key="SolarPearl"
                   WeaponName="匣里日月"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/solar_pearl.png"
@@ -1295,14 +1291,41 @@
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="TheWidsith"
-                  WeaponName="流浪乐章"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/the_widsith.png"
+    <local:Weapon x:Key="PrototypeAmber"
+                  WeaponName="试作金珀"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/prototype_amber.png"
                   Star="4"
                   Type="Catalyst"
-                  Material="Boreal"
-                  DailyMaterial="{StaticResource Weapon_Boreal}"
-                  EliteMaterial="{StaticResource Elite_LeyLine}"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
+                  MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
+    <local:Weapon x:Key="MappaMare"
+                  WeaponName="万国诸海图谱"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/mappa_mare.png"
+                  Star="4"
+                  Type="Catalyst"
+                  Material="Aerosiderite"
+                  DailyMaterial="{StaticResource Weapon_Aerosiderite}"
+                  EliteMaterial="{StaticResource Elite_BoneShard}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="BlackcliffAgate"
+                  WeaponName="黑岩绯玉"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/blackcliff_agate.png"
+                  Star="4"
+                  Type="Catalyst"
+                  Material="Guyun"
+                  DailyMaterial="{StaticResource Weapon_Guyun}"
+                  EliteMaterial="{StaticResource Elite_SacrificialKnife}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
+    <local:Weapon x:Key="EyeofPerception"
+                  WeaponName="昭心"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/eye_of_perception.png"
+                  Star="4"
+                  Type="Catalyst"
+                  Material="MistVeiled"
+                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
+                  EliteMaterial="{StaticResource Elite_MistGrass}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
     <local:Weapon x:Key="WineandSong"
                   WeaponName="暗巷的酒与诗"
@@ -1314,15 +1337,11 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Scroll}"/>
-    <local:Weapon x:Key="EyeofPerception"
-                  WeaponName="昭心"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/eye_of_perception.png"
+    <local:Weapon x:Key="TidalLantern"
+                  WeaponName="幽澜明灯"
                   Star="4"
-                  Type="Catalyst"
-                  Material="MistVeiled"
-                  DailyMaterial="{StaticResource Weapon_MistVeiled}"
-                  EliteMaterial="{StaticResource Elite_MistGrass}"
-                  MonsterMaterial="{StaticResource Monster_Mask}"/>
+                  Type="Catalyst">
+    </local:Weapon>
     <local:Weapon x:Key="Frostbearer"
                   WeaponName="忍冬之果"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/frostbearer.png"
@@ -1332,15 +1351,6 @@
                   DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_Nectar}"/>
-    <local:Weapon x:Key="LostPrayertotheSacredWinds"
-                  WeaponName="四风原典"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/lost_prayer_to_the_sacred_winds.png"
-                  Star="5"
-                  Type="Catalyst"
-                  Material="DandelionGladiator"
-                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
-                  EliteMaterial="{StaticResource Elite_Chaos}"
-                  MonsterMaterial="{StaticResource Monster_Slime}"/>
     <local:Weapon x:Key="SkywardAtlas"
                   WeaponName="天空之卷"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/skyward_atlas.png"
@@ -1350,6 +1360,25 @@
                   DailyMaterial="{StaticResource Weapon_Boreal}"
                   EliteMaterial="{StaticResource Elite_LeyLine}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>
+    <local:Weapon x:Key="LostPrayertotheSacredWinds"
+                  WeaponName="四风原典"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/lost_prayer_to_the_sacred_winds.png"
+                  Star="5"
+                  Type="Catalyst"
+                  Material="DandelionGladiator"
+                  DailyMaterial="{StaticResource Weapon_DandelionGladiator}"
+                  EliteMaterial="{StaticResource Elite_Chaos}"
+                  MonsterMaterial="{StaticResource Monster_Slime}"/>
+    <local:Weapon x:Key="LostBallade"
+                  WeaponName="黎明破晓之史"
+                  ImageUri="pack://application:,,,/Data/Images/Weapons/lost_ballade.png"
+                  Star="5"
+                  Type="Catalyst"
+                  Material="Decarabians"
+                  IsReleased="False"
+                  DailyMaterial="{StaticResource Weapon_Decarabians}"
+                  EliteMaterial="{StaticResource Elite_Horn}"
+                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="MemoryofDust"
                   WeaponName="尘世之锁"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/memory_of_dust.png"
@@ -1359,18 +1388,8 @@
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Mask}"/>
-    <local:Weapon x:Key="LostBallade"
-                  WeaponName="Lost Ballade"
-                  ImageUri="pack://application:,,,/Data/Images/Weapons/lost_ballade.png"
-                  Star="5"
-                  Type="Catalyst"
-                  Material="Decarabians"
-                  IsReleased="False"
-                  DailyMaterial="{StaticResource Weapon_Decarabians}"
-                  EliteMaterial="{StaticResource Elite_Horn}"
-                  MonsterMaterial="{StaticResource Monster_Scroll}"/>
     <local:Weapon x:Key="PrimordialJadeRegalia"
-                  WeaponName="Primordial Jade Regalia"
+                  WeaponName="定土玉圭"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/primordial_jade_regalia.png"
                   Star="5"
                   Type="Catalyst"
@@ -1380,7 +1399,7 @@
                   EliteMaterial="{StaticResource Elite_Chaos}"
                   MonsterMaterial="{StaticResource Monster_RavenInsignia}"/>
     <local:Weapon x:Key="DiamondVisage"
-                  WeaponName="Diamond Visage"
+                  WeaponName="光天琉璃"
                   ImageUri="pack://application:,,,/Data/Images/Weapons/diamond_visage.png"
                   Star="5"
                   Type="Catalyst"

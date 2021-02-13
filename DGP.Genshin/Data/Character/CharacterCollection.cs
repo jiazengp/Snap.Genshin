@@ -11,28 +11,25 @@ namespace DGP.Genshin.Data.Character
         {
         }
 
-        public CharacterCollection OfTalentMaterial(TalentMaterial talentMaterial)
-        {
-            return new CharacterCollection(this.Where(c => c.TalentMaterial == talentMaterial));
-        }
+        public CharacterCollection OfTalentMaterial(TalentMaterial talentMaterial) => new CharacterCollection(this.Where(c => c.TalentMaterial == talentMaterial));
 
-        public IEnumerable<CharacterIcon> Freedom => 
-            OfTalentMaterial(TalentMaterial.Freedom)
+        public IEnumerable<CharacterIcon> Freedom =>
+            this.OfTalentMaterial(TalentMaterial.Freedom)
             .Select(c => new CharacterIcon() { Character = c });
-        public IEnumerable<CharacterIcon> Resistance => 
-            OfTalentMaterial(TalentMaterial.Resistance)
+        public IEnumerable<CharacterIcon> Resistance =>
+            this.OfTalentMaterial(TalentMaterial.Resistance)
             .Select(c => new CharacterIcon() { Character = c });
-        public IEnumerable<CharacterIcon> Ballad => 
-            OfTalentMaterial(TalentMaterial.Ballad)
+        public IEnumerable<CharacterIcon> Ballad =>
+            this.OfTalentMaterial(TalentMaterial.Ballad)
             .Select(c => new CharacterIcon() { Character = c });
-        public IEnumerable<CharacterIcon> Prosperity => 
-            OfTalentMaterial(TalentMaterial.Prosperity)
+        public IEnumerable<CharacterIcon> Prosperity =>
+            this.OfTalentMaterial(TalentMaterial.Prosperity)
             .Select(c => new CharacterIcon() { Character = c });
-        public IEnumerable<CharacterIcon> Diligence => 
-            OfTalentMaterial(TalentMaterial.Diligence)
+        public IEnumerable<CharacterIcon> Diligence =>
+            this.OfTalentMaterial(TalentMaterial.Diligence)
             .Select(c => new CharacterIcon() { Character = c });
-        public IEnumerable<CharacterIcon> Gold => 
-            OfTalentMaterial(TalentMaterial.Gold)
+        public IEnumerable<CharacterIcon> Gold =>
+            this.OfTalentMaterial(TalentMaterial.Gold)
             .Select(c => new CharacterIcon() { Character = c });
     }
 

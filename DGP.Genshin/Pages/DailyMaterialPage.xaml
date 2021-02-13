@@ -13,7 +13,7 @@
       Loaded="Page_Loaded">
     <Grid>
         <ui:ScrollViewerEx>
-            <Grid>
+            <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

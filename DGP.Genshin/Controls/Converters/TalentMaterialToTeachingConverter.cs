@@ -14,9 +14,6 @@ namespace DGP.Genshin.Controls.Converters
             return new BitmapImage(new Uri("/Data/Images/Materials/Talent/teaching_of_" + material.ToString() + ".png", UriKind.Relative));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

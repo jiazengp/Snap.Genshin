@@ -7,9 +7,6 @@ namespace DGP.Genshin.Views.Dungon
     /// </summary>
     public partial class WeeklyTalentView : UserControl
     {
-        public WeeklyTalentView()
-        {
-            InitializeComponent();
-        }
+        public WeeklyTalentView() => this.InitializeComponent();
     }
 }

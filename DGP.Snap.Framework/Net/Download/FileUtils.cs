@@ -11,7 +11,7 @@ namespace DGP.Snap.Framework.Net.Download
         {
             try
             {
-                var fileInfo = new FileInfo(filename);
+                FileInfo fileInfo = new FileInfo(filename);
                 filesize = fileInfo.Length;
             }
             catch (Exception)

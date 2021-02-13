@@ -134,9 +134,7 @@
     <Compile Include="Data\Weapon\WeaponMaterial.cs" />
     <Compile Include="Data\Weapon\WeaponType.cs" />
     <Compile Include="Helper\ExpanderHelper.cs" />
-    <Compile Include="Helper\Json.cs" />
     <Compile Include="Helper\NavHelper.cs" />
-    <Compile Include="Helper\Observable.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />

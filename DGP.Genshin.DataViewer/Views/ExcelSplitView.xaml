@@ -7,22 +7,16 @@
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" MinWidth="276"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ui:ListView ItemsSource="{Binding ExcelConfigDataCollection}" SelectedItem="{Binding SelectedFile,Mode=TwoWay}">
-            <ui:ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding FileName}"/>
-                </DataTemplate>
-            </ui:ListView.ItemTemplate>
-        </ui:ListView>
-
-        <DataGrid Grid.Column="1" ItemsSource="{Binding PresentDataTable}"/>
-
-
-        
-    </Grid>
+    <ui:SplitView OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
+        <ui:SplitView.Pane>
+            <ui:ListView ItemsSource="{Binding ExcelConfigDataCollection}" SelectedItem="{Binding SelectedFile,Mode=TwoWay}">
+                <ui:ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding FileName}"/>
+                    </DataTemplate>
+                </ui:ListView.ItemTemplate>
+            </ui:ListView>
+        </ui:SplitView.Pane>
+        <DataGrid ui:DataGridHelper.UseModernColumnStyles="True" Grid.Column="1" ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" CanUserAddRows="False"/>
+    </ui:SplitView>
 </UserControl>

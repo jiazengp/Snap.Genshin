@@ -5,7 +5,7 @@
         private readonly bool isLoggingtoFile = true;
         public void Log(object o)
         {
-            if (isLoggingtoFile)
+            if (this.isLoggingtoFile)
             {
                 //StreamReader
             }

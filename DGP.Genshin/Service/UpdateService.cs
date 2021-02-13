@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Models.Github;
+﻿using DGP.Genshin.Models.Github;
 using DGP.Snap.Framework.Net.Download;
 using System;
 using System.Diagnostics;
@@ -24,20 +23,20 @@ namespace DGP.Genshin.Service
         {
             try
             {
-                ReleaseInfo = Json.GetWebRequestObject<Release>(url);
-                UpdateInfo.Title = ReleaseInfo.Name;
-                UpdateInfo.Detail = ReleaseInfo.Body;
-                string newVersion = ReleaseInfo.TagName;
-                NewVersion = new Version(ReleaseInfo.TagName);
+                this.ReleaseInfo = Json.GetWebRequestObject<Release>(url);
+                this.UpdateInfo.Title = this.ReleaseInfo.Name;
+                this.UpdateInfo.Detail = this.ReleaseInfo.Body;
+                string newVersion = this.ReleaseInfo.TagName;
+                this.NewVersion = new Version(this.ReleaseInfo.TagName);
 
-                if (new Version(newVersion) > CurrentVersion)//有新版本
+                if (new Version(newVersion) > this.CurrentVersion)//有新版本
                 {
-                    PackageUri = new Uri(ReleaseInfo.Assets[0].BrowserDownloadUrl);
+                    this.PackageUri = new Uri(this.ReleaseInfo.Assets[0].BrowserDownloadUrl);
                     return UpdateState.NeedUpdate;
                 }
                 else
                 {
-                    if (new Version(newVersion) == CurrentVersion)
+                    if (new Version(newVersion) == this.CurrentVersion)
                     {
                         return UpdateState.IsNewestRelease;
                     }
@@ -52,34 +51,25 @@ namespace DGP.Genshin.Service
                 return UpdateState.NotAvailable;
             }
         }
-        public UpdateState CheckUpdateStateViaGitee()
-        {
-            return CheckUpdateState(GiteeUrl);
-        }
-        public UpdateState CheckUpdateStateViaGithub()
-        {
-            return CheckUpdateState(GithubUrl);
-        }
+        public UpdateState CheckUpdateStateViaGitee() => this.CheckUpdateState(GiteeUrl);
+        public UpdateState CheckUpdateStateViaGithub() => this.CheckUpdateState(GithubUrl);
 
         public void DownloadAndInstallPackage()
         {
-            InnerFileDownloader = new FileDownloader();
-            InnerFileDownloader.DownloadProgressChanged += OnDownloadProgressChanged;
-            InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
+            this.InnerFileDownloader = new FileDownloader();
+            this.InnerFileDownloader.DownloadProgressChanged += this.OnDownloadProgressChanged;
+            this.InnerFileDownloader.DownloadFileCompleted += this.OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
-            InnerFileDownloader.DownloadFileAsync(PackageUri, destinationPath);
+            this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);
         }
-        public void CancelUpdate()
-        {
-            InnerFileDownloader.CancelDownloadAsync();
-        }
+        public void CancelUpdate() => this.InnerFileDownloader.CancelDownloadAsync();
 
         internal void OnDownloadProgressChanged(object sender, DownloadFileProgressChangedArgs args)
         {
             double percent = Math.Round((double)args.BytesReceived / args.TotalBytesToReceive, 2);
-            UpdateInfo.Progress = percent;
-            UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
+            this.UpdateInfo.Progress = percent;
+            this.UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
         }
         internal void OnDownloadFileCompleted(object sender, DownloadFileCompletedArgs eventArgs)
         {

@@ -12,30 +12,30 @@ namespace DGP.Genshin.Pages
     {
         public DailyMaterialPage()
         {
-            DataContext = this;
-            InitializeComponent();
+            this.DataContext = this;
+            this.InitializeComponent();
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Characters = CharacterManager.Instance.Characters;
-            Weapons = WeaponManager.Instance.Weapons;
+            this.Characters = CharacterManager.Instance.Characters;
+            this.Weapons = WeaponManager.Instance.Weapons;
         }
         public CharacterCollection Characters
         {
-            get { return (CharacterCollection)GetValue(CharactersProperty); }
-            set { SetValue(CharactersProperty, value); }
+            get => (CharacterCollection)this.GetValue(CharactersProperty);
+            set => this.SetValue(CharactersProperty, value);
         }
         public static readonly DependencyProperty CharactersProperty =
             DependencyProperty.Register("Characters", typeof(CharacterCollection), typeof(DailyMaterialPage), new PropertyMetadata(null));
 
         public WeaponCollection Weapons
         {
-            get { return (WeaponCollection)GetValue(WeaponsProperty); }
-            set { SetValue(WeaponsProperty, value); }
+            get => (WeaponCollection)this.GetValue(WeaponsProperty);
+            set => this.SetValue(WeaponsProperty, value);
         }
         public static readonly DependencyProperty WeaponsProperty =
             DependencyProperty.Register("Weapons", typeof(WeaponCollection), typeof(DailyMaterialPage), new PropertyMetadata(null));
 
-       
+
     }
 }

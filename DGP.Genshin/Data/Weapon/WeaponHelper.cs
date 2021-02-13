@@ -17,14 +17,8 @@ namespace DGP.Genshin.Data.Weapon
             new WeaponMaterialEntry{MondstadtWeapon=WeaponMaterial.DandelionGladiator,LiyueWeapon=WeaponMaterial.Aerosiderite}
         };
 
-        private static bool IsMondstadtWeapon(WeaponMaterial w)
-        {
-            return w == WeaponMaterial.Decarabians || w == WeaponMaterial.Boreal || w == WeaponMaterial.DandelionGladiator;
-        }
-        private static bool IsLiyueWeapon(WeaponMaterial w)
-        {
-            return w == WeaponMaterial.Guyun || w == WeaponMaterial.MistVeiled || w == WeaponMaterial.Aerosiderite;
-        }
+        private static bool IsMondstadtWeapon(WeaponMaterial w) => w == WeaponMaterial.Decarabians || w == WeaponMaterial.Boreal || w == WeaponMaterial.DandelionGladiator;
+        private static bool IsLiyueWeapon(WeaponMaterial w) => w == WeaponMaterial.Guyun || w == WeaponMaterial.MistVeiled || w == WeaponMaterial.Aerosiderite;
 
         public static bool IsTodaysMondstadtWeapon(WeaponMaterial w)
         {

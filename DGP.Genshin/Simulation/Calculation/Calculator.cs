@@ -29,13 +29,13 @@ namespace DGP.Genshin.Simulation.Calculation
         //核心公式部分
         public double Evaluate()
         {
-            double attackPart = Attack * ATKToDMGRate * SkillRate + TalentBuffFunction.Bonus();
-            double damageIncreasePart = 1 + DamageBonus;
+            double attackPart = this.Attack * this.ATKToDMGRate * this.SkillRate + this.TalentBuffFunction.Bonus();
+            double damageIncreasePart = 1 + this.DamageBonus;
 
-            double noCritResult = AttackSpeed * attackPart * damageIncreasePart * (1 - Resistance) * Modifier;
+            double noCritResult = this.AttackSpeed * attackPart * damageIncreasePart * (1 - this.Resistance) * this.Modifier;
 
-            double critResult = noCritResult * (1 + CritDMG);
-            double final = CritRate * critResult + (1 - CritRate) * noCritResult;
+            double critResult = noCritResult * (1 + this.CritDMG);
+            double final = this.CritRate * critResult + (1 - this.CritRate) * noCritResult;
             return final / 2;
         }
     }

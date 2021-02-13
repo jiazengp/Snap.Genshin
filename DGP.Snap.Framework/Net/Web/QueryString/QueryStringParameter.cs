@@ -14,8 +14,8 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// </summary>
         public string Name
         {
-            get => _name;
-            set => _name = value ?? throw new ArgumentNullException("Name");
+            get => this._name;
+            set => this._name = value ?? throw new ArgumentNullException("Name");
         }
 
         /// <summary>
@@ -30,8 +30,8 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <param name="value">The optional value of the parameter.</param>
         internal QueryStringParameter(string name, string value = null)
         {
-            Name = name ?? throw new ArgumentNullException("name");
-            Value = value;
+            this.Name = name ?? throw new ArgumentNullException("name");
+            this.Value = value;
         }
     }
 }

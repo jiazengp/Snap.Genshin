@@ -14,7 +14,7 @@ namespace DGP.Genshin.Service
 
         public T GetOrDefault<T>(string key, T defaultValue)
         {
-            if (settingDictionary.TryGetValue(key, out object value))
+            if (this.settingDictionary.TryGetValue(key, out object value))
             {
                 return (T)value;
             }
@@ -25,7 +25,7 @@ namespace DGP.Genshin.Service
         }
         public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
         {
-            if (settingDictionary.TryGetValue(key, out object value))
+            if (this.settingDictionary.TryGetValue(key, out object value))
             {
                 return converter.Invoke(value);
             }
@@ -37,35 +37,32 @@ namespace DGP.Genshin.Service
 
         public object this[string key]
         {
-            set
-            {
-                settingDictionary[key] = value;
-            }
+            set => this.settingDictionary[key] = value;
         }
 
         private void Load()
         {
-            if (File.Exists(settingFile))
+            if (File.Exists(this.settingFile))
             {
                 string json;
-                using (StreamReader sr = new StreamReader(settingFile))
+                using (StreamReader sr = new StreamReader(this.settingFile))
                 {
                     json = sr.ReadToEnd();
                 }
-                settingDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                this.settingDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
             }
             else
             {
-                File.Create(settingFile).Dispose();
-                settingDictionary = new Dictionary<string, object>();
+                File.Create(this.settingFile).Dispose();
+                this.settingDictionary = new Dictionary<string, object>();
             }
         }
 
         public void Unload()
         {
-            if (!File.Exists(settingFile))
+            if (!File.Exists(this.settingFile))
             {
-                File.Create(settingFile).Dispose();
+                File.Create(this.settingFile).Dispose();
             }
 
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
@@ -73,9 +70,9 @@ namespace DGP.Genshin.Service
                 NullValueHandling = NullValueHandling.Include,
                 Formatting = Formatting.Indented
             };
-            string json = JsonConvert.SerializeObject(settingDictionary, jsonSerializerSettings);
+            string json = JsonConvert.SerializeObject(this.settingDictionary, jsonSerializerSettings);
 
-            using (StreamWriter sw = new StreamWriter(settingFile))
+            using (StreamWriter sw = new StreamWriter(this.settingFile))
             {
                 sw.Write(json);
             }
@@ -84,10 +81,7 @@ namespace DGP.Genshin.Service
         #region 单例
         private static SettingService instance;
         private static readonly object _lock = new object();
-        private SettingService()
-        {
-            Load();
-        }
+        private SettingService() => this.Load();
         public static SettingService Instance
         {
             get

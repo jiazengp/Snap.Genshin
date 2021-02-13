@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace DGP.Genshin.DataViewer.Services
 {
-    class WorkingFolderService
+    internal class WorkingFolderService
     {
         public static string SelectWorkingFolder()
         {
@@ -22,7 +16,7 @@ namespace DGP.Genshin.DataViewer.Services
             }
             else
             {
-                return string.Empty;
+                return null;
             }
         }
 

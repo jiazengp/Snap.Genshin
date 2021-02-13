@@ -17,50 +17,44 @@ namespace DGP.Genshin.Pages
     {
         public CalculationPage()
         {
-            DataContext = this;
-            InitializeComponent();
-            SelectedCharTypeChanged += OnCharacterChanged;
+            this.DataContext = this;
+            this.InitializeComponent();
+            this.SelectedCharTypeChanged += this.OnCharacterChanged;
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            SetCharacters();
-            SelectedChar = Characters.First();
-            SetWeapons();
-            SelectedWeapon = Weapons.First();
+            this.SetCharacters();
+            this.SelectedChar = this.Characters.First();
+            this.SetWeapons();
+            this.SelectedWeapon = this.Weapons.First();
         }
-        private void SetCharacters()
-        {
-            Characters = CharacterManager.Instance.Characters
+        private void SetCharacters() => this.Characters = CharacterManager.Instance.Characters
                 .Where(c => c.CharacterName != "旅行者(风)" && c.CharacterName != "旅行者(岩)")
                 .Where(c => CharacterManager.UnreleasedPolicyFilter(c))
                 .OrderByDescending(c => c.Star);
-        }
-        private void SetWeapons()
-        {
-            Weapons = WeaponManager.Instance.Weapons
+        private void SetWeapons() => this.Weapons = WeaponManager.Instance.Weapons
                 .Where(item => WeaponManager.UnreleasedPolicyFilter(item))
-                .Where(w => w.Type == SelectedChar.WeaponType)
+                .Where(w => w.Type == this.SelectedChar.WeaponType)
                 .OrderByDescending(w => w.Star);
-        }
 
         private void OnCharacterChanged()
         {
-            SetWeapons();
-            SelectedWeapon = Weapons.First();
+            this.SetWeapons();
+            this.SelectedWeapon = this.Weapons.First();
         }
 
         public IEnumerable<Character> Characters
         {
-            get { return (IEnumerable<Character>)GetValue(CharactersProperty); }
-            set { SetValue(CharactersProperty, value); }
+            get => (IEnumerable<Character>)this.GetValue(CharactersProperty);
+            set => this.SetValue(CharactersProperty, value);
         }
         public static readonly DependencyProperty CharactersProperty =
             DependencyProperty.Register("Characters", typeof(IEnumerable<Character>), typeof(CalculationPage), new PropertyMetadata(null));
 
         public IEnumerable<Weapon> Weapons
         {
-            get { return (IEnumerable<Weapon>)GetValue(WeaponsProperty); }
-            set { SetValue(WeaponsProperty, value); }
+            get => (IEnumerable<Weapon>)this.GetValue(WeaponsProperty);
+            set => this.SetValue(WeaponsProperty, value);
         }
         public static readonly DependencyProperty WeaponsProperty =
             DependencyProperty.Register("Weapons", typeof(IEnumerable<Weapon>), typeof(CalculationPage), new PropertyMetadata(null));
@@ -71,19 +65,19 @@ namespace DGP.Genshin.Pages
         private Character selectedChar;
         public Character SelectedChar
         {
-            get => selectedChar; set
+            get => this.selectedChar; set
             {
-                var p = selectedChar?.WeaponType;
-                Set(ref selectedChar, value);
+                WeaponType? p = this.selectedChar?.WeaponType;
+                this.Set(ref this.selectedChar, value);
                 if (p != value.WeaponType)
                 {
-                    SelectedCharTypeChanged?.Invoke();
+                    this.SelectedCharTypeChanged?.Invoke();
                 }
             }
         }
 
         private Weapon selectedWeapon;
-        public Weapon SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
+        public Weapon SelectedWeapon { get => this.selectedWeapon; set => this.Set(ref this.selectedWeapon, value); }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -96,7 +90,7 @@ namespace DGP.Genshin.Pages
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

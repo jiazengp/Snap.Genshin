@@ -16,8 +16,8 @@ namespace DGP.Snap.Framework.Net.Download
         public DownloadFileProgressChangedArgs(int progressPercentage, long bytesReceived, long totalBytesToReceive)
             : base(progressPercentage, null)
         {
-            BytesReceived = bytesReceived;
-            TotalBytesToReceive = totalBytesToReceive;
+            this.BytesReceived = bytesReceived;
+            this.TotalBytesToReceive = totalBytesToReceive;
         }
 
         /// <summary>
