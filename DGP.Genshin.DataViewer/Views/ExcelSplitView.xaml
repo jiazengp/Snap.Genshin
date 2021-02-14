@@ -7,22 +7,62 @@
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019"
              d:DesignHeight="450" d:DesignWidth="800">
-    <ui:SplitView OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
-        <ui:SplitView.Pane>
-            <ui:ListView ItemsSource="{Binding ExcelConfigDataCollection}" SelectedItem="{Binding SelectedFile,Mode=TwoWay}">
-                <ui:ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding FileName}"/>
-                    </DataTemplate>
-                </ui:ListView.ItemTemplate>
-            </ui:ListView>
-        </ui:SplitView.Pane>
-        <Grid>
-            <DataGrid 
-                ui:DataGridHelper.UseModernColumnStyles="True" 
-                Grid.Column="1" 
-                ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" 
-                CanUserAddRows="False"/>
-        </Grid>
-    </ui:SplitView>
+    <Grid>
+        <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="请选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TreeView IsHitTestVisible="False">
+                    <TreeViewItem Header="GenshinData" IsExpanded="True" IsSelected="True">
+                        <TreeViewItem Header="Excel">
+                            <TreeViewItem Header="..."/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="TextMap">
+                            <TreeViewItem Header="..."/>
+                        </TreeViewItem>
+                    </TreeViewItem>
+                </TreeView>
+                <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Grid.Row="1" Text="如果您的文件夹结构如上所示，&#x000D;请选择 GenshinData 文件夹" Style="{StaticResource BodyTextBlockStyle}"/>
+            </Grid>
+        </ui:ContentDialog>
+        <ui:SplitView Grid.Row="1" OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
+            <ui:SplitView.Pane>
+                <ui:ListView ItemsSource="{Binding ExcelConfigDataCollection}" SelectedItem="{Binding SelectedFile,Mode=TwoWay}">
+                    <ui:ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FileName}"/>
+                        </DataTemplate>
+                    </ui:ListView.ItemTemplate>
+                </ui:ListView>
+            </ui:SplitView.Pane>
+            <TabControl>
+                <ui:TabControlHelper.TabStripHeader>
+                    <Button Style="{StaticResource PaneToggleButtonStyle}" Click="PaneStateChangeRequested"/>
+                </ui:TabControlHelper.TabStripHeader>
+                <ui:TabControlHelper.TabStripFooter>
+                    <ui:CommandBar Background="Transparent">
+                        <ui:AppBarElementContainer>
+                            <ComboBox Margin="4" ui:ControlHelper.PlaceholderText="映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
+                        </ui:AppBarElementContainer>
+                        <ui:AppBarSeparator/>
+                        <ui:AppBarButton Label="选择文件夹" Click="OpenFolderRequested">
+                            <ui:AppBarButton.Icon>
+                                <ui:FontIcon Glyph="&#xED25;"/>
+                            </ui:AppBarButton.Icon>
+                        </ui:AppBarButton>
+                        <ui:CommandBar.Content>
+                            <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="12" VerticalAlignment="Center"/>
+                        </ui:CommandBar.Content>
+                    </ui:CommandBar>
+                </ui:TabControlHelper.TabStripFooter>
+                <TabItem Header="表格视图">
+                    <DataGrid RowHeight="32" Grid.Column="1" ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" CanUserAddRows="False"/>
+                </TabItem>
+            </TabControl>
+        </ui:SplitView>
+        
+        
+    </Grid>
 </UserControl>

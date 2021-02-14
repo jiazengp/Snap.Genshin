@@ -2,9 +2,9 @@
 
 namespace DGP.Genshin.DataViewer.Services
 {
-    internal class WorkingFolderService
+    internal static class WorkingFolderService
     {
-        public static string SelectWorkingFolder()
+        public static void SelectWorkingFolder()
         {
             FolderBrowserDialog folder = new FolderBrowserDialog
             {
@@ -12,13 +12,10 @@ namespace DGP.Genshin.DataViewer.Services
             };
             if (folder.ShowDialog() == DialogResult.OK)
             {
-                return folder.SelectedPath;
-            }
-            else
-            {
-                return null;
+                WorkingFolderPath = folder.SelectedPath;
             }
         }
 
+        public static string WorkingFolderPath { get; set; }
     }
 }
