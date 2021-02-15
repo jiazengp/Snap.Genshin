@@ -8,23 +8,57 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="请选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary">
+        <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary" d:IsHidden="True">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TreeView IsHitTestVisible="False">
-                    <TreeViewItem Header="GenshinData" IsExpanded="True" IsSelected="True">
-                        <TreeViewItem Header="Excel">
+                    <TreeViewItem IsExpanded="True" IsSelected="True">
+                        <TreeViewItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="Folder" />
+                                <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="MyFolder"/>
+                            </Grid>
+                        </TreeViewItem.Header>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Symbol="Folder" />
+                                    <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="Excel"/>
+                                </Grid>
+                            </TreeViewItem.Header>
                             <TreeViewItem Header="..."/>
                         </TreeViewItem>
-                        <TreeViewItem Header="TextMap">
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Symbol="Folder" />
+                                    <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="TextMap"/>
+                                </Grid>
+                            </TreeViewItem.Header>
                             <TreeViewItem Header="..."/>
                         </TreeViewItem>
                     </TreeViewItem>
                 </TreeView>
-                <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Grid.Row="1" Text="如果您的文件夹结构如上所示，&#x000D;请选择 GenshinData 文件夹" Style="{StaticResource BodyTextBlockStyle}"/>
+                <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="如果您的文件夹结构如上所示" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="请选择 MyFolder 文件夹" Style="{StaticResource BodyTextBlockStyle}"/>
+                </StackPanel>
+                
             </Grid>
         </ui:ContentDialog>
         <ui:SplitView Grid.Row="1" OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
@@ -44,7 +78,7 @@
                 <ui:TabControlHelper.TabStripFooter>
                     <ui:CommandBar Background="Transparent">
                         <ui:AppBarElementContainer>
-                            <ComboBox Margin="4" ui:ControlHelper.PlaceholderText="映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
+                            <ComboBox Margin="0,5,0,0" ui:ControlHelper.PlaceholderText="映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
                         </ui:AppBarElementContainer>
                         <ui:AppBarSeparator/>
                         <ui:AppBarButton Label="选择文件夹" Click="OpenFolderRequested">
@@ -52,13 +86,26 @@
                                 <ui:FontIcon Glyph="&#xED25;"/>
                             </ui:AppBarButton.Icon>
                         </ui:AppBarButton>
-                        <ui:CommandBar.Content>
-                            <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="12" VerticalAlignment="Center"/>
-                        </ui:CommandBar.Content>
                     </ui:CommandBar>
                 </ui:TabControlHelper.TabStripFooter>
                 <TabItem Header="表格视图">
-                    <DataGrid RowHeight="32" Grid.Column="1" ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" CanUserAddRows="False"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid x:Name="PresentDataGrid" SelectedCellsChanged="PresentDataGrid_SelectedCellsChanged" RowHeight="32" Grid.Column="1" ItemsSource="{Binding PresentDataTable,Mode=TwoWay}" CanUserAddRows="False"/>
+                        <ui:CommandBar Grid.Row="1">
+                            <ui:CommandBar.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                    <ui:AppBarSeparator/>
+                                    <TextBlock x:Name="StaticText" Text="" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CommandBar.Content>
+                        </ui:CommandBar>
+                    </Grid>
+                    
                 </TabItem>
             </TabControl>
         </ui:SplitView>

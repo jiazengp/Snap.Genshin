@@ -23,8 +23,6 @@ namespace DGP.Genshin.DataViewer.Views
             this.InitializeComponent();
         }
 
-        private static Dictionary<string, string> currentTextMap;
-
         private string path;
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
@@ -32,31 +30,55 @@ namespace DGP.Genshin.DataViewer.Views
             this.path = WorkingFolderService.WorkingFolderPath;
             if (this.path != null)
             {
-                if (!Directory.Exists(this.path + @"\TextMap\") || !Directory.Exists(this.path + @"\Excel\"))
-                    SelectSuggentionDialog.ShowAsync();
-                else
+                if (Directory.Exists(this.path + @"\TextMap\") && Directory.Exists(this.path + @"\Excel\"))
                 {
-                    this.TextMapCollection = Directory.GetFiles(this.path + @"\TextMap\").Select(f => new FileEx(f));
-                    this.ExcelConfigDataCollection = Directory.GetFiles(this.path + @"\Excel\").Select(f => new FileEx(f));
+                    this.TextMapCollection = DirectoryEx.GetFileExs(this.path + @"\TextMap\");
+                    this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(this.path + @"\Excel\");
+
+                    JArray NpcJarray = Json.ToObject<JArray>(ExcelConfigDataCollection.First(f => f.FileName == "Npc").Read());
+                    MapService.NPCMap = NpcJarray.ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString());
                 }
+                else
+                    SelectSuggentionDialog.ShowAsync();
             }
         }
         private void PaneStateChangeRequested(object sender, RoutedEventArgs e) => this.IsPaneOpen = !this.IsPaneOpen;
         private void SetPresentDataView(FileEx value)
         {
-            this.PresentDataTable = Json.ToObject<JArray>(value.ReadFile());
+            this.PresentDataTable = Json.ToObject<JArray>(value.Read());
             foreach (JObject row in this.PresentDataTable)
             {
                 foreach (JProperty p in row.Properties())
                 {
-                    if (p.Name.Contains("TextMapHash"))
-                        p.Value = TextMapHashService.GetMapTextBy(p, currentTextMap);
+                    RemapTextByHash(p);
+                    ReMapNpcByID(p);
                     if (p.Value.Type == JTokenType.Array)
                     {
                     }
                     if (p.Value.Type == JTokenType.Object)
                     {
                     }
+                }
+            }
+        }
+
+        private static void RemapTextByHash(JProperty p)
+        {
+            if (p.Name.Contains("TextMapHash"))
+                p.Value = MapService.GetMappedTextBy(p);
+        }
+        private static void ReMapNpcByID(JProperty p)
+        {
+            if (p.Name == "TalkRole")
+            {
+                switch (p.Value["Type"]?.ToString())
+                {
+                    case "TALK_ROLE_NPC":
+                        p.Value = MapService.GetMappedNPC(p.Value["Id"].ToString());
+                        break;
+                    case "TALK_ROLE_PLAYER":
+                        p.Value = "[玩家]";
+                        break;
                 }
             }
         }
@@ -78,7 +100,7 @@ namespace DGP.Genshin.DataViewer.Views
             get => this.selectedTextMap; set
             {
                 this.Set(ref this.selectedTextMap, value);
-                currentTextMap = Json.ToObject<Dictionary<string, string>>(this.selectedTextMap.ReadFile());
+                MapService.TextMap = Json.ToObject<Dictionary<string, string>>(this.selectedTextMap.Read());
             }
         }
         #endregion
@@ -97,6 +119,7 @@ namespace DGP.Genshin.DataViewer.Views
         {
             get => this.selectedFile; set
             {
+                TitleText.Text = value.FullFileName;
                 SetPresentDataView(value);
                 IsPaneOpen = false;
                 this.Set(ref this.selectedFile, value);
@@ -108,7 +131,11 @@ namespace DGP.Genshin.DataViewer.Views
         private JArray presentDataTable;
         public JArray PresentDataTable
         {
-            get => this.presentDataTable; set => this.Set(ref this.presentDataTable, value);
+            get => this.presentDataTable; set
+            {
+                this.Set(ref this.presentDataTable, value);
+                StaticText.Text = presentDataTable.Count + " 项";
+            }
         }
         #endregion
 
@@ -139,5 +166,9 @@ namespace DGP.Genshin.DataViewer.Views
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
+        private void PresentDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
     }
 }

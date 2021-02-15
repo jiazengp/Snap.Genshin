@@ -11,7 +11,7 @@ namespace DGP.Genshin.DataViewer.Helper
             .Replace("Excel", "").Replace("Config", "").Replace("Data", "");
         public override string ToString() => this.FileName;
 
-        public string ReadFile()
+        public string Read()
         {
             string json;
             using (StreamReader sr = new StreamReader(this.FullPath))

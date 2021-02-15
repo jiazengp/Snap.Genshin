@@ -58,9 +58,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\JsonDataGrid.cs" />
+    <Compile Include="Helper\DirectoryEx.cs" />
     <Compile Include="Helper\FileEx.cs" />
     <Compile Include="Helper\Json.cs" />
-    <Compile Include="Services\TextMapHashService.cs" />
+    <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\WorkingFolderService.cs" />
     <Compile Include="Views\ExcelSplitView.xaml.cs">
       <DependentUpon>ExcelSplitView.xaml</DependentUpon>
