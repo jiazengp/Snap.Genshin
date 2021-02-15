@@ -1,9 +1,10 @@
 ﻿using DGP.Genshin.DataViewer.Helper;
 using DGP.Genshin.DataViewer.Services;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -45,8 +46,8 @@ namespace DGP.Genshin.DataViewer.Views
         private void PaneStateChangeRequested(object sender, RoutedEventArgs e) => this.IsPaneOpen = !this.IsPaneOpen;
         private void SetPresentDataView(FileEx value)
         {
-            this.PresentDataTable = Json.ToObject<JArray>(value.Read());
-            foreach (JObject row in this.PresentDataTable)
+            JArray array = Json.ToObject<JArray>(value.Read());
+            foreach (JObject row in array)
             {
                 foreach (JProperty p in row.Properties())
                 {
@@ -59,6 +60,12 @@ namespace DGP.Genshin.DataViewer.Views
                     {
                     }
                 }
+            }
+            PresentDataSource=array.AsEnumerable();
+            PresentDataGrid.ItemsSource = PresentDataSource;
+            foreach (DataGridColumn c in PresentDataGrid.Columns)
+            {
+                c.CanUserSort = true;
             }
         }
 
@@ -128,13 +135,13 @@ namespace DGP.Genshin.DataViewer.Views
         #endregion
 
         #region PresentDataTable
-        private JArray presentDataTable;
-        public JArray PresentDataTable
+        private IEnumerable<JToken> presentDataSource;
+        public IEnumerable<JToken> PresentDataSource
         {
-            get => this.presentDataTable; set
+            get => this.presentDataSource; set
             {
-                this.Set(ref this.presentDataTable, value);
-                StaticText.Text = presentDataTable.Count + " 项";
+                this.Set(ref this.presentDataSource, value);
+                StaticText.Text = presentDataSource.Count() + " 项";
             }
         }
         #endregion
@@ -169,6 +176,27 @@ namespace DGP.Genshin.DataViewer.Views
         private void PresentDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
+        }
+
+        private void PresentDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            string header = e.Column.Header.ToString();
+            ListSortDirection d = (e.Column.SortDirection != ListSortDirection.Ascending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
+            if (e.Column.SortDirection == null || e.Column.SortDirection == ListSortDirection.Descending)
+            {
+                PresentDataGrid.ItemsSource = PresentDataSource.OrderBy(r => r[header]).AsEnumerable();
+            }
+            else
+            {
+                PresentDataGrid.ItemsSource = PresentDataSource.OrderByDescending(r => r[header]).AsEnumerable();
+            }
+            foreach (DataGridColumn c in PresentDataGrid.Columns)
+            {
+                if (c.Header.ToString() == e.Column.Header.ToString())
+                    c.SortDirection = d;
+                c.CanUserSort = true;
+            }
         }
     }
 }
