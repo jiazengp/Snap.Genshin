@@ -95,7 +95,7 @@ namespace DGP.Snap.AutoVersion
             VersionEx newVersion = new VersionEx(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, currentVersion.Revision);
             if (newVersion > currentVersion)
             {
-                newVersion.Revision = 0;
+                newVersion.Revision = 1;
             }
             else
             {
