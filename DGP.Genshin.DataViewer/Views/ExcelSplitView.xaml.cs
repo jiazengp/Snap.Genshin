@@ -35,9 +35,13 @@ namespace DGP.Genshin.DataViewer.Views
                 {
                     this.TextMapCollection = DirectoryEx.GetFileExs(this.path + @"\TextMap\");
                     this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(this.path + @"\Excel\");
-
-                    JArray NpcJarray = Json.ToObject<JArray>(ExcelConfigDataCollection.First(f => f.FileName == "Npc").Read());
-                    MapService.NPCMap = NpcJarray.ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString());
+                    if (ExcelConfigDataCollection.Count() != 0)
+                    {
+                        JArray NpcJarray = Json.ToObject<JArray>(ExcelConfigDataCollection.First(f => f.FileName == "Npc").Read());
+                        MapService.NPCMap = NpcJarray.ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString());
+                    }
+                    else
+                        SelectSuggentionDialog.ShowAsync();
                 }
                 else
                     SelectSuggentionDialog.ShowAsync();

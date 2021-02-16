@@ -26,7 +26,7 @@
                                 <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="MyFolder"/>
                             </Grid>
                         </TreeViewItem.Header>
-                        <TreeViewItem>
+                        <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -37,9 +37,20 @@
                                     <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="Excel"/>
                                 </Grid>
                             </TreeViewItem.Header>
-                            <TreeViewItem Header="..."/>
+                            <TreeViewItem>
+                                <TreeViewItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:SymbolIcon Grid.Column="0" Symbol="Document" />
+                                        <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="*.json"/>
+                                    </Grid>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
                         </TreeViewItem>
-                        <TreeViewItem>
+                        <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -50,7 +61,18 @@
                                     <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="TextMap"/>
                                 </Grid>
                             </TreeViewItem.Header>
-                            <TreeViewItem Header="..."/>
+                            <TreeViewItem>
+                                <TreeViewItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:SymbolIcon Grid.Column="0" Symbol="Document" />
+                                        <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="*.json"/>
+                                    </Grid>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
                         </TreeViewItem>
                     </TreeViewItem>
                 </TreeView>
