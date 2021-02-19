@@ -11,9 +11,7 @@ namespace DGP.Genshin.DataViewer.Services
                 Description = "选择数据所在文件夹",
             };
             if (folder.ShowDialog() == DialogResult.OK)
-            {
                 WorkingFolderPath = folder.SelectedPath;
-            }
         }
 
         public static string WorkingFolderPath { get; set; }

@@ -1,10 +1,12 @@
 ﻿using DGP.Genshin.DataViewer.Helper;
 using DGP.Genshin.DataViewer.Services;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -24,53 +26,66 @@ namespace DGP.Genshin.DataViewer.Views
             this.InitializeComponent();
         }
 
-        private string path;
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
             WorkingFolderService.SelectWorkingFolder();
-            this.path = WorkingFolderService.WorkingFolderPath;
-            if (this.path != null)
+            string path = WorkingFolderService.WorkingFolderPath;
+            if (path == null)
+                return;
+            if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))
+                SelectSuggentionDialog.ShowAsync();
+            else
             {
-                if (Directory.Exists(this.path + @"\TextMap\") && Directory.Exists(this.path + @"\Excel\"))
-                {
-                    this.TextMapCollection = DirectoryEx.GetFileExs(this.path + @"\TextMap\");
-                    this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(this.path + @"\Excel\");
-                    if (ExcelConfigDataCollection.Count() != 0)
-                    {
-                        JArray NpcJarray = Json.ToObject<JArray>(ExcelConfigDataCollection.First(f => f.FileName == "Npc").Read());
-                        MapService.NPCMap = NpcJarray.ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString());
-                    }
-                    else
-                        SelectSuggentionDialog.ShowAsync();
-                }
-                else
+                this.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
+                this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
+                if (ExcelConfigDataCollection.Count() == 0)
                     SelectSuggentionDialog.ShowAsync();
+                else
+                {
+                    //npcid
+                    MapService.NPCMap = new Lazy<Dictionary<string, string>>(() => 
+                    Json.ToObject<JArray>(
+                        this.ExcelConfigDataCollection
+                        .First(f => f.FileName == "Npc").Read())
+                    .ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString()));
+                }
             }
         }
         private void PaneStateChangeRequested(object sender, RoutedEventArgs e) => this.IsPaneOpen = !this.IsPaneOpen;
         private void SetPresentDataView(FileEx value)
         {
-            JArray array = Json.ToObject<JArray>(value.Read());
-            foreach (JObject row in array)
+            
+            JArray dataArray = Json.ToObject<JArray>(value.Read());
+            DataTable table = new DataTable();
+            foreach (JProperty p in from JObject o in dataArray from p in
+                                  from JProperty p in o.Properties()
+                                  where !table.Columns.Contains(p.Name)
+                                  select p select p)
             {
-                foreach (JProperty p in row.Properties())
+                table.Columns.Add(p.Name);
+            }
+            foreach (JObject o in dataArray)
+            {
+                DataRow row = table.NewRow();
+                
+                foreach (JProperty p in o.Properties())
                 {
                     RemapTextByHash(p);
                     ReMapNpcByID(p);
-                    if (p.Value.Type == JTokenType.Array)
-                    {
-                    }
-                    if (p.Value.Type == JTokenType.Object)
-                    {
-                    }
+                    row[p.Name] = p.Value;
+                    
+                    //if (p.Value.Type == JTokenType.Array)
+                    //{
+                    //}
+                    //if (p.Value.Type == JTokenType.Object)
+                    //{
+                    //}
                 }
+                table.Rows.Add(row);
             }
-            PresentDataSource=array.AsEnumerable();
-            PresentDataGrid.ItemsSource = PresentDataSource;
-            foreach (DataGridColumn c in PresentDataGrid.Columns)
-            {
-                c.CanUserSort = true;
-            }
+            //PresentDataSource=array.AsEnumerable();
+            //PresentDataGrid.ItemsSource = PresentDataSource;
+            PresentDataGrid.ItemsSource = table.AsDataView();
         }
 
         private static void RemapTextByHash(JProperty p)
@@ -176,31 +191,5 @@ namespace DGP.Genshin.DataViewer.Views
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
-
-        private void PresentDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-
-        }
-
-        private void PresentDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            e.Handled = true;
-            string header = e.Column.Header.ToString();
-            ListSortDirection d = (e.Column.SortDirection != ListSortDirection.Ascending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
-            if (e.Column.SortDirection == null || e.Column.SortDirection == ListSortDirection.Descending)
-            {
-                PresentDataGrid.ItemsSource = PresentDataSource.OrderBy(r => r[header]).AsEnumerable();
-            }
-            else
-            {
-                PresentDataGrid.ItemsSource = PresentDataSource.OrderByDescending(r => r[header]).AsEnumerable();
-            }
-            foreach (DataGridColumn c in PresentDataGrid.Columns)
-            {
-                if (c.Header.ToString() == e.Column.Header.ToString())
-                    c.SortDirection = d;
-                c.CanUserSort = true;
-            }
-        }
     }
 }

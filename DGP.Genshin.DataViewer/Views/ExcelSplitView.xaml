@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DGP.Genshin.DataViewer.Views"
              mc:Ignorable="d" 
-             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:ui="http://schemas.modernwpf.com/2019" 
+             xmlns:controls="clr-namespace:DGP.Genshin.DataViewer.Controls"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary" d:IsHidden="True">
@@ -80,7 +81,7 @@
                     <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="如果您的文件夹结构如上所示" Style="{StaticResource BodyTextBlockStyle}"/>
                     <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="请选择 MyFolder 文件夹" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                
+
             </Grid>
         </ui:ContentDialog>
         <ui:SplitView Grid.Row="1" OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
@@ -100,7 +101,7 @@
                 <ui:TabControlHelper.TabStripFooter>
                     <ui:CommandBar Background="Transparent">
                         <ui:AppBarElementContainer>
-                            <ComboBox Margin="0,5,0,0" ui:ControlHelper.PlaceholderText="映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
+                            <ComboBox Margin="0,4,0,0" ui:ControlHelper.PlaceholderText="映射语言" ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
                         </ui:AppBarElementContainer>
                         <ui:AppBarSeparator/>
                         <ui:AppBarButton Label="选择文件夹" Click="OpenFolderRequested">
@@ -110,165 +111,29 @@
                         </ui:AppBarButton>
                     </ui:CommandBar>
                 </ui:TabControlHelper.TabStripFooter>
-                <TabItem Header="表格视图">
+                <TabItem Header="完整表格视图">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <DataGrid 
+                        <controls:JsonDataGrid 
                             CanUserSortColumns="True" 
                             ColumnWidth="SizeToCells" 
                             x:Name="PresentDataGrid" 
-                            SelectedCellsChanged="PresentDataGrid_SelectedCellsChanged" 
-                            Sorting="PresentDataGrid_Sorting"
                             RowHeight="32" 
                             Grid.Column="1" 
                             CanUserAddRows="False"
-                            >
-                            <!--<DataGrid.Resources>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                    <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackgroundBrush}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForegroundBrush}"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="IsTabStop" Value="False"/>
-                                    <Setter Property="SeparatorBrush" Value="{DynamicResource GridLinesBrush}"/>
-                                    <Setter Property="Padding" Value="12,0,0,0"/>
-                                    <Setter Property="FontSize" Value="12"/>
-                                    <Setter Property="MinHeight" Value="32"/>
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                                <ControlTemplate.Resources>
-                                                    <StreamGeometry x:Key="SortIconDescending">M19.189453,10.751953L10,19.941406 0.810547,10.751953 1.689453,9.873047 9.375,17.558594 9.375,0 10.625,0 10.625,17.558594 18.310547,9.873047z</StreamGeometry>
-                                                    <StreamGeometry x:Key="SortIconAscending">M18.310547,10.126953L10.625,2.441406 10.625,20 9.375,20 9.375,2.441406 1.689453,10.126953 0.810547,9.248047 10,0.058594 19.189453,9.248047z</StreamGeometry>
-                                                </ControlTemplate.Resources>
-                                                <Grid x:Name="ColumnHeaderRoot">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup x:Name="FocusStates">
-                                                            <VisualState x:Name="Unfocused"/>
-                                                            <VisualState x:Name="Focused">
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisual"/>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                        <VisualStateGroup x:Name="SortStates">
-                                                            <VisualState x:Name="Unsorted"/>
-                                                            <VisualState x:Name="SortAscending">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="SortIcon">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                                            <DiscreteObjectKeyFrame.Value>
-                                                                                <Visibility>Visible</Visibility>
-                                                                            </DiscreteObjectKeyFrame.Value>
-                                                                        </DiscreteObjectKeyFrame>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="SortDescending">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="SortIcon">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                                            <DiscreteObjectKeyFrame.Value>
-                                                                                <Visibility>Visible</Visibility>
-                                                                            </DiscreteObjectKeyFrame.Value>
-                                                                        </DiscreteObjectKeyFrame>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Data" Storyboard.TargetName="SortIcon">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                                            <DiscreteObjectKeyFrame.Value>
-                                                                                <StreamGeometry>M19.189453,10.751953L10,19.941406 0.810547,10.751953 1.689453,9.873047 9.375,17.558594 9.375,0 10.625,0 10.625,17.558594 18.310547,9.873047z</StreamGeometry>
-                                                                            </DiscreteObjectKeyFrame.Value>
-                                                                        </DiscreteObjectKeyFrame>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <Rectangle x:Name="BackgroundRectangle" Grid.ColumnSpan="2" Fill="{TemplateBinding Background}" Stretch="Fill"/>
-                                                    <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition x:Name="SortIconColumn" MinWidth="32" Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center">
-                                                            <ContentPresenter.Resources>
-                                                                <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
-                                                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                                                                </Style>
-                                                            </ContentPresenter.Resources>
-                                                        </ContentPresenter>
-                                                        <ui:FontIconFallback x:Name="SortIcon" Grid.Column="1" Data="M18.310547,10.126953L10.625,2.441406 10.625,20 9.375,20 9.375,2.441406 1.689453,10.126953 0.810547,9.248047 10,0.058594 19.189453,9.248047z" Foreground="{DynamicResource DataGridColumnHeaderForegroundBrush}" FontSize="12" FontFamily="{DynamicResource SymbolThemeFontFamily}" HorizontalAlignment="Center" Visibility="Collapsed" VerticalAlignment="Center"/>
-                                                    </Grid>
-                                                    <Rectangle x:Name="VerticalSeparator" Grid.Column="1" Fill="{TemplateBinding SeparatorBrush}" Visibility="{TemplateBinding SeparatorVisibility}" VerticalAlignment="Stretch" Width="1"/>
-                                                    <Grid x:Name="FocusVisual" IsHitTestVisible="False" Opacity="0">
-                                                        <Rectangle x:Name="FocusVisualPrimary" Fill="Transparent" HorizontalAlignment="Stretch" IsHitTestVisible="False" Stroke="{DynamicResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="2" VerticalAlignment="Stretch"/>
-                                                        <Rectangle x:Name="FocusVisualSecondary" Fill="Transparent" HorizontalAlignment="Stretch" IsHitTestVisible="False" Margin="2" Stroke="{DynamicResource DataGridCellFocusVisualSecondaryBrush}" StrokeThickness="1" VerticalAlignment="Stretch"/>
-                                                    </Grid>
-                                                    <Thumb x:Name="PART_LeftHeaderGripper" Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                                                        <Thumb.Style>
-                                                            <Style TargetType="{x:Type Thumb}">
-                                                                <Setter Property="Width" Value="8"/>
-                                                                <Setter Property="Background" Value="Transparent"/>
-                                                                <Setter Property="Cursor" Value="SizeWE"/>
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </Thumb.Style>
-                                                    </Thumb>
-                                                    <Thumb x:Name="PART_RightHeaderGripper" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-                                                        <Thumb.Style>
-                                                            <Style TargetType="{x:Type Thumb}">
-                                                                <Setter Property="Width" Value="8"/>
-                                                                <Setter Property="Background" Value="Transparent"/>
-                                                                <Setter Property="Cursor" Value="SizeWE"/>
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </Thumb.Style>
-                                                    </Thumb>
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill" TargetName="BackgroundRectangle" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundBrush}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Fill" TargetName="BackgroundRectangle" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundBrush}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="SortDirection" Value="{x:Null}">
-                                                        <Setter Property="MinWidth" TargetName="SortIconColumn" Value="0"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="SortDirection" Value="{x:Null}">
-                                            <Setter Property="Padding" Value="12,0"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.Resources>-->
-                        </DataGrid>
+                            CanUserDeleteRows="True">
+                        </controls:JsonDataGrid>
                         <ui:CommandBar Grid.Row="1">
+                            <ui:AppBarButton IsEnabled="False" Label="筛选列" Icon="Filter">
+                                <ui:AppBarButton.Flyout>
+                                    <ui:Flyout>
+                                        <TextBlock Text="aaa"/>
+                                    </ui:Flyout>
+                                </ui:AppBarButton.Flyout>
+                            </ui:AppBarButton>
                             <ui:CommandBar.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
@@ -278,11 +143,10 @@
                             </ui:CommandBar.Content>
                         </ui:CommandBar>
                     </Grid>
-                    
                 </TabItem>
             </TabControl>
         </ui:SplitView>
-        
-        
+
+
     </Grid>
 </UserControl>

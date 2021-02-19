@@ -9,10 +9,9 @@
         xmlns:views="clr-namespace:DGP.Genshin.DataViewer.Views"
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="DataViewer" 
-        Height="450" 
+        Height="600" 
         Width="800">
     <Grid>
         <views:ExcelSplitView x:Name="ExcelDataView" Grid.Row="1"/>
-        
     </Grid>
 </Window>
