@@ -10,10 +10,7 @@ namespace DGP.Genshin.DataViewer.Services
 
         public static Dictionary<string, string> TextMap;
         public static Lazy<Dictionary<string, string>> NPCMap;
-        public static string GetMappedTextBy(JProperty p)
-        {
-            return GetMappedTextBy(p.Value.ToString());
-        }
+        public static string GetMappedTextBy(JProperty p) => GetMappedTextBy(p.Value.ToString());
         public static string GetMappedTextBy(string str)
         {
             if (TextMap != null && TextMap.TryGetValue(str, out string result))

@@ -7,6 +7,6 @@ namespace DGP.Genshin.DataViewer.Controls
     {
         static JsonDataGrid() => DefaultStyleKeyProperty.OverrideMetadata(typeof(JsonDataGrid), new FrameworkPropertyMetadata(typeof(JsonDataGrid)));
 
-        
+
     }
 }

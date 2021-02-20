@@ -4,7 +4,6 @@ using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -38,7 +37,8 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                NavigationViewItem target = this.navigationView.MenuItems.OfType<NavigationViewItem>()
+                NavigationViewItem target = this.navigationView.MenuItems
+                    .OfType<NavigationViewItem>()
                     .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
                 this.navigationView.SelectedItem = target;
             }
@@ -53,7 +53,6 @@ namespace DGP.Genshin.Service
             }
 
             this.backItemStack.Push(this.selected);
-            Debug.WriteLine(this.backItemStack.Count);
             return this.frame.Navigate(pageType, data, info);
         }
         public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);

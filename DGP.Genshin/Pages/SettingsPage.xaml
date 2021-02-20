@@ -64,15 +64,14 @@
                 </ComboBox>
                 <TextBlock Text="关于" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
 
-                
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="检查更新并安装" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="4" Tag="Github" Content="GitHub" Click="UpdateRequested"/>
                     <Button Margin="4" Tag="Gitee" Content="Gitee" Click="UpdateRequested"/>
                 </StackPanel>
+                <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="反馈问题"/>
                 <TextBlock Margin="0,8,0,0" Text="*Gitee上发行的版本不一定为最新版，与GitHub存在一定延迟" Style="{StaticResource CaptionTextBlockStyle}"/>
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="Honey Impact" Margin="0,12,0,0" Style="{StaticResource BaseTextBlockStyle}"/>

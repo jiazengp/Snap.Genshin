@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Data.Character;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,9 +23,6 @@ namespace DGP.Genshin.Controls
         public static readonly DependencyProperty CharacterProperty =
             DependencyProperty.Register("Character", typeof(Character), typeof(CharacterIcon), new PropertyMetadata(null));
 
-        private void IconClick(object sender, RoutedEventArgs e)
-        {
-            new CharacterDialog(Character).ShowAsync();
-        }
+        private void IconClick(object sender, RoutedEventArgs e) => new CharacterDialog(this.Character).ShowAsync();
     }
 }

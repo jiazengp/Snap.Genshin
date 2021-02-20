@@ -50,6 +50,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>SG_Logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -627,7 +630,9 @@
       <Name>DGP.Snap.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="SG_Logo.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Data\Images\Artifacts\archaic_petra_1.png" />
     <Resource Include="Data\Images\Artifacts\archaic_petra_2.png" />

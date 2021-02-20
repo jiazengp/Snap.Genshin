@@ -27,6 +27,9 @@ namespace DGP.Snap.Framework.Extensions
         }
 
         public static Random Random = new Random();
-        public static T GetRandom<T>(this IList<T> list) => list[Random.Next(0, list.Count)];
+        public static T GetRandom<T>(this IList<T> list)
+        {
+            return list[Random.Next(0, list.Count)];
+        }
     }
 }

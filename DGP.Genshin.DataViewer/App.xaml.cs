@@ -1,9 +1,7 @@
 ﻿using DGP.Genshin.DataViewer.Helper;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace DGP.Genshin.DataViewer
 {
@@ -15,7 +13,7 @@ namespace DGP.Genshin.DataViewer
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)

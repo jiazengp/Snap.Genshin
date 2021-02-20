@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Data.Weapon;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,9 +23,6 @@ namespace DGP.Genshin.Controls
         public static readonly DependencyProperty WeaponProperty =
             DependencyProperty.Register("Weapon", typeof(Weapon), typeof(WeaponIcon), new PropertyMetadata(null));
 
-        private void IconClick(object sender, RoutedEventArgs e)
-        {
-            new WeaponDialog(Weapon).ShowAsync();
-        }
+        private void IconClick(object sender, RoutedEventArgs e) => new WeaponDialog(this.Weapon).ShowAsync();
     }
 }

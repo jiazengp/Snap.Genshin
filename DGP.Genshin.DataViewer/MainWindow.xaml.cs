@@ -1,12 +1,4 @@
-﻿using DGP.Genshin.DataViewer.Helper;
-using DGP.Genshin.DataViewer.Services;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DGP.Genshin.DataViewer
 {
@@ -20,6 +12,6 @@ namespace DGP.Genshin.DataViewer
             this.DataContext = this;
             this.InitializeComponent();
         }
-  
+
     }
 }

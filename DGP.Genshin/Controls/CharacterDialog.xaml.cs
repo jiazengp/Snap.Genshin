@@ -14,10 +14,7 @@ namespace DGP.Genshin.Controls
             this.DataContext = this;
             this.InitializeComponent();
         }
-        public CharacterDialog(Character c) : this()
-        {
-            this.Character = c;
-        }
+        public CharacterDialog(Character c) : this() => this.Character = c;
         public CharacterDialog(CharacterIcon ci) : this(ci.Character) { }
         public Character Character
         {

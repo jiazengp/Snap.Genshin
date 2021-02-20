@@ -74,8 +74,6 @@ namespace DGP.Genshin.Service
         }
         internal void OnDownloadFileCompleted(object sender, DownloadFileCompletedArgs eventArgs)
         {
-            //InnerFileDownloader.DownloadFileCompleted -= OnDownloadFileCompleted;
-            //InnerFileDownloader.Dispose();
             if (eventArgs.State == CompletedState.Succeeded)
             {
                 StartInstallUpdate();
@@ -95,8 +93,12 @@ namespace DGP.Genshin.Service
             //rename to oldupdater to avoid package extraction error
             File.Move("DGP.Snap.Updater.exe", "OldUpdater.exe");
 
-            ProcessStartInfo info = new ProcessStartInfo() { FileName = "OldUpdater.exe", CreateNoWindow = true };
-            Process.Start(info);
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = "OldUpdater.exe",
+                Arguments = "UpdateInstall",
+                CreateNoWindow = true
+            });
             App.Current.Shutdown();
         }
         #region 单例

@@ -127,18 +127,25 @@
                             CanUserDeleteRows="True">
                         </controls:JsonDataGrid>
                         <ui:CommandBar Grid.Row="1">
-                            <ui:AppBarButton IsEnabled="False" Label="筛选列" Icon="Filter">
+                            <ui:AppBarButton Label="筛选列" Icon="Filter">
                                 <ui:AppBarButton.Flyout>
                                     <ui:Flyout>
-                                        <TextBlock Text="aaa"/>
+                                        <Grid>
+                                            <ListView/>
+                                        </Grid>
+                                        
                                     </ui:Flyout>
                                 </ui:AppBarButton.Flyout>
                             </ui:AppBarButton>
                             <ui:CommandBar.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock x:Name="TitleText" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Background="Transparent" Visibility="{Binding BackgroundIndicatorVisibility}">
+                                        <ui:FontIcon SnapsToDevicePixels="True" Margin="10,0,0,0" VerticalAlignment="Center" Glyph="&#xE9F5;" ToolTip="正在运行后台任务"/>
+                                        <ui:AppBarSeparator/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="TitleText" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
                                     <ui:AppBarSeparator/>
-                                    <TextBlock x:Name="StaticText" Text="" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="StaticText" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CommandBar.Content>
                         </ui:CommandBar>
@@ -146,7 +153,5 @@
                 </TabItem>
             </TabControl>
         </ui:SplitView>
-
-
     </Grid>
 </UserControl>
