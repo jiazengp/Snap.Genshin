@@ -689,7 +689,6 @@
                   Star="4"
                   Type="Claymore"
                   Material="Guyun"
-                  IsReleased="False"
                   DailyMaterial="{StaticResource Weapon_Guyun}"
                   EliteMaterial="{StaticResource Elite_SacrificialKnife}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}">
@@ -872,7 +871,6 @@
                   Star="4"
                   Type="Polearm"
                   Material="Aerosiderite"
-                  IsReleased="False"
                   DailyMaterial="{StaticResource Weapon_Aerosiderite}"
                   EliteMaterial="{StaticResource Elite_BoneShard}"
                   MonsterMaterial="{StaticResource Monster_Arrowhead}"/>

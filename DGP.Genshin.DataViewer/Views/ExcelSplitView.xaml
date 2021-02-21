@@ -6,10 +6,14 @@
              xmlns:local="clr-namespace:DGP.Genshin.DataViewer.Views"
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019" 
-             xmlns:controls="clr-namespace:DGP.Genshin.DataViewer.Controls"
+             xmlns:controls="clr-namespace:DGP.Genshin.DataViewer.Controls" 
+             xmlns:converter="clr-namespace:DGP.Genshin.DataViewer.Helper.Converter"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:VisibilityToBooleanConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
-        <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary" d:IsHidden="True">
+        <ui:ContentDialog x:Name="SelectSuggentionDialog" Title="选择正确的文件夹" PrimaryButtonText="我知道了" DefaultButton="Primary">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -49,6 +53,42 @@
                                         <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="*.json"/>
                                     </Grid>
                                 </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeViewItem>
+                        <TreeViewItem IsExpanded="True">
+                            <TreeViewItem.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Symbol="Folder" />
+                                    <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="Readable"/>
+                                </Grid>
+                            </TreeViewItem.Header>
+                            <TreeViewItem IsExpanded="False">
+                                <TreeViewItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:SymbolIcon Grid.Column="0" Symbol="Folder" />
+                                        <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="..."/>
+                                    </Grid>
+                                </TreeViewItem.Header>
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ui:SymbolIcon Grid.Column="0" Symbol="Document" />
+                                            <TextBlock Grid.Column="1" Margin="6,0,0,0" Text="*.json"/>
+                                        </Grid>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
                             </TreeViewItem>
                         </TreeViewItem>
                         <TreeViewItem IsExpanded="True">
@@ -130,17 +170,20 @@
                             <ui:AppBarButton Label="筛选列" Icon="Filter">
                                 <ui:AppBarButton.Flyout>
                                     <ui:Flyout>
-                                        <Grid>
-                                            <ListView/>
-                                        </Grid>
-                                        
+                                        <ui:ListView x:Name="VisibilityList" IsSelectionEnabled="False" ItemsSource="{Binding Columns,Mode=OneWay}">
+                                            <ui:ListView.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type DataGridColumn}">
+                                                    <CheckBox Content="{Binding Header}" IsChecked="{Binding Visibility,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}" />
+                                                </DataTemplate>
+                                            </ui:ListView.ItemTemplate>
+                                        </ui:ListView>
                                     </ui:Flyout>
                                 </ui:AppBarButton.Flyout>
                             </ui:AppBarButton>
                             <ui:CommandBar.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Orientation="Horizontal" Background="Transparent" Visibility="{Binding BackgroundIndicatorVisibility}">
-                                        <ui:FontIcon SnapsToDevicePixels="True" Margin="10,0,0,0" VerticalAlignment="Center" Glyph="&#xE9F5;" ToolTip="正在运行后台任务"/>
+                                        <ui:FontIcon SnapsToDevicePixels="True" Margin="16,0,0,0" VerticalAlignment="Center" Glyph="&#xE946;" ToolTip="正在运行后台任务"/>
                                         <ui:AppBarSeparator/>
                                     </StackPanel>
                                     <TextBlock x:Name="TitleText" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>

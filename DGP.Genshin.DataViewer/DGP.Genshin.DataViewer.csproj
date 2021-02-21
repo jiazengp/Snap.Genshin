@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\JsonDataGrid.cs" />
+    <Compile Include="Helper\Converter\VisibilityToBooleanConverter.cs" />
     <Compile Include="Helper\DirectoryEx.cs" />
     <Compile Include="Helper\FileEx.cs" />
     <Compile Include="Helper\Json.cs" />
@@ -118,5 +119,6 @@
   <ItemGroup>
     <Resource Include="DV_Logo.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -32,7 +32,7 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Height="24" Margin="8" HorizontalAlignment="Left" Source="SG_Logo.ico" />
+                    <Image Height="24" Margin="8" HorizontalAlignment="Left" Source="SG_Logo.ico" SnapsToDevicePixels="True"/>
                     <TextBlock Grid.Column="1" Text="Snap 原神" VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}"/>
                 </Grid>
             </ui:NavigationView.PaneHeader>
@@ -40,8 +40,8 @@
                 <ui:NavigationViewItem Content="首页" helper:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="日常总览" helper:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="周常总览" helper:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
-                <ui:NavigationViewItem Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
-                <ui:NavigationViewItem Content="抽卡历史" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}">
+                <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
+                <ui:NavigationViewItem IsEnabled="False" Content="抽卡历史" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE9D2;"/>
                     </ui:NavigationViewItem.Icon>

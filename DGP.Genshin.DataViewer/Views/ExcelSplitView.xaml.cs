@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace DGP.Genshin.DataViewer.Views
 {
@@ -20,6 +22,12 @@ namespace DGP.Genshin.DataViewer.Views
         {
             this.DataContext = this;
             this.InitializeComponent();
+            VisibilityList.DataContext = PresentDataGrid;
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (s,e) => { StaticText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64/1024/1024} MB"; };
+            timer.Start();
         }
 
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
@@ -75,7 +83,9 @@ namespace DGP.Genshin.DataViewer.Views
                     }
                     table.Rows.Add(row);
                 }
-                this.Dispatcher.Invoke(() => { this.PresentDataGrid.ItemsSource = table.AsDataView(); });
+                this.Dispatcher.Invoke(() => {
+                    this.PresentDataGrid.ItemsSource = table.AsDataView();
+                });
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }

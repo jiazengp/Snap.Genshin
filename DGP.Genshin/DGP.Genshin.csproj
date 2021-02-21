@@ -93,6 +93,9 @@
     <Compile Include="Controls\MaterialIcon.xaml.cs">
       <DependentUpon>MaterialIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MonsterIcon.xaml.cs">
+      <DependentUpon>MonsterIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TalentMaterialPresenter.xaml.cs">
       <DependentUpon>TalentMaterialPresenter.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,7 @@
     <Compile Include="Data\Character\CharacterCollection.cs" />
     <Compile Include="Data\Character\CharacterManager.cs" />
     <Compile Include="Data\Element.cs" />
+    <Compile Include="Data\Monster\Monster.cs" />
     <Compile Include="Data\Weapon\Passives\TimeCollection.cs" />
     <Compile Include="Data\Stat.cs" />
     <Compile Include="Data\Talent\TalentHelper.cs" />
@@ -185,6 +189,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MonsterIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TalentMaterialPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Data\MaterialDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Data\Monster\MonsterDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

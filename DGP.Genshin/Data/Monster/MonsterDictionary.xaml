@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DGP.Genshin.Data.Monster">
+    <local:Monster x:Key="DvalinStormterror"
+                   ImageUri="pack://application:,,,/Data/Images/Monsters/Bosses/dvalin_stormterror.png"
+                   MonsterName="风魔龙"
+                   Star="5"/>
+    <local:Monster x:Key="LupusBoreas"
+                   ImageUri="pack://application:,,,/Data/Images/Monsters/Bosses/lupus_boreas.png"
+                   MonsterName="北风的狼王"
+                   Star="5"/>
+    <local:Monster x:Key="Childe"
+                   ImageUri="pack://application:,,,/Data/Images/Monsters/Bosses/childe.png"
+                   MonsterName="公子"
+                   Star="5"/>
+</ResourceDictionary>

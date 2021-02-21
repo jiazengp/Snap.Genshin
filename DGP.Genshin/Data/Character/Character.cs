@@ -11,6 +11,10 @@ namespace DGP.Genshin.Data.Character
         public Uri ImageUri { get; set; }
         public int Star { get; set; } = 4;
         public bool IsReleased { get; set; } = true;
+        /// <summary>
+        /// 用于判定是否为元素旅行者
+        /// </summary>
+        public bool IsPresent { get; set; } = true;
 
         #region Attributes
         #region base Stats

@@ -17,7 +17,8 @@
                      AscensionLocal="{StaticResource Local_WindwheelAster}"
                      AscensionMonster="{StaticResource Monster_Mask}"
                      TalentDaily="{StaticResource Talent_Mondstadt}"
-                     TalentWeekly="{StaticResource Weekly_DvalinsSigh}"/>
+                     TalentWeekly="{StaticResource Weekly_DvalinsSigh}"
+                     IsPresent="False"/>
     <local:Character x:Key="TravelerGeo" 
                      CharacterName="旅行者(岩)" 
                      ImageUri="pack://application:,,,/Data/Images/Characters/traveler_geo.png" 
@@ -30,7 +31,8 @@
                      AscensionLocal="{StaticResource Local_WindwheelAster}"
                      AscensionMonster="{StaticResource Monster_Mask}"
                      TalentDaily="{StaticResource Talent_Liyue}"
-                     TalentWeekly="{StaticResource Weekly_TailofBoreas}"/>
+                     TalentWeekly="{StaticResource Weekly_TailofBoreas}"
+                     IsPresent="False"/>
     
     <local:Character x:Key="TravelerPresent" 
                      CharacterName="旅行者" 

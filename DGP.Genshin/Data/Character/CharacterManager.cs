@@ -11,7 +11,7 @@ namespace DGP.Genshin.Data.Character
         {
             Source = new Uri("/Data/Character/CharacterDictionary.xaml", UriKind.Relative)
         };
-        public CharacterCollection Characters => new CharacterCollection(this.characterDictionary.Values.OfType<Character>().Where(i => UnreleasedPolicyFilter(i)));
+        public CharacterCollection Characters => new CharacterCollection(this.characterDictionary.Values.OfType<Character>().Where(i => UnreleasedPolicyFilter(i)).Where(i=>i.IsPresent));
         public Character this[string key]
         {
             get => (Character)this.characterDictionary[key];

@@ -202,7 +202,7 @@
                     MaterialName="武炼之魂·孤影" Star="5"
                     ImageUri="pack://application:,,,/Data/Images/Materials/Weekly/shadow_of_the_warrior.png"/>
     <local:Material x:Key="Weekly_ShardofFoulLegacy"
-                    MaterialName="魔王武装·断片" Star="5"
+                    MaterialName="魔王之刃·残片" Star="5"
                     ImageUri="pack://application:,,,/Data/Images/Materials/Weekly/shard_of_foul_legacy.png"/>
     <local:Material x:Key="Weekly_TuskofMonocerosCaeli"
                     MaterialName="吞天之鲸·只角" Star="5"

@@ -67,13 +67,10 @@ namespace DGP.Genshin.Pages
         }
 
         private void OnCharacterClicked(object sender, EventArgs e) =>
-            //this.CharacterDetailDialog.Character = ((CharacterIcon)sender).Character;
-            //this.CharacterDetailDialog.ShowAsync();
             new CharacterDialog((CharacterIcon)sender).ShowAsync();
         private void OnWeaponClicked(object sender, EventArgs e) =>
-            //this.WeaponDetailDialog.Weapon = ((WeaponIcon)sender).Weapon;
-            //this.WeaponDetailDialog.ShowAsync();
             new WeaponDialog((WeaponIcon)sender).ShowAsync();
+
         #region propdp
 
         #region Characters
