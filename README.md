@@ -16,6 +16,13 @@ is a Genshin Impact data fast query app,while maintains modern UI style.
 
 ### 设置 - Settings
 ![设置](https://i.loli.net/2021/01/26/UCoWlRaPKJuVB9A.png)
+
+## Snap 原神数据查看器 - Snap Genshin DataViewer
+是一款原神解包数据查看软件，将json中的字符串重新映射后以表格形式重新呈现。  
+is a Genshin Impact unpacked data view app,remap strings in json and re-present it in datatable view.
+### 欢迎界面 - Welcome page
+![数据查看器](https://i.loli.net/2021/02/23/HbvTDa9mB5Ud6Iz.png)
+
 </div>
 
 ## 功能 - Functions
