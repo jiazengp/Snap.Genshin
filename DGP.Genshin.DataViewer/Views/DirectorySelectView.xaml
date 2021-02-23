@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:DGP.Genshin.DataViewer.Views"
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019" 
-             d:DesignHeight="600" d:DesignWidth="800"
-             Loaded="UserControl_Loaded">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
         <TextBlock Margin="48" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Snap Genshin DataViewer" Style="{StaticResource HeaderTextBlockStyle}"/>
         <StackPanel x:Name="Container" Width="160" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -93,7 +92,7 @@
                 HorizontalAlignment="Stretch" 
                 ui:ControlHelper.PlaceholderText="选择映射语言" 
                 SelectionChanged="OnMapSelectionChanged"
-                ItemsSource="{Binding TextMapCollection}" SelectedItem="{Binding SelectedTextMap,Mode=TwoWay}"/>
+                ItemsSource="{Binding ExcelSplitView.TextMapCollection}" SelectedItem="{Binding ExcelSplitView.SelectedTextMap,Mode=TwoWay}"/>
             <Rectangle x:Name="Separator2" Height="12"/>
             <Button x:Name="ConfirmButton" Click="OnConfirmed" Content="确定" HorizontalAlignment="Stretch"/>
         </StackPanel>

@@ -5,8 +5,10 @@ using DGP.Snap.Framework.Extensions;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,15 +26,17 @@ namespace DGP.Genshin.DataViewer.Views
     /// <summary>
     /// DirectorySelectView.xaml 的交互逻辑
     /// </summary>
-    public partial class DirectorySelectView : UserControl
+    public partial class DirectorySelectView : UserControl, INotifyPropertyChanged
     {
         public DirectorySelectView()
         {
+            this.DataContext = this;
             InitializeComponent();
             Container.GoToElementState("PickingFolder", true);
         }
 
-        public ExcelSplitView ExcelSplitView {get; set; }
+        private ExcelSplitView excelSplitView;
+        public ExcelSplitView ExcelSplitView { get => excelSplitView; set => Set(ref excelSplitView, value); }
 
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
@@ -71,9 +75,21 @@ namespace DGP.Genshin.DataViewer.Views
             this.Visibility = Visibility.Collapsed;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            this.DataContext = ExcelSplitView;
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            this.OnPropertyChanged(propertyName);
         }
+
+        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        #endregion
     }
 }

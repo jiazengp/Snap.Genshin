@@ -166,7 +166,8 @@ namespace DGP.Genshin.DataViewer.Views
         {
             get => this.excelConfigDataCollection; set
             {
-                if (originalExcelConfigDataCollection == null)
+                //search support
+                if (originalExcelConfigDataCollection.Count() <= value.Count())
                     originalExcelConfigDataCollection = value;
                 this.Set(ref this.excelConfigDataCollection, value);
             }
