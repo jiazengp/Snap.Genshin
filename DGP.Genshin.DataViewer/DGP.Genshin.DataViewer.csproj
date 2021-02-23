@@ -60,16 +60,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Dialogs\SelectionSuggestDialog.xaml.cs">
+      <DependentUpon>SelectionSuggestDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JsonDataGrid.cs" />
-    <Compile Include="Helper\Converter\VisibilityToBooleanConverter.cs" />
-    <Compile Include="Helper\DirectoryEx.cs" />
-    <Compile Include="Helper\FileEx.cs" />
-    <Compile Include="Helper\Json.cs" />
+    <Compile Include="Helpers\Converters\VisibilityToBooleanConverter.cs" />
+    <Compile Include="Helpers\DirectoryEx.cs" />
+    <Compile Include="Helpers\FileEx.cs" />
+    <Compile Include="Helpers\Json.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\WorkingFolderService.cs" />
+    <Compile Include="Views\DirectorySelectView.xaml.cs">
+      <DependentUpon>DirectorySelectView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExcelSplitView.xaml.cs">
       <DependentUpon>ExcelSplitView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\Dialogs\SelectionSuggestDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -85,6 +95,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectorySelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExcelSplitView.xaml">
       <SubType>Designer</SubType>
@@ -119,6 +133,14 @@
   <ItemGroup>
     <Resource Include="DV_Logo.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj">
+      <Project>{d2950839-0eeb-4c45-b791-e756a1d552f5}</Project>
+      <Name>DGP.Snap.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

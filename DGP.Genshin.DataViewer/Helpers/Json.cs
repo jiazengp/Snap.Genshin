@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DGP.Genshin.DataViewer.Helper
+namespace DGP.Genshin.DataViewer.Helpers
 {
     public static class Json
     {

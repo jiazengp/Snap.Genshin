@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataViewer.Helper;
+﻿using DGP.Genshin.DataViewer.Controls.Dialogs;
+using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace DGP.Genshin.DataViewer.Views
@@ -23,10 +25,14 @@ namespace DGP.Genshin.DataViewer.Views
             this.DataContext = this;
             this.InitializeComponent();
             VisibilityList.DataContext = PresentDataGrid;
+            SetupMemoryUsageTimer();
+        }
 
+        private void SetupMemoryUsageTimer()
+        {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (s,e) => { StaticText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64/1024/1024} MB"; };
+            timer.Tick += (s, e) => { StaticText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
             timer.Start();
         }
 
@@ -37,13 +43,13 @@ namespace DGP.Genshin.DataViewer.Views
             if (path == null)
                 return;
             if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))
-                this.SelectSuggentionDialog.ShowAsync();
+                new SelectionSuggestDialog().ShowAsync();
             else
             {
                 this.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
                 this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
                 if (this.ExcelConfigDataCollection.Count() == 0)
-                    this.SelectSuggentionDialog.ShowAsync();
+                    new SelectionSuggestDialog().ShowAsync();
                 else
                 {
                     //npcid
@@ -56,7 +62,23 @@ namespace DGP.Genshin.DataViewer.Views
             }
         }
         private void PaneStateChangeRequested(object sender, RoutedEventArgs e) => this.IsPaneOpen = !this.IsPaneOpen;
-
+        private void OnCurrentCellChanged(object sender, EventArgs e)
+        {
+            if (Keyboard.FocusedElement is DataGridCell cell)
+            {
+                if (cell.Content is TextBlock block)
+                    Readable = block.Text.ToString();
+                else
+                    Debug.WriteLine(cell.Content);
+            }
+        }
+        private void OnSearchExcelList(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
+        {
+            ExcelConfigDataCollection = string.IsNullOrEmpty(sender.Text)
+                ? originalExcelConfigDataCollection
+                : originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
+        }
+        //update dataview
         private async void SetPresentDataViewAsync(FileEx value)
         {
             this.BackgroundIndicatorVisibility = Visibility.Visible;
@@ -77,24 +99,27 @@ namespace DGP.Genshin.DataViewer.Views
                     foreach (JProperty p in o.Properties())
                     {
                         RemapTextHashByText(p);
-                        RemapNpcIDByName(p);
+                        RemapNpcNameByID(p);
 
                         row[p.Name] = p.Value;
                     }
                     table.Rows.Add(row);
                 }
-                this.Dispatcher.Invoke(() => {
+                this.Dispatcher.Invoke(() =>
+                {
                     this.PresentDataGrid.ItemsSource = table.AsDataView();
                 });
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
+
+        #region Remap
         private static void RemapTextHashByText(JProperty p)
         {
             if (p.Name.Contains("TextMapHash"))
                 p.Value = MapService.GetMappedTextBy(p);
         }
-        private static void RemapNpcIDByName(JProperty p)
+        private static void RemapNpcNameByID(JProperty p)
         {
             if (p.Name == "TalkRole")
             {
@@ -109,6 +134,7 @@ namespace DGP.Genshin.DataViewer.Views
                 }
             }
         }
+        #endregion
 
         #region Property
         //复选框用TextMap枚举
@@ -133,10 +159,17 @@ namespace DGP.Genshin.DataViewer.Views
         #endregion
         //左侧列表用ExcelConfigData枚举
         #region ExcelConfigDataCollection
-        private IEnumerable<FileEx> excelConfigDataCollection;
+        private IEnumerable<FileEx> originalExcelConfigDataCollection = new List<FileEx>();
+
+        private IEnumerable<FileEx> excelConfigDataCollection = new List<FileEx>();
         public IEnumerable<FileEx> ExcelConfigDataCollection
         {
-            get => this.excelConfigDataCollection; set => this.Set(ref this.excelConfigDataCollection, value);
+            get => this.excelConfigDataCollection; set
+            {
+                if (originalExcelConfigDataCollection == null)
+                    originalExcelConfigDataCollection = value;
+                this.Set(ref this.excelConfigDataCollection, value);
+            }
         }
         #endregion
         //后台用ExcelConfigData
@@ -146,16 +179,20 @@ namespace DGP.Genshin.DataViewer.Views
         {
             get => this.selectedFile; set
             {
-                this.TitleText.Text = value.FullFileName;
-                this.IsPaneOpen = false;
-                this.SetPresentDataViewAsync(value);
-                this.Set(ref this.selectedFile, value);
+                if (value != null)
+                {
+                    this.TitleText.Text = value.FullFileName;
+                    this.IsPaneOpen = false;
+                    this.SetPresentDataViewAsync(value);
+                    this.Set(ref this.selectedFile, value);
+                }
+                //TO DO:reselect the correct item in list
             }
         }
         #endregion
         //SplitView用pane状态
         #region IsPaneOpen
-        private bool isPaneOpen;
+        private bool isPaneOpen = true;
         public bool IsPaneOpen
         {
             get => this.isPaneOpen; set => this.Set(ref this.isPaneOpen, value);
@@ -165,6 +202,11 @@ namespace DGP.Genshin.DataViewer.Views
         #region BackgroundIndicatorVisibility
         private Visibility backgroundIndicatorVisibility = Visibility.Collapsed;
         public Visibility BackgroundIndicatorVisibility { get => this.backgroundIndicatorVisibility; set => this.Set(ref this.backgroundIndicatorVisibility, value); }
+        #endregion
+        //可读文字
+        #region Readable
+        private string readable;
+        public string Readable { get => readable; set => Set(ref readable, value); }
         #endregion
         #endregion
 

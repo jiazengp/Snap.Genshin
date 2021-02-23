@@ -11,6 +11,7 @@ namespace DGP.Genshin.DataViewer
         {
             this.DataContext = this;
             this.InitializeComponent();
+            DirectoryView.ExcelSplitView = ExcelDataView;
         }
 
     }

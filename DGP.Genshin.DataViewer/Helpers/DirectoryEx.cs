@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace DGP.Genshin.DataViewer.Helper
+namespace DGP.Genshin.DataViewer.Helpers
 {
     public class DirectoryEx
     {

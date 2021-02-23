@@ -52,6 +52,7 @@
     <Compile Include="Device\File\File.cs" />
     <Compile Include="Device\File\KnownPath.cs" />
     <Compile Include="Device\Monitor.cs" />
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Net\Download\CompletedState.cs" />
     <Compile Include="Net\Download\DownloadFileCompletedArgs.cs" />
     <Compile Include="Net\Download\DownloadFileProgressChangedArgs.cs" />

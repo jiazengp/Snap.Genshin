@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataViewer.Helper;
+﻿using DGP.Genshin.DataViewer.Helpers;
 using System;
 using System.IO;
 using System.Windows;

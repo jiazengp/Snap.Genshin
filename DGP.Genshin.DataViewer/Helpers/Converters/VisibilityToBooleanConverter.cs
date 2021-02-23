@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace DGP.Genshin.DataViewer.Helper.Converter
+namespace DGP.Genshin.DataViewer.Helpers.Converters
 {
     public class VisibilityToBooleanConverter : IValueConverter
     {

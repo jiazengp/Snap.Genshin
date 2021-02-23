@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace DGP.Genshin.DataViewer.Helper
+namespace DGP.Genshin.DataViewer.Helpers
 {
     public class FileEx
     {
