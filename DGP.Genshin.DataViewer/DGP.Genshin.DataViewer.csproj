@@ -143,4 +143,7 @@
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if exist $(SolutionDir)Build\Publish\System.ValueTuple.dll del $(SolutionDir)Build\Publish\System.ValueTuple.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>

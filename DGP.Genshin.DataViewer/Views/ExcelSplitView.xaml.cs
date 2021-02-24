@@ -126,10 +126,10 @@ namespace DGP.Genshin.DataViewer.Views
                 switch (p.Value["Type"]?.ToString())
                 {
                     case "TALK_ROLE_NPC":
-                        p.Value = MapService.GetMappedNPC(p.Value["Id"].ToString());
+                        p.Value = MapService.GetMappedNPCBy(p.Value["Id"].ToString());
                         break;
                     case "TALK_ROLE_PLAYER":
-                        p.Value = "[玩家]";
+                        p.Value = "[!:玩家]";
                         break;
                 }
             }
@@ -231,7 +231,7 @@ namespace DGP.Genshin.DataViewer.Views
         private void OnSearchTextMap(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
-                sender.ItemsSource = from i in MapService.TextMap where i.Key.ToLower().Contains(sender.Text) select i;
+                sender.ItemsSource = MapService.TextMap.Where(i=>i.Key.Contains(sender.Text)|| i.Value.Contains(sender.Text));
         }
     }
 }

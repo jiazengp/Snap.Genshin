@@ -73,6 +73,19 @@
                             CurrentCellChanged="OnCurrentCellChanged">
                         </controls:JsonDataGrid>
                         <ui:CommandBar Grid.Row="1">
+                            <ui:CommandBar.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" Background="Transparent" Visibility="{Binding BackgroundIndicatorVisibility}">
+                                        <Border Margin="12,0,-4,0" VerticalAlignment="Center" Padding="4" Background="Transparent" ToolTip="正在后台进行操作">
+                                            <ui:FontIcon TextElement.Foreground="Red" SnapsToDevicePixels="True" Glyph="&#xE946;" />
+                                        </Border>
+                                        <ui:AppBarSeparator/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="TitleText" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                    <!--<ui:AppBarSeparator/>
+                                    <TextBlock x:Name="StaticText" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>-->
+                                </StackPanel>
+                            </ui:CommandBar.Content>
                             <ui:AppBarButton Label="可读信息">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xE736;"/>
@@ -96,19 +109,6 @@
                                     </ui:Flyout>
                                 </ui:AppBarButton.Flyout>
                             </ui:AppBarButton>
-                            <ui:CommandBar.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Horizontal" Background="Transparent" Visibility="{Binding BackgroundIndicatorVisibility}">
-                                        <Border Margin="12,0,-4,0" VerticalAlignment="Center" Padding="4" Background="Transparent" ToolTip="正在后台进行操作">
-                                            <ui:FontIcon TextElement.Foreground="Red" SnapsToDevicePixels="True" Glyph="&#xE946;" />
-                                        </Border>
-                                        <ui:AppBarSeparator/>
-                                    </StackPanel>
-                                    <TextBlock x:Name="TitleText" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                                    <ui:AppBarSeparator/>
-                                    <TextBlock x:Name="StaticText" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </ui:CommandBar.Content>
                         </ui:CommandBar>
                     </Grid>
                 </TabItem>

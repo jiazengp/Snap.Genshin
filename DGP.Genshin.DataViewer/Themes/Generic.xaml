@@ -29,7 +29,7 @@
                         IsCurrencyVisualVisible="{TemplateBinding IsSelected}"
                         IsFocusVisualVisible="{TemplateBinding IsKeyboardFocusWithin}"
                         MinHeight="{TemplateBinding MinHeight}"
-                        SnapsToDevicePixels="True" />
+                        SnapsToDevicePixels="True"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
