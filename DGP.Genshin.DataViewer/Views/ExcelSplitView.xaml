@@ -31,7 +31,16 @@
                 <ui:TabControlHelper.TabStripFooter>
                     <ui:CommandBar Background="Transparent">
                         <ui:AppBarElementContainer>
-                            <ui:AutoSuggestBox MinWidth="132" PlaceholderText="查找映射" QueryIcon="Find" Margin="0,4,0,0" Height="32"/>
+                            <ui:AutoSuggestBox Width="240" PlaceholderText="在映射表中查找" QueryIcon="Find" Margin="0,4,0,0" Height="32" TextChanged="OnSearchTextMap">
+                                <ui:AutoSuggestBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Margin="0,6,0,2" Text="{Binding Key}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            <TextBlock Margin="0,0,0,6" Text="{Binding Value}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:AutoSuggestBox.ItemTemplate>
+                            </ui:AutoSuggestBox>
                         </ui:AppBarElementContainer>
                         <ui:AppBarSeparator/>
                         <ui:AppBarElementContainer>

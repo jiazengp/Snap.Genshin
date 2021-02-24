@@ -74,9 +74,9 @@ namespace DGP.Genshin.DataViewer.Views
         }
         private void OnSearchExcelList(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
         {
-            ExcelConfigDataCollection = string.IsNullOrEmpty(sender.Text)
-                ? originalExcelConfigDataCollection
-                : originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
+            if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
+                ExcelConfigDataCollection = 
+                    originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
         }
         //update dataview
         private async void SetPresentDataViewAsync(FileEx value)
@@ -227,5 +227,11 @@ namespace DGP.Genshin.DataViewer.Views
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
+
+        private void OnSearchTextMap(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
+                sender.ItemsSource = from i in MapService.TextMap where i.Key.ToLower().Contains(sender.Text) select i;
+        }
     }
 }

@@ -97,9 +97,9 @@
             <Button x:Name="ConfirmButton" Click="OnConfirmed" Content="确定" HorizontalAlignment="Stretch"/>
         </StackPanel>
         <StackPanel Margin="32" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" Text="如果您使用我们的App获取信息并发布" Style="{StaticResource BodyTextBlockStyle}"/>
-            <TextBlock HorizontalAlignment="Center" Text="我们希望您在发布的内容中包括我们的App链接" Style="{StaticResource BodyTextBlockStyle}"/>
             <ui:HyperlinkButton HorizontalAlignment="Center" Content="Snap Genshin on Github" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin"/>
+            <TextBlock HorizontalAlignment="Center" Text="如果您使用我们的App获取信息并发布" Style="{StaticResource BodyTextBlockStyle}"/>
+            <TextBlock HorizontalAlignment="Center" Text="我们希望您在发布的内容中包括此链接" Style="{StaticResource BodyTextBlockStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>
