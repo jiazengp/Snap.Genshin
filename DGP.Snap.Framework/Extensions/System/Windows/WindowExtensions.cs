@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Interop;
 
-namespace DGP.Snap.Framework.Extensions
+namespace DGP.Snap.Framework.Extensions.System.Windows
 {
     public static class WindowExtensions
     {
@@ -10,6 +11,6 @@ namespace DGP.Snap.Framework.Extensions
         /// </summary>
         /// <param name="window"></param>
         /// <returns>整型窗体句柄指针</returns>
-        public static IntPtr GetHandle(this System.Windows.Window window) => new WindowInteropHelper(window).Handle;
+        public static IntPtr GetHandle(this Window window) => new WindowInteropHelper(window).Handle;
     }
 }

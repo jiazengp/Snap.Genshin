@@ -1,6 +1,9 @@
 ﻿using DGP.Genshin.DataViewer.Controls.Dialogs;
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
+using DGP.Snap.Framework.Extensions;
+using DGP.Snap.Framework.Extensions.System.Windows;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -32,7 +36,7 @@ namespace DGP.Genshin.DataViewer.Views
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (s, e) => { StaticText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
+            timer.Tick += (s, e) => { MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
             timer.Start();
         }
 
@@ -78,6 +82,11 @@ namespace DGP.Genshin.DataViewer.Views
                 ExcelConfigDataCollection = 
                     originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
         }
+        private void OnSearchTextMap(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
+                sender.ItemsSource = MapService.TextMap.Where(i => i.Key.Contains(sender.Text) || i.Value.Contains(sender.Text));
+        }
         //update dataview
         private async void SetPresentDataViewAsync(FileEx value)
         {
@@ -105,7 +114,7 @@ namespace DGP.Genshin.DataViewer.Views
                     }
                     table.Rows.Add(row);
                 }
-                this.Dispatcher.Invoke(() =>
+                this.Invoke(() =>
                 {
                     this.PresentDataGrid.ItemsSource = table.AsDataView();
                 });
@@ -228,10 +237,6 @@ namespace DGP.Genshin.DataViewer.Views
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
-        private void OnSearchTextMap(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
-                sender.ItemsSource = MapService.TextMap.Where(i=>i.Key.Contains(sender.Text)|| i.Value.Contains(sender.Text));
-        }
+        
     }
 }

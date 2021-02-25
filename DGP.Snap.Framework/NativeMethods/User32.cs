@@ -12,7 +12,7 @@ namespace DGP.Snap.Framework.NativeMethods
         public const uint SWP_NOZORDER = 0x0004;
         public const uint SWP_NOACTIVATE = 0x0010;
         public const uint SWP_SHOWWINDOW = 0x0040;
-        public const int SWP_ASYNCWINDOWPOS = 0x4000;
+        public const uint SWP_ASYNCWINDOWPOS = 0x4000;
 
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace DGP.Snap.Framework.Extensions
+namespace DGP.Snap.Framework.Extensions.System
 {
     public static class ObjectExtensions
     {

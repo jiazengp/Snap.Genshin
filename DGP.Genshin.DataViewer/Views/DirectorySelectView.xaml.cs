@@ -2,6 +2,7 @@
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
 using DGP.Snap.Framework.Extensions;
+using DGP.Snap.Framework.Extensions.System.Windows;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

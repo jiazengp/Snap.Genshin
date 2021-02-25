@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Snap.Framework.Extensions
+namespace DGP.Snap.Framework.Extensions.System
 {
     public static class EventHandlerExtensions
     {
