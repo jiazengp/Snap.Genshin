@@ -10,7 +10,7 @@
              xmlns:converter="clr-namespace:DGP.Genshin.DataViewer.Helpers.Converters"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converter:VisibilityToBooleanConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter"/>
     </UserControl.Resources>
     <Grid>
         <ui:SplitView OpenPaneLength="320" IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}" LightDismissOverlayMode="On">
@@ -61,12 +61,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ui:SplitView></ui:SplitView>
                         <controls:JsonDataGrid 
                             CanUserSortColumns="True" 
                             ColumnWidth="SizeToCells" 
                             x:Name="PresentDataGrid" 
-                            RowHeight="32" 
                             Grid.Column="1" 
                             CanUserAddRows="False"
                             CanUserDeleteRows="True"
@@ -93,7 +91,7 @@
                                 </ui:AppBarButton.Icon>
                                 <ui:AppBarButton.Flyout>
                                     <ui:Flyout>
-                                        <TextBlock Text="{Binding Readable}"/>
+                                        <TextBlock MaxWidth="320" Text="{Binding Readable}" TextWrapping="Wrap"/>
                                     </ui:Flyout>
                                 </ui:AppBarButton.Flyout>
                             </ui:AppBarButton>
@@ -103,7 +101,7 @@
                                         <ui:ListView x:Name="VisibilityList" IsSelectionEnabled="False" ItemsSource="{Binding Columns,Mode=OneWay}">
                                             <ui:ListView.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type DataGridColumn}">
-                                                    <CheckBox Content="{Binding Header}" IsChecked="{Binding Visibility,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}" />
+                                                    <CheckBox Content="{Binding Header}" IsChecked="{Binding Visibility,Converter={StaticResource VisibilityToBooleanConverter},Mode=TwoWay}" />
                                                 </DataTemplate>
                                             </ui:ListView.ItemTemplate>
                                         </ui:ListView>

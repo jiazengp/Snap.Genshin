@@ -17,7 +17,7 @@ namespace DGP.Genshin.DataViewer.Services
         {
             if (TextMap != null && TextMap.TryGetValue(str, out string result))
                 return ProcessStringFormat(result);
-            return $"[!Hash:{str}]";
+            return str;
         }
         public static string GetMappedNPCBy(string id)
         {

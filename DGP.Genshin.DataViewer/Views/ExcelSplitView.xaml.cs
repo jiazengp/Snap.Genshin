@@ -31,7 +31,6 @@ namespace DGP.Genshin.DataViewer.Views
             VisibilityList.DataContext = PresentDataGrid;
             SetupMemoryUsageTimer();
         }
-
         private void SetupMemoryUsageTimer()
         {
             DispatcherTimer timer = new DispatcherTimer();
@@ -87,31 +86,24 @@ namespace DGP.Genshin.DataViewer.Views
             if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
                 sender.ItemsSource = MapService.TextMap.Where(i => i.Key.Contains(sender.Text) || i.Value.Contains(sender.Text));
         }
-        //update dataview
+
+        #region Update dataview
         private async void SetPresentDataViewAsync(FileEx value)
         {
             this.BackgroundIndicatorVisibility = Visibility.Visible;
             await Task.Run(() =>
             {
-                JArray dataArray = Json.ToObject<JArray>(value.Read());
+                JArray data = Json.ToObject<JArray>(value.Read());
                 DataTable table = new DataTable();
-                foreach (JProperty p in from JObject o in dataArray
-                                        from p in
-                                            from JProperty p in o.Properties()
-                                            where !table.Columns.Contains(p.Name)
-                                            select p
-                                        select p)
-                    table.Columns.Add(p.Name);
-                foreach (JObject o in dataArray)
+                foreach (JObject o in data)
+                {
+                    SetColumns(table, o);
+                }
+
+                foreach (JObject o in data)
                 {
                     DataRow row = table.NewRow();
-                    foreach (JProperty p in o.Properties())
-                    {
-                        RemapTextHashByText(p);
-                        RemapNpcNameByID(p);
-
-                        row[p.Name] = p.Value;
-                    }
+                    SetRow(row, o);
                     table.Rows.Add(row);
                 }
                 this.Invoke(() =>
@@ -122,6 +114,96 @@ namespace DGP.Genshin.DataViewer.Views
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
 
+        private static void SetRow(DataRow row, JObject o, string inObjString = "")
+        {
+            
+            foreach (JProperty p in o.Properties())
+            {
+                string columnName = $"{inObjString}{p.Name}";
+                RemapTextHashByText(p);
+                RemapNpcNameByID(p);
+                if (p.Value.Type == JTokenType.Object)
+                {
+                    SetRow(row, p.Value as JObject, $"{columnName}:");
+                }
+                else if(p.Value.Type == JTokenType.Array)
+                {
+                    SetRow(row, p.Value as JArray, $"{columnName}:");
+                }
+                else
+                {
+                    row[columnName] = p.Value;
+                }
+            }
+        }
+
+        private static void SetRow(DataRow row,JArray a,string parentColumnName = "")
+        {
+            for (int i = 0; i < a.Count; i++)
+            {
+                JToken t = a[i];
+                string columnName = $"{parentColumnName}{i}";
+                if (t.Type == JTokenType.Object)
+                {
+                    SetRow(row, t as JObject, $"{columnName}:");
+                }
+                else if (t.Type == JTokenType.Array)
+                {
+                    SetRow(row, t as JArray, $"{columnName}:");
+                }
+                else
+                {
+                    row[columnName] = (t as JValue).Value;
+                }
+            }
+        }
+
+        private static void SetColumns(DataTable table, JObject o, string parentColumnName = "")
+        {
+            if (o != null)
+            {
+                foreach (JProperty p in o.Properties())
+                {
+                    string columnName = $"{parentColumnName}{p.Name}";
+                    if (p.Value.Type == JTokenType.Object)
+                    {
+                        SetColumns(table, p.Value as JObject, $"{columnName}:");
+                    }
+                    else if (p.Value.Type == JTokenType.Array)
+                    {
+                        SetColumns(table, p.Value as JArray, $"{columnName}:");
+                    }
+                    else if (!table.Columns.Contains(columnName))
+                    {
+                        table.Columns.Add(columnName);
+                    }
+                }
+            }
+        }
+
+        private static void SetColumns(DataTable table,JArray a,string parentColumnName = "")
+        {
+            if (a != null)
+            {
+                for (int i = 0; i < a.Count; i++)
+                {
+                    JToken t = a[i];
+                    string columnName= $"{parentColumnName}{i}";
+                    if (t.Type == JTokenType.Object)
+                    {
+                        SetColumns(table, t as JObject, $"{columnName}:");
+                    }
+                    else if (t.Type == JTokenType.Array)
+                    {
+                        SetColumns(table, t as JArray, $"{columnName}:");
+                    }
+                    else if (!table.Columns.Contains(columnName))
+                            table.Columns.Add(columnName);
+                }
+            }
+        }
+        #endregion
+
         #region Remap
         private static void RemapTextHashByText(JProperty p)
         {
@@ -130,7 +212,7 @@ namespace DGP.Genshin.DataViewer.Views
         }
         private static void RemapNpcNameByID(JProperty p)
         {
-            if (p.Name == "TalkRole")
+            if (p.Name == "TalkRole"|| p.Name == "NpcID")
             {
                 switch (p.Value["Type"]?.ToString())
                 {
@@ -202,7 +284,7 @@ namespace DGP.Genshin.DataViewer.Views
         #endregion
         //SplitView用pane状态
         #region IsPaneOpen
-        private bool isPaneOpen = true;
+        private bool isPaneOpen = false;
         public bool IsPaneOpen
         {
             get => this.isPaneOpen; set => this.Set(ref this.isPaneOpen, value);
@@ -236,7 +318,5 @@ namespace DGP.Genshin.DataViewer.Views
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
-
-        
     }
 }
