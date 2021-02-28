@@ -68,6 +68,7 @@
     <Compile Include="Helpers\DirectoryEx.cs" />
     <Compile Include="Helpers\FileEx.cs" />
     <Compile Include="Helpers\Json.cs" />
+    <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\WorkingFolderService.cs" />
     <Compile Include="Views\DirectorySelectView.xaml.cs">
@@ -128,6 +129,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NPOI">
+      <Version>2.5.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

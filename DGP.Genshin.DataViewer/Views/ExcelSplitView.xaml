@@ -82,9 +82,14 @@
                                     </StackPanel>
                                     <TextBlock x:Name="TitleText" Style="{StaticResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
                                     <ui:AppBarSeparator/>
-                                    <TextBlock x:Name="MemoryUsageText" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="MemoryUsageText" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CommandBar.Content>
+                            <ui:AppBarButton Label="导出到Excel" Click="OnExportToExcelRequired">
+                                <ui:AppBarButton.Icon>
+                                    <ui:FontIcon Glyph="&#xEDE1;"/>
+                                </ui:AppBarButton.Icon>
+                            </ui:AppBarButton>
                             <ui:AppBarButton Label="可读信息">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xE736;"/>

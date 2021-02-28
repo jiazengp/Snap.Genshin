@@ -14,12 +14,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace DGP.Genshin.DataViewer.Views
 {
-    public partial class ExcelSplitView : UserControl, INotifyPropertyChanged
+    public partial class ExcelSplitView : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
         public ExcelSplitView()
         {
@@ -68,7 +69,7 @@ namespace DGP.Genshin.DataViewer.Views
         private void PaneStateChangeRequested(object sender, RoutedEventArgs e) => this.IsPaneOpen = !this.IsPaneOpen;
         private void OnCurrentCellChanged(object sender, EventArgs e)
         {
-            if (Keyboard.FocusedElement is DataGridCell cell)
+            if (Keyboard.FocusedElement is System.Windows.Controls.DataGridCell cell)
             {
                 if (cell.Content is TextBlock block)
                     this.Readable = block.Text.ToString();
@@ -89,30 +90,61 @@ namespace DGP.Genshin.DataViewer.Views
             if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
                 sender.ItemsSource = MapService.TextMap.Where(i => i.Key.Contains(sender.Text) || i.Value.Contains(sender.Text));
         }
+        private void OnExportToExcelRequired(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog
+            {
+                Description = "选择导出文件夹",
+            };
+            if (folder.ShowDialog() == DialogResult.OK)
+                lock (this.processingData) 
+                {
+                    ExportService.SaveDataTableToExcel(this.CurrentTable, $@"{folder.SelectedPath}\{selectedFile.FullFileName}.xlsx", selectedFile.FileName);
+                } 
+        }
 
         #region Update dataview
+
+        private object processingData = new object();
+
+        private DataTable currentTable;
+        public DataTable CurrentTable
+        {
+            get
+            {
+                return this.currentTable;
+            }
+            set
+            {
+                this.currentTable = value;
+            }
+        }
         private async void SetPresentDataViewAsync(FileEx value)
         {
             this.BackgroundIndicatorVisibility = Visibility.Visible;
+            
             await Task.Run(() =>
             {
-                JArray data = Json.ToObject<JArray>(value.Read());
-                DataTable table = new DataTable();
-                foreach (JObject o in data)
+                lock (processingData)
                 {
-                    this.SetColumns(table, o);
-                }
+                    JArray data = Json.ToObject<JArray>(value.Read());
+                    CurrentTable = new DataTable();
+                    foreach (JObject o in data)
+                    {
+                        this.SetColumns(CurrentTable, o);
+                    }
 
-                foreach (JObject o in data)
-                {
-                    DataRow row = table.NewRow();
-                    this.SetRow(row, o);
-                    table.Rows.Add(row);
-                }
-                this.Invoke(() =>
-                {
-                    this.PresentDataGrid.ItemsSource = table.AsDataView();
-                });
+                    foreach (JObject o in data)
+                    {
+                        DataRow row = CurrentTable.NewRow();
+                        this.SetRow(row, o);
+                        CurrentTable.Rows.Add(row);
+                    }
+                    this.Invoke(() =>
+                    {
+                        this.PresentDataGrid.ItemsSource = CurrentTable.AsDataView();
+                    });
+                } 
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
@@ -133,7 +165,7 @@ namespace DGP.Genshin.DataViewer.Views
                     row[columnName] = p.Value;
             }
         }
-        private void SetRow(DataRow row,JArray a,string parentColumnName = "")
+        private void SetRow(DataRow row, JArray a, string parentColumnName = "")
         {
             for (int i = 0; i < a.Count; i++)
             {
@@ -167,7 +199,7 @@ namespace DGP.Genshin.DataViewer.Views
                 }
             }
         }
-        private void SetColumns(DataTable table,JArray a,string parentColumnName = "")
+        private void SetColumns(DataTable table, JArray a, string parentColumnName = "")
         {
             if (a != null)
             {
@@ -277,5 +309,7 @@ namespace DGP.Genshin.DataViewer.Views
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
+
+
     }
 }

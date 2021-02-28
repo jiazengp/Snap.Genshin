@@ -5,7 +5,6 @@
 [![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
-#### 网络有问题?[前往码云下载(更新较慢)](https://gitee.com/Lightczx/Snap.Genshin/releases)
 ---
 ## Snap 原神 - Snap Genshin  
 是一款原神数据速查App，有着现代化的界面风格。  
@@ -37,5 +36,10 @@ Gacha statistics
 
 * 国际化语言支持  
 Internationalization
+
+## 贡献代码 - Contributing to this repo
+
+* 请自行发起pull request来请求合并代码  
+Fell free to set up pull request to merge
 
 
