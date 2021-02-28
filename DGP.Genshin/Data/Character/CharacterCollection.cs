@@ -73,18 +73,15 @@ namespace DGP.Genshin.Data.Character
     }
     public static class CharacterCollectionExtension
     {
-        public static IEnumerable<CharacterIcon> AsCharacterIcon(this IEnumerable<Character> characters, bool isSmall = false)
-        {
-            return characters.Select(c =>
-            {
-                CharacterIcon characterIcon = new CharacterIcon() { Character = c };
-                if (isSmall)
-                {
-                    characterIcon.Width = 50;
-                    characterIcon.Height = 50;
-                }
-                return characterIcon;
-            });
-        }
+        public static IEnumerable<CharacterIcon> AsCharacterIcon(this IEnumerable<Character> characters, bool isSmall = false) => characters.Select(c =>
+                                                                                                                                            {
+                                                                                                                                                CharacterIcon characterIcon = new CharacterIcon() { Character = c };
+                                                                                                                                                if (isSmall)
+                                                                                                                                                {
+                                                                                                                                                    characterIcon.Width = 50;
+                                                                                                                                                    characterIcon.Height = 50;
+                                                                                                                                                }
+                                                                                                                                                return characterIcon;
+                                                                                                                                            });
     }
 }

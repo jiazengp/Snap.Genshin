@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using System.Windows.Documents;
-using System.Windows.Media;
 
 namespace DGP.Genshin.DataViewer.Services
 {
@@ -23,7 +20,7 @@ namespace DGP.Genshin.DataViewer.Services
         {
             if (NPCMap != null && NPCMap.Value.TryGetValue(id, out string result))
                 return GetMappedTextBy(result);
-            return $"[!Id:{id}]";
+            return id;
         }
 
         public static string ProcessStringFormat(string s)

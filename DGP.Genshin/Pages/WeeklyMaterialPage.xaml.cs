@@ -11,13 +11,10 @@ namespace DGP.Genshin.Pages
     {
         public WeeklyMaterialPage()
         {
-            DataContext = this;
+            this.DataContext = this;
             this.InitializeComponent();
         }
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Characters = CharacterManager.Instance.Characters;
-        }
+        private void Page_Loaded(object sender, RoutedEventArgs e) => this.Characters = CharacterManager.Instance.Characters;
         public CharacterCollection Characters
         {
             get => (CharacterCollection)this.GetValue(CharactersProperty);

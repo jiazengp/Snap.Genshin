@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Extensions;
-using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.IO;
 using System.Threading;

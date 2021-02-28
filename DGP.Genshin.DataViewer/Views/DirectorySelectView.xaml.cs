@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.DataViewer.Controls.Dialogs;
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
-using DGP.Snap.Framework.Extensions;
 using DGP.Snap.Framework.Extensions.System.Windows;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,12 +22,12 @@ namespace DGP.Genshin.DataViewer.Views
         public DirectorySelectView()
         {
             this.DataContext = this;
-            InitializeComponent();
-            Container.GoToElementState("PickingFolder", true);
+            this.InitializeComponent();
+            this.Container.GoToElementState("PickingFolder", true);
         }
 
         private ExcelSplitView excelSplitView;
-        public ExcelSplitView ExcelSplitView { get => excelSplitView; set => Set(ref excelSplitView, value); }
+        public ExcelSplitView ExcelSplitView { get => this.excelSplitView; set => this.Set(ref this.excelSplitView, value); }
 
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
@@ -37,35 +36,36 @@ namespace DGP.Genshin.DataViewer.Views
             if (path == null)
                 return;
             if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))
+            {
                 new SelectionSuggestDialog().ShowAsync();
+            }
             else
             {
-                ExcelSplitView.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
-                ExcelSplitView.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
-                if (ExcelSplitView.ExcelConfigDataCollection.Count() == 0)
+                this.ExcelSplitView.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
+                this.ExcelSplitView.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
+                if (this.ExcelSplitView.ExcelConfigDataCollection.Count() == 0)
+                {
                     new SelectionSuggestDialog().ShowAsync();
+                }
                 else
                 {
-                    Container.GoToElementState("SelectingMap", true);
+                    this.Container.GoToElementState("SelectingMap", true);
                     //npcid
                     MapService.NPCMap = new Lazy<Dictionary<string, string>>(() =>
                     Json.ToObject<JArray>(
-                        ExcelSplitView.ExcelConfigDataCollection
+                        this.ExcelSplitView.ExcelConfigDataCollection
                         .First(f => f.FileName == "Npc").Read())
                     .ToDictionary(t => t["Id"].ToString(), v => v["NameTextMapHash"].ToString()));
                 }
             }
         }
 
-        private void OnMapSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Container.GoToElementState("Confirming", true);
-        }
+        private void OnMapSelectionChanged(object sender, SelectionChangedEventArgs e) => this.Container.GoToElementState("Confirming", true);
 
         private void OnConfirmed(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
-            ExcelSplitView.IsPaneOpen = true;
+            this.ExcelSplitView.IsPaneOpen = true;
         }
 
         #region INotifyPropertyChanged

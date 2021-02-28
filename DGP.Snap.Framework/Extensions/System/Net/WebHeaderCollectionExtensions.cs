@@ -9,16 +9,16 @@ namespace DGP.Snap.Framework.Extensions.System.Net
         public static long GetContentLength(this WebHeaderCollection responseHeaders)
         {
             long contentLength = -1;
-            if (responseHeaders != null && !string.IsNullOrEmpty(responseHeaders["Content-Length"]))
+            if (responseHeaders != null && !String.IsNullOrEmpty(responseHeaders["Content-Length"]))
             {
-                long.TryParse(responseHeaders["Content-Length"], out contentLength);
+                Int64.TryParse(responseHeaders["Content-Length"], out contentLength);
             }
             return contentLength;
         }
 
         public static ContentDisposition GetContentDisposition(this WebHeaderCollection responseHeaders)
         {
-            if (responseHeaders != null && !string.IsNullOrEmpty(responseHeaders["Content-Disposition"]))
+            if (responseHeaders != null && !String.IsNullOrEmpty(responseHeaders["Content-Disposition"]))
             {
                 return new ContentDisposition(responseHeaders["Content-Disposition"]);
             }

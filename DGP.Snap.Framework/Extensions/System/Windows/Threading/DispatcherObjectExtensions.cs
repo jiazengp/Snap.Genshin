@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Threading;
 
 namespace DGP.Snap.Framework.Extensions.System.Windows.Threading

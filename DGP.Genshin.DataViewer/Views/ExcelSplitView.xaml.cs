@@ -1,8 +1,6 @@
 ﻿using DGP.Genshin.DataViewer.Controls.Dialogs;
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
-using DGP.Snap.Framework.Extensions;
-using DGP.Snap.Framework.Extensions.System.Windows;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,7 +14,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -28,14 +25,14 @@ namespace DGP.Genshin.DataViewer.Views
         {
             this.DataContext = this;
             this.InitializeComponent();
-            VisibilityList.DataContext = PresentDataGrid;
-            SetupMemoryUsageTimer();
+            this.VisibilityList.DataContext = this.PresentDataGrid;
+            this.SetupMemoryUsageTimer();
         }
         private void SetupMemoryUsageTimer()
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (s, e) => { MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
+            timer.Tick += (s, e) => { this.MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
             timer.Start();
         }
 
@@ -46,13 +43,17 @@ namespace DGP.Genshin.DataViewer.Views
             if (path == null)
                 return;
             if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))
+            {
                 new SelectionSuggestDialog().ShowAsync();
+            }
             else
             {
                 this.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
                 this.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
                 if (this.ExcelConfigDataCollection.Count() == 0)
+                {
                     new SelectionSuggestDialog().ShowAsync();
+                }
                 else
                 {
                     //npcid
@@ -70,7 +71,7 @@ namespace DGP.Genshin.DataViewer.Views
             if (Keyboard.FocusedElement is DataGridCell cell)
             {
                 if (cell.Content is TextBlock block)
-                    Readable = block.Text.ToString();
+                    this.Readable = block.Text.ToString();
                 else
                     Debug.WriteLine(cell.Content);
             }
@@ -78,8 +79,10 @@ namespace DGP.Genshin.DataViewer.Views
         private void OnSearchExcelList(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == ModernWpf.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
-                ExcelConfigDataCollection = 
-                    originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
+            {
+                this.ExcelConfigDataCollection =
+                    this.originalExcelConfigDataCollection.Where(i => i.FileName.ToLower().Contains(sender.Text.ToLower()));
+            }
         }
         private void OnSearchTextMap(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -97,13 +100,13 @@ namespace DGP.Genshin.DataViewer.Views
                 DataTable table = new DataTable();
                 foreach (JObject o in data)
                 {
-                    SetColumns(table, o);
+                    this.SetColumns(table, o);
                 }
 
                 foreach (JObject o in data)
                 {
                     DataRow row = table.NewRow();
-                    SetRow(row, o);
+                    this.SetRow(row, o);
                     table.Rows.Add(row);
                 }
                 this.Invoke(() =>
@@ -113,52 +116,42 @@ namespace DGP.Genshin.DataViewer.Views
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
-
-        private static void SetRow(DataRow row, JObject o, string inObjString = "")
+        private void SetRow(DataRow row, JObject o, string inObjString = "")
         {
-            
             foreach (JProperty p in o.Properties())
             {
                 string columnName = $"{inObjString}{p.Name}";
-                RemapTextHashByText(p);
-                RemapNpcNameByID(p);
                 if (p.Value.Type == JTokenType.Object)
-                {
-                    SetRow(row, p.Value as JObject, $"{columnName}:");
-                }
+                    this.SetRow(row, p.Value as JObject, $"{columnName}:");
                 else if(p.Value.Type == JTokenType.Array)
-                {
-                    SetRow(row, p.Value as JArray, $"{columnName}:");
-                }
+                    this.SetRow(row, p.Value as JArray, $"{columnName}:");
+                else if (columnName.Contains("TextMapHash") || columnName.Contains("Tips"))
+                    row[columnName] = MapService.GetMappedTextBy(p);
+                else if (columnName == "TalkRole:Id" || columnName == "NpcID")
+                    row[columnName] = MapService.GetMappedNPCBy(p.Value.ToString());
                 else
-                {
                     row[columnName] = p.Value;
-                }
             }
         }
-
-        private static void SetRow(DataRow row,JArray a,string parentColumnName = "")
+        private void SetRow(DataRow row,JArray a,string parentColumnName = "")
         {
             for (int i = 0; i < a.Count; i++)
             {
                 JToken t = a[i];
                 string columnName = $"{parentColumnName}{i}";
                 if (t.Type == JTokenType.Object)
-                {
-                    SetRow(row, t as JObject, $"{columnName}:");
-                }
+                    this.SetRow(row, t as JObject, $"{columnName}:");
                 else if (t.Type == JTokenType.Array)
-                {
-                    SetRow(row, t as JArray, $"{columnName}:");
-                }
+                    this.SetRow(row, t as JArray, $"{columnName}:");
+                else if (columnName.Contains("TextMapHash") || columnName.Contains("Tips"))
+                    row[columnName] = MapService.GetMappedTextBy((t as JValue).Value.ToString());
+                else if (columnName == "TalkRole:Id" || columnName == "NpcID")
+                    row[columnName] = MapService.GetMappedNPCBy((t as JValue).Value.ToString());
                 else
-                {
                     row[columnName] = (t as JValue).Value;
-                }
             }
         }
-
-        private static void SetColumns(DataTable table, JObject o, string parentColumnName = "")
+        private void SetColumns(DataTable table, JObject o, string parentColumnName = "")
         {
             if (o != null)
             {
@@ -166,22 +159,15 @@ namespace DGP.Genshin.DataViewer.Views
                 {
                     string columnName = $"{parentColumnName}{p.Name}";
                     if (p.Value.Type == JTokenType.Object)
-                    {
-                        SetColumns(table, p.Value as JObject, $"{columnName}:");
-                    }
+                        this.SetColumns(table, p.Value as JObject, $"{columnName}:");
                     else if (p.Value.Type == JTokenType.Array)
-                    {
-                        SetColumns(table, p.Value as JArray, $"{columnName}:");
-                    }
+                        this.SetColumns(table, p.Value as JArray, $"{columnName}:");
                     else if (!table.Columns.Contains(columnName))
-                    {
                         table.Columns.Add(columnName);
-                    }
                 }
             }
         }
-
-        private static void SetColumns(DataTable table,JArray a,string parentColumnName = "")
+        private void SetColumns(DataTable table,JArray a,string parentColumnName = "")
         {
             if (a != null)
             {
@@ -190,38 +176,11 @@ namespace DGP.Genshin.DataViewer.Views
                     JToken t = a[i];
                     string columnName= $"{parentColumnName}{i}";
                     if (t.Type == JTokenType.Object)
-                    {
-                        SetColumns(table, t as JObject, $"{columnName}:");
-                    }
+                        this.SetColumns(table, t as JObject, $"{columnName}:");
                     else if (t.Type == JTokenType.Array)
-                    {
-                        SetColumns(table, t as JArray, $"{columnName}:");
-                    }
+                        this.SetColumns(table, t as JArray, $"{columnName}:");
                     else if (!table.Columns.Contains(columnName))
                             table.Columns.Add(columnName);
-                }
-            }
-        }
-        #endregion
-
-        #region Remap
-        private static void RemapTextHashByText(JProperty p)
-        {
-            if (p.Name.Contains("TextMapHash"))
-                p.Value = MapService.GetMappedTextBy(p);
-        }
-        private static void RemapNpcNameByID(JProperty p)
-        {
-            if (p.Name == "TalkRole"|| p.Name == "NpcID")
-            {
-                switch (p.Value["Type"]?.ToString())
-                {
-                    case "TALK_ROLE_NPC":
-                        p.Value = MapService.GetMappedNPCBy(p.Value["Id"].ToString());
-                        break;
-                    case "TALK_ROLE_PLAYER":
-                        p.Value = "[!:玩家]";
-                        break;
                 }
             }
         }
@@ -258,8 +217,8 @@ namespace DGP.Genshin.DataViewer.Views
             get => this.excelConfigDataCollection; set
             {
                 //search support
-                if (originalExcelConfigDataCollection.Count() <= value.Count())
-                    originalExcelConfigDataCollection = value;
+                if (this.originalExcelConfigDataCollection.Count() <= value.Count())
+                    this.originalExcelConfigDataCollection = value;
                 this.Set(ref this.excelConfigDataCollection, value);
             }
         }
@@ -298,7 +257,7 @@ namespace DGP.Genshin.DataViewer.Views
         //可读文字
         #region Readable
         private string readable;
-        public string Readable { get => readable; set => Set(ref readable, value); }
+        public string Readable { get => this.readable; set => this.Set(ref this.readable, value); }
         #endregion
         #endregion
 

@@ -12,13 +12,13 @@ namespace DGP.Genshin.Controls
         public MonsterIcon()
         {
             this.DataContext = this;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public Monster Monster
         {
-            get { return (Monster)GetValue(MonsterProperty); }
-            set { SetValue(MonsterProperty, value); }
+            get => (Monster)this.GetValue(MonsterProperty);
+            set => this.SetValue(MonsterProperty, value);
         }
         public static readonly DependencyProperty MonsterProperty =
             DependencyProperty.Register("Monster", typeof(Monster), typeof(MonsterIcon), new PropertyMetadata(null));

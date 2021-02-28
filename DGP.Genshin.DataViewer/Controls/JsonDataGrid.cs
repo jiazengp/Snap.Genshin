@@ -1,8 +1,5 @@
-﻿using DGP.Snap.Framework.Extensions;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 
 namespace DGP.Genshin.DataViewer.Controls
 {
