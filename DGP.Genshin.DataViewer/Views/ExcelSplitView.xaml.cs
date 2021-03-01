@@ -97,10 +97,10 @@ namespace DGP.Genshin.DataViewer.Views
                 Description = "选择导出文件夹",
             };
             if (folder.ShowDialog() == DialogResult.OK)
-                lock (this.processingData) 
+                lock (this.processingData)
                 {
                     ExportService.SaveDataTableToExcel(this.CurrentTable, $@"{folder.SelectedPath}\{selectedFile.FullFileName}.xlsx", selectedFile.FileName);
-                } 
+                }
         }
 
         #region Update dataview
@@ -119,15 +119,17 @@ namespace DGP.Genshin.DataViewer.Views
                 this.currentTable = value;
             }
         }
-        private async void SetPresentDataViewAsync(FileEx value)
+        private async void SetPresentDataAsync(FileEx value)
         {
             this.BackgroundIndicatorVisibility = Visibility.Visible;
-            
+
             await Task.Run(() =>
             {
                 lock (processingData)
                 {
-                    JArray data = Json.ToObject<JArray>(value.Read());
+                    PresentDataString = value.Read();
+                    JArray data = Json.ToObject<JArray>(PresentDataString);
+                    
                     CurrentTable = new DataTable();
                     foreach (JObject o in data)
                     {
@@ -144,7 +146,7 @@ namespace DGP.Genshin.DataViewer.Views
                     {
                         this.PresentDataGrid.ItemsSource = CurrentTable.AsDataView();
                     });
-                } 
+                }
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
@@ -155,7 +157,7 @@ namespace DGP.Genshin.DataViewer.Views
                 string columnName = $"{inObjString}{p.Name}";
                 if (p.Value.Type == JTokenType.Object)
                     this.SetRow(row, p.Value as JObject, $"{columnName}:");
-                else if(p.Value.Type == JTokenType.Array)
+                else if (p.Value.Type == JTokenType.Array)
                     this.SetRow(row, p.Value as JArray, $"{columnName}:");
                 else if (columnName.Contains("TextMapHash") || columnName.Contains("Tips"))
                     row[columnName] = MapService.GetMappedTextBy(p);
@@ -206,13 +208,13 @@ namespace DGP.Genshin.DataViewer.Views
                 for (int i = 0; i < a.Count; i++)
                 {
                     JToken t = a[i];
-                    string columnName= $"{parentColumnName}{i}";
+                    string columnName = $"{parentColumnName}{i}";
                     if (t.Type == JTokenType.Object)
                         this.SetColumns(table, t as JObject, $"{columnName}:");
                     else if (t.Type == JTokenType.Array)
                         this.SetColumns(table, t as JArray, $"{columnName}:");
                     else if (!table.Columns.Contains(columnName))
-                            table.Columns.Add(columnName);
+                        table.Columns.Add(columnName);
                 }
             }
         }
@@ -266,7 +268,7 @@ namespace DGP.Genshin.DataViewer.Views
                 {
                     this.TitleText.Text = value.FullFileName;
                     this.IsPaneOpen = false;
-                    this.SetPresentDataViewAsync(value);
+                    this.SetPresentDataAsync(value);
                     this.Set(ref this.selectedFile, value);
                 }
                 //TO DO:reselect the correct item in list
@@ -291,6 +293,12 @@ namespace DGP.Genshin.DataViewer.Views
         private string readable;
         public string Readable { get => this.readable; set => this.Set(ref this.readable, value); }
         #endregion
+        //原始数据视图
+        #region PresentDataString
+        private string presentDataString;
+        public string PresentDataString { get => presentDataString; set => Set(ref presentDataString,value); }
+        #endregion
+
         #endregion
 
         #region INotifyPropertyChanged

@@ -8,7 +8,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019" 
              xmlns:controls="clr-namespace:DGP.Genshin.DataViewer.Controls" 
              xmlns:converter="clr-namespace:DGP.Genshin.DataViewer.Helpers.Converters"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="200" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter"/>
     </UserControl.Resources>
@@ -56,6 +56,9 @@
                     </ui:CommandBar>
                 </ui:TabControlHelper.TabStripFooter>
                 <TabItem Header="完整表格视图">
+                    <ui:TabItemHelper.Icon>
+                        <ui:FontIcon Glyph="&#xF0E2;"/>
+                    </ui:TabItemHelper.Icon>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -115,6 +118,14 @@
                             </ui:AppBarButton>
                         </ui:CommandBar>
                     </Grid>
+                </TabItem>
+                <TabItem Header="原始Json视图">
+                    <ui:TabItemHelper.Icon>
+                        <ui:FontIcon Glyph="&#xE943;"/>
+                    </ui:TabItemHelper.Icon>
+                    <ScrollViewer>
+                        <TextBlock Text="{Binding PresentDataString}"/>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </ui:SplitView>
