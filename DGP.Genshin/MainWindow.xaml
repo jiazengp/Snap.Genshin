@@ -19,7 +19,6 @@
         Width="822"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock Margin="6" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Snap 原神 目前仍处于早期开发阶段"/>
         <ui:NavigationView 
             x:Name="NavView" 
             OpenPaneLength="172" 
@@ -40,12 +39,12 @@
                 <ui:NavigationViewItem Content="首页" helper:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="日常总览" helper:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="周常总览" helper:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
-                <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
-                <ui:NavigationViewItem IsEnabled="False" Content="抽卡历史" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}">
+                <ui:NavigationViewItem Content="抽卡历史" helper:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE9D2;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>

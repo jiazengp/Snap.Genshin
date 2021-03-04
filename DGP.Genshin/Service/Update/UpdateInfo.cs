@@ -1,6 +1,6 @@
 ﻿using DGP.Snap.Framework.Data.Behavior;
 
-namespace DGP.Genshin.Service
+namespace DGP.Genshin.Service.Update
 {
     public class UpdateInfo : Observable
     {

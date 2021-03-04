@@ -7,7 +7,7 @@ using System.Linq;
 namespace DGP.Snap.Framework.Net.Web.QueryString
 {
     /// <summary>
-    /// A portable string serializer/deserializer for .NET.
+    /// querystring serializer/deserializer for .NET.
     /// </summary>
     public class QueryString : IEnumerable<QueryStringParameter>, IEquatable<QueryString>
     {

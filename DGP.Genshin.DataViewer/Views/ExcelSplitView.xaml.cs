@@ -37,6 +37,7 @@ namespace DGP.Genshin.DataViewer.Views
             timer.Start();
         }
 
+        #region event
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
             WorkingFolderService.SelectWorkingFolder();
@@ -102,10 +103,11 @@ namespace DGP.Genshin.DataViewer.Views
                     ExportService.SaveDataTableToExcel(this.CurrentTable, $@"{folder.SelectedPath}\{selectedFile.FullFileName}.xlsx", selectedFile.FileName);
                 }
         }
+        #endregion
 
         #region Update dataview
 
-        private object processingData = new object();
+        private readonly object processingData = new object();
 
         private DataTable currentTable;
         public DataTable CurrentTable
@@ -159,7 +161,7 @@ namespace DGP.Genshin.DataViewer.Views
                     this.SetRow(row, p.Value as JObject, $"{columnName}:");
                 else if (p.Value.Type == JTokenType.Array)
                     this.SetRow(row, p.Value as JArray, $"{columnName}:");
-                else if (columnName.Contains("TextMapHash") || columnName.Contains("Tips"))
+                else if (columnName.Contains("Text") || columnName.Contains("Tips"))
                     row[columnName] = MapService.GetMappedTextBy(p);
                 else if (columnName == "TalkRole:Id" || columnName == "NpcID")
                     row[columnName] = MapService.GetMappedNPCBy(p.Value.ToString());
@@ -177,7 +179,7 @@ namespace DGP.Genshin.DataViewer.Views
                     this.SetRow(row, t as JObject, $"{columnName}:");
                 else if (t.Type == JTokenType.Array)
                     this.SetRow(row, t as JArray, $"{columnName}:");
-                else if (columnName.Contains("TextMapHash") || columnName.Contains("Tips"))
+                else if (columnName.Contains("Text") || columnName.Contains("Tips"))
                     row[columnName] = MapService.GetMappedTextBy((t as JValue).Value.ToString());
                 else if (columnName == "TalkRole:Id" || columnName == "NpcID")
                     row[columnName] = MapService.GetMappedNPCBy((t as JValue).Value.ToString());
@@ -317,7 +319,5 @@ namespace DGP.Genshin.DataViewer.Views
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
-
-
     }
 }

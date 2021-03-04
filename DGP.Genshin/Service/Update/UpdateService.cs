@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace DGP.Genshin.Service
+namespace DGP.Genshin.Service.Update
 {
     internal class UpdateService
     {

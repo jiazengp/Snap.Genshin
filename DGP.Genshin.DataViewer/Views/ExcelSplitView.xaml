@@ -123,9 +123,9 @@
                     <ui:TabItemHelper.Icon>
                         <ui:FontIcon Glyph="&#xE943;"/>
                     </ui:TabItemHelper.Icon>
-                    <ScrollViewer>
+                    <ui:ScrollViewerEx>
                         <TextBlock Text="{Binding PresentDataString}"/>
-                    </ScrollViewer>
+                    </ui:ScrollViewerEx>
                 </TabItem>
             </TabControl>
         </ui:SplitView>

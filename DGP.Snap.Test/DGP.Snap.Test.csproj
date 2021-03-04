@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DGP.Genshin\DGP.Genshin.csproj">
+      <Project>{fbd79451-a168-49a9-9e61-00f0e9c464d1}</Project>
+      <Name>DGP.Genshin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj">
       <Project>{D2950839-0EEB-4C45-B791-E756A1D552F5}</Project>
       <Name>DGP.Snap.Framework</Name>

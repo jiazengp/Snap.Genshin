@@ -13,12 +13,12 @@ namespace DGP.Genshin.DataViewer.Helpers
 
         public string Read()
         {
-            string json;
+            string str;
             using (StreamReader sr = new StreamReader(this.FullPath))
             {
-                json = sr.ReadToEnd();
+                str = sr.ReadToEnd();
             }
-            return json;
+            return str;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data;
 using DGP.Genshin.Service;
+using DGP.Genshin.Service.Update;
 using ModernWpf;
 using System;
 using System.Reflection;

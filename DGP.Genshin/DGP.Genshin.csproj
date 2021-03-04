@@ -91,6 +91,9 @@
     <Compile Include="Controls\Converters\StarToImageSourceConverter.cs" />
     <Compile Include="Controls\Converters\UriToImageSourceConverter.cs" />
     <Compile Include="Controls\Converters\StarToSolidColorBrushConverter.cs" />
+    <Compile Include="Controls\GachaStatistic\ProbabilityPresenter.xaml.cs">
+      <DependentUpon>ProbabilityPresenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MaterialIcon.xaml.cs">
       <DependentUpon>MaterialIcon.xaml</DependentUpon>
     </Compile>
@@ -147,16 +150,23 @@
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
+    <Compile Include="Models\MiHoYo\GachaConfigData.cs" />
+    <Compile Include="Models\MiHoYo\GachaConfigInfo.cs" />
+    <Compile Include="Models\MiHoYo\GachaConfigType.cs" />
+    <Compile Include="Models\MiHoYo\GachaData.cs" />
+    <Compile Include="Models\MiHoYo\GachaLogData.cs" />
+    <Compile Include="Models\MiHoYo\GachaLogItem.cs" />
+    <Compile Include="Models\MiHoYo\GachaLogInfo.cs" />
     <Compile Include="Pages\CalculationPage.xaml.cs">
       <DependentUpon>CalculationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\CharacterDetailPage.xaml.cs">
-      <DependentUpon>CharacterDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\DailyMaterialPage.xaml.cs">
       <DependentUpon>DailyMaterialPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ElementHelper.cs" />
+    <Compile Include="Pages\GachaStatisticPage.xaml.cs">
+      <DependentUpon>GachaStatisticPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -166,13 +176,14 @@
     <Compile Include="Pages\WeeklyMaterialPage.xaml.cs">
       <DependentUpon>WeeklyMaterialPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Service\GachaStatisticService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\Setting.cs" />
     <Compile Include="Service\SettingService.cs" />
     <Compile Include="Service\TravelerPresentService.cs" />
-    <Compile Include="Service\UpdateInfo.cs" />
-    <Compile Include="Service\UpdateService.cs" />
-    <Compile Include="Service\UpdateState.cs" />
+    <Compile Include="Service\Update\UpdateInfo.cs" />
+    <Compile Include="Service\Update\UpdateService.cs" />
+    <Compile Include="Service\Update\UpdateState.cs" />
     <Compile Include="Simulation\Calculation\BasicValue.cs" />
     <Compile Include="Simulation\Calculation\Calculator.cs" />
     <Compile Include="Simulation\Calculation\DamageType.cs" />
@@ -183,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CharacterIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GachaStatistic\ProbabilityPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,11 +266,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\CharacterDetailPage.xaml">
+    <Page Include="Pages\DailyMaterialPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\DailyMaterialPage.xaml">
+    <Page Include="Pages\GachaStatisticPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

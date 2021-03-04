@@ -261,7 +261,6 @@
                      Star="5" 
                      Element="Pyro"
                      WeaponType="Polearm" 
-                     IsReleased="False"
                      TalentMaterial="Diligence"
                      MaxHP="15552"
                      ATK="106"
@@ -456,7 +455,7 @@
                      TalentDaily="{StaticResource Talent_Resistance}"
                      TalentWeekly="{StaticResource Weekly_DvalinsClaw}"/>
     <local:Character x:Key="Rosaria" 
-                     CharacterName="罗莎莉娅" 
+                     CharacterName="罗莎莉亚" 
                      ImageUri="pack://application:,,,/Data/Images/Characters/rosaria.png" 
                      Star="4" 
                      Element="Cryo"
