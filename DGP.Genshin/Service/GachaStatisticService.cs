@@ -22,39 +22,40 @@ namespace DGP.Genshin.Service
         { 
             get 
             {
-                if (data == null)
-                    RequestAllGachaLogsMergeSave();
-                return data; 
-            } set => data = value; }
+                if (this.data == null)
+                    this.RequestAllGachaLogsMergeSave();
+                return this.data; 
+            } set => this.data = value; 
+        }
         private GachaData RequestedData;
 
         #region network
-        private GachaConfigInfo RequestGachaConfigInfo()
-        {
-            return Json.GetWebRequestObject<GachaConfigInfo>(configListUrl);
-        }
+        private GachaConfigInfo RequestGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 
         public void RequestAllGachaLogsMergeSave()
         {
             System.Diagnostics.Debug.WriteLine("gacha web request start");
-            RequestedData = new GachaData();
-            RequestedData.Types = RequestGachaConfigInfo().Data.GachaTypeList;
+            this.RequestedData = new GachaData
+            {
+                Types = this.RequestGachaConfigInfo().Data.GachaTypeList,
+                Url = gachaLogUrl,
+            };
 
             Dictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
-            foreach (GachaConfigType type in RequestedData.Types)
+            foreach (GachaConfigType type in this.RequestedData.Types)
             {
-                dict.Add(type.Key, RequestGachaLogsOf(type));
+                dict.Add(type.Key, this.RequestGachaLogsOf(type));
             }
-            RequestedData.GachaLogs = dict;
+            this.RequestedData.GachaLogs = dict;
             //just get uid casually
-            RequestedData.Uid = dict.First().Value.First().Uid;
-            MergeData();
+            this.RequestedData.Uid = dict.First().Value.First().Uid;
+            this.MergeData();
         }
 
         private IEnumerable<GachaLogItem> RequestGachaLogsOf(GachaConfigType type)
         {
             //modify the url ,actually the fragment #/log is not necessary
-            string[] splitedUrl = gachaLogUrl.Split('?');
+            string[] splitedUrl = this.gachaLogUrl.Split('?');
             string baseUrl = splitedUrl[0];
 
             QueryString queryString = QueryString.Parse(splitedUrl[1]);
@@ -66,7 +67,7 @@ namespace DGP.Genshin.Service
             GachaLogInfo tmpinfo;
             do
             {
-                queryString.Set("page", (int.Parse(queryString["page"]) + 1).ToString());
+                queryString.Set("page", (Int32.Parse(queryString["page"]) + 1).ToString());
                 string finalUrl = baseUrl + "?" + queryString;
 
                 tmpinfo = Json.GetWebRequestObject<GachaLogInfo>(finalUrl);
@@ -79,31 +80,31 @@ namespace DGP.Genshin.Service
         /// <summary>
         /// invoke after request
         /// </summary>
-        public void MergeData()
+        private void MergeData()
         {
-            if (data == null)
+            if (this.data == null)
             {
-                data = RequestedData;
-                SaveToLocalData();
+                this.data = this.RequestedData;
+                this.SaveToLocalData();
                 return;
             }
 
-            Data.Uid = RequestedData.Uid;
-            Data.Types = RequestedData.Types;
+            this.Data.Uid = this.RequestedData.Uid;
+            this.Data.Types = this.RequestedData.Types;
             //遍历每个池
-            foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> banner in RequestedData.GachaLogs)
+            foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> banner in this.RequestedData.GachaLogs)
             {
                 //遍历 请求得到的池内物品
                 int i = 0;
-                GachaLogItem item = RequestedData.GachaLogs[banner.Key].ElementAt(i);
-                while (!RequestedData.GachaLogs[banner.Key].Contains(item))
+                GachaLogItem item = this.RequestedData.GachaLogs[banner.Key].ElementAt(i);
+                while (!this.RequestedData.GachaLogs[banner.Key].Contains(item))
                 {
-                    item = RequestedData.GachaLogs[banner.Key].ElementAt(i++);
+                    item = this.RequestedData.GachaLogs[banner.Key].ElementAt(i++);
                 }
                 //前 i 个 item 即为新增项
-                Data.GachaLogs[banner.Key] = RequestedData.GachaLogs[banner.Key].Take(i).Concat(Data.GachaLogs[banner.Key]);
+                this.Data.GachaLogs[banner.Key] = this.RequestedData.GachaLogs[banner.Key].Take(i).Concat(this.Data.GachaLogs[banner.Key]);
             }
-            SaveToLocalData();
+            this.SaveToLocalData();
         }
 
         #region local storage
@@ -123,7 +124,7 @@ namespace DGP.Genshin.Service
             if (!File.Exists(this.historyDataFile))
                 File.Create(this.historyDataFile).Dispose();
 
-            string json = Json.Stringify(data);
+            string json = Json.Stringify(this.data);
             using StreamWriter sw = new StreamWriter(this.historyDataFile);
             sw.Write(json);
         }
@@ -134,12 +135,12 @@ namespace DGP.Genshin.Service
         private static readonly object _lock = new object();
         private GachaStatisticService()
         {
-            Data = RetriveLocalData();
-            InitializeUrls();
+            this.Data = this.RetriveLocalData();
+            this.InitializeUrls();
         }
         private void InitializeUrls()
         {
-            logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\miHoYo\原神\output_log.txt";
+            this.logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\miHoYo\原神\output_log.txt";
             using (StreamReader sr = new StreamReader(this.logFilePath))
             {
                 string str;
@@ -148,19 +149,21 @@ namespace DGP.Genshin.Service
                 while (sr.Peek() >= 0)
                 {
                     str = sr.ReadLine();
-                    if (str.StartsWith("OnGetWebViewPageFinish") && str.EndsWith("#/log"))
+                    if (str.StartsWith("OnGetWebViewPageFinish:") && str.EndsWith("#/log"))
                     {
-                        str = str.Replace("OnGetWebViewPageFinish:", "");
+                        str = str.Replace("OnGetWebViewPageFinish:", "").Replace("#/log", "");
                         string[] splitedUrl = str.Split('?');
                         splitedUrl[0] = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
-                        gachaLogUrl = string.Join("?", splitedUrl).Replace("#/log", "");
+                        this.gachaLogUrl = String.Join("?", splitedUrl);
                     }
                 }
             }
-            if (gachaLogUrl != null)
-                configListUrl = gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
+            if (this.gachaLogUrl != null)
+                this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
+            else if (this.data != null)
+                this.gachaLogUrl = data.Url;
             else
-                throw new Exception("日志中没有url");
+                throw new Exception("日志与记录文件中没有可用的url");
         }
         public static GachaStatisticService Instance
         {

@@ -32,16 +32,13 @@ namespace DGP.Snap.Test
         private string gachaLogUrl;
         private string configListUrl;
 
-        public GachaConfigInfo GetGachaConfigInfo()
-        {
-            return Json.GetWebRequestObject<GachaConfigInfo>(configListUrl);
-        }
+        public GachaConfigInfo GetGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 
         public IEnumerable<GachaLogItem> GetGachaLogsOf(GachaConfigType type)
         {
             //modify the url
-            string baseUrl = gachaLogUrl.Substring(0, gachaLogUrl.IndexOf('?') + 1);
-            string queryUrl = gachaLogUrl.Substring(gachaLogUrl.IndexOf('?') + 1);
+            string baseUrl = this.gachaLogUrl.Substring(0, this.gachaLogUrl.IndexOf('?') + 1);
+            string queryUrl = this.gachaLogUrl.Substring(this.gachaLogUrl.IndexOf('?') + 1);
             QueryString queryString = QueryString.Parse(queryUrl);
             queryString.Set("gacha_type", type.Key);
             queryString.Set("size", "20");
@@ -53,7 +50,7 @@ namespace DGP.Snap.Test
             GachaLogInfo tmpinfo;
             do
             {
-                queryString.Set("page", (int.Parse(queryString["page"]) + 1).ToString());
+                queryString.Set("page", (Int32.Parse(queryString["page"]) + 1).ToString());
                 string finalUrl = baseUrl + queryString;
                 Debug.WriteLine(queryString["page"]);
                 tmpinfo = Json.GetWebRequestObject<GachaLogInfo>(finalUrl);
@@ -72,7 +69,7 @@ namespace DGP.Snap.Test
         private static readonly object _lock = new object();
         private GachaStatisticService()
         {
-            logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\miHoYo\原神\output_log.txt";
+            this.logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\miHoYo\原神\output_log.txt";
             using (StreamReader sr = new StreamReader(this.logFilePath))
             {
                 string str;
@@ -86,12 +83,12 @@ namespace DGP.Snap.Test
                         str = str.Replace("OnGetWebViewPageFinish:", "");
                         string[] splitedUrl = str.Split('?');
                         splitedUrl[0] = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
-                        gachaLogUrl = string.Join("?", splitedUrl).Replace("#/log", "");
+                        this.gachaLogUrl = String.Join("?", splitedUrl).Replace("#/log", "");
                     }
                 }
             }
-            if (gachaLogUrl != null)
-                configListUrl = gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
+            if (this.gachaLogUrl != null)
+                this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
             else
                 throw new Exception("日志中没有url");
         }

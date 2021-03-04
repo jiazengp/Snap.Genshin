@@ -16,14 +16,17 @@ namespace DGP.Genshin.DataViewer.Services
                 //header
                 IRow header = sheet.CreateRow(0);
                 if (table.Columns.Count >= 1)
+                {
                     for (int i = 0; i < table.Columns.Count; i++)
                     {
                         DataColumn column = table.Columns[i];
                         ICell cell = header.CreateCell(i);
                         cell.SetCellValue(column.ColumnName);
                     }
+                }
                 //content
                 if (table.Rows.Count >= 1)
+                {
                     for (int j = 1; j < table.Rows.Count; j++)
                     {
                         DataRow dataRow = table.Rows[j];
@@ -34,6 +37,7 @@ namespace DGP.Genshin.DataViewer.Services
                             cell.SetCellValue(dataRow[k].ToString());
                         }
                     }
+                }
             }
             using (FileStream fileStream = File.Create(fileName))
             {

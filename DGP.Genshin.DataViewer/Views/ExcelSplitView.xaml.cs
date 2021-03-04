@@ -98,10 +98,12 @@ namespace DGP.Genshin.DataViewer.Views
                 Description = "选择导出文件夹",
             };
             if (folder.ShowDialog() == DialogResult.OK)
+            {
                 lock (this.processingData)
                 {
-                    ExportService.SaveDataTableToExcel(this.CurrentTable, $@"{folder.SelectedPath}\{selectedFile.FullFileName}.xlsx", selectedFile.FileName);
+                    ExportService.SaveDataTableToExcel(this.CurrentTable, $@"{folder.SelectedPath}\{this.selectedFile.FullFileName}.xlsx", this.selectedFile.FileName);
                 }
+            }
         }
         #endregion
 
@@ -112,14 +114,8 @@ namespace DGP.Genshin.DataViewer.Views
         private DataTable currentTable;
         public DataTable CurrentTable
         {
-            get
-            {
-                return this.currentTable;
-            }
-            set
-            {
-                this.currentTable = value;
-            }
+            get => this.currentTable;
+            set => this.currentTable = value;
         }
         private async void SetPresentDataAsync(FileEx value)
         {
@@ -127,26 +123,26 @@ namespace DGP.Genshin.DataViewer.Views
 
             await Task.Run(() =>
             {
-                lock (processingData)
+                lock (this.processingData)
                 {
-                    PresentDataString = value.Read();
-                    JArray data = Json.ToObject<JArray>(PresentDataString);
-                    
-                    CurrentTable = new DataTable();
+                    this.PresentDataString = value.Read();
+                    JArray data = Json.ToObject<JArray>(this.PresentDataString);
+
+                    this.CurrentTable = new DataTable();
                     foreach (JObject o in data)
                     {
-                        this.SetColumns(CurrentTable, o);
+                        this.SetColumns(this.CurrentTable, o);
                     }
 
                     foreach (JObject o in data)
                     {
-                        DataRow row = CurrentTable.NewRow();
+                        DataRow row = this.CurrentTable.NewRow();
                         this.SetRow(row, o);
-                        CurrentTable.Rows.Add(row);
+                        this.CurrentTable.Rows.Add(row);
                     }
                     this.Invoke(() =>
                     {
-                        this.PresentDataGrid.ItemsSource = CurrentTable.AsDataView();
+                        this.PresentDataGrid.ItemsSource = this.CurrentTable.AsDataView();
                     });
                 }
             });
@@ -298,7 +294,7 @@ namespace DGP.Genshin.DataViewer.Views
         //原始数据视图
         #region PresentDataString
         private string presentDataString;
-        public string PresentDataString { get => presentDataString; set => Set(ref presentDataString,value); }
+        public string PresentDataString { get => this.presentDataString; set => this.Set(ref this.presentDataString,value); }
         #endregion
 
         #endregion

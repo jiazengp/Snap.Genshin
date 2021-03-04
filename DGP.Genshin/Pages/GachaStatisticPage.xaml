@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DGP.Genshin.Pages"
-      xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:gachastatistic="clr-namespace:DGP.Genshin.Controls.GachaStatistic"
+      xmlns:ui="http://schemas.modernwpf.com/2019" 
+      xmlns:gachastatistic="clr-namespace:DGP.Genshin.Controls.GachaStatistic"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GachaStatisticPage"
@@ -300,24 +301,137 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
+            <ui:PivotHelper.RightHeader>
+                <Button Content="&#xE72C;" ToolTip="刷新">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{DynamicResource NavigationViewBackButtonBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <Setter Property="FontFamily" Value="{DynamicResource SymbolThemeFontFamily}"/>
+                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="Height" Value="48"/>
+                            <Setter Property="Width" Value="48"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
+                            <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
+                            <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <TextBlock x:Name="Content" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="RootGrid" Value="{DynamicResource NavigationViewButtonBackgroundPointerOver}"/>
+                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundPointerOver}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" TargetName="RootGrid" Value="{DynamicResource NavigationViewButtonBackgroundPressed}"/>
+                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundPressed}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundDisabled}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.BasedOn>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
+                                    <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}"/>
+                                    <Setter Property="Padding" Value="8,5,8,6"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}"/>
+                                    <Setter Property="FontWeight" Value="Normal"/>
+                                    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
+                                    <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
+                                    <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
+                                    <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="-3"/>
+                                    <Setter Property="ui:ControlHelper.CornerRadius" Value="{DynamicResource ControlCornerRadius}"/>
+                                    <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" SnapsToDevicePixels="True">
+                                                    <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    </Border>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
+                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushPointerOver}"/>
+                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundPointerOver}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundPressed}"/>
+                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushPressed}"/>
+                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundPressed}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundDisabled}"/>
+                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushDisabled}"/>
+                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundDisabled}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Style.BasedOn>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </ui:PivotHelper.RightHeader>
             <TabItem Header="常驻">
                 <Grid Margin="12,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding NormalPoolSource,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding NormalPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
                     <ui:GridView Grid.Row="1" ItemsSource="{Binding NormalPool}" />
                 </Grid>
             </TabItem>
             <TabItem Header="新手">
-                <ui:GridView ItemsSource="{Binding NovicePool}" Margin="12,0,0,0"/>
+                <Grid Margin="12,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding NovicePoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <ui:GridView Grid.Row="1" ItemsSource="{Binding NovicePool}" />
+                </Grid>
             </TabItem>
             <TabItem Header="角色">
-                <ui:GridView ItemsSource="{Binding CharacterPool}" Margin="12,0,0,0"/>
+                <Grid Margin="12,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding CharacterPoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <ui:GridView Grid.Row="1" ItemsSource="{Binding CharacterPool}" />
+                </Grid>
             </TabItem>
             <TabItem Header="武器">
-                <ui:GridView ItemsSource="{Binding WeaponPool}" Margin="12,0,0,0"/>
+                <Grid Margin="12,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding WeaponPoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <ui:GridView Grid.Row="1" ItemsSource="{Binding WeaponPool}" />
+                </Grid>
+
             </TabItem>
         </TabControl>
     </Grid>
