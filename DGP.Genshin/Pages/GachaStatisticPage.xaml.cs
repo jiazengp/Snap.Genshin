@@ -35,7 +35,7 @@ namespace DGP.Genshin.Pages
         {
 
             IDictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 Thread.Sleep(1000);
                 try
@@ -45,19 +45,22 @@ namespace DGP.Genshin.Pages
                 catch (UrlNotFoundException)
                 {
                     dict = null;
-                    await new ContentDialog()
+                    this.Dispatcher.InvokeAsync(() =>
                     {
-                        Title = "获取数据失败",
-                        Content = "请打开原神并进入祈愿界面查看历史记录后再次尝试",
-                        PrimaryButtonText = "确认",
-                        DefaultButton = ContentDialogButton.Primary,
-                        
-                    }.ShowAsync();
-                    Service.NavigationService.Current.GoBack();
+                        new ContentDialog()
+                        {
+                            Title = "获取数据失败",
+                            Content = "请打开原神并进入祈愿界面查看历史记录后再次尝试",
+                            PrimaryButtonText = "确认",
+                            DefaultButton = ContentDialogButton.Primary,
+
+                        }.ShowAsync();
+                        Service.NavigationService.Current.GoBack();
+                    });
                 }
                 if (dict != null)
                 {
-                    await this.Dispatcher.InvokeAsync(() =>
+                    this.Dispatcher.InvokeAsync(() =>
                     {
                         this.NormalPool = this.ConvertToIcon(dict["200"]);
                         this.NormalPoolSource = dict["200"];

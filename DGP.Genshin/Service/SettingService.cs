@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Genshin.Helper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,24 +15,25 @@ namespace DGP.Genshin.Service
 
         public T GetOrDefault<T>(string key, T defaultValue)
         {
-            if (this.settingDictionary.TryGetValue(key, out object value))
+            if (!this.settingDictionary.TryGetValue(key, out object value)) 
             {
-                return (T)value;
+                return defaultValue;
             }
             else
             {
-                return defaultValue;
+                return (T)value;
             }
         }
         public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
         {
-            if (this.settingDictionary.TryGetValue(key, out object value))
+
+            if (!this.settingDictionary.TryGetValue(key, out object value))
             {
-                return converter.Invoke(value);
+                return defaultValue;
             }
             else
             {
-                return defaultValue;
+                return converter.Invoke(value);
             }
         }
 
@@ -49,13 +51,15 @@ namespace DGP.Genshin.Service
                 {
                     json = sr.ReadToEnd();
                 }
-                this.settingDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                Dictionary<string, object> dict = Json.ToObject<Dictionary<string, object>>(json);
+                if (dict != null)
+                {
+                    this.settingDictionary = dict;
+                    return;
+                }
             }
-            else
-            {
-                File.Create(this.settingFile).Dispose();
-                this.settingDictionary = new Dictionary<string, object>();
-            }
+            File.Create(this.settingFile).Dispose();
+            this.settingDictionary = new Dictionary<string, object>();
         }
 
         public void Unload()
@@ -64,18 +68,9 @@ namespace DGP.Genshin.Service
             {
                 File.Create(this.settingFile).Dispose();
             }
-
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Include,
-                Formatting = Formatting.Indented
-            };
-            string json = JsonConvert.SerializeObject(this.settingDictionary, jsonSerializerSettings);
-
-            using (StreamWriter sw = new StreamWriter(this.settingFile))
-            {
-                sw.Write(json);
-            }
+            string json = Json.Stringify(this.settingDictionary);
+            using StreamWriter sw = new StreamWriter(this.settingFile);
+            sw.Write(json);
         }
 
         #region 单例

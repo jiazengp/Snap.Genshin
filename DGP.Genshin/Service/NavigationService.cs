@@ -64,7 +64,7 @@ namespace DGP.Genshin.Service
         public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);
 
         public bool CanGoBack => this.frame.CanGoBack;
-        public void GoBack() => this.frame.GoBack();
+        private void FrameGoBack() => this.frame.GoBack();
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
@@ -81,12 +81,17 @@ namespace DGP.Genshin.Service
 
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
+            GoBack();
+        }
+
+        public void GoBack()
+        {
             if (this.CanGoBack)
             {
                 this.backItemStack.Pop();
                 NavigationViewItem back = this.backItemStack.Peek();
                 this.SyncTabWith(back.GetValue(NavHelper.NavigateToProperty) as Type);
-                this.GoBack();
+                this.FrameGoBack();
             }
         }
     }

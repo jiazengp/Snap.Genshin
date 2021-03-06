@@ -6,40 +6,46 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
 ---
-## Snap 原神 - Snap Genshin  
-是一款原神数据速查App，有着现代化的界面风格。  
-is a Genshin Impact data fast query app,while maintains modern UI style.
+## Snap 原神  
+
+是一款原神数据速查App，有着现代化的界面风格。
+
+抽卡统计核心逻辑来自  
+[![sunfkny/genshin-gacha-export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-yellow?style=for-the-badge)](https://github.com/sunfkny/genshin-gacha-export)
 
 ![主界面](https://i.loli.net/2021/01/26/ORPB9vJYmNVgX87.png)
-
+![抽卡历史](https://i.loli.net/2021/03/06/KDxblUPEnuagsM8.png)
 ---
-## Snap 原神数据查看器 - Snap Genshin DataViewer
-是一款原神解包数据查看软件，将json中的字符串重新映射后以表格形式重新呈现。  
-is a Genshin Impact unpacked data view app,remap strings in json and re-present it in datatable view.
+## Snap 原神数据查看器  
 
-[数据查看器教程 - DataViewer tutorials](https://github.com/DGP-Studio/Snap.Genshin/wiki/DataViewerTutorial)
+是一款原神解包数据查看软件，将json中的字符串重新映射后以表格形式重新呈现。  
+
+导出到Excel文件功能已经上线
+
+[数据查看器教程](https://github.com/DGP-Studio/Snap.Genshin/wiki/DataViewerTutorial)
 
 ![数据查看器](https://i.loli.net/2021/02/23/HbvTDa9mB5Ud6Iz.png)
 
 </div>
 
 ---
-## 更多内容尽在[Wiki](https://github.com/DGP-Studio/Snap.Genshin/wiki)
+## 发布与版本更新策略
 
-## 即将上线! - Future scheduled!
+* 最新版下载超 **40** 次,在3日内发布新的版本  
+[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
-* 伤害计算  
-Damage calculator
+## 详情尽在  
 
-* 抽卡统计  
-Gacha statistics
+* [Wiki](https://github.com/DGP-Studio/Snap.Genshin/wiki)
 
-* 国际化语言支持  
-Internationalization
+## 即将上线!
 
-## 贡献代码 - Contributing to this repo
+* 伤害计算
+
+* 国际化语言支持
+
+## 贡献代码
 
 * 请自行发起pull request来请求合并代码  
-Fell free to set up pull request to merge
 
 

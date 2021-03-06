@@ -158,15 +158,13 @@ namespace DGP.Genshin.Service
                     }
                 }
             }
-            if (this.gachaLogUrl != null)
-                this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
-            else if (this.data != null)
+            if (this.gachaLogUrl == null)
             {
+                if (this.data == null || this.data.Url == null) 
+                    throw new UrlNotFoundException("日志与记录文件中没有可用的url");
                 this.gachaLogUrl = this.data.Url;
-                this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
-            } 
-            else
-                throw new UrlNotFoundException("日志与记录文件中没有可用的url");
+            }
+            this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
         }
         public static GachaStatisticService Instance
         {
