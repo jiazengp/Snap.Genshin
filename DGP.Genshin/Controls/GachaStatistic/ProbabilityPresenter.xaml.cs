@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -26,31 +27,58 @@ namespace DGP.Genshin.Controls.GachaStatistic
         }
         public static readonly DependencyProperty ProbabilitySourceProperty =
             DependencyProperty.Register("ProbabilitySource", typeof(IEnumerable<GachaLogItem>), typeof(ProbabilityPresenter), new PropertyMetadata(null, OnProbabilitySourceChanged));
-        
+
         private static void OnProbabilitySourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ProbabilityPresenter current = (ProbabilityPresenter)d;
             if (current.ProbabilitySource != null)
             {
-                current.Rank5Probability = (double)current.ProbabilitySource.Count(i => i.RankType == "5") / current.ProbabilitySource.Count();
-                current.Rank4Probability = (double)current.ProbabilitySource.Count(i => i.RankType == "4") / current.ProbabilitySource.Count();
-                current.Rank3Probability = (double)current.ProbabilitySource.Count(i => i.RankType == "3") / current.ProbabilitySource.Count();
+                IEnumerable<GachaLogItem> items = current.ProbabilitySource;
+                current.Rank5BaseProb = (double)items.Count(i => i.Rank == "5") / items.Count();
+                current.Rank4BaseProb = (double)items.Count(i => i.Rank == "4") / items.Count();
+                current.Rank3BaseProb = (double)items.Count(i => i.Rank == "3") / items.Count();
+
+                IEnumerable<GachaLogItem> compRank5 = items.SkipWhile(i => i.Rank == "3" || i.Rank == "4");
+                IEnumerable<GachaLogItem> compRank4 = items.SkipWhile(i => i.Rank == "3" || i.Rank == "5");
+                current.Rank5CompProb = (double)compRank5.Count(i => i.Rank == "5") / compRank5.Count();
+                current.Rank4CompProb = (double)compRank4.Count(i => i.Rank == "4") / compRank4.Count();
+
+                current.TotalCount = items.Count();
+                current.LastRank5 = items.TakeWhile(i => i.Rank == "3" || i.Rank == "4").Count();
+                current.LastRank4 = items.TakeWhile(i => i.Rank == "3" || i.Rank == "5").Count();
             }
         }
 
+        #region total
+        private int totalCount;
+        public int TotalCount { get => totalCount; set => Set(ref totalCount,value); }
+        #endregion
+
         #region rank5
-        private double rank5Probability;
-        public double Rank5Probability { get => this.rank5Probability; set => this.Set(ref this.rank5Probability, value); }
+        private double rank5BaseProb;
+        public double Rank5BaseProb { get => this.rank5BaseProb; set => this.Set(ref this.rank5BaseProb, value); }
+
+        private double rank5CompProb;
+        public double Rank5CompProb { get => this.rank5CompProb; set => this.Set(ref this.rank5CompProb, value); }
+
+        private int lastRank5;
+        public int LastRank5 { get => lastRank5; set => Set(ref lastRank5, value); }
         #endregion
 
         #region rank4
-        private double rank4Probability;
-        public double Rank4Probability { get => this.rank4Probability; set => this.Set(ref this.rank4Probability, value); }
+        private double rank4BaseProb;
+        public double Rank4BaseProb { get => this.rank4BaseProb; set => this.Set(ref this.rank4BaseProb, value); }
+
+        private double rank4CompProb;
+        public double Rank4CompProb { get => this.rank4CompProb; set => this.Set(ref this.rank4CompProb, value); }
+
+        private int lastRank4;
+        public int LastRank4 { get => lastRank4; set => Set(ref lastRank4, value); }
         #endregion
 
         #region rank3
-        private double rank3Probability;
-        public double Rank3Probability { get => this.rank3Probability; set => this.Set(ref this.rank3Probability, value); }
+        private double rank3BaseProb;
+        public double Rank3BaseProb { get => this.rank3BaseProb; set => this.Set(ref this.rank3BaseProb, value); }
         #endregion
 
         #region INotifyPropertyChanged

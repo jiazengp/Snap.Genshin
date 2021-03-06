@@ -21,6 +21,10 @@ namespace DGP.Genshin.Service
 
         public NavigationService(Window window, NavigationView navigationView, Frame frame)
         {
+            if (Current == null)
+                Current = this;
+            else
+                throw new InvalidOperationException("NavigationServiced的实例在运行期间仅允许创建一次");
             this.navigationView = navigationView;
             this.frame = frame;
 
@@ -28,6 +32,8 @@ namespace DGP.Genshin.Service
             this.BackRequestedEventHandler += this.OnBackRequested;
             TitleBar.AddBackRequestedHandler(window, this.BackRequestedEventHandler);
         }
+
+        public static NavigationService Current;
 
         public void SyncTabWith(Type pageType)
         {
@@ -58,7 +64,7 @@ namespace DGP.Genshin.Service
         public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);
 
         public bool CanGoBack => this.frame.CanGoBack;
-        private void GoBack() => this.frame.GoBack();
+        public void GoBack() => this.frame.GoBack();
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {

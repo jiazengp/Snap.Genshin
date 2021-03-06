@@ -157,6 +157,7 @@
     <Compile Include="Models\MiHoYo\GachaLogData.cs" />
     <Compile Include="Models\MiHoYo\GachaLogItem.cs" />
     <Compile Include="Models\MiHoYo\GachaLogInfo.cs" />
+    <Compile Include="Models\MiHoYo\GachaLogNode.cs" />
     <Compile Include="Pages\CalculationPage.xaml.cs">
       <DependentUpon>CalculationPage.xaml</DependentUpon>
     </Compile>

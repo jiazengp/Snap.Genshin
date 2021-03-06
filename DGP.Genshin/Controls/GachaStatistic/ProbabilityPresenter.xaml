@@ -5,37 +5,64 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DGP.Genshin.Controls.GachaStatistic"
              mc:Ignorable="d" 
-             Height="200" 
-             d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+             
+             d:DesignWidth="200">
+    <StackPanel VerticalAlignment="Top">
         <StackPanel Grid.Column="0" VerticalAlignment="Top">
-            <TextBlock Text=""/>
-            <StackPanel Margin="0,12,12,12">
+            <TextBlock Margin="6,0" Text="基础概率" Style="{StaticResource TitleTextBlockStyle}"/>
+            <StackPanel Margin="6">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Text="五星概率" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank5Probability,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="五星" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank5BaseProb,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 </Grid>
-                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank5Probability,Mode=OneWay}" Foreground="{StaticResource Star5Brush}"/>
+                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank5BaseProb,Mode=OneWay}" Foreground="{StaticResource Star5Brush}"/>
             </StackPanel>
-            <StackPanel Margin="0,12,12,12">
+            <StackPanel Margin="6">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Text="四星概率" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank4Probability,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="四星" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank4BaseProb,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 </Grid>
-                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank4Probability,Mode=OneWay}" Foreground="{StaticResource Star4Brush}"/>
+                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank4BaseProb,Mode=OneWay}" Foreground="{StaticResource Star4Brush}"/>
             </StackPanel>
-            <StackPanel Margin="0,12,12,12">
+            <StackPanel Margin="6">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Text="三星概率" Foreground="{StaticResource Star3Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank3Probability,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star3Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="三星" Foreground="{StaticResource Star3Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank3BaseProb,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star3Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 </Grid>
-                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank3Probability,Mode=OneWay}" Foreground="{StaticResource Star3Brush}"/>
+                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank3BaseProb,Mode=OneWay}" Foreground="{StaticResource Star3Brush}"/>
             </StackPanel>
         </StackPanel>
-    </Grid>
+        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+            <TextBlock Margin="6,12,6,0" Text="综合概率" Style="{StaticResource TitleTextBlockStyle}"/>
+            <StackPanel Margin="6">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left" Text="五星" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank5CompProb,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                </Grid>
+                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank5CompProb,Mode=OneWay}" Foreground="{StaticResource Star5Brush}"/>
+            </StackPanel>
+            <StackPanel Margin="6">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left" Text="四星" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Rank4CompProb,Mode=OneWay,StringFormat=P}" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                </Grid>
+                <ProgressBar Margin="0,4,0,0" Minimum="0" Maximum="1" Value="{Binding Rank4CompProb,Mode=OneWay}" Foreground="{StaticResource Star4Brush}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+            <TextBlock Margin="6,12,6,0" Text="其他信息" Style="{StaticResource TitleTextBlockStyle}"/>
+            <Grid Margin="6">
+                <TextBlock HorizontalAlignment="Left" Text="总计" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock HorizontalAlignment="Right" Text="{Binding TotalCount,Mode=OneWay,StringFormat={}{0}抽}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </Grid>
+            <Grid Margin="6">
+                <TextBlock HorizontalAlignment="Left" Text="距上次五星" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock HorizontalAlignment="Right" Text="{Binding LastRank5,Mode=OneWay,StringFormat={}{0}抽}" Foreground="{StaticResource Star5Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </Grid>
+            <Grid Margin="6">
+                <TextBlock HorizontalAlignment="Left" Text="距上次四星" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock HorizontalAlignment="Right" Text="{Binding LastRank4,Mode=OneWay,StringFormat={}{0}抽}" Foreground="{StaticResource Star4Brush}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </Grid>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

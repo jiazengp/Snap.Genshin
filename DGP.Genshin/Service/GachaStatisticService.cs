@@ -1,8 +1,10 @@
 ﻿using DGP.Genshin.Helper;
 using DGP.Genshin.Models.MiHoYo;
+using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -17,7 +19,7 @@ namespace DGP.Genshin.Service
         private string gachaLogUrl;
         private string configListUrl;
 
-        private GachaData data;
+        private GachaData data = null;
         public GachaData Data 
         { 
             get 
@@ -27,29 +29,30 @@ namespace DGP.Genshin.Service
                 return this.data; 
             } set => this.data = value; 
         }
-        private GachaData RequestedData;
+        private GachaData requestedData;
 
         #region network
         private GachaConfigInfo RequestGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 
-        public void RequestAllGachaLogsMergeSave()
+        public void RequestAllGachaLogsMergeSave(AsyncCallback callback=null)
         {
-            System.Diagnostics.Debug.WriteLine("gacha web request start");
-            this.RequestedData = new GachaData
+            Debug.WriteLine("gacha web request start");
+            this.requestedData = new GachaData
             {
                 Types = this.RequestGachaConfigInfo().Data.GachaTypeList,
                 Url = gachaLogUrl,
             };
 
             Dictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
-            foreach (GachaConfigType type in this.RequestedData.Types)
+            foreach (GachaConfigType type in this.requestedData.Types)
             {
                 dict.Add(type.Key, this.RequestGachaLogsOf(type));
             }
-            this.RequestedData.GachaLogs = dict;
+            this.requestedData.GachaLogs = dict;
+            Debug.WriteLine("gacha web request stop");
             //just get uid casually
-            this.RequestedData.Uid = dict.First().Value.First().Uid;
-            this.MergeData();
+            this.requestedData.Uid = dict.First().Value.First().Uid;
+            this.MergeDataAndSave();
         }
 
         private IEnumerable<GachaLogItem> RequestGachaLogsOf(GachaConfigType type)
@@ -78,31 +81,27 @@ namespace DGP.Genshin.Service
         #endregion
 
         /// <summary>
-        /// invoke after request
+        /// merge the requested data to local data
         /// </summary>
-        private void MergeData()
+        private void MergeDataAndSave()
         {
+            Debug.WriteLine("merging data");
             if (this.data == null)
+                this.data = this.requestedData;
+            if (this.data==this.requestedData)
             {
-                this.data = this.RequestedData;
                 this.SaveToLocalData();
                 return;
             }
 
-            this.Data.Uid = this.RequestedData.Uid;
-            this.Data.Types = this.RequestedData.Types;
-            //遍历每个池
-            foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> banner in this.RequestedData.GachaLogs)
+            this.Data.Uid = this.requestedData.Uid;
+            this.Data.Types = this.requestedData.Types;
+            //遍历每个请求得到的池
+            foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> requestedPoolEntry in this.requestedData.GachaLogs)
             {
-                //遍历 请求得到的池内物品
-                int i = 0;
-                GachaLogItem item = this.RequestedData.GachaLogs[banner.Key].ElementAt(i);
-                while (!this.RequestedData.GachaLogs[banner.Key].Contains(item))
-                {
-                    item = this.RequestedData.GachaLogs[banner.Key].ElementAt(i++);
-                }
-                //前 i 个 item 即为新增项
-                this.Data.GachaLogs[banner.Key] = this.RequestedData.GachaLogs[banner.Key].Take(i).Concat(this.Data.GachaLogs[banner.Key]);
+                DateTime localTime = this.Data.GachaLogs[requestedPoolEntry.Key].First().Time;
+                IEnumerable<GachaLogItem> newItems =requestedPoolEntry.Value.TakeWhile(item => item.Time > localTime);
+                this.Data.GachaLogs[requestedPoolEntry.Key] = newItems.Concat(this.Data.GachaLogs[requestedPoolEntry.Key]);
             }
             this.SaveToLocalData();
         }
@@ -121,6 +120,7 @@ namespace DGP.Genshin.Service
         }
         public void SaveToLocalData()
         {
+            Debug.WriteLine("saving data");
             if (!File.Exists(this.historyDataFile))
                 File.Create(this.historyDataFile).Dispose();
 
@@ -145,7 +145,7 @@ namespace DGP.Genshin.Service
             {
                 string str;
 
-                //we need to check till the log file end to make sure the url authentication is correct.
+                //check till the log file end to make sure the url authentication is newest.
                 while (sr.Peek() >= 0)
                 {
                     str = sr.ReadLine();
@@ -161,9 +161,12 @@ namespace DGP.Genshin.Service
             if (this.gachaLogUrl != null)
                 this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
             else if (this.data != null)
-                this.gachaLogUrl = data.Url;
+            {
+                this.gachaLogUrl = this.data.Url;
+                this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
+            } 
             else
-                throw new Exception("日志与记录文件中没有可用的url");
+                throw new UrlNotFoundException("日志与记录文件中没有可用的url");
         }
         public static GachaStatisticService Instance
         {

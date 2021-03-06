@@ -8,9 +8,9 @@ namespace DGP.Genshin.Helper
     public static class Json
     {
         /// <summary>	
-        /// 将JSON异步反序列化为指定的.NET类型	
+        /// 将JSON反序列化为指定的.NET类型	
         /// </summary>	
-        /// <typeparam name="T">要反序列化的对象的类型。</typeparam>	
+        /// <typeparam name="T">要反序列化的对象的类型</typeparam>	
         /// <param name="value">要反序列化的JSON</param>	
         /// <returns>JSON字符串中的反序列化对象</returns>	
         public static T ToObject<T>(string value) => JsonConvert.DeserializeObject<T>(value);
@@ -22,24 +22,26 @@ namespace DGP.Genshin.Helper
         /// <returns>对象的JSON字符串表示形式</returns>	
         public static string Stringify(object value)
         {
+            //set date format string to make it compatible to gachaData
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Include,
+                DateFormatString= "yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFFFFFK",
                 Formatting = Formatting.Indented
             };
             return JsonConvert.SerializeObject(value, jsonSerializerSettings);
         }
 
         /// <summary>	
-        /// 向指定 <paramref name="requestUrl"/> 的服务器请求Json数据，并将结果返回为类型为 <typeparamref name="TRequestType"/> 的实例	
+        /// 向指定 <paramref name="requestUrl"/> 的服务器请求Json数据，并将结果返回为类型为 <typeparamref name="TRequest"/> 的实例	
         /// </summary>	
-        /// <typeparam name="TRequestType"></typeparam>	
+        /// <typeparam name="TRequest"></typeparam>	
         /// <param name="requestUrl"></param>	
         /// <returns></returns>	
-        public static TRequestType GetWebRequestObject<TRequestType>(string requestUrl)
+        public static TRequest GetWebRequestObject<TRequest>(string requestUrl)
         {
             string jsonMetaString = GetWebResponse(requestUrl);
-            return ToObject<TRequestType>(jsonMetaString);
+            return ToObject<TRequest>(jsonMetaString);
         }
 
         /// <summary>	
@@ -61,10 +63,8 @@ namespace DGP.Genshin.Helper
             string jsonMetaString;
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())//获取响应	
             {
-                using (StreamReader responseStreamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-                {
-                    jsonMetaString = responseStreamReader.ReadToEnd();
-                }
+                using StreamReader responseStreamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                jsonMetaString = responseStreamReader.ReadToEnd();
             }
             return jsonMetaString;
         }

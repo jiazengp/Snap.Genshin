@@ -7,10 +7,9 @@
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:gachastatistic="clr-namespace:DGP.Genshin.Controls.GachaStatistic"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="560" d:DesignWidth="800"
       Title="GachaStatisticPage"
-      Loaded="Page_Loaded">
-
+      Loaded="Page_Loaded" >
     <Grid>
         <TabControl Style="{DynamicResource TabControlPivotStyle}">
             <TabControl.Resources>
@@ -302,136 +301,176 @@
                 </Style>
             </TabControl.Resources>
             <ui:PivotHelper.RightHeader>
-                <Button Content="&#xE72C;" ToolTip="刷新">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="{DynamicResource NavigationViewBackButtonBackground}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <Setter Property="FontFamily" Value="{DynamicResource SymbolThemeFontFamily}"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Height" Value="48"/>
-                            <Setter Property="Width" Value="48"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
-                            <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
-                            <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="0"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                            <TextBlock x:Name="Content" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" TargetName="RootGrid" Value="{DynamicResource NavigationViewButtonBackgroundPointerOver}"/>
-                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundPointerOver}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter Property="Background" TargetName="RootGrid" Value="{DynamicResource NavigationViewButtonBackgroundPressed}"/>
-                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundPressed}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Foreground" TargetName="Content" Value="{DynamicResource NavigationViewButtonForegroundDisabled}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.BasedOn>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
-                                    <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}"/>
-                                    <Setter Property="Padding" Value="8,5,8,6"/>
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}"/>
-                                    <Setter Property="FontWeight" Value="Normal"/>
-                                    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
-                                    <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
-                                    <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
-                                    <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="-3"/>
-                                    <Setter Property="ui:ControlHelper.CornerRadius" Value="{DynamicResource ControlCornerRadius}"/>
-                                    <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" SnapsToDevicePixels="True">
-                                                    <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" Padding="{TemplateBinding Padding}">
-                                                        <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                    </Border>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
-                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushPointerOver}"/>
-                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundPointerOver}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundPressed}"/>
-                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushPressed}"/>
-                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundPressed}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Background" TargetName="Background" Value="{DynamicResource ButtonBackgroundDisabled}"/>
-                                                        <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonBorderBrushDisabled}"/>
-                                                        <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource ButtonForegroundDisabled}"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Style.BasedOn>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <ui:CommandBar VerticalAlignment="Bottom" Background="Transparent">
+                    <ui:AppBarButton Label="导出" IsEnabled="False">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xEDE1;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                    <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreahRequested"/>
+                </ui:CommandBar>
             </ui:PivotHelper.RightHeader>
-            <TabItem Header="常驻">
-                <Grid Margin="12,0,0,0">
+            <TabItem Header="总览">
+                <Grid Margin="0,12,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding NormalPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
-                    <ui:GridView Grid.Row="1" ItemsSource="{Binding NormalPool}" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="新手">
-                <Grid Margin="12,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding NovicePoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
-                    <ui:GridView Grid.Row="1" ItemsSource="{Binding NovicePool}" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="角色" Grid.Column="0" Margin="18,6" VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="武器" Grid.Column="1" Margin="18,6" VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="新手" Grid.Column="2" Margin="18,6" VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="常驻" Grid.Column="3" Margin="18,6" VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" ProbabilitySource="{Binding CharacterPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" ProbabilitySource="{Binding WeaponPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" ProbabilitySource="{Binding NovicePoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" ProbabilitySource="{Binding NormalPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="角色">
-                <Grid Margin="12,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding CharacterPoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
-                    <ui:GridView Grid.Row="1" ItemsSource="{Binding CharacterPool}" />
+                <Grid Margin="12,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="分布统计" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TreeView Grid.Row="1" Margin="0,6,0,0" ItemsSource="{Binding CharacterPoolView}" HorizontalContentAlignment="Stretch">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Count,StringFormat=({0})}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Column="1" VerticalAlignment="Top" ProbabilitySource="{Binding CharacterPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="历史记录" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <ui:GridView  Grid.Row="1" Margin="0,6,0,0" IsSelectionEnabled="False" ItemsSource="{Binding CharacterPool,IsAsync=True}" />
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="武器">
-                <Grid Margin="12,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <gachastatistic:ProbabilityPresenter VerticalAlignment="Top" ProbabilitySource="{Binding WeaponPoolSource,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GachaStatisticPage}}}"/>
-                    <ui:GridView Grid.Row="1" ItemsSource="{Binding WeaponPool}" />
+                <Grid Margin="12,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="分布统计" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TreeView Grid.Row="1" Margin="0,6,0,0" ItemsSource="{Binding WeaponPoolView}" HorizontalContentAlignment="Stretch">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Count,StringFormat=({0})}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Column="1" VerticalAlignment="Top" ProbabilitySource="{Binding WeaponPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="历史记录" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <ui:GridView Grid.Row="1" Margin="0,6,0,0" IsSelectionEnabled="False" ItemsSource="{Binding WeaponPool,IsAsync=True}" />
+                    </Grid>
                 </Grid>
-
+            </TabItem>
+            <TabItem Header="新手">
+                <Grid Margin="12,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="分布统计" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TreeView Grid.Row="1" Margin="0,6,0,0" ItemsSource="{Binding NovicePoolView}" HorizontalContentAlignment="Stretch">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Count,StringFormat=({0})}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Column="1" VerticalAlignment="Top" ProbabilitySource="{Binding NovicePoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="历史记录" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <ui:GridView Grid.Row="1" Margin="0,6,0,0" IsSelectionEnabled="False" ItemsSource="{Binding NovicePool,IsAsync=True}" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="常驻">
+                <Grid Margin="12,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="分布统计" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TreeView Grid.Row="1" Margin="0,6,0,0" ItemsSource="{Binding NormalPoolView}" HorizontalContentAlignment="Stretch">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Count,StringFormat=({0})}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                    <gachastatistic:ProbabilityPresenter Margin="12,0" Grid.Column="1" VerticalAlignment="Top" ProbabilitySource="{Binding NormalPoolSource,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GachaStatisticPage}}}"/>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="历史记录" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <ui:GridView Grid.Row="1" Margin="0,6,0,0" IsSelectionEnabled="False" ItemsSource="{Binding NormalPool,IsAsync=True}" />
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
