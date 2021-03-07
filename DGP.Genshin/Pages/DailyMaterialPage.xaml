@@ -21,7 +21,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Freedom"/>
@@ -31,7 +31,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Prosperity"/>
@@ -41,7 +41,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Resistance"/>
@@ -51,7 +51,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Diligence"/>
@@ -61,7 +61,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Ballad"/>
@@ -71,7 +71,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:TalentMaterialPresenter HorizontalAlignment="Left" TalentMaterial="Gold"/>
@@ -83,7 +83,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="Decarabians"/>
@@ -93,7 +93,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="Guyun"/>
@@ -103,7 +103,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="Boreal"/>
@@ -113,7 +113,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="MistVeiled"/>
@@ -123,7 +123,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="DandelionGladiator"/>
@@ -133,7 +133,7 @@
                         </Expander>
                     </ui:ThemeShadowChrome>
                     <ui:ThemeShadowChrome Margin="16,16,16,0">
-                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                        <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Expander.Header>
                                 <Grid>
                                     <controls:WeaponMaterialPresenter HorizontalAlignment="Left" WeaponMaterial="Aerosiderite"/>

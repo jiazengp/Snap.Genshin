@@ -83,7 +83,7 @@ namespace DGP.Genshin.Pages
 
         #endregion
 
-        private void UnreleasedCInfoToggled(object sender, RoutedEventArgs e) => SettingService.Instance[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
+        private void UnreleasedInfoToggled(object sender, RoutedEventArgs e) => SettingService.Instance[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
         private void TravelerPresentSwitched(object sender, RoutedEventArgs e)
         {
             SettingService.Instance[Setting.PresentTravelerElementType] = ElementHelper.GetElement((RadioButton)sender);

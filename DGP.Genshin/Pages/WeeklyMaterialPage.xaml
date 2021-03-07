@@ -19,9 +19,10 @@
     </Page.Resources>
     <Grid>
         <ScrollViewer>
-            <StackPanel HorizontalAlignment="Left">
+            <StackPanel HorizontalAlignment="Left" MinWidth="326">
+                <TextBlock Text="蒙德" Margin="16,16,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                 <ui:ThemeShadowChrome Margin="16,16,16,0">
-                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <Expander.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -65,7 +66,7 @@
                     </Expander>
                 </ui:ThemeShadowChrome>
                 <ui:ThemeShadowChrome Margin="16,16,16,0">
-                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <Expander.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -108,8 +109,9 @@
                         </StackPanel>
                     </Expander>
                 </ui:ThemeShadowChrome>
+                <TextBlock Text="璃月" Margin="16,16,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                 <ui:ThemeShadowChrome Margin="16,16,16,0">
-                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                    <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <Expander.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>

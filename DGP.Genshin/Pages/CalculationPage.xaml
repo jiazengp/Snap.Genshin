@@ -372,7 +372,7 @@
                 <ui:ScrollViewerEx>
                     <StackPanel Grid.Column="2">
                         <ui:ThemeShadowChrome Margin="16,16,16,0">
-                            <Expander helper:ExpanderHelper.ArrowVisibility="Visible" Padding="8" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+                            <Expander Padding="8" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                                 <Expander.Header>
                                     <Grid>
                                         <Grid.ColumnDefinitions>

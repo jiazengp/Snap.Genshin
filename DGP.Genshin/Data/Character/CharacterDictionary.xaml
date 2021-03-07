@@ -265,6 +265,7 @@
                      MaxHP="15552"
                      ATK="106"
                      DEF="876"
+                     CritDMG="0.884"
                      AscensionStat="CRITDMGPercent"
                      AscensionStatValue="0.884"
                      AscensionBoss="{StaticResource Ascension_JuvenileJade}"

@@ -26,10 +26,7 @@ namespace DGP.Genshin.Pages
             this.InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await SyncDataFromService();
-        }
+        private async void Page_Loaded(object sender, RoutedEventArgs e) => await this.SyncDataFromService();
 
         private async Task SyncDataFromService()
         {
@@ -50,7 +47,7 @@ namespace DGP.Genshin.Pages
                         new ContentDialog()
                         {
                             Title = "获取数据失败",
-                            Content = "请打开原神并进入祈愿界面查看历史记录后再次尝试",
+                            Content = "请打开原神\n进入祈愿界面查看历史记录\n退出原神后再次尝试",
                             PrimaryButtonText = "确认",
                             DefaultButton = ContentDialogButton.Primary,
 
@@ -234,7 +231,7 @@ namespace DGP.Genshin.Pages
             await Task.Run(() =>
             {
                 GachaStatisticService.Instance.RequestAllGachaLogsMergeSave();
-            }).ContinueWith((task) => SyncDataFromService());
+            }).ContinueWith((task) => this.SyncDataFromService());
             (sender as AppBarButton).IsEnabled = true;
         }
     }

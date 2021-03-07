@@ -165,6 +165,7 @@ namespace DGP.Genshin.Service
                 this.gachaLogUrl = this.data.Url;
             }
             this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
+            this.data.Url = gachaLogUrl;
         }
         public static GachaStatisticService Instance
         {

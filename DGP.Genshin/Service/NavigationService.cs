@@ -79,10 +79,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        private void OnBackRequested(object sender, BackRequestedEventArgs args)
-        {
-            GoBack();
-        }
+        private void OnBackRequested(object sender, BackRequestedEventArgs args) => this.GoBack();
 
         public void GoBack()
         {

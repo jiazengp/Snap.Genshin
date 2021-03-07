@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Helper;
-using Newtonsoft.Json;
+using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +39,7 @@ namespace DGP.Genshin.Service
 
         public object this[string key]
         {
-            set => this.settingDictionary[key] = value;
+            set => this.settingDictionary.AddOrSet(key,value);
         }
 
         private void Load()

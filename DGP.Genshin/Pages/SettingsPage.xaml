@@ -43,7 +43,7 @@
                 <TextBlock Text="信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 
                 <TextBlock Text="在页面上展示未发布的角色和武器" Margin="0,18,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <ui:ToggleSwitch OnContent="显示" OffContent="隐藏" IsOn="{Binding IsUnreleasedDataPresent,Mode=TwoWay}" Toggled="UnreleasedCInfoToggled"/>
+                <ui:ToggleSwitch OnContent="显示" OffContent="隐藏" IsOn="{Binding IsUnreleasedDataPresent,Mode=TwoWay}" Toggled="UnreleasedInfoToggled"/>
                 <TextBlock Text="*未发布角色或武器为开发中内容，请以正式服上线为准" Margin="0,2" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
 
                 <TextBlock Text="在页面上展示的旅行者形象" Margin="0,18,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
@@ -62,6 +62,8 @@
                     <ComboBoxItem Content="深色"/>
                     <ComboBoxItem Content="跟随系统"/>
                 </ComboBox>
+                <TextBlock Text="反馈" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,8,0,0" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="前往 Github 提交 Issue"/>
                 <TextBlock Text="关于" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
@@ -69,16 +71,10 @@
                 <TextBlock Text="检查更新并安装" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="4" Tag="Github" Content="GitHub" Click="UpdateRequested"/>
-                    <Button Margin="4" Tag="Gitee" Content="Gitee" Click="UpdateRequested"/>
+                    <Button Margin="4" Tag="Gitee" IsEnabled="False" Content="Gitee" Click="UpdateRequested"/>
                 </StackPanel>
-                <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="反馈问题"/>
-                <TextBlock Margin="0,8,0,0" Text="*Gitee上发行的版本不一定为最新版，与GitHub存在一定延迟" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <!--<TextBlock Margin="0,8,0,0" Text="*Gitee上发行的版本不一定为最新版，与GitHub存在一定延迟" Style="{StaticResource CaptionTextBlockStyle}"/>-->
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Text="Honey Impact" Margin="0,12,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
-
-                <TextBlock Text="© 2021 Honey Impact - Genshin Impact DB and Tools." Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Text="Genshin Impact™, 原神™ 是 MiHoYo Co., Ltd.的注册商标" Margin="0,18,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Text="数据 © MiHoYo Co., Ltd." Style="{StaticResource BodyTextBlockStyle}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -51,7 +50,7 @@ namespace DGP.Genshin.Controls.GachaStatistic
 
         #region total
         private int totalCount;
-        public int TotalCount { get => totalCount; set => Set(ref totalCount,value); }
+        public int TotalCount { get => this.totalCount; set => this.Set(ref this.totalCount,value); }
         #endregion
 
         #region rank5
@@ -62,7 +61,7 @@ namespace DGP.Genshin.Controls.GachaStatistic
         public double Rank5CompProb { get => this.rank5CompProb; set => this.Set(ref this.rank5CompProb, value); }
 
         private int lastRank5;
-        public int LastRank5 { get => lastRank5; set => Set(ref lastRank5, value); }
+        public int LastRank5 { get => this.lastRank5; set => this.Set(ref this.lastRank5, value); }
         #endregion
 
         #region rank4
@@ -73,7 +72,7 @@ namespace DGP.Genshin.Controls.GachaStatistic
         public double Rank4CompProb { get => this.rank4CompProb; set => this.Set(ref this.rank4CompProb, value); }
 
         private int lastRank4;
-        public int LastRank4 { get => lastRank4; set => Set(ref lastRank4, value); }
+        public int LastRank4 { get => this.lastRank4; set => this.Set(ref this.lastRank4, value); }
         #endregion
 
         #region rank3
