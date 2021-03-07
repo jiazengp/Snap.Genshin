@@ -7,10 +7,20 @@
 [![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
+|项目|简介|当前状态|Issue是否受理|
+|-|-|-|-|
+|[DGP.Genshin](#Snap-原神)|Snap 原神主程序|伤害计算功能开发中|是|
+|[DGP.Genshin.DataViewer](#Snap-原神数据查看器)|解包数据查看器|多线程优化引入|是|
+|DGP.Snap.AutoVersion|项目自动递增版本|稳定/基本不会修改|否|
+|DGP.Snap.Framework|Snap 开发框架|持续开发中|是|
+|DGP.Snap.Test|代码逻辑测试与验证|持续测试中|否|
+|DGP.Snap.Updater|更新器|稳定/基本不会修改|是|
+
+
 ---
 ## Snap 原神  
 
-是一款现代化原神数据速查App
+现代化原神数据速查App
 
 抽卡统计核心逻辑来自  
 [![sunfkny/genshin-gacha-export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-yellow?style=for-the-badge)](https://github.com/sunfkny/genshin-gacha-export)
@@ -40,11 +50,9 @@
 
 * [Wiki](https://github.com/DGP-Studio/Snap.Genshin/wiki)
 
-## 即将上线!
+## 即将上线
 
 * 伤害计算
-
-* 国际化语言支持
 
 ## 贡献代码
 
