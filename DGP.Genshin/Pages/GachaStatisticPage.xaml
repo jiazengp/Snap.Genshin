@@ -302,12 +302,12 @@
             </TabControl.Resources>
             <ui:PivotHelper.RightHeader>
                 <ui:CommandBar VerticalAlignment="Bottom" Background="Transparent">
-                    <ui:AppBarButton Label="导出" IsEnabled="False">
+                    <ui:AppBarButton Label="导出" Click="OnExportRequested">
                         <ui:AppBarButton.Icon>
                             <ui:FontIcon Glyph="&#xEDE1;"/>
                         </ui:AppBarButton.Icon>
                     </ui:AppBarButton>
-                    <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreahRequested"/>
+                    <ui:AppBarButton Icon="Refresh" Label="刷新" Click="OnRefreahRequested"/>
                 </ui:CommandBar>
             </ui:PivotHelper.RightHeader>
             <TabItem Header="总览">

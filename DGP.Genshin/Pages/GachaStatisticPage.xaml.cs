@@ -6,6 +6,7 @@ using DGP.Genshin.Service;
 using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using ModernWpf.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,7 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace DGP.Genshin.Pages
 {
@@ -42,18 +43,7 @@ namespace DGP.Genshin.Pages
                 catch (UrlNotFoundException)
                 {
                     dict = null;
-                    this.Dispatcher.InvokeAsync(() =>
-                    {
-                        new ContentDialog()
-                        {
-                            Title = "获取数据失败",
-                            Content = "请打开原神\n进入祈愿界面查看历史记录\n退出原神后再次尝试",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary,
-
-                        }.ShowAsync();
-                        Service.NavigationService.Current.GoBack();
-                    });
+                    this.PopupDialog();
                 }
                 if (dict != null)
                 {
@@ -79,6 +69,22 @@ namespace DGP.Genshin.Pages
             });
             Debug.WriteLine("sync completed");
             
+        }
+
+        private void PopupDialog()
+        {
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                new ContentDialog()
+                {
+                    Title = "获取数据失败",
+                    Content = "请打开原神\n进入祈愿界面查看历史记录\n退出原神后再次尝试",
+                    PrimaryButtonText = "确认",
+                    DefaultButton = ContentDialogButton.Primary,
+
+                }.ShowAsync();
+                Service.NavigationService.Current.GoBack();
+            });
         }
 
         private IEnumerable<GachaLogNode> BuildView(IEnumerable<GachaLogItem> pool)
@@ -112,7 +118,7 @@ namespace DGP.Genshin.Pages
             return gachaLogNodes;
         }
 
-        public IEnumerable<UserControl> ConvertToIcon(IEnumerable<GachaLogItem> items)
+        public IEnumerable<System.Windows.Controls.UserControl> ConvertToIcon(IEnumerable<GachaLogItem> items)
         {
             foreach (var item in items)
             {
@@ -131,8 +137,8 @@ namespace DGP.Genshin.Pages
         #region Property
 
         #region NormalPool
-        private IEnumerable<UserControl> normalPool;
-        public IEnumerable<UserControl> NormalPool { get => this.normalPool; set => this.Set(ref this.normalPool, value); }
+        private IEnumerable<System.Windows.Controls.UserControl> normalPool;
+        public IEnumerable<System.Windows.Controls.UserControl> NormalPool { get => this.normalPool; set => this.Set(ref this.normalPool, value); }
         #endregion
 
         #region NormalPoolSource
@@ -147,8 +153,8 @@ namespace DGP.Genshin.Pages
 
 
         #region NovicePool
-        private IEnumerable<UserControl> novicePool;
-        public IEnumerable<UserControl> NovicePool
+        private IEnumerable<System.Windows.Controls.UserControl> novicePool;
+        public IEnumerable<System.Windows.Controls.UserControl> NovicePool
         {
             get => this.novicePool;
             set => this.Set(ref this.novicePool, value);
@@ -167,8 +173,8 @@ namespace DGP.Genshin.Pages
 
 
         #region CharacterPool
-        private IEnumerable<UserControl> characterPool;
-        public IEnumerable<UserControl> CharacterPool
+        private IEnumerable<System.Windows.Controls.UserControl> characterPool;
+        public IEnumerable<System.Windows.Controls.UserControl> CharacterPool
         {
             get => this.characterPool;
             set => this.Set(ref this.characterPool, value);
@@ -187,9 +193,9 @@ namespace DGP.Genshin.Pages
 
 
         #region WeaponPool
-        private IEnumerable<UserControl> weaponPool;
+        private IEnumerable<System.Windows.Controls.UserControl> weaponPool;
 
-        public IEnumerable<UserControl> WeaponPool
+        public IEnumerable<System.Windows.Controls.UserControl> WeaponPool
         {
             get => this.weaponPool;
             set => this.Set(ref this.weaponPool, value);
@@ -225,14 +231,26 @@ namespace DGP.Genshin.Pages
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
-        private async void RefreahRequested(object sender, RoutedEventArgs e)
+        private async void OnRefreahRequested(object sender, RoutedEventArgs e)
         {
             (sender as AppBarButton).IsEnabled = false;
             await Task.Run(() =>
             {
-                GachaStatisticService.Instance.RequestAllGachaLogsMergeSave();
+                GachaStatisticService.Instance.RequestAllGachaLogsMergeSave(this.PopupDialog);
             }).ContinueWith((task) => this.SyncDataFromService());
             (sender as AppBarButton).IsEnabled = true;
+        }
+
+        private void OnExportRequested(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog
+            {
+                Description = "选择导出文件夹",
+            };
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                GachaStatisticService.Instance.SaveGachaDataToExcel($@"{folder.SelectedPath}\gachaExport{DateTime.Now:_yyyy_MM_dd_HHmm}.xlsx");
+            }
         }
     }
 }

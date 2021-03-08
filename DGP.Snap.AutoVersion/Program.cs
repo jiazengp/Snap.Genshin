@@ -89,10 +89,12 @@ namespace DGP.Snap.AutoVersion
                 Console.WriteLine("该字符串找不到版本号结束标志\"：" + sLine);
                 Environment.Exit(0);
             }
-            //自行去保证数据正确性
+
             string sVer = sLine.Substring(posStart + 2, posEnd - posStart - 2);
             VersionEx currentVersion = new VersionEx(sVer);
-            VersionEx newVersion = new VersionEx(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, currentVersion.Revision);
+
+            DateTime now = DateTime.Now;
+            VersionEx newVersion = new VersionEx(now.Year, now.Month, now.Day, currentVersion.Revision);
             if (newVersion > currentVersion)
             {
                 newVersion.Revision = 1;

@@ -33,7 +33,7 @@ namespace DGP.Genshin.DataViewer.Views
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (s, e) => { this.MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB"; };
+            timer.Tick += (s, e) => this.MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB";
             timer.Start();
         }
 

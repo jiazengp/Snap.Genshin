@@ -2,6 +2,8 @@
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Net.Web.QueryString;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,29 +32,37 @@ namespace DGP.Genshin.Service
             } set => this.data = value; 
         }
         private GachaData requestedData;
-
+        private readonly object processing = new object();
         #region network
         private GachaConfigInfo RequestGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 
-        public void RequestAllGachaLogsMergeSave(AsyncCallback callback=null)
+        public void RequestAllGachaLogsMergeSave(Action onErrorcallback=null)
         {
             Debug.WriteLine("gacha web request start");
-            this.requestedData = new GachaData
+            List<GachaConfigType> pools = this.RequestGachaConfigInfo().Data?.GachaTypeList;
+            if (pools != null)
             {
-                Types = this.RequestGachaConfigInfo().Data.GachaTypeList,
-                Url = gachaLogUrl,
-            };
+                this.requestedData = new GachaData
+                {
+                    Types = pools,
+                    Url = this.gachaLogUrl,
+                };
 
-            Dictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
-            foreach (GachaConfigType type in this.requestedData.Types)
-            {
-                dict.Add(type.Key, this.RequestGachaLogsOf(type));
+                Dictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
+                foreach (GachaConfigType type in this.requestedData.Types)
+                {
+                    dict.Add(type.Key, this.RequestGachaLogsOf(type));
+                }
+                this.requestedData.GachaLogs = dict;
+                //just get uid casually
+                this.requestedData.Uid = dict.First().Value.First().Uid;
+                this.MergeDataAndSave();
             }
-            this.requestedData.GachaLogs = dict;
-            Debug.WriteLine("gacha web request stop");
-            //just get uid casually
-            this.requestedData.Uid = dict.First().Value.First().Uid;
-            this.MergeDataAndSave();
+            else
+            {
+                onErrorcallback.Invoke();
+            }
+
         }
 
         private IEnumerable<GachaLogItem> RequestGachaLogsOf(GachaConfigType type)
@@ -80,33 +90,34 @@ namespace DGP.Genshin.Service
         }
         #endregion
 
+        #region local storage
         /// <summary>
         /// merge the requested data to local data
         /// </summary>
         private void MergeDataAndSave()
         {
-            Debug.WriteLine("merging data");
-            if (this.data == null)
-                this.data = this.requestedData;
-            if (this.data==this.requestedData)
+            lock (this.processing)
             {
+                if (this.data == null)
+                    this.data = this.requestedData;
+                if (this.data == this.requestedData)
+                {
+                    this.SaveToLocalData();
+                    return;
+                }
+
+                this.Data.Uid = this.requestedData.Uid;
+                this.Data.Types = this.requestedData.Types;
+                //遍历每个请求得到的池
+                foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> requestedPoolEntry in this.requestedData.GachaLogs)
+                {
+                    DateTime localTime = this.Data.GachaLogs[requestedPoolEntry.Key].First().Time;
+                    IEnumerable<GachaLogItem> newItems = requestedPoolEntry.Value.TakeWhile(item => item.Time > localTime);
+                    this.Data.GachaLogs[requestedPoolEntry.Key] = newItems.Concat(this.Data.GachaLogs[requestedPoolEntry.Key]);
+                }
                 this.SaveToLocalData();
-                return;
             }
-
-            this.Data.Uid = this.requestedData.Uid;
-            this.Data.Types = this.requestedData.Types;
-            //遍历每个请求得到的池
-            foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> requestedPoolEntry in this.requestedData.GachaLogs)
-            {
-                DateTime localTime = this.Data.GachaLogs[requestedPoolEntry.Key].First().Time;
-                IEnumerable<GachaLogItem> newItems =requestedPoolEntry.Value.TakeWhile(item => item.Time > localTime);
-                this.Data.GachaLogs[requestedPoolEntry.Key] = newItems.Concat(this.Data.GachaLogs[requestedPoolEntry.Key]);
-            }
-            this.SaveToLocalData();
         }
-
-        #region local storage
         public GachaData RetriveLocalData()
         {
             if (!File.Exists(this.historyDataFile))
@@ -120,13 +131,55 @@ namespace DGP.Genshin.Service
         }
         public void SaveToLocalData()
         {
-            Debug.WriteLine("saving data");
             if (!File.Exists(this.historyDataFile))
                 File.Create(this.historyDataFile).Dispose();
 
             string json = Json.Stringify(this.data);
             using StreamWriter sw = new StreamWriter(this.historyDataFile);
             sw.Write(json);
+        }
+        #endregion
+
+        #region export
+        public void SaveGachaDataToExcel(string fileName)
+        {
+            IWorkbook workbook = new XSSFWorkbook();
+            
+            if (this.data != null)
+            {
+                lock (this.processing)
+                {
+                    foreach (GachaConfigType pool in this.data.Types)
+                    {
+                        ISheet sheet = workbook.CreateSheet(pool.Name);
+                        IEnumerable<GachaLogItem> logs = this.data.GachaLogs[pool.Key];
+                        //header
+                        IRow header = sheet.CreateRow(0);
+                        header.CreateCell(0).SetCellValue("时间");
+                        header.CreateCell(1).SetCellValue("名称");
+                        header.CreateCell(2).SetCellValue("类别");
+                        header.CreateCell(3).SetCellValue("星级");
+                        //content
+                        if (logs.Count() >= 1)
+                        {
+                            for (int j = 1; j < logs.Count(); j++)
+                            {
+                                //倒序
+                                GachaLogItem item = logs.ElementAt(logs.Count() - j);
+                                IRow currentRow = sheet.CreateRow(j);
+                                currentRow.CreateCell(0).SetCellValue(item.Time.ToString("yyyy-MM-dd HH:mm"));
+                                currentRow.CreateCell(1).SetCellValue(item.Name);
+                                currentRow.CreateCell(2).SetCellValue(item.ItemType);
+                                currentRow.CreateCell(3).SetCellValue(Int32.Parse(item.Rank));
+                            }
+                        }
+                    }
+                }
+            }
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+            using FileStream fileStream = File.Create(fileName);
+            workbook.Write(fileStream);
         }
         #endregion
 
@@ -165,7 +218,7 @@ namespace DGP.Genshin.Service
                 this.gachaLogUrl = this.data.Url;
             }
             this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
-            this.data.Url = gachaLogUrl;
+            this.data.Url = this.gachaLogUrl;
         }
         public static GachaStatisticService Instance
         {
