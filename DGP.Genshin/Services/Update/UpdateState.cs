@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.Service.Update
+﻿namespace DGP.Genshin.Services.Update
 {
     public enum UpdateState
     {

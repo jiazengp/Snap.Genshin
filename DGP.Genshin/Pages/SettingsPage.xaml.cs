@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Data;
-using DGP.Genshin.Service;
-using DGP.Genshin.Service.Update;
+using DGP.Genshin.Services;
+using DGP.Genshin.Services.Update;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -92,16 +92,11 @@ namespace DGP.Genshin.Pages
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            UpdateState u;
-            if (((Button)sender).Tag.ToString() == "Github")
+            var u = (((Button)sender).Tag.ToString()) switch
             {
-                u = UpdateService.Instance.CheckUpdateStateViaGithub();
-            }
-            else
-            {
-                u = UpdateService.Instance.CheckUpdateStateViaGitee();
-            }
-
+                "Github" => UpdateService.Instance.CheckUpdateStateViaGithub(),
+                _ => UpdateService.Instance.CheckUpdateStateViaGitee(),
+            };
             switch (u)
             {
                 case UpdateState.NeedUpdate:

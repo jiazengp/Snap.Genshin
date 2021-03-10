@@ -53,6 +53,7 @@
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Core\Singleton\Singleton.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
+    <Compile Include="Data\Json\Json.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />
     <Compile Include="Device\File\File.cs" />
     <Compile Include="Device\File\KnownPath.cs" />
@@ -93,6 +94,10 @@
     <Compile Include="Shell\SettingManager.cs" />
     <Compile Include="Shell\Setting\Setting.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

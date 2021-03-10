@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Models.MiHoYo;
+using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using NPOI.SS.UserModel;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace DGP.Genshin.Service
+namespace DGP.Genshin.Services
 {
     public class GachaStatisticService
     {

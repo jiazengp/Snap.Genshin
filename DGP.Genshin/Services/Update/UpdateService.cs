@@ -1,12 +1,12 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Models.Github;
+﻿using DGP.Genshin.Models.Github;
+using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Net.Download;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace DGP.Genshin.Service.Update
+namespace DGP.Genshin.Services.Update
 {
     internal class UpdateService
     {

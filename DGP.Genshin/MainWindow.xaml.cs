@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Pages;
-using DGP.Genshin.Service;
+using DGP.Genshin.Services;
 using System.Windows;
 
 namespace DGP.Genshin

@@ -144,9 +144,7 @@
     <Compile Include="Data\Weapon\WeaponManager.cs" />
     <Compile Include="Data\Weapon\WeaponMaterial.cs" />
     <Compile Include="Data\Weapon\WeaponType.cs" />
-    <Compile Include="Helper\Json.cs" />
     <Compile Include="Helper\NavHelper.cs" />
-    <Compile Include="Helper\ReflectionHelper.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
@@ -177,14 +175,17 @@
     <Compile Include="Pages\WeeklyMaterialPage.xaml.cs">
       <DependentUpon>WeeklyMaterialPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Service\GachaStatisticService.cs" />
-    <Compile Include="Service\NavigationService.cs" />
-    <Compile Include="Service\Setting.cs" />
-    <Compile Include="Service\SettingService.cs" />
-    <Compile Include="Service\TravelerPresentService.cs" />
-    <Compile Include="Service\Update\UpdateInfo.cs" />
-    <Compile Include="Service\Update\UpdateService.cs" />
-    <Compile Include="Service\Update\UpdateState.cs" />
+    <Compile Include="Services\GachaStatisticService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\Setting.cs" />
+    <Compile Include="Services\SettingService.cs" />
+    <Compile Include="Services\TravelerPresentService.cs" />
+    <Compile Include="Services\Update\UpdateDialog.xaml.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Update\UpdateInfo.cs" />
+    <Compile Include="Services\Update\UpdateService.cs" />
+    <Compile Include="Services\Update\UpdateState.cs" />
     <Compile Include="Simulation\Calculation\BasicValue.cs" />
     <Compile Include="Simulation\Calculation\Calculator.cs" />
     <Compile Include="Simulation\Calculation\DamageType.cs" />
@@ -284,6 +285,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WeeklyMaterialPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\Update\UpdateDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataViewer.Helpers;
+using DGP.Snap.Framework.Data.Json;
 using System;
 using System.IO;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace DGP.Genshin.DataViewer
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            string logFile = "crash.log";
+            string logFile = "snap_genshin_dataviewer_crash.log";
             if (!File.Exists(logFile))
                 File.Create(logFile).Dispose();
 

@@ -1,9 +1,13 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace DGP.Genshin.Helper
+namespace DGP.Snap.Framework.Data.Json
 {
     public static class Json
     {
@@ -26,7 +30,8 @@ namespace DGP.Genshin.Helper
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Include,
-                DateFormatString= "yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFFFFFK",
+                //兼容原神api格式
+                DateFormatString = "yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFFFFFK",
                 Formatting = Formatting.Indented,
             };
             return JsonConvert.SerializeObject(value, jsonSerializerSettings);

@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Snap.Framework.Core.LifeCycle;
+﻿using DGP.Snap.Framework.Core.LifeCycle;
+using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DGP.Genshin.Service
+namespace DGP.Genshin.Services
 {
     internal class SettingService : IAutoLifeCycle
     {

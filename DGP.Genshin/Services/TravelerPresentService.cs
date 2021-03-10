@@ -3,7 +3,7 @@ using DGP.Genshin.Data.Character;
 using DGP.Snap.Framework.Core.LifeCycle;
 using System;
 
-namespace DGP.Genshin.Service
+namespace DGP.Genshin.Services
 {
     public class TravelerPresentService : IAutoLifeCycle
     {

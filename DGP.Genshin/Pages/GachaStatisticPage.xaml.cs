@@ -2,7 +2,7 @@
 using DGP.Genshin.Data.Character;
 using DGP.Genshin.Data.Weapon;
 using DGP.Genshin.Models.MiHoYo;
-using DGP.Genshin.Service;
+using DGP.Genshin.Services;
 using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using ModernWpf.Controls;
@@ -83,7 +83,7 @@ namespace DGP.Genshin.Pages
                     DefaultButton = ContentDialogButton.Primary,
 
                 }.ShowAsync();
-                Service.NavigationService.Current.GoBack();
+                Services.NavigationService.Current.GoBack();
             });
         }
 

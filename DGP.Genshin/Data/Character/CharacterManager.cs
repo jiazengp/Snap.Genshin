@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Service;
+﻿using DGP.Genshin.Services;
 using System;
 using System.Linq;
 using System.Windows;

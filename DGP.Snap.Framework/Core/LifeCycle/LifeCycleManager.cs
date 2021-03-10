@@ -45,7 +45,7 @@ namespace DGP.Snap.Framework.Core.LifeCycle
         private static readonly object _lock = new object();
         private LifeCycleManager()
         {
-            foreach(Type t in EntryHelper.GetEntryTypeInfos())
+            foreach(Type t in EntryHelper.GetEntryTypes())
             {
                 foreach(Type @interface in t.GetInterfaces())
                 {

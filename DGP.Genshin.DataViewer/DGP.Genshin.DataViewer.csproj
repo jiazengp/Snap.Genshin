@@ -68,7 +68,6 @@
     <Compile Include="Helpers\Converters\VisibilityToBooleanConverter.cs" />
     <Compile Include="Helpers\DirectoryEx.cs" />
     <Compile Include="Helpers\FileEx.cs" />
-    <Compile Include="Helpers\Json.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\WorkingFolderService.cs" />
