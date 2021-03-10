@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Helper;
+using DGP.Snap.Framework.Core.LifeCycle;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.IO;
 
 namespace DGP.Genshin.Service
 {
-    internal class SettingService
+    internal class SettingService : IAutoLifeCycle
     {
         private const string settingsFileName = "settings.json";
         private readonly string settingFile = AppDomain.CurrentDomain.BaseDirectory + settingsFileName;
@@ -42,7 +43,7 @@ namespace DGP.Genshin.Service
             set => this.settingDictionary.AddOrSet(key,value);
         }
 
-        private void Load()
+        public void Initialize()
         {
             if (File.Exists(this.settingFile))
             {
@@ -62,7 +63,7 @@ namespace DGP.Genshin.Service
             this.settingDictionary = new Dictionary<string, object>();
         }
 
-        public void Unload()
+        public void UnInitialize()
         {
             if (!File.Exists(this.settingFile))
             {
@@ -76,7 +77,7 @@ namespace DGP.Genshin.Service
         #region 单例
         private static SettingService instance;
         private static readonly object _lock = new object();
-        private SettingService() => this.Load();
+        private SettingService() { }
         public static SettingService Instance
         {
             get
@@ -94,6 +95,9 @@ namespace DGP.Genshin.Service
                 return instance;
             }
         }
+
+        public IAutoLifeCycle Self => ((IAutoLifeCycle)Instance).Self;
+
         #endregion
     }
 }

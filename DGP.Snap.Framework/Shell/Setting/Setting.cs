@@ -4,7 +4,7 @@ using System;
 namespace DGP.Snap.Framework.Shell.Setting
 {
     /// <summary>
-    /// 在注册表中读写设置
+    /// 在json中读写设置
     /// </summary>
     public class Setting : IDisposable
     {

@@ -1,6 +1,10 @@
 ﻿using DGP.Genshin.Service;
+using DGP.Genshin.Service.Update;
+using DGP.Snap.Framework.Core.LifeCycle;
 using ModernWpf;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 
 namespace DGP.Genshin
@@ -12,15 +16,14 @@ namespace DGP.Genshin
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            TravelerPresentService.Instance.SetPresentTraveler();
-            Func<object, ApplicationTheme?> converter = n => { if (n == null) { return null; } return (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString()); };
-            ThemeManager.Current.ApplicationTheme =
-                SettingService.Instance.GetOrDefault<ApplicationTheme?>(Setting.AppTheme, null, converter);
+            static ApplicationTheme? converter(object n) => n == null ? null : (ApplicationTheme?)(ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
+            ThemeManager.Current.ApplicationTheme = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter);
+            LifeCycleManager.Instance.InitializeAll();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            SettingService.Instance.Unload();
+            LifeCycleManager.Instance.UnInitializeAll();
             base.OnExit(e);
         }
     }

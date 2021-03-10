@@ -27,7 +27,7 @@ namespace DGP.Genshin.Helper
             {
                 NullValueHandling = NullValueHandling.Include,
                 DateFormatString= "yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFFFFFK",
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
             };
             return JsonConvert.SerializeObject(value, jsonSerializerSettings);
         }

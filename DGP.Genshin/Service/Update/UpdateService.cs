@@ -78,11 +78,6 @@ namespace DGP.Genshin.Service.Update
             {
                 StartInstallUpdate();
             }
-
-            if (eventArgs.State == CompletedState.Canceled)
-            {
-                return;
-            }
         }
         public static void StartInstallUpdate()
         {

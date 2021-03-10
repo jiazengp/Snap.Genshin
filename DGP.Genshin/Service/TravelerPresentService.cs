@@ -1,14 +1,18 @@
 ﻿using DGP.Genshin.Data;
 using DGP.Genshin.Data.Character;
+using DGP.Snap.Framework.Core.LifeCycle;
 using System;
 
 namespace DGP.Genshin.Service
 {
-    public class TravelerPresentService
+    public class TravelerPresentService : IAutoLifeCycle
     {
         public void SetPresentTraveler()
         {
-            Element element = SettingService.Instance.GetOrDefault(Setting.PresentTravelerElementType, Element.Anemo, n => (Element)Enum.Parse(typeof(Element), n.ToString()));
+            Element element =
+                SettingService.Instance.GetOrDefault(Setting.PresentTravelerElementType,
+                                                     Element.Anemo,
+                                                     n => (Element)Enum.Parse(typeof(Element), n.ToString()));
             Character TravelerSource = CharacterManager.Instance["Traveler" + element];
 
             CharacterManager.Instance["TravelerPresent"].ImageUri = TravelerSource.ImageUri;
@@ -19,6 +23,16 @@ namespace DGP.Genshin.Service
             CharacterManager.Instance["TravelerPresent"].AscensionMonster = TravelerSource.AscensionMonster;
             CharacterManager.Instance["TravelerPresent"].TalentDaily = TravelerSource.TalentDaily;
             CharacterManager.Instance["TravelerPresent"].TalentWeekly = TravelerSource.TalentWeekly;
+        }
+
+        public void Initialize()
+        {
+            SetPresentTraveler();
+        }
+
+        public void UnInitialize()
+        {
+
         }
 
         #region 单例
@@ -45,6 +59,8 @@ namespace DGP.Genshin.Service
                 return instance;
             }
         }
+
+        public IAutoLifeCycle Self => ((IAutoLifeCycle)Instance).Self;
         #endregion
     }
 }
