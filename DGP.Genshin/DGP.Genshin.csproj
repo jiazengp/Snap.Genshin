@@ -144,7 +144,8 @@
     <Compile Include="Data\Weapon\WeaponManager.cs" />
     <Compile Include="Data\Weapon\WeaponMaterial.cs" />
     <Compile Include="Data\Weapon\WeaponType.cs" />
-    <Compile Include="Helper\NavHelper.cs" />
+    <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
@@ -162,7 +163,7 @@
     <Compile Include="Pages\DailyMaterialPage.xaml.cs">
       <DependentUpon>DailyMaterialPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ElementHelper.cs" />
+    <Compile Include="Helpers\ElementHelper.cs" />
     <Compile Include="Pages\GachaStatisticPage.xaml.cs">
       <DependentUpon>GachaStatisticPage.xaml</DependentUpon>
     </Compile>

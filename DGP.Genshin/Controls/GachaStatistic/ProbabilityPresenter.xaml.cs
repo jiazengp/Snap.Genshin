@@ -50,7 +50,7 @@ namespace DGP.Genshin.Controls.GachaStatistic
 
         #region total
         private int totalCount;
-        public int TotalCount { get => this.totalCount; set => this.Set(ref this.totalCount,value); }
+        public int TotalCount { get => this.totalCount; set => this.Set(ref this.totalCount, value); }
         #endregion
 
         #region rank5

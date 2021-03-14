@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using System;
 using System.Collections.Generic;
@@ -13,11 +12,11 @@ namespace DGP.Snap.Test
         private static void Main(string[] args)
         {
             var li = GachaStatisticService.Instance.GetGachaConfigInfo().Data.GachaTypeList;
-            foreach(GachaConfigType type in li)
+            foreach (GachaConfigType type in li)
             {
-                Debug.WriteLine(type.Name+type.Key);
-                var newli=GachaStatisticService.Instance.GetGachaLogsOf(type);
-                foreach(var item in newli)
+                Debug.WriteLine(type.Name + type.Key);
+                var newli = GachaStatisticService.Instance.GetGachaLogsOf(type);
+                foreach (var item in newli)
                 {
                     //Debug.WriteLine(item.Name);
                 }
@@ -61,7 +60,7 @@ namespace DGP.Snap.Test
 
         public void GetUrlInLocalLowLogFile()
         {
-            
+
         }
 
         #region 单例
@@ -73,9 +72,9 @@ namespace DGP.Snap.Test
             using (StreamReader sr = new StreamReader(this.logFilePath))
             {
                 string str;
-                
+
                 //we need to check till the log file end to make sure the url authentication is correct.
-                while(sr.Peek()>=0)
+                while (sr.Peek() >= 0)
                 {
                     str = sr.ReadLine();
                     if (str.StartsWith("OnGetWebViewPageFinish") && str.EndsWith("#/log"))

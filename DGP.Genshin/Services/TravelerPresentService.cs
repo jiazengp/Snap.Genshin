@@ -5,12 +5,12 @@ using System;
 
 namespace DGP.Genshin.Services
 {
-    public class TravelerPresentService : IAutoLifeCycle
+    public class TravelerPresentService : ILifeCycleManaged
     {
         public void SetPresentTraveler()
         {
             Element element =
-                SettingService.Instance.GetOrDefault(Setting.PresentTravelerElementType,
+                LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.PresentTravelerElementType,
                                                      Element.Anemo,
                                                      n => (Element)Enum.Parse(typeof(Element), n.ToString()));
             Character TravelerSource = CharacterManager.Instance["Traveler" + element];
@@ -34,33 +34,5 @@ namespace DGP.Genshin.Services
         {
 
         }
-
-        #region 单例
-        private static TravelerPresentService instance;
-        private static readonly object _lock = new object();
-        private TravelerPresentService()
-        {
-
-        }
-        public static TravelerPresentService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new TravelerPresentService();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-
-        public IAutoLifeCycle Self => ((IAutoLifeCycle)Instance).Self;
-        #endregion
     }
 }

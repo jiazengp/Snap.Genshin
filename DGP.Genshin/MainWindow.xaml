@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DGP.Genshin"
         xmlns:ui="http://schemas.modernwpf.com/2019" 
-        xmlns:helper="clr-namespace:DGP.Genshin.Helper" 
+        xmlns:helpers="clr-namespace:DGP.Genshin.Helpers" 
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:controls="clr-namespace:DGP.Genshin.Controls"
         ui:WindowHelper.UseModernWindowStyle="True"
@@ -36,15 +36,15 @@
                 </Grid>
             </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="首页" helper:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
-                <ui:NavigationViewItem Content="日常总览" helper:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
-                <ui:NavigationViewItem Content="周常总览" helper:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
-                <ui:NavigationViewItem Content="抽卡历史" helper:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
+                <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
+                <ui:NavigationViewItem Content="日常总览" helpers:NavHelper.NavigateTo="{x:Type pages:DailyMaterialPage}" Icon="CalendarDay"/>
+                <ui:NavigationViewItem Content="周常总览" helpers:NavHelper.NavigateTo="{x:Type pages:WeeklyMaterialPage}" Icon="CalendarWeek"/>
+                <ui:NavigationViewItem Content="抽卡历史" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE9D2;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helper:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
+                <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helpers:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>

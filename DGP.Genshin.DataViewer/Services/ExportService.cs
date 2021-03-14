@@ -7,7 +7,7 @@ namespace DGP.Genshin.DataViewer.Services
 {
     public class ExportService
     {
-        public static void SaveDataTableToExcel(DataTable table,string fileName,string sheetName)
+        public static void SaveDataTableToExcel(DataTable table, string fileName, string sheetName)
         {
             IWorkbook workbook = new XSSFWorkbook();
             ISheet sheet = workbook.CreateSheet(sheetName);

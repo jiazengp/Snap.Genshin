@@ -49,9 +49,13 @@
   <ItemGroup>
     <Compile Include="Attributes\AttributeService.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
-    <Compile Include="Core\LifeCycle\LifeCycleManager.cs" />
+    <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
+    <Compile Include="Core\LifeCycle\LifeCycle.cs" />
+    <Compile Include="Core\Logging\ILoggable.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
-    <Compile Include="Core\Singleton\Singleton.cs" />
+    <Compile Include="Core\Concurrent\ThreadSafe.cs" />
+    <Compile Include="Core\Model\Singleton.cs" />
+    <Compile Include="Core\SnapFramework.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
     <Compile Include="Data\Json\Json.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />

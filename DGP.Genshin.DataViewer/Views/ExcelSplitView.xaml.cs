@@ -2,6 +2,7 @@
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using Newtonsoft.Json.Linq;
 using System;
@@ -76,7 +77,7 @@ namespace DGP.Genshin.DataViewer.Views
                 if (cell.Content is TextBlock block)
                     this.Readable = block.Text.ToString();
                 else
-                    Debug.WriteLine(cell.Content);
+                    this.Log(cell.Content);
             }
         }
         private void OnSearchExcelList(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxTextChangedEventArgs args)
@@ -295,7 +296,7 @@ namespace DGP.Genshin.DataViewer.Views
         //原始数据视图
         #region PresentDataString
         private string presentDataString;
-        public string PresentDataString { get => this.presentDataString; set => this.Set(ref this.presentDataString,value); }
+        public string PresentDataString { get => this.presentDataString; set => this.Set(ref this.presentDataString, value); }
         #endregion
 
         #endregion

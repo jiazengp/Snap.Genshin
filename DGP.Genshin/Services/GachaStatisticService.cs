@@ -1,12 +1,12 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Exceptions;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -22,23 +22,24 @@ namespace DGP.Genshin.Services
         private string configListUrl;
 
         private GachaData data = null;
-        public GachaData Data 
-        { 
-            get 
+        public GachaData Data
+        {
+            get
             {
                 if (this.data == null)
                     this.RequestAllGachaLogsMergeSave();
-                return this.data; 
-            } set => this.data = value; 
+                return this.data;
+            }
+            set => this.data = value;
         }
         private GachaData requestedData;
-        private readonly object processing = new object();
+        private readonly object processing = new();
         #region network
         private GachaConfigInfo RequestGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 
-        public void RequestAllGachaLogsMergeSave(Action onErrorcallback=null)
+        public void RequestAllGachaLogsMergeSave(Action onErrorcallback = null)
         {
-            Debug.WriteLine("gacha web request start");
+            this.Log("gacha web request start");
             List<GachaConfigType> pools = this.RequestGachaConfigInfo().Data?.GachaTypeList;
             if (pools != null)
             {
@@ -123,7 +124,7 @@ namespace DGP.Genshin.Services
             if (!File.Exists(this.historyDataFile))
                 return null;
             string json;
-            using (StreamReader sr = new StreamReader(this.historyDataFile))
+            using (StreamReader sr = new(this.historyDataFile))
             {
                 json = sr.ReadToEnd();
             }
@@ -135,7 +136,7 @@ namespace DGP.Genshin.Services
                 File.Create(this.historyDataFile).Dispose();
 
             string json = Json.Stringify(this.data);
-            using StreamWriter sw = new StreamWriter(this.historyDataFile);
+            using StreamWriter sw = new(this.historyDataFile);
             sw.Write(json);
         }
         #endregion
@@ -144,7 +145,7 @@ namespace DGP.Genshin.Services
         public void SaveGachaDataToExcel(string fileName)
         {
             IWorkbook workbook = new XSSFWorkbook();
-            
+
             if (this.data != null)
             {
                 lock (this.processing)
@@ -185,7 +186,7 @@ namespace DGP.Genshin.Services
 
         #region 单例
         private static GachaStatisticService instance;
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
         private GachaStatisticService()
         {
             this.Data = this.RetriveLocalData();
@@ -194,7 +195,7 @@ namespace DGP.Genshin.Services
         private void InitializeUrls()
         {
             this.logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\miHoYo\原神\output_log.txt";
-            using (StreamReader sr = new StreamReader(this.logFilePath))
+            using (StreamReader sr = new(this.logFilePath))
             {
                 string str;
 
@@ -213,7 +214,7 @@ namespace DGP.Genshin.Services
             }
             if (this.gachaLogUrl == null)
             {
-                if (this.data == null || this.data.Url == null) 
+                if (this.data == null || this.data.Url == null)
                     throw new UrlNotFoundException("日志与记录文件中没有可用的url");
                 this.gachaLogUrl = this.data.Url;
             }

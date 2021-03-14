@@ -1,40 +1,17 @@
-﻿using Microsoft.Win32;
-using System;
-
+﻿
 namespace DGP.Snap.Framework.Shell.Setting
 {
     /// <summary>
-    /// 在json中读写设置
+    /// 表示一项设置
     /// </summary>
-    public class Setting : IDisposable
+    public class Setting<T>
     {
-        public string ApplicationName { get; private set; }
-        private readonly RegistryKey setting;
-        private readonly RegistryKey currentUser;
-        private readonly RegistryKey software;
-        public Setting(string applicationName)
-        {
-            this.ApplicationName = applicationName;
-            this.currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-            this.software = this.currentUser.OpenSubKey("SOFTWARE", true);
-            this.setting = this.software.CreateSubKey(this.ApplicationName, true);
-        }
-        /// <summary>
-        /// 在注册表 <see cref="RegistryHive.CurrentUser"/> 键值下读写设置
-        /// </summary>
-        /// <param name="key">值的名称</param>
-        /// <returns></returns>
-        public object this[string key]
-        {
-            get => this.setting.GetValue(key);
-            set => this.setting.SetValue(key, value);
-        }
+        private T _value;
+        public T Value { get => _value; set => _value = value; }
 
-        public void Dispose()
+        public static implicit operator T(Setting<T> setting)
         {
-            this.setting.Dispose();
-            this.software.Dispose();
-            this.currentUser.Dispose();
+            return setting.Value;
         }
     }
 }

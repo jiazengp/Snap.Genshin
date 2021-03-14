@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Services;
+using DGP.Snap.Framework.Core.LifeCycle;
 using System;
 using System.Linq;
 using System.Windows;
@@ -17,7 +18,7 @@ namespace DGP.Genshin.Data.Weapon
             get => (Weapon)this.weaponDictionary[key];
             set => this.weaponDictionary[key] = value;
         }
-        public static bool UnreleasedPolicyFilter(Weapon item) => item.IsReleased || SettingService.Instance.GetOrDefault(Setting.ShowUnreleasedData, false);
+        public static bool UnreleasedPolicyFilter(Weapon item) => item.IsReleased || LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.ShowUnreleasedData, false);
 
         #region 单例
         private static WeaponManager instance;

@@ -30,7 +30,7 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         /// <param name="dictionary">操作的字典对象</param>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue,TValue> valueFunc)
+        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue, TValue> valueFunc)
         {
             if (dictionary.TryGetValue(key, out TValue value))
                 dictionary.Remove(key);

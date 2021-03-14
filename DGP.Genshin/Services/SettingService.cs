@@ -1,4 +1,5 @@
 ﻿using DGP.Snap.Framework.Core.LifeCycle;
+using DGP.Snap.Framework.Core.Model;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
@@ -7,16 +8,18 @@ using System.IO;
 
 namespace DGP.Genshin.Services
 {
-    internal class SettingService : IAutoLifeCycle
+    internal class SettingService : ILifeCycleManaged
     {
         private const string settingsFileName = "settings.json";
         private readonly string settingFile = AppDomain.CurrentDomain.BaseDirectory + settingsFileName;
 
-        private Dictionary<string, object> settingDictionary = new Dictionary<string, object>();
+        private Dictionary<string, object> settingDictionary = new();
+
+        public SettingService Instance => Singleton<SettingService>.Instance;
 
         public T GetOrDefault<T>(string key, T defaultValue)
         {
-            if (!this.settingDictionary.TryGetValue(key, out object value)) 
+            if (!this.settingDictionary.TryGetValue(key, out object value))
             {
                 return defaultValue;
             }
@@ -40,7 +43,7 @@ namespace DGP.Genshin.Services
 
         public object this[string key]
         {
-            set => this.settingDictionary.AddOrSet(key,value);
+            set => this.settingDictionary.AddOrSet(key, value);
         }
 
         public void Initialize()
@@ -48,7 +51,7 @@ namespace DGP.Genshin.Services
             if (File.Exists(this.settingFile))
             {
                 string json;
-                using (StreamReader sr = new StreamReader(this.settingFile))
+                using (StreamReader sr = new(this.settingFile))
                 {
                     json = sr.ReadToEnd();
                 }
@@ -73,31 +76,5 @@ namespace DGP.Genshin.Services
             using StreamWriter sw = new StreamWriter(this.settingFile);
             sw.Write(json);
         }
-
-        #region 单例
-        private static SettingService instance;
-        private static readonly object _lock = new object();
-        private SettingService() { }
-        public static SettingService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new SettingService();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-
-        public IAutoLifeCycle Self => ((IAutoLifeCycle)Instance).Self;
-
-        #endregion
     }
 }

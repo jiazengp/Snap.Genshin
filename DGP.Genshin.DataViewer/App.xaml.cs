@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.DataViewer.Helpers;
-using DGP.Snap.Framework.Data.Json;
+﻿using DGP.Snap.Framework.Data.Json;
 using System;
 using System.IO;
 using System.Windows;

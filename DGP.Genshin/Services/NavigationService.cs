@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Helper;
+﻿using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;

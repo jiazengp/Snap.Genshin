@@ -4,12 +4,12 @@ using DGP.Genshin.Data.Weapon;
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Exceptions;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -67,8 +67,8 @@ namespace DGP.Genshin.Pages
                     });
                 }
             });
-            Debug.WriteLine("sync completed");
-            
+            this.Log("sync completed");
+
         }
 
         private void PopupDialog()
@@ -94,7 +94,7 @@ namespace DGP.Genshin.Pages
             IEnumerable<GachaLogItem> rank3 = pool.Where(i => i.Rank == "3");
 
             Dictionary<string, int> countOfRank5 = new Dictionary<string, int>();
-            foreach(GachaLogItem item in rank5)
+            foreach (GachaLogItem item in rank5)
             {
                 countOfRank5.AddOrSet(item.Name, v => ++v);
             }

@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using DGP.Snap.Framework.Core.Logging;
+using DGP.Snap.Framework.Core.Model;
+using System;
+using System.Diagnostics;
 
 namespace DGP.Snap.Framework.Extensions.System
 {
@@ -16,6 +19,16 @@ namespace DGP.Snap.Framework.Extensions.System
             {
                 Debug.WriteLine(debugString);
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="info"></param>
+        /// <param name="formatter"></param>
+        public static void Log(this object obj, object info, Func<object, string> formatter = null)
+        {
+            Singleton<Logger>.Instance.Log(obj, info, formatter);
         }
     }
 }

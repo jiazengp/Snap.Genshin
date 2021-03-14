@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataViewer.Helpers.Converters
                 bool? flag2 = (bool?)value;
                 flag = (flag2.HasValue && flag2.Value);
             }
-            
+
             return (!flag) ? Visibility.Collapsed : Visibility.Visible;
         }
 

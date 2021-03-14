@@ -10,7 +10,7 @@ namespace DGP.Genshin.Data.Character
         public CharacterCollection(IEnumerable<Character> collection) : base(collection) { }
 
         private CharacterCollection OfTalentMaterial(TalentMaterial talentMaterial) => new CharacterCollection(this.Where(c => c.TalentMaterial == talentMaterial));
-       
+
         #region mengde
         public IEnumerable<CharacterIcon> Freedom =>
             this.OfTalentMaterial(TalentMaterial.Freedom)

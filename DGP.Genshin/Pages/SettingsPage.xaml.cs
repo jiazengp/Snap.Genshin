@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.Data;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Update;
+using DGP.Snap.Framework.Core.LifeCycle;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -23,9 +25,9 @@ namespace DGP.Genshin.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //unreleased character present
-            this.IsUnreleasedDataPresent = SettingService.Instance.GetOrDefault(Setting.ShowUnreleasedData, false);
+            this.IsUnreleasedDataPresent = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.ShowUnreleasedData, false);
             //traveler present
-            this.TravelerElement = SettingService.Instance.GetOrDefault(Setting.PresentTravelerElementType, Element.Anemo, Setting.EnumConverter<Element>);
+            this.TravelerElement = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.PresentTravelerElementType, Element.Anemo, Setting.EnumConverter<Element>);
             foreach (RadioButton radioButton in this.TravelerOptions.Children)
             {
                 if (ElementHelper.GetElement(radioButton) == this.TravelerElement)
@@ -38,7 +40,7 @@ namespace DGP.Genshin.Pages
             this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             //theme
             Func<object, ApplicationTheme?> converter = n => { if (n == null) { return null; } return (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString()); };
-            this.ThemeComboBox.SelectedIndex = (SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter)) switch
+            this.ThemeComboBox.SelectedIndex = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.AppTheme, null, converter) switch
             {
                 ApplicationTheme.Light => 0,
                 ApplicationTheme.Dark => 1,
@@ -83,16 +85,16 @@ namespace DGP.Genshin.Pages
 
         #endregion
 
-        private void UnreleasedInfoToggled(object sender, RoutedEventArgs e) => SettingService.Instance[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
+        private void UnreleasedInfoToggled(object sender, RoutedEventArgs e) => LifeCycle.InstanceOf<SettingService>()[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
         private void TravelerPresentSwitched(object sender, RoutedEventArgs e)
         {
-            SettingService.Instance[Setting.PresentTravelerElementType] = ElementHelper.GetElement((RadioButton)sender);
-            TravelerPresentService.Instance.SetPresentTraveler();
+            LifeCycle.InstanceOf<SettingService>()[Setting.PresentTravelerElementType] = ElementHelper.GetElement((RadioButton)sender);
+            LifeCycle.InstanceOf<TravelerPresentService>().SetPresentTraveler();
         }
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            var u = (((Button)sender).Tag.ToString()) switch
+            var u = ((Button)sender).Tag.ToString() switch
             {
                 "Github" => UpdateService.Instance.CheckUpdateStateViaGithub(),
                 _ => UpdateService.Instance.CheckUpdateStateViaGitee(),
@@ -122,14 +124,13 @@ namespace DGP.Genshin.Pages
 
         private void ThemeChangeRequested(object sender, SelectionChangedEventArgs e)
         {
-            SettingService.Instance[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch
+            LifeCycle.InstanceOf<SettingService>()[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch
             {
                 0 => ApplicationTheme.Light,
                 1 => ApplicationTheme.Dark,
                 _ => null,
             };
-            Func<object, ApplicationTheme?> converter = n => { if (n == null) { return null; } return (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString()); };
-            ThemeManager.Current.ApplicationTheme = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter);
+            ThemeHelper.SetAppTheme();
         }
     }
 }

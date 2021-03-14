@@ -4,7 +4,7 @@ namespace DGP.Genshin.Models.MiHoYo
 {
     public class GachaLogNode
     {
-        public GachaLogNode(string name,int count, IEnumerable<GachaLogNode> children)
+        public GachaLogNode(string name, int count, IEnumerable<GachaLogNode> children)
         {
             this.Name = name;
             this.Count = count;

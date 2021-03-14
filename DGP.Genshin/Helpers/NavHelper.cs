@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace DGP.Genshin.Helper
+namespace DGP.Genshin.Helpers
 {
     public class NavHelper
     {
