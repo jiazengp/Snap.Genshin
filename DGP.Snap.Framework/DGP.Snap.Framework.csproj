@@ -51,7 +51,6 @@
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
     <Compile Include="Core\LifeCycle\LifeCycle.cs" />
-    <Compile Include="Core\Logging\ILoggable.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Core\Concurrent\ThreadSafe.cs" />
     <Compile Include="Core\Model\Singleton.cs" />

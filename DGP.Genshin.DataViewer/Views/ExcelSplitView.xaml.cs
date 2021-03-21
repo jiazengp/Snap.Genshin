@@ -33,8 +33,10 @@ namespace DGP.Genshin.DataViewer.Views
         }
         private void SetupMemoryUsageTimer()
         {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
             timer.Tick += (s, e) => this.MemoryUsageText.Text = $"内存占用: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB";
             timer.Start();
         }
@@ -150,18 +152,18 @@ namespace DGP.Genshin.DataViewer.Views
             });
             this.BackgroundIndicatorVisibility = Visibility.Collapsed;
         }
-        private void SetRow(DataRow row, JObject o, string inObjString = "")
+        private void SetRow(DataRow row, JObject o, string parentColumnName = "")
         {
             foreach (JProperty p in o.Properties())
             {
-                string columnName = $"{inObjString}{p.Name}";
+                string columnName = $"{parentColumnName}{p.Name}";
                 if (p.Value.Type == JTokenType.Object)
                     this.SetRow(row, p.Value as JObject, $"{columnName}:");
                 else if (p.Value.Type == JTokenType.Array)
                     this.SetRow(row, p.Value as JArray, $"{columnName}:");
                 else if (columnName.Contains("Text") || columnName.Contains("Tips"))
                     row[columnName] = MapService.GetMappedTextBy(p);
-                else if (columnName == "TalkRole:Id" || columnName == "NpcID")
+                else if (columnName == "TalkRole:Id" || columnName.ToLower() == "npcid")
                     row[columnName] = MapService.GetMappedNPCBy(p.Value.ToString());
                 else
                     row[columnName] = p.Value;
@@ -179,7 +181,7 @@ namespace DGP.Genshin.DataViewer.Views
                     this.SetRow(row, t as JArray, $"{columnName}:");
                 else if (columnName.Contains("Text") || columnName.Contains("Tips"))
                     row[columnName] = MapService.GetMappedTextBy((t as JValue).Value.ToString());
-                else if (columnName == "TalkRole:Id" || columnName == "NpcID")
+                else if (columnName == "TalkRole:Id" || columnName.ToLower() == "npcid")
                     row[columnName] = MapService.GetMappedNPCBy((t as JValue).Value.ToString());
                 else
                     row[columnName] = (t as JValue).Value;

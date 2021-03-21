@@ -46,6 +46,16 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helpers:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
             </ui:NavigationView.MenuItems>
+            <ui:NavigationView.PaneFooter>
+                <Grid>
+                    <ui:NavigationViewItem Content="反馈">
+                        <ui:NavigationViewItem.Icon>
+                            <ui:FontIcon Glyph="&#xED15;"/>
+                        </ui:NavigationViewItem.Icon>
+                    </ui:NavigationViewItem>
+
+                </Grid>
+            </ui:NavigationView.PaneFooter>
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>

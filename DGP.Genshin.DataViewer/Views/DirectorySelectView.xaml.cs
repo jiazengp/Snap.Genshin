@@ -2,6 +2,7 @@
 using DGP.Genshin.DataViewer.Helpers;
 using DGP.Genshin.DataViewer.Services;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows;
 using Newtonsoft.Json.Linq;
 using System;
@@ -34,6 +35,20 @@ namespace DGP.Genshin.DataViewer.Views
         {
             WorkingFolderService.SelectWorkingFolder();
             string path = WorkingFolderService.WorkingFolderPath;
+            InitializeMaps(path);
+        }
+        private void OnFolderDrop(object sender, DragEventArgs e)
+        {
+            string folder = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            this.Log($"dropped file path:{folder}");
+            this.Log(Directory.Exists(folder));
+            if (Directory.Exists(folder))
+            {
+                InitializeMaps(folder);
+            }
+        }
+        private void InitializeMaps(string path)
+        {
             if (path == null)
                 return;
             if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))

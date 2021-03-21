@@ -24,7 +24,7 @@ namespace DGP.Genshin.Services
             if (Current == null)
                 Current = this;
             else
-                throw new InvalidOperationException("NavigationServiced的实例在运行期间仅允许创建一次");
+                throw new InvalidOperationException("NavigationService的实例在运行期间仅允许创建一次");
             this.navigationView = navigationView;
             this.frame = frame;
 

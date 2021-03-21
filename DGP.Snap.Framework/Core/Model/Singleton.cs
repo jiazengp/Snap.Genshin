@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Core.LifeCycle;
+using System;
 using System.Collections.Concurrent;
 
 namespace DGP.Snap.Framework.Core.Model
@@ -11,6 +12,8 @@ namespace DGP.Snap.Framework.Core.Model
         {
             get
             {
+                if (typeof(T) == typeof(ILifeCycleManaged))
+                    return (T)LifeCycle.LifeCycle.InstanceOf(typeof(T));
                 return _instances.GetOrAdd(typeof(T), (t) => new T());
             }
         }

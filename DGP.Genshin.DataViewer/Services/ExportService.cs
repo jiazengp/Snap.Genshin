@@ -27,9 +27,9 @@ namespace DGP.Genshin.DataViewer.Services
                 //content
                 if (table.Rows.Count >= 1)
                 {
-                    for (int j = 1; j < table.Rows.Count; j++)
+                    for (int j = 1; j < table.Rows.Count+1; j++)
                     {
-                        DataRow dataRow = table.Rows[j];
+                        DataRow dataRow = table.Rows[j-1];
                         IRow currentRow = sheet.CreateRow(j);
                         for (int k = 0; k < table.Columns.Count; k++)
                         {

@@ -1,8 +1,10 @@
 ﻿using DGP.Genshin.Helpers;
 using DGP.Snap.Framework.Core;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 
 namespace DGP.Genshin
@@ -17,10 +19,14 @@ namespace DGP.Genshin
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            //unhandled exception
+            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
+            //initialize framework
             SnapFramework.Instance.Initialize();
+            this.Log(Assembly.GetExecutingAssembly().GetName().Version);
             //app theme
             ThemeHelper.SetAppTheme();
-            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
+            
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {

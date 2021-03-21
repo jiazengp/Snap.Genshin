@@ -57,5 +57,9 @@ namespace DGP.Snap.Framework.Core.LifeCycle
         {
             return (T)_instances.Find(t => t.GetType() == typeof(T));
         }
+        internal static object InstanceOf(Type type)
+        {
+            return _instances.Find(t => t.GetType() == type);
+        }
     }
 }
