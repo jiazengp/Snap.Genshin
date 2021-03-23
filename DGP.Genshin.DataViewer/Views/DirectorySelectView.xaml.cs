@@ -51,14 +51,22 @@ namespace DGP.Genshin.DataViewer.Views
         {
             if (path == null)
                 return;
-            if (!Directory.Exists(path + @"\TextMap\") || !Directory.Exists(path + @"\Excel\"))
+            string mapPath = null;
+            string excelPath = null;
+            if (Directory.Exists(path + @"\TextMap\"))
+                mapPath = path + @"\TextMap\";
+            if (Directory.Exists(path + @"\Excel\"))
+                excelPath = path + @"\Excel\";
+            if (Directory.Exists(path + @"\ExcelBinOutput\"))
+                excelPath = path + @"\ExcelBinOutput\";
+            if (mapPath == null || excelPath == null)
             {
                 new SelectionSuggestDialog().ShowAsync();
             }
             else
             {
-                this.ExcelSplitView.TextMapCollection = DirectoryEx.GetFileExs(path + @"\TextMap\");
-                this.ExcelSplitView.ExcelConfigDataCollection = DirectoryEx.GetFileExs(path + @"\Excel\");
+                this.ExcelSplitView.TextMapCollection = DirectoryEx.GetFileExs(mapPath);
+                this.ExcelSplitView.ExcelConfigDataCollection = DirectoryEx.GetFileExs(excelPath);
                 if (this.ExcelSplitView.ExcelConfigDataCollection.Count() == 0)
                 {
                     new SelectionSuggestDialog().ShowAsync();
@@ -66,7 +74,6 @@ namespace DGP.Genshin.DataViewer.Views
                 else
                 {
                     this.Container.GoToElementState("SelectingMap", true);
-                    //npcid
                     MapService.NPCMap = new Lazy<Dictionary<string, string>>(() =>
                     Json.ToObject<JArray>(
                         this.ExcelSplitView.ExcelConfigDataCollection
