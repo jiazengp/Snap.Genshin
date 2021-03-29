@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Core.LifeCycle;
+﻿using DGP.Snap.Framework.Core.LifeCycling;
 using DGP.Snap.Framework.Core.Model;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;

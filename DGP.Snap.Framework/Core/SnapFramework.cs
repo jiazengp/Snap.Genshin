@@ -6,34 +6,34 @@ namespace DGP.Snap.Framework.Core
     {
         public void Initialize()
         {
-            Singleton<LifeCycle.LifeCycle>.Instance.InitializeAll();
+            Singleton<LifeCycling.LifeCycle>.Instance.InitializeAll();
         }
         public void UnInitialize()
         {
-            Singleton<LifeCycle.LifeCycle>.Instance.UnInitializeAll();
+            Singleton<LifeCycling.LifeCycle>.Instance.UnInitializeAll();
         }
 
         #region 单例
-        private static SnapFramework instance;
+        private static SnapFramework current;
         private static readonly object _lock = new object();
         private SnapFramework()
         {
         }
-        public static SnapFramework Instance
+        public static SnapFramework Current
         {
             get
             {
-                if (instance == null)
+                if (current == null)
                 {
                     lock (_lock)
                     {
-                        if (instance == null)
+                        if (current == null)
                         {
-                            instance = new SnapFramework();
+                            current = new SnapFramework();
                         }
                     }
                 }
-                return instance;
+                return current;
             }
         }
         #endregion

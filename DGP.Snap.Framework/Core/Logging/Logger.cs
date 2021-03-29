@@ -1,12 +1,16 @@
 ﻿using DGP.Snap.Framework.Core.Entry;
-using DGP.Snap.Framework.Core.LifeCycle;
+using DGP.Snap.Framework.Core.LifeCycling;
 using System;
 using System.Diagnostics;
 
 namespace DGP.Snap.Framework.Core.Logging
 {
-    internal class Logger : ILifeCycleManaged
+    internal class Logger
     {
+        public Logger()
+        {
+            Initialize();
+        }
         private readonly bool isLoggingtoFile = false;
         private readonly bool isLoggingtoConsole = true;
 
@@ -23,8 +27,9 @@ namespace DGP.Snap.Framework.Core.Logging
             }
             if (this.isLoggingtoConsole)
             {
-                Debug.WriteLine("length:" + maxTypeLength);
-                Debug.WriteLine($"{DateTime.Now} | DEBUG | {obj.ToString().PadLeft(maxTypeLength)}:{info}");
+                var type = obj.GetType();
+                string typename = $"{type.Namespace}.{type.Name}";
+                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(maxTypeLength)}:{info}");
             }
         }
 
@@ -32,11 +37,13 @@ namespace DGP.Snap.Framework.Core.Logging
         {
             foreach (Type type in EntryHelper.GetCurrentTypes())
             {
-                int typeLength = type.ToString().Length;
+                string typename = $"{type.Namespace}.{type.Name}";
+                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(maxTypeLength)}:");
+                int typeLength = typename.Length;
                 if (typeLength > this.maxTypeLength)
                     this.maxTypeLength = typeLength;
+                
             }
-            Debug.WriteLine("length:" + maxTypeLength);
         }
 
         public void UnInitialize()
@@ -44,7 +51,5 @@ namespace DGP.Snap.Framework.Core.Logging
 
         }
     }
-
-    public delegate void LogHandler(object info);
 }
 

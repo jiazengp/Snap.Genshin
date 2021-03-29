@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Snap.Framework.Core.LifeCycle;
+using DGP.Snap.Framework.Core.LifeCycling;
 using System;
 using System.Linq;
 using System.Windows;

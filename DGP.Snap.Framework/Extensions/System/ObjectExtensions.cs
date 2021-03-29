@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Core.LifeCycle;
+﻿using DGP.Snap.Framework.Core.LifeCycling;
 using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Core.Model;
 using System;
@@ -29,7 +29,7 @@ namespace DGP.Snap.Framework.Extensions.System
         /// <param name="formatter"></param>
         public static void Log(this object obj, object info, Func<object, string> formatter = null)
         {
-            LifeCycle.InstanceOf<Logger>().Log(obj, info, formatter);
+            Singleton<Logger>.Instance.Log(obj, info, formatter);
         }
     }
 }

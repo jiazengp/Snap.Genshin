@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DGP.Snap.Framework.Core.LifeCycle
+namespace DGP.Snap.Framework.Core.LifeCycling
 {
     public class LifeCycle
     {
@@ -55,7 +55,14 @@ namespace DGP.Snap.Framework.Core.LifeCycle
 
         public static T InstanceOf<T>() where T : ILifeCycleManaged
         {
-            return (T)_instances.Find(t => t.GetType() == typeof(T));
+            var ins = _instances.Find(t => t.GetType() == typeof(T));
+            if (ins == null)
+            {
+                object o = Activator.CreateInstance(typeof(T));
+                _instances.Add(o);
+                return (T)o;
+            }
+            return (T)ins;
         }
         internal static object InstanceOf(Type type)
         {

@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Data;
 using DGP.Genshin.Data.Character;
-using DGP.Snap.Framework.Core.LifeCycle;
+using DGP.Snap.Framework.Core.LifeCycling;
 using System;
 
 namespace DGP.Genshin.Services

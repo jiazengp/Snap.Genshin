@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Core.LifeCycle
+﻿namespace DGP.Snap.Framework.Core.LifeCycling
 {
     public interface ILifeCycleManaged
     {

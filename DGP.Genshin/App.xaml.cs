@@ -13,7 +13,7 @@ namespace DGP.Genshin
     {
         protected override void OnExit(ExitEventArgs e)
         {
-            SnapFramework.Instance.UnInitialize();
+            SnapFramework.Current.UnInitialize();
             base.OnExit(e);
         }
         protected override void OnStartup(StartupEventArgs e)
@@ -22,7 +22,7 @@ namespace DGP.Genshin
             //unhandled exception
             AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
             //initialize framework
-            SnapFramework.Instance.Initialize();
+            SnapFramework.Current.Initialize();
             this.Log(Assembly.GetExecutingAssembly().GetName().Version);
             //app theme
             ThemeHelper.SetAppTheme();
