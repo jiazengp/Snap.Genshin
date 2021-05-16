@@ -26,7 +26,7 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.data == null)
+                if (this.data.GachaLogs.Count == 0)
                     this.RequestAllGachaLogsMergeSave();
                 return this.data;
             }
@@ -49,7 +49,7 @@ namespace DGP.Genshin.Services
                     Url = this.gachaLogUrl,
                 };
 
-                Dictionary<string, IEnumerable<GachaLogItem>> dict = new Dictionary<string, IEnumerable<GachaLogItem>>();
+                Dictionary<string, IEnumerable<GachaLogItem>> dict = new();
                 foreach (GachaConfigType type in this.requestedData.Types)
                 {
                     dict.Add(type.Key, this.RequestGachaLogsOf(type));
@@ -63,11 +63,12 @@ namespace DGP.Genshin.Services
             {
                 onErrorcallback.Invoke();
             }
-
+            this.Log("gacha web request finished");
         }
 
         private IEnumerable<GachaLogItem> RequestGachaLogsOf(GachaConfigType type)
         {
+            this.Log("request started");
             //modify the url ,actually the fragment #/log is not necessary
             string[] splitedUrl = this.gachaLogUrl.Split('?');
             string baseUrl = splitedUrl[0];
@@ -77,14 +78,16 @@ namespace DGP.Genshin.Services
             queryString.Set("size", "20");
             queryString.Set("page", "0");
             queryString.Set("lang", "zh-cn");
-
+            int page = 0;
             GachaLogInfo tmpinfo;
             do
             {
-                queryString.Set("page", (Int32.Parse(queryString["page"]) + 1).ToString());
-                string finalUrl = baseUrl + "?" + queryString;
-
+                this.Log("request page");
+                queryString.Set("page", (++page).ToString());
+                string finalUrl = $"{baseUrl}?{queryString}";
+                this.Log("page number:" + queryString["page"]);
                 tmpinfo = Json.GetWebRequestObject<GachaLogInfo>(finalUrl);
+                this.Log(tmpinfo);
                 foreach (GachaLogItem item in tmpinfo.Data.List)
                     yield return item;
             } while (tmpinfo.Data.List.Count == 20);
@@ -107,14 +110,23 @@ namespace DGP.Genshin.Services
                     return;
                 }
 
-                this.Data.Uid = this.requestedData.Uid;
-                this.Data.Types = this.requestedData.Types;
+                this.data.Uid = this.requestedData.Uid;
+                this.data.Types = this.requestedData.Types;
                 //遍历每个请求得到的池
                 foreach (KeyValuePair<string, IEnumerable<GachaLogItem>> requestedPoolEntry in this.requestedData.GachaLogs)
                 {
-                    DateTime localTime = this.Data.GachaLogs[requestedPoolEntry.Key].First().Time;
-                    IEnumerable<GachaLogItem> newItems = requestedPoolEntry.Value.TakeWhile(item => item.Time > localTime);
-                    this.Data.GachaLogs[requestedPoolEntry.Key] = newItems.Concat(this.Data.GachaLogs[requestedPoolEntry.Key]);
+                    IEnumerable<GachaLogItem> newItems;
+                    if (this.data.GachaLogs.ContainsKey(requestedPoolEntry.Key))
+                    {
+                        DateTime localTime = this.data.GachaLogs[requestedPoolEntry.Key].First().Time;
+                        newItems = requestedPoolEntry.Value.TakeWhile(item => item.Time > localTime);
+                        this.data.GachaLogs.Add(requestedPoolEntry.Key, newItems.Concat(this.data.GachaLogs[requestedPoolEntry.Key]));
+                    }
+                    else
+                    {
+                        newItems = requestedPoolEntry.Value;
+                        this.data.GachaLogs.Add(requestedPoolEntry.Key, newItems);
+                    }
                 }
                 this.SaveToLocalData();
             }
@@ -189,7 +201,7 @@ namespace DGP.Genshin.Services
         private static readonly object _lock = new();
         private GachaStatisticService()
         {
-            this.Data = this.RetriveLocalData();
+            this.data = this.RetriveLocalData();
             this.InitializeUrls();
         }
         private void InitializeUrls()
@@ -219,7 +231,10 @@ namespace DGP.Genshin.Services
                 this.gachaLogUrl = this.data.Url;
             }
             this.configListUrl = this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?");
-            this.data.Url = this.gachaLogUrl;
+            this.data = new()
+            {
+                Url = this.gachaLogUrl
+            };
         }
         public static GachaStatisticService Instance
         {

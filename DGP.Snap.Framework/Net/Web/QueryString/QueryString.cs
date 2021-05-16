@@ -11,7 +11,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
     /// </summary>
     public class QueryString : IEnumerable<QueryStringParameter>, IEquatable<QueryString>
     {
-        private readonly Dictionary<string, List<string>> _dictionary = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<string>> _dictionary = new();
 
         /// <summary>
         /// Constructs a new empty query string.

@@ -14,5 +14,10 @@ namespace DGP.Genshin.Models.MiHoYo
         [JsonProperty("lang")] public string Language { get; set; }
         [JsonProperty("item_type")] public string ItemType { get; set; }
         [JsonProperty("rank_type")] public string Rank { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
