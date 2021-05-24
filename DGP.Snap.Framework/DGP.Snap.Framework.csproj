@@ -47,7 +47,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\AttributeService.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
     <Compile Include="Core\LifeCycle\LifeCycle.cs" />

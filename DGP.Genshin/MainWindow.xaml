@@ -3,11 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DGP.Genshin"
-        xmlns:ui="http://schemas.modernwpf.com/2019" 
-        xmlns:helpers="clr-namespace:DGP.Genshin.Helpers" 
-        xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
-        xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
+        xmlns:pages="clr-namespace:DGP.Genshin.Pages"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         ui:TitleBar.IsBackButtonVisible="{Binding ElementName=ContentFrame,Path=CanGoBack,Mode=OneWay}"  
@@ -46,16 +44,6 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem IsEnabled="False" Content="伤害计算" helpers:NavHelper.NavigateTo="{x:Type pages:CalculationPage}" Icon="Calculator"/>
             </ui:NavigationView.MenuItems>
-            <ui:NavigationView.PaneFooter>
-                <Grid>
-                    <ui:NavigationViewItem Content="反馈">
-                        <ui:NavigationViewItem.Icon>
-                            <ui:FontIcon Glyph="&#xED15;"/>
-                        </ui:NavigationViewItem.Icon>
-                    </ui:NavigationViewItem>
-
-                </Grid>
-            </ui:NavigationView.PaneFooter>
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>

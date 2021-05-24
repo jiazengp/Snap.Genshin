@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "F4SDsIUbH9w+TlfB2noiE8ZSqeqVTItC8+rGjWIcvTH+2PszzzcTgCTszInWuvpTDdSOGK9Zx1h0DAaaiLINww==",
+  "success": true,
+  "projectFilePath": "D:\\Snap.Genshin\\DGP.Genshin2\\DGP.Genshin2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\16861\\.nuget\\packages\\htmlagilitypack\\1.11.33\\htmlagilitypack.1.11.33.nupkg.sha512"
+  ],
+  "logs": []
+}
