@@ -28,7 +28,7 @@ namespace DGP.Snap.Framework.Core.LifeCycling
                 }
             }
 
-            if (initalized)
+            if (this.initalized)
                 return;
             if (_instances != null && _instances.Count >= 0)
             {
@@ -37,7 +37,7 @@ namespace DGP.Snap.Framework.Core.LifeCycling
                     instance.Initialize();
                 }
             }
-            initalized = true;
+            this.initalized = true;
         }
         /// <summary>
         /// 生命周期结束
@@ -55,7 +55,7 @@ namespace DGP.Snap.Framework.Core.LifeCycling
 
         public static T InstanceOf<T>() where T : ILifeCycleManaged
         {
-            var ins = _instances.Find(t => t.GetType() == typeof(T));
+            object ins = _instances.Find(t => t.GetType() == typeof(T));
             if (ins == null)
             {
                 object o = Activator.CreateInstance(typeof(T));
@@ -64,9 +64,6 @@ namespace DGP.Snap.Framework.Core.LifeCycling
             }
             return (T)ins;
         }
-        internal static object InstanceOf(Type type)
-        {
-            return _instances.Find(t => t.GetType() == type);
-        }
+        internal static object InstanceOf(Type type) => _instances.Find(t => t.GetType() == type);
     }
 }

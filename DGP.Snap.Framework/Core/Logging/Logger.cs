@@ -1,5 +1,4 @@
 ﻿using DGP.Snap.Framework.Core.Entry;
-using DGP.Snap.Framework.Core.LifeCycling;
 using System;
 using System.Diagnostics;
 
@@ -9,7 +8,7 @@ namespace DGP.Snap.Framework.Core.Logging
     {
         public Logger()
         {
-            Initialize();
+            this.Initialize();
         }
         private readonly bool isLoggingtoFile = false;
         private readonly bool isLoggingtoConsole = true;
@@ -27,9 +26,9 @@ namespace DGP.Snap.Framework.Core.Logging
             }
             if (this.isLoggingtoConsole)
             {
-                var type = obj.GetType();
+                Type type = obj.GetType();
                 string typename = $"{type.Namespace}.{type.Name}";
-                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(maxTypeLength)}:{info}");
+                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(this.maxTypeLength)}:{info}");
             }
         }
 
@@ -38,11 +37,11 @@ namespace DGP.Snap.Framework.Core.Logging
             foreach (Type type in EntryHelper.GetCurrentTypes())
             {
                 string typename = $"{type.Namespace}.{type.Name}";
-                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(maxTypeLength)}:");
+                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(this.maxTypeLength)}:");
                 int typeLength = typename.Length;
                 if (typeLength > this.maxTypeLength)
                     this.maxTypeLength = typeLength;
-                
+
             }
         }
 

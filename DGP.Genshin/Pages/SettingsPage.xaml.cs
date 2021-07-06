@@ -1,7 +1,5 @@
-﻿using DGP.Genshin.Data;
-using DGP.Genshin.Helpers;
-using DGP.Genshin.Services;
-using DGP.Genshin.Services.Update;
+﻿using DGP.Genshin.Services;
+using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Core.LifeCycling;
 using ModernWpf;
 using System;
@@ -26,15 +24,6 @@ namespace DGP.Genshin.Pages
         {
             //unreleased character present
             this.IsUnreleasedDataPresent = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.ShowUnreleasedData, false);
-            //traveler present
-            this.TravelerElement = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.PresentTravelerElementType, Element.Anemo, Setting.EnumConverter<Element>);
-            foreach (RadioButton radioButton in this.TravelerOptions.Children)
-            {
-                if (ElementHelper.GetElement(radioButton) == this.TravelerElement)
-                {
-                    radioButton.IsChecked = true;
-                }
-            }
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
@@ -56,8 +45,6 @@ namespace DGP.Genshin.Pages
         }
         public static readonly DependencyProperty IsUnreleasedDataPresentProperty =
             DependencyProperty.Register("IsUnreleasedDataPresent", typeof(bool), typeof(SettingsPage), new PropertyMetadata(false));
-
-        public Element TravelerElement { get; set; }
 
         public UpdateInfo UpdateInfo
         {
@@ -88,13 +75,11 @@ namespace DGP.Genshin.Pages
         private void UnreleasedInfoToggled(object sender, RoutedEventArgs e) => LifeCycle.InstanceOf<SettingService>()[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
         private void TravelerPresentSwitched(object sender, RoutedEventArgs e)
         {
-            LifeCycle.InstanceOf<SettingService>()[Setting.PresentTravelerElementType] = ElementHelper.GetElement((RadioButton)sender);
-            LifeCycle.InstanceOf<TravelerPresentService>().SetPresentTraveler();
         }
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            var u = ((Button)sender).Tag.ToString() switch
+            UpdateState u = ((Button)sender).Tag.ToString() switch
             {
                 "Github" => UpdateService.Instance.CheckUpdateStateViaGithub(),
                 _ => UpdateService.Instance.CheckUpdateStateViaGitee(),
@@ -130,7 +115,13 @@ namespace DGP.Genshin.Pages
                 1 => ApplicationTheme.Dark,
                 _ => null,
             };
-            ThemeHelper.SetAppTheme();
+            SetAppTheme();
+        }
+
+        internal static void SetAppTheme()
+        {
+            static ApplicationTheme? converter(object n) => n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
+            ThemeManager.Current.ApplicationTheme = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.AppTheme, null, converter);
         }
     }
 }

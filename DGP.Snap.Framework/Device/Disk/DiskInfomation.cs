@@ -9,12 +9,15 @@ namespace DGP.Snap.Framework.Device.Disk
         public string AvailableSize { get; set; }
         public double UsedPersentage { get; set; }
 
-        public static implicit operator DiskInfomation(DriveInfo driveInfo) => new DiskInfomation
+        public static implicit operator DiskInfomation(DriveInfo driveInfo)
         {
-            Name = driveInfo.Name.Replace("\\", ""),
-            TotalSize = $"{driveInfo.TotalSize / 1024 / 1024 / 1024:#0}G",
-            AvailableSize = $"{driveInfo.AvailableFreeSpace / 1024 / 1024 / 1024:#0}G",
-            UsedPersentage = (driveInfo.TotalSize - driveInfo.AvailableFreeSpace) * 1.0 / driveInfo.TotalSize
-        };
+            return new DiskInfomation
+            {
+                Name = driveInfo.Name.Replace("\\", ""),
+                TotalSize = $"{driveInfo.TotalSize / 1024 / 1024 / 1024:#0}G",
+                AvailableSize = $"{driveInfo.AvailableFreeSpace / 1024 / 1024 / 1024:#0}G",
+                UsedPersentage = (driveInfo.TotalSize - driveInfo.AvailableFreeSpace) * 1.0 / driveInfo.TotalSize
+            };
+        }
     }
 }

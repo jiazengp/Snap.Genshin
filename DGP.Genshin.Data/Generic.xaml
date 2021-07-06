@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=System">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Characters/Characters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/GemStones/GemStones.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/Locals/Locals.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Bosses.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Monsters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/Talents/DailyTalents.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DGP.Genshin.Data;component/Materials/Weeklys/WeeklyTalents.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

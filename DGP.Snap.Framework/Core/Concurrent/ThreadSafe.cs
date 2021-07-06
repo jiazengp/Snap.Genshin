@@ -26,30 +26,30 @@ namespace DGP.Snap.Framework.Core.Concurrent
         public ThreadSafe(object o)
         {
             this.o = o;
-            t = o.GetType().GetTypeInfo();
-            myLock = new object();
+            this.t = o.GetType().GetTypeInfo();
+            this.myLock = new object();
         }
 
         /// <inheritdoc />
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            var prop = t.GetDeclaredProperty(binder.Name);
+            PropertyInfo prop = this.t.GetDeclaredProperty(binder.Name);
             if (prop != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    prop.SetValue(o, value);
+                    prop.SetValue(this.o, value);
                 }
 
                 return true;
             }
 
-            var field = t.GetDeclaredField(binder.Name);
+            FieldInfo field = this.t.GetDeclaredField(binder.Name);
             if (field != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    field.SetValue(o, value);
+                    field.SetValue(this.o, value);
                 }
 
                 return true;
@@ -61,23 +61,23 @@ namespace DGP.Snap.Framework.Core.Concurrent
         /// <inheritdoc />
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            var prop = t.GetDeclaredProperty(binder.Name);
+            PropertyInfo prop = this.t.GetDeclaredProperty(binder.Name);
             if (prop != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    result = prop.GetValue(o);
+                    result = prop.GetValue(this.o);
                 }
 
                 return true;
             }
 
-            var field = t.GetDeclaredField(binder.Name);
+            FieldInfo field = this.t.GetDeclaredField(binder.Name);
             if (field != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    result = field.GetValue(o);
+                    result = field.GetValue(this.o);
                 }
 
                 return true;
@@ -98,10 +98,10 @@ namespace DGP.Snap.Framework.Core.Concurrent
         {
             // TODO: Is there a better way to do this?
 
-            var prop = t.GetDeclaredProperty("Item");
+            PropertyInfo prop = this.t.GetDeclaredProperty("Item");
             if (prop == null || prop.GetIndexParameters().Length == 0)
             {
-                prop = t.DeclaredProperties.FirstOrDefault(p => p.GetIndexParameters().Length != 0);
+                prop = this.t.DeclaredProperties.FirstOrDefault(p => p.GetIndexParameters().Length != 0);
             }
 
             return prop;
@@ -110,12 +110,12 @@ namespace DGP.Snap.Framework.Core.Concurrent
         /// <inheritdoc />
         public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)
         {
-            var prop = GetIndexedProperty();
+            PropertyInfo prop = this.GetIndexedProperty();
             if (prop != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    prop.SetValue(o, value, indexes);
+                    prop.SetValue(this.o, value, indexes);
                 }
 
                 return true;
@@ -127,12 +127,12 @@ namespace DGP.Snap.Framework.Core.Concurrent
         /// <inheritdoc />
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
         {
-            var prop = GetIndexedProperty();
+            PropertyInfo prop = this.GetIndexedProperty();
             if (prop != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    result = prop.GetValue(o, indexes);
+                    result = prop.GetValue(this.o, indexes);
                 }
 
                 return true;
@@ -145,12 +145,12 @@ namespace DGP.Snap.Framework.Core.Concurrent
         /// <inheritdoc />
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            var method = t.GetDeclaredMethod(binder.Name);
+            MethodInfo method = this.t.GetDeclaredMethod(binder.Name);
             if (method != null)
             {
-                lock (myLock)
+                lock (this.myLock)
                 {
-                    result = method.Invoke(o, args);
+                    result = method.Invoke(this.o, args);
                 }
 
                 return true;

@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:l="clr-namespace:DGP.Genshin.Data.Materials.Locals">
+    <l:Local x:Key="Local_CallaLily" Name="嘟嘟莲" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_600_35.png"/>
+    <l:Local x:Key="Local_Cecilia" Name="塞西莉亚花" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_601_35.png"/>
+    <l:Local x:Key="Local_CorLapis" Name="石珀" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_602_35.png"/>
+    <l:Local x:Key="Local_DandelionSeed" Name="蒲公英种子" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_603_35.png"/>
+    <l:Local x:Key="Local_GlazeLily" Name="琉璃百合" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_604_35.png"/>
+    <l:Local x:Key="Local_JueyunChili" Name="绝云椒椒" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_605_35.png"/>
+    <l:Local x:Key="Local_NoctilucousJade" Name="夜泊石" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_606_35.png"/>
+    <l:Local x:Key="Local_PhilanemoMushroom" Name="慕风蘑菇" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_607_35.png"/>
+    <l:Local x:Key="Local_SilkFlower" Name="霓裳花" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_608_35.png"/>
+    <l:Local x:Key="Local_SmallLampGrass" Name="小灯草" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_609_35.png"/>
+    <l:Local x:Key="Local_Valberry" Name="落落莓" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_610_35.png"/>
+    <l:Local x:Key="Local_Violetgrass" Name="琉璃袋" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_611_35.png"/>
+    <l:Local x:Key="Local_WindwheelAster" Name="风车菊" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_612_35.png"/>
+    <l:Local x:Key="Local_Wolfhook" Name="钩钩果" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_613_35.png"/>
+    <l:Local x:Key="Local_Qingxin" Name="清心" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_614_35.png"/>
+    <l:Local x:Key="Local_Starconch" Name="星螺" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_663_35.png"/>
+    <l:Local x:Key="Local_SeaGanoderma" Name="海灵芝" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_675_35.png"/>
+    <l:Local x:Key="Local_SakuraBloom" Name="绯樱绣球" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_678_35.png"/>
+    <l:Local x:Key="Local_CrystalMarrow" Name="晶化骨髓" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_679_35.png"/>
+    <l:Local x:Key="Local_NakuWeed" Name="鸣草" Source="https://genshin.honeyhunterworld.com/img/upgrade/gem/i_681_35.png"/>
+</ResourceDictionary>

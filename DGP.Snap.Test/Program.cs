@@ -12,12 +12,12 @@ namespace DGP.Snap.Test
     {
         private static void Main(string[] args)
         {
-            var li = GachaStatisticService.Instance.GetGachaConfigInfo().Data.GachaTypeList;
+            List<GachaConfigType> li = GachaStatisticService.Instance.GetGachaConfigInfo().Data.GachaTypeList;
             foreach (GachaConfigType type in li)
             {
                 Debug.WriteLine(type.Name + type.Key);
-                var newli = GachaStatisticService.Instance.GetGachaLogsOf(type);
-                foreach (var item in newli)
+                IEnumerable<GachaLogItem> newli = GachaStatisticService.Instance.GetGachaLogsOf(type);
+                foreach (GachaLogItem item in newli)
                 {
                     //Debug.WriteLine(item.Name);
                 }
@@ -27,10 +27,10 @@ namespace DGP.Snap.Test
 
     public class GachaStatisticService
     {
-        private string logFilePath;
+        private readonly string logFilePath;
 
-        private string gachaLogUrl;
-        private string configListUrl;
+        private readonly string gachaLogUrl;
+        private readonly string configListUrl;
 
         public GachaConfigInfo GetGachaConfigInfo() => Json.GetWebRequestObject<GachaConfigInfo>(this.configListUrl);
 

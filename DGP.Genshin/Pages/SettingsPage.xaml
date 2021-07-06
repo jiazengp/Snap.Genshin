@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages"
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
-      xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
       xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
       mc:Ignorable="d" 
       d:DesignHeight="1600" 
@@ -14,13 +13,7 @@
       Loaded="Page_Loaded"
       Title="SettingsPage">
     <Page.Resources>
-        <ResourceDictionary Source="/DGP.Genshin;component/Data/Character/CharacterDictionary.xaml">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <converters:ElementToIndexConverter x:Key="ElementToIndexConverter"/>
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+
     </Page.Resources>
     <Grid>
         <ui:ContentDialog x:Name="UpdateDialog" Title="下载更新中" CloseButtonText="取消" DefaultButton="Close" CloseButtonClick="UpdateCancellationRequested" d:IsHidden="True">
@@ -46,17 +39,6 @@
                 <TextBlock Text="在页面上展示未发布的角色和武器" Margin="0,18,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:ToggleSwitch OnContent="显示" OffContent="隐藏" IsOn="{Binding IsUnreleasedDataPresent,Mode=TwoWay}" Toggled="UnreleasedInfoToggled"/>
                 <TextBlock Text="*未发布角色或武器为开发中内容，请以正式服上线为准" Margin="0,2" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
-
-                <TextBlock Text="在页面上展示的旅行者形象" Margin="0,18,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <StackPanel x:Name="TravelerOptions" Orientation="Horizontal">
-                    <RadioButton helpers:ElementHelper.Element="Anemo" GroupName="Traveler" Checked="TravelerPresentSwitched">
-                        <controls:CharacterIcon Character="{StaticResource TravelerAnemo}"/>
-                    </RadioButton>
-                    <RadioButton helpers:ElementHelper.Element="Geo" GroupName="Traveler" Checked="TravelerPresentSwitched">
-                        <controls:CharacterIcon Character="{StaticResource TravelerGeo}"/>
-                    </RadioButton>
-                </StackPanel>
-                <TextBlock Text="*选择的形象会影响旅行者的属性" Margin="0,8,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
                 <TextBlock Text="外观" Margin="0,24,0,18" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
                     <ComboBoxItem Content="浅色"/>
@@ -69,13 +51,14 @@
 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Text="检查更新并安装" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Text="检查更新并安装" Margin="0,5,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="4" Tag="Github" Content="GitHub" Click="UpdateRequested"/>
                     <Button Margin="4" Tag="Gitee" IsEnabled="False" Content="Gitee" Click="UpdateRequested"/>
                 </StackPanel>
-                <!--<TextBlock Margin="0,8,0,0" Text="*Gitee上发行的版本不一定为最新版，与GitHub存在一定延迟" Style="{StaticResource CaptionTextBlockStyle}"/>-->
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Text="Honey Impact" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,8,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

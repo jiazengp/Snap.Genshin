@@ -5,6 +5,9 @@
     /// </summary>
     public partial class SelectionSuggestDialog : ModernWpf.Controls.ContentDialog
     {
-        public SelectionSuggestDialog() => this.InitializeComponent();
+        public SelectionSuggestDialog()
+        {
+            this.InitializeComponent();
+        }
     }
 }

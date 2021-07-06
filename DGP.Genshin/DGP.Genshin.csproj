@@ -77,75 +77,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\CharacterDialog.xaml.cs">
-      <DependentUpon>CharacterDialog.xaml</DependentUpon>
+    <Compile Include="Controls\CachedImage\FileCache.cs" />
+    <Compile Include="Controls\CachedImage\CachedImage.cs" />
+    <Compile Include="Controls\Characters\CharacterItem.xaml.cs">
+      <DependentUpon>CharacterItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CharacterIcon.xaml.cs">
-      <DependentUpon>CharacterIcon.xaml</DependentUpon>
+    <Compile Include="Controls\ContentIcon.xaml.cs">
+      <DependentUpon>ContentIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Converters\StatToStringConverter.cs" />
-    <Compile Include="Controls\Converters\StatValueConverter.cs" />
-    <Compile Include="Controls\Converters\ElementToImageSourceConverter.cs" />
-    <Compile Include="Controls\Converters\ElementToIndexConverter.cs" />
-    <Compile Include="Controls\Converters\ElementToNameConverter.cs" />
-    <Compile Include="Controls\Converters\StarToImageSourceConverter.cs" />
-    <Compile Include="Controls\Converters\UriToImageSourceConverter.cs" />
-    <Compile Include="Controls\Converters\StarToSolidColorBrushConverter.cs" />
-    <Compile Include="Controls\GachaStatistic\ProbabilityPresenter.xaml.cs">
-      <DependentUpon>ProbabilityPresenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MaterialIcon.xaml.cs">
-      <DependentUpon>MaterialIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MonsterIcon.xaml.cs">
-      <DependentUpon>MonsterIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TalentMaterialPresenter.xaml.cs">
-      <DependentUpon>TalentMaterialPresenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Converters\TalentMaterialToGuideConverter.cs" />
-    <Compile Include="Controls\Converters\TalentMaterialToNameConverter.cs" />
-    <Compile Include="Controls\Converters\TalentMaterialToPhilosophiesConverter.cs" />
-    <Compile Include="Controls\Converters\TalentMaterialToTeachingConverter.cs" />
-    <Compile Include="Controls\WeaponDialog.xaml.cs">
-      <DependentUpon>WeaponDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\WeaponIcon.xaml.cs">
-      <DependentUpon>WeaponIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\WeaponMaterialPresenter.xaml.cs">
-      <DependentUpon>WeaponMaterialPresenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Converters\WeaponMaterialTo1Converter.cs" />
-    <Compile Include="Controls\Converters\WeaponMaterialTo2Converter.cs" />
-    <Compile Include="Controls\Converters\WeaponMaterialTo3Converter.cs" />
-    <Compile Include="Controls\Converters\WeaponMaterialTo4Converter.cs" />
-    <Compile Include="Controls\Converters\WeaponMaterialToNameConverter.cs" />
-    <Compile Include="Data\Artifact\ArtifactProvider.cs" />
-    <Compile Include="Data\Artifact\ArtifactSet.cs" />
-    <Compile Include="Data\Artifact\CircletofLogos.cs" />
-    <Compile Include="Data\Artifact\FlowerofLife.cs" />
-    <Compile Include="Data\Artifact\GobletofEonothem.cs" />
-    <Compile Include="Data\Artifact\PlumeofDeath.cs" />
-    <Compile Include="Data\Artifact\SandsofEon.cs" />
-    <Compile Include="Data\Character\CalculatorCollection.cs" />
-    <Compile Include="Data\Character\CharacterCollection.cs" />
-    <Compile Include="Data\Character\CharacterManager.cs" />
-    <Compile Include="Data\Element.cs" />
-    <Compile Include="Data\Monster\Monster.cs" />
-    <Compile Include="Data\Weapon\Passives\TimeCollection.cs" />
-    <Compile Include="Data\Stat.cs" />
-    <Compile Include="Data\Talent\TalentHelper.cs" />
-    <Compile Include="Data\Talent\TalentMaterial.cs" />
-    <Compile Include="Data\Weapon\Passives\PassiveCollection.cs" />
-    <Compile Include="Data\Weapon\Passives\ValueCollection.cs" />
-    <Compile Include="Data\Weapon\WeaponCollection.cs" />
-    <Compile Include="Data\Weapon\WeaponHelper.cs" />
-    <Compile Include="Data\Weapon\WeaponManager.cs" />
-    <Compile Include="Data\Weapon\WeaponMaterial.cs" />
-    <Compile Include="Data\Weapon\WeaponType.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
@@ -157,90 +97,27 @@
     <Compile Include="Models\MiHoYo\GachaLogItem.cs" />
     <Compile Include="Models\MiHoYo\GachaLogInfo.cs" />
     <Compile Include="Models\MiHoYo\GachaLogNode.cs" />
-    <Compile Include="Pages\CalculationPage.xaml.cs">
-      <DependentUpon>CalculationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\DailyMaterialPage.xaml.cs">
-      <DependentUpon>DailyMaterialPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\ElementHelper.cs" />
-    <Compile Include="Pages\GachaStatisticPage.xaml.cs">
-      <DependentUpon>GachaStatisticPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\WeeklyMaterialPage.xaml.cs">
-      <DependentUpon>WeeklyMaterialPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Services\GachaStatisticService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\Setting.cs" />
     <Compile Include="Services\SettingService.cs" />
-    <Compile Include="Services\TravelerPresentService.cs" />
-    <Compile Include="Services\Update\UpdateDialog.xaml.cs">
+    <Compile Include="Services\Updating\UpdateDialog.xaml.cs">
       <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\Update\UpdateInfo.cs" />
-    <Compile Include="Services\Update\UpdateService.cs" />
-    <Compile Include="Services\Update\UpdateState.cs" />
-    <Compile Include="Simulation\Calculation\BasicValue.cs" />
-    <Compile Include="Simulation\Calculation\Calculator.cs" />
-    <Compile Include="Simulation\Calculation\DamageType.cs" />
-    <Compile Include="Simulation\Calculation\TalentBuffFunction.cs" />
-    <Compile Include="Simulation\Calculation\Target.cs" />
-    <Page Include="Controls\CharacterDialog.xaml">
+    <Compile Include="Services\Updating\UpdateInfo.cs" />
+    <Compile Include="Services\Updating\UpdateService.cs" />
+    <Compile Include="Services\Updating\UpdateState.cs" />
+    <Page Include="Controls\Characters\CharacterItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CharacterIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GachaStatistic\ProbabilityPresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MaterialIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MonsterIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TalentMaterialPresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\WeaponDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\WeaponIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\WeaponMaterialPresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Data\Character\CharacterDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Data\MaterialDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Data\Monster\MonsterDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Data\Weapon\WeaponDictionary.xaml">
+    <Page Include="Controls\ContentIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,31 +129,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Artifact\Artifact.cs" />
-    <Compile Include="Data\Artifact\ArtifactGroup.cs" />
-    <Compile Include="Data\Character\Character.cs" />
-    <Compile Include="Data\Constelllation.cs" />
-    <Compile Include="Data\Material.cs" />
-    <Compile Include="Data\Weapon\Passives\Passive.cs" />
-    <Compile Include="Data\Talent\Talent.cs" />
-    <Compile Include="Data\Talent\TalentGroup.cs" />
-    <Compile Include="Data\Weapon\Weapon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\CalculationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\DailyMaterialPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\GachaStatisticPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -285,11 +141,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\WeeklyMaterialPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Services\Update\UpdateDialog.xaml">
+    <Page Include="Services\Updating\UpdateDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -313,324 +165,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ModernWpfUI">
-      <Version>0.9.3</Version>
+      <Version>0.9.4</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NPOI">
-      <Version>2.5.2</Version>
+      <Version>2.5.3</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Characters\albedo.png" />
-    <Resource Include="Data\Images\Characters\amber.png" />
-    <Resource Include="Data\Images\Characters\ayaka.png" />
-    <Resource Include="Data\Images\Characters\barbara.png" />
-    <Resource Include="Data\Images\Characters\beidou.png" />
-    <Resource Include="Data\Images\Characters\bennett.png" />
-    <Resource Include="Data\Images\Characters\chongyun.png" />
-    <Resource Include="Data\Images\Characters\diluc.png" />
-    <Resource Include="Data\Images\Characters\diona.png" />
-    <Resource Include="Data\Images\Characters\fischl.png" />
-    <Resource Include="Data\Images\Characters\ganyu.png" />
-    <Resource Include="Data\Images\Characters\hutao.png" />
-    <Resource Include="Data\Images\Characters\jean.png" />
-    <Resource Include="Data\Images\Characters\kaeya.png" />
-    <Resource Include="Data\Images\Characters\keqing.png" />
-    <Resource Include="Data\Images\Characters\klee.png" />
-    <Resource Include="Data\Images\Characters\lisa.png" />
-    <Resource Include="Data\Images\Characters\mona.png" />
-    <Resource Include="Data\Images\Characters\ningguang.png" />
-    <Resource Include="Data\Images\Characters\noelle.png" />
-    <Resource Include="Data\Images\Characters\qiqi.png" />
-    <Resource Include="Data\Images\Characters\razor.png" />
-    <Resource Include="Data\Images\Characters\rosaria.png" />
-    <Resource Include="Data\Images\Characters\sucrose.png" />
-    <Resource Include="Data\Images\Characters\tartaglia.png" />
-    <Resource Include="Data\Images\Characters\traveler_anemo.png" />
-    <Resource Include="Data\Images\Characters\traveler_geo.png" />
-    <Resource Include="Data\Images\Characters\venti.png" />
-    <Resource Include="Data\Images\Characters\xiangling.png" />
-    <Resource Include="Data\Images\Characters\xiao.png" />
-    <Resource Include="Data\Images\Characters\xingqiu.png" />
-    <Resource Include="Data\Images\Characters\xinyan.png" />
-    <Resource Include="Data\Images\Characters\zhongli.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Weapons\alley_hunter.png" />
-    <Resource Include="Data\Images\Weapons\amber_bead.png" />
-    <Resource Include="Data\Images\Weapons\amos_bow.png" />
-    <Resource Include="Data\Images\Weapons\apprentices_notes.png" />
-    <Resource Include="Data\Images\Weapons\aquila_favonia.png" />
-    <Resource Include="Data\Images\Weapons\beginners_protector.png" />
-    <Resource Include="Data\Images\Weapons\blackcliff_agate.png" />
-    <Resource Include="Data\Images\Weapons\blackcliff_longsword.png" />
-    <Resource Include="Data\Images\Weapons\blackcliff_pole.png" />
-    <Resource Include="Data\Images\Weapons\blackcliff_slasher.png" />
-    <Resource Include="Data\Images\Weapons\blackcliff_warbow.png" />
-    <Resource Include="Data\Images\Weapons\black_tassel.png" />
-    <Resource Include="Data\Images\Weapons\bloodtainted_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\boreas_precocity.png" />
-    <Resource Include="Data\Images\Weapons\compound_bow.png" />
-    <Resource Include="Data\Images\Weapons\cool_steel.png" />
-    <Resource Include="Data\Images\Weapons\crescent_pike.png" />
-    <Resource Include="Data\Images\Weapons\dark_iron_sword.png" />
-    <Resource Include="Data\Images\Weapons\deathmatch.png" />
-    <Resource Include="Data\Images\Weapons\debate_club.png" />
-    <Resource Include="Data\Images\Weapons\deicide.png" />
-    <Resource Include="Data\Images\Weapons\diamond_visage.png" />
-    <Resource Include="Data\Images\Weapons\dragonspine_spear.png" />
-    <Resource Include="Data\Images\Weapons\dragons_bane.png" />
-    <Resource Include="Data\Images\Weapons\dreams_of_dragonfell.png" />
-    <Resource Include="Data\Images\Weapons\dull_blade.png" />
-    <Resource Include="Data\Images\Weapons\ebony_bow.png" />
-    <Resource Include="Data\Images\Weapons\emerald_orb.png" />
-    <Resource Include="Data\Images\Weapons\eye_of_perception.png" />
-    <Resource Include="Data\Images\Weapons\favonius_codex.png" />
-    <Resource Include="Data\Images\Weapons\favonius_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\favonius_lance.png" />
-    <Resource Include="Data\Images\Weapons\favonius_sword.png" />
-    <Resource Include="Data\Images\Weapons\favonius_warbow.png" />
-    <Resource Include="Data\Images\Weapons\ferrous_shadow.png" />
-    <Resource Include="Data\Images\Weapons\festering_desire.png" />
-    <Resource Include="Data\Images\Weapons\fillet_blade.png" />
-    <Resource Include="Data\Images\Weapons\frostbearer.png" />
-    <Resource Include="Data\Images\Weapons\halberd.png" />
-    <Resource Include="Data\Images\Weapons\harbinger_of_dawn.png" />
-    <Resource Include="Data\Images\Weapons\hunters_bow.png" />
-    <Resource Include="Data\Images\Weapons\iron_point.png" />
-    <Resource Include="Data\Images\Weapons\iron_sting.png" />
-    <Resource Include="Data\Images\Weapons\lions_roar.png" />
-    <Resource Include="Data\Images\Weapons\lithic_blade.png" />
-    <Resource Include="Data\Images\Weapons\lithic_spear.png" />
-    <Resource Include="Data\Images\Weapons\lost_ballade.png" />
-    <Resource Include="Data\Images\Weapons\lost_prayer_to_the_sacred_winds.png" />
-    <Resource Include="Data\Images\Weapons\magic_guide.png" />
-    <Resource Include="Data\Images\Weapons\mappa_mare.png" />
-    <Resource Include="Data\Images\Weapons\memory_of_dust.png" />
-    <Resource Include="Data\Images\Weapons\messenger.png" />
-    <Resource Include="Data\Images\Weapons\mirror_breaker.png" />
-    <Resource Include="Data\Images\Weapons\old_mercs_pal.png" />
-    <Resource Include="Data\Images\Weapons\one_side.png" />
-    <Resource Include="Data\Images\Weapons\otherworldly_story.png" />
-    <Resource Include="Data\Images\Weapons\pocket_grimoire.png" />
-    <Resource Include="Data\Images\Weapons\primordial_jade_cutter.png" />
-    <Resource Include="Data\Images\Weapons\primordial_jade_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\primordial_jade_regalia.png" />
-    <Resource Include="Data\Images\Weapons\primordial_jade_vista.png" />
-    <Resource Include="Data\Images\Weapons\primordial_jade_winged_spear.png" />
-    <Resource Include="Data\Images\Weapons\prototype_amber.png" />
-    <Resource Include="Data\Images\Weapons\prototype_archaic.png" />
-    <Resource Include="Data\Images\Weapons\prototype_crescent.png" />
-    <Resource Include="Data\Images\Weapons\prototype_rancour.png" />
-    <Resource Include="Data\Images\Weapons\prototype_starglitter.png" />
-    <Resource Include="Data\Images\Weapons\quartz.png" />
-    <Resource Include="Data\Images\Weapons\rainslasher.png" />
-    <Resource Include="Data\Images\Weapons\raven_bow.png" />
-    <Resource Include="Data\Images\Weapons\recurve_bow.png" />
-    <Resource Include="Data\Images\Weapons\royal_bow.png" />
-    <Resource Include="Data\Images\Weapons\royal_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\royal_grimoire.png" />
-    <Resource Include="Data\Images\Weapons\royal_longsword.png" />
-    <Resource Include="Data\Images\Weapons\royal_spear.png" />
-    <Resource Include="Data\Images\Weapons\rust.png" />
-    <Resource Include="Data\Images\Weapons\sacrificial_bow.png" />
-    <Resource Include="Data\Images\Weapons\sacrificial_fragments.png" />
-    <Resource Include="Data\Images\Weapons\sacrificial_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\sacrificial_sword.png" />
-    <Resource Include="Data\Images\Weapons\seasoned_hunters_bow.png" />
-    <Resource Include="Data\Images\Weapons\serene_requiem.png" />
-    <Resource Include="Data\Images\Weapons\serpent_spine.png" />
-    <Resource Include="Data\Images\Weapons\sharpshooters_oath.png" />
-    <Resource Include="Data\Images\Weapons\silver_sword.png" />
-    <Resource Include="Data\Images\Weapons\skyrider_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\skyrider_sword.png" />
-    <Resource Include="Data\Images\Weapons\skyward_atlas.png" />
-    <Resource Include="Data\Images\Weapons\skyward_blade.png" />
-    <Resource Include="Data\Images\Weapons\skyward_harp.png" />
-    <Resource Include="Data\Images\Weapons\skyward_pride.png" />
-    <Resource Include="Data\Images\Weapons\skyward_spine.png" />
-    <Resource Include="Data\Images\Weapons\slingshot.png" />
-    <Resource Include="Data\Images\Weapons\snow_tombed_starsilver.png" />
-    <Resource Include="Data\Images\Weapons\solar_pearl.png" />
-    <Resource Include="Data\Images\Weapons\staff_of_homa.png" />
-    <Resource Include="Data\Images\Weapons\summit_shaper.png" />
-    <Resource Include="Data\Images\Weapons\sword_of_descension.png" />
-    <Resource Include="Data\Images\Weapons\the_alley_flash.png" />
-    <Resource Include="Data\Images\Weapons\the_bell.png" />
-    <Resource Include="Data\Images\Weapons\the_black_sword.png" />
-    <Resource Include="Data\Images\Weapons\the_flute.png" />
-    <Resource Include="Data\Images\Weapons\the_other_side.png" />
-    <Resource Include="Data\Images\Weapons\the_stringless.png" />
-    <Resource Include="Data\Images\Weapons\the_unforged.png" />
-    <Resource Include="Data\Images\Weapons\the_viridescent_hunt.png" />
-    <Resource Include="Data\Images\Weapons\the_widsith.png" />
-    <Resource Include="Data\Images\Weapons\thrilling_tales_of_dragon_slayers.png" />
-    <Resource Include="Data\Images\Weapons\travelers_handy_sword.png" />
-    <Resource Include="Data\Images\Weapons\twin_nephrite.png" />
-    <Resource Include="Data\Images\Weapons\uprising_satire.png" />
-    <Resource Include="Data\Images\Weapons\vortex_vanquisher.png" />
-    <Resource Include="Data\Images\Weapons\waster_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\whiteblind.png" />
-    <Resource Include="Data\Images\Weapons\white_iron_greatsword.png" />
-    <Resource Include="Data\Images\Weapons\white_tassel.png" />
-    <Resource Include="Data\Images\Weapons\wolfs_gravestone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Talent\guide_to_ballad.png" />
-    <Resource Include="Data\Images\Materials\Talent\guide_to_diligence.png" />
-    <Resource Include="Data\Images\Materials\Talent\guide_to_freedom.png" />
-    <Resource Include="Data\Images\Materials\Talent\guide_to_gold.png" />
-    <Resource Include="Data\Images\Materials\Talent\guide_to_prosperity.png" />
-    <Resource Include="Data\Images\Materials\Talent\guide_to_resistance.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_ballad.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_diligence.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_freedom.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_gold.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_prosperity.png" />
-    <Resource Include="Data\Images\Materials\Talent\philosophies_of_resistance.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_ballad.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_diligence.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_freedom.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_gold.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_prosperity.png" />
-    <Resource Include="Data\Images\Materials\Talent\teaching_of_resistance.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Weapon\bit_of_aerosiderite.png" />
-    <Resource Include="Data\Images\Materials\Weapon\boreal_wolfs_broken_fang.png" />
-    <Resource Include="Data\Images\Materials\Weapon\boreal_wolfs_cracked_tooth.png" />
-    <Resource Include="Data\Images\Materials\Weapon\boreal_wolfs_milk_tooth.png" />
-    <Resource Include="Data\Images\Materials\Weapon\boreal_wolfs_nostalgia.png" />
-    <Resource Include="Data\Images\Materials\Weapon\chains_of_the_dandelion_gladiator.png" />
-    <Resource Include="Data\Images\Materials\Weapon\chunk_of_aerosiderite.png" />
-    <Resource Include="Data\Images\Materials\Weapon\debris_of_decarabians_city.png" />
-    <Resource Include="Data\Images\Materials\Weapon\divine_body_from_guyun.png" />
-    <Resource Include="Data\Images\Materials\Weapon\dream_of_the_dandelion_gladiator.png" />
-    <Resource Include="Data\Images\Materials\Weapon\fetters_of_the_dandelion_gladiator.png" />
-    <Resource Include="Data\Images\Materials\Weapon\fragment_of_decarabians_epic.png" />
-    <Resource Include="Data\Images\Materials\Weapon\grain_of_aerosiderite.png" />
-    <Resource Include="Data\Images\Materials\Weapon\luminous_sands_from_guyun.png" />
-    <Resource Include="Data\Images\Materials\Weapon\lustrous_stone_from_guyun.png" />
-    <Resource Include="Data\Images\Materials\Weapon\mist_veiled_gold_elixir.png" />
-    <Resource Include="Data\Images\Materials\Weapon\mist_veiled_lead_elixir.png" />
-    <Resource Include="Data\Images\Materials\Weapon\mist_veiled_mercury_elixir.png" />
-    <Resource Include="Data\Images\Materials\Weapon\mist_veiled_primo_elixir.png" />
-    <Resource Include="Data\Images\Materials\Weapon\piece_of_aerosiderite.png" />
-    <Resource Include="Data\Images\Materials\Weapon\relic_from_guyun.png" />
-    <Resource Include="Data\Images\Materials\Weapon\scattered_piece_of_decarabianss_dream.png" />
-    <Resource Include="Data\Images\Materials\Weapon\shackles_of_the_dandelion_gladiator.png" />
-    <Resource Include="Data\Images\Materials\Weapon\tile_of_decarabians_tower.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Monster\chaos_device.png" />
-    <Resource Include="Data\Images\Materials\Monster\damaged_mask.png" />
-    <Resource Include="Data\Images\Materials\Monster\dead_ley_line_branch.png" />
-    <Resource Include="Data\Images\Materials\Monster\divining_scroll.png" />
-    <Resource Include="Data\Images\Materials\Monster\firm_arrowhead.png" />
-    <Resource Include="Data\Images\Materials\Monster\fragile_bone_shard.png" />
-    <Resource Include="Data\Images\Materials\Monster\heavy_horn.png" />
-    <Resource Include="Data\Images\Materials\Monster\hunters_sacrificial_knife.png" />
-    <Resource Include="Data\Images\Materials\Monster\mist_grass_pollen.png" />
-    <Resource Include="Data\Images\Materials\Monster\recruits_insignia.png" />
-    <Resource Include="Data\Images\Materials\Monster\slime_condensate.png" />
-    <Resource Include="Data\Images\Materials\Monster\treasure_hoarder_insignia.png" />
-    <Resource Include="Data\Images\Materials\Monster\whopperflower_nectar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Monsters\Bosses\childe.png" />
-    <Resource Include="Data\Images\Monsters\Bosses\dvalin_stormterror.png" />
-    <Resource Include="Data\Images\Monsters\Bosses\lupus_boreas.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Elements\anemo.png" />
-    <Resource Include="Data\Images\Elements\cryo.png" />
-    <Resource Include="Data\Images\Elements\dendro.png" />
-    <Resource Include="Data\Images\Elements\electro.png" />
-    <Resource Include="Data\Images\Elements\geo.png" />
-    <Resource Include="Data\Images\Elements\hydro.png" />
-    <Resource Include="Data\Images\Elements\pyro.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Weekly\dvalins_claw.png" />
-    <Resource Include="Data\Images\Materials\Weekly\dvalins_plume.png" />
-    <Resource Include="Data\Images\Materials\Weekly\dvalins_sigh.png" />
-    <Resource Include="Data\Images\Materials\Weekly\ring_of_boreas.png" />
-    <Resource Include="Data\Images\Materials\Weekly\shadow_of_the_warrior.png" />
-    <Resource Include="Data\Images\Materials\Weekly\shard_of_foul_legacy.png" />
-    <Resource Include="Data\Images\Materials\Weekly\spirit_locket_of_boreas.png" />
-    <Resource Include="Data\Images\Materials\Weekly\tail_of_boreas.png" />
-    <Resource Include="Data\Images\Materials\Weekly\tusk_of_monoceros_caeli.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Special\calla_lily.png" />
-    <Resource Include="Data\Images\Materials\Special\cecilia.png" />
-    <Resource Include="Data\Images\Materials\Special\cor_lapis.png" />
-    <Resource Include="Data\Images\Materials\Special\dandelion_seed.png" />
-    <Resource Include="Data\Images\Materials\Special\glaze_lily.png" />
-    <Resource Include="Data\Images\Materials\Special\jueyun_chili.png" />
-    <Resource Include="Data\Images\Materials\Special\noctilous_jade.png" />
-    <Resource Include="Data\Images\Materials\Special\philanemo_mushroom.png" />
-    <Resource Include="Data\Images\Materials\Special\qingxin.png" />
-    <Resource Include="Data\Images\Materials\Special\silk_flower.png" />
-    <Resource Include="Data\Images\Materials\Special\small_lamp_grass.png" />
-    <Resource Include="Data\Images\Materials\Special\starconch.png" />
-    <Resource Include="Data\Images\Materials\Special\valberry.png" />
-    <Resource Include="Data\Images\Materials\Special\violetgrass.png" />
-    <Resource Include="Data\Images\Materials\Special\windwheel_aster.png" />
-    <Resource Include="Data\Images\Materials\Special\wolfhook.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Icons\1star.png" />
-    <Resource Include="Data\Images\Icons\2star.png" />
-    <Resource Include="Data\Images\Icons\3star.png" />
-    <Resource Include="Data\Images\Icons\4star.png" />
-    <Resource Include="Data\Images\Icons\5star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Icons\bow.png" />
-    <Resource Include="Data\Images\Icons\catalyst.png" />
-    <Resource Include="Data\Images\Icons\claymore.png" />
-    <Resource Include="Data\Images\Icons\polearm.png" />
-    <Resource Include="Data\Images\Icons\sword.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Icons\UI\char.png" />
-    <Resource Include="Data\Images\Icons\UI\talent.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <SplashScreen Include="Data\Images\splashscreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Characters\Huge\Albedo.png" />
-    <Resource Include="Data\Images\Characters\Huge\Amber.png" />
-    <Resource Include="Data\Images\Characters\Huge\Bannett.png" />
-    <Resource Include="Data\Images\Characters\Huge\Barbara.png" />
-    <Resource Include="Data\Images\Characters\Huge\Beidou.png" />
-    <Resource Include="Data\Images\Characters\Huge\Chongyun.png" />
-    <Resource Include="Data\Images\Characters\Huge\Diluc.png" />
-    <Resource Include="Data\Images\Characters\Huge\Diona.png" />
-    <Resource Include="Data\Images\Characters\Huge\Fischl.png" />
-    <Resource Include="Data\Images\Characters\Huge\Ganyu.png" />
-    <Resource Include="Data\Images\Characters\Huge\Jean.png" />
-    <Resource Include="Data\Images\Characters\Huge\Kaeya.png" />
-    <Resource Include="Data\Images\Characters\Huge\Keqing.png" />
-    <Resource Include="Data\Images\Characters\Huge\Klee.png" />
-    <Resource Include="Data\Images\Characters\Huge\Lisa.png" />
-    <Resource Include="Data\Images\Characters\Huge\Mona.png" />
-    <Resource Include="Data\Images\Characters\Huge\Ningguang.png" />
-    <Resource Include="Data\Images\Characters\Huge\Noelle.png" />
-    <Resource Include="Data\Images\Characters\Huge\Qiqi.png" />
-    <Resource Include="Data\Images\Characters\Huge\Razor.png" />
-    <Resource Include="Data\Images\Characters\Huge\Sucrose.png" />
-    <Resource Include="Data\Images\Characters\Huge\Tartaglia.png" />
-    <Resource Include="Data\Images\Characters\Huge\Venti.png" />
-    <Resource Include="Data\Images\Characters\Huge\Xiangling.png" />
-    <Resource Include="Data\Images\Characters\Huge\Xiao.png" />
-    <Resource Include="Data\Images\Characters\Huge\Xingqiu.png" />
-    <Resource Include="Data\Images\Characters\Huge\Xinyan.png" />
-    <Resource Include="Data\Images\Characters\Huge\Zhongli.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -645,24 +187,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Data\Images\Materials\Gemstone\agnidus_agate_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\brilliant_diamond_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\prithiva_topaz_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\shivada_jade_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\vajrada_amethyst_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\varunada_lazurite_gemstone.png" />
-    <Resource Include="Data\Images\Materials\Gemstone\vayuda_turquoise_gemstone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Materials\Ascension\basalt_pillar.png" />
-    <Resource Include="Data\Images\Materials\Ascension\cleansing_heart.png" />
-    <Resource Include="Data\Images\Materials\Ascension\everflame_seed.png" />
-    <Resource Include="Data\Images\Materials\Ascension\hoarfrost_core.png" />
-    <Resource Include="Data\Images\Materials\Ascension\hurricane_seed.png" />
-    <Resource Include="Data\Images\Materials\Ascension\juvenile_jade.png" />
-    <Resource Include="Data\Images\Materials\Ascension\lightning_prism.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\DGP.Genshin.Data\DGP.Genshin.Data.csproj">
+      <Project>{05287844-ab39-4f6c-9f7b-aa958dad035d}</Project>
+      <Name>DGP.Genshin.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj">
       <Project>{d2950839-0eeb-4c45-b791-e756a1d552f5}</Project>
       <Name>DGP.Snap.Framework</Name>
@@ -671,78 +199,7 @@
   <ItemGroup>
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\Images\Artifacts\archaic_petra_1.png" />
-    <Resource Include="Data\Images\Artifacts\archaic_petra_2.png" />
-    <Resource Include="Data\Images\Artifacts\archaic_petra_3.png" />
-    <Resource Include="Data\Images\Artifacts\archaic_petra_4.png" />
-    <Resource Include="Data\Images\Artifacts\archaic_petra_5.png" />
-    <Resource Include="Data\Images\Artifacts\blizzard_walker_1.png" />
-    <Resource Include="Data\Images\Artifacts\blizzard_walker_2.png" />
-    <Resource Include="Data\Images\Artifacts\blizzard_walker_3.png" />
-    <Resource Include="Data\Images\Artifacts\blizzard_walker_4.png" />
-    <Resource Include="Data\Images\Artifacts\blizzard_walker_5.png" />
-    <Resource Include="Data\Images\Artifacts\bloodstained_chivalry_1.png" />
-    <Resource Include="Data\Images\Artifacts\bloodstained_chivalry_2.png" />
-    <Resource Include="Data\Images\Artifacts\bloodstained_chivalry_3.png" />
-    <Resource Include="Data\Images\Artifacts\bloodstained_chivalry_4.png" />
-    <Resource Include="Data\Images\Artifacts\bloodstained_chivalry_5.png" />
-    <Resource Include="Data\Images\Artifacts\crimson_witch_of_flames_1.png" />
-    <Resource Include="Data\Images\Artifacts\crimson_witch_of_flames_2.png" />
-    <Resource Include="Data\Images\Artifacts\crimson_witch_of_flames_3.png" />
-    <Resource Include="Data\Images\Artifacts\crimson_witch_of_flames_4.png" />
-    <Resource Include="Data\Images\Artifacts\crimson_witch_of_flames_5.png" />
-    <Resource Include="Data\Images\Artifacts\depth_of_heart_1.png" />
-    <Resource Include="Data\Images\Artifacts\depth_of_heart_2.png" />
-    <Resource Include="Data\Images\Artifacts\depth_of_heart_3.png" />
-    <Resource Include="Data\Images\Artifacts\depth_of_heart_4.png" />
-    <Resource Include="Data\Images\Artifacts\depth_of_heart_5.png" />
-    <Resource Include="Data\Images\Artifacts\gladiators_finale_1.png" />
-    <Resource Include="Data\Images\Artifacts\gladiators_finale_2.png" />
-    <Resource Include="Data\Images\Artifacts\gladiators_finale_3.png" />
-    <Resource Include="Data\Images\Artifacts\gladiators_finale_4.png" />
-    <Resource Include="Data\Images\Artifacts\gladiators_finale_5.png" />
-    <Resource Include="Data\Images\Artifacts\lavawalker_1.png" />
-    <Resource Include="Data\Images\Artifacts\lavawalker_2.png" />
-    <Resource Include="Data\Images\Artifacts\lavawalker_3.png" />
-    <Resource Include="Data\Images\Artifacts\lavawalker_4.png" />
-    <Resource Include="Data\Images\Artifacts\lavawalker_5.png" />
-    <Resource Include="Data\Images\Artifacts\maiden_beloved_1.png" />
-    <Resource Include="Data\Images\Artifacts\maiden_beloved_2.png" />
-    <Resource Include="Data\Images\Artifacts\maiden_beloved_3.png" />
-    <Resource Include="Data\Images\Artifacts\maiden_beloved_4.png" />
-    <Resource Include="Data\Images\Artifacts\maiden_beloved_5.png" />
-    <Resource Include="Data\Images\Artifacts\noblesse_oblige_1.png" />
-    <Resource Include="Data\Images\Artifacts\noblesse_oblige_2.png" />
-    <Resource Include="Data\Images\Artifacts\noblesse_oblige_3.png" />
-    <Resource Include="Data\Images\Artifacts\noblesse_oblige_4.png" />
-    <Resource Include="Data\Images\Artifacts\noblesse_oblige_5.png" />
-    <Resource Include="Data\Images\Artifacts\retracing_bolide_1.png" />
-    <Resource Include="Data\Images\Artifacts\retracing_bolide_2.png" />
-    <Resource Include="Data\Images\Artifacts\retracing_bolide_3.png" />
-    <Resource Include="Data\Images\Artifacts\retracing_bolide_4.png" />
-    <Resource Include="Data\Images\Artifacts\retracing_bolide_5.png" />
-    <Resource Include="Data\Images\Artifacts\thundering_fury_1.png" />
-    <Resource Include="Data\Images\Artifacts\thundering_fury_2.png" />
-    <Resource Include="Data\Images\Artifacts\thundering_fury_3.png" />
-    <Resource Include="Data\Images\Artifacts\thundering_fury_4.png" />
-    <Resource Include="Data\Images\Artifacts\thundering_fury_5.png" />
-    <Resource Include="Data\Images\Artifacts\thundersoother_1.png" />
-    <Resource Include="Data\Images\Artifacts\thundersoother_2.png" />
-    <Resource Include="Data\Images\Artifacts\thundersoother_3.png" />
-    <Resource Include="Data\Images\Artifacts\thundersoother_4.png" />
-    <Resource Include="Data\Images\Artifacts\thundersoother_5.png" />
-    <Resource Include="Data\Images\Artifacts\viridescent_venerer_1.png" />
-    <Resource Include="Data\Images\Artifacts\viridescent_venerer_2.png" />
-    <Resource Include="Data\Images\Artifacts\viridescent_venerer_3.png" />
-    <Resource Include="Data\Images\Artifacts\viridescent_venerer_4.png" />
-    <Resource Include="Data\Images\Artifacts\viridescent_venerer_5.png" />
-    <Resource Include="Data\Images\Artifacts\wanderers_troupe_1.png" />
-    <Resource Include="Data\Images\Artifacts\wanderers_troupe_2.png" />
-    <Resource Include="Data\Images\Artifacts\wanderers_troupe_3.png" />
-    <Resource Include="Data\Images\Artifacts\wanderers_troupe_4.png" />
-    <Resource Include="Data\Images\Artifacts\wanderers_troupe_5.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"

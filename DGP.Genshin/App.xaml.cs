@@ -1,7 +1,9 @@
-﻿using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Services;
 using DGP.Snap.Framework.Core;
+using DGP.Snap.Framework.Core.LifeCycling;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
+using ModernWpf;
 using System;
 using System.IO;
 using System.Reflection;
@@ -25,17 +27,17 @@ namespace DGP.Genshin
             SnapFramework.Current.Initialize();
             this.Log(Assembly.GetExecutingAssembly().GetName().Version);
             //app theme
-            ThemeHelper.SetAppTheme();
-            
+            SetAppTheme();
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            string crashfile = "snap_genshin_crash.log";
-            if (!File.Exists(crashfile))
-                File.Create(crashfile).Dispose();
-
-            using StreamWriter sw = new(crashfile);
+            using StreamWriter sw = new(File.Create("snap_genshin_crash.log"));
             sw.Write(Json.Stringify(e.ExceptionObject));
+        }
+        internal static void SetAppTheme()
+        {
+            static ApplicationTheme? converter(object n) => n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
+            ThemeManager.Current.ApplicationTheme = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.AppTheme, null, converter);
         }
     }
 }

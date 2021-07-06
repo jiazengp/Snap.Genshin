@@ -501,8 +501,16 @@ namespace DGP.Snap.AutoVersion
 
             return true;
         }
-        public static bool operator ==(VersionEx v1, VersionEx v2) => v1?.Equals(v2) ?? ((object)v2 == null);
-        public static bool operator !=(VersionEx v1, VersionEx v2) => !(v1 == v2);
+        public static bool operator ==(VersionEx v1, VersionEx v2)
+        {
+            return v1?.Equals(v2) ?? ((object)v2 == null);
+        }
+
+        public static bool operator !=(VersionEx v1, VersionEx v2)
+        {
+            return !(v1 == v2);
+        }
+
         public static bool operator <(VersionEx v1, VersionEx v2)
         {
             if ((object)v1 == null)
@@ -521,7 +529,14 @@ namespace DGP.Snap.AutoVersion
 
             return v1.CompareTo(v2) <= 0;
         }
-        public static bool operator >(VersionEx v1, VersionEx v2) => v2 < v1;
-        public static bool operator >=(VersionEx v1, VersionEx v2) => v2 <= v1;
+        public static bool operator >(VersionEx v1, VersionEx v2)
+        {
+            return v2 < v1;
+        }
+
+        public static bool operator >=(VersionEx v1, VersionEx v2)
+        {
+            return v2 <= v1;
+        }
     }
 }

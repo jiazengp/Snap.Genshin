@@ -35,7 +35,7 @@ namespace DGP.Genshin.DataViewer.Views
         {
             WorkingFolderService.SelectWorkingFolder();
             string path = WorkingFolderService.WorkingFolderPath;
-            InitializeMaps(path);
+            this.InitializeMaps(path);
         }
         private void OnFolderDrop(object sender, DragEventArgs e)
         {
@@ -44,7 +44,7 @@ namespace DGP.Genshin.DataViewer.Views
             this.Log(Directory.Exists(folder));
             if (Directory.Exists(folder))
             {
-                InitializeMaps(folder);
+                this.InitializeMaps(folder);
             }
         }
         private void InitializeMaps(string path)

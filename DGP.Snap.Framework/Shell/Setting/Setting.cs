@@ -7,7 +7,7 @@ namespace DGP.Snap.Framework.Shell.Setting
     public class Setting<T>
     {
         private T _value;
-        public T Value { get => _value; set => _value = value; }
+        public T Value { get => this._value; set => this._value = value; }
 
         public static implicit operator T(Setting<T> setting)
         {

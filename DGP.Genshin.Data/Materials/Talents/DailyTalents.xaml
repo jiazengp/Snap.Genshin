@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:t="clr-namespace:DGP.Genshin.Data.Materials.Talents">
+    <t:Talent x:Key="Talent_Ballad" Name="诗文" City="Mondstadt" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_35.png"/>
+    <t:Talent x:Key="Talent_Freedom" Name="自由" City="Mondstadt" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_35.png"/>
+    <t:Talent x:Key="Talent_Resistance" Name="诗文" City="Mondstadt" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_35.png"/>
+
+    <t:Talent x:Key="Talent_Diligence" Name="勤劳" City="Liyue" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_35.png"/>
+    <t:Talent x:Key="Talent_Gold" Name="黄金" City="Liyue" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_35.png"/>
+    <t:Talent x:Key="Talent_Prosperity" Name="繁荣" City="Liyue" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_35.png"/>
+
+    <t:Talent x:Key="Talent_Transience" Name="浮世" City="Inazuma" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_408_35.png"/>
+    <t:Talent x:Key="Talent_Elegance" Name="风雅" City="Inazuma" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418_35.png"/>
+    <t:Talent x:Key="Talent_Light" Name="天光" City="Inazuma" Star="4" Source="https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428_35.png"/>
+</ResourceDictionary>

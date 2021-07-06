@@ -4,7 +4,11 @@ namespace DGP.Genshin.DataViewer.Helpers
 {
     public class FileEx
     {
-        public FileEx(string fullPath) => this.FullPath = fullPath;
+        public FileEx(string fullPath)
+        {
+            this.FullPath = fullPath;
+        }
+
         public string FullPath { get; set; }
         public string FullFileName => Path.GetFileNameWithoutExtension(this.FullPath);
         public string FileName => Path.GetFileNameWithoutExtension(this.FullPath)
