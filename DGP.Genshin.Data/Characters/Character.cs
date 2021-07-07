@@ -8,12 +8,15 @@ namespace DGP.Genshin.Data.Characters
 {
     public class Character : Primitive
     {
-        public WeaponType Weapon { get; set; }
+        public string Weapon { get; set; }
+        public string Element { get; set; }
         public Talent Talent { get; set; }
         public Boss Boss { get; set; }
         public GemStone GemStone { get; set; }
         public Local Local { get; set; }
         public Monster Monster { get; set; }
         public Weekly Weekly { get; set; }
+
+        public Character Instance => this;
     }
 }

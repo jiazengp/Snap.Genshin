@@ -5,31 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:DGP.Genshin.Controls" 
+        xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d" 
-        d:DesignHeight="50" d:DesignWidth="50">
+        d:DesignHeight="50" d:DesignWidth="50" 
+        BorderThickness="0"
+        >
     <Button.Resources>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Style TargetType="{x:Type local:ContentIcon}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
-            <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
-            <Setter Property="ui:FocusVisualHelper.FocusVisualMargin" Value="-3"/>
-            <Setter Property="ui:ControlHelper.CornerRadius" Value="{DynamicResource IconCornerRadius}"/>
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" SnapsToDevicePixels="True">
-                            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding ui:ControlHelper.CornerRadius}" Padding="{TemplateBinding Padding}">
-                                <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
+                        <Border 
+                                x:Name="border" 
+                                CornerRadius="{DynamicResource IconCornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="true">
+                            <ui:ContentPresenterEx 
+                                    x:Name="contentPresenter" 
+                                    Focusable="False" 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    Margin="{TemplateBinding Padding}" 
+                                    RecognizesAccessKey="True" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -37,17 +43,9 @@
         </Style>
     </Button.Resources>
     <Grid>
-        <Border CornerRadius="{StaticResource IconCornerRadius}">
-            <Border.Background>
-                <ImageBrush ImageSource="{Binding RankBackgrond}" Stretch="UniformToFill"/>
-            </Border.Background>
-        </Border>
-        <Border CornerRadius="{StaticResource IconCornerRadius}">
-            <Border.Background>
-                <ImageBrush ImageSource="{Binding Source}" Stretch="Uniform"/>
-            </Border.Background>
-        </Border>
-        <Border CornerRadius="{StaticResource IconCornerRadius}" Background="#99000000" Opacity="0">
+        <c:CachedImage ImageUrl="{Binding BackgroundUrl}"/>
+        <c:CachedImage ImageUrl="{Binding ForegroundUrl}"/>
+        <Border Background="#99000000" Opacity="0">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="MouseEnter">
                     <BeginStoryboard>

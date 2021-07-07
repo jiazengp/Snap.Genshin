@@ -4,11 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DGP.Genshin.Controls.Characters" 
-             xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
-             mc:Ignorable="d" 
+             xmlns:ci="clr-namespace:DGP.Genshin.Controls.CachedImage"
+             xmlns:ui="http://schemas.modernwpf.com/2019" 
+             xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+             mc:Ignorable="d"
+             Width="240"
              d:DesignHeight="100" d:DesignWidth="200">
-    <Grid>
-        <c:CachedImage ImageUrl="{Binding Character.Source}"/>
+    <UserControl.Resources>
+        <Style TargetType="{x:Type ui:GridViewItem}">
+            <Setter Property="Margin" Value="4,4,8,8" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <ci:CachedImage Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Stretch="Fill" ImageUrl="{Binding Star}"/>
+            <TextBlock Margin="6,2,0,0" Text="{Binding Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <StackPanel Grid.Column="0" Margin="2.5" VerticalAlignment="Bottom" HorizontalAlignment="left" Orientation="Horizontal">
+                <ci:CachedImage Height="20" Margin="2" ImageUrl="{Binding Element}"/>
+                <ci:CachedImage Height="20" Margin="2" ImageUrl="{Binding Weapon}"/>
+            </StackPanel>
+            <ci:CachedImage Grid.Column="1" HorizontalAlignment="Right" ImageUrl="{Binding Source}"/>
+        </Grid>
+        <StackPanel Width="240" Margin="0,4,0,0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding Local.Source}"/>
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding Monster.Source}"/>
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding Boss.Source}"/>
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding GemStone.Source}"/>
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding Talent.Source}"/>
+            <ci:CachedImage Height="35" Width="35" Margin="2.5" Stretch="Uniform" ImageUrl="{Binding Weekly.Source}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

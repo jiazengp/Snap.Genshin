@@ -11,7 +11,6 @@ namespace DGP.Genshin.Controls.Characters
     {
         public CharacterItem()
         {
-            DataContext = this;
             this.InitializeComponent();
         }
 
