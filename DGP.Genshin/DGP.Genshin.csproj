@@ -85,6 +85,16 @@
     <Compile Include="Controls\ContentIcon.xaml.cs">
       <DependentUpon>ContentIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converters\KeySourceConverters.cs" />
+    <Compile Include="Controls\EditDialogs\CharacterDialog.xaml.cs">
+      <DependentUpon>CharacterDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditDialogs\WeaponDialog.xaml.cs">
+      <DependentUpon>WeaponDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Weapons\WeaponItem.xaml.cs">
+      <DependentUpon>WeaponItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
@@ -97,12 +107,22 @@
     <Compile Include="Models\MiHoYo\GachaLogItem.cs" />
     <Compile Include="Models\MiHoYo\GachaLogInfo.cs" />
     <Compile Include="Models\MiHoYo\GachaLogNode.cs" />
+    <Compile Include="Pages\CharactersPage.xaml.cs">
+      <DependentUpon>CharactersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ManagePage.xaml.cs">
+      <DependentUpon>ManagePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\WeaponsPage.xaml.cs">
+      <DependentUpon>WeaponsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GachaStatisticService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\Setting.cs" />
@@ -121,6 +141,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\EditDialogs\CharacterDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditDialogs\WeaponDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Weapons\WeaponItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,11 +165,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\CharactersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ManagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WeaponsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

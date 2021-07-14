@@ -11,7 +11,7 @@
       d:DesignHeight="1600" 
       d:DesignWidth="800"
       Loaded="Page_Loaded"
-      Title="SettingsPage">
+      Title="设置">
     <Page.Resources>
 
     </Page.Resources>
@@ -42,7 +42,7 @@
                 <TextBlock Text="外观" Margin="0,24,0,18" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
                     <ComboBoxItem Content="浅色"/>
-                    <ComboBoxItem Content="深色"/>
+                    <ComboBoxItem Content="深色(推荐)"/>
                     <ComboBoxItem Content="跟随系统"/>
                 </ComboBox>
                 <TextBlock Text="反馈" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
@@ -51,11 +51,7 @@
 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Text="检查更新并安装" Margin="0,5,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button Margin="4" Tag="Github" Content="GitHub" Click="UpdateRequested"/>
-                    <Button Margin="4" Tag="Gitee" IsEnabled="False" Content="Gitee" Click="UpdateRequested"/>
-                </StackPanel>
+                <Button Margin="4" Tag="Github" Content="检查更新并安装" Click="UpdateRequested"/>
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="Honey Impact" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,8,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>

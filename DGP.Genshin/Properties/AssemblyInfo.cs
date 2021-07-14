@@ -2,14 +2,13 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-[assembly: AssemblyTitle("Snap Genshin")]
-[assembly: AssemblyDescription("Snap Genshin")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyTitle("Snap 原神")]
+[assembly: AssemblyDescription("原神信息速查App")]
 [assembly: AssemblyCompany("DGP Studio")]
 [assembly: AssemblyProduct("DGP.Genshin")]
-[assembly: AssemblyCopyright("Copyright © DGP Studio  2021")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("2021.7.7.30")]
+[assembly: AssemblyCopyright("Copyright © DGP Studio 2021")]
+[assembly: ThemeInfo(
+    ResourceDictionaryLocation.None,
+    ResourceDictionaryLocation.SourceAssembly
+)]
+[assembly: AssemblyVersion("2021.7.14.1")]

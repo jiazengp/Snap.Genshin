@@ -23,6 +23,7 @@
             CompactPaneLength="48"
             IsBackButtonVisible="Collapsed" 
             PaneDisplayMode="Auto">
+            <!--Header="{Binding ElementName=ContentFrame,Path=Content.Title}"-->
             <ui:NavigationView.PaneHeader>
                 <Grid Margin="8,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -35,7 +36,12 @@
             </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
+                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}" Icon="People"/>
+                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}" Icon="Cut"/>
+                <ui:NavigationViewItemSeparator/>
+                <ui:NavigationViewItem Content="管理" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" Icon="Manage"/>
             </ui:NavigationView.MenuItems>
+            
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>

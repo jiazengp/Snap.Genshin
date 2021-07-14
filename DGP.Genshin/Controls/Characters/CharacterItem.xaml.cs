@@ -13,14 +13,5 @@ namespace DGP.Genshin.Controls.Characters
         {
             this.InitializeComponent();
         }
-
-        public Character Character
-        {
-            get { return (Character)GetValue(CharacterProperty); }
-            set { SetValue(CharacterProperty, value); }
-        }
-        public static readonly DependencyProperty CharacterProperty =
-            DependencyProperty.Register("Character", typeof(Character), typeof(CharacterItem), new PropertyMetadata(null));
-
     }
 }

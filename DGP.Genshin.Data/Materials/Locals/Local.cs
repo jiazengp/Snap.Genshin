@@ -1,7 +1,12 @@
-﻿namespace DGP.Genshin.Data.Materials.Locals
+﻿using DGP.Genshin.Data.Helpers;
+
+namespace DGP.Genshin.Data.Materials.Locals
 {
     public class Local : Material
     {
-        public new int Star { get; set; } = 1;
+        public Local()
+        {
+            Star = StarHelper.FromRank(1);
+        }
     }
 }

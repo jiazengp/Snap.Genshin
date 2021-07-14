@@ -18,7 +18,9 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
             <CornerRadius x:Key="IconCornerRadius">4</CornerRadius>
-
+            <Style TargetType="{x:Type ui:GridViewItem}">
+                <Setter Property="Margin" Value="4,4,8,8"/>
+            </Style>
             <Style TargetType="{x:Type Expander}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>

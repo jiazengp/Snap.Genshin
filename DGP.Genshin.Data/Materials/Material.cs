@@ -2,6 +2,6 @@
 {
     public class Material : Primitive
     {
-        public City City { get; set; }
+        public string City { get; set; }
     }
 }

@@ -47,6 +47,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Observable\CollectionBasedDictionary.cs" />
+    <Compile Include="Collections\Observable\ObservableDictionary.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
     <Compile Include="Core\LifeCycle\LifeCycle.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Core\Concurrent\ThreadSafe.cs" />
     <Compile Include="Core\Model\Singleton.cs" />
     <Compile Include="Core\SnapFramework.cs" />
+    <Compile Include="Data\Behavior\BindWrapper.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
     <Compile Include="Data\Json\Json.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />

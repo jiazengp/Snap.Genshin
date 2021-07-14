@@ -4,6 +4,7 @@ using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -21,10 +22,7 @@ namespace DGP.Genshin.Services
 
         public NavigationService(Window window, NavigationView navigationView, Frame frame)
         {
-            if (Current == null)
-                Current = this;
-            else
-                throw new InvalidOperationException("NavigationService的实例在运行期间仅允许创建一次");
+            Current = Current == null ? this : throw new InvalidOperationException($"{nameof(NavigationService)}的实例在运行期间仅允许创建一次");
             this.navigationView = navigationView;
             this.frame = frame;
 
@@ -48,6 +46,7 @@ namespace DGP.Genshin.Services
                     .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
                 this.navigationView.SelectedItem = target;
             }
+            
             this.selected = this.navigationView.SelectedItem as NavigationViewItem;
         }
 
@@ -57,7 +56,6 @@ namespace DGP.Genshin.Services
             {
                 this.SyncTabWith(pageType);
             }
-
             this.backItemStack.Push(this.selected);
             return this.frame.Navigate(pageType, data, info);
         }
@@ -75,7 +73,9 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                this.Navigate(this.selected.GetValue(NavHelper.NavigateToProperty) as Type);
+                var target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
+                Debug.WriteLine(target);
+                this.Navigate(target);
             }
         }
 

@@ -2,12 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:m="clr-namespace:DGP.Genshin.Data.Materials.Monsters">
     <m:Monster x:Key="Monster_Slime" Name="史莱姆" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
     <m:Monster x:Key="Monster_Mask" Name="面具" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"/>
-    <m:Monster x:Key="Monster_Scroll" Name="绘卷" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Arrowhead" Name="箭簇" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Insignia" Name="徽记" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_RavenInsignia" Name="鸦印" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Nectar" Name="花蜜" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Handguard" Name="刀镡" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Chaos" Name="混沌" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
-    <m:Monster x:Key="Monster_Prism" Name="棱镜" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"/>
+    <m:Monster x:Key="Monster_Scroll" Name="绘卷" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"/>
+    <m:Monster x:Key="Monster_Arrowhead" Name="箭簇" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"/>
+    <m:Monster x:Key="Monster_Insignia" Name="徽记" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"/>
+    <m:Monster x:Key="Monster_RavenInsignia" Name="鸦印" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"/>
+    <m:Monster x:Key="Monster_Nectar" Name="花蜜" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"/>
+    <m:Monster x:Key="Monster_Handguard" Name="刀镡" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"/>
+    <m:Monster x:Key="Monster_Chaos" Name="混沌" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"/>
+    <m:Monster x:Key="Monster_Prism" Name="棱镜" Source="https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"/>
 </ResourceDictionary>

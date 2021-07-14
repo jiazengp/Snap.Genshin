@@ -1,0 +1,25 @@
+﻿<Page x:Class="DGP.Genshin.Pages.WeaponsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DGP.Genshin.Pages" 
+      xmlns:ui="http://schemas.modernwpf.com/2019" 
+      xmlns:w="clr-namespace:DGP.Genshin.Controls.Weapons"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="武器"
+      Loaded="Page_Loaded">
+
+    <Grid Margin="12,0,0,0">
+        <ui:ScrollViewerEx>
+            <ui:GridView HorizontalAlignment="Center" IsSelectionEnabled="False" Margin="6,0" ItemsSource="{Binding Weapons}">
+                <ui:GridView.ItemTemplate>
+                    <DataTemplate>
+                        <w:WeaponItem/>
+                    </DataTemplate>
+                </ui:GridView.ItemTemplate>
+            </ui:GridView>
+        </ui:ScrollViewerEx>
+    </Grid>
+</Page>
