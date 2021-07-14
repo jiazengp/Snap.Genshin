@@ -54,13 +54,13 @@ namespace DGP.Genshin.Services
         private ICollectionView charactersView;
         public ICollectionView CharactersView
         {
-            get 
+            get
             {
-                if (charactersView == null)
+                if (this.charactersView == null)
                 {
-                    charactersView = CollectionViewSource.GetDefaultView(Characters);
+                    this.charactersView = CollectionViewSource.GetDefaultView(this.Characters);
                 }
-                return charactersView;
+                return this.charactersView;
             }
         }
 
