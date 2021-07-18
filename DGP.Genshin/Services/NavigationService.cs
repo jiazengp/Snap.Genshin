@@ -52,6 +52,10 @@ namespace DGP.Genshin.Services
 
         public bool Navigate(Type pageType, bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null)
         {
+            if (frame.Content?.GetType() == pageType)
+            {
+                return false;
+            }
             if (isSyncTabRequested)
             {
                 this.SyncTabWith(pageType);
@@ -74,7 +78,6 @@ namespace DGP.Genshin.Services
             else
             {
                 var target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
-                Debug.WriteLine(target);
                 this.Navigate(target);
             }
         }

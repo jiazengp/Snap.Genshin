@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       xmlns:ui="http://schemas.modernwpf.com/2019" 
-      xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters"
+      xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters" 
+      xmlns:ca="clr-namespace:DGP.Genshin.Controls.CachedImage"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="首页">
@@ -15,6 +16,40 @@
             <Setter Property="Margin" Value="4,4,8,8"/>
         </Style>
     </Page.Resources>
-    <Grid Margin="12,0,0,0">
-    </Grid>
+    <ui:ScrollViewerEx Padding="12">
+        <StackPanel>
+            <Grid HorizontalAlignment="Center" Width="868" Height="512" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                <ca:CachedImage Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    SnapsToDevicePixels="True" 
+                    ImageUrl="https://genshin.honeyhunterworld.com/img/char/ayaka_gacha_splash.png"/>
+                <StackPanel Margin="6" Height="240" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
+                        <ca:CachedImage 
+                            Stretch="UniformToFill" 
+                            Grid.Column="1" 
+                            SnapsToDevicePixels="True" 
+                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/feiyan_gacha_card.png"/>
+                    </Border>
+                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
+                        <ca:CachedImage 
+                            Stretch="UniformToFill" 
+                            Grid.Column="2" 
+                            SnapsToDevicePixels="True" 
+                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/chongyun_gacha_card.png"/>
+                    </Border>
+                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
+                        <ca:CachedImage 
+                            Stretch="UniformToFill" 
+                            Grid.Column="3" 
+                            SnapsToDevicePixels="True" 
+                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/ningguang_gacha_card.png"/>
+                    </Border>
+                </StackPanel>
+                
+            </Grid>
+            
+            <TextBlock/>
+        </StackPanel>
+    </ui:ScrollViewerEx>
 </Page>

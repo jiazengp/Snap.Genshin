@@ -28,21 +28,18 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
-            this.DataContext = this;
+            this.DataContext = LifeCycle.InstanceOf<DataService>();
             InitializeComponent();
         }
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+
+        private void OnElementsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.Characters = LifeCycle.InstanceOf<DataService>().Characters;
+            List<string> elements = new List<string>();
+            foreach (KeySource keySource in ((ModernWpf.Controls.GridView)sender).SelectedItems)
+            {
+                elements.Add(keySource.Source);
+            }
+            LifeCycle.InstanceOf<DataService>().FilterElements = elements;
         }
-        #region propdp
-        public ObservableCollection<Character> Characters
-        {
-            get { return (ObservableCollection<Character>)GetValue(CharactersProperty); }
-            set { SetValue(CharactersProperty, value); }
-        }
-        public static readonly DependencyProperty CharactersProperty =
-            DependencyProperty.Register("Characters", typeof(ObservableCollection<Character>), typeof(CharactersPage), new PropertyMetadata(null));
-        #endregion
     }
 }

@@ -18,7 +18,7 @@ namespace DGP.Genshin.Pages
     {
         public WeaponsPage()
         {
-            this.DataContext = this;
+            this.DataContext = LifeCycle.InstanceOf<DataService>();
             InitializeComponent();
         }
 

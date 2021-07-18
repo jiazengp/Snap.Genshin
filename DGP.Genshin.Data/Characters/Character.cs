@@ -12,6 +12,8 @@ namespace DGP.Genshin.Data.Characters
         public string Weapon { get; set; }
         public string Element { get; set; }
         public string Profile { get; set; }
+        public string GachaCard { get; set; }
+        public string GachaSplash { get; set; }
         public string City { get; set; }
         public string AscensionStat { get; set; }
         public string AscensionStatValue { get; set; }
@@ -21,7 +23,5 @@ namespace DGP.Genshin.Data.Characters
         public Local Local { get; set; }
         public Monster Monster { get; set; }
         public Weekly Weekly { get; set; }
-
-
     }
 }

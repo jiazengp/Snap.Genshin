@@ -10,9 +10,11 @@ using DGP.Snap.Framework.Core.LifeCycling;
 using DGP.Snap.Framework.Data.Json;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -37,6 +39,7 @@ namespace DGP.Genshin.Services
         }
         private ObservableCollection<Boss> bosses;
 
+        #region Characters
         public ObservableCollection<Character> Characters
         {
             get
@@ -66,9 +69,29 @@ namespace DGP.Genshin.Services
 
         public void ApplyCharacterFilters()
         {
-            CharactersView.Filter = (i) => { return true; };
+            this.CharactersView.Filter = (i) => 
+            {
+                return FilterElements.Contains(((Character)i).Element); 
+            };
+        }
+        private void SetCharacterFilter<T>(ref T storage, T value)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            ApplyCharacterFilters();
         }
 
+        private List<string> filterElements;
+        public List<string> FilterElements
+        {
+            get => filterElements;
+            set => SetCharacterFilter(ref filterElements, value);
+        }
+        #endregion
         public ObservableCollection<KeySource> Cities
         {
             get
@@ -236,6 +259,7 @@ namespace DGP.Genshin.Services
             set => this.weeklyTalents = value;
         }
         private ObservableCollection<Weekly> weeklyTalents;
+
         #endregion
 
         #region Bindable
@@ -352,6 +376,7 @@ namespace DGP.Genshin.Services
             DependencyProperty.Register("SelectedWeeklyTalent", typeof(Weekly), typeof(DataService), new PropertyMetadata(null));
         #endregion
 
+        #region LifeCycle
         private string Read(string filename)
         {
             string path = folderPath + filename;
@@ -390,6 +415,7 @@ namespace DGP.Genshin.Services
             Save(WeaponTypes, "weapontypes.json");
             Save(WeeklyTalents, "weeklytalents.json");
         }
+        #endregion
 
         #region xaml to json
         private void ConvertXAMLToJSON()
@@ -418,7 +444,7 @@ namespace DGP.Genshin.Services
             {
                 Source = new Uri(dictUri)
             };
-            foreach(string key in dict.Keys)
+            foreach (string key in dict.Keys)
             {
                 dict[key] = new KeySource { Key = key, Source = (string)dict[key] };
             }
@@ -428,5 +454,4 @@ namespace DGP.Genshin.Services
         }
         #endregion
     }
-
 }

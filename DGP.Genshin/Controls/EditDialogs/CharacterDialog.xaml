@@ -35,43 +35,108 @@
         </DataTemplate>
     </ui:ContentDialog.Resources>
     <ui:ScrollViewerEx>
-        <StackPanel Margin="0,0,20,0">
-            <TextBox ui:ControlHelper.Header="标识符[Key]" Text="{Binding SelectedCharacter.Key,Mode=TwoWay}"/>
-            <TextBox ui:ControlHelper.Header="名称" Text="{Binding SelectedCharacter.Name,Mode=TwoWay}"/>
-            <ComboBox ui:ControlHelper.Header="元素" HorizontalAlignment="Stretch" ItemsSource="{Binding Elements}" 
+        <StackPanel Margin="0,0,18,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" ui:ControlHelper.Header="Key" Text="{Binding SelectedCharacter.Key,Mode=TwoWay}"/>
+                <TextBox Grid.Column="2" ui:ControlHelper.Header="名称" Text="{Binding SelectedCharacter.Name,Mode=TwoWay}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" ui:ControlHelper.Header="元素" HorizontalAlignment="Stretch" ItemsSource="{Binding Elements}" 
                       SelectedItem="{Binding SelectedCharacter.Element,Mode=TwoWay,Converter={StaticResource ElementStringConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="武器类型" HorizontalAlignment="Stretch" ItemsSource="{Binding WeaponTypes}" 
+                <ComboBox Grid.Column="2" ui:ControlHelper.Header="武器类型" HorizontalAlignment="Stretch" ItemsSource="{Binding WeaponTypes}" 
                       SelectedItem="{Binding SelectedCharacter.Weapon,Mode=TwoWay,Converter={StaticResource WeaponTypeStringConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="星级" HorizontalAlignment="Stretch" ItemsSource="{Binding Stars}" 
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" ui:ControlHelper.Header="图片Url [70]" Text="{Binding SelectedCharacter.Source,Mode=TwoWay}"/>
+                <TextBox Grid.Column="2" ui:ControlHelper.Header="名片Url [135]" Text="{Binding SelectedCharacter.Profile,Mode=TwoWay}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" ui:ControlHelper.Header="抽卡卡片Url [*]" Text="{Binding SelectedCharacter.GachaCard,Mode=TwoWay}"/>
+                <TextBox Grid.Column="2" ui:ControlHelper.Header="抽卡立绘Url [*]" Text="{Binding SelectedCharacter.GachaSplash,Mode=TwoWay}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" ui:ControlHelper.Header="星级" HorizontalAlignment="Stretch" ItemsSource="{Binding Stars}" 
                       SelectedItem="{Binding SelectedCharacter.Star,Mode=TwoWay,Converter={StaticResource StarStringConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <TextBox ui:ControlHelper.Header="图片Url" Text="{Binding SelectedCharacter.Source,Mode=TwoWay}"/>
-            <TextBox ui:ControlHelper.Header="名片Url" Text="{Binding SelectedCharacter.Profile,Mode=TwoWay}"/>
-            <ComboBox ui:ControlHelper.Header="所属城市" HorizontalAlignment="Stretch" ItemsSource="{Binding Cities}" 
+                <ComboBox Grid.Column="2" ui:ControlHelper.Header="所属城市" HorizontalAlignment="Stretch" ItemsSource="{Binding Cities}" 
                       SelectedItem="{Binding SelectedCharacter.City,Mode=TwoWay,Converter={StaticResource CityStringConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <TextBox ui:ControlHelper.Header="进阶属性" Text="{Binding SelectedCharacter.AscensionStat,Mode=TwoWay}"/>
-            <TextBox ui:ControlHelper.Header="进阶属性值" Text="{Binding SelectedCharacter.AscensionStatValue,Mode=TwoWay}"/>
-            <ComboBox ui:ControlHelper.Header="日常天赋材料" HorizontalAlignment="Stretch" ItemsSource="{Binding DailyTalents}" 
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" ui:ControlHelper.Header="进阶属性" Text="{Binding SelectedCharacter.AscensionStat,Mode=TwoWay}"/>
+                <TextBox Grid.Column="2" ui:ControlHelper.Header="进阶属性值" Text="{Binding SelectedCharacter.AscensionStatValue,Mode=TwoWay}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" ui:ControlHelper.Header="日常天赋材料" HorizontalAlignment="Stretch" ItemsSource="{Binding DailyTalents}" 
                       SelectedItem="{Binding SelectedCharacter.Talent,Mode=TwoWay,Converter={StaticResource DailyTalentsConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="Boss怪物材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Bosses}" 
+                <ComboBox Grid.Column="2" ui:ControlHelper.Header="Boss怪物材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Bosses}" 
                       SelectedItem="{Binding SelectedCharacter.Boss,Mode=TwoWay,Converter={StaticResource BossesConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="元素晶石" HorizontalAlignment="Stretch" ItemsSource="{Binding GemStones}" 
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" ui:ControlHelper.Header="元素晶石" HorizontalAlignment="Stretch" ItemsSource="{Binding GemStones}" 
                       SelectedItem="{Binding SelectedCharacter.GemStone,Mode=TwoWay,Converter={StaticResource GemStonesConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="本地材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Locals}" 
+                <ComboBox Grid.Column="2" ui:ControlHelper.Header="本地材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Locals}" 
                       SelectedItem="{Binding SelectedCharacter.Local,Mode=TwoWay,Converter={StaticResource LocalsConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="普通怪物材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Monsters}" 
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" ui:ControlHelper.Header="普通怪物材料" HorizontalAlignment="Stretch" ItemsSource="{Binding Monsters}" 
                       SelectedItem="{Binding SelectedCharacter.Monster,Mode=TwoWay,Converter={StaticResource MonstersConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <ComboBox ui:ControlHelper.Header="周常天赋材料" HorizontalAlignment="Stretch" ItemsSource="{Binding WeeklyTalents}" 
+                <ComboBox Grid.Column="2" ui:ControlHelper.Header="周常天赋材料" HorizontalAlignment="Stretch" ItemsSource="{Binding WeeklyTalents}" 
                       SelectedItem="{Binding SelectedCharacter.Weekly,Mode=TwoWay,Converter={StaticResource WeeklyTalentsConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
+            </Grid>
         </StackPanel>
     </ui:ScrollViewerEx>
 </ui:ContentDialog>
