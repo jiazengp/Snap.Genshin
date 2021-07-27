@@ -6,7 +6,7 @@ namespace DGP.Genshin.Data.Materials.GemStones
     {
         public GemStone()
         {
-            Star = StarHelper.FromRank(5);
+            this.Star = StarHelper.FromRank(5);
         }
     }
 }

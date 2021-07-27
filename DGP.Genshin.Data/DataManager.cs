@@ -17,7 +17,7 @@ namespace DGP.Genshin.Data
             {
                 if (this.characterResources == null)
                 {
-                    this.characterResources = new ResourceDictionary 
+                    this.characterResources = new ResourceDictionary
                     {
                         Source = new Uri($"pack://application:,,,/DGP.Genshin.Data;component/Characters/Characters.xaml")
                     };
@@ -26,7 +26,7 @@ namespace DGP.Genshin.Data
                 return this.characterResources;
             }
         }
-        public IEnumerable<Character> GetAllCharacters() => CharacterResources.Values.OfType<Character>();
+        public IEnumerable<Character> GetAllCharacters() => this.CharacterResources.Values.OfType<Character>();
         #endregion
         #region Weapons
         private ResourceDictionary weaponResources;
@@ -45,7 +45,7 @@ namespace DGP.Genshin.Data
                 return this.weaponResources;
             }
         }
-        public IEnumerable<Weapon> GetAllWeapons() => WeaponResources.Values.OfType<Weapon>();
+        public IEnumerable<Weapon> GetAllWeapons() => this.WeaponResources.Values.OfType<Weapon>();
         #endregion
         #region 单例
         private static DataManager instance;

@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Data.Weapons;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace DGP.Genshin.Controls.Weapons
 {
@@ -11,7 +9,7 @@ namespace DGP.Genshin.Controls.Weapons
     {
         public WeaponItem()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

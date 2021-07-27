@@ -37,8 +37,8 @@
             </Grid.ColumnDefinitions>
             <ci:CachedImage SnapsToDevicePixels="True" Grid.ColumnSpan="2" ImageUrl="{Binding Profile}" Stretch="UniformToFill"/>
             <StackPanel VerticalAlignment="Bottom">
-                <TextBlock Margin="6,0,0,0" Text="{Binding AscensionStatValue}" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock Margin="6,0,0,6" Text="{Binding AscensionStat}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <TextBlock Margin="6,0,0,0" Text="{Binding AscensionStatValue}" Style="{StaticResource TitleTextBlockStyle}" Foreground="#FFFFFFFF"/>
+                <TextBlock Margin="6,0,0,6" Text="{Binding AscensionStat}" Style="{StaticResource CaptionTextBlockStyle}" Foreground="#FFFFFFFF"/>
             </StackPanel>
             <ci:CachedImage SnapsToDevicePixels="True" Grid.Column="1" HorizontalAlignment="Right" ImageUrl="{Binding Source}"/>
         </Grid>

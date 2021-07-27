@@ -4,7 +4,6 @@ using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -46,13 +45,13 @@ namespace DGP.Genshin.Services
                     .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
                 this.navigationView.SelectedItem = target;
             }
-            
+
             this.selected = this.navigationView.SelectedItem as NavigationViewItem;
         }
 
         public bool Navigate(Type pageType, bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null)
         {
-            if (frame.Content?.GetType() == pageType)
+            if (this.frame.Content?.GetType() == pageType)
             {
                 return false;
             }
@@ -77,7 +76,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                var target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
+                Type target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
                 this.Navigate(target);
             }
         }

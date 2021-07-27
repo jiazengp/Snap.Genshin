@@ -6,7 +6,7 @@ namespace DGP.Genshin.Data.Materials.Monsters
     {
         public Elite()
         {
-            Star = StarHelper.FromRank(4);
+            this.Star = StarHelper.FromRank(4);
         }
     }
 }

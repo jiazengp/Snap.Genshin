@@ -6,7 +6,7 @@ namespace DGP.Genshin.Data.Materials.Weeklys
     {
         public Weekly()
         {
-            Star = StarHelper.FromRank(5);
+            this.Star = StarHelper.FromRank(5);
         }
     }
 }

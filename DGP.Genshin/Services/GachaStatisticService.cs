@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Exceptions;
 using DGP.Snap.Framework.Extensions.System;

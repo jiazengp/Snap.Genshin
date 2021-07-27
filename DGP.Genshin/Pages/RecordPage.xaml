@@ -1,0 +1,481 @@
+﻿<Page x:Class="DGP.Genshin.Pages.RecordPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DGP.Genshin.Pages"
+      xmlns:ui="http://schemas.modernwpf.com/2019" 
+      xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
+      xmlns:r="clr-namespace:DGP.Genshin.Controls.Records"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RecordPage">
+    <Page.Resources>
+        <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="Transparent"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="{x:Type ui:ListViewItem}">
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ui:CommandBar Grid.Row="0">
+            <ui:CommandBar.Content>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox x:Name="ServerComboBox" Margin="8,4,0,0" SelectedIndex="0" ui:ControlHelper.PlaceholderText="选择服务器">
+                        <ComboBoxItem Content="官方服务器" Tag="cn_gf01"/>
+                        <ComboBoxItem Content="Bilibili服务器" Tag="cn_qd01"/>
+                    </ComboBox>
+                    <ui:AppBarSeparator/>
+                    <ui:AutoSuggestBox Margin="0,4,0,0" MinWidth="160" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
+                                       TextChanged="AutoSuggestBox_TextChanged" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+                </StackPanel>
+            </ui:CommandBar.Content>
+            <ui:AppBarButton Label="重新登录" Click="LoginButton_Click">
+                <ui:AppBarButton.Icon>
+                    <ui:FontIcon Glyph="&#xE748;"/>
+                </ui:AppBarButton.Icon>
+            </ui:AppBarButton>
+        </ui:CommandBar>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="520"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ui:ScrollViewerEx VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="0,0,0,8">
+                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="数据总览">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="活跃天数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.ActiveDayNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="成就达成数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.AchievementNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="获得角色数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.AvatarNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="深境螺旋" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.SpiralAbyss}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="华丽宝箱数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.LuxuriousChestNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="珍贵宝箱数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.PreciousChestNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="精致宝箱数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.ExquisiteChestNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="普通宝箱数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.CommonChestNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="风神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.AnemoculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="岩神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.GeoculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="雷神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.ElectroculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="解锁传送点" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.WayPointNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="解锁秘境" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.DomainNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="世界探索">
+                        <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.PlayerInfo.WorldExplorations}" Padding="0">
+                            <ui:ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Width="72" Height="72">
+                                            <c:CachedImage HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="64" Grid.Column="0" ImageUrl="{Binding Icon}" />
+                                        </Border>
+                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1">
+                                            <Grid>
+                                                <TextBlock HorizontalAlignment="Left" Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock HorizontalAlignment="Right" Text="{Binding ExplorationPercentageBy10,StringFormat={}探索度 - {0}%}"/>
+                                            </Grid>
+                                            <ui:ProgressBar Margin="0,4" Value="{Binding ExplorationPercentage}" Minimum="0" Maximum="1000"/>
+                                            <TextBlock Visibility="{Binding IsReputation,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0} - {1}级">
+                                                        <Binding Path="ConvertedType"/>
+                                                        <Binding Path="Level"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding Offerings}" Padding="0,-12">
+                                                <ui:ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} - {1}级">
+                                                                    <Binding Path="Name"/>
+                                                                    <Binding Path="Level"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ui:ListView.ItemTemplate>
+                                            </ui:ListView>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ui:ListView.ItemTemplate>
+                        </ui:ListView>
+                    </Expander>
+                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="尘歌壶">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="信任等阶" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].Level}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="最高洞天仙力" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ComfortNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="获得摆设数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ItemNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="历史访客数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                            <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" Padding="0">
+                                <ui:ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="4">
+                                            <Border Height="120">
+                                                <c:CachedImage Stretch="UniformToFill" Opacity="0.6" VerticalAlignment="Center" ImageUrl="{Binding Icon}"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding Name}" Margin="8" HorizontalAlignment="Right" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ui:ListView.ItemTemplate>
+                            </ui:ListView>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="本期深境螺旋">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.RevealRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="64" Height="64">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                </Border>
+                                                <Border Width="64" Height="64">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="击破数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DefeatRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DamageRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.TakeDamageRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.NormalSkillRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.EnergySkillRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.SpiralAbyss.Floors}" Padding="0">
+                                <ui:ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <r:RecordFloorExpander/>
+                                    </DataTemplate>
+                                </ui:ListView.ItemTemplate>
+                            </ui:ListView>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="上期深境螺旋">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.RevealRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="64" Height="64">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                </Border>
+                                                <Border Width="64" Height="64">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="击破数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DefeatRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DamageRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.TakeDamageRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.NormalSkillRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
+                            <ui:GridView IsSelectionEnabled="False" Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.EnergySkillRank}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid>
+                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                                <Border Width="32" Height="32">
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                            <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.Floors}" Padding="0">
+                                <ui:ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <r:RecordFloorExpander/>
+                                    </DataTemplate>
+                                </ui:ListView.ItemTemplate>
+                            </ui:ListView>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ui:ScrollViewerEx>
+            
+        </Grid>
+    </Grid>
+</Page>

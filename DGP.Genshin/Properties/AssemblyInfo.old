@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 
 [assembly: AssemblyTitle("Snap 原神")]
@@ -11,4 +10,4 @@ using System.Windows;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
 )]
-[assembly: AssemblyVersion("2021.7.17.9")]
+[assembly: AssemblyVersion("2021.7.27.16")]

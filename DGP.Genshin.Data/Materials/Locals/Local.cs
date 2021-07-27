@@ -6,7 +6,7 @@ namespace DGP.Genshin.Data.Materials.Locals
     {
         public Local()
         {
-            Star = StarHelper.FromRank(1);
+            this.Star = StarHelper.FromRank(1);
         }
     }
 }

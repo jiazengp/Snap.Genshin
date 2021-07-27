@@ -65,7 +65,6 @@ namespace DGP.Genshin.Services
             File.Create(this.settingFile).Dispose();
             this.settingDictionary = new Dictionary<string, object>();
         }
-
         public void UnInitialize()
         {
             if (!File.Exists(this.settingFile))

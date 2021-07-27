@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Genshin.Data
+﻿namespace DGP.Genshin.Data
 {
     public class KeySource
     {

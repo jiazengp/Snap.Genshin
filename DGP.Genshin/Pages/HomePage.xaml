@@ -12,44 +12,70 @@
       d:DesignHeight="600" d:DesignWidth="800"
       Title="首页">
     <Page.Resources>
-        <Style TargetType="{x:Type ui:GridViewItem}">
-            <Setter Property="Margin" Value="4,4,8,8"/>
-        </Style>
+        <DataTemplate x:Key="CharacterTemplate">
+            <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="WeaponTemplate">
+            <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
+        </DataTemplate>
     </Page.Resources>
-    <ui:ScrollViewerEx Padding="12">
+    <ui:ScrollViewerEx Padding="12,0">
         <StackPanel>
-            <Grid HorizontalAlignment="Center" Width="868" Height="512" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                <ca:CachedImage Grid.Column="0"
-                    HorizontalAlignment="Center"
-                    SnapsToDevicePixels="True" 
-                    ImageUrl="https://genshin.honeyhunterworld.com/img/char/ayaka_gacha_splash.png"/>
-                <StackPanel Margin="6" Height="240" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
-                        <ca:CachedImage 
-                            Stretch="UniformToFill" 
-                            Grid.Column="1" 
-                            SnapsToDevicePixels="True" 
-                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/feiyan_gacha_card.png"/>
-                    </Border>
-                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
-                        <ca:CachedImage 
-                            Stretch="UniformToFill" 
-                            Grid.Column="2" 
-                            SnapsToDevicePixels="True" 
-                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/chongyun_gacha_card.png"/>
-                    </Border>
-                    <Border Width="72" Margin="6" Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
-                        <ca:CachedImage 
-                            Stretch="UniformToFill" 
-                            Grid.Column="3" 
-                            SnapsToDevicePixels="True" 
-                            ImageUrl="https://genshin.honeyhunterworld.com/img/char/ningguang_gacha_card.png"/>
-                    </Border>
-                </StackPanel>
+            <TextBlock Text="今日天赋材料" Margin=" 4,0" Style="{StaticResource TitleTextBlockStyle}"/>
+            <Grid Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
             </Grid>
             
-            <TextBlock/>
+            <TextBlock Text="今日武器材料" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
+            <Grid Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+            </Grid>
         </StackPanel>
     </ui:ScrollViewerEx>
 </Page>

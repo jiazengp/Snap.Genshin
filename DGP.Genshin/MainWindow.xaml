@@ -11,10 +11,10 @@
         ui:TitleBar.IsBackButtonVisible="{Binding ElementName=ContentFrame,Path=CanGoBack,Mode=OneWay}"  
         mc:Ignorable="d"
         Title="Snap原神" 
-        MinWidth="1080"
-        MinHeight="592"
-        Height="592" 
-        Width="868"
+        MinWidth="1180"
+        MinHeight="720"
+        Width="1180"
+        Height="720" 
         WindowStartupLocation="CenterScreen">
     <Grid>
         <ui:NavigationView 
@@ -23,7 +23,6 @@
             CompactPaneLength="48"
             IsBackButtonVisible="Collapsed" 
             PaneDisplayMode="Auto">
-            <!--Header="{Binding ElementName=ContentFrame,Path=Content.Title}"-->
             <ui:NavigationView.PaneHeader>
                 <Grid Margin="8,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -36,8 +35,23 @@
             </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
-                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}" Icon="People"/>
-                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}" Icon="Cut"/>
+                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon ShowAsMonochrome="False" UriSource="https://genshin.honeyhunterworld.com/img/char/ayaka_face_70.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon ShowAsMonochrome="False" UriSource="https://genshin.honeyhunterworld.com/img/weapon/w_1407_70.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItemSeparator/>
+                <ui:NavigationViewItem Content="祈愿记录" IsEnabled="False" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/wish_35.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 <ui:NavigationViewItemSeparator/>
                 <ui:NavigationViewItem Content="管理" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" Icon="Manage"/>
             </ui:NavigationView.MenuItems>

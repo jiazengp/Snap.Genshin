@@ -47,8 +47,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Observable\CollectionBasedDictionary.cs" />
-    <Compile Include="Collections\Observable\ObservableDictionary.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
     <Compile Include="Core\LifeCycle\LifeCycle.cs" />
@@ -58,16 +56,19 @@
     <Compile Include="Core\SnapFramework.cs" />
     <Compile Include="Data\Behavior\BindWrapper.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
+    <Compile Include="Data\Behavior\Selectable.cs" />
     <Compile Include="Data\Json\Json.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />
     <Compile Include="Device\File\File.cs" />
     <Compile Include="Device\File\KnownPath.cs" />
     <Compile Include="Device\Monitor.cs" />
     <Compile Include="Exceptions\UrlNotFoundException.cs" />
+    <Compile Include="Extensions\System\Collections\ObjectModel\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\System\Windows\Controls\DataGridExtensions.cs" />
     <Compile Include="Extensions\System\Windows\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\System\Windows\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\System\Windows\Media\VisualExtensions.cs" />
+    <Compile Include="NativeMethods\WinInet.cs" />
     <Compile Include="Net\Download\CompletedState.cs" />
     <Compile Include="Net\Download\DownloadFileCompletedArgs.cs" />
     <Compile Include="Net\Download\DownloadFileProgressChangedArgs.cs" />

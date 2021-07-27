@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Core.LifeCycling;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,18 +15,18 @@ namespace DGP.Genshin.Pages
         public ManagePage()
         {
             this.DataContext = LifeCycle.InstanceOf<DataService>();
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (((TabItem)TabHost.SelectedItem).Header)
+            switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    await CharacterEditDialog.ShowAsync();
+                    await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
-                    await WeaponEditDialog.ShowAsync();
+                    await this.WeaponEditDialog.ShowAsync();
                     break;
             }
         }
@@ -35,7 +34,7 @@ namespace DGP.Genshin.Pages
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             DataService data = LifeCycle.InstanceOf<DataService>();
-            switch (((TabItem)TabHost.SelectedItem).Header)
+            switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
                     data.Characters.Remove(data.SelectedCharacter);
@@ -51,7 +50,7 @@ namespace DGP.Genshin.Pages
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             DataService data = LifeCycle.InstanceOf<DataService>();
-            switch (((TabItem)TabHost.SelectedItem).Header)
+            switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
                     Character character = new Character()
@@ -61,11 +60,12 @@ namespace DGP.Genshin.Pages
                         GemStone = data.GemStones.First(),
                         Local = data.Locals.First(),
                         Monster = data.Monsters.First(),
-                        Weekly = data.WeeklyTalents.First()
+                        Weekly = data.WeeklyTalents.First(),
+                        Element = data.Elements.First().Source
                     };
                     data.Characters.Add(character);
                     data.SelectedCharacter = character;
-                    await CharacterEditDialog.ShowAsync();
+                    await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
                     Data.Weapons.Weapon weapon = new Data.Weapons.Weapon()
@@ -76,10 +76,10 @@ namespace DGP.Genshin.Pages
                     };
                     data.Weapons.Add(weapon);
                     data.SelectedWeapon = weapon;
-                    await WeaponEditDialog.ShowAsync();
+                    await this.WeaponEditDialog.ShowAsync();
                     break;
             }
         }
     }
-    
+
 }

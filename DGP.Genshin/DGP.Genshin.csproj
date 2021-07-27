@@ -92,21 +92,52 @@
     <Compile Include="Controls\EditDialogs\WeaponDialog.xaml.cs">
       <DependentUpon>WeaponDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Records\RecordFloorExpander.xaml.cs">
+      <DependentUpon>RecordFloorExpander.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Weapons\WeaponItem.xaml.cs">
       <DependentUpon>WeaponItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
-    <Compile Include="Models\MiHoYo\GachaConfigData.cs" />
-    <Compile Include="Models\MiHoYo\GachaConfigInfo.cs" />
-    <Compile Include="Models\MiHoYo\GachaConfigType.cs" />
-    <Compile Include="Models\MiHoYo\GachaData.cs" />
-    <Compile Include="Models\MiHoYo\GachaLogData.cs" />
-    <Compile Include="Models\MiHoYo\GachaLogItem.cs" />
-    <Compile Include="Models\MiHoYo\GachaLogInfo.cs" />
-    <Compile Include="Models\MiHoYo\GachaLogNode.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaConfigData.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaConfigInfo.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaConfigType.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaData.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaLogData.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaLogItem.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaLogInfo.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaLogNode.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\Avatar.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\DetailedAvatarInfo.cs" />
+    <Compile Include="Models\MiHoYo\Record\CityExploration.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\Constellation.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\Costume.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\DetailedAvatar.cs" />
+    <Compile Include="Models\MiHoYo\Record\Home.cs" />
+    <Compile Include="Models\MiHoYo\Record\Offering.cs" />
+    <Compile Include="Models\MiHoYo\Record\RecordAPI.cs" />
+    <Compile Include="Models\MiHoYo\Record\PlayerInfo.cs" />
+    <Compile Include="Models\MiHoYo\Record\Record.cs" />
+    <Compile Include="Models\MiHoYo\Record\PlayerStats.cs" />
+    <Compile Include="Models\MiHoYo\Record\CharacterQueryPostData.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\Reliquary.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\ReliquaryAffix.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\ReliquarySet.cs" />
+    <Compile Include="Models\MiHoYo\Record\Response.cs" />
+    <Compile Include="Models\MiHoYo\Record\Avatar\Weapon.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Battle.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Floor.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\IconAvatar.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Level.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Rank.cs" />
+    <Compile Include="Models\MiHoYo\Record\SpiralAbyss\SpiralAbyss.cs" />
+    <Compile Include="Models\MiHoYo\Record\WorldExploration.cs" />
     <Compile Include="Pages\CharactersPage.xaml.cs">
       <DependentUpon>CharactersPage.xaml</DependentUpon>
     </Compile>
@@ -116,6 +147,9 @@
     <Compile Include="Pages\ManagePage.xaml.cs">
       <DependentUpon>ManagePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RecordPage.xaml.cs">
+      <DependentUpon>RecordPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -123,8 +157,10 @@
       <DependentUpon>WeaponsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\DailyViewService.cs" />
     <Compile Include="Services\GachaStatisticService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Setting.cs" />
     <Compile Include="Services\SettingService.cs" />
     <Compile Include="Services\Updating\UpdateDialog.xaml.cs">
@@ -149,7 +185,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Records\RecordFloorExpander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Weapons\WeaponItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ManagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RecordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

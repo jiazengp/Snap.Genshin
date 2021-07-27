@@ -21,10 +21,7 @@ namespace DGP.Genshin.Controls.Converters
             return item.Source;
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Cities.First(i => i.Source == (string)value);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Cities.First(i => i.Source == (string)value);
     }
     public class ElementStringConverter : IValueConverter
     {
@@ -34,10 +31,7 @@ namespace DGP.Genshin.Controls.Converters
             return item.Source;
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Elements.First(i => i.Source == (string)value);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Elements.First(i => i.Source == (string)value);
     }
     public class StarStringConverter : IValueConverter
     {
@@ -47,10 +41,7 @@ namespace DGP.Genshin.Controls.Converters
             return item.Source;
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Stars.First(i => i.Source == (string)value);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Stars.First(i => i.Source == (string)value);
     }
     public class WeaponTypeStringConverter : IValueConverter
     {
@@ -60,107 +51,56 @@ namespace DGP.Genshin.Controls.Converters
             return item.Source;
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().WeaponTypes.FirstOrDefault(i => i.Source == (string)value);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().WeaponTypes.FirstOrDefault(i => i.Source == (string)value);
     }
 
     public class DailyWeaponsConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().DailyWeapons.First(i => i.Source == ((Data.Materials.Weapons.Weapon)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().DailyWeapons.First(i => i.Source == ((Data.Materials.Weapons.Weapon)value).Source);
     }
     public class ElitesConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Elites.First(i => i.Source == ((Elite)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Elites.First(i => i.Source == ((Elite)value).Source);
     }
     public class MonstersConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Monsters.First(i => i.Source == ((Monster)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Monsters.First(i => i.Source == ((Monster)value).Source);
     }
     public class DailyTalentsConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().DailyTalents.First(i => i.Source == ((Talent)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().DailyTalents.First(i => i.Source == ((Talent)value).Source);
     }
     public class WeeklyTalentsConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().WeeklyTalents.First(i => i.Source == ((Weekly)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().WeeklyTalents.First(i => i.Source == ((Weekly)value).Source);
     }
     public class BossesConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Bosses.First(i => i.Source == ((Boss)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Bosses.First(i => i.Source == ((Boss)value).Source);
     }
     public class GemStonesConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().GemStones.First(i => i.Source == ((GemStone)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().GemStones.First(i => i.Source == ((GemStone)value).Source);
     }
     public class LocalsConverter : IValueConverter
     {
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return LifeCycle.InstanceOf<DataService>().Locals.First(i => i.Source == ((Local)value).Source);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => LifeCycle.InstanceOf<DataService>().Locals.First(i => i.Source == ((Local)value).Source);
     }
 
 }

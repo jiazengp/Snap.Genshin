@@ -11,7 +11,7 @@
       Title="武器"
       Loaded="Page_Loaded">
 
-    <Grid Margin="12,0,0,0">
+    <Grid>
         <ui:ScrollViewerEx>
             <ui:GridView HorizontalAlignment="Center" IsSelectionEnabled="False" Margin="6,0" ItemsSource="{Binding Weapons}">
                 <ui:GridView.ItemTemplate>

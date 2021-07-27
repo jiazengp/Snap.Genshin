@@ -1,9 +1,5 @@
-﻿using DGP.Genshin.Data;
-using DGP.Genshin.Data.Characters;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
+﻿using DGP.Genshin.Services;
+using DGP.Snap.Framework.Core.LifeCycling;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -15,10 +11,8 @@ namespace DGP.Genshin.Pages
     {
         public HomePage()
         {
-            this.DataContext = this;
+            this.DataContext = LifeCycle.InstanceOf<DailyViewService>();
             this.InitializeComponent();
         }
-
     }
-
 }

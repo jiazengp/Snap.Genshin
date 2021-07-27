@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Data.Characters;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace DGP.Genshin.Controls.Characters
 {

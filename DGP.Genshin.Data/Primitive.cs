@@ -8,6 +8,6 @@ namespace DGP.Genshin.Data
     {
         public string Name { get; set; }
         public string Star { get; set; } = StarHelper.FromRank(1);
-        [JsonIgnore] public SolidColorBrush StarSolid => StarHelper.ToSolid(Star);
+        [JsonIgnore] public SolidColorBrush StarSolid => StarHelper.ToSolid(this.Star);
     }
 }

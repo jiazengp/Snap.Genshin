@@ -15,24 +15,27 @@ namespace DGP.Genshin
     {
         protected override void OnExit(ExitEventArgs e)
         {
+            this.Log($"Exit with code:{e.ApplicationExitCode}");
+            //this service need to uninitialize when exit but not initialize on startup
+            RecordService.Instance.UnInitialize();
             SnapFramework.Current.UnInitialize();
             base.OnExit(e);
         }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //unhandled exception
             AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
-            //initialize framework
             SnapFramework.Current.Initialize();
-            this.Log(Assembly.GetExecutingAssembly().GetName().Version);
+            this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             //app theme
             SetAppTheme();
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            this.Log(e.ExceptionObject);
             using StreamWriter sw = new(File.Create("snap_genshin_crash.log"));
             sw.Write(Json.Stringify(e.ExceptionObject));
+            SnapFramework.Current.UnInitialize();
         }
         internal static void SetAppTheme()
         {

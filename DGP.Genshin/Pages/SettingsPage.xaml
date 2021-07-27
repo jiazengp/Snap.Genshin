@@ -34,8 +34,8 @@
         </ui:ContentDialog>
         <ScrollViewer Margin="12,0,0,0">
             <StackPanel Margin="0,0,0,12">
-                <TextBlock Text="信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <TextBlock Text="未发布角色或武器为开发中内容，请以正式服上线为准" Margin="0,12" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Text="本App可能包含未发布角色或武器等信息&#40;均为开发中内容，请以正式服上线为准" Margin="0,12" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
                 <TextBlock Text="外观" Margin="0,12,0,18" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
                     <ComboBoxItem Content="浅色"/>
@@ -43,15 +43,26 @@
                     <ComboBoxItem Content="跟随系统"/>
                 </ComboBox>
                 <TextBlock Text="反馈" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <ui:HyperlinkButton Margin="0,8,0,0" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="前往 Github 提交 Issue"/>
+                <TextBlock Text="如果你在使用软件的过程中遇到问题，可以点击下方的链接" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="前往 Github 提交 Issue"/>
                 <TextBlock Text="关于" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
                 <Button Margin="4" Tag="Github" Content="检查更新并安装" Click="UpdateRequested"/>
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                
                 <TextBlock Text="Honey Impact" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
-                <ui:HyperlinkButton Margin="0,8,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>
+                <TextBlock Text="角色与武器数据大部分采集自此网站" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>
+                
+                <TextBlock Text="Azure/GenshinPlayerQuery" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBlock Text="玩家信息查询功能参考并使用了此项目的部分代码" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery" Content="项目源代码"/>
+
+                <TextBlock Text="sunfkny/Genshin Gacha Export" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBlock Text="祈愿记录查询功能参考了此项目的部分代码" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/sunfkny/genshin-gacha-export" Content="项目源代码"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

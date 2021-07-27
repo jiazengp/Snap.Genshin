@@ -43,8 +43,8 @@
         </Style>
     </Button.Resources>
     <Grid>
-        <c:CachedImage ImageUrl="{Binding BackgroundUrl}"/>
-        <c:CachedImage ImageUrl="{Binding ForegroundUrl}"/>
+        <c:CachedImage ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
+        <c:CachedImage ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         <Border Background="#99000000" Opacity="0">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="MouseEnter">
@@ -78,7 +78,7 @@
                 VerticalAlignment="Center" 
                 Foreground="White" 
                 Style="{StaticResource CaptionTextBlockStyle}" 
-                Text="{Binding Text}" 
+                Text="{Binding Text,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}" 
                 SnapsToDevicePixels="True"/>
         </Border>
     </Grid>

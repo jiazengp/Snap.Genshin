@@ -15,6 +15,8 @@ namespace DGP.Snap.Framework.Core.LifeCycling
         /// </summary>
         public void InitializeAll()
         {
+            if (this.initalized)
+                return;
             this.Log($"Searching among {EntryHelper.GetCurrentTypes().Count()} types");
             foreach (Type type in EntryHelper.GetCurrentTypes())
             {
@@ -23,13 +25,10 @@ namespace DGP.Snap.Framework.Core.LifeCycling
                     if (@interface == typeof(ILifeCycleManaged) && type.IsClass)
                     {
                         _instances.Add(Activator.CreateInstance(type));
-                        this.Log($"{type} added to auto lifecycle manager");
+                        this.Log($"Added {type} to auto lifecycle manager");
                     }
                 }
             }
-
-            if (this.initalized)
-                return;
             if (_instances != null && _instances.Count >= 0)
             {
                 foreach (ILifeCycleManaged instance in _instances)

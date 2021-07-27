@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace DGP.Snap.Framework.Data.Behavior
 {
-    public class BindWrapper<K,V>
+    public class BindWrapper<K, V>
     {
-        readonly ObservableCollection<BindEntry<K, V>> List = new ObservableCollection<BindEntry<K, V>>();
+        private readonly ObservableCollection<BindEntry<K, V>> List = new ObservableCollection<BindEntry<K, V>>();
 
         public BindWrapper(Dictionary<K, V> dictionary)
         {
@@ -18,10 +18,10 @@ namespace DGP.Snap.Framework.Data.Behavior
 
     public class BindEntry<K, V>
     {
-        public BindEntry(K key,V value)
+        public BindEntry(K key, V value)
         {
-            Key = key;
-            Value = value;
+            this.Key = key;
+            this.Value = value;
         }
         public K Key { get; set; }
         public V Value { get; set; }
