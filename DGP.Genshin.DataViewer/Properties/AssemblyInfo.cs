@@ -14,4 +14,4 @@ using System.Windows;
     ResourceDictionaryLocation.SourceAssembly
 )]
 
-[assembly: AssemblyVersion("2021.7.27.1")]
+[assembly: AssemblyVersion("2021.7.27.2")]

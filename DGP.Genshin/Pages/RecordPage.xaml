@@ -8,7 +8,7 @@
       xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
       xmlns:r="clr-namespace:DGP.Genshin.Controls.Records"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1200"
       Title="RecordPage">
     <Page.Resources>
         <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="Transparent"/>
@@ -26,13 +26,11 @@
         <ui:CommandBar Grid.Row="0">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox x:Name="ServerComboBox" Margin="8,4,0,0" SelectedIndex="0" ui:ControlHelper.PlaceholderText="选择服务器">
-                        <ComboBoxItem Content="官方服务器" Tag="cn_gf01"/>
-                        <ComboBoxItem Content="Bilibili服务器" Tag="cn_qd01"/>
-                    </ComboBox>
-                    <ui:AppBarSeparator/>
-                    <ui:AutoSuggestBox Margin="0,4,0,0" MinWidth="160" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
-                                       TextChanged="AutoSuggestBox_TextChanged" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+                    <ui:AutoSuggestBox Margin="0,4,0,0" MinWidth="240" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
+                                       TextChanged="AutoSuggestBox_TextChanged" 
+                                       SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
+                                       QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                                       GotFocus="AutoSuggestBox_GotFocus"/>
                 </StackPanel>
             </ui:CommandBar.Content>
             <ui:AppBarButton Label="重新登录" Click="LoginButton_Click">

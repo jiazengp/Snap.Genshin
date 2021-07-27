@@ -4,17 +4,19 @@ using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
     internal class RecordAPI
     {
         private static readonly string APISalt = "w5k9n3aqhoaovgw25l373ee18nsazydo"; // @Azure99    //respect original author
-        private static readonly string APIAppVersion = "2.9.0";/*"2.10.1";*/
+        private static readonly string APIAppVersion = "2.9.0";
         private static readonly string APIClientType = "5";
         private static readonly string RandomStringTemplate = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string APIBaseUrl = $@"https://api-takumi.mihoyo.com/game_record/genshin/api";
@@ -26,35 +28,62 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             return response.ReturnCode == 0;
         }
 
-        public Record GetRecord(string uid, string server)
+        public async Task<Record> GetRecordAsync(string uid)
         {
-            Response<PlayerInfo> playerInfo = this.Get<PlayerInfo>(
-                $@"{APIBaseUrl}/index?role_id={uid}&server={server}");
+            string server=null;
+            try
+            {
+                server = new Dictionary<char, string>()
+                {
+                    { '1', "cn_gf01" },
+                    { '5', "cn_qd01" },
+                    //{ '6', "os_usa" },
+                    //{ '7', "os_euro" },
+                    //{ '8', "os_asia" },
+                    //{ '9', "os_cht" }
+                }[uid[0]];
+            }
+            catch
+            {
+                return new Record("UID 不正确");
+            }
+            
+
+            Response<PlayerInfo> playerInfo = await Task.Run(() =>
+            {
+                return this.Get<PlayerInfo>(
+                    $@"{APIBaseUrl}/index?role_id={uid}&server={server}");
+            });
+            Response<SpiralAbyss.SpiralAbyss> spiralAbyss = await Task.Run(() =>
+            {
+                return this.Get<SpiralAbyss.SpiralAbyss>(
+                    $@"{APIBaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
+            });
+            Response<SpiralAbyss.SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
+            {
+                return this.Get<SpiralAbyss.SpiralAbyss>(
+                   $@"{APIBaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
+            });
+            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
+            {
+                return this.Post<DetailedAvatarInfo>(
+                   $@"{APIBaseUrl}/character",
+                   Json.Stringify(new CharacterQueryPostData
+                   {
+                       CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                       RoleId = uid,
+                       Server = server
+                   }));
+            });
+
             if (playerInfo.ReturnCode != 0)
                 return new Record(playerInfo.Message);
-
-            Response<SpiralAbyss.SpiralAbyss> spiralAbyss = this.Get<SpiralAbyss.SpiralAbyss>(
-                $@"{APIBaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             if (spiralAbyss.ReturnCode != 0)
                 return new Record(spiralAbyss.Message);
-            //上期
-            Response<SpiralAbyss.SpiralAbyss> lastSpiralAbyss = this.Get<SpiralAbyss.SpiralAbyss>(
-                $@"{APIBaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
             if (lastSpiralAbyss.ReturnCode != 0)
-                return new Record(spiralAbyss.Message);
+                return new Record(lastSpiralAbyss.Message);
 
-            Response<DetailedAvatarInfo> roles = this.Post<DetailedAvatarInfo>(
-                $@"{APIBaseUrl}/character",
-                Json.Stringify(new CharacterQueryPostData
-                {
-                    CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
-                    RoleId = uid,
-                    Server = server
-                }));
-            if (roles.ReturnCode != 0)
-                return new Record(roles.Message);
-
-            return new Record
+            return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
             {
                 Success = true,
                 UserId = uid,
@@ -78,7 +107,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 client.Headers["DS"] = this.CreateDynamicSecret();
                 client.Headers["Cookie"] = RecordService.Instance.LoginTicket;
                 string response = requestFunc(client);
-                this.Log(response);//
                 return Json.ToObject<Response<T>>(response);
             }
             catch (Exception ex)

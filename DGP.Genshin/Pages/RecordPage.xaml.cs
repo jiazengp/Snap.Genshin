@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Record;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,24 +28,17 @@ namespace DGP.Genshin.Pages
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // Only get results when it was a user typing, 
-            // otherwise assume the value got filled in by TextMemberPath 
-            // or the handler for SuggestionChosen.
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                IEnumerable<string> result = RecordService.Instance.QueryHistory.Where(i => i.Contains(sender.Text));
+                IEnumerable<string> result = RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无历史搜索" } : result;
             }
         }
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
             sender.Text = (string)args.SelectedItem;
-        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            string uid = args.QueryText; ;
-            string server = ((ComboBoxItem)this.ServerComboBox.SelectedItem).Tag.ToString();
-
-            this.Log($"ticket:{RecordService.Instance.LoginTicket}");
+            string uid = args.QueryText;
 
             if (args.ChosenSuggestion != null)
             {
@@ -56,15 +48,20 @@ namespace DGP.Genshin.Pages
             {
                 // Use args.QueryText to determine what to do.
             }
-            Record record = RecordAPI.Instance.GetRecord(uid, server);
-            if (!record.Success)
+            Record record = await RecordAPI.Instance.GetRecordAsync(uid);
+            if (record.Success)
+            {
+                RecordService.Instance.CurrentRecord = record;
+                RecordService.Instance.AddQueryHistory(uid);
+            }
+            else
             {
                 if (record.Message.Length == 0)
                 {
-                    new ContentDialog()
+                    await new ContentDialog()
                     {
                         Title = "查询失败",
-                        Content = "米游社用户信息可能不完整!\n请在米游社登录账号并完善个人信息\n完善后方可查询任意玩家信息",
+                        Content = "米游社用户信息可能不完整\n请在米游社登录账号并完善个人信息\n完善后方可查询任意玩家信息",
                         PrimaryButtonText = "确认",
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
@@ -72,18 +69,19 @@ namespace DGP.Genshin.Pages
                 }
                 else
                 {
-                    new ContentDialog()
+                    await new ContentDialog()
                     {
                         Title = "查询失败",
-                        Content = record.Message,
+                        Content = $"UID:{uid}\nMessage:{record.Message}",
                         PrimaryButtonText = "确认",
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
                 }
                 return;
             }
-            RecordService.Instance.CurrentRecord = record;
-            RecordService.Instance.AddQueryHistory(uid);
         }
+
+        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e) => 
+            ((AutoSuggestBox)sender).Text = RecordService.Instance.CurrentRecord?.UserId;
     }
 }
