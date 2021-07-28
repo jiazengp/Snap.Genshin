@@ -54,16 +54,22 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 return this.Get<PlayerInfo>(
                     $@"{APIBaseUrl}/index?role_id={uid}&server={server}");
             });
+            if (playerInfo.ReturnCode != 0)
+                return new Record(playerInfo.Message);
             Response<SpiralAbyss.SpiralAbyss> spiralAbyss = await Task.Run(() =>
             {
                 return this.Get<SpiralAbyss.SpiralAbyss>(
                     $@"{APIBaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             });
+            if (spiralAbyss.ReturnCode != 0)
+                return new Record(spiralAbyss.Message);
             Response<SpiralAbyss.SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
             {
                 return this.Get<SpiralAbyss.SpiralAbyss>(
                    $@"{APIBaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
             });
+            if (lastSpiralAbyss.ReturnCode != 0)
+                return new Record(lastSpiralAbyss.Message);
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
                 return this.Post<DetailedAvatarInfo>(
@@ -75,14 +81,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                        Server = server
                    }));
             });
-
-            if (playerInfo.ReturnCode != 0)
-                return new Record(playerInfo.Message);
-            if (spiralAbyss.ReturnCode != 0)
-                return new Record(spiralAbyss.Message);
-            if (lastSpiralAbyss.ReturnCode != 0)
-                return new Record(lastSpiralAbyss.Message);
-
             return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
             {
                 Success = true,

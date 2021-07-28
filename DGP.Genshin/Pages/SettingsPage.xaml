@@ -35,7 +35,8 @@
         <ScrollViewer Margin="12,0,0,0">
             <StackPanel Margin="0,0,0,12">
                 <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <TextBlock Text="本App可能包含未发布角色或武器等信息&#40;均为开发中内容，请以正式服上线为准" Margin="0,12" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <TextBlock Text="本App可能包含尚未发布的角色或武器等物品信息" Margin="0,12,0,0" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <TextBlock Text="均为第三方泄露开发中内容，请以正式服上线为准" Margin="0,4,0,12" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
                 <TextBlock Text="外观" Margin="0,12,0,18" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
                     <ComboBoxItem Content="浅色"/>
