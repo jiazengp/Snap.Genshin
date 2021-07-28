@@ -30,7 +30,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
 
         public async Task<Record> GetRecordAsync(string uid)
         {
-            string server=null;
+            string server = null;
             try
             {
                 server = new Dictionary<char, string>()
@@ -47,7 +47,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             {
                 return new Record("UID 不正确");
             }
-            
+
 
             Response<PlayerInfo> playerInfo = await Task.Run(() =>
             {

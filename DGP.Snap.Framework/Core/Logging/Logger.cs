@@ -48,7 +48,12 @@ namespace DGP.Snap.Framework.Core.Logging
             }
         }
 
-        public void UnInitialize() => this.loggerWriter.Dispose();
+        public void UnInitialize()
+        {
+            //make sure all logs are written in the log file
+            this.loggerWriter.Flush();
+            this.loggerWriter.Dispose();
+        }
     }
 }
 

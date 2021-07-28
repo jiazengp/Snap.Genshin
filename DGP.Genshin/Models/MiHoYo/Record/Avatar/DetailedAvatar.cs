@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Genshin.Data.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -15,5 +16,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("reliquaries")] public List<Reliquary> Reliquaries { get; set; }
         [JsonProperty("constellations")] public List<Constellation> Constellations { get; set; }
         [JsonProperty("costumes")] public List<Costume> Costumes { get; set; }
+        public string StarUrl => StarHelper.FromRank(this.Rarity);
     }
 }

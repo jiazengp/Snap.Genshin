@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Genshin.Data.Helpers;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
@@ -9,6 +10,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("icon")] public string Icon { get; set; }
         [JsonProperty("type")] public int Type { get; set; }
         [JsonProperty("rarity")] public int Rarity { get; set; }
+        public string StarUrl => StarHelper.FromRank(this.Rarity);
         [JsonProperty("level")] public int Level { get; set; }
         [JsonProperty("promote_level")] public int PromoteLevel { get; set; }
         [JsonProperty("type_name")] public string TypeName { get; set; }

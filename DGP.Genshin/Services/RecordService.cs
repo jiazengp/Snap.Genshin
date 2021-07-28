@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Record;
+using DGP.Genshin.Models.MiHoYo.Record.Avatar;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
@@ -6,6 +7,7 @@ using DGP.Snap.Framework.NativeMethods;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DGP.Genshin.Services
@@ -18,6 +20,20 @@ namespace DGP.Genshin.Services
 
         private Record currentRecord;
         public Record CurrentRecord { get => this.currentRecord; set => this.Set(ref this.currentRecord, value); }
+
+        private DetailedAvatar selectedAvatar;
+        public DetailedAvatar SelectedAvatar
+        {
+            get => this.selectedAvatar; set
+            {
+                this.Set(ref this.selectedAvatar, value);
+                this.SelectedReliquary = this.SelectedAvatar.Reliquaries.Count() > 0 ? this.SelectedAvatar.Reliquaries.First() : null;
+            }
+        }
+
+        private Reliquary selectedReliquary;
+        public Reliquary SelectedReliquary { get => this.selectedReliquary; set => this.Set(ref this.selectedReliquary, value); }
+
         public string LoginTicket { get; set; }
         public List<string> QueryHistory { get; set; } = new List<string>();
         public LoginWindow LoginWindow { get; set; }
@@ -44,7 +60,6 @@ namespace DGP.Genshin.Services
             WinInet.InternetGetCookieEx(CookieUrl, null, loginTicket, ref size, WinInet.COOKIE_HTTP_ONLY, IntPtr.Zero);
             return loginTicket.ToString();
         }
-
         internal void AddQueryHistory(string uid)
         {
             if (!this.QueryHistory.Contains(uid))

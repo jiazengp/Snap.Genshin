@@ -301,6 +301,10 @@ if exist $(SolutionDir)Build\Publish rmdir /S /Q $(SolutionDir)Build\Publish</Pr
     <PostBuildEvent>mkdir $(SolutionDir)Build\Publish
 xcopy /Y $(TargetDir)*.exe $(SolutionDir)Build\Publish
 xcopy /Y $(TargetDir)*.dll $(SolutionDir)Build\Publish
+
+mkdir $(SolutionDir)Build\Publish\MetaData
+xcopy /Y $(TargetDir)MetaData $(SolutionDir)Build\Publish\MetaData
+
 if exist $(SolutionDir)Build\Publish\System.ValueTuple.dll del $(SolutionDir)Build\Publish\System.ValueTuple.dll
 $(SolutionDir)Build\7z.exe  a -r $(SolutionDir)Build\Publish\Package.zip $(SolutionDir)Build\Publish\*.*</PostBuildEvent>
   </PropertyGroup>

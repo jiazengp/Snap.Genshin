@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DGP.Snap.Framework.Data.Behavior
 {
+    /// <summary>
+    /// 实现 <see cref="INotifyPropertyChanged"/> 接口
+    /// </summary>
     public class Observable : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
