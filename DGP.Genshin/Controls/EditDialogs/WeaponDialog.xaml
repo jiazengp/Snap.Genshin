@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DGP.Genshin.Controls.EditDialogs" 
                    xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-                   xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+                   xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
                    mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800"
                    PrimaryButtonText="确定"
@@ -28,7 +28,7 @@
             </Grid>
         </DataTemplate>
     </ui:ContentDialog.Resources>
-    <ui:ScrollViewerEx>
+    <s:SmoothScrollViewer>
         <StackPanel Margin="0,0,20,0">
             <TextBox ui:ControlHelper.Header="标识符[Key]" Text="{Binding SelectedWeapon.Key,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="名称" Text="{Binding SelectedWeapon.Name,Mode=TwoWay}"/>
@@ -52,5 +52,5 @@
                       SelectedItem="{Binding SelectedWeapon.Monster,Mode=TwoWay,Converter={StaticResource MonstersConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
         </StackPanel>
-    </ui:ScrollViewerEx>
+    </s:SmoothScrollViewer>
 </ui:ContentDialog>

@@ -95,9 +95,11 @@
     <Compile Include="Controls\Records\RecordFloorExpander.xaml.cs">
       <DependentUpon>RecordFloorExpander.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SmoothScrollViewer\SmoothScrollViewer.cs" />
     <Compile Include="Controls\Weapons\WeaponItem.xaml.cs">
       <DependentUpon>WeaponItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>

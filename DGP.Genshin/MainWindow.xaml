@@ -55,7 +55,31 @@
                 <ui:NavigationViewItemSeparator/>
                 <ui:NavigationViewItem Content="管理" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" Icon="Manage"/>
             </ui:NavigationView.MenuItems>
-            
+            <ui:NavigationView.PaneFooter>
+                <StackPanel Margin="0,0,0,8">
+                    <Button Click="UserButtonClick" SnapsToDevicePixels="True" HorizontalContentAlignment="Stretch" Style="{StaticResource TransparentButtonStyle}">
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ui:PersonPicture Width="24"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="登录" Foreground="White"/>
+                        </Grid>
+                        <ui:FlyoutBase.AttachedFlyout>
+                            <ui:Flyout>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="32"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="个人信息"/>
+                                </Grid>
+                            </ui:Flyout>
+                        </ui:FlyoutBase.AttachedFlyout>
+                    </Button>
+                </StackPanel>
+            </ui:NavigationView.PaneFooter>
             <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>

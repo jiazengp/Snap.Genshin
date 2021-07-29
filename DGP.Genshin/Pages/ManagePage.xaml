@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-      xmlns:dialogs="clr-namespace:DGP.Genshin.Controls.EditDialogs"
+      xmlns:dialogs="clr-namespace:DGP.Genshin.Controls.EditDialogs" xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="管理">
@@ -33,7 +33,7 @@
             <TabItem Header="角色">
                 <Grid>
                     <dialogs:CharacterDialog x:Name="CharacterEditDialog"/>
-                    <ui:ScrollViewerEx>
+                    <s:SmoothScrollViewer>
                         <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
@@ -45,7 +45,7 @@
                                 </DataTemplate>
                             </ui:GridView.ItemTemplate>
                         </ui:GridView>
-                    </ui:ScrollViewerEx>
+                    </s:SmoothScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="武器">
@@ -55,7 +55,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <dialogs:WeaponDialog x:Name="WeaponEditDialog"/>
-                    <ui:ScrollViewerEx>
+                    <s:SmoothScrollViewer>
                         <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
@@ -67,7 +67,7 @@
                                 </DataTemplate>
                             </ui:GridView.ItemTemplate>
                         </ui:GridView>
-                    </ui:ScrollViewerEx>
+                    </s:SmoothScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>

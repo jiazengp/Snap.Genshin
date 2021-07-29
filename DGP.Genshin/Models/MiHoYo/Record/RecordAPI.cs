@@ -27,9 +27,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                     "https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id=100010001&server=cn_gf01");
             return response.ReturnCode == 0;
         }
-
         public async Task<Record> GetRecordAsync(string uid)
         {
+
             string server = null;
             try
             {
@@ -48,28 +48,30 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 return new Record("UID 不正确");
             }
 
-
             Response<PlayerInfo> playerInfo = await Task.Run(() =>
             {
                 return this.Get<PlayerInfo>(
                     $@"{APIBaseUrl}/index?role_id={uid}&server={server}");
             });
             if (playerInfo.ReturnCode != 0)
-                return new Record(playerInfo.Message);
+                return new Record($"获取玩家基本信息失败：\n{playerInfo.Message}");
+
             Response<SpiralAbyss.SpiralAbyss> spiralAbyss = await Task.Run(() =>
             {
                 return this.Get<SpiralAbyss.SpiralAbyss>(
                     $@"{APIBaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             });
             if (spiralAbyss.ReturnCode != 0)
-                return new Record(spiralAbyss.Message);
+                return new Record($"获取本期深渊螺旋信息失败：\n{spiralAbyss.Message}");
+
             Response<SpiralAbyss.SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
             {
                 return this.Get<SpiralAbyss.SpiralAbyss>(
                    $@"{APIBaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
             });
             if (lastSpiralAbyss.ReturnCode != 0)
-                return new Record(lastSpiralAbyss.Message);
+                return new Record($"获取上期深渊螺旋信息失败：\n{lastSpiralAbyss.Message}");
+
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
                 return this.Post<DetailedAvatarInfo>(
@@ -81,6 +83,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                        Server = server
                    }));
             });
+
             return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
             {
                 Success = true,
@@ -92,7 +95,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 DetailedAvatars = roles.Data.Avatars
             };
         }
-
         #region Request Methods
         private Response<T> Request<T>(Func<WebClient, string> requestFunc)
         {
@@ -120,7 +122,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         private Response<T> Get<T>(string url) => this.Request<T>(x => x.DownloadString(url));
         private Response<T> Post<T>(string url, string data) => this.Request<T>(x => x.UploadString(url, data));
         #endregion
-
         #region Encryption
         private string CreateDynamicSecret()
         {
@@ -158,7 +159,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             }
         }
         #endregion
-
         #region 单例
         private static RecordAPI instance;
         private static readonly object _lock = new();

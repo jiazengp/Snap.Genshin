@@ -12,7 +12,6 @@ namespace DGP.Genshin.Controls.CachedImage
     {
         public enum CacheMode
         {
-            WinINet,
             Dedicated
         }
 
@@ -26,20 +25,9 @@ namespace DGP.Genshin.Controls.CachedImage
         {
             // default cache directory - can be changed if needed from App.xaml
             AppCacheDirectory = $"{Environment.CurrentDirectory}\\Cache\\";
-            AppCacheMode = CacheMode.Dedicated;
         }
 
-        /// <summary>
-        ///     Gets or sets the path to the folder that stores the cache file. Only works when AppCacheMode is
-        ///     CacheMode.Dedicated.
-        /// </summary>
         public static string AppCacheDirectory { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the cache mode. WinINet is recommended, it's provided by .Net Framework and uses the Temporary Files
-        ///     of IE and the same cache policy of IE.
-        /// </summary>
-        public static CacheMode AppCacheMode { get; set; }
 
         public static async Task<MemoryStream> HitAsync(string url)
         {

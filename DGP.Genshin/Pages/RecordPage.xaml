@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages"
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-      xmlns:r="clr-namespace:DGP.Genshin.Controls.Records"
+      xmlns:r="clr-namespace:DGP.Genshin.Controls.Records" xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
       Title="RecordPage">
@@ -51,7 +51,7 @@
                     <Border>
                         <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" Stretch="UniformToFill" SnapsToDevicePixels="True" ImageUrl="{Binding SelectedAvatar.Image}"/>
                     </Border>
-                    <ui:ScrollViewerEx VerticalScrollBarVisibility="Hidden">
+                    <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden">
                         <StackPanel Margin="0,0,0,8">
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top">
                                 <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
@@ -173,7 +173,7 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-                    </ui:ScrollViewerEx>
+                    </s:SmoothScrollViewer>
                 </Grid>
                 <Grid x:Name="ExpandGrid" HorizontalAlignment="Left" Width="72" Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
                     <Grid.Triggers>
@@ -204,34 +204,35 @@
                         </Grid.Triggers>
                         <ui:FontIcon Margin="12" Glyph="&#xE700;"/>
                     </Grid>
-                    <ui:GridView 
+                    <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                        <ui:GridView 
                         x:Name="ExpandGridView"
-                        Grid.Row="1"
                         SelectionMode="Single"
                         HorizontalAlignment="Center" 
                         ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                         ItemsSource="{Binding CurrentRecord.DetailedAvatars}" 
                         SelectedItem="{Binding SelectedAvatar,Mode=TwoWay}"
                         Padding="0,0,-4,0">
-                        <ui:GridView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Grid>
-                                        <Border Width="64" Height="64">
-                                            <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
-                                        </Border>
-                                        <Border Width="64" Height="64">
-                                            <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
-                                        </Border>
-                                    </Grid>
-                                    <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Level,StringFormat={}Lv.{0}}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ui:GridView.ItemTemplate>
-                    </ui:GridView>
+                            <ui:GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                            </Border>
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Level,StringFormat={}Lv.{0}}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ui:GridView.ItemTemplate>
+                        </ui:GridView>
+                    </s:SmoothScrollViewer>
                 </Grid>
             </Grid>
-            <ui:ScrollViewerEx Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+            <s:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Margin="0,0,0,8">
                     <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="数据总览">
                         <Grid>
@@ -659,7 +660,7 @@
                         </StackPanel>
                     </Expander>
                 </StackPanel>
-            </ui:ScrollViewerEx>
+            </s:SmoothScrollViewer>
         </Grid>
     </Grid>
 </Page>

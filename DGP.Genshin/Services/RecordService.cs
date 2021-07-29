@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services
             get => this.selectedAvatar; set
             {
                 this.Set(ref this.selectedAvatar, value);
-                this.SelectedReliquary = this.SelectedAvatar.Reliquaries.Count() > 0 ? this.SelectedAvatar.Reliquaries.First() : null;
+                this.SelectedReliquary = this.SelectedAvatar?.Reliquaries.Count() > 0 ? this.SelectedAvatar?.Reliquaries.First() : null;
             }
         }
 

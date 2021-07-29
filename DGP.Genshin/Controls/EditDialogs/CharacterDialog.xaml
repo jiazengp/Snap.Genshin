@@ -6,7 +6,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.EditDialogs" 
                    xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-                   xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
+                   xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
                    mc:Ignorable="d" 
                    d:DesignHeight="800" d:DesignWidth="800"
                    PrimaryButtonText="确定" DefaultButton="Primary"
@@ -34,7 +34,7 @@
             </Grid>
         </DataTemplate>
     </ui:ContentDialog.Resources>
-    <ui:ScrollViewerEx>
+    <s:SmoothScrollViewer>
         <StackPanel Margin="0,0,18,0">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -138,5 +138,5 @@
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
             </Grid>
         </StackPanel>
-    </ui:ScrollViewerEx>
+    </s:SmoothScrollViewer>
 </ui:ContentDialog>

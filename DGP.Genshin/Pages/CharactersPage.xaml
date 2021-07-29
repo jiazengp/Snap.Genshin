@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters" 
-      xmlns:c1="clr-namespace:DGP.Genshin.Controls.CachedImage"
+      xmlns:c1="clr-namespace:DGP.Genshin.Controls.CachedImage" 
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="角色">
@@ -22,7 +23,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ui:ScrollViewerEx Padding="12,0">
+        <s:SmoothScrollViewer Padding="12,0">
             <ui:GridView HorizontalAlignment="Center" IsSelectionEnabled="False" ItemsSource="{Binding Characters}">
                 <ui:GridView.ItemTemplate>
                     <DataTemplate>
@@ -30,7 +31,7 @@
                     </DataTemplate>
                 </ui:GridView.ItemTemplate>
             </ui:GridView>
-        </ui:ScrollViewerEx>
+        </s:SmoothScrollViewer>
         <ui:CommandBar Grid.Row="1">
             <ui:AppBarButton Label="排序" Icon="Sort"/>
             <ui:AppBarButton Label="元素" Icon="Filter">

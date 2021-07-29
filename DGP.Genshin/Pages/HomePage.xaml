@@ -7,7 +7,8 @@
       xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters" 
-      xmlns:ca="clr-namespace:DGP.Genshin.Controls.CachedImage"
+      xmlns:ca="clr-namespace:DGP.Genshin.Controls.CachedImage" 
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="首页">
@@ -19,7 +20,7 @@
             <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
         </DataTemplate>
     </Page.Resources>
-    <ui:ScrollViewerEx Padding="12,0">
+    <s:SmoothScrollViewer Padding="12,0" Style="{StaticResource DefaultScrollViewerStyle}">
         <StackPanel>
             <TextBlock Text="今日天赋材料" Margin=" 4,0" Style="{StaticResource TitleTextBlockStyle}"/>
             <Grid Margin="0,12,0,0">
@@ -33,7 +34,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
@@ -46,7 +47,7 @@
                 <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
             </Grid>
-            
+
             <TextBlock Text="今日武器材料" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
             <Grid Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
@@ -60,7 +61,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
@@ -77,5 +78,5 @@
                 <ui:GridView Grid.Column="2" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
             </Grid>
         </StackPanel>
-    </ui:ScrollViewerEx>
+    </s:SmoothScrollViewer>
 </Page>

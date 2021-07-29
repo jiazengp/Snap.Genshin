@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages"
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
-      xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
+      xmlns:helpers="clr-namespace:DGP.Genshin.Helpers" 
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="1600" 
       d:DesignWidth="800"
@@ -32,7 +33,7 @@
                 <ui:ProgressBar Grid.Row="2" Minimum="0" Maximum="1" Value="{Binding UpdateInfo.Progress}"/>
             </Grid>
         </ui:ContentDialog>
-        <ScrollViewer Margin="12,0,0,0">
+        <s:SmoothScrollViewer Margin="12,0,0,0">
             <StackPanel Margin="0,0,0,12">
                 <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <TextBlock Text="本App可能包含尚未发布的角色或武器等物品信息" Margin="0,12,0,0" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -65,6 +66,6 @@
                 <TextBlock Text="祈愿记录查询功能参考了此项目的部分代码" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/sunfkny/genshin-gacha-export" Content="项目源代码"/>
             </StackPanel>
-        </ScrollViewer>
+        </s:SmoothScrollViewer>
     </Grid>
 </Page>
