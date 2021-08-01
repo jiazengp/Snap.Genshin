@@ -15,7 +15,7 @@ namespace DGP.Genshin
 
         public MainWindow()
         {
-            //DataContext = this;
+            this.DataContext = SettingModel.Instance;
             this.InitializeComponent();
             this.NavigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.NavigationService.Navigate<HomePage>(true);

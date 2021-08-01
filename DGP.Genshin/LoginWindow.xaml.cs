@@ -19,6 +19,7 @@ namespace DGP.Genshin
 
         private void LoginWebBrowser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
+            this.Activate();
             if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
                 this.isLoggedIn = true;

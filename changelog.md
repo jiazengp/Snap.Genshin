@@ -6,3 +6,7 @@
 
 ### 2021.7.20.*
 * Added a new feature to filter characters\' elements.
+
+### 2021.7.29.*
+* 平滑滚动支持
+* 修复了设置无法保存的问题

@@ -6,7 +6,6 @@ using DGP.Genshin.Data.Materials.Monsters;
 using DGP.Genshin.Data.Materials.Talents;
 using DGP.Genshin.Data.Materials.Weeklys;
 using DGP.Genshin.Data.Weapons;
-using DGP.Snap.Framework.Core.LifeCycling;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
@@ -24,7 +23,7 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Services
 {
-    internal class DataService : DependencyObject, ILifeCycleManaged
+    internal class DataService : DependencyObject
     {
         private static readonly string folderPath = $"{AppDomain.CurrentDomain.BaseDirectory}Metadata\\";
 
@@ -442,6 +441,33 @@ namespace DGP.Genshin.Services
             this.Save(this.WeaponTypes, "weapontypes.json");
             this.Save(this.WeeklyTalents, "weeklytalents.json");
         }
+
+
+        #region 单例
+        private static DataService instance;
+        private static readonly object _lock = new();
+        private DataService()
+        {
+            this.Initialize();
+        }
+        public static DataService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new DataService();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+        #endregion
         #endregion
 
         #region xaml to json

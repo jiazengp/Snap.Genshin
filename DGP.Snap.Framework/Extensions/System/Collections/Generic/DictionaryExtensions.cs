@@ -19,7 +19,6 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
             {
                 dictionary.Remove(key);
             }
-
             dictionary.Add(key, value);
         }
         /// <summary>

@@ -24,7 +24,7 @@ namespace DGP.Genshin.Services.Updating
         {
             try
             {
-                this.ReleaseInfo = Json.GetWebRequestObject<Release>(url);
+                this.ReleaseInfo = Json.GetWebResponseObject<Release>(url);
                 this.UpdateInfo.Title = this.ReleaseInfo.Name;
                 this.UpdateInfo.Detail = this.ReleaseInfo.Body;
                 string newVersion = this.ReleaseInfo.TagName;

@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Data.Weapons;
-using DGP.Snap.Framework.Core.LifeCycling;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +9,9 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// no need to update the view,so we don't make it observable
     /// </summary>
-    public class DailyViewService : ILifeCycleManaged
+    public class DailyViewService
     {
-        private readonly DataService dataService = LifeCycle.InstanceOf<DataService>();
+        private readonly DataService dataService = DataService.Instance;
 
         #region Mondstadt
         private IEnumerable<Character> todayMondstadtCharacter5;
@@ -215,11 +214,29 @@ namespace DGP.Genshin.Services
         }
         #endregion
 
-        public void Initialize()
+        #region 单例
+        private static DailyViewService instance;
+        private static readonly object _lock = new();
+        private DailyViewService()
         {
         }
-        public void UnInitialize()
+        public static DailyViewService Instance
         {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new DailyViewService();
+                        }
+                    }
+                }
+                return instance;
+            }
         }
+        #endregion
     }
 }

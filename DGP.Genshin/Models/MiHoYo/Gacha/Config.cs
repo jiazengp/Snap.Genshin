@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha
 {
-    public class GachaConfigData
+    public class Config
     {
-        [JsonProperty("gacha_type_list")] public List<GachaConfigType> GachaTypeList { get; set; }
+        [JsonProperty("gacha_type_list")] public List<ConfigType> Types { get; set; }
         [JsonProperty("region")] public string Region { get; set; }
     }
 }

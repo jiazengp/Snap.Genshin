@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Core.LifeCycling;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +13,7 @@ namespace DGP.Genshin.Pages
     {
         public ManagePage()
         {
-            this.DataContext = LifeCycle.InstanceOf<DataService>();
+            this.DataContext = DataService.Instance;
             this.InitializeComponent();
         }
 
@@ -33,7 +32,7 @@ namespace DGP.Genshin.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DataService data = LifeCycle.InstanceOf<DataService>();
+            DataService data = DataService.Instance;
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
@@ -49,7 +48,7 @@ namespace DGP.Genshin.Pages
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            DataService data = LifeCycle.InstanceOf<DataService>();
+            DataService data = DataService.Instance;
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":

@@ -51,6 +51,7 @@
 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
+                <CheckBox Margin="4" Content="开发者模式" IsChecked="{Binding IsDevMode,Mode=TwoWay}"/>
                 <Button Margin="4" Tag="Github" Content="检查更新并安装" Click="UpdateRequested"/>
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 
@@ -58,7 +59,7 @@
                 <TextBlock Text="角色与武器数据大部分采集自此网站" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>
                 
-                <TextBlock Text="Azure/GenshinPlayerQuery" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBlock Text="Azure99/GenshinPlayerQuery" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="玩家信息查询功能参考并使用了此项目的部分代码" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery" Content="项目源代码"/>
 

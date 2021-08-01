@@ -22,16 +22,19 @@
 
 现代化原神数据速查App
 
-![角色](https://i.loli.net/2021/07/14/GfpBas56uJwlPhy.png)
-![武器](https://i.loli.net/2021/07/14/XK3GxPc8aeUIBkm.png)
+![主页](https://i.loli.net/2021/08/01/2pz6BCdIZtJD1oR.png)
 ![玩家信息](https://i.loli.net/2021/07/28/Eauo1yz2BiLw49c.png)
+![祈愿记录](https://i.loli.net/2021/08/01/S14qWyVxvhrAX9m.png)
 
 </div>
 
 ---
 ## 第三方
-抽卡统计核心逻辑  
+原祈愿记录核心逻辑  
 [![sunfkny/genshin-gacha-export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-yellow?style=for-the-badge)](https://github.com/sunfkny/genshin-gacha-export)
+
+祈愿记录页面设计  
+[![sunfkny/genshin-gacha-export](https://img.shields.io/badge/Scighost-KeqingNiuza-yellow?style=for-the-badge)](https://github.com/Scighost/KeqingNiuza)
 
 玩家信息查询逻辑  
 [![Azure99/GenshinPlayerQuery](https://img.shields.io/badge/Azure99-GenshinPlayerQuery-yellow?style=for-the-badge)](https://github.com/Azure99/GenshinPlayerQuery)

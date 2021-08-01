@@ -7,11 +7,6 @@ namespace DGP.Snap.Framework.Core.Logging
 {
     internal class Logger
     {
-        public Logger()
-        {
-            this.Initialize();
-        }
-
         private readonly bool isLoggingtoFile = true;
         private readonly bool isLoggingtoConsole = true;
 
@@ -36,6 +31,32 @@ namespace DGP.Snap.Framework.Core.Logging
                 Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename.PadRight(this.maxTypeLength)}:{info}");
             }
         }
+
+        #region 单例
+        private static Logger instance;
+        private static readonly object _lock = new();
+        private Logger()
+        {
+            this.Initialize();
+        }
+        public static Logger Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new Logger();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+        #endregion
 
         public void Initialize()
         {

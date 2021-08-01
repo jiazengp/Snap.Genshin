@@ -50,7 +50,6 @@ namespace DGP.Genshin.Services
             {
                 if (NavigationService.Current.CanGoBack)
                     NavigationService.Current.GoBack();
-                this.UnInitialize();
             }
         }
         public string GetLoginTicket()
@@ -87,11 +86,7 @@ namespace DGP.Genshin.Services
                 }
             }
         }
-        public void UnInitialize()
-        {
-            File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
-            Environment.Exit(0);
-        }
+        public void UnInitialize() => File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
         public static RecordService Instance
         {
             get

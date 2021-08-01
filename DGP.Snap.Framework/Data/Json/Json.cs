@@ -34,15 +34,15 @@ namespace DGP.Snap.Framework.Data.Json
         }
 
         /// <summary>	
-        /// 向指定 <paramref name="requestUrl"/> 的服务器请求Json数据，并将结果返回为类型为 <typeparamref name="TRequest"/> 的实例	
+        /// 向指定 <paramref name="requestUrl"/> 的服务器请求Json数据，并将结果返回为类型为 <typeparamref name="TResponse"/> 的实例	
         /// </summary>	
-        /// <typeparam name="TRequest"></typeparam>	
+        /// <typeparam name="TResponse"></typeparam>	
         /// <param name="requestUrl"></param>	
         /// <returns></returns>	
-        public static TRequest GetWebRequestObject<TRequest>(string requestUrl)
+        public static TResponse GetWebResponseObject<TResponse>(string requestUrl)
         {
             string jsonMetaString = GetWebResponse(requestUrl);
-            return ToObject<TRequest>(jsonMetaString);
+            return ToObject<TResponse>(jsonMetaString);
         }
 
         /// <summary>	
@@ -62,7 +62,7 @@ namespace DGP.Snap.Framework.Data.Json
             request.UserAgent = "Wget/1.9.1";
             request.Timeout = 5000;
             string jsonMetaString;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())//获取响应	
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 using StreamReader responseStreamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 jsonMetaString = responseStreamReader.ReadToEnd();

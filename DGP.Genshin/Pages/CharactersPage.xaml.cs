@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Snap.Framework.Core.LifeCycling;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -11,7 +10,7 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
-            this.DataContext = LifeCycle.InstanceOf<DataService>();
+            this.DataContext = DataService.Instance;
             this.InitializeComponent();
         }
     }

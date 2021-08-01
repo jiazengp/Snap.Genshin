@@ -45,7 +45,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             }
             catch
             {
-                return new Record("UID 不正确");
+                return new Record("不支持查询此UID");
             }
 
             Response<PlayerInfo> playerInfo = await Task.Run(() =>

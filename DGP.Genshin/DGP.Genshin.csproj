@@ -107,14 +107,13 @@
     <Compile Include="Models\Github\AssetsItem.cs" />
     <Compile Include="Models\Github\People.cs" />
     <Compile Include="Models\Github\Release.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaConfigData.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaConfigInfo.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaConfigType.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Config.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\ConfigType.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaData.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaLogData.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\GachaLog.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaLogItem.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaLogInfo.cs" />
-    <Compile Include="Models\MiHoYo\Gacha\GachaLogNode.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\Statistic.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticFactory.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Avatar.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\DetailedAvatarInfo.cs" />
     <Compile Include="Models\MiHoYo\Record\CityExploration.cs" />
@@ -131,7 +130,7 @@
     <Compile Include="Models\MiHoYo\Record\Avatar\Reliquary.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquaryAffix.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquarySet.cs" />
-    <Compile Include="Models\MiHoYo\Record\Response.cs" />
+    <Compile Include="Models\MiHoYo\Response.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Weapon.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Battle.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Floor.cs" />
@@ -142,6 +141,9 @@
     <Compile Include="Models\MiHoYo\Record\WorldExploration.cs" />
     <Compile Include="Pages\CharactersPage.xaml.cs">
       <DependentUpon>CharactersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GachaStatisticPage.xaml.cs">
+      <DependentUpon>GachaStatisticPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -160,10 +162,13 @@
     </Compile>
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\DailyViewService.cs" />
-    <Compile Include="Services\GachaStatisticService.cs" />
+    <Compile Include="Services\GachaStatistic\GachaStatisticService.cs" />
+    <Compile Include="Services\GachaStatistic\LocalGachaLogProvider.cs" />
+    <Compile Include="Services\GachaStatistic\GachaLogProvider.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Setting.cs" />
+    <Compile Include="Services\SettingModel.cs" />
     <Compile Include="Services\SettingService.cs" />
     <Compile Include="Services\Updating\UpdateDialog.xaml.cs">
       <DependentUpon>UpdateDialog.xaml</DependentUpon>
@@ -212,6 +217,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\CharactersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\GachaStatisticPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -300,14 +309,75 @@
 if exist $(SolutionDir)Build\Publish rmdir /S /Q $(SolutionDir)Build\Publish</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>mkdir $(SolutionDir)Build\Publish
-xcopy /Y $(TargetDir)*.exe $(SolutionDir)Build\Publish
-xcopy /Y $(TargetDir)*.dll $(SolutionDir)Build\Publish
+    <PostBuildEvent>rd /s /q af-ZA
+rd /s /q am-ET
+rd /s /q ar-SA
+rd /s /q az-Latn-AZ
+rd /s /q be-BY
+rd /s /q bg-BG
+rd /s /q bn-BD
+rd /s /q bs-Latn-BA
+rd /s /q ca-ES
+rd /s /q cs-CZ
+rd /s /q da-DK
+rd /s /q de-DE
+rd /s /q el-GR
+rd /s /q en-GB
+rd /s /q es-ES
+rd /s /q es-MX
+rd /s /q et-EE
+rd /s /q eu-ES
+rd /s /q fa-IR
+rd /s /q fi-FI
+rd /s /q fr-CA
+rd /s /q fr-FR
+rd /s /q gl-ES
+rd /s /q ha-Latn-NG
+rd /s /q he-IL
+rd /s /q hi-IN
+rd /s /q hr-HR
+rd /s /q hu-HU
+rd /s /q id-ID
+rd /s /q is-IS
+rd /s /q it-IT
+rd /s /q ja-JP
+rd /s /q ka-GE
+rd /s /q kk-KZ
+rd /s /q km-KH
+rd /s /q kn-IN
+rd /s /q ko-KR
+rd /s /q lo-LA
+rd /s /q lt-LT
+rd /s /q lv-LV
+rd /s /q mk-MK
+rd /s /q ml-IN
+rd /s /q ms-MY
+rd /s /q nb-NO
+rd /s /q nl-NL
+rd /s /q nn-NO
+rd /s /q pl-PL
+rd /s /q pt-BR
+rd /s /q pt-PT
+rd /s /q ro-RO
+rd /s /q ru-RU
+rd /s /q sk-SK
+rd /s /q sl-SI
+rd /s /q sq-AL
+rd /s /q sr-Latn-RS
+rd /s /q sv-SE
+rd /s /q sw-KE
+rd /s /q ta-IN
+rd /s /q te-IN
+rd /s /q th-TH
+rd /s /q tr-TR
+rd /s /q uk-UA
+rd /s /q uz-Latn-UZ
+rd /s /q vi-VN
+rd /s /q zh-TW
 
-mkdir $(SolutionDir)Build\Publish\MetaData
-xcopy /Y $(TargetDir)MetaData $(SolutionDir)Build\Publish\MetaData
+del *.pdb *.xml *dll.config DGP.Snap.Updater.exe.config
 
-if exist $(SolutionDir)Build\Publish\System.ValueTuple.dll del $(SolutionDir)Build\Publish\System.ValueTuple.dll
-$(SolutionDir)Build\7z.exe  a -r $(SolutionDir)Build\Publish\Package.zip $(SolutionDir)Build\Publish\*.*</PostBuildEvent>
+
+move /Y *.dll .\libraries</PostBuildEvent>
   </PropertyGroup>
 </Project>

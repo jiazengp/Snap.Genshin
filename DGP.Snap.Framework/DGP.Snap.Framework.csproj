@@ -48,12 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Entry\EntryHelper.cs" />
-    <Compile Include="Core\LifeCycle\ILifeCycleManaged.cs" />
-    <Compile Include="Core\LifeCycle\LifeCycle.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Core\Concurrent\ThreadSafe.cs" />
-    <Compile Include="Core\Model\Singleton.cs" />
-    <Compile Include="Core\SnapFramework.cs" />
     <Compile Include="Data\Behavior\BindWrapper.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
     <Compile Include="Data\Behavior\Selectable.cs" />
@@ -112,6 +108,9 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

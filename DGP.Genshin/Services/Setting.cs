@@ -2,16 +2,13 @@
 
 namespace DGP.Genshin.Services
 {
-    public class Setting
+    public static class Setting
     {
-        public const string ShowUnreleasedData = "ShowUnreleasedCharacter";
-        public const string PresentTravelerElementType = "PresentTravelerElementType";
+        [Obsolete] public const string ShowUnreleasedData = "ShowUnreleasedCharacter";
+        [Obsolete] public const string PresentTravelerElementType = "PresentTravelerElementType";
         public const string AppTheme = "AppTheme";
+        public const string IsDevMode = "IsDevMode";
+        public const string Uid = "Uid";
         public static T EnumConverter<T>(object n) => (T)Enum.Parse(typeof(T), n.ToString());
-    }
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public class SettingAttribute : Attribute
-    {
-
     }
 }

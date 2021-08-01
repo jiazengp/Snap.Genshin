@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Services;
 using DGP.Genshin.Services.Updating;
-using DGP.Snap.Framework.Core.LifeCycling;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -22,30 +21,21 @@ namespace DGP.Genshin.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //unreleased character present
-            this.IsUnreleasedDataPresent = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.ShowUnreleasedData, false);
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             //theme
             Func<object, ApplicationTheme?> converter = n => { if (n == null) { return null; } return (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString()); };
-            this.ThemeComboBox.SelectedIndex = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.AppTheme, null, converter) switch
+            this.ThemeComboBox.SelectedIndex = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter) switch
             {
                 ApplicationTheme.Light => 0,
                 ApplicationTheme.Dark => 1,
                 _ => 2,
             };
+            this.IsDevMode = SettingService.Instance.GetOrDefault(Setting.IsDevMode, false);
         }
 
         #region propdp
-        public bool IsUnreleasedDataPresent
-        {
-            get => (bool)this.GetValue(IsUnreleasedDataPresentProperty);
-            set => this.SetValue(IsUnreleasedDataPresentProperty, value);
-        }
-        public static readonly DependencyProperty IsUnreleasedDataPresentProperty =
-            DependencyProperty.Register("IsUnreleasedDataPresent", typeof(bool), typeof(SettingsPage), new PropertyMetadata(false));
-
         public UpdateInfo UpdateInfo
         {
             get => (UpdateInfo)this.GetValue(UpdateInfoProperty);
@@ -70,12 +60,19 @@ namespace DGP.Genshin.Pages
         public static readonly DependencyProperty CurrentThemeProperty =
             DependencyProperty.Register("CurrentTheme", typeof(ApplicationTheme), typeof(SettingsPage), new PropertyMetadata(null));
 
+        public bool IsDevMode
+        {
+            get => (bool)this.GetValue(IsDevModeProperty);
+            set
+            {
+                SettingService.Instance[Setting.IsDevMode] = value;
+                this.SetValue(IsDevModeProperty, value);
+            }
+        }
+        public static readonly DependencyProperty IsDevModeProperty =
+            DependencyProperty.Register("IsDevMode", typeof(bool), typeof(HomePage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
         #endregion
 
-        private void UnreleasedInfoToggled(object sender, RoutedEventArgs e) => LifeCycle.InstanceOf<SettingService>()[Setting.ShowUnreleasedData] = this.IsUnreleasedDataPresent;
-        private void TravelerPresentSwitched(object sender, RoutedEventArgs e)
-        {
-        }
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
@@ -104,12 +101,10 @@ namespace DGP.Genshin.Pages
                     break;
             }
         }
-
         private void UpdateCancellationRequested(ModernWpf.Controls.ContentDialog sender, ModernWpf.Controls.ContentDialogButtonClickEventArgs args) => UpdateService.Instance.CancelUpdate();
-
         private void ThemeChangeRequested(object sender, SelectionChangedEventArgs e)
         {
-            LifeCycle.InstanceOf<SettingService>()[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch
+            SettingService.Instance[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch
             {
                 0 => ApplicationTheme.Light,
                 1 => ApplicationTheme.Dark,
@@ -117,11 +112,10 @@ namespace DGP.Genshin.Pages
             };
             SetAppTheme();
         }
-
         internal static void SetAppTheme()
         {
             static ApplicationTheme? converter(object n) => n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
-            ThemeManager.Current.ApplicationTheme = LifeCycle.InstanceOf<SettingService>().GetOrDefault(Setting.AppTheme, null, converter);
+            ThemeManager.Current.ApplicationTheme = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter);
         }
     }
 }

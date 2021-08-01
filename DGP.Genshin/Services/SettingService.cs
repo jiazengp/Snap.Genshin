@@ -1,6 +1,4 @@
-﻿using DGP.Snap.Framework.Core.LifeCycling;
-using DGP.Snap.Framework.Core.Model;
-using DGP.Snap.Framework.Data.Json;
+﻿using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -8,14 +6,12 @@ using System.IO;
 
 namespace DGP.Genshin.Services
 {
-    internal class SettingService : ILifeCycleManaged
+    internal class SettingService
     {
         private const string settingsFileName = "settings.json";
         private readonly string settingFile = AppDomain.CurrentDomain.BaseDirectory + settingsFileName;
 
         private Dictionary<string, object> settingDictionary = new();
-
-        public SettingService Instance => Singleton<SettingService>.Instance;
 
         public T GetOrDefault<T>(string key, T defaultValue)
         {
@@ -25,6 +21,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
+                this.settingDictionary.AddOrSet(key, value);
                 return (T)value;
             }
         }
@@ -37,14 +34,23 @@ namespace DGP.Genshin.Services
             }
             else
             {
+                this.settingDictionary.AddOrSet(key, value);
                 return converter.Invoke(value);
             }
         }
 
+        public bool Has(string key) => this.settingDictionary.ContainsKey(key);
+
         public object this[string key]
         {
-            set => this.settingDictionary.AddOrSet(key, value);
+            set
+            {
+                this.settingDictionary.AddOrSet(key, value);
+                SettingChanged?.Invoke(key, value);
+            }
         }
+
+        public static event Action<string, object> SettingChanged;
 
         public void Initialize()
         {
@@ -67,13 +73,35 @@ namespace DGP.Genshin.Services
         }
         public void UnInitialize()
         {
-            if (!File.Exists(this.settingFile))
-            {
-                File.Create(this.settingFile).Dispose();
-            }
             string json = Json.Stringify(this.settingDictionary);
-            using StreamWriter sw = new StreamWriter(this.settingFile);
+            using StreamWriter sw = new StreamWriter(File.Create(this.settingFile));
             sw.Write(json);
         }
+
+
+        #region 单例
+        private static SettingService instance;
+        private static readonly object _lock = new();
+        private SettingService()
+        {
+        }
+        public static SettingService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new SettingService();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+        #endregion
     }
 }

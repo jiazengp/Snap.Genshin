@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Data.Weapons;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Core.LifeCycling;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,13 +13,13 @@ namespace DGP.Genshin.Pages
     {
         public WeaponsPage()
         {
-            this.DataContext = LifeCycle.InstanceOf<DataService>();
+            this.DataContext = DataService.Instance;
             this.InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ObservableCollection<Weapon> a = LifeCycle.InstanceOf<DataService>().Weapons;
+            ObservableCollection<Weapon> a = DataService.Instance.Weapons;
             this.Weapons = a;
         }
         #region propdp

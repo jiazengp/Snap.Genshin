@@ -14,7 +14,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
         [JsonProperty("lang")] public string Language { get; set; }
         [JsonProperty("item_type")] public string ItemType { get; set; }
         [JsonProperty("rank_type")] public string Rank { get; set; }
+        [JsonProperty("id")] public string Id { get; set; }
 
+        [JsonIgnore] public long TimeId => Int64.Parse(this.Id);
         public override string ToString() => this.Name;
     }
 }
