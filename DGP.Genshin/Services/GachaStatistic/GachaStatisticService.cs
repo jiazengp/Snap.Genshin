@@ -9,18 +9,25 @@ using System.Windows;
 
 namespace DGP.Genshin.Services.GachaStatistic
 {
-    public class GachaStatisticService : DependencyObject,INotifyPropertyChanged
+    public class GachaStatisticService : DependencyObject, INotifyPropertyChanged
     {
         private GachaLogProvider gachaLogProvider;
+        private readonly object providerLocker = new object();
         private GachaLogProvider GachaLogProvider
         {
             get
             {
-                if (gachaLogProvider == null)
+                if (this.gachaLogProvider == null)
                 {
-                    gachaLogProvider = new GachaLogProvider();
+                    lock (this.providerLocker)
+                    {
+                        if (this.gachaLogProvider == null)
+                        {
+                            this.gachaLogProvider = new GachaLogProvider(this);
+                        }
+                    }
                 }
-                return gachaLogProvider;
+                return this.gachaLogProvider;
             }
         }
 
@@ -28,34 +35,42 @@ namespace DGP.Genshin.Services.GachaStatistic
         private Statistic statistic;
         private string selectedUid;
         private bool hasData = true;
+        private FetchProgress fetchProgress;
+
         public Statistic Statistic { get => this.statistic; set => this.Set(ref this.statistic, value); }
         public string SelectedUid
         {
-            get => selectedUid; set
-            {
-                Set(ref selectedUid, value);
-                LoadLocalData();
-            }
+            get => this.selectedUid; set => this.Set(ref this.selectedUid, value);
         }
         public ObservableCollection<string> Uids { get; set; } = new ObservableCollection<string>();
-        public bool HasNoData { get => this.hasData; set => this.Set(ref hasData, value); }
+        public bool HasNoData { get => this.hasData; set => this.Set(ref this.hasData, value); }
+        public FetchProgress FetchProgress { get => this.fetchProgress; set => this.Set(ref this.fetchProgress, value); }
         #endregion
 
+        public void AddOrIgnore(string uid)
+        {
+            if (!this.Uids.Contains(uid))
+                this.Uids.Add(uid);
+        }
         public async void Refresh()
         {
             if (this.GachaLogProvider.TryFindUrlInLogFile())
             {
+                this.GachaLogProvider.OnFetchProgressed += this.OnFetchProgressed;
                 await Task.Run(() =>
                 {
-                    foreach (ConfigType pool in this.GachaLogProvider.GetGachaConfig().Types)
+                    foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
                     {
                         this.GachaLogProvider.FetchGachaLogIncrement(pool);
                     }
-                    this.GachaLogProvider.SaveAll();
-
-                    this.Statistic = StatisticFactory.ToStatistic(this.GachaLogProvider.LocalGachaLogProvider.Data[SelectedUid], SelectedUid);
-                    HasNoData = false;
+                    this.GachaLogProvider.SaveAllLogs();
+                }).ContinueWith((t) =>
+                {
+                    this.Statistic = StatisticFactory.ToStatistic(this.GachaLogProvider.LocalGachaLogProvider.Data[this.SelectedUid], this.SelectedUid);
+                    this.HasNoData = false;
                 });
+                this.GachaLogProvider.OnFetchProgressed -= this.OnFetchProgressed;
+                this.FetchProgress = null;
             }
             else
             {
@@ -68,48 +83,30 @@ namespace DGP.Genshin.Services.GachaStatistic
                 }.ShowAsync();
             }
         }
+        private void OnFetchProgressed(FetchProgress p) => this.FetchProgress = p;
         private async void LoadLocalData()
         {
             await Task.Run(() =>
             {
-                var localProvider = this.GachaLogProvider.LocalGachaLogProvider;
+                LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
                 if (localProvider.Data.Count > 0)
                 {
-                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[SelectedUid], SelectedUid);
-                    HasNoData = false;
+                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid], this.SelectedUid);
+                    this.HasNoData = false;
                 }
             });
         }
-        public void Initialize()
+        public void Initialize() => this.LoadLocalData();
+
+        public GachaStatisticService()
         {
-            LoadLocalData();
+            this.Initialize();
         }
 
-        #region 单例
-        private static GachaStatisticService instance;
-
-        private static readonly object _lock = new();
-        private GachaStatisticService()
+        ~GachaStatisticService()
         {
+            this.gachaLogProvider = null;
         }
-        public static GachaStatisticService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new GachaStatisticService();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

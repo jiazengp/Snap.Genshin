@@ -7,15 +7,18 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         Title="登录米哈游通行证" 
-        Width="1180"
-        Height="720" 
+        Width="640"
+        Height="800" 
         ui:WindowHelper.UseModernWindowStyle="True"
-        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
         Closing="Window_Closing"
         Closed="Window_Closed"
         >
-    <WebBrowser Name="LoginWebBrowser" 
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <WebBrowser Name="LoginWebBrowser" 
                 Navigated="LoginWebBrowser_Navigated"    
-                Source="https://user.mihoyo.com/#/login/password" />
+                Source="https://user.mihoyo.com/#/login/password"
+                />
+    </ScrollViewer>
 </Window>

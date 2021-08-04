@@ -2,19 +2,16 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Pages" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:DGP.Genshin.Controls"
-      xmlns:ui="http://schemas.modernwpf.com/2019" 
-      xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters" 
-      xmlns:ca="clr-namespace:DGP.Genshin.Controls.CachedImage" 
+      xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="首页">
     <Page.Resources>
         <DataTemplate x:Key="CharacterTemplate">
-            <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
+            <controls:ContentIcon Width="70" Height="70" BadgeUrl="{Binding Element}" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
         </DataTemplate>
         <DataTemplate x:Key="WeaponTemplate">
             <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
@@ -37,15 +34,15 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
-                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
 
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
-                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
 
                 <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
-                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayInazumaCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
             </Grid>
 
             <TextBlock Text="今日武器材料" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
@@ -64,18 +61,18 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="0" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="0" Grid.Row="3" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
 
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="1" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="1" Grid.Row="3" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
 
                 <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
-                <ui:GridView Grid.Column="2" Grid.Row="3" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayInazumaWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
+                <ui:GridView Grid.Column="2" Grid.Row="3" Margin="4,0,4,0" ItemsSource="{Binding TodayInazumaWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
             </Grid>
         </StackPanel>
     </s:SmoothScrollViewer>

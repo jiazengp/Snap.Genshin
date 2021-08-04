@@ -8,13 +8,16 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class GachaStatisticPage : Page
     {
+        private GachaStatisticService Service { get; set; }
+
         public GachaStatisticPage()
         {
-            this.DataContext = GachaStatisticService.Instance;
-            GachaStatisticService.Instance.Initialize();
+            this.Service = new GachaStatisticService();
+            this.DataContext = this.Service;
+            //GachaStatisticService.Initialize();
             this.InitializeComponent();
         }
 
-        private void RefreshAppBarButtonClick(object sender, System.Windows.RoutedEventArgs e) => GachaStatisticService.Instance.Refresh();
+        private void RefreshAppBarButtonClick(object sender, System.Windows.RoutedEventArgs e) => this.Service.Refresh();
     }
 }

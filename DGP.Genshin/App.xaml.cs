@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Snap.Framework.Data.Json;
+using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf;
 using System;

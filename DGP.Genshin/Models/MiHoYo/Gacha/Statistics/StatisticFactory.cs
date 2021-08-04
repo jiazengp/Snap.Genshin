@@ -40,9 +40,20 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 Star3Count = list.Count(i => i.Rank == "3"),
             };
             banner.Star5List = CountStar5(list, banner.Star5Count);
-            banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
-            banner.MaxGetStar5Count = banner.Star5List.Max(i => i.Count);
-            banner.MinGetStar5Count = banner.Star5List.Min(i => i.Count);
+
+            if (banner.Star5List.Count > 0)
+            {
+                banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
+                banner.MaxGetStar5Count = banner.Star5List.Max(i => i.Count);
+                banner.MinGetStar5Count = banner.Star5List.Min(i => i.Count);
+            }
+            else//while no 5 star get
+            {
+                banner.AverageGetStar5 = 0.0;
+                banner.MaxGetStar5Count = 0;
+                banner.MinGetStar5Count = 0;
+            }
+
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;

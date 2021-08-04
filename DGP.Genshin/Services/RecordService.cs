@@ -4,6 +4,7 @@ using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.NativeMethods;
+using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,8 +38,8 @@ namespace DGP.Genshin.Services
         public string LoginTicket { get; set; }
         public List<string> QueryHistory { get; set; } = new List<string>();
         public LoginWindow LoginWindow { get; set; }
-        public void Login() => new LoginWindow().Show();
-        public void OnLogin(bool isLoggedIn)
+        public void Login() => new LoginWindow().ShowDialog();
+        public async void OnLogin(bool isLoggedIn)
         {
             if (isLoggedIn)
             {
@@ -48,8 +49,13 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                if (NavigationService.Current.CanGoBack)
-                    NavigationService.Current.GoBack();
+                await new ContentDialog()
+                {
+                    Title = "登录失败",
+                    Content = "要继续使用该功能请重新登录",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
             }
         }
         public string GetLoginTicket()

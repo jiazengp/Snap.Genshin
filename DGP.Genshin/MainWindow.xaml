@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
-        xmlns:pages="clr-namespace:DGP.Genshin.Pages"
+        xmlns:pages="clr-namespace:DGP.Genshin.Pages" xmlns:cf="clr-namespace:DGP.Genshin.Controls"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        ui:TitleBar.IsBackButtonVisible="{Binding ElementName=ContentFrame,Path=CanGoBack,Mode=OneWay}"  
         mc:Ignorable="d"
         Title="Snap原神" 
         MinWidth="1180"
@@ -26,16 +25,6 @@
             CompactPaneLength="48"
             IsBackButtonVisible="Collapsed" 
             PaneDisplayMode="Auto">
-            <ui:NavigationView.PaneHeader>
-                <Grid Margin="8,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Height="24" Margin="8" HorizontalAlignment="Left" Source="SG_Logo.ico" SnapsToDevicePixels="True"/>
-                    <TextBlock Grid.Column="1" Text="Snap 原神" VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}"/>
-                </Grid>
-            </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
@@ -58,13 +47,8 @@
                 <ui:NavigationViewItemSeparator Visibility="{Binding IsDevMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <ui:NavigationViewItem Content="管理" Visibility="{Binding IsDevMode,Converter={StaticResource BooleanToVisibilityConverter}}" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" Icon="Manage"/>
             </ui:NavigationView.MenuItems>
-            <ui:Frame x:Name="ContentFrame">
-                <ui:Frame.ContentTransitions>
-                    <ui:TransitionCollection>
-                        <ui:NavigationThemeTransition/>
-                    </ui:TransitionCollection>
-                </ui:Frame.ContentTransitions>
-            </ui:Frame>
+            <ui:Frame x:Name="ContentFrame"/>
         </ui:NavigationView>
+        <Image Height="16" Margin="16,8" HorizontalAlignment="Left" VerticalAlignment="Top" Source="SG_Logo.ico" SnapsToDevicePixels="True"/>
     </Grid>
 </Window>

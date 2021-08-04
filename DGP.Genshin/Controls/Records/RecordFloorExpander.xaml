@@ -259,7 +259,7 @@
                     </TextBlock>
                     <Grid>
                         <StackPanel HorizontalAlignment="Left">
-                            <TextBlock HorizontalAlignment="Center" Text="{Binding Battles[0].Time,StringFormat={}上半 - {0:yyyy-MM-dd hh:mm:ss}}"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Battles[0].Time,StringFormat={}上半 - {0:yyyy-MM-dd HH:mm:ss}}"/>
                             <ui:GridView ItemsSource="{Binding Battles[0].Avatars}">
                                 <ui:GridView.ItemTemplate>
                                     <DataTemplate>

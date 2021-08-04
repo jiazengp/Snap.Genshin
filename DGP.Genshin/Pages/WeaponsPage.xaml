@@ -9,8 +9,7 @@
       xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="武器"
-      Loaded="Page_Loaded">
+      Title="武器">
 
     <Grid>
         <s:SmoothScrollViewer>

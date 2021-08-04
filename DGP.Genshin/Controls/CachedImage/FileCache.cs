@@ -31,10 +31,8 @@ namespace DGP.Genshin.Controls.CachedImage
 
         public static async Task<MemoryStream> HitAsync(string url)
         {
-            if (!Directory.Exists(AppCacheDirectory))
-            {
-                Directory.CreateDirectory(AppCacheDirectory);
-            }
+            Directory.CreateDirectory(AppCacheDirectory);
+
             Uri uri = new(url);
             StringBuilder fileNameBuilder = new();
             using (SHA1Managed sha1 = new())

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.Services.Settings
 {
     internal class SettingService
     {

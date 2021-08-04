@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Services;
+﻿using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using ModernWpf;
 using System;
@@ -25,7 +25,7 @@ namespace DGP.Genshin.Pages
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             //theme
-            Func<object, ApplicationTheme?> converter = n => { if (n == null) { return null; } return (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString()); };
+            Func<object, ApplicationTheme?> converter = n => n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
             this.ThemeComboBox.SelectedIndex = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter) switch
             {
                 ApplicationTheme.Light => 0,

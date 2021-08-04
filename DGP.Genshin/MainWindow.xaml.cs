@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Settings;
 using ModernWpf.Controls.Primitives;
 using System.Windows;
 using System.Windows.Controls;

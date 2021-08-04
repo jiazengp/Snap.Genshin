@@ -25,6 +25,7 @@
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
                     <ComboBox Margin="4" ItemsSource="{Binding Uids}" SelectedItem="{Binding SelectedUid,Mode=TwoWay}"/>
+                    <TextBlock Margin="12" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
                 </StackPanel>
             </ui:CommandBar.Content>
             <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreshAppBarButtonClick"/>
@@ -32,7 +33,7 @@
         <Grid Grid.Row="1">
             <s:SmoothScrollViewer>
                 <StackPanel Margin="12,0,12,0">
-                    <TextBlock Text="统计" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock Text="统计" Margin="0,12,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                     <!--角色祈愿-->
                     <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                         <Grid.ColumnDefinitions>
@@ -106,6 +107,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,0,8,0">
+                                        <ToolTipService.ToolTip>
+                                            <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
+                                        </ToolTipService.ToolTip>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0}[{1}]">
                                                 <Binding Path="Name"/>
@@ -135,7 +139,7 @@
                                 <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
                             </StackPanel>
                             <TextBlock Margin="0,8,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.CountSinceLastStar5,StringFormat={}已垫 {0} 抽}"/>
-                            <ui:ProgressBar Value="{Binding Statistic.WeaponEvent.CountSinceLastStar5}" Maximum="90"/>
+                            <ui:ProgressBar Value="{Binding Statistic.WeaponEvent.CountSinceLastStar5}" Maximum="80"/>
                             <TextBlock Margin="0,8,0,0" FontFamily="Consolas,MicroSoft YaHei UI">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}" FallbackValue="">
@@ -190,6 +194,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,0,8,0">
+                                        <ToolTipService.ToolTip>
+                                            <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
+                                        </ToolTipService.ToolTip>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0}[{1}]">
                                                 <Binding Path="Name"/>
@@ -274,6 +281,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,0,8,0">
+                                        <ToolTipService.ToolTip>
+                                            <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
+                                        </ToolTipService.ToolTip>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0}[{1}]">
                                                 <Binding Path="Name"/>
@@ -286,8 +296,8 @@
                         </ItemsControl>
                     </Grid>
 
-                    <TextBlock Text="角色" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                    <ui:GridView Margin="0,8,0,0" IsSelectionEnabled="False" ItemsSource="{Binding Statistic.Characters}">
+                    <TextBlock Text="角色" Margin="0,12,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <ui:GridView Margin="0,12,0,0" IsSelectionEnabled="False" ItemsSource="{Binding Statistic.Characters}">
                         <ui:GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -316,8 +326,8 @@
                             </DataTemplate>
                         </ui:GridView.ItemTemplate>
                     </ui:GridView>
-                    <TextBlock Text="武器" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                    <ui:GridView Margin="0,8,0,0" IsSelectionEnabled="False" ItemsSource="{Binding Statistic.Weapons}">
+                    <TextBlock Text="武器" Margin="0,0,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <ui:GridView Margin="0,12,0,-4" IsSelectionEnabled="False" ItemsSource="{Binding Statistic.Weapons}">
                         <ui:GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -345,8 +355,12 @@
                     </ui:GridView>
                 </StackPanel>
             </s:SmoothScrollViewer>
+            <!--FallBack-->
             <Border Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}" Text="点击刷新以获取历史记录"/>
+                </StackPanel>
             </Border>
         </Grid>
     </Grid>

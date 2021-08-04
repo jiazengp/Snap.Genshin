@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.Services.Settings
 {
     public static class Setting
     {

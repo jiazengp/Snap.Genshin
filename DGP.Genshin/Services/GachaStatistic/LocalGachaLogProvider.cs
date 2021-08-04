@@ -15,45 +15,52 @@ namespace DGP.Genshin.Services.GachaStatistic
         private static readonly string localFolderName = "GachaStatistic";
         public Dictionary<string, GachaData> Data { get; set; } = new Dictionary<string, GachaData>();
 
-        public LocalGachaLogProvider()
+        private GachaStatisticService Service { get; set; }
+
+        public LocalGachaLogProvider(GachaStatisticService service)
         {
             Directory.CreateDirectory(localFolderName);
-            var service = GachaStatisticService.Instance;
-            foreach (string d in Directory.EnumerateDirectories($@"{localFolderName}"))
-            {
-                string uid = new DirectoryInfo(d).Name;
-                service.Dispatcher.Invoke(() =>
-                {
-                    if(!service.Uids.Contains(uid))
-                        service.Uids.Add(uid);
-                });
-                this.LoadLogsOf(uid);
-            }
+            this.Service = service;
+            this.LoadAllLogs();
             if (service.Uids.Count > 0)
             {
+                service.HasNoData = false;
                 service.SelectedUid = service.Uids.First();
             }
         }
 
-        private void LoadLogsOf(string uid)
+        public void CreateEmptyUser(string uid) => this.Data.Add(uid, new GachaData());
+
+        #region load&save
+        private void LoadAllLogs()
         {
+            foreach (string user in Directory.EnumerateDirectories($@"{localFolderName}"))
+            {
+                string uid = new DirectoryInfo(user).Name;
+                this.Service.AddOrIgnore(uid);
+                this.LoadLogOf(uid);
+            }
+        }
+        private void LoadLogOf(string uid)
+        {
+            this.CreateEmptyUser(uid);
             foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
             {
                 FileInfo fileInfo = new FileInfo(p);
                 using StreamReader reader = new StreamReader(fileInfo.OpenRead());
-                if(!this.Data.ContainsKey(uid))
-                    this.Data.Add(uid, new GachaData());
-                this.Data[uid].GachaLogs.Add(fileInfo.Name.Replace(".json", ""), Json.ToObject<List<GachaLogItem>>(reader.ReadToEnd()));
+                string typeName = fileInfo.Name.Replace(".json", "");
+                this.Data[uid].GachaLogs.Add(typeName, Json.ToObject<List<GachaLogItem>>(reader.ReadToEnd()));
             }
         }
-        public void SaveAll()
+
+        public void SaveAllLogs()
         {
             foreach (KeyValuePair<string, GachaData> entry in this.Data)
             {
-                this.Save(entry.Key);
+                this.SaveLogOf(entry.Key);
             }
         }
-        public void Save(string uid)
+        public void SaveLogOf(string uid)
         {
             Directory.CreateDirectory($@"{localFolderName}\{uid}");
             foreach (KeyValuePair<string, List<GachaLogItem>> entry in this.Data[uid].GachaLogs)
@@ -62,6 +69,8 @@ namespace DGP.Genshin.Services.GachaStatistic
                 writer.Write(Json.Stringify(entry.Value));
             }
         }
+        #endregion
+
         /// <summary>
         /// 获取最新的时间戳id
         /// </summary>
@@ -69,7 +78,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public long GetNewestTimeId(ConfigType type, string uid)
         {
             return this.Data.ContainsKey(uid) && this.Data[uid].GachaLogs.ContainsKey(type.Key)
-                ? this.Data[uid].GachaLogs[type.Key].OrderByDescending(i => i.TimeId).First().TimeId
+                ? this.Data[uid].GachaLogs[type.Key]/*.OrderByDescending(i => i.TimeId)*/.First().TimeId
                 : 0L;
         }
 
@@ -83,10 +92,10 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 lock (this.processing)
                 {
-                    foreach (string pool in this.Data[GachaStatisticService.Instance.SelectedUid].GachaLogs.Keys)
+                    foreach (string pool in this.Data[this.Service.SelectedUid].GachaLogs.Keys)
                     {
                         ISheet sheet = workbook.CreateSheet(pool);
-                        IEnumerable<GachaLogItem> logs = this.Data[GachaStatisticService.Instance.SelectedUid].GachaLogs[pool];
+                        IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid].GachaLogs[pool];
                         //header
                         IRow header = sheet.CreateRow(0);
                         header.CreateCell(0).SetCellValue("时间");

@@ -26,6 +26,14 @@ namespace DGP.Genshin.Controls
         public static readonly DependencyProperty ForegroundUrlProperty =
             DependencyProperty.Register("ForegroundUrl", typeof(string), typeof(ContentIcon), new PropertyMetadata(null));
 
+        public string BadgeUrl
+        {
+            get => (string)this.GetValue(BadgeUrlProperty);
+            set => this.SetValue(BadgeUrlProperty, value);
+        }
+        public static readonly DependencyProperty BadgeUrlProperty =
+            DependencyProperty.Register("BadgeUrl", typeof(string), typeof(ContentIcon), new PropertyMetadata(null));
+
         public string Text
         {
             get => (string)this.GetValue(TextProperty);

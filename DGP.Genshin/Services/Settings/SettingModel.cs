@@ -1,6 +1,6 @@
 ﻿using DGP.Snap.Framework.Data.Behavior;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.Services.Settings
 {
     public class SettingModel : Observable
     {

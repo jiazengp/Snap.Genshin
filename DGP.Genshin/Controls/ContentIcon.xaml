@@ -45,6 +45,9 @@
     <Grid>
         <c:CachedImage ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         <c:CachedImage ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
+        <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+            <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
+        </Border>
         <Border Background="#99000000" Opacity="0">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="MouseEnter">

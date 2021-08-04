@@ -16,20 +16,5 @@ namespace DGP.Genshin.Pages
             this.DataContext = DataService.Instance;
             this.InitializeComponent();
         }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            ObservableCollection<Weapon> a = DataService.Instance.Weapons;
-            this.Weapons = a;
-        }
-        #region propdp
-        public ObservableCollection<Weapon> Weapons
-        {
-            get => (ObservableCollection<Weapon>)this.GetValue(WeaponsProperty);
-            set => this.SetValue(WeaponsProperty, value);
-        }
-        public static readonly DependencyProperty WeaponsProperty =
-            DependencyProperty.Register("Weapons", typeof(ObservableCollection<Weapon>), typeof(WeaponsPage), new PropertyMetadata(null));
-        #endregion
     }
 }

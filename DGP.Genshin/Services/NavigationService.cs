@@ -17,8 +17,6 @@ namespace DGP.Genshin.Services
 
         private NavigationViewItem selected;
 
-        public EventHandler<BackRequestedEventArgs> BackRequestedEventHandler;
-
         public NavigationService(Window window, NavigationView navigationView, Frame frame)
         {
             Current = Current == null ? this : throw new InvalidOperationException($"{nameof(NavigationService)}的实例在运行期间仅允许创建一次");
@@ -26,8 +24,6 @@ namespace DGP.Genshin.Services
             this.frame = frame;
 
             this.navigationView.ItemInvoked += this.OnItemInvoked;
-            this.BackRequestedEventHandler += this.OnBackRequested;
-            TitleBar.AddBackRequestedHandler(window, this.BackRequestedEventHandler);
         }
 
         public static NavigationService Current;
@@ -60,12 +56,11 @@ namespace DGP.Genshin.Services
                 this.SyncTabWith(pageType);
             }
             this.backItemStack.Push(this.selected);
-            return this.frame.Navigate(pageType, data, info);
+            bool result = this.frame.Navigate(pageType, data, info);
+            this.frame.RemoveBackEntry();
+            return result;
         }
         public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);
-
-        public bool CanGoBack => this.frame.CanGoBack;
-        private void FrameGoBack() => this.frame.GoBack();
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
@@ -78,19 +73,6 @@ namespace DGP.Genshin.Services
             {
                 Type target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
                 this.Navigate(target);
-            }
-        }
-
-        private void OnBackRequested(object sender, BackRequestedEventArgs args) => this.GoBack();
-
-        public void GoBack()
-        {
-            if (this.CanGoBack)
-            {
-                this.backItemStack.Pop();
-                NavigationViewItem back = this.backItemStack.Peek();
-                this.SyncTabWith(back.GetValue(NavHelper.NavigateToProperty) as Type);
-                this.FrameGoBack();
             }
         }
     }
