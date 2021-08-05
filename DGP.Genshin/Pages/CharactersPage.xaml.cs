@@ -10,7 +10,12 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
-            this.DataContext = DataService.Instance;
+            DataService service = DataService.Instance;
+            this.DataContext = service;
+            if (service.SelectedCharacter == null)
+            {
+                service.SelectedCharacter = service.Characters[0];
+            }
             this.InitializeComponent();
         }
     }

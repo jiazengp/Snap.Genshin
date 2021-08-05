@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:DGP.Genshin.Controls" 
         xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d" 
-        d:DesignHeight="50" d:DesignWidth="50" 
+        d:DesignHeight="70" d:DesignWidth="70" 
         BorderThickness="0"
         >
     <Button.Resources>
@@ -48,41 +48,14 @@
         <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
             <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         </Border>
-        <Border Background="#99000000" Opacity="0">
-            <Border.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard >
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="1">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut"/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard >
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.35" To="0">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut"/>
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Border.Triggers>
-            <TextBlock 
-                Margin="6" 
-                TextWrapping="Wrap" 
-                TextAlignment="Center" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center" 
-                Foreground="White" 
-                Style="{StaticResource CaptionTextBlockStyle}" 
-                Text="{Binding Text,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}" 
-                SnapsToDevicePixels="True"/>
+        <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#00000000"/>
+                    <GradientStop Offset="1" Color="#CC000000"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
         </Border>
     </Grid>
 </Button>

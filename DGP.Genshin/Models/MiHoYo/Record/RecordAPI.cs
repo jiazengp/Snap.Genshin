@@ -72,6 +72,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             if (lastSpiralAbyss.ReturnCode != 0)
                 return new Record($"获取上期深渊螺旋信息失败：\n{lastSpiralAbyss.Message}");
 
+            //we can actually download this separate later.
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
                 return this.Post<DetailedAvatarInfo>(

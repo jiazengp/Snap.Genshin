@@ -76,11 +76,8 @@ namespace DGP.Genshin.Pages
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            UpdateState u = ((Button)sender).Tag.ToString() switch
-            {
-                "Github" => UpdateService.Instance.CheckUpdateStateViaGithub(),
-                _ => UpdateService.Instance.CheckUpdateStateViaGitee(),
-            };
+            UpdateState u = UpdateService.Instance.CheckUpdateStateViaGithub();
+            
             switch (u)
             {
                 case UpdateState.NeedUpdate:
@@ -114,8 +111,12 @@ namespace DGP.Genshin.Pages
         }
         internal static void SetAppTheme()
         {
-            static ApplicationTheme? converter(object n) => n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
+            static ApplicationTheme? converter(object n) => 
+                n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
             ThemeManager.Current.ApplicationTheme = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter);
         }
+
+        private void NavigateToManagePage(object sender, RoutedEventArgs e) =>
+            Services.NavigationService.Current.Navigate<ManagePage>();
     }
 }

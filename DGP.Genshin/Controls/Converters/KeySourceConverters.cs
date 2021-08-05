@@ -17,7 +17,7 @@ namespace DGP.Genshin.Controls.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             KeySource item = (KeySource)value;
-            return item.Source;
+            return item?.Source;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => DataService.Instance.Cities.First(i => i.Source == (string)value);
@@ -27,7 +27,7 @@ namespace DGP.Genshin.Controls.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             KeySource item = (KeySource)value;
-            return item.Source;
+            return item?.Source;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => DataService.Instance.Elements.First(i => i.Source == (string)value);
@@ -37,7 +37,7 @@ namespace DGP.Genshin.Controls.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             KeySource item = (KeySource)value;
-            return item.Source;
+            return item?.Source;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => DataService.Instance.Stars.First(i => i.Source == (string)value);
@@ -47,7 +47,7 @@ namespace DGP.Genshin.Controls.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             KeySource item = (KeySource)value;
-            return item.Source;
+            return item?.Source;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => DataService.Instance.WeaponTypes.FirstOrDefault(i => i.Source == (string)value);

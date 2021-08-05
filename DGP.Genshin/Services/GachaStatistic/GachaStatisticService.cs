@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using ModernWpf.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -95,6 +96,12 @@ namespace DGP.Genshin.Services.GachaStatistic
                     this.HasNoData = false;
                 }
             });
+        }
+
+        public async Task ExportDataToExcelAsync()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveGachaDataToExcel($@"{path}\{this.SelectedUid}.xlsx"));
         }
         public void Initialize() => this.LoadLocalData();
 

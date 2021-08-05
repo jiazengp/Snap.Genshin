@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
@@ -15,9 +16,23 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("promote_level")] public int PromoteLevel { get; set; }
         [JsonProperty("type_name")] public string TypeName { get; set; }
         [JsonProperty("desc")] public string Description { get; set; }
+
+        public string ProcessedDescription => ProcessStringFormat(Description);
         /// <summary>
         /// Refine Level actually
         /// </summary>
         [JsonProperty("affix_level")] public int AffixLevel { get; set; }
+
+        public static string ProcessStringFormat(string s)
+        {
+            //color
+            s = new Regex(@"<color=.*?>").Replace(s, "");
+            s = s.Replace("</color>", "");
+            //important mark
+            s = s.Replace("<i>", "").Replace("</i>", "");
+            //apply \n & \r char
+            s = s.Replace(@"\n", "\n").Replace(@"\r", "\r");
+            return s;
+        }
     }
 }

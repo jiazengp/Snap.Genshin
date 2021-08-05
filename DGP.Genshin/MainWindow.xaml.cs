@@ -16,12 +16,9 @@ namespace DGP.Genshin
 
         public MainWindow()
         {
-            this.DataContext = SettingModel.Instance;
             this.InitializeComponent();
             this.NavigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.NavigationService.Navigate<HomePage>(true);
         }
-
-        private void UserButtonClick(object sender, RoutedEventArgs e) => FlyoutBase.ShowAttachedFlyout((Button)sender);
     }
 }

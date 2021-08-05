@@ -410,7 +410,7 @@ namespace DGP.Genshin.Services
         }
         private void Save<T>(ObservableCollection<T> collection, string filename) where T : Primitive
         {
-            string json = Json.Stringify(collection);
+            string json = Json.Stringify(collection.OrderByDescending(i=>i.Star));
             using StreamWriter sw = new StreamWriter(File.Create(folderPath + filename));
             sw.Write(json);
             this.Log($"Save composed metadata to {filename}");
@@ -442,7 +442,6 @@ namespace DGP.Genshin.Services
             this.Save(this.WeeklyTalents, "weeklytalents.json");
         }
 
-
         #region 单例
         private static DataService instance;
         private static readonly object _lock = new();
@@ -468,6 +467,7 @@ namespace DGP.Genshin.Services
             }
         }
         #endregion
+
         #endregion
 
         #region xaml to json

@@ -41,8 +41,10 @@ namespace DGP.Genshin.Controls.CachedImage
             {
                 System.IO.MemoryStream memoryStream = await FileCache.HitAsync(url);
                 if (memoryStream == null)
+                {
+                    cachedImage.Source = null;
                     return;
-
+                }
                 bitmapImage.BeginInit();
                 bitmapImage.CreateOptions = cachedImage.CreateOptions;
                 bitmapImage.StreamSource = memoryStream;

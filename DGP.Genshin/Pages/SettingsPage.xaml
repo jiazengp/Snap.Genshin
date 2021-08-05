@@ -33,8 +33,8 @@
         <s:SmoothScrollViewer Margin="12,0,0,0">
             <StackPanel Margin="0,0,0,12">
                 <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <TextBlock Text="本App可能包含尚未发布的角色或武器等物品信息" Margin="0,12,0,0" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
-                <TextBlock Text="均为第三方泄露开发中内容，请以正式服上线为准" Margin="0,4,0,12" Foreground="Red" Style="{StaticResource CaptionTextBlockStyle}"/>
+                <TextBlock Text="本App可能包含尚未发布的角色或武器等物品信息" Margin="0,12,0,0" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Text="均为第三方泄露开发中内容，请以正式服上线为准" Margin="0,4,0,12" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="外观" Margin="0,12,0,18" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
                     <ComboBoxItem Content="浅色"/>
@@ -50,10 +50,12 @@
                 
                 <TextBlock Text="Snap 原神" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="{Binding VersionString}" Margin="0,6,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
-                <CheckBox Margin="0,4" Content="开发者模式" IsChecked="{Binding IsDevMode,Mode=TwoWay}"/>
+                
                 <Button Margin="0,4" Tag="Github" Content="检查更新并安装" Click="UpdateRequested"/>
                 <TextBlock Text="© 2021 DGP Studio. All right reserved." Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                
+
+                <TextBlock Text="第三方" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+
                 <TextBlock Text="Honey Impact" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="角色与武器数据大部分采集自此网站" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://g-hhw.com" Content="前往 G-HHW.com"/>
@@ -69,6 +71,10 @@
                 <TextBlock Text="Scighost/KeqingNiuza" Margin="0,18,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="祈愿记录UI界面参考了此项目的布局" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/Scighost/KeqingNiuza" Content="项目源代码"/>
+
+                <TextBlock Text="开发" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Text="下方按钮仅供开发人员调试使用" Foreground="Red" Margin="0,0,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
+                <Button Content="管理页面" Click="NavigateToManagePage"/>
             </StackPanel>
         </s:SmoothScrollViewer>
     </Grid>

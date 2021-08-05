@@ -21,14 +21,21 @@
             <RowDefinition Height="auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ui:CommandBar>
+        <ui:CommandBar IsOpen="False">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
                     <ComboBox Margin="4" ItemsSource="{Binding Uids}" SelectedItem="{Binding SelectedUid,Mode=TwoWay}"/>
-                    <TextBlock Margin="12" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
+                    <TextBlock Margin="12,12,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
                 </StackPanel>
             </ui:CommandBar.Content>
             <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreshAppBarButtonClick"/>
+            <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Label="导出记录到 Excel 表格" Click="ExportAppBarButtonClick">
+                    <ui:AppBarButton.Icon>
+                        <ui:FontIcon Glyph="&#xEDE1;"/>
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
+            </ui:CommandBar.SecondaryCommands>
         </ui:CommandBar>
         <Grid Grid.Row="1">
             <s:SmoothScrollViewer>
@@ -106,7 +113,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,8,0">
+                                    <TextBlock Margin="0,0,8,0" Foreground="{Binding Background}">
                                         <ToolTipService.ToolTip>
                                             <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
                                         </ToolTipService.ToolTip>
@@ -193,7 +200,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,8,0">
+                                    <TextBlock Margin="0,0,8,0" Foreground="{Binding Background}">
                                         <ToolTipService.ToolTip>
                                             <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
                                         </ToolTipService.ToolTip>
@@ -280,7 +287,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,8,0">
+                                    <TextBlock Margin="0,0,8,0" Foreground="{Binding Background}">
                                         <ToolTipService.ToolTip>
                                             <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
                                         </ToolTipService.ToolTip>

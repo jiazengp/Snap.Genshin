@@ -44,8 +44,6 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
-                <ui:NavigationViewItemSeparator Visibility="{Binding IsDevMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <ui:NavigationViewItem Content="管理" Visibility="{Binding IsDevMode,Converter={StaticResource BooleanToVisibilityConverter}}" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" Icon="Manage"/>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame"/>
         </ui:NavigationView>

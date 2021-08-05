@@ -11,10 +11,18 @@
       Title="首页">
     <Page.Resources>
         <DataTemplate x:Key="CharacterTemplate">
-            <controls:ContentIcon Width="70" Height="70" BadgeUrl="{Binding Element}" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
+            <controls:ContentIcon Width="70" Height="70" 
+                                  BadgeUrl="{Binding Element}" 
+                                  BackgroundUrl="{Binding Star}" 
+                                  ForegroundUrl="{Binding Source}" 
+                                  Text="{Binding Name}"/>
         </DataTemplate>
         <DataTemplate x:Key="WeaponTemplate">
-            <controls:ContentIcon Width="70" Height="70" BackgroundUrl="{Binding Star}" ForegroundUrl="{Binding Source}" Text="{Binding Name}"/>
+            <controls:ContentIcon Width="70" Height="70" 
+                                  BadgeUrl="{Binding Type}"
+                                  BackgroundUrl="{Binding Star}" 
+                                  ForegroundUrl="{Binding Source}" 
+                                  Text="{Binding Name}"/>
         </DataTemplate>
     </Page.Resources>
     <s:SmoothScrollViewer Padding="12,0" Style="{StaticResource DefaultScrollViewerStyle}">

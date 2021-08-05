@@ -1,6 +1,10 @@
 ﻿using DGP.Snap.Framework.Data.Behavior;
+using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Media;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
@@ -41,6 +45,16 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public string Name { get; set; }
         public int Count { get; set; }
         public DateTime Time { get; set; }
+        public SolidColorBrush Background
+        {
+            get
+            {
+                MD5 md5 = MD5.Create();
+                byte[] codes = md5.ComputeHash(Encoding.UTF8.GetBytes(this.Name));
+                Color color = Color.FromRgb(codes[0], codes[1], codes[2]);
+                return new SolidColorBrush(color);
+            }
+        }
     }
 
     public class Item

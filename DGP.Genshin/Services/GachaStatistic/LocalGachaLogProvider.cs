@@ -86,16 +86,16 @@ namespace DGP.Genshin.Services.GachaStatistic
         private readonly object processing = new object();
         public void SaveGachaDataToExcel(string fileName)
         {
-            IWorkbook workbook = new XSSFWorkbook();
-
-            if (this.Data != null)
+            lock (this.processing)
             {
-                lock (this.processing)
+                IWorkbook workbook = new XSSFWorkbook();
+                if (this.Data.ContainsKey(this.Service.SelectedUid))
                 {
                     foreach (string pool in this.Data[this.Service.SelectedUid].GachaLogs.Keys)
                     {
                         ISheet sheet = workbook.CreateSheet(pool);
                         IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid].GachaLogs[pool];
+                        IEnumerable<GachaLogItem> rlogs = logs.Reverse();
                         //header
                         IRow header = sheet.CreateRow(0);
                         header.CreateCell(0).SetCellValue("时间");
@@ -103,26 +103,24 @@ namespace DGP.Genshin.Services.GachaStatistic
                         header.CreateCell(2).SetCellValue("类别");
                         header.CreateCell(3).SetCellValue("星级");
                         //content
-                        if (logs.Count() > 0)
+                        int count = rlogs.Count();
+                        if (count > 0)
                         {
-                            for (int j = 1; j < logs.Count(); j++)
+                            int j = 0;
+                            foreach (GachaLogItem item in rlogs)
                             {
-                                //倒序
-                                GachaLogItem item = logs.ElementAt(logs.Count() - j);
-                                IRow currentRow = sheet.CreateRow(j);
-                                currentRow.CreateCell(0).SetCellValue(item.Time.ToString("yyyy-MM-dd HH:mm"));
+                                IRow currentRow = sheet.CreateRow(++j);
+                                currentRow.CreateCell(0).SetCellValue(item.Time.ToString("yyyy-MM-dd HH:mm:ss"));
                                 currentRow.CreateCell(1).SetCellValue(item.Name);
                                 currentRow.CreateCell(2).SetCellValue(item.ItemType);
                                 currentRow.CreateCell(3).SetCellValue(Int32.Parse(item.Rank));
                             }
                         }
                     }
+                    using FileStream fileStream = File.Create(fileName);
+                    workbook.Write(fileStream);
                 }
             }
-            if (File.Exists(fileName))
-                File.Delete(fileName);
-            using FileStream fileStream = File.Create(fileName);
-            workbook.Write(fileStream);
         }
         #endregion
     }

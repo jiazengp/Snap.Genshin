@@ -13,8 +13,8 @@ namespace DGP.Genshin.Pages
     {
         public ManagePage()
         {
-            this.DataContext = DataService.Instance;
             this.InitializeComponent();
+            this.DataContext = DataService.Instance;
         }
 
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
@@ -22,9 +22,11 @@ namespace DGP.Genshin.Pages
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
+                    CharacterEditDialog.DataContext = DataService.Instance;
                     await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
+                    WeaponEditDialog.DataContext = DataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
                     break;
             }
@@ -64,6 +66,7 @@ namespace DGP.Genshin.Pages
                     };
                     data.Characters.Add(character);
                     data.SelectedCharacter = character;
+                    CharacterEditDialog.DataContext = DataService.Instance;
                     await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
@@ -75,6 +78,7 @@ namespace DGP.Genshin.Pages
                     };
                     data.Weapons.Add(weapon);
                     data.SelectedWeapon = weapon;
+                    WeaponEditDialog.DataContext = DataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
                     break;
             }

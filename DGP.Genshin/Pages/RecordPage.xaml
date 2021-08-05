@@ -47,12 +47,13 @@
                 <ColumnDefinition Width="480"/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <Grid Margin="72,0,0,0">
+                <Grid Margin="80,0,0,0">
                     <Border>
-                        <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" Stretch="UniformToFill" SnapsToDevicePixels="True" ImageUrl="{Binding SelectedAvatar.Image}"/>
+                        <c:CachedImage Stretch="UniformToFill" SnapsToDevicePixels="True" ImageUrl="{Binding SelectedAvatar.Image}"/>
                     </Border>
                     <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden">
                         <StackPanel Margin="0,0,0,8">
+                            <!--角色名称-->
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top">
                                 <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
                                 <TextBlock HorizontalAlignment="Center" Margin="8,9">
@@ -64,33 +65,35 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                             </Grid>
+                            <!--武器-->
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Rectangle Grid.ColumnSpan="2" Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
-                                <Grid Margin="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Border Width="48" Height="48">
-                                        <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" ImageUrl="{Binding SelectedAvatar.Weapon.StarUrl}"/>
+                                <Grid Margin="8" Width="48" Height="48" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <Border>
+                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.StarUrl}"/>
                                     </Border>
-                                    <Border Width="48" Height="48">
-                                        <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" ImageUrl="{Binding SelectedAvatar.Weapon.Icon}"/>
+                                    <Border>
+                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.Icon}"/>
                                     </Border>
                                 </Grid>
                                 <StackPanel Grid.Column="1">
-                                    <TextBlock HorizontalAlignment="Left" Margin="8,9,0,0">
+                                    <TextBlock HorizontalAlignment="Left" Margin="0,8,0,0">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} Lv.{1} 精炼{2}阶" FallbackValue="-">
+                                            <MultiBinding StringFormat="{}{0} Lv.{1} 精炼{2}阶" TargetNullValue="">
                                                 <Binding Path="SelectedAvatar.Weapon.Name"/>
                                                 <Binding Path="SelectedAvatar.Weapon.Level"/>
                                                 <Binding Path="SelectedAvatar.Weapon.AffixLevel"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock HorizontalAlignment="Left" Margin="8,9" Text="{Binding SelectedAvatar.Weapon.Description}" TextWrapping="Wrap"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="0,12,0,8" Text="{Binding SelectedAvatar.Weapon.ProcessedDescription}" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
+                            <!--圣遗物-->
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top">
                                 <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
                                 <StackPanel>
@@ -144,6 +147,7 @@
                                     </Grid>
                                 </StackPanel>
                             </Grid>
+                            <!--命之座-->
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top">
                                 <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
                                 <StackPanel>
@@ -175,13 +179,14 @@
                         </StackPanel>
                     </s:SmoothScrollViewer>
                 </Grid>
+                <!--左侧角色面板-->
                 <Grid x:Name="ExpandGrid" HorizontalAlignment="Left" Width="72" Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
                     <Grid.Triggers>
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="ExpandGrid" 
-                                                         Storyboard.TargetProperty="Width" Duration="0:0:0:0.1" To="72" EasingFunction="{StaticResource CubicBezierEaseIn}"/>
+                                                         Storyboard.TargetProperty="Width" Duration="0:0:0:0.1" To="80" EasingFunction="{StaticResource CubicBezierEaseIn}"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -196,13 +201,12 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ExpandGrid" 
-                                                         Storyboard.TargetProperty="Width" Duration="0:0:0:0.1" To="344" EasingFunction="{StaticResource CubicBezierEaseOut}"/>
+                                                         Storyboard.TargetProperty="Width" Duration="0:0:0:0.1" To="374" EasingFunction="{StaticResource CubicBezierEaseOut}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
-                            
                         </Grid.Triggers>
-                        <ui:FontIcon Margin="12" Glyph="&#xE700;"/>
+                        <ui:FontIcon Margin="4" Glyph="&#xE76F;"/>
                     </Grid>
                     <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                         <ui:GridView 
@@ -215,13 +219,28 @@
                         Padding="0,0,-4,0">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
-                                        <Grid>
-                                            <Border Width="64" Height="64">
-                                                <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                    <StackPanel Background="{StaticResource SystemControlPageBackgroundChromeMediumLowBrush}">
+                                        <Grid Width="70" Height="70">
+                                            <Border>
+                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                             </Border>
-                                            <Border Width="64" Height="64">
-                                                <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
+                                            <Border>
+                                                <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                            </Border>
+                                            <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                <c:CachedImage ImageUrl="{Binding ElementUrl}"/>
+                                            </Border>
+                                            <Border Background="#66000000" Padding="4,0" Height="16"  HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ActivedConstellationNum}" FontSize="10"/>
+                                            </Border>
+                                            <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#00000000"/>
+                                                        <GradientStop Offset="1" Color="#CC000000"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
                                             </Border>
                                         </Grid>
                                         <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Level,StringFormat={}Lv.{0}}"/>
@@ -234,7 +253,7 @@
             </Grid>
             <s:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Margin="0,0,0,8">
-                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="数据总览">
+                    <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="数据总览">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -305,7 +324,7 @@
                             </StackPanel>
                         </Grid>
                     </Expander>
-                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="世界探索">
+                    <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="世界探索">
                         <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.PlayerInfo.WorldExplorations}" Padding="0">
                             <ui:ListView.ItemTemplate>
                                 <DataTemplate>
@@ -351,7 +370,7 @@
                             </ui:ListView.ItemTemplate>
                         </ui:ListView>
                     </Expander>
-                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="尘歌壶">
+                    <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="尘歌壶">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -377,21 +396,19 @@
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
                             </Grid>
-                            <ui:ListView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" Padding="0">
-                                <ui:ListView.ItemTemplate>
+                            <TextBlock HorizontalAlignment="Center" Text="解锁洞天" Style="{StaticResource CaptionTextBlockStyle}"/>
+                            <ui:GridView IsSelectionEnabled="False" ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" HorizontalAlignment="Center" Padding="0" Margin="0,0,-4,0">
+                                <ui:GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="4">
-                                            <Border Height="120">
-                                                <c:CachedImage Stretch="UniformToFill" Opacity="0.6" VerticalAlignment="Center" ImageUrl="{Binding Icon}"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Name}" Margin="8" HorizontalAlignment="Right" />
+                                            <TextBlock Text="{Binding Name}"/>
                                         </Grid>
                                     </DataTemplate>
-                                </ui:ListView.ItemTemplate>
-                            </ui:ListView>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
                         </StackPanel>
                     </Expander>
-                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="上期深境螺旋">
+                    <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="上期深境螺旋">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -525,7 +542,7 @@
                             </ui:ListView>
                         </StackPanel>
                     </Expander>
-                    <Expander Margin="8,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="本期深境螺旋">
+                    <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="本期深境螺旋">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>

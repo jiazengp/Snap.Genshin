@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.Characters" 
       xmlns:c1="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="角色">
@@ -20,19 +20,10 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <s:SmoothScrollViewer Padding="12,0">
-            <ui:GridView HorizontalAlignment="Center" IsSelectionEnabled="False" ItemsSource="{Binding Characters}">
-                <ui:GridView.ItemTemplate>
-                    <DataTemplate>
-                        <c:CharacterItem/>
-                    </DataTemplate>
-                </ui:GridView.ItemTemplate>
-            </ui:GridView>
-        </s:SmoothScrollViewer>
-        <ui:CommandBar Grid.Row="1">
+        <ui:CommandBar Grid.Row="0">
             <ui:AppBarButton Label="排序" Icon="Sort"/>
             <ui:AppBarButton Label="元素" Icon="Filter">
                 <ui:AppBarButton.Flyout>
@@ -41,6 +32,28 @@
                     </ui:Flyout>
                 </ui:AppBarButton.Flyout>
             </ui:AppBarButton>
-        </ui:CommandBar>    
+        </ui:CommandBar>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <c:CharacterItem Margin="12" VerticalAlignment="Top" DataContext="{Binding SelectedCharacter}"/>
+            <s:SmoothScrollViewer Grid.Column="1" Padding="0,0,16,0">
+                <ui:GridView HorizontalAlignment="Left" ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" Padding="0,12,0,0">
+                    <ui:GridView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ContentIcon Width="70" Height="70" 
+                                              IsHitTestVisible="False"
+                                  BadgeUrl="{Binding Element}" 
+                                  BackgroundUrl="{Binding Star}" 
+                                  ForegroundUrl="{Binding Source}" 
+                                  Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ui:GridView.ItemTemplate>
+                </ui:GridView>
+            </s:SmoothScrollViewer>
+        </Grid>
+        
     </Grid>
 </Page>

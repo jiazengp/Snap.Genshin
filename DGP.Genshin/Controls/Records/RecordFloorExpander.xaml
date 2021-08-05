@@ -23,7 +23,27 @@
                     <ControlTemplate TargetType="{x:Type Expander}">
                         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource IconCornerRadius}" SnapsToDevicePixels="True">
                             <DockPanel>
-                                <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" ui:FocusVisualHelper.FocusVisualMargin="-3" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" ui:FocusVisualHelper.UseSystemFocusVisuals="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <ToggleButton 
+                                        x:Name="HeaderSite" 
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                        Content="{TemplateBinding Header}" 
+                                        DockPanel.Dock="Top" 
+                                        Foreground="{TemplateBinding Foreground}" 
+                                        ui:FocusVisualHelper.FocusVisualMargin="-3" 
+                                        FontWeight="{TemplateBinding FontWeight}" 
+                                        FocusVisualStyle="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" 
+                                        FontStyle="{TemplateBinding FontStyle}" 
+                                        FontStretch="{TemplateBinding FontStretch}" 
+                                        FontSize="{TemplateBinding FontSize}" 
+                                        FontFamily="{TemplateBinding FontFamily}" 
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                        Margin="1" 
+                                        MinWidth="0" 
+                                        MinHeight="0" 
+                                        Padding="{TemplateBinding Padding}" 
+                                        ui:FocusVisualHelper.UseSystemFocusVisuals="True" 
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
                                             <Setter Property="Template">
@@ -33,8 +53,8 @@
                                                             <StreamGeometry x:Key="ChevronDown">M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z</StreamGeometry>
                                                             <StreamGeometry x:Key="ChevronUp">M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z</StreamGeometry>
                                                         </ControlTemplate.Resources>
-                                                        <Border Padding="{TemplateBinding Padding}">
-                                                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                        <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                                                            <Grid SnapsToDevicePixels="False">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="auto"/>
@@ -63,13 +83,95 @@
                                         </Style>
                                     </ToggleButton.Style>
                                 </ToggleButton>
-                                <ContentPresenter x:Name="ExpandSite" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" DockPanel.Dock="Bottom" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <!--Visibility="Collapsed"-->
+                                <ContentPresenter 
+                                        x:Name="ExpandSite" 
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                        Content="{TemplateBinding Content}" 
+                                        ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                        DockPanel.Dock="Bottom" 
+                                        Focusable="False" 
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        Margin="{TemplateBinding Padding}" 
+                                        Visibility="Collapsed"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Opacity="0">
+                                    <ContentPresenter.LayoutTransform>
+                                        <ScaleTransform ScaleY="0"/>
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
                             </DockPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsExpanded" Value="True">
-                                <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="ExpandSite"
+                                                 Storyboard.TargetProperty="(ContentPresenter.LayoutTransform).(ScaleTransform.ScaleY)"                                                 
+                                                 To="1"
+                                                 Duration="0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    BeginTime="0:0:0.1"
+                                                    Duration="0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0"
+                                                    Duration="0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="(ContentPresenter.LayoutTransform).(ScaleTransform.ScaleY)"
+                                                    To="0"
+                                                    BeginTime="0:0:0.1"
+                                                    Duration="0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ui:CubicBezierEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
                             </Trigger>
+
+                            <!--<Trigger Property="IsExpanded" Value="True">
+                                    
+                                </Trigger>-->
                             <Trigger Property="ExpandDirection" Value="Right">
                                 <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
                                 <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>

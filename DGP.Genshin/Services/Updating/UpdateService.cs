@@ -19,7 +19,7 @@ namespace DGP.Genshin.Services.Updating
         private IFileDownloader InnerFileDownloader { get; set; }
 
         private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
-        private const string GiteeUrl = @"https://gitee.com/api/v5/repos/Lightczx/Snap.Genshin/releases/latest";
+
         public UpdateState CheckUpdateState(string url)
         {
             try
@@ -52,7 +52,7 @@ namespace DGP.Genshin.Services.Updating
                 return UpdateState.NotAvailable;
             }
         }
-        public UpdateState CheckUpdateStateViaGitee() => this.CheckUpdateState(GiteeUrl);
+
         public UpdateState CheckUpdateStateViaGithub() => this.CheckUpdateState(GithubUrl);
 
         public void DownloadAndInstallPackage()
@@ -81,20 +81,17 @@ namespace DGP.Genshin.Services.Updating
         }
         public static void StartInstallUpdate()
         {
+            //rename to oldupdater to avoid package extraction error
             if (File.Exists("OldUpdater.exe"))
             {
                 File.Delete("OldUpdater.exe");
             }
-            //rename to oldupdater to avoid package extraction error
             File.Move("DGP.Snap.Updater.exe", "OldUpdater.exe");
-
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "OldUpdater.exe",
-                Arguments = "UpdateInstall",
-                CreateNoWindow = true
+                Arguments = "UpdateInstall"
             });
-            App.Current.Shutdown();
         }
         #region 单例
         private static UpdateService instance;
