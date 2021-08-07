@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Data.Helpers;
+using DGP.Genshin.Data.Materials.Talents;
 using DGP.Genshin.Data.Weapons;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,32 @@ namespace DGP.Genshin.Services
         private readonly DataService dataService = DataService.Instance;
 
         #region Mondstadt
+        private Talent todayMondstadtTalent;
+        public Talent TodayMondstadtTalent
+        {
+            get
+            {
+                if (this.todayMondstadtTalent == null)
+                {
+                    this.todayMondstadtTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsMondstadt());
+                }
+                return this.todayMondstadtTalent;
+            }
+        }
+
+        private Data.Materials.Weapons.Weapon todayMondstadtWeaponAscension;
+        public Data.Materials.Weapons.Weapon TodayMondstadtWeaponAscension
+        {
+            get
+            {
+                if (this.todayMondstadtWeaponAscension == null)
+                {
+                    this.todayMondstadtWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsMondstadt());
+                }
+                return this.todayMondstadtWeaponAscension;
+            }
+        }
+
         private IEnumerable<Character> todayMondstadtCharacter5;
         public IEnumerable<Character> TodayMondstadtCharacter5
         {
@@ -81,6 +108,32 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Liyue
+        private Talent todayLiyueTalent;
+        public Talent TodayLiyueTalent
+        {
+            get
+            {
+                if (this.todayLiyueTalent == null)
+                {
+                    this.todayLiyueTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsLiyue());
+                }
+                return this.todayLiyueTalent;
+            }
+        }
+
+        private Data.Materials.Weapons.Weapon todayLiyueWeaponAscension;
+        public Data.Materials.Weapons.Weapon TodayLiyueWeaponAscension
+        {
+            get
+            {
+                if (this.todayLiyueWeaponAscension == null)
+                {
+                    this.todayLiyueWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsLiyue());
+                }
+                return this.todayLiyueWeaponAscension;
+            }
+        }
+
         private IEnumerable<Character> todayLiyueCharacter5;
         public IEnumerable<Character> TodayLiyueCharacter5
         {
@@ -148,6 +201,32 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Inazuma
+        private Talent todayInazumaTalent;
+        public Talent TodayInazumaTalent
+        {
+            get
+            {
+                if (this.todayInazumaTalent == null)
+                {
+                    this.todayInazumaTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsInazuma());
+                }
+                return this.todayInazumaTalent;
+            }
+        }
+
+        private Data.Materials.Weapons.Weapon todayInazumaWeaponAscension;
+        public Data.Materials.Weapons.Weapon TodayInazumaWeaponAscension
+        {
+            get
+            {
+                if (this.todayInazumaWeaponAscension == null)
+                {
+                    this.todayInazumaWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsInazuma());
+                }
+                return this.todayInazumaWeaponAscension;
+            }
+        }
+
         private IEnumerable<Character> todayInazumaCharacter5;
         public IEnumerable<Character> TodayInazumaCharacter5
         {

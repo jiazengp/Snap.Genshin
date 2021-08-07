@@ -32,6 +32,13 @@
 </div>
 
 ---
+
+## 兼容
+
+祈愿记录导出的表格与下方的项目兼容  
+[![sunfkny/genshin-gacha-export](https://img.shields.io/badge/voderl-genshin_gacha_analyzer-green?style=for-the-badge)](https://github.com/voderl/genshin-gacha-analyzer)
+
+
 ## 鸣谢
 
 原祈愿记录核心逻辑  

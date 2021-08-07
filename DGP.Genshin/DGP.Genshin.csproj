@@ -96,6 +96,9 @@
       <DependentUpon>RecordFloorExpander.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SmoothScrollViewer\SmoothScrollViewer.cs" />
+    <Compile Include="Controls\SplashView.xaml.cs">
+      <DependentUpon>SplashView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Weapons\WeaponItem.xaml.cs">
       <DependentUpon>WeaponItem.xaml</DependentUpon>
     </Compile>
@@ -112,8 +115,11 @@
     <Compile Include="Models\MiHoYo\Gacha\GachaData.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaLog.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaLogItem.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticBanner.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\Statistic.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticFactory.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticItem.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticItem5Star.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Avatar.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\DetailedAvatarInfo.cs" />
     <Compile Include="Models\MiHoYo\Record\CityExploration.cs" />
@@ -193,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Records\RecordFloorExpander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplashView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

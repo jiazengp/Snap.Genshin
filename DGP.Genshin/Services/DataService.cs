@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Data;
+﻿using DGP.Genshin.Controls.CachedImage;
+using DGP.Genshin.Data;
 using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Data.Materials.GemStones;
 using DGP.Genshin.Data.Materials.Locals;
@@ -11,7 +12,6 @@ using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.ObjectModel;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -470,40 +470,88 @@ namespace DGP.Genshin.Services
 
         #endregion
 
-        #region xaml to json
-        private void ConvertXAMLToJSON()
+        #region CheckSource
+        public int CurrentCount
         {
-            Directory.CreateDirectory(folderPath);
-
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Characters/Characters.xaml", "characters.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Weapons/Weapons.xaml", "weapons.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/GemStones/GemStones.xaml", "gemstones.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Locals/Locals.xaml", "locals.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Bosses.xaml", "bosses.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Elites.xaml", "elites.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Monsters.xaml", "monsters.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Talents/DailyTalents.xaml", "dailytalents.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Weapons/Weapons.xaml", "dailyweapons.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Weeklys/WeeklyTalents.xaml", "weeklytalents.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Materials/Monsters/Bosses.xaml", "bosses.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Cities.xaml", "cities.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Elements.xaml", "elements.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/Stars.xaml", "stars.json");
-            Convert($"pack://application:,,,/DGP.Genshin.Data;component/WeaponTypes.xaml", "weapontypes.json");
+            get { return (int)GetValue(CurrentCountProperty); }
+            set { SetValue(CurrentCountProperty, value); }
         }
-        private static void Convert(string dictUri, string filename)
+        public static readonly DependencyProperty CurrentCountProperty =
+            DependencyProperty.Register("CurrentCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
+
+        public int TotalCount
         {
-            IDictionary dict = new ResourceDictionary
+            get { return (int)GetValue(TotalCountProperty); }
+            set { SetValue(TotalCountProperty, value); }
+        }
+        public static readonly DependencyProperty TotalCountProperty =
+            DependencyProperty.Register("TotalCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
+
+        public double Percent
+        {
+            get { return (double)GetValue(PercentProperty); }
+            set { SetValue(PercentProperty, value); }
+        }
+        public static readonly DependencyProperty PercentProperty =
+            DependencyProperty.Register("Percent", typeof(double), typeof(DataService), new PropertyMetadata(0.0));
+
+        public bool HasCheckCompleted
+        {
+            get { return (bool)GetValue(HasCheckCompletedProperty); }
+            set { SetValue(HasCheckCompletedProperty, value); }
+        }
+        public static readonly DependencyProperty HasCheckCompletedProperty =
+            DependencyProperty.Register("HasCheckCompleted", typeof(bool), typeof(DataService), new PropertyMetadata(false,OnCompleteStateChanged));
+
+        private static void OnCompleteStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => CompleteStateChanged?.Invoke((bool)e.NewValue);
+
+        public static event Action<bool> CompleteStateChanged;
+
+        static int currentCount = 0;
+
+        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection,IProgress<int> progress) where T : KeySource
+        {
+            foreach(T t in collection)
             {
-                Source = new Uri(dictUri)
-            };
-            foreach (string key in dict.Keys)
-            {
-                dict[key] = new KeySource { Key = key, Source = (string)dict[key] };
+                try
+                {
+                    await FileCache.HitAsync(t.Source);
+                }
+                catch { }
+                progress.Report(++currentCount);
             }
-            string json = Json.Stringify(dict.Values);
-            using StreamWriter sw = new StreamWriter(File.Create(folderPath + filename));
-            sw.Write(json);
+        }
+
+        /// <summary>
+        /// 检查缓存图片完整性，不完整的自动下载补全
+        /// </summary>
+        public async Task CheckAllIntegrityAsync()
+        {
+            HasCheckCompleted = false;
+            CurrentCount = 0;
+            TotalCount = this.Bosses.Count + this.Characters.Count + this.Cities.Count +
+                           this.DailyTalents.Count + this.DailyWeapons.Count + this.Elements.Count +
+                           this.Elites.Count + this.GemStones.Count + this.Locals.Count +
+                           this.Monsters.Count + this.Stars.Count + this.Weapons.Count +
+                           this.WeaponTypes.Count + this.WeeklyTalents.Count;
+            Progress<int> progress = new Progress<int>(i => { CurrentCount = i; Percent = i * 1.0 / TotalCount; });
+
+            await this.CheckIntegrityAsync(this.Bosses, progress);
+            await this.CheckIntegrityAsync(this.Characters, progress);
+            await this.CheckIntegrityAsync(this.Cities, progress);
+            await this.CheckIntegrityAsync(this.DailyTalents, progress);
+            await this.CheckIntegrityAsync(this.DailyWeapons, progress);
+            await this.CheckIntegrityAsync(this.Elements, progress);
+            await this.CheckIntegrityAsync(this.Elites, progress);
+            await this.CheckIntegrityAsync(this.GemStones, progress);
+            await this.CheckIntegrityAsync(this.Locals, progress);
+            await this.CheckIntegrityAsync(this.Monsters, progress);
+            await this.CheckIntegrityAsync(this.Stars, progress);
+            await this.CheckIntegrityAsync(this.Weapons, progress);
+            await this.CheckIntegrityAsync(this.WeaponTypes, progress);
+            await this.CheckIntegrityAsync(this.WeeklyTalents, progress);
+
+            HasCheckCompleted = true;
         }
         #endregion
     }

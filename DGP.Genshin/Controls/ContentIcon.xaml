@@ -48,7 +48,7 @@
         <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
             <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         </Border>
-        <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+        <Border Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Color="#00000000"/>

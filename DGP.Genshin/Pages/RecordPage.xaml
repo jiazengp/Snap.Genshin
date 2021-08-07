@@ -28,7 +28,7 @@
         <ui:CommandBar Grid.Row="0">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
-                    <ui:AutoSuggestBox Margin="8,4,0,0" MinWidth="240" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
+                    <ui:AutoSuggestBox Margin="12,4,0,0" MinWidth="240" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
                                        TextChanged="AutoSuggestBox_TextChanged" 
                                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
                                        QuerySubmitted="AutoSuggestBox_QuerySubmitted"
@@ -47,138 +47,129 @@
                 <ColumnDefinition Width="480"/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <Grid Margin="80,0,0,0">
-                    <Border>
-                        <c:CachedImage Stretch="UniformToFill" SnapsToDevicePixels="True" ImageUrl="{Binding SelectedAvatar.Image}"/>
-                    </Border>
-                    <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <StackPanel Margin="0,0,0,8">
-                            <!--角色名称-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top">
-                                <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
-                                <TextBlock HorizontalAlignment="Center" Margin="8,9">
+                <s:SmoothScrollViewer Margin="80,0,0,0" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Margin="0,0,0,8">
+                        <!--角色名称-->
+                        <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                            <TextBlock HorizontalAlignment="Center" Margin="8,9">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} 好感度等级 - {1}">
+                                        <Binding Path="SelectedAvatar.Name"/>
+                                        <Binding Path="SelectedAvatar.Fetter"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                        <!--武器-->
+                        <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Margin="8" Width="48" Height="48" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Border>
+                                    <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.StarUrl}"/>
+                                </Border>
+                                <Border>
+                                    <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.Icon}"/>
+                                </Border>
+                            </Grid>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock HorizontalAlignment="Left" Margin="0,8,0,0">
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0} 好感度等级 - {1}">
-                                            <Binding Path="SelectedAvatar.Name"/>
-                                            <Binding Path="SelectedAvatar.Fetter"/>
+                                        <MultiBinding StringFormat="{}{0} Lv.{1} 精炼{2}阶" TargetNullValue="">
+                                            <Binding Path="SelectedAvatar.Weapon.Name"/>
+                                            <Binding Path="SelectedAvatar.Weapon.Level"/>
+                                            <Binding Path="SelectedAvatar.Weapon.AffixLevel"/>
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                            </Grid>
-                            <!--武器-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Grid.ColumnSpan="2" Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
-                                <Grid Margin="8" Width="48" Height="48" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Border>
-                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.StarUrl}"/>
-                                    </Border>
-                                    <Border>
-                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.Icon}"/>
-                                    </Border>
-                                </Grid>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,8,0,0">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} Lv.{1} 精炼{2}阶" TargetNullValue="">
-                                                <Binding Path="SelectedAvatar.Weapon.Name"/>
-                                                <Binding Path="SelectedAvatar.Weapon.Level"/>
-                                                <Binding Path="SelectedAvatar.Weapon.AffixLevel"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,12,0,8" Text="{Binding SelectedAvatar.Weapon.ProcessedDescription}" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Grid>
-                            <!--圣遗物-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top">
-                                <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
-                                <StackPanel>
-                                    <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="圣遗物"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ui:ListView HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding SelectedAvatar.Reliquaries}" SelectedItem="{Binding SelectedReliquary,Mode=TwoWay}" Padding="0">
-                                            <ui:ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid Width="32" Height="32" Margin="4">
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                            </Border>
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                                            </Border>
-                                                        </Grid>
-                                                        <TextBlock Margin="8,0" VerticalAlignment="Center" Grid.Column="1">
-                                                            <TextBlock.Text>
-                                                                <MultiBinding StringFormat="{}{0} +{1}">
-                                                                    <Binding Path="Name"/>
-                                                                    <Binding Path="Level"/>
-                                                                </MultiBinding>
-                                                            </TextBlock.Text>
-                                                        </TextBlock>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ui:ListView.ItemTemplate>
-                                        </ui:ListView>
-                                        <StackPanel Margin="8,0" Grid.Column="1">
-                                            <TextBlock Text="{Binding SelectedReliquary.ReliquarySet.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                            <ui:ListView Padding="0" IsSelectionEnabled="False" ItemsSource="{Binding SelectedReliquary.ReliquarySet.Affixes}">
-                                                <ui:ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="0,8,0,0">
-                                                            <TextBlock Text="{Binding ActivationNumber,StringFormat={}{0}件套}" Style="{StaticResource BaseTextBlockStyle}"/>
-                                                            <TextBlock Text="{Binding Effect}" TextWrapping="Wrap"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ui:ListView.ItemTemplate>
-                                            </ui:ListView>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                            <!--命之座-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top">
-                                <Rectangle Opacity="0.6" Fill="{StaticResource SystemControlBackgroundChromeMediumBrush}"/>
-                                <StackPanel>
-                                    <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="命之座"/>
-                                    <ui:ListView IsSelectionEnabled="False" HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding SelectedAvatar.Constellations}">
+                                <TextBlock HorizontalAlignment="Left" Margin="0,12,0,8" Text="{Binding SelectedAvatar.Weapon.ProcessedDescription}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <!--圣遗物-->
+                        <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="圣遗物"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:ListView HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding SelectedAvatar.Reliquaries}" SelectedItem="{Binding SelectedReliquary,Mode=TwoWay}" Padding="0">
                                         <ui:ListView.ItemTemplate>
                                             <DataTemplate>
-                                                <ui:ListViewItem IsEnabled="{Binding IsActived}" Margin="0,4">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Border Width="48" Height="48" Margin="4">
-                                                            <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" ImageUrl="{Binding Icon}"/>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid Width="32" Height="32" Margin="4">
+                                                        <Border>
+                                                            <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                                         </Border>
-                                                        <StackPanel Grid.Column="1">
-                                                            <TextBlock Margin="8,4,8,0" Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}"/>
-                                                            <TextBlock Margin="8,4,8,0" Text="{Binding ProcessedEffect}" TextWrapping="Wrap"/>
-                                                        </StackPanel>
+                                                        <Border>
+                                                            <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                                        </Border>
                                                     </Grid>
-                                                </ui:ListViewItem>
-                                                
+                                                    <TextBlock Margin="8,0" VerticalAlignment="Center" Grid.Column="1">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} +{1}">
+                                                                <Binding Path="Name"/>
+                                                                <Binding Path="Level"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </Grid>
                                             </DataTemplate>
                                         </ui:ListView.ItemTemplate>
                                     </ui:ListView>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </s:SmoothScrollViewer>
-                </Grid>
+                                    <StackPanel Margin="8,0" Grid.Column="1">
+                                        <TextBlock Text="{Binding SelectedReliquary.ReliquarySet.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                        <ui:ListView Padding="0" IsSelectionEnabled="False" ItemsSource="{Binding SelectedReliquary.ReliquarySet.Affixes}">
+                                            <ui:ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Margin="0,8,0,0">
+                                                        <TextBlock Text="{Binding ActivationNumber,StringFormat={}{0}件套}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                                        <TextBlock Text="{Binding Effect}" TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ui:ListView.ItemTemplate>
+                                        </ui:ListView>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <!--命之座-->
+                        <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="命之座"/>
+                                <ui:ListView IsSelectionEnabled="False" HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding SelectedAvatar.Constellations}">
+                                    <ui:ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ui:ListViewItem IsEnabled="{Binding IsActived}" Margin="0,4">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Width="48" Height="48" Margin="4">
+                                                        <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                                    </Border>
+                                                    <StackPanel Grid.Column="1">
+                                                        <TextBlock Margin="8,4,8,0" Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                                        <TextBlock Margin="8,4,8,0" Text="{Binding ProcessedEffect}" TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </ui:ListViewItem>
+
+                                        </DataTemplate>
+                                    </ui:ListView.ItemTemplate>
+                                </ui:ListView>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </s:SmoothScrollViewer>
                 <!--左侧角色面板-->
                 <Grid x:Name="ExpandGrid" HorizontalAlignment="Left" Width="72" Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
                     <Grid.Triggers>
@@ -225,7 +216,7 @@
                                                 <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                             </Border>
                                             <Border>
-                                                <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                                <c:CachedImage ImageUrl="{Binding ConvertedIcon}"/>
                                             </Border>
                                             <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                 <c:CachedImage ImageUrl="{Binding ElementUrl}"/>
@@ -440,12 +431,11 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <Grid>
-                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="64" Height="64">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                    <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                                 </Border>
                                                 <Border Width="64" Height="64">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
@@ -459,9 +449,8 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <Grid>
-                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -477,7 +466,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -493,7 +482,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -509,7 +498,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
@@ -525,7 +514,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
@@ -576,10 +565,10 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="64" Height="64">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                    <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                                 </Border>
                                                 <Border Width="64" Height="64">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
@@ -595,7 +584,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -611,7 +600,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -627,7 +616,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
@@ -643,7 +632,7 @@
                                             <Grid>
                                                 <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
@@ -657,9 +646,8 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <Grid>
-                                                <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
                                                 <Border Width="32" Height="32">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding AvatarIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
                                                 </Border>
                                             </Grid>
                                             <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>

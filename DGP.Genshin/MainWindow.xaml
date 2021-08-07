@@ -16,7 +16,6 @@
         Height="740" 
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -29,12 +28,12 @@
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon ShowAsMonochrome="False" UriSource="https://genshin.honeyhunterworld.com/img/char/ayaka_face_70.png"/>
+                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/char_35.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon ShowAsMonochrome="False" UriSource="https://genshin.honeyhunterworld.com/img/weapon/w_1407_70.png"/>
+                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/weapons_35.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItemSeparator/>
@@ -48,5 +47,6 @@
             <ui:Frame x:Name="ContentFrame"/>
         </ui:NavigationView>
         <Image Height="16" Margin="16,8" HorizontalAlignment="Left" VerticalAlignment="Top" Source="SG_Logo.ico" SnapsToDevicePixels="True"/>
+        <cf:SplashView InitializeCompleted="SplashInitializeCompleted"/>
     </Grid>
 </Window>

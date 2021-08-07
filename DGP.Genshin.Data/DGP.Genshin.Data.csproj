@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Characters\Character.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="Helpers\CharacterHelper.cs" />
     <Compile Include="Helpers\ElementHelper.cs" />
     <Compile Include="Helpers\StarHelper.cs" />
     <Compile Include="KeySource.cs" />

@@ -18,6 +18,9 @@ namespace DGP.Genshin
         {
             this.InitializeComponent();
             this.NavigationService = new NavigationService(this, this.NavView, this.ContentFrame);
+        }
+        private void SplashInitializeCompleted()
+        {
             this.NavigationService.Navigate<HomePage>(true);
         }
     }

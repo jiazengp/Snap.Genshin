@@ -157,7 +157,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <returns></returns>
         private bool TryGetBatch(out GachaLog result, ConfigType type, long endId, int currentPage)
         {
-            this.Log($"try to get batch of {type.Name}with end_id:{endId}");
+            this.Log($"try to get batch of {type.Name} with end_id:{endId}");
             OnFetchProgressed?.Invoke(new FetchProgress { Type = type.Name, Page = currentPage });
             //modify the url
             string[] splitedUrl = this.gachaLogUrl.Split('?');

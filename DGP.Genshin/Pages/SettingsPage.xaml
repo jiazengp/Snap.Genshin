@@ -44,7 +44,7 @@
                 <TextBlock Text="反馈" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <TextBlock Text="如果你在使用软件的过程中遇到问题，可以" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" Content="前往 Github 提交 Issue"/>
-                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" Content="添加QQ群交流"/>
+                <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" Content="前往QQ群[910780153]反馈"/>
 
                 <TextBlock Text="关于" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 
@@ -73,7 +73,8 @@
                 <ui:HyperlinkButton Margin="0,0,0,0" NavigateUri="https://github.com/Scighost/KeqingNiuza" Content="项目源代码"/>
 
                 <TextBlock Text="开发" Margin="0,24,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <TextBlock Text="下方按钮仅供开发人员调试使用" Foreground="Red" Margin="0,0,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Text="下方按钮仅供开发人员调试使用" Foreground="Red" Margin="0,12,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Text="点击下方按钮表面您愿意承担程序崩溃带来的风险与造成的损失" Foreground="Red" Margin="0,0,0,12" Style="{StaticResource BodyTextBlockStyle}"/>
                 <Button Content="管理页面" Click="NavigateToManagePage"/>
             </StackPanel>
         </s:SmoothScrollViewer>

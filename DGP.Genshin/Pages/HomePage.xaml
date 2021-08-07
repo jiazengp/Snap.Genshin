@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       xmlns:ui="http://schemas.modernwpf.com/2019"
-      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="首页">
@@ -39,16 +39,34 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                
+                <StackPanel Grid.Column="0" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="蒙德"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayMondstadtTalent.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayMondstadtTalent.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="璃月"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayLiyueTalent.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayLiyueTalent.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
                 <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
 
-                <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <StackPanel Grid.Column="3" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="稻妻"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayInazumaTalent.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayInazumaTalent.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaCharacter5}" ItemTemplate="{StaticResource CharacterTemplate}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayInazumaCharacter4}" ItemTemplate="{StaticResource CharacterTemplate}"/>
             </Grid>
@@ -67,17 +85,35 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="蒙德" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <StackPanel Grid.Column="0" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="蒙德"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayMondstadtWeaponAscension.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayMondstadtWeaponAscension.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayMondstadtWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="0" Grid.Row="3" Margin="4,2,4,0" ItemsSource="{Binding TodayMondstadtWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="璃月" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="璃月"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayLiyueWeaponAscension.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayLiyueWeaponAscension.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayLiyueWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="1" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="1" Grid.Row="3" Margin="4,2,4,0" ItemsSource="{Binding TodayLiyueWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>
 
-                <TextBlock Grid.Column="2" Grid.Row="0" Text="稻妻" Margin="4,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
+                    <TextBlock Text="稻妻"  Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TodayInazumaWeaponAscension.Source}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding TodayInazumaWeaponAscension.Name}"/>
+                    </StackPanel>
+                </StackPanel>
                 <ui:GridView Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TodayInazumaWeapon5}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="2" Margin="4,2,4,0" ItemsSource="{Binding TodayInazumaWeapon4}" ItemTemplate="{StaticResource WeaponTemplate}"/>
                 <ui:GridView Grid.Column="2" Grid.Row="3" Margin="4,0,4,0" ItemsSource="{Binding TodayInazumaWeapon3}" ItemTemplate="{StaticResource WeaponTemplate}"/>

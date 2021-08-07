@@ -25,10 +25,10 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             };
         }
 
-        private static Banner ToBanner(Dictionary<string, List<GachaLogItem>> dict, string type, string name)
+        private static StatisticBanner ToBanner(Dictionary<string, List<GachaLogItem>> dict, string type, string name)
         {
             List<GachaLogItem> list = dict[type];
-            Banner banner = new Banner()
+            StatisticBanner banner = new StatisticBanner()
             {
                 TotalCount = list.Count,
                 StartTime = list.Last().Time,
@@ -60,9 +60,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             return banner;
         }
 
-        public static List<Item> ToTotalCountList(Dictionary<string, List<GachaLogItem>> dict, string itemType)
+        public static List<StatisticItem> ToTotalCountList(Dictionary<string, List<GachaLogItem>> dict, string itemType)
         {
-            Dictionary<string, Item> counter = new Dictionary<string, Item>();
+            Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
             foreach (List<GachaLogItem> list in dict.Values)
             {
                 foreach (GachaLogItem i in list)
@@ -71,7 +71,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                     {
                         if (!counter.ContainsKey(i.Name))
                         {
-                            counter[i.Name] = new Item()
+                            counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,
                                 Name = i.Name,
@@ -96,17 +96,17 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
 
-        private static List<Star5Item> CountStar5(IEnumerable<GachaLogItem> items, int star5Count)
+        private static List<StatisticItem5Star> CountStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
             List<GachaLogItem> reversedItems = items.Reverse().ToList();
-            List<Star5Item> counter = new List<Star5Item>();
+            List<StatisticItem5Star> counter = new List<StatisticItem5Star>();
             for (int i = 0; i < star5Count; i++)
             {
 
                 GachaLogItem currentStar5 = reversedItems.First(i => i.Rank == "5");
                 int count = reversedItems.IndexOf(currentStar5) + 1;
-                counter.Add(new Star5Item()
+                counter.Add(new StatisticItem5Star()
                 {
                     Name = currentStar5.Name,
                     Count = count,
