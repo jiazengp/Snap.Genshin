@@ -43,7 +43,7 @@ namespace DGP.Genshin.Pages
 
         private void AddSimulationButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            //Service.SelectedSimulationCollection
         }
     }
 }

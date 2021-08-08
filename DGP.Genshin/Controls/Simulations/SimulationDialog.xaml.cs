@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernWpf.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace DGP.Genshin.Controls.Simulations
     /// <summary>
     /// SimulationDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class SimulationDialog : UserControl
+    public partial class SimulationDialog : ContentDialog
     {
         public SimulationDialog()
         {

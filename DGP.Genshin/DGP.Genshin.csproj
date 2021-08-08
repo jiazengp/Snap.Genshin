@@ -99,6 +99,9 @@
     <Compile Include="Controls\Simulations\SimulationCollectionDialog.xaml.cs">
       <DependentUpon>SimulationCollectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Simulations\SimulationDialog.xaml.cs">
+      <DependentUpon>SimulationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SmoothScrollViewer\SmoothScrollViewer.cs" />
     <Compile Include="Controls\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
@@ -211,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Simulations\SimulationCollectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Simulations\SimulationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
