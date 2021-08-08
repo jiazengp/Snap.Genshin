@@ -36,6 +36,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 server = new Dictionary<char, string>()
                 {
                     { '1', "cn_gf01" },
+ 
                     { '5', "cn_qd01" },
                     //{ '6', "os_usa" },
                     //{ '7', "os_euro" },

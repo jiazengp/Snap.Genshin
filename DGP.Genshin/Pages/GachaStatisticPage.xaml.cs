@@ -1,12 +1,13 @@
 ﻿using DGP.Genshin.Services.GachaStatistic;
 using ModernWpf.Controls;
+using System.Windows.Navigation;
 
 namespace DGP.Genshin.Pages
 {
     /// <summary>
     /// GachaStatisticPage.xaml 的交互逻辑
     /// </summary>
-    public partial class GachaStatisticPage : System.Windows.Controls.Page
+    public partial class GachaStatisticPage : Page
     {
         private GachaStatisticService Service { get; set; }
 
@@ -14,7 +15,6 @@ namespace DGP.Genshin.Pages
         {
             this.Service = new GachaStatisticService();
             this.DataContext = this.Service;
-            //GachaStatisticService.Initialize();
             this.InitializeComponent();
         }
 
@@ -30,6 +30,12 @@ namespace DGP.Genshin.Pages
                 PrimaryButtonText = "确定",
                 DefaultButton = ContentDialogButton.Primary
             }.ShowAsync();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Service.UnInitialize();
+            base.OnNavigatedFrom(e);
         }
     }
 }

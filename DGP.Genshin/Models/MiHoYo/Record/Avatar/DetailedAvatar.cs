@@ -18,8 +18,8 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         {
             get
             {
-                var result = DataService.Instance.Characters.FirstOrDefault(c => c.Name == this.Name);
-                return result == null ? Icon : result.Source;
+                Data.Characters.Character result = DataService.Instance.Characters.FirstOrDefault(c => c.Name == this.Name);
+                return result == null ? this.Icon : result.Source;
             }
         }
 

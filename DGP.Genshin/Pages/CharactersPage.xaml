@@ -24,7 +24,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ui:CommandBar Grid.Row="0">
-            <ui:AppBarButton Label="排序" Icon="Sort"/>
+            <ui:AppBarButton Label="排序" Icon="Sort" IsEnabled="False"/>
             <ui:AppBarButton Label="元素" Icon="Filter">
                 <ui:AppBarButton.Flyout>
                     <ui:Flyout>

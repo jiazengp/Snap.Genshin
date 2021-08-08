@@ -17,7 +17,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("type_name")] public string TypeName { get; set; }
         [JsonProperty("desc")] public string Description { get; set; }
 
-        public string ProcessedDescription => ProcessStringFormat(Description);
+        public string ProcessedDescription => ProcessStringFormat(this.Description);
         /// <summary>
         /// Refine Level actually
         /// </summary>

@@ -1,7 +1,4 @@
-﻿using DGP.Genshin.Data.Weapons;
-using DGP.Genshin.Services;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using DGP.Genshin.Services;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -13,7 +10,12 @@ namespace DGP.Genshin.Pages
     {
         public WeaponsPage()
         {
-            this.DataContext = DataService.Instance;
+            DataService service = DataService.Instance;
+            this.DataContext = service;
+            if (service.SelectedWeapon == null)
+            {
+                service.SelectedWeapon = service.Weapons[0];
+            }
             this.InitializeComponent();
         }
     }

@@ -13,6 +13,9 @@ using System.Text;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// this service shouldn't be disposed during the runtime cause request web produces lag
+    /// </summary>
     internal class RecordService : Observable
     {
         private static readonly string CookieUrl = "https://user.mihoyo.com/";

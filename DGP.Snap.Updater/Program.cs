@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Threading;
 
 namespace DGP.Snap.Updater
 {
@@ -52,7 +51,7 @@ namespace DGP.Snap.Updater
                             entry.ExtractToFile(entry.FullName, true);
                         }
                     }
-                    catch(IOException e)
+                    catch (IOException e)
                     {
                         Console.WriteLine(e.Message);
                     }

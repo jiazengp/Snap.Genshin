@@ -85,6 +85,7 @@
     <Compile Include="Controls\ContentIcon.xaml.cs">
       <DependentUpon>ContentIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converters\DevModeVisibilityConverter.cs" />
     <Compile Include="Controls\Converters\KeySourceConverters.cs" />
     <Compile Include="Controls\EditDialogs\CharacterDialog.xaml.cs">
       <DependentUpon>CharacterDialog.xaml</DependentUpon>
@@ -94,6 +95,9 @@
     </Compile>
     <Compile Include="Controls\Records\RecordFloorExpander.xaml.cs">
       <DependentUpon>RecordFloorExpander.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Simulations\SimulationCollectionDialog.xaml.cs">
+      <DependentUpon>SimulationCollectionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SmoothScrollViewer\SmoothScrollViewer.cs" />
     <Compile Include="Controls\SplashView.xaml.cs">
@@ -145,6 +149,9 @@
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Rank.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\SpiralAbyss.cs" />
     <Compile Include="Models\MiHoYo\Record\WorldExploration.cs" />
+    <Compile Include="Pages\CalculationsPage.xaml.cs">
+      <DependentUpon>CalculationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CharactersPage.xaml.cs">
       <DependentUpon>CharactersPage.xaml</DependentUpon>
     </Compile>
@@ -176,6 +183,7 @@
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Settings\Setting.cs" />
     <Compile Include="Services\Settings\SettingService.cs" />
+    <Compile Include="Services\SimulationService.cs" />
     <Compile Include="Services\Updating\UpdateDialog.xaml.cs">
       <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>
@@ -199,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Records\RecordFloorExpander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Simulations\SimulationCollectionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,6 +238,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\CalculationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CharactersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

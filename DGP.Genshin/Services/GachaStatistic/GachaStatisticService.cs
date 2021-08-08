@@ -104,6 +104,10 @@ namespace DGP.Genshin.Services.GachaStatistic
             await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveGachaDataToExcel($@"{path}\{this.SelectedUid}.xlsx"));
         }
         public void Initialize() => this.LoadLocalData();
+        public void UnInitialize() 
+        {
+            this.gachaLogProvider = null;
+        }
 
         public GachaStatisticService()
         {
@@ -112,7 +116,7 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         ~GachaStatisticService()
         {
-            this.gachaLogProvider = null;
+            UnInitialize();
         }
 
         #region INotifyPropertyChanged

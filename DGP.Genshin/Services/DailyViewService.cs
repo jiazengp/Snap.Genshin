@@ -15,27 +15,27 @@ namespace DGP.Genshin.Services
         private readonly DataService dataService = DataService.Instance;
 
         #region Mondstadt
-        private Talent todayMondstadtTalent;
-        public Talent TodayMondstadtTalent
+        private IEnumerable<Talent> todayMondstadtTalent;
+        public IEnumerable<Talent> TodayMondstadtTalent
         {
             get
             {
                 if (this.todayMondstadtTalent == null)
                 {
-                    this.todayMondstadtTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsMondstadt());
+                    this.todayMondstadtTalent = this.dataService.DailyTalents.Where(i => i.IsTodaysTalent() && i.IsMondstadt());
                 }
                 return this.todayMondstadtTalent;
             }
         }
 
-        private Data.Materials.Weapons.Weapon todayMondstadtWeaponAscension;
-        public Data.Materials.Weapons.Weapon TodayMondstadtWeaponAscension
+        private IEnumerable<Data.Materials.Weapons.Weapon> todayMondstadtWeaponAscension;
+        public IEnumerable<Data.Materials.Weapons.Weapon> TodayMondstadtWeaponAscension
         {
             get
             {
                 if (this.todayMondstadtWeaponAscension == null)
                 {
-                    this.todayMondstadtWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsMondstadt());
+                    this.todayMondstadtWeaponAscension = this.dataService.DailyWeapons.Where(i => i.IsTodaysWeapon() && i.IsMondstadt());
                 }
                 return this.todayMondstadtWeaponAscension;
             }
@@ -92,43 +92,30 @@ namespace DGP.Genshin.Services
                 return this.todayMondstadtWeapon4;
             }
         }
-
-        private IEnumerable<Weapon> todayMondstadtWeapon3;
-        public IEnumerable<Weapon> TodayMondstadtWeapon3
-        {
-            get
-            {
-                if (this.todayMondstadtWeapon3 == null)
-                {
-                    this.todayMondstadtWeapon3 = this.dataService.Weapons.Where(w => w.Ascension != null && w.Star.ToRank() == 3 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon());
-                }
-                return this.todayMondstadtWeapon3;
-            }
-        }
         #endregion
 
         #region Liyue
-        private Talent todayLiyueTalent;
-        public Talent TodayLiyueTalent
+        private IEnumerable<Talent> todayLiyueTalent;
+        public IEnumerable<Talent> TodayLiyueTalent
         {
             get
             {
                 if (this.todayLiyueTalent == null)
                 {
-                    this.todayLiyueTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsLiyue());
+                    this.todayLiyueTalent = this.dataService.DailyTalents.Where(i => i.IsTodaysTalent() && i.IsLiyue());
                 }
                 return this.todayLiyueTalent;
             }
         }
 
-        private Data.Materials.Weapons.Weapon todayLiyueWeaponAscension;
-        public Data.Materials.Weapons.Weapon TodayLiyueWeaponAscension
+        private IEnumerable<Data.Materials.Weapons.Weapon> todayLiyueWeaponAscension;
+        public IEnumerable<Data.Materials.Weapons.Weapon> TodayLiyueWeaponAscension
         {
             get
             {
                 if (this.todayLiyueWeaponAscension == null)
                 {
-                    this.todayLiyueWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsLiyue());
+                    this.todayLiyueWeaponAscension = this.dataService.DailyWeapons.Where(i => i.IsTodaysWeapon() && i.IsLiyue());
                 }
                 return this.todayLiyueWeaponAscension;
             }
@@ -185,43 +172,30 @@ namespace DGP.Genshin.Services
                 return this.todayLiyueWeapon4;
             }
         }
-
-        private IEnumerable<Weapon> todayLiyueWeapon3;
-        public IEnumerable<Weapon> TodayLiyueWeapon3
-        {
-            get
-            {
-                if (this.todayLiyueWeapon3 == null)
-                {
-                    this.todayLiyueWeapon3 = this.dataService.Weapons.Where(w => w.Ascension != null && w.Star.ToRank() == 3 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon());
-                }
-                return this.todayLiyueWeapon3;
-            }
-        }
         #endregion
 
         #region Inazuma
-        private Talent todayInazumaTalent;
-        public Talent TodayInazumaTalent
+        private IEnumerable<Talent> todayInazumaTalent;
+        public IEnumerable<Talent> TodayInazumaTalent
         {
             get
             {
                 if (this.todayInazumaTalent == null)
                 {
-                    this.todayInazumaTalent = this.dataService.DailyTalents.First(i => i.IsTodaysTalent() && i.IsInazuma());
+                    this.todayInazumaTalent = this.dataService.DailyTalents.Where(i => i.IsTodaysTalent() && i.IsInazuma());
                 }
                 return this.todayInazumaTalent;
             }
         }
 
-        private Data.Materials.Weapons.Weapon todayInazumaWeaponAscension;
-        public Data.Materials.Weapons.Weapon TodayInazumaWeaponAscension
+        private IEnumerable<Data.Materials.Weapons.Weapon> todayInazumaWeaponAscension;
+        public IEnumerable<Data.Materials.Weapons.Weapon> TodayInazumaWeaponAscension
         {
             get
             {
                 if (this.todayInazumaWeaponAscension == null)
                 {
-                    this.todayInazumaWeaponAscension = this.dataService.DailyWeapons.First(i => i.IsTodaysWeapon() && i.IsInazuma());
+                    this.todayInazumaWeaponAscension = this.dataService.DailyWeapons.Where(i => i.IsTodaysWeapon() && i.IsInazuma());
                 }
                 return this.todayInazumaWeaponAscension;
             }
@@ -276,19 +250,6 @@ namespace DGP.Genshin.Services
                     this.todayInazumaWeapon4 = this.dataService.Weapons.Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
                 return this.todayInazumaWeapon4;
-            }
-        }
-
-        private IEnumerable<Weapon> todayInazumaWeapon3;
-        public IEnumerable<Weapon> TodayInazumaWeapon3
-        {
-            get
-            {
-                if (this.todayInazumaWeapon3 == null)
-                {
-                    this.todayInazumaWeapon3 = this.dataService.Weapons.Where(w => w.Ascension != null && w.Star.ToRank() == 3 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
-                }
-                return this.todayInazumaWeapon3;
             }
         }
         #endregion

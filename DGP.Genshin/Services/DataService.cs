@@ -410,7 +410,7 @@ namespace DGP.Genshin.Services
         }
         private void Save<T>(ObservableCollection<T> collection, string filename) where T : Primitive
         {
-            string json = Json.Stringify(collection.OrderByDescending(i=>i.Star));
+            string json = Json.Stringify(collection.OrderByDescending(i => i.Star));
             using StreamWriter sw = new StreamWriter(File.Create(folderPath + filename));
             sw.Write(json);
             this.Log($"Save composed metadata to {filename}");
@@ -473,45 +473,45 @@ namespace DGP.Genshin.Services
         #region CheckSource
         public int CurrentCount
         {
-            get { return (int)GetValue(CurrentCountProperty); }
-            set { SetValue(CurrentCountProperty, value); }
+            get => (int)this.GetValue(CurrentCountProperty);
+            set => this.SetValue(CurrentCountProperty, value);
         }
         public static readonly DependencyProperty CurrentCountProperty =
             DependencyProperty.Register("CurrentCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
 
         public int TotalCount
         {
-            get { return (int)GetValue(TotalCountProperty); }
-            set { SetValue(TotalCountProperty, value); }
+            get => (int)this.GetValue(TotalCountProperty);
+            set => this.SetValue(TotalCountProperty, value);
         }
         public static readonly DependencyProperty TotalCountProperty =
             DependencyProperty.Register("TotalCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
 
         public double Percent
         {
-            get { return (double)GetValue(PercentProperty); }
-            set { SetValue(PercentProperty, value); }
+            get => (double)this.GetValue(PercentProperty);
+            set => this.SetValue(PercentProperty, value);
         }
         public static readonly DependencyProperty PercentProperty =
             DependencyProperty.Register("Percent", typeof(double), typeof(DataService), new PropertyMetadata(0.0));
 
         public bool HasCheckCompleted
         {
-            get { return (bool)GetValue(HasCheckCompletedProperty); }
-            set { SetValue(HasCheckCompletedProperty, value); }
+            get => (bool)this.GetValue(HasCheckCompletedProperty);
+            set => this.SetValue(HasCheckCompletedProperty, value);
         }
         public static readonly DependencyProperty HasCheckCompletedProperty =
-            DependencyProperty.Register("HasCheckCompleted", typeof(bool), typeof(DataService), new PropertyMetadata(false,OnCompleteStateChanged));
+            DependencyProperty.Register("HasCheckCompleted", typeof(bool), typeof(DataService), new PropertyMetadata(false, OnCompleteStateChanged));
 
         private static void OnCompleteStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => CompleteStateChanged?.Invoke((bool)e.NewValue);
 
         public static event Action<bool> CompleteStateChanged;
 
-        static int currentCount = 0;
+        private static int currentCount = 0;
 
-        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection,IProgress<int> progress) where T : KeySource
+        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection, IProgress<int> progress) where T : KeySource
         {
-            foreach(T t in collection)
+            foreach (T t in collection)
             {
                 try
                 {
@@ -527,14 +527,14 @@ namespace DGP.Genshin.Services
         /// </summary>
         public async Task CheckAllIntegrityAsync()
         {
-            HasCheckCompleted = false;
-            CurrentCount = 0;
-            TotalCount = this.Bosses.Count + this.Characters.Count + this.Cities.Count +
+            this.HasCheckCompleted = false;
+            this.CurrentCount = 0;
+            this.TotalCount = this.Bosses.Count + this.Characters.Count + this.Cities.Count +
                            this.DailyTalents.Count + this.DailyWeapons.Count + this.Elements.Count +
                            this.Elites.Count + this.GemStones.Count + this.Locals.Count +
                            this.Monsters.Count + this.Stars.Count + this.Weapons.Count +
                            this.WeaponTypes.Count + this.WeeklyTalents.Count;
-            Progress<int> progress = new Progress<int>(i => { CurrentCount = i; Percent = i * 1.0 / TotalCount; });
+            Progress<int> progress = new Progress<int>(i => { this.CurrentCount = i; this.Percent = i * 1.0 / this.TotalCount; });
 
             await this.CheckIntegrityAsync(this.Bosses, progress);
             await this.CheckIntegrityAsync(this.Characters, progress);
@@ -551,7 +551,7 @@ namespace DGP.Genshin.Services
             await this.CheckIntegrityAsync(this.WeaponTypes, progress);
             await this.CheckIntegrityAsync(this.WeeklyTalents, progress);
 
-            HasCheckCompleted = true;
+            this.HasCheckCompleted = true;
         }
         #endregion
     }

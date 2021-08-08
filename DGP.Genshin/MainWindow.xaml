@@ -5,17 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
-        xmlns:pages="clr-namespace:DGP.Genshin.Pages" xmlns:cf="clr-namespace:DGP.Genshin.Controls"
+        xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
+        xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
+        xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         mc:Ignorable="d"
         Title="Snap原神" 
-        MinWidth="1180"
-        MinHeight="740"
-        Width="1180"
-        Height="740" 
+        MinWidth="1046"
+        MinHeight="680"
+        Width="1046"
+        Height="680" 
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <converters:DevModeVisibilityConverter x:Key="DevModeVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -36,17 +39,26 @@
                         <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/weapons_35.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItemSeparator/>
+                
+                <ui:NavigationViewItemHeader Content="查询工具"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/wish_35.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
+                
+                <ui:NavigationViewItemHeader Content="高级工具" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
+                <ui:NavigationViewItem Content="伤害计算" helpers:NavHelper.NavigateTo="{x:Type pages:CalculationsPage}" Icon="Calculator" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame"/>
         </ui:NavigationView>
-        <Image Height="16" Margin="16,8" HorizontalAlignment="Left" VerticalAlignment="Top" Source="SG_Logo.ico" SnapsToDevicePixels="True"/>
-        <cf:SplashView InitializeCompleted="SplashInitializeCompleted"/>
+        <Image Height="16" Margin="16,10" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               Source="SG_Logo.ico" 
+               SnapsToDevicePixels="True"
+               RenderOptions.BitmapScalingMode="HighQuality"/>
+        <cf:SplashView InitializeCompleted="SplashInitializeCompleted" d:IsHidden="True"/>
     </Grid>
 </Window>

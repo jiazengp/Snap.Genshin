@@ -11,18 +11,33 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="武器">
     <Grid>
-        <s:SmoothScrollViewer>
-            <ui:GridView HorizontalAlignment="Center" IsSelectionEnabled="False" Margin="16,0" ItemsSource="{Binding Weapons}">
-                <ui:GridView.ItemTemplate>
-                    <DataTemplate>
-                        <controls:ContentIcon Width="70" Height="70" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ui:CommandBar Grid.Row="0">
+            <ui:AppBarButton Label="排序" Icon="Sort" IsEnabled="False"/>
+        </ui:CommandBar>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <w:WeaponItem Margin="12" VerticalAlignment="Top" DataContext="{Binding SelectedWeapon}"/>
+            <s:SmoothScrollViewer Grid.Column="1" Padding="0,0,16,0">
+                <ui:GridView HorizontalAlignment="Left" ItemsSource="{Binding Weapons}" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}"  Padding="0,12,0,0">
+                    <ui:GridView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ContentIcon Width="70" Height="70" 
                                   BadgeUrl="{Binding Type}"
                                   BackgroundUrl="{Binding Star}" 
                                   ForegroundUrl="{Binding Source}" 
-                                  Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ui:GridView.ItemTemplate>
-            </ui:GridView>
-        </s:SmoothScrollViewer>
+                                  Text="{Binding Name}"
+                                                  IsHitTestVisible="False"/>
+                        </DataTemplate>
+                    </ui:GridView.ItemTemplate>
+                </ui:GridView>
+            </s:SmoothScrollViewer>
+        </Grid>
     </Grid>
 </Page>

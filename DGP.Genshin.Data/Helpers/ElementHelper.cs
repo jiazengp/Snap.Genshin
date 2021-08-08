@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DGP.Genshin.Data.Helpers
+﻿namespace DGP.Genshin.Data.Helpers
 {
     public class ElementHelper
     {
-        public static string FromENGName(string element)
-        {
-            return $@"https://genshin.honeyhunterworld.com/img/icons/element/{element.ToLower()}.png";
-        }
+        public static string FromENGName(string element) => $@"https://genshin.honeyhunterworld.com/img/icons/element/{element.ToLower()}.png";
 
         public static string ConvertCHSToENG(string s)
         {

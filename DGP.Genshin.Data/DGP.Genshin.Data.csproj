@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Characters\Character.cs" />
-    <Compile Include="DataManager.cs" />
     <Compile Include="Helpers\CharacterHelper.cs" />
     <Compile Include="Helpers\ElementHelper.cs" />
     <Compile Include="Helpers\StarHelper.cs" />
@@ -80,6 +79,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Simulations\Simulation.cs" />
+    <Compile Include="Simulations\SimulationCollection.cs" />
+    <Compile Include="Simulations\SimulationInput.cs" />
+    <Compile Include="Simulations\Simulator.cs" />
     <Compile Include="Weapons\Weapon.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -90,6 +93,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj">
+      <Project>{D2950839-0EEB-4C45-B791-E756A1D552F5}</Project>
+      <Name>DGP.Snap.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

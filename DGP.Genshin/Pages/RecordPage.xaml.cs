@@ -11,7 +11,7 @@ namespace DGP.Genshin.Pages
     /// <summary>
     /// RecordPage.xaml 的交互逻辑
     /// </summary>
-    public partial class RecordPage : System.Windows.Controls.Page
+    public partial class RecordPage : Page
     {
         public RecordPage()
         {
@@ -23,8 +23,8 @@ namespace DGP.Genshin.Pages
             this.InitializeComponent();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e) => RecordService.Instance.Login();
 
+        private void LoginButton_Click(object sender, RoutedEventArgs e) => RecordService.Instance.Login();
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -72,7 +72,6 @@ namespace DGP.Genshin.Pages
                 return;
             }
         }
-
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e) =>
             ((AutoSuggestBox)sender).Text = RecordService.Instance.CurrentRecord?.UserId;
     }

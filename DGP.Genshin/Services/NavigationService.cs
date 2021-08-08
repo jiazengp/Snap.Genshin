@@ -71,8 +71,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                Type target = this.selected.GetValue(NavHelper.NavigateToProperty) as Type;
-                this.Navigate(target);
+                this.Navigate(this.selected.GetValue(NavHelper.NavigateToProperty) as Type);
             }
         }
     }

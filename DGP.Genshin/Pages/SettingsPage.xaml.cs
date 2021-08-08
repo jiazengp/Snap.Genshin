@@ -77,7 +77,7 @@ namespace DGP.Genshin.Pages
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
             UpdateState u = UpdateService.Instance.CheckUpdateStateViaGithub();
-            
+
             switch (u)
             {
                 case UpdateState.NeedUpdate:
@@ -111,7 +111,7 @@ namespace DGP.Genshin.Pages
         }
         internal static void SetAppTheme()
         {
-            static ApplicationTheme? converter(object n) => 
+            static ApplicationTheme? converter(object n) =>
                 n == null ? null : (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), n.ToString());
             ThemeManager.Current.ApplicationTheme = SettingService.Instance.GetOrDefault(Setting.AppTheme, null, converter);
         }

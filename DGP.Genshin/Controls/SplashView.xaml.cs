@@ -29,10 +29,7 @@ namespace DGP.Genshin.Controls
             this.InitializeComponent();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            await DataService.Instance.CheckAllIntegrityAsync();
-        }
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e) => await DataService.Instance.CheckAllIntegrityAsync();
 
         public event Action InitializeCompleted;
     }
