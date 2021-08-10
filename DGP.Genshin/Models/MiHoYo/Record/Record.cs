@@ -22,5 +22,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         public SpiralAbyss.SpiralAbyss SpiralAbyss { get; set; }
         public SpiralAbyss.SpiralAbyss LastSpiralAbyss { get; set; }
         public List<DetailedAvatar> DetailedAvatars { get; set; }
+        public dynamic Activities { get; set; }
     }
 }

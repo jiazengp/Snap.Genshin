@@ -29,15 +29,15 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         }
         public async Task<Record> GetRecordAsync(string uid)
         {
-
+            //figure out the server
             string server = null;
             try
             {
                 server = new Dictionary<char, string>()
                 {
                     { '1', "cn_gf01" },
- 
                     { '5', "cn_qd01" },
+                    //server below is not supported by this api
                     //{ '6', "os_usa" },
                     //{ '7', "os_euro" },
                     //{ '8', "os_asia" },
@@ -73,6 +73,14 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             if (lastSpiralAbyss.ReturnCode != 0)
                 return new Record($"获取上期深渊螺旋信息失败：\n{lastSpiralAbyss.Message}");
 
+            Response<dynamic> activitiesInfo = await Task.Run(() =>
+            {
+                return this.Get<dynamic>(
+                   $@"{APIBaseUrl}/activities?server={server}&role_id={uid}");
+            });
+            if (activitiesInfo.ReturnCode != 0)
+                return new Record($"获取活动信息失败：\n{activitiesInfo.Message}");
+
             //we can actually download this separate later.
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
@@ -85,7 +93,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                        Server = server
                    }));
             });
-
+            if (roles.ReturnCode != 0)
+                return new Record($"获取详细角色信息失败：\n{roles.Message}");
+            //return
             return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
             {
                 Success = true,
@@ -94,11 +104,12 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 PlayerInfo = playerInfo.Data,
                 SpiralAbyss = spiralAbyss.Data,
                 LastSpiralAbyss = lastSpiralAbyss.Data,
-                DetailedAvatars = roles.Data.Avatars
+                DetailedAvatars = roles.Data.Avatars,
+                Activities = activitiesInfo.Data
             };
         }
         #region Request Methods
-        private Response<T> Request<T>(Func<WebClient, string> requestFunc)
+        private Response<T> Request<T>(Func<WebClient, string> requestMethod)
         {
             try
             {
@@ -108,7 +119,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
                 client.Headers["x-rpc-app_version"] = APIAppVersion;
                 client.Headers["DS"] = this.CreateDynamicSecret();
                 client.Headers["Cookie"] = RecordService.Instance.LoginTicket;
-                string response = requestFunc(client);
+                string response = requestMethod(client);
                 return Json.ToObject<Response<T>>(response);
             }
             catch (Exception ex)
@@ -129,6 +140,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         {
             //unix timestamp
             long time = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+
             string random = this.CreateRandomString(6);
             string check = this.ComputeMd5($"salt={APISalt}&t={time}&r={random}");
 
@@ -149,16 +161,14 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         }
         private string ComputeMd5(string content)
         {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] result = md5.ComputeHash(Encoding.UTF8.GetBytes(content ?? ""));
+            using MD5 md5 = MD5.Create();
+            byte[] result = md5.ComputeHash(Encoding.UTF8.GetBytes(content));
 
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in result)
-                    builder.Append(b.ToString("x2"));
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in result)
+                builder.Append(b.ToString("x2"));
 
-                return builder.ToString();
-            }
+            return builder.ToString();
         }
         #endregion
         #region 单例
@@ -185,5 +195,12 @@ namespace DGP.Genshin.Models.MiHoYo.Record
             }
         }
         #endregion
+
+        //https://api-takumi.mihoyo.com/game_record/card/wapi/getGameRecordCard?uid=***
+        //https://hk4e-api.mihoyo.com/event/simulator/lineup/index?uid=***&region=cn_gf01&gids=2&order=0&target_id=0&roles=&category=0&page=2&limit=10
+
+        //1628558499,ijcm88,78a0a082de6f12720b2a196e310a19d3
+        //1628558498,leggk7,f36220dc99ab3b5945f0eb65ad3bf573
+        //1628558497,aad7g1,d32bfd97ffd3619d97a6677fdc12cc50
     }
 }

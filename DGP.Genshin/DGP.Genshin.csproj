@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Controls\Converters\DevModeVisibilityConverter.cs" />
     <Compile Include="Controls\Converters\KeySourceConverters.cs" />
+    <Compile Include="Controls\Converters\LongDateTimeConverter.cs" />
     <Compile Include="Controls\EditDialogs\CharacterDialog.xaml.cs">
       <DependentUpon>CharacterDialog.xaml</DependentUpon>
     </Compile>
@@ -127,6 +128,7 @@
     <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticFactory.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticItem.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\StatisticItem5Star.cs" />
+    <Compile Include="Models\MiHoYo\Record\Activity\Activities.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Avatar.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\DetailedAvatarInfo.cs" />
     <Compile Include="Models\MiHoYo\Record\CityExploration.cs" />
