@@ -7,7 +7,7 @@ using System.Linq;
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
     /// <summary>
-    /// a very dirty builders
+    /// a very dirty builder
     /// </summary>
     public class StatisticFactory
     {
@@ -28,13 +28,15 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         private static StatisticBanner ToBanner(Dictionary<string, List<GachaLogItem>> dict, string type, string name)
         {
             List<GachaLogItem> list = dict[type];
+            int index = list.FindIndex(i => i.Rank == "5");
+
             StatisticBanner banner = new StatisticBanner()
             {
                 TotalCount = list.Count,
                 StartTime = list.Last().Time,
                 EndTime = list.First().Time,
                 CurrentName = name,
-                CountSinceLastStar5 = list.FindIndex(i => i.Rank == "5"),
+                CountSinceLastStar5 = index == -1 ? 0 : index,
                 Star5Count = list.Count(i => i.Rank == "5"),
                 Star4Count = list.Count(i => i.Rank == "4"),
                 Star3Count = list.Count(i => i.Rank == "3"),
