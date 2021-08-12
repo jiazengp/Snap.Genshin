@@ -1,16 +1,17 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
+using DGP.Snap.Framework.Data.Behavior;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Services.GachaStatistic
 {
-    public class GachaStatisticService : DependencyObject, INotifyPropertyChanged
+    /// <summary>
+    /// 抽卡记录服务
+    /// </summary>
+    public class GachaStatisticService : Observable
     {
         private GachaLogProvider gachaLogProvider;
         private readonly object providerLocker = new object();
@@ -31,6 +32,18 @@ namespace DGP.Genshin.Services.GachaStatistic
                 return this.gachaLogProvider;
             }
         }
+
+        public GachaStatisticService()
+        {
+            this.Initialize();
+        }
+        ~GachaStatisticService()
+        {
+            this.UnInitialize();
+        }
+
+        public void Initialize() => this.LoadLocalData();
+        public void UnInitialize() => this.gachaLogProvider = null;
 
         #region observables
         private Statistic statistic;
@@ -101,39 +114,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public async Task ExportDataToExcelAsync()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveGachaDataToExcel($@"{path}\{this.SelectedUid}.xlsx"));
+            await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveLocalGachaDataToExcel($@"{path}\{this.SelectedUid}.xlsx"));
         }
-        public void Initialize() => this.LoadLocalData();
-        public void UnInitialize() 
-        {
-            this.gachaLogProvider = null;
-        }
-
-        public GachaStatisticService()
-        {
-            this.Initialize();
-        }
-
-        ~GachaStatisticService()
-        {
-            UnInitialize();
-        }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            this.OnPropertyChanged(propertyName);
-        }
-
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        #endregion
     }
 }

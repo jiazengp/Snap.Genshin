@@ -1,12 +1,15 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Attributes;
+using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Controls.CachedImage
 {
     /// <summary>
-    ///     Represents a control that is a wrapper on System.Windows.Controls.Image for enabling filesystem-based caching
+    /// <see cref="System.Windows.Controls.Image"/> 的带缓存包装
+    /// 实现本地图像缓存
     /// </summary>
+    [Github("https://github.com/floydpink/CachedImage/blob/main/source/Image.cs")]
     public class CachedImage : System.Windows.Controls.Image
     {
         static CachedImage()
@@ -57,10 +60,10 @@ namespace DGP.Genshin.Controls.CachedImage
             }
         }
 
-        public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.Register("ImageUrl",
-            typeof(string), typeof(CachedImage), new PropertyMetadata("", ImageUrlPropertyChanged));
+        public static readonly DependencyProperty ImageUrlProperty =
+            DependencyProperty.Register("ImageUrl", typeof(string), typeof(CachedImage), new PropertyMetadata("", ImageUrlPropertyChanged));
 
-        public static readonly DependencyProperty CreateOptionsProperty = DependencyProperty.Register("CreateOptions",
-            typeof(BitmapCreateOptions), typeof(CachedImage));
+        public static readonly DependencyProperty CreateOptionsProperty =
+            DependencyProperty.Register("CreateOptions", typeof(BitmapCreateOptions), typeof(CachedImage));
     }
 }

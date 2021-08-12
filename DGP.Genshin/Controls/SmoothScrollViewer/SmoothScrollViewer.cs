@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Helpers;
+using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Data.Behavior;
 using System;
 using System.Windows;
@@ -9,12 +10,11 @@ using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Controls.SmoothScrollViewer
 {
+    [Github("https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Controls/Other/ScrollViewer.cs")]
     public class SmoothScrollViewer : ScrollViewer
     {
         private double _totalVerticalOffset;
-
         private double _totalHorizontalOffset;
-
         private bool _isRunning;
 
         /// <summary>
@@ -22,7 +22,6 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
             "Orientation", typeof(Orientation), typeof(SmoothScrollViewer), new PropertyMetadata(Orientation.Vertical));
-
         /// <summary>
         ///     滚动方向
         /// </summary>
@@ -37,7 +36,6 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public static readonly DependencyProperty CanMouseWheelProperty = DependencyProperty.Register(
             "CanMouseWheel", typeof(bool), typeof(SmoothScrollViewer), new PropertyMetadata(ValueBoxes.TrueBox));
-
         /// <summary>
         ///     是否响应鼠标滚轮操作
         /// </summary>
@@ -144,9 +142,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public static readonly DependencyProperty IsInertiaEnabledProperty = DependencyProperty.RegisterAttached(
             "IsInertiaEnabled", typeof(bool), typeof(SmoothScrollViewer), new PropertyMetadata(ValueBoxes.TrueBox));
-
         public static void SetIsInertiaEnabled(DependencyObject element, bool value) => element.SetValue(IsInertiaEnabledProperty, ValueBoxes.BooleanBox(value));
-
         public static bool GetIsInertiaEnabled(DependencyObject element) => (bool)element.GetValue(IsInertiaEnabledProperty);
 
         /// <summary>

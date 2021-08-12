@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
 {
+    /// <summary>
+    /// 表示一次战斗
+    /// </summary>
     public class Battle
     {
         [JsonProperty("index")] public int Index { get; set; }

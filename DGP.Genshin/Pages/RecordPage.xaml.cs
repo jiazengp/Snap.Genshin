@@ -15,7 +15,7 @@ namespace DGP.Genshin.Pages
     {
         public RecordPage()
         {
-            if (!RecordAPI.Instance.GetLoginStatus())
+            if (!RecordService.Instance.GetLoginStatus())
             {
                 RecordService.Instance.Login();
             }
@@ -23,11 +23,10 @@ namespace DGP.Genshin.Pages
             this.InitializeComponent();
         }
 
-
         private void LoginButton_Click(object sender, RoutedEventArgs e) => RecordService.Instance.Login();
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput|| args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 IEnumerable<string> result = RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无记录" } : result;
@@ -37,8 +36,10 @@ namespace DGP.Genshin.Pages
             sender.Text = (string)args.SelectedItem;
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            string uid = args.QueryText;
-            Record record = await RecordAPI.Instance.GetRecordAsync(uid);
+            this.RequestingProgressRing.IsActive = true;
+            string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
+            Record record = await RecordService.Instance.GetRecordAsync(uid);
+            this.RequestingProgressRing.IsActive = false;
             if (record.Success)
             {
                 RecordService service = RecordService.Instance;
@@ -69,10 +70,7 @@ namespace DGP.Genshin.Pages
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
                 }
-                return;
             }
         }
-        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e) =>
-            ((AutoSuggestBox)sender).Text = RecordService.Instance.CurrentRecord?.UserId;
     }
 }

@@ -2,7 +2,10 @@
 
 namespace DGP.Genshin.Models.Github
 {
-    public class People
+    /// <summary>
+    /// 表示一个用户
+    /// </summary>
+    public class Person
     {
         [JsonProperty("login")] public string Login { get; set; }
         [JsonProperty("id")] public int Id { get; set; }

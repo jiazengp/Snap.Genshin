@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
+    /// <summary>
+    /// 包含一个角色的基础信息
+    /// </summary>
     internal class Avatar
     {
         [JsonProperty("id")] public int Id { get; set; }

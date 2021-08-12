@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha
 {
+    /// <summary>
+    /// 奖池类型信息
+    /// </summary>
     public class ConfigType
     {
         [JsonProperty("id")] public string Id { get; set; }

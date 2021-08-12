@@ -14,22 +14,6 @@
 
     </Page.Resources>
     <Grid>
-        <ui:ContentDialog x:Name="UpdateDialog" Title="下载更新中" CloseButtonText="取消" DefaultButton="Close" CloseButtonClick="UpdateCancellationRequested" d:IsHidden="True">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel Margin="0,0,0,4">
-                    <TextBlock Text="{Binding UpdateInfo.Title}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock Text="{Binding UpdateInfo.Detail}" Margin="0,4" Style="{StaticResource BodyTextBlockStyle}"/>
-                </StackPanel>
-                
-                <TextBlock Grid.Row="1" Text="{Binding UpdateInfo.ProgressText}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Center"/>
-                <ui:ProgressBar Grid.Row="2" Minimum="0" Maximum="1" Value="{Binding UpdateInfo.Progress}"/>
-            </Grid>
-        </ui:ContentDialog>
         <s:SmoothScrollViewer Margin="12,0,0,0">
             <StackPanel Margin="0,0,0,12">
                 <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>

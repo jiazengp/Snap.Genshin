@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
 {
+    /// <summary>
+    /// 角色数值排行信息
+    /// </summary>
     public class Rank
     {
         [JsonProperty("avatar_id")] public int AvatarId { get; set; }

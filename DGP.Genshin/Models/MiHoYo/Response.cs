@@ -2,7 +2,10 @@
 
 namespace DGP.Genshin.Models.MiHoYo
 {
-    //A standard Mihoyo API response
+    /// <summary>
+    /// Mihoyo 标准API响应
+    /// </summary>
+    /// <typeparam name="T">数据类型</typeparam>
     public class Response<T>
     {
         /// <summary>

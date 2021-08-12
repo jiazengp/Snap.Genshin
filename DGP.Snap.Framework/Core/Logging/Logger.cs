@@ -4,14 +4,14 @@ using System.IO;
 
 namespace DGP.Snap.Framework.Core.Logging
 {
-    internal class Logger
+    public class Logger
     {
         private readonly bool isLoggingtoFile = true;
         private readonly bool isLoggingtoConsole = true;
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        public void Log(object obj, object info, Func<object, string> formatter = null)
+        internal void Log(object obj, object info, Func<object, string> formatter = null)
         {
             if (formatter != null)
                 info = formatter.Invoke(info);
@@ -21,7 +21,7 @@ namespace DGP.Snap.Framework.Core.Logging
 
             if (this.isLoggingtoFile)
             {
-                this.loggerWriter.WriteLine($"{DateTime.Now} | DEBUG | {typename}:\n{info}");
+                this.loggerWriter.WriteLine($"{typename}:\n{info}");
             }
             if (this.isLoggingtoConsole)
             {

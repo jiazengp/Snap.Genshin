@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
+    /// <summary>
+    /// 请求详细角色数据提交数据
+    /// </summary>
     internal class CharacterQueryPostData
     {
         [JsonProperty("character_ids")] public List<int> CharacterIds { get; set; }

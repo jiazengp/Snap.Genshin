@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
+    /// <summary>
+    /// 角色装扮
+    /// </summary>
     internal class Costume
     {
         [JsonProperty("id")] public int Id { get; set; }

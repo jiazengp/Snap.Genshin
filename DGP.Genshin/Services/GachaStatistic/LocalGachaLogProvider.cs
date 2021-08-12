@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistic
 {
+    /// <summary>
+    /// 本地抽卡记录提供器
+    /// </summary>
     public class LocalGachaLogProvider : Observable
     {
         private static readonly string localFolderName = "GachaStatistic";
@@ -31,6 +34,17 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         public void CreateEmptyUser(string uid) => this.Data.Add(uid, new GachaData());
 
+        /// <summary>
+        /// 获取最新的时间戳id
+        /// </summary>
+        /// <returns>default 0</returns>
+        public long GetNewestTimeId(ConfigType type, string uid)
+        {
+            return this.Data.ContainsKey(uid) && this.Data[uid].ContainsKey(type.Key)
+                ? this.Data[uid][type.Key]/*.OrderByDescending(i => i.TimeId)*/.First().TimeId
+                : 0L;
+        }
+
         #region load&save
         private void LoadAllLogs()
         {
@@ -49,7 +63,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 FileInfo fileInfo = new FileInfo(p);
                 using StreamReader reader = new StreamReader(fileInfo.OpenRead());
                 string typeName = fileInfo.Name.Replace(".json", "");
-                this.Data[uid].GachaLogs.Add(typeName, Json.ToObject<List<GachaLogItem>>(reader.ReadToEnd()));
+                this.Data[uid].Add(typeName, Json.ToObject<List<GachaLogItem>>(reader.ReadToEnd()));
             }
         }
 
@@ -63,7 +77,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public void SaveLogOf(string uid)
         {
             Directory.CreateDirectory($@"{localFolderName}\{uid}");
-            foreach (KeyValuePair<string, List<GachaLogItem>> entry in this.Data[uid].GachaLogs)
+            foreach (KeyValuePair<string, List<GachaLogItem>> entry in this.Data[uid])
             {
                 using StreamWriter writer = new StreamWriter(File.Create($@"{localFolderName}\{uid}\{entry.Key}.json"));
                 writer.Write(Json.Stringify(entry.Value));
@@ -71,30 +85,19 @@ namespace DGP.Genshin.Services.GachaStatistic
         }
         #endregion
 
-        /// <summary>
-        /// 获取最新的时间戳id
-        /// </summary>
-        /// <returns>default 0</returns>
-        public long GetNewestTimeId(ConfigType type, string uid)
-        {
-            return this.Data.ContainsKey(uid) && this.Data[uid].GachaLogs.ContainsKey(type.Key)
-                ? this.Data[uid].GachaLogs[type.Key]/*.OrderByDescending(i => i.TimeId)*/.First().TimeId
-                : 0L;
-        }
-
         #region export
         private readonly object processing = new object();
-        public void SaveGachaDataToExcel(string fileName)
+        public void SaveLocalGachaDataToExcel(string fileName)
         {
             lock (this.processing)
             {
                 IWorkbook workbook = new XSSFWorkbook();
                 if (this.Data.ContainsKey(this.Service.SelectedUid))
                 {
-                    foreach (string pool in this.Data[this.Service.SelectedUid].GachaLogs.Keys)
+                    foreach (string pool in this.Data[this.Service.SelectedUid].Keys)
                     {
                         ISheet sheet = workbook.CreateSheet(pool);
-                        IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid].GachaLogs[pool];
+                        IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid][pool];
                         IEnumerable<GachaLogItem> rlogs = logs.Reverse();
                         //header
                         IRow header = sheet.CreateRow(0);

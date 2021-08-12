@@ -47,6 +47,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\GithubAttribute.cs" />
+    <Compile Include="Attributes\HandleEventAttribute.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Core\Concurrent\ThreadSafe.cs" />

@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
+    /// <summary>
+    /// 家园信息
+    /// </summary>
     internal class Home
     {
         [JsonProperty("level")] public int Level { get; set; }

@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
+    /// <summary>
+    /// 圣遗物
+    /// </summary>
     internal class Reliquary
     {
         [JsonProperty("id")] public int Id { get; set; }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
+    /// <summary>
+    /// 单个奖池统计信息
+    /// </summary>
     public class StatisticBanner
     {
         public int TotalCount { get; set; }
@@ -19,6 +22,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public int Star4Count { get; set; }
         public double Star3Prob { get; set; }
         public int Star3Count { get; set; }
+
+        public int NextStar5PredictCount { get; set; }
 
         public double AverageGetStar5 { get; set; }
         public int MaxGetStar5Count { get; set; }

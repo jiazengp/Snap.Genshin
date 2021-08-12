@@ -115,6 +115,7 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                                 <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.AverageGetStar5,StringFormat={}平均 {0:f} 抽1个五星}"/>
+                                <TextBlock Margin="0,0,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.NextStar5PredictCount,StringFormat={}预计 {0} 抽后出货}"/>
                                 <Grid>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}"/>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}"/>
@@ -202,6 +203,7 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                                 <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.AverageGetStar5,StringFormat={}平均 {0:f} 抽1个五星}"/>
+                                <TextBlock Margin="0,0,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.NextStar5PredictCount,StringFormat={}预计 {0} 抽后出货}"/>
                                 <Grid>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}"/>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}"/>
@@ -289,6 +291,7 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                                 <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.AverageGetStar5,StringFormat={}平均 {0:f} 抽1个五星}"/>
+                                <TextBlock Margin="0,0,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.NextStar5PredictCount,StringFormat={}预计 {0} 抽后出货}"/>
                                 <Grid>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}"/>
                                     <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}"/>

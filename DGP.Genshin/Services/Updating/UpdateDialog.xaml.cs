@@ -1,16 +1,29 @@
-﻿using System.Windows.Controls;
+﻿using ModernWpf.Controls;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DGP.Genshin.Services.Updating
 {
     /// <summary>
     /// UpdateDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class UpdateDialog : UserControl
+    public partial class UpdateDialog : ContentDialog
     {
         public UpdateDialog()
         {
-            this.DataContext = this;
+            UpdateService.Instance.UpdateInfo = this.UpdateInfo;
             this.InitializeComponent();
         }
+
+        private void UpdateCancellationRequested(ContentDialog sender, ContentDialogButtonClickEventArgs args) => UpdateService.Instance.CancelUpdate();
+
+        public UpdateInfo UpdateInfo
+        {
+            get => (UpdateInfo)this.GetValue(UpdateInfoProperty);
+            set => this.SetValue(UpdateInfoProperty, value);
+        }
+        public static readonly DependencyProperty UpdateInfoProperty =
+            DependencyProperty.Register("UpdateInfo", typeof(UpdateInfo), typeof(UpdateDialog), new PropertyMetadata(new UpdateInfo()));
+
     }
 }

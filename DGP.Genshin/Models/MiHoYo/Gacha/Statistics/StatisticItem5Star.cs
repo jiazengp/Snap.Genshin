@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
+    /// <summary>
+    /// 带有个数统计的奖池统计5星物品
+    /// </summary>
     public class StatisticItem5Star
     {
         public string Name { get; set; }

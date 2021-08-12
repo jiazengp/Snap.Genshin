@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
 {
+    /// <summary>
+    /// 间
+    /// </summary>
     public class Level
     {
         [JsonProperty("index")] public int Index { get; set; }

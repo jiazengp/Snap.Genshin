@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistic
 {
+    /// <summary>
+    /// 联机抽卡记录提供器
+    /// </summary>
     public class GachaLogProvider
     {
         private const string gachaLogBaseUrl = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
@@ -102,11 +105,10 @@ namespace DGP.Genshin.Services.GachaStatistic
                         if (!this.LocalGachaLogProvider.Data.ContainsKey(item.Uid))
                         {
                             this.LocalGachaLogProvider.CreateEmptyUser(item.Uid);
-                            this.Service.Invoke(() => this.Service.Uids.Add(item.Uid));
+                            App.Current.Dispatcher.Invoke(() => this.Service.Uids.Add(item.Uid));
                             this.Service.SelectedUid = item.Uid;
                         }
-                        long time = this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid);
-                        if (item.TimeId > time)
+                        if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
                         {
                             result.Add(item);
                         }
@@ -135,7 +137,7 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
         {
-            Dictionary<string, List<GachaLogItem>> dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid].GachaLogs;
+            GachaData dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid];
             if (dict.ContainsKey(type.Key))
             {
                 List<GachaLogItem> local = dict[type.Key];

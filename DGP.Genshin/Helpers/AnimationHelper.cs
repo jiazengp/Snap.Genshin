@@ -1,4 +1,5 @@
-﻿using DGP.Snap.Framework.Data.Regex;
+﻿using DGP.Snap.Framework.Attributes;
+using DGP.Snap.Framework.Data.Regex;
 using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Text;
@@ -9,10 +10,11 @@ using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Helpers
 {
+    [Github("https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Tools/Helper/AnimationHelper.cs")]
     public class AnimationHelper
     {
         /// <summary>
-        ///     创建一个Thickness动画
+        /// 创建一个Thickness动画
         /// </summary>
         /// <param name="thickness"></param>
         /// <param name="milliseconds"></param>
@@ -26,7 +28,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     创建一个Double动画
+        /// 创建一个Double动画
         /// </summary>
         /// <param name="toValue"></param>
         /// <param name="milliseconds"></param>

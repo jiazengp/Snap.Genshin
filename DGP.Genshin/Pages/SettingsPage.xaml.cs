@@ -36,13 +36,6 @@ namespace DGP.Genshin.Pages
         }
 
         #region propdp
-        public UpdateInfo UpdateInfo
-        {
-            get => (UpdateInfo)this.GetValue(UpdateInfoProperty);
-            set => this.SetValue(UpdateInfoProperty, value);
-        }
-        public static readonly DependencyProperty UpdateInfoProperty =
-            DependencyProperty.Register("UpdateInfo", typeof(UpdateInfo), typeof(SettingsPage), new PropertyMetadata(new UpdateInfo()));
 
         public string VersionString
         {
@@ -75,14 +68,13 @@ namespace DGP.Genshin.Pages
 
         private async void UpdateRequested(object sender, RoutedEventArgs e)
         {
-            UpdateService.Instance.UpdateInfo = this.UpdateInfo;
             UpdateState u = UpdateService.Instance.CheckUpdateStateViaGithub();
 
             switch (u)
             {
                 case UpdateState.NeedUpdate:
                     UpdateService.Instance.DownloadAndInstallPackage();
-                    await this.UpdateDialog.ShowAsync();
+                    await new UpdateDialog().ShowAsync();
                     break;
                 case UpdateState.IsNewestRelease:
                     ((Button)sender).Content = "已是最新版";
@@ -98,7 +90,7 @@ namespace DGP.Genshin.Pages
                     break;
             }
         }
-        private void UpdateCancellationRequested(ModernWpf.Controls.ContentDialog sender, ModernWpf.Controls.ContentDialogButtonClickEventArgs args) => UpdateService.Instance.CancelUpdate();
+        
         private void ThemeChangeRequested(object sender, SelectionChangedEventArgs e)
         {
             SettingService.Instance[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch

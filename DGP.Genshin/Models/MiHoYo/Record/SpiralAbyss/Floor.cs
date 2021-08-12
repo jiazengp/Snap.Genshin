@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
 {
+    /// <summary>
+    /// 层
+    /// </summary>
     public class Floor
     {
         [JsonProperty("index")] public int Index { get; set; }

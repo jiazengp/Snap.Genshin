@@ -7,27 +7,26 @@ using System.Linq;
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
     /// <summary>
-    /// a very dirty builder
+    /// 构造奖池统计信息的工厂类
     /// </summary>
-    public class StatisticFactory
+    public static class StatisticFactory
     {
-        public static Statistic ToStatistic(GachaData gachaData, string uid)
+        public static Statistic ToStatistic(GachaData data, string uid)
         {
-            Dictionary<string, List<GachaLogItem>> dict = gachaData.GachaLogs;
             return new Statistic()
             {
                 Uid = uid,
-                Permanent = ToBanner(dict, ConfigType.PermanentWish, "奔行世间"),
-                WeaponEvent = ToBanner(dict, ConfigType.WeaponEventWish, "神铸赋形"),
-                CharacterEvent = ToBanner(dict, ConfigType.CharacterEventWish, "角色活动"),
-                Characters = ToTotalCountList(dict, "角色"),
-                Weapons = ToTotalCountList(dict, "武器")
+                Permanent = ToBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0),
+                WeaponEvent = ToBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0),
+                CharacterEvent = ToBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0),
+                Characters = ToTotalCountList(data, "角色"),
+                Weapons = ToTotalCountList(data, "武器")
             };
         }
 
-        private static StatisticBanner ToBanner(Dictionary<string, List<GachaLogItem>> dict, string type, string name)
+        private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob)
         {
-            List<GachaLogItem> list = dict[type];
+            List<GachaLogItem> list = data[type];
             int index = list.FindIndex(i => i.Rank == "5");
 
             StatisticBanner banner = new StatisticBanner()
@@ -56,6 +55,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.MinGetStar5Count = 0;
             }
 
+            banner.NextStar5PredictCount = (int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount);
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;

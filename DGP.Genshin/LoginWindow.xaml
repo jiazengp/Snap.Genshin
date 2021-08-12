@@ -15,10 +15,7 @@
         Closing="Window_Closing"
         Closed="Window_Closed"
         >
-    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <WebBrowser Name="LoginWebBrowser" 
+    <WebBrowser Name="LoginWebBrowser" 
                 Navigated="LoginWebBrowser_Navigated"    
-                Source="https://user.mihoyo.com/#/login/password"
-                />
-    </ScrollViewer>
+                Source="https://user.mihoyo.com/#/login/password"/>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
+using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf;
 using System;
@@ -25,7 +26,8 @@ namespace DGP.Genshin
             RecordService.Instance.UnInitialize();
             DataService.Instance.UnInitialize();
             SettingService.Instance.UnInitialize();
-            this.Log($"Exit with code:{e.ApplicationExitCode}");
+            this.Log($"Exit code:{e.ApplicationExitCode}");
+            Logger.Instance.UnInitialize();
             base.OnExit(e);
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)

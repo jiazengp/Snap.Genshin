@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
+    /// <summary>
+    /// 包装一次查询的数据
+    /// </summary>
     internal class Record
     {
         public Record()

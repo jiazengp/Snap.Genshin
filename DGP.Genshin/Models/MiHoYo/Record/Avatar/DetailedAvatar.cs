@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
+    /// <summary>
+    /// 角色详细详细
+    /// </summary>
     internal class DetailedAvatar : Avatar
     {
         /// <summary>

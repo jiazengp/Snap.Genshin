@@ -11,10 +11,12 @@ namespace DGP.Genshin
     public partial class LoginWindow : Window
     {
         private bool isLoggedIn;
-        public LoginWindow()
+        private LoginService service;
+        public LoginWindow(LoginService service)
         {
+            this.service = service;
+            service.LoginWindow = this;
             this.InitializeComponent();
-            RecordService.Instance.LoginWindow = this;
         }
 
         private void LoginWebBrowser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
@@ -23,7 +25,7 @@ namespace DGP.Genshin
             if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
                 this.isLoggedIn = true;
-                RecordService.Instance.OnLogin(true);
+                service.OnLogin(true);
             }
         }
 
@@ -31,7 +33,7 @@ namespace DGP.Genshin
         {
             if (!this.isLoggedIn)
             {
-                RecordService.Instance.OnLogin(false);
+                service.OnLogin(false);
             }
         }
 

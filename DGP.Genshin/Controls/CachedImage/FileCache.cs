@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Attributes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Controls.CachedImage
 {
+    [Github("https://github.com/floydpink/CachedImage/blob/main/source/FileCache.cs")]
     public static class FileCache
     {
         public enum CacheMode

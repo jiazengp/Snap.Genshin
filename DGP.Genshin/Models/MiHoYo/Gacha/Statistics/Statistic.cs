@@ -1,9 +1,11 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
-    public class Statistic : Observable
+    /// <summary>
+    /// 统计信息
+    /// </summary>
+    public class Statistic
     {
         public string Uid { get; set; }
         public StatisticBanner Permanent { get; set; }

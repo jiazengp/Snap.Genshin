@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
+    /// <summary>
+    /// 玩家统计数据
+    /// </summary>
     internal class PlayerStats
     {
         [JsonProperty("active_day_number")] public int ActiveDayNumber { get; set; }

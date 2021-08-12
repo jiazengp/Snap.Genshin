@@ -3,6 +3,9 @@ using System;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha
 {
+    /// <summary>
+    /// 表示获取的单个卡池物品信息
+    /// </summary>
     public class GachaLogItem
     {
         [JsonProperty("uid")] public string Uid { get; set; }
@@ -17,6 +20,5 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
         [JsonProperty("id")] public string Id { get; set; }
 
         [JsonIgnore] public long TimeId => Int64.Parse(this.Id);
-        public override string ToString() => this.Name;
     }
 }

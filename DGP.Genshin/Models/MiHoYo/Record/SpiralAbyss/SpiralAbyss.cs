@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
 {
+    /// <summary>
+    /// 深境螺旋信息
+    /// </summary>
     internal class SpiralAbyss
     {
         [JsonProperty("schedule_id")] public int ScheduleId { get; set; }

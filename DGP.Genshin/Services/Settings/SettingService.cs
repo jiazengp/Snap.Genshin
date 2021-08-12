@@ -65,11 +65,12 @@ namespace DGP.Genshin.Services.Settings
                 if (dict != null)
                 {
                     this.settingDictionary = dict;
-                    return;
+                }
+                else
+                {
+                    this.settingDictionary = new Dictionary<string, object>();
                 }
             }
-            File.Create(this.settingFile).Dispose();
-            this.settingDictionary = new Dictionary<string, object>();
         }
         public void UnInitialize()
         {
@@ -77,7 +78,6 @@ namespace DGP.Genshin.Services.Settings
             using StreamWriter sw = new StreamWriter(File.Create(this.settingFile));
             sw.Write(json);
         }
-
 
         #region 单例
         private static SettingService instance;
