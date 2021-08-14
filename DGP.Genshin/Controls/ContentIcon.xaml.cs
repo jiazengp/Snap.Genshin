@@ -41,5 +41,17 @@ namespace DGP.Genshin.Controls
         }
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(ContentIcon), new PropertyMetadata(""));
+
+
+
+        public bool IsCountVisible
+        {
+            get { return (bool)GetValue(IsCountVisibleProperty); }
+            set { SetValue(IsCountVisibleProperty, value); }
+        }
+        public static readonly DependencyProperty IsCountVisibleProperty =
+            DependencyProperty.Register("IsCountVisible", typeof(bool), typeof(ContentIcon), new PropertyMetadata(false));
+
+
     }
 }

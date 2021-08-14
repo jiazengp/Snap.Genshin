@@ -42,11 +42,14 @@
             </Setter>
         </Style>
     </Button.Resources>
-    <Grid>
+    <Grid >
         <c:CachedImage ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         <c:CachedImage ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
             <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
+        </Border>
+        <Border Background="#66000000" Height="16" Visibility="{Binding IsCountVisible,RelativeSource={RelativeSource FindAncestor,AncestorType=Button},Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Count}" FontSize="10"/>
         </Border>
         <Border Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <Border.Background>

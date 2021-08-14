@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
+         xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
          mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GachaStatisticPage">
@@ -16,7 +17,6 @@
         <SolidColorBrush x:Key="Star3Brush" Color="#FF5180CB"/>
         <SolidColorBrush x:Key="Star4Brush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="Star5Brush" Color="#FFBC6932"/>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -352,7 +352,7 @@
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
                                                               BadgeUrl="{Binding Element}"
-                                                              Text="{Binding Name}"/>
+                                                              IsCountVisible="True"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -368,7 +368,7 @@
                                     <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
-                                                              Text="{Binding Name}"/>
+                                                              IsCountVisible="True"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
