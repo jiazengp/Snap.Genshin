@@ -38,7 +38,7 @@ namespace DGP.Genshin.Services.Updating
 
                 if (new Version(newVersion) > this.CurrentVersion)//有新版本
                 {
-                    
+
                     return UpdateState.NeedUpdate;
                 }
                 else

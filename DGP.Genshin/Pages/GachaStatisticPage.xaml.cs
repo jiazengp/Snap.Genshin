@@ -25,7 +25,7 @@ namespace DGP.Genshin.Pages
         private void RefreshAppBarButtonClick(object sender, System.Windows.RoutedEventArgs e) => this.Service.Refresh();
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Service.UnInitialize();
+            this.Service.UnInitialize();
             base.OnNavigatedFrom(e);
         }
         private async void ExportExcelAppBarButtonClick(object sender, System.Windows.RoutedEventArgs e)
@@ -41,26 +41,26 @@ namespace DGP.Genshin.Pages
         }
         private async void ExportImageButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            TitleGrid.Visibility = Visibility.Visible;
-            Container.UpdateLayout();
-            Matrix dpiMatrix = PresentationSource.FromDependencyObject(Container).CompositionTarget.TransformToDevice;
+            this.TitleGrid.Visibility = Visibility.Visible;
+            this.Container.UpdateLayout();
+            Matrix dpiMatrix = PresentationSource.FromDependencyObject(this.Container).CompositionTarget.TransformToDevice;
             RenderTargetBitmap bitmap = new RenderTargetBitmap(
-                (int)Container.ActualWidth, 
-                (int)Container.ActualHeight, 
-                dpiMatrix.OffsetX, 
-                dpiMatrix.OffsetY, 
+                (int)this.Container.ActualWidth,
+                (int)this.Container.ActualHeight,
+                dpiMatrix.OffsetX,
+                dpiMatrix.OffsetY,
                 PixelFormats.Pbgra32);
-            bitmap.Render(Container);
+            bitmap.Render(this.Container);
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(bitmap));
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            path = $@"{path}\{Service.SelectedUid}.png";
+            path = $@"{path}\{this.Service.SelectedUid}.png";
             using (FileStream fs = File.Create(path))
             {
                 encoder.Save(fs);
             }
-            TitleGrid.Visibility = Visibility.Collapsed;
+            this.TitleGrid.Visibility = Visibility.Collapsed;
             await new ContentDialog
             {
                 Title = "导出图片完成",
@@ -68,7 +68,7 @@ namespace DGP.Genshin.Pages
                 PrimaryButtonText = "确定",
                 DefaultButton = ContentDialogButton.Primary
             }.ShowAsync();
-            
+
         }
     }
 }

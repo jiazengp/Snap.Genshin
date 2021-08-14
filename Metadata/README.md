@@ -1,0 +1,1 @@
+this folder need to be place in build/debug or build/release to let application access data

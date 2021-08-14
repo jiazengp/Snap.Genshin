@@ -1,0 +1,18 @@
+[
+  {
+    "Key": "Snezhnaya",
+    "Source": null
+  },
+  {
+    "Key": "Mondstdat",
+    "Source": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png"
+  },
+  {
+    "Key": "Liyue",
+    "Source": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png"
+  },
+  {
+    "Key": "Inazuma",
+    "Source": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png"
+  }
+]

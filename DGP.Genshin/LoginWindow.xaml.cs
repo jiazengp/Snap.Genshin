@@ -11,7 +11,7 @@ namespace DGP.Genshin
     public partial class LoginWindow : Window
     {
         private bool isLoggedIn;
-        private LoginService service;
+        private readonly LoginService service;
         public LoginWindow(LoginService service)
         {
             this.service = service;
@@ -25,7 +25,7 @@ namespace DGP.Genshin
             if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
                 this.isLoggedIn = true;
-                service.OnLogin(true);
+                this.service.OnLogin(true);
             }
         }
 
@@ -33,7 +33,7 @@ namespace DGP.Genshin
         {
             if (!this.isLoggedIn)
             {
-                service.OnLogin(false);
+                this.service.OnLogin(false);
             }
         }
 

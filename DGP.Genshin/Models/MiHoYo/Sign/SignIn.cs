@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo.Sign
 {
@@ -16,8 +11,8 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
 
         public override string ToString()
         {
-            string sign = IsSign ? "已签到" : "未签到";
-            return $"签到天数:{TotalSignDay},今日为:{Today},签到情况:{sign}";
+            string sign = this.IsSign ? "已签到" : "未签到";
+            return $"签到天数:{this.TotalSignDay},今日为:{this.Today},签到情况:{sign}";
         }
     }
     public class SignInResult

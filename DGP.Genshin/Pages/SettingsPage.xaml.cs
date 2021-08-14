@@ -90,7 +90,7 @@ namespace DGP.Genshin.Pages
                     break;
             }
         }
-        
+
         private void ThemeChangeRequested(object sender, SelectionChangedEventArgs e)
         {
             SettingService.Instance[Setting.AppTheme] = ((ComboBox)sender).SelectedIndex switch

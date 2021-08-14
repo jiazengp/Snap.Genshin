@@ -7,7 +7,8 @@
         xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
-        xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+        xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
+        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         mc:Ignorable="d"
@@ -19,6 +20,17 @@
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:DevModeVisibilityConverter x:Key="DevModeVisibilityConverter"/>
+        <m:Markdown x:Key="Markdown"
+                        DocumentStyle="{StaticResource DocumentStyle}"
+                        Heading1Style="{StaticResource H1Style}"
+                        Heading2Style="{StaticResource H2Style}"
+                        Heading3Style="{StaticResource H3Style}"
+                        Heading4Style="{StaticResource H4Style}"
+                        LinkStyle="{StaticResource LinkStyle}"
+                        ImageStyle="{StaticResource ImageStyle}"
+                        SeparatorStyle="{StaticResource SeparatorStyle}"
+                        TableStyle="{StaticResource TableStyle}"
+                        TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 

@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {

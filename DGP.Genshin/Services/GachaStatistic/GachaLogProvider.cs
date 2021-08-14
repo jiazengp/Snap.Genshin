@@ -2,7 +2,6 @@
 using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using System;
 using System.Collections.Generic;

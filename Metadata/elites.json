@@ -1,0 +1,58 @@
+[
+  {
+    "City": null,
+    "Name": "混沌",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_Chaos",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+  },
+  {
+    "City": null,
+    "Name": "号角",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_Horn",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+  },
+  {
+    "City": null,
+    "Name": "雾虚",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_MistGrass",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+  },
+  {
+    "City": null,
+    "Name": "骨片",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_BoneShard",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+  },
+  {
+    "City": null,
+    "Name": "地脉",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_LeyLine",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+  },
+  {
+    "City": null,
+    "Name": "混沌2",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_Chaos2",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+  },
+  {
+    "City": null,
+    "Name": "祭刀",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_SacrificialKnife",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+  },
+  {
+    "City": null,
+    "Name": "棱镜",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "Elite_Prism",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+  }
+]

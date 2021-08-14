@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,8 +7,8 @@ namespace DGP.Genshin.Controls.Records
 {
     public class ActivityTemplateSelector : DataTemplateSelector
     {
-        private static readonly Dictionary<string, string> TemplateDict = new Dictionary<string, string> 
-        { 
+        private static readonly Dictionary<string, string> TemplateDict = new Dictionary<string, string>
+        {
             { "activities[0]", "Effigy" },
             { "activities[1]", "Mechanicus" },
             { "activities[2]", "FleurFair" },

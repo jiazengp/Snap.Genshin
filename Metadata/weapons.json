@@ -1,0 +1,3412 @@
+[
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "674",
+    "SubStat": "暴击率",
+    "SubStatValue": "44.1%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "远海夷地",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DistantSea",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos2",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Name": "雾切之回光",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "MistsplittersReflection",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1407_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "狼的末路",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "WolfsGravestone",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2402_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "674",
+    "SubStat": "暴击率",
+    "SubStatValue": "22.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "和璞鸢",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "PrimordialJadeWingedSpear",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3402_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "608",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "66.2%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "护摩之杖",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "StaffofHoma",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3405_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "608",
+    "SubStat": "元素精通",
+    "SubStatValue": "198",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "苍古自由之誓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "FreedomSworn",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1405_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "608",
+    "SubStat": "生命值",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "远海夷地",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DistantSea",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Elite_Prism",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187_70.png"
+    },
+    "Name": "不灭月华",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "FumetsuGekka",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5406_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "608",
+    "SubStat": "暴击率",
+    "SubStatValue": "33.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "四风原典",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "LostPrayertotheSacredWinds",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5401_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "674",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "36.8%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "天空之傲",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SkywardPride",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2401_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "无工之剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "TheUnforged",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2404_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "贯虹之槊",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "VortexVanquisher",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3401_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "608",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "终末嗟叹之诗",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "ElegyfortheEnd",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4404_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "741",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "20.7%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "松籁响起之时",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SongofBrokenPines",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2405_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "斫峰之刃",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SummitShaper",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1403_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "674",
+    "SubStat": "物理伤害加成%",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "风鹰剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "AquilaFavonia",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1401_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "尘世之锁",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "MemoryofDust",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5403_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "608",
+    "SubStat": "攻击力",
+    "SubStatValue": "49.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "阿莫斯之弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "AmosBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4402_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "674",
+    "SubStat": "攻击力",
+    "SubStatValue": "33.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "天空之卷",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SkywardAtlas",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5402_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "542",
+    "SubStat": "暴击率",
+    "SubStatValue": "44.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "磐岩结绿",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "PrimordialJadeCutter",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1404_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "674",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "36.8%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "天空之脊",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SkywardSpine",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3403_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "608",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "天空之刃",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SkywardBlade",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1402_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "674",
+    "SubStat": "暴击率",
+    "SubStatValue": "22.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "天空之翼",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SkywardHarp",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4401_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "608",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "66.2%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "鸣神御灵",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Narukami",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Elite_Prism",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Arrowhead",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "飞雷之弦振",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "ThunderingPulse",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4407_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "608",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "今昔剧画",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos2",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Name": "薙草之稻光",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "GrasscuttersLight",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3406_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "宗室长弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "RoyalBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4307_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "笛剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheFlute",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1310_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "忍冬之果",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Frostbearer",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5311_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击率",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "匣里日月",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SolarPearl",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5307_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "千岩长枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "LithicSpear",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3305_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "454",
+    "SubStat": "攻击力",
+    "SubStatValue": null,
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "远海夷地",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Name": "天目影打刀",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "AmenomaKageutaBlade",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1313_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "454",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "61.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "西风猎弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FavoniusWarbow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4305_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "弓藏",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Rust",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4308_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "生命值",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "试作金珀",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "PrototypeAmber",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5304_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "565",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "34.5%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "流月针",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "CrescentPike",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3302_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "454",
+    "SubStat": "元素精通",
+    "SubStatValue": "221",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DandelionGladiator",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "祭礼残章",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SacrificialFragments",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5306_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "黑岩刺枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "BlackcliffPole",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3301_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "565",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "30.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "西风长枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FavoniusLance",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3307_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "试作古华",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "PrototypeArchaic",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2304_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "黑岩绯玉",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "BlackcliffAgate",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5301_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "565",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "30.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "祭礼大剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SacrificialGreatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2310_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "565",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "34.5%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "雪葬的星银",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SnowTombedStarsilver",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2311_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击率",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "流浪乐章",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheWidsith",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5308_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "元素精通",
+    "SubStatValue": "165",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "雨裁",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Rainslasher",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2305_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "510",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "45.9%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "试作星镰",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "PrototypeStarglitter",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3306_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "45.9%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "腐殖之剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FesteringDesire",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1312_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "565",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "36.8%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "黑岩战弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "BlackcliffWarbow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4303_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "510",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "45.9%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "西风秘典",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FavoniusCodex",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5302_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "454",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "69%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "钢轮弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "CompoundBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4304_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击率",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "苍翠猎弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheViridescentHunt",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4310_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "元素精通",
+    "SubStatValue": "165",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "铁蜂刺",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "IronSting",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1303_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "454",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "61.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "西风剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FavoniusSword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1302_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "黑岩斩刀",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "BlackcliffSlasher",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2301_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "565",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "30.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "暗巷的酒与诗",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "WineandSong",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5309_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "454",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "61.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "西风大剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "FavoniusGreatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2302_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击率",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "黑剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheBlackSword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1309_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "暴击率",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "螭骨剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SerpentSpine",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2307_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "565",
+    "SubStat": "元素精通",
+    "SubStatValue": "110",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "万国诸海图谱",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "MappaMare",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5303_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "454",
+    "SubStat": "元素精通",
+    "SubStatValue": "221",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "匣里灭辰",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "DragonsBane",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3304_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DandelionGladiator",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Slime",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "暗巷猎手",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "AlleyHunter",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4302_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "565",
+    "SubStat": "物理伤害加成%",
+    "SubStatValue": "34.5%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "试作斩岩",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "PrototypeRancour",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1305_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "宗室猎枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "RoyalSpear",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3308_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "元素精通",
+    "SubStatValue": "165",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "绝弦",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheStringless",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4301_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "565",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "30.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "祭礼弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SacrificialBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4309_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "宗室秘法录",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "RoyalGrimoire",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5305_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "454",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "69%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "龙脊长枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "DragonSpineSpear",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3309_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "试作澹月",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "PrototypeCrescent",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4306_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "宗室长剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "RoyalLongsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1306_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "454",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "61.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "祭礼剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SacrificialSword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1307_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "440",
+    "SubStat": "攻击力",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "降临之剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "SwordofDescension",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1311_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "565",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "36.8%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "黑岩长剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "BlackcliffLongsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1301_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "620",
+    "SubStat": "元素精通",
+    "SubStatValue": "55",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Decarabian",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Horn",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Scroll",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "暗巷闪光",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheAlleyFlash",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1308_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "454",
+    "SubStat": "暴击率",
+    "SubStatValue": "36.8%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "决斗之枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "DeathMatch",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3303_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "454",
+    "SubStat": "攻击力",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "昭心",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "EyeofPerception",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5310_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "匣里龙吟",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "LionsRoar",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1304_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "宗室大剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "RoyalGreatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2306_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "防御力",
+    "SubStatValue": "51.7%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "白影剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Whiteblind",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2309_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "生命值",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "钟剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheBell",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2308_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "千岩古剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "LithicBlade",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2303_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "510",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "45.9%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "鸣神御灵",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Narukami",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos2",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Name": "桂木斩长正",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "KatsuragikiriNagamasa",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2312_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "565",
+    "SubStat": "元素精通",
+    "SubStatValue": "110",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "今昔剧画",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos2",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_RavenInsignia",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "喜多院十文字",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "KitainCrossSpear",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3310_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "元素精通",
+    "SubStatValue": "165",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DandelionGladiator",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_LeyLine",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Nectar",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "风花之颂",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "WindblumeOde",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4311_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "51.7%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Decarabian",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Horn",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_RavenInsignia",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "幽夜华尔兹",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "MitternachtsWaltz",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4312_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "454",
+    "SubStat": "攻击力",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "鸣神御灵",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Narukami",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Elite_Prism",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Arrowhead",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "破魔之弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Hamayumi",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4313_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "454",
+    "SubStat": "攻击力",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_BorealWolf",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_LeyLine",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "嘟嘟可故事集",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "DodocoTales",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5312_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "565",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "30.6%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "远海夷地",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DistantSea",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Elite_Prism",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Scroll",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "白辰之环",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "HakushinRing",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5313_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "454",
+    "SubStat": "攻击力",
+    "SubStatValue": "55.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Aerosiderite",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_BoneShard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Slime",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "衔珠海皇",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "LuxuriousSeaLord",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2313_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "510",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "45.9%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "今昔剧画",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌2",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos2",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187_70.png"
+    },
+    "Name": "渔获",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "TheCatch",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3311_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "510",
+    "SubStat": "攻击力",
+    "SubStatValue": "41.3%",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "鸣神御灵",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Narukami",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Elite_Prism",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Arrowhead",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "掠食者",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Predator",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4314_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "354",
+    "SubStat": "元素精通",
+    "SubStatValue": "187",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "沐浴龙血的剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "BloodtaintedGreatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2201_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "401",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "46.9%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "神射手之誓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "SharpshootersOath",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4205_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "448",
+    "SubStat": "暴击率",
+    "SubStatValue": "15.6%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "甲级宝钰",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "TwinNephrite",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5206_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "401",
+    "SubStat": "物理伤害加成",
+    "SubStatValue": "43.9%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "飞天大御剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "SkyriderGreatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2205_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "354",
+    "SubStat": "元素精通",
+    "SubStatValue": "187",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "魔导绪论",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "MagicGuide",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5203_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "401",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "46.9%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Name": "黎明神剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "HarbingerofDawn",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1204_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "448",
+    "SubStat": "元素精通",
+    "SubStatValue": "94",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "鸦羽弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "RavenBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4203_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "401",
+    "SubStat": "攻击力",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "以理服人",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "DebateClub",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2202_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "ATK": "401",
+    "SubStat": "生命值",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "铁影阔剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "FerrousShadow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2203_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "354",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "52.1%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "飞天御剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "SkyriderSword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1205_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "354",
+    "SubStat": "暴击率",
+    "SubStatValue": "31.2%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "弹弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "Slingshot",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4206_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "448",
+    "SubStat": "元素精通",
+    "SubStatValue": "94",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "翡玉法球",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "EmeraldOrb",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5202_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "448",
+    "SubStat": "防御力%",
+    "SubStatValue": "29.3%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "旅行剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "TravelersHandySword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1206_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "354",
+    "SubStat": "生命值",
+    "SubStatValue": "46.9%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "反曲弓",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "RecurveBow",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4204_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "401",
+    "SubStat": "攻击力",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "吃虎鱼刀",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "FilletBlade",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1203_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "401",
+    "SubStat": "生命值",
+    "SubStatValue": "46.9%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "漆黑陨铁",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Aerosiderite",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "骨片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_BoneShard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Arrowhead",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "黑缨枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "BlackTassel",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3201_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "401",
+    "SubStat": "元素精通",
+    "SubStatValue": "141",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "暗铁剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "DarkIronSword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1202_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "ATK": "448",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "31.2%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Name": "信使",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "Messenger",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4202_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "448",
+    "SubStat": "攻击力",
+    "SubStatValue": "23.5%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Name": "钺矛",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "Halbeld",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3202_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "ATK": "401",
+    "SubStat": "攻击力",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "高塔孤王",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "号角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Name": "冷刃",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "CoolSteel",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1201_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "401",
+    "SubStat": "生命值",
+    "SubStatValue": "35.2%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "凛风奔狼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "地脉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Name": "讨龙英杰谭",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "ThrillingTalesofDragonSlayers",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5205_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "ATK": "401",
+    "SubStat": "暴击率",
+    "SubStatValue": "23.4%",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "孤云寒林",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "祭刀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Name": "白缨枪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "WhiteTassel",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3203_70.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "ATK": "401",
+    "SubStat": "元素充能效率",
+    "SubStatValue": "39%",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Name": "异世界行记",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "OtherworldlyStory",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5204_70.png"
+  }
+]

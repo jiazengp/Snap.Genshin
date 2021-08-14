@@ -55,7 +55,7 @@
                     <GradientStop Offset="1" Color="#CC000000"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
+            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
         </Border>
     </Grid>
 </Button>

@@ -58,7 +58,7 @@ namespace DGP.Genshin.Services
                 client.Headers["x-rpc-client_type"] = "5";
                 client.Headers["x-rpc-app_version"] = "2.9.0";
                 client.Headers["DS"] = this.CreateDynamicSecret();
-                client.Headers["Cookie"] = Cookie;
+                client.Headers["Cookie"] = this.Cookie;
                 string response = requestMethod(client);
                 return Json.ToObject<Response<T>>(response);
             }

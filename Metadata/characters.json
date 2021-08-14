@@ -1,0 +1,2242 @@
+[
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7055_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "38.4%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "未熟之玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_207_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "霓裳花",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_608_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "魔王武装·残片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_468_70.png"
+    },
+    "Name": "胡桃",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Hutao",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/hutao_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7085_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/ayaka_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/ayaka_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "38.4%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "风雅",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "恒常机关之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_211_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "绯樱绣球",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_678_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "血玉之枝",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_471_70.png"
+    },
+    "Name": "神里绫华",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "KamisatoAyaka",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/ayaka_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7015_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "32%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "净水之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_202_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "慕风蘑菇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_607_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之环",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_465_70.png"
+    },
+    "Name": "莫娜",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Mona",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/mona_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7065_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "38.4%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "晶凝之华",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_208_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "蒲公英种子",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_603_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "龙王之冕",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_470_70.png"
+    },
+    "Name": "优菈",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Eula",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/eula_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7008_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "治疗加成",
+    "AscensionStatValue": "22.2%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "飓风之种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_205_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "蒲公英种子",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_603_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之翎",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_461_70.png"
+    },
+    "Name": "琴",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Jean",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/jean_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7040_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "岩元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "黄金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "玄岩之塔",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_206_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "坚牢黄玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_364_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "石珀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_602_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "吞天之鲸·只角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_467_70.png"
+    },
+    "Name": "钟离",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Zhongli",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/zhongli_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7019_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "治疗加成",
+    "AscensionStatValue": "22.2%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "繁荣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "琉璃袋",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_611_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之尾",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_464_70.png"
+    },
+    "Name": "七七",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Qiqi",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/qiqi_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7007_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "32%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "飓风之种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_205_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "塞西莉亚花",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_601_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之尾",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_464_70.png"
+    },
+    "Name": "温迪",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Venti",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/venti_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7050_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "岩元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "玄岩之塔",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_206_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "坚牢黄玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_364_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "塞西莉亚花",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_601_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "吞天之鲸·只角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_467_70.png"
+    },
+    "Name": "阿贝多",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Albedo",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/albedo_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7004_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "火元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "慕风蘑菇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_607_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之环",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_465_70.png"
+    },
+    "Name": "可莉",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Klee",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/klee_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7054_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "暴击率",
+    "AscensionStatValue": "19.2%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "繁荣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "未熟之玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_207_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "清心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_614_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "武练之魂·孤影",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_469_70.png"
+    },
+    "Name": "魈",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Xiao",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/xiao_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7086_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "暴击率",
+    "AscensionStatValue": "19.2%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "浮世",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_408_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "阴燃之珠",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_212_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "鸣草",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_681_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "龙王之冕",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_470_70.png"
+    },
+    "Name": "宵宫",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Yoimiya",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/yoimiya_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7069_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "元素精通",
+    "AscensionStatValue": "115",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "魔偶机心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_210_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "海灵芝",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_675_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "鎏金之鳞",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_472_70.png"
+    },
+    "Name": "枫原万叶",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Kazuha",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/kazuha_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7020_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "88.4%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "繁荣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷光棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_203_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "石珀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_602_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之环",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_465_70.png"
+    },
+    "Name": "刻晴",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Keqing",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/keqing_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7049_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "38.4%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "清心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_614_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "武练之魂·孤影",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_469_70.png"
+    },
+    "Name": "甘雨",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Ganyu",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/ganyu_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7042_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "水元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "净水之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_202_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "星螺",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_663_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "魔王武装·残片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_468_70.png"
+    },
+    "Name": "达达利亚",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Tartaglia",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/tartaglia_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7005_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "暴击率",
+    "AscensionStatValue": "19.2%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "小灯草",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_609_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之翎",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_461_70.png"
+    },
+    "Name": "迪卢克",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Diluc",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/diluc_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7091_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/aloy_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/aloy_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "冰元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Freedom",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "晶凝之华",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_CrystallineBloom",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_208_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_ShivadaJade",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "晶化骨髓",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_CrystalMarrow",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_679_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+      "Name": "？？？",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_Unknow",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_480_70.png"
+    },
+    "Name": "埃洛伊",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Aloy",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/aloy_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7088_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/shougun_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/shougun_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "32%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "天光",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Light",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷霆数珠",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_StormBeads",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_214_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_VajradaAmethyst",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "天云草实",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_TenkumoFruit",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_686_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+      "Name": "？？？",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_Unknow",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_480_70.png"
+    },
+    "Name": "雷电将军",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "RaidenShogun",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/shougun_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7089_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/kokomi_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/kokomi_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "水元素伤害加成",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "浮世",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Transience",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_408_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "排异之露",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Boss_DewofRepudiation",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_213_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_VarunadaLazurite",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "珊瑚真珠",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_TenkumoFruit",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_685_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+      "Name": "？？？",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_Unknow",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_481_70.png"
+    },
+    "Name": "珊瑚宫心海",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "SangonomiyaKokomi",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/kokomi_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7011_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/yoimiya_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/yoimiya_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "元素精通",
+    "AscensionStatValue": "96",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷光棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_203_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "落落莓",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_610_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之爪",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_462_70.png"
+    },
+    "Name": "丽莎",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Lisa",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/lisa_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7034_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "岩元素伤害加成",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "繁荣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "玄岩之塔",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_206_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "坚牢黄玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_364_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "琉璃百合",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_604_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风的魂匣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_466_70.png"
+    },
+    "Name": "凝光",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Ningguang",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/ningguang_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7013_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷光棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_203_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "小灯草",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_609_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风的魂匣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_466_70.png"
+    },
+    "Name": "菲谢尔",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Fischl",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/fischl_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7039_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "冰元素伤害加成",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "嘟嘟莲",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_600_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "魔王武装·残片",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_468_70.png"
+    },
+    "Name": "迪奥娜",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Diona",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/diona_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7014_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "防御力",
+    "AscensionStatValue": "30%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "玄岩之塔",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_206_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "坚牢黄玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_364_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "落落莓",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_610_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之爪",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_462_70.png"
+    },
+    "Name": "诺艾尔",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Noelle",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/noelle_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7059_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "落落莓",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_610_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "徽记",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "武练之魂·孤影",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_469_70.png"
+    },
+    "Name": "罗莎莉亚",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Rosaria",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/rosaria_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7016_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "26.7%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "风车菊",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_612_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之翎",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_461_70.png"
+    },
+    "Name": "班尼特",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Bennett",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/bennett_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7036_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "石珀",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_602_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风的吐息",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_463_70.png"
+    },
+    "Name": "重云",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Chongyun",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/chongyun_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7010_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "26.7%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "极寒之核",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_204_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "嘟嘟莲",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_600_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风的魂匣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_466_70.png"
+    },
+    "Name": "凯亚",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Kaeya",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/kaeya_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7041_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "黄金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "琉璃袋",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_611_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "吞天之鲸·只角",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_467_70.png"
+    },
+    "Name": "辛焱",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Xinyan",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/xinyan_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7006_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "物理伤害加成",
+    "AscensionStatValue": "30%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "诗文",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷光棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_203_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "钩钩果",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_613_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之爪",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_462_70.png"
+    },
+    "Name": "雷泽",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Razor",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/razor_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7018_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "黄金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "净水之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_202_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "霓裳花",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_608_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之尾",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_464_70.png"
+    },
+    "Name": "行秋",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Xingqiu",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/xingqiu_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7012_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "风元素伤害加成",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "飓风之种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_205_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "风车菊",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_612_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风的魂匣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_466_70.png"
+    },
+    "Name": "砂糖",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Sucrose",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/sucrose_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7064_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "火元素伤害加成",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "黄金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "未熟之玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_207_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "夜泊石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_606_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "血玉之枝",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_471_70.png"
+    },
+    "Name": "烟绯",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Yanfei",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/feiyan_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7003_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "小灯草",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_609_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "箭簇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风的吐息",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_463_70.png"
+    },
+    "Name": "安柏",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Amber",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/amber_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7035_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "雷元素伤害加成",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "黄金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷光棱镜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_203_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "夜泊石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_606_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "鸦印",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风的吐息",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_463_70.png"
+    },
+    "Name": "北斗",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Beidou",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/beidou_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7009_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+    "AscensionStat": "生命值",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Mondstadt",
+      "Name": "自由",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "净水之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_202_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "慕风蘑菇",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_607_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "绘卷",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "北风之环",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_465_70.png"
+    },
+    "Name": "芭芭拉",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Barbara",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/barbara_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_163101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7086_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "元素精通",
+    "AscensionStatValue": "96",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "天光",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "魔偶机心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_210_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "自在松石",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_354_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "晶化骨髓",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_679_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+      "Name": "鎏金之鳞",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_472_70.png"
+    },
+    "Name": "早柚",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Sayu",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/sayu_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7017_profile_135.png",
+    "GachaCard": null,
+    "GachaSplash": null,
+    "City": "https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png",
+    "AscensionStat": "元素精通",
+    "AscensionStatValue": "96",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "常燃火种",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_201_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "燃愿玛瑙",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_314_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "绝云椒椒",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_605_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png",
+      "Name": "东风之爪",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": null,
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_462_70.png"
+    },
+    "Name": "香菱",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Xiangling",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/xiangling_face_70.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_213101_70.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7090_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/sara_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/sara_gacha_splash.png",
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "24%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "风雅",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Elegance",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418_70.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "雷霆数珠",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_StormBeads",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_214_70.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_VajradaAmethyst",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334_70.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "血斛",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_Dendrobium",
+      "Source": "https://genshin.honeyhunterworld.com/img/ingredient/i_680_70.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33_70.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png",
+      "Name": "？？？",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_Unknow",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482_70.png"
+    },
+    "Name": "九条裟罗",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "KujouSara",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/sara_face_70.png"
+  }
+]

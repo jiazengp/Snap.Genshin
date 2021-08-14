@@ -26,7 +26,7 @@ namespace DGP.Genshin.Pages
         private void LoginButton_Click(object sender, RoutedEventArgs e) => RecordService.Instance.Login();
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput|| args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput || args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 IEnumerable<string> result = RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无记录" } : result;

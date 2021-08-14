@@ -1,6 +1,5 @@
 ﻿using ModernWpf.Controls;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DGP.Genshin.Services.Updating
 {

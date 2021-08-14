@@ -14,7 +14,7 @@ namespace DGP.Genshin.Services
         private readonly string simulationsFile = AppDomain.CurrentDomain.BaseDirectory + simulationsFileName;
 
         private SimulationCollection selectedSimulationCollection;
-        public SimulationCollection SelectedSimulationCollection { get => selectedSimulationCollection; set => Set(ref selectedSimulationCollection, value); }
+        public SimulationCollection SelectedSimulationCollection { get => this.selectedSimulationCollection; set => this.Set(ref this.selectedSimulationCollection, value); }
         public ObservableCollection<SimulationCollection> SimulationCollections { get; set; }
 
         public void Initialize()
@@ -50,7 +50,7 @@ namespace DGP.Genshin.Services
         }
         ~SimulationService()
         {
-            UnInitialize();
+            this.UnInitialize();
         }
     }
 }

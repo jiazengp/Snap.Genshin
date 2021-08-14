@@ -1,7 +1,5 @@
 ﻿using DGP.Genshin.Controls.Simulations;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Extensions.System;
-using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace DGP.Genshin.Pages
@@ -31,14 +29,14 @@ namespace DGP.Genshin.Pages
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Service.UnInitialize();
+            this.Service.UnInitialize();
             base.OnNavigatedFrom(e);
         }
 
         private void OnDeleteItem(object sender, System.Windows.RoutedEventArgs e)
         {
-            Service.SimulationCollections.Remove(Service.SelectedSimulationCollection);
-            Service.SelectedSimulationCollection = null;
+            this.Service.SimulationCollections.Remove(this.Service.SelectedSimulationCollection);
+            this.Service.SelectedSimulationCollection = null;
         }
 
         private void AddSimulationButtonClick(object sender, System.Windows.RoutedEventArgs e)

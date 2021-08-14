@@ -69,9 +69,6 @@
                 * this.Input.ElementReactionRate
                 * (1 + this.GetFianlReactionBonus());
         }
-        public double EvaluateDamageAverage()
-        {
-            return ((1 - Input.CritRate) * EvaluateDamageNoCrit() + Input.CritRate * EvaluateDamageCrit()) / 2;
-        }
+        public double EvaluateDamageAverage() => ((1 - this.Input.CritRate) * this.EvaluateDamageNoCrit() + this.Input.CritRate * this.EvaluateDamageCrit()) / 2;
     }
 }
