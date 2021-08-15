@@ -158,14 +158,14 @@
     <Compile Include="Models\MiHoYo\StringExtensions.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRole.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRoleInfo.cs" />
-    <Compile Include="Pages\CalculationsPage.xaml.cs">
-      <DependentUpon>CalculationsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\CharactersPage.xaml.cs">
       <DependentUpon>CharactersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\GachaStatisticPage.xaml.cs">
       <DependentUpon>GachaStatisticPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GithubPage.xaml.cs">
+      <DependentUpon>GithubPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -188,6 +188,7 @@
     <Compile Include="Services\GachaStatistic\GachaStatisticService.cs" />
     <Compile Include="Services\GachaStatistic\LocalGachaLogProvider.cs" />
     <Compile Include="Services\GachaStatistic\GachaLogProvider.cs" />
+    <Compile Include="Services\GithubService.cs" />
     <Compile Include="Services\LoginService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
@@ -256,15 +257,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\CalculationsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\CharactersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\GachaStatisticPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\GithubPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,6 +320,9 @@
     </PackageReference>
     <PackageReference Include="NPOI">
       <Version>2.5.4</Version>
+    </PackageReference>
+    <PackageReference Include="Octokit">
+      <Version>0.50.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

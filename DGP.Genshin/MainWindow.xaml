@@ -61,7 +61,11 @@
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 
                 <ui:NavigationViewItemHeader Content="高级工具" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
-                <ui:NavigationViewItem Content="伤害计算" helpers:NavHelper.NavigateTo="{x:Type pages:CalculationsPage}" Icon="Calculator" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
+                <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE8F1;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:Frame x:Name="ContentFrame"/>
         </ui:NavigationView>

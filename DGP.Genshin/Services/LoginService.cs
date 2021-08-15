@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
+using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.NativeMethods;
@@ -45,7 +46,9 @@ namespace DGP.Genshin.Services
         public event Action<bool> AfterLogin;
 
         #region API
-        private static readonly string APISalt = "w5k9n3aqhoaovgw25l373ee18nsazydo"; // @Azure99    //respect original author
+        [Github("https://github.com/Azure99/GenshinPlayerQuery/blob/main/src/Core/GenshinAPI.cs")]
+        private static readonly string DeviceType = "2.10.1";
+        private static readonly string APISalt = "4a8knnbk5pbjqsrudp3dq484m9axoc5g"; // @Azure99    //respect original author
         private static readonly string RandomStringTemplate = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         #region Request Methods
@@ -56,7 +59,7 @@ namespace DGP.Genshin.Services
                 using WebClient client = new WebClient();
                 client.Encoding = Encoding.UTF8;
                 client.Headers["x-rpc-client_type"] = "5";
-                client.Headers["x-rpc-app_version"] = "2.9.0";
+                client.Headers["x-rpc-app_version"] = DeviceType;
                 client.Headers["DS"] = this.CreateDynamicSecret();
                 client.Headers["Cookie"] = this.Cookie;
                 string response = requestMethod(client);
