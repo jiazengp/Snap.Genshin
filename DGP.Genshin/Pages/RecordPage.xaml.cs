@@ -15,15 +15,9 @@ namespace DGP.Genshin.Pages
     {
         public RecordPage()
         {
-            if (!RecordService.Instance.GetLoginStatus())
-            {
-                RecordService.Instance.Login();
-            }
             this.DataContext = RecordService.Instance;
             this.InitializeComponent();
         }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e) => RecordService.Instance.Login();
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput || args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
@@ -54,7 +48,7 @@ namespace DGP.Genshin.Pages
                     await new ContentDialog()
                     {
                         Title = "查询失败",
-                        Content = "米游社用户信息可能不完整\n请在米游社登录账号并完善个人信息\n完善后方可查询任意玩家信息",
+                        Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
                         PrimaryButtonText = "确认",
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
@@ -65,7 +59,7 @@ namespace DGP.Genshin.Pages
                     await new ContentDialog()
                     {
                         Title = "查询失败",
-                        Content = $"UID:{uid}\nMessage:{record.Message}",
+                        Content = $"UID:{uid}\n{record.Message}",
                         PrimaryButtonText = "确认",
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();

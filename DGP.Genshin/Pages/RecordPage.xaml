@@ -1,17 +1,17 @@
 ﻿<ui:Page x:Class="DGP.Genshin.Pages.RecordPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Pages"
-      xmlns:ui="http://schemas.modernwpf.com/2019" 
-      xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
-      xmlns:r="clr-namespace:DGP.Genshin.Controls.Records" 
-      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
-         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:local="clr-namespace:DGP.Genshin.Pages"
+         xmlns:ui="http://schemas.modernwpf.com/2019" 
+         xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage" 
+         xmlns:r="clr-namespace:DGP.Genshin.Controls.Records" 
+         xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
+         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
          mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
-      Title="RecordPage">
+         d:DesignHeight="600" d:DesignWidth="1200"
+         Title="RecordPage">
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
@@ -41,11 +41,6 @@
                     <ui:ProgressRing x:Name="RequestingProgressRing" Margin="12,4,0,0"/>
                 </StackPanel>
             </ui:CommandBar.Content>
-            <ui:AppBarButton Label="重新登录" Click="LoginButton_Click">
-                <ui:AppBarButton.Icon>
-                    <ui:FontIcon Glyph="&#xE748;"/>
-                </ui:AppBarButton.Icon>
-            </ui:AppBarButton>
             <ui:AppBarToggleButton Label="统计信息" IsChecked="{Binding ElementName=StatisticSplitView,Path=IsPaneOpen}">
                 <ui:AppBarToggleButton.Icon>
                     <ui:FontIcon Glyph="&#xF168;"/>
@@ -1188,9 +1183,9 @@
                 </s:SmoothScrollViewer>
             </ui:SplitView.Pane>
             <ui:SplitView.Content>
-                <ui:SplitView x:Name="CharactersSplitView" FlowDirection="LeftToRight" OpenPaneLength="390">
+                <ui:SplitView x:Name="CharactersSplitView" DisplayMode="Inline" FlowDirection="LeftToRight" OpenPaneLength="374">
                     <ui:SplitView.Pane>
-                        <s:SmoothScrollViewer Grid.Row="1">
+                        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                             <ui:GridView 
                                     SelectionMode="Single"
                                     HorizontalAlignment="Left" 
@@ -1313,7 +1308,7 @@
                                                 </DataTemplate>
                                             </ui:ListView.ItemTemplate>
                                         </ui:ListView>
-                                        <StackPanel Margin="8,0" Grid.Column="1">
+                                        <StackPanel Margin="8,0,8,8" Grid.Column="1">
                                             <TextBlock Text="{Binding SelectedReliquary.ReliquarySet.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                                             <ItemsControl ItemsSource="{Binding SelectedReliquary.ReliquarySet.Affixes}">
                                                 <ItemsControl.ItemTemplate>
@@ -1331,7 +1326,7 @@
                             </Grid>
                             <!--命之座-->
                             <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                                <StackPanel>
+                                <StackPanel Margin="0,0,0,8">
                                     <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="命之座" Style="{StaticResource BodyTextBlockStyle}"/>
                                     <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding SelectedAvatar.Constellations}">
                                         <ItemsControl.ItemTemplate>

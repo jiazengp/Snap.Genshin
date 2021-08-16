@@ -12,6 +12,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         mc:Ignorable="d"
+        x:Name="Window"
         Title="Snap原神" 
         MinWidth="1046"
         MinHeight="680"
@@ -75,6 +76,15 @@
                Source="SG_Logo.ico" 
                SnapsToDevicePixels="True"
                RenderOptions.BitmapScalingMode="HighQuality"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,140,0">
+            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
+                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="米游社每日签到"
+                               Click="SignInTitleBarButtonClick"/>
+            <Rectangle
+                    Fill="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                    Width="1"
+                    Margin="12,8"/>
+        </StackPanel>
         <cf:SplashView InitializeCompleted="SplashInitializeCompleted" d:IsHidden="True"/>
     </Grid>
 </Window>
