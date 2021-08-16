@@ -15,8 +15,4 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
             return $"签到天数:{this.TotalSignDay},今日为:{this.Today},签到情况:{sign}";
         }
     }
-    public class SignInResult
-    {
-        [JsonProperty("code")] public string Code { get; set; }
-    }
 }

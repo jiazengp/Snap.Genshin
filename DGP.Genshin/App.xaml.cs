@@ -23,7 +23,6 @@ namespace DGP.Genshin
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            RecordService.Instance.UnInitialize();
             DataService.Instance.UnInitialize();
             SettingService.Instance.UnInitialize();
             this.Log($"Exit code:{e.ApplicationExitCode}");

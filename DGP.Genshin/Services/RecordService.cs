@@ -2,21 +2,19 @@
 using DGP.Genshin.Models.MiHoYo.Record;
 using DGP.Genshin.Models.MiHoYo.Record.Avatar;
 using DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss;
+using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
-using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// this service shouldn't be disposed during the runtime cause request web produces a lot lag
+    /// this service shouldn't be disposed during the runtime cause re-request web produces a lot lag
     /// </summary>
-    internal class RecordService : LoginService, INotifyPropertyChanged
+    internal class RecordService : Observable
     {
         private static readonly string QueryHistoryFile = "history.dat";
         private static readonly string BaseUrl = $@"https://api-takumi.mihoyo.com/game_record/genshin/api";
@@ -40,15 +38,14 @@ namespace DGP.Genshin.Services
         #endregion
 
         public List<string> QueryHistory { get; set; } = new List<string>();
-
         internal void AddQueryHistory(string uid)
         {
             if (!this.QueryHistory.Contains(uid))
                 this.QueryHistory.Add(uid);
         }
-
         public async Task<Record> GetRecordAsync(string uid)
         {
+            Requester requester = new Requester(await CookieManager.GetCookieAsync());
             //figure out the server
             string server = null;
             try
@@ -71,7 +68,7 @@ namespace DGP.Genshin.Services
 
             Response<PlayerInfo> playerInfo = await Task.Run(() =>
             {
-                return this.Get<PlayerInfo>(
+                return requester.Get<PlayerInfo>(
                     $@"{BaseUrl}/index?role_id={uid}&server={server}");
             });
             if (playerInfo.ReturnCode != 0)
@@ -79,7 +76,7 @@ namespace DGP.Genshin.Services
 
             Response<SpiralAbyss> spiralAbyss = await Task.Run(() =>
             {
-                return this.Get<SpiralAbyss>(
+                return requester.Get<SpiralAbyss>(
                     $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             });
             if (spiralAbyss.ReturnCode != 0)
@@ -87,7 +84,7 @@ namespace DGP.Genshin.Services
 
             Response<SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
             {
-                return this.Get<SpiralAbyss>(
+                return requester.Get<SpiralAbyss>(
                    $@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
             });
             if (lastSpiralAbyss.ReturnCode != 0)
@@ -95,23 +92,21 @@ namespace DGP.Genshin.Services
 
             Response<dynamic> activitiesInfo = await Task.Run(() =>
             {
-                return this.Get<dynamic>(
+                return requester.Get<dynamic>(
                    $@"{BaseUrl}/activities?server={server}&role_id={uid}");
             });
             if (activitiesInfo.ReturnCode != 0)
                 return new Record($"获取活动信息失败：\n{activitiesInfo.Message}");
 
-            //we can actually download this separate later.
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
-                return this.Post<DetailedAvatarInfo>(
-                   $@"{BaseUrl}/character",
-                   Json.Stringify(new CharacterQueryPostData
+                return requester.Post<DetailedAvatarInfo>(
+                   $@"{BaseUrl}/character", new
                    {
-                       CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
-                       RoleId = uid,
-                       Server = server
-                   }));
+                       character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                       role_id = uid,
+                       server = server
+                   });
             });
             if (roles.ReturnCode != 0)
                 return new Record($"获取详细角色信息失败：\n{roles.Message}");
@@ -134,23 +129,11 @@ namespace DGP.Genshin.Services
         private static readonly object _lock = new();
         private RecordService()
         {
-            if (File.Exists(CookieFile))
-            {
-                this.Cookie = File.ReadAllText(CookieFile);
-            }
             if (File.Exists(QueryHistoryFile))
             {
-                try
-                {
-                    this.QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile));
-                }
-                catch
-                {
-                    this.Log("Failed to retrive query history.");
-                }
+                this.QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile));
             }
         }
-        public void UnInitialize() => File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
         public static RecordService Instance
         {
             get
@@ -168,23 +151,11 @@ namespace DGP.Genshin.Services
                 return instance;
             }
         }
-        #endregion
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        ~RecordService()
         {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            this.OnPropertyChanged(propertyName);
+            File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
         }
-
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 }

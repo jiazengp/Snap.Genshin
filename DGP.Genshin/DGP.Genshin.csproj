@@ -115,12 +115,14 @@
     </Compile>
     <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Github\Asset.cs" />
     <Compile Include="Models\Github\Person.cs" />
     <Compile Include="Models\Github\Release.cs" />
+    <Compile Include="Models\MiHoYo\CookieDialog.xaml.cs">
+      <DependentUpon>CookieDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MiHoYo\CookieManager.cs" />
+    <Compile Include="Models\MiHoYo\DynamicSecretProvider.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Config.cs" />
     <Compile Include="Models\MiHoYo\Gacha\ConfigType.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaData.cs" />
@@ -141,10 +143,10 @@
     <Compile Include="Models\MiHoYo\Record\PlayerInfo.cs" />
     <Compile Include="Models\MiHoYo\Record\Record.cs" />
     <Compile Include="Models\MiHoYo\Record\PlayerStats.cs" />
-    <Compile Include="Models\MiHoYo\Record\CharacterQueryPostData.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Reliquary.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquaryAffix.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquarySet.cs" />
+    <Compile Include="Models\MiHoYo\Requester.cs" />
     <Compile Include="Models\MiHoYo\Response.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Weapon.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Battle.cs" />
@@ -154,7 +156,10 @@
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Rank.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\SpiralAbyss.cs" />
     <Compile Include="Models\MiHoYo\Record\WorldExploration.cs" />
+    <Compile Include="Models\MiHoYo\Result.cs" />
+    <Compile Include="Models\MiHoYo\ReturnCode.cs" />
     <Compile Include="Models\MiHoYo\Sign\SignIn.cs" />
+    <Compile Include="Models\MiHoYo\Sign\SignInResult.cs" />
     <Compile Include="Models\MiHoYo\StringExtensions.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRole.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRoleInfo.cs" />
@@ -189,11 +194,11 @@
     <Compile Include="Services\GachaStatistic\LocalGachaLogProvider.cs" />
     <Compile Include="Services\GachaStatistic\GachaLogProvider.cs" />
     <Compile Include="Services\GithubService.cs" />
-    <Compile Include="Services\LoginService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Settings\Setting.cs" />
     <Compile Include="Services\Settings\SettingService.cs" />
+    <Compile Include="Services\DailySignInService.cs" />
     <Compile Include="Services\SimulationService.cs" />
     <Compile Include="Services\Updating\UpdateDialog.xaml.cs">
       <DependentUpon>UpdateDialog.xaml</DependentUpon>
@@ -241,10 +246,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -257,6 +258,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Models\MiHoYo\CookieDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CharactersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
