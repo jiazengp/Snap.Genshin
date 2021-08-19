@@ -12,11 +12,11 @@
 ---
 
 ### 主页
-![主页](https://i.loli.net/2021/08/05/r2GLbuzAISjMpsl.png)
+![home.png](https://i.loli.net/2021/08/19/NPQDokzOKx2MVw4.png)
 ### 祈愿记录
-![祈愿记录](https://i.loli.net/2021/08/05/OUJBdI8ucwmesbh.png)
+![gacha.png](https://i.loli.net/2021/08/19/oiyjuG1ZhC9JTKS.png)
 ### 玩家信息
-![玩家信息](https://i.loli.net/2021/08/11/gMrNC8oOS2K4vEG.png)
+![player.png](https://i.loli.net/2021/08/19/sLkfpgyAxRzq9Kn.png)
 </div>
 
 ---
