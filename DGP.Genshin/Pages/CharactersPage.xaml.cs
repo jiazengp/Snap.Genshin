@@ -16,7 +16,7 @@ namespace DGP.Genshin.Pages
             {
                 service.SelectedCharacter = service.Characters[0];
             }
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

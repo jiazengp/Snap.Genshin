@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.Weapons
     {
         public WeaponItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

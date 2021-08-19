@@ -24,18 +24,18 @@ namespace DGP.Genshin.DataViewer.Views
         public DirectorySelectView()
         {
             this.DataContext = this;
-            this.InitializeComponent();
+            InitializeComponent();
             this.Container.GoToElementState("PickingFolder", true);
         }
 
         private ExcelSplitView excelSplitView;
-        public ExcelSplitView ExcelSplitView { get => this.excelSplitView; set => this.Set(ref this.excelSplitView, value); }
+        public ExcelSplitView ExcelSplitView { get => this.excelSplitView; set => Set(ref this.excelSplitView, value); }
 
         private void OpenFolderRequested(object sender, RoutedEventArgs e)
         {
             WorkingFolderService.SelectWorkingFolder();
             string path = WorkingFolderService.WorkingFolderPath;
-            this.InitializeMaps(path);
+            InitializeMaps(path);
         }
         private void OnFolderDrop(object sender, DragEventArgs e)
         {
@@ -44,7 +44,7 @@ namespace DGP.Genshin.DataViewer.Views
             this.Log(Directory.Exists(folder));
             if (Directory.Exists(folder))
             {
-                this.InitializeMaps(folder);
+                InitializeMaps(folder);
             }
         }
         private void InitializeMaps(string path)
@@ -102,7 +102,7 @@ namespace DGP.Genshin.DataViewer.Views
             }
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

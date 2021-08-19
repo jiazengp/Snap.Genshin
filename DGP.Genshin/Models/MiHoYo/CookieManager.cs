@@ -20,18 +20,16 @@ namespace DGP.Genshin.Models.MiHoYo
         private static string Cookie { get; set; }
         public static async Task<string> GetCookieAsync()
         {
-            if (string.IsNullOrEmpty(Cookie))
+            if (System.String.IsNullOrEmpty(Cookie))
             {
-                string cookie = await new CookieDialog().GetInputCookieAsync();
-                File.WriteAllText(CookieFile, cookie);
-                Cookie = cookie;
+                await SetCookieAsync();
+                File.WriteAllText(CookieFile, Cookie);
             }
             return Cookie;
         }
 
-        public static void ResetCookie()
-        {
-            Cookie = null;
-        }
+        public static async Task SetCookieAsync() =>
+            Cookie = await System.Windows.Application.Current.Dispatcher.Invoke(
+                async () => await new CookieDialog().GetInputCookieAsync());
     }
 }

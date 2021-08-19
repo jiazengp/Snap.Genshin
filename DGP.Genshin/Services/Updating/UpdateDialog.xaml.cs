@@ -11,15 +11,15 @@ namespace DGP.Genshin.Services.Updating
         public UpdateDialog()
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void UpdateCancellationRequested(ContentDialog sender, ContentDialogButtonClickEventArgs args) => UpdateService.Instance.CancelUpdate();
 
         public UpdateInfo UpdateInfo
         {
-            get => (UpdateInfo)this.GetValue(UpdateInfoProperty);
-            set => this.SetValue(UpdateInfoProperty, value);
+            get => (UpdateInfo)GetValue(UpdateInfoProperty);
+            set => SetValue(UpdateInfoProperty, value);
         }
         public static readonly DependencyProperty UpdateInfoProperty =
             DependencyProperty.Register("UpdateInfo", typeof(UpdateInfo), typeof(UpdateDialog), new PropertyMetadata(new UpdateInfo()));

@@ -15,13 +15,13 @@ namespace DGP.Genshin.Models.MiHoYo
 
         public async Task<string> GetInputCookieAsync()
         {
-            if (await this.ShowAsync() == ContentDialogResult.Primary)
+            if (await ShowAsync() == ContentDialogResult.Primary)
             {
-                return InputText.Text;
+                return this.InputText.Text;
             }
             else
             {
-                return string.Empty;
+                return System.String.Empty;
             }
         }
     }

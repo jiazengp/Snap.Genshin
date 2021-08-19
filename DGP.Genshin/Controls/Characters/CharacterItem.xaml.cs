@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.Characters
     {
         public CharacterItem()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace DGP.Genshin.Pages
             {
                 service.SelectedWeapon = service.Weapons[0];
             }
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

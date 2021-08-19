@@ -16,15 +16,15 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             return new Statistic()
             {
                 Uid = uid,
-                Permanent = ToBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0),
-                WeaponEvent = ToBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0),
-                CharacterEvent = ToBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0),
+                Permanent = ToBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 90),
+                WeaponEvent = ToBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 80),
+                CharacterEvent = ToBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 90),
                 Characters = ToTotalCountList(data, "角色"),
                 Weapons = ToTotalCountList(data, "武器")
             };
         }
 
-        private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob)
+        private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob, int granteeCount)
         {
             List<GachaLogItem> list = data[type];
             int index = list.FindIndex(i => i.Rank == "5");
@@ -55,7 +55,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.MinGetStar5Count = 0;
             }
 
-            banner.NextStar5PredictCount = (int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount);
+            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount), banner);
+
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
@@ -97,7 +98,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             }
             return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
-
         private static List<StatisticItem5Star> CountStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
@@ -118,6 +118,22 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             }
             counter.Reverse();
             return counter;
+        }
+        private static int RestrictPredicatedCount(int predicatedCount, StatisticBanner banner)
+        {
+            int predicatedSum = predicatedCount + banner.CountSinceLastStar5;
+            if (predicatedSum > 90 || predicatedSum < 1)
+            {
+                if (predicatedSum > 90)
+                {
+                    predicatedCount = 90 - banner.CountSinceLastStar5;
+                }
+                else if (predicatedSum < 1)
+                {
+                    predicatedCount = 1;
+                }
+            }
+            return predicatedCount;
         }
     }
 }

@@ -17,30 +17,27 @@ namespace DGP.Genshin.Services.Settings
         {
             if (!this.settingDictionary.TryGetValue(key, out object value))
             {
+                this.settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
             }
             else
             {
-                this.settingDictionary.AddOrSet(key, value);
                 return (T)value;
             }
         }
         public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
         {
-
             if (!this.settingDictionary.TryGetValue(key, out object value))
             {
+                this.settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
             }
             else
             {
-                this.settingDictionary.AddOrSet(key, value);
                 return converter.Invoke(value);
             }
         }
-
         public bool Has(string key) => this.settingDictionary.ContainsKey(key);
-
         public object this[string key]
         {
             set

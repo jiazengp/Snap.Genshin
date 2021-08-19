@@ -1,5 +1,8 @@
-﻿namespace DGP.Genshin.Data.Simulations
+﻿using System;
+
+namespace DGP.Genshin.Data.Simulations
 {
+    [Obsolete]
     public class SimulationInput
     {
         public double ATK { get; set; }

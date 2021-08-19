@@ -10,7 +10,7 @@ namespace DGP.Genshin.DataViewer
         public MainWindow()
         {
             this.DataContext = this;
-            this.InitializeComponent();
+            InitializeComponent();
             this.DirectoryView.ExcelSplitView = this.ExcelDataView;
 
         }

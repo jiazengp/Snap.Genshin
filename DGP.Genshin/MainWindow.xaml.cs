@@ -22,26 +22,28 @@ namespace DGP.Genshin
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
         }
+
+
         [HandleEvent]
         private async void SplashInitializeCompleted()
         {
             this.navigationService.Navigate<HomePage>(true);
             //check for update
-            UpdateState result = await Task.Run(UpdateService.Instance.CheckUpdateStateViaGithub);
+            UpdateState result = await UpdateService.Instance.CheckUpdateStateViaGithubAsync();
             if (result == UpdateState.NeedUpdate)
             {
                 ContentDialogResult dialogResult = await new ContentDialog
                 {
-                    Title = UpdateService.Instance.ReleaseInfo.Name,
+                    Title = UpdateService.Instance.Release.Name,
                     Content = new FlowDocumentScrollViewer
                     {
                         Document = new TextToFlowDocumentConverter
                         {
-                            Markdown = this.FindResource("Markdown") as Markdown
-                        }.Convert(UpdateService.Instance.ReleaseInfo.Body, typeof(FlowDocument), null, null) as FlowDocument
+                            Markdown = FindResource("Markdown") as Markdown
+                        }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
                     },
                     PrimaryButtonText = "更新",
                     CloseButtonText = "忽略",
@@ -56,17 +58,23 @@ namespace DGP.Genshin
             }
         }
 
+        private bool isSigningIn = false;
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
-            List<Models.MiHoYo.Result> results = await new DailySignInService().SignInAsync();
-            var finalResult = results.Exists(r => r.ReturnCode != 0);
-            await new ContentDialog
+            if (!this.isSigningIn)
             {
-                Title = finalResult ? "签到失败" : "签到成功",
-                Content = new ModernWpf.Controls.ListView { ItemsSource = results },
-                PrimaryButtonText = "确认",
-                DefaultButton = ContentDialogButton.Primary
-            }.ShowAsync();
+                this.isSigningIn = true;
+                List<Models.MiHoYo.Result> results = await Task.Run(async () => await new DailySignInService().SignInAsync());
+                bool finalResult = results.Exists(r => r.ReturnCode != 0);
+                await new ContentDialog
+                {
+                    Title = "签到",
+                    Content = results.Last().Message,
+                    PrimaryButtonText = "确认",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+                this.isSigningIn = false;
+            }
         }
     }
 }

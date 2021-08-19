@@ -7,12 +7,12 @@ namespace DGP.Snap.Framework.Data.Behavior
         private T _value;
         private bool isSelected;
 
-        public T Value { get => this._value; set => this.Set(ref this._value, value); }
+        public T Value { get => this._value; set => Set(ref this._value, value); }
         public bool IsSelected
         {
             get => this.isSelected; set
             {
-                this.Set(ref this.isSelected, value);
+                Set(ref this.isSelected, value);
                 SelectChanged?.Invoke(value);
             }
         }

@@ -35,7 +35,7 @@ namespace DGP.Snap.AutoVersion
                 this.m_argumentName = argumentName;
             }
 
-            internal void SetFailure(ParseFailureKind failure) => this.SetFailure(failure, String.Empty);
+            internal void SetFailure(ParseFailureKind failure) => SetFailure(failure, String.Empty);
 
             internal void SetFailure(ParseFailureKind failure, string argument)
             {
@@ -43,7 +43,7 @@ namespace DGP.Snap.AutoVersion
                 this.m_exceptionArgument = argument;
                 if (this.m_canThrow)
                 {
-                    throw this.GetVersionParseException();
+                    throw GetVersionParseException();
                 }
             }
 
@@ -330,15 +330,15 @@ namespace DGP.Snap.AutoVersion
         {
             if (this._Build == -1)
             {
-                return this.ToString(2);
+                return ToString(2);
             }
 
             if (this._Revision == -1)
             {
-                return this.ToString(3);
+                return ToString(3);
             }
 
-            return this.ToString(4);
+            return ToString(4);
         }
         public string ToString(int fieldCount)
         {

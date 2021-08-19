@@ -1,10 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
@@ -32,7 +29,7 @@ namespace DGP.Genshin.Services
                 {
                     UserGameRole role = rolesInfo.Data.List[i];
                     Response<SignIn> signIn =
-                        requester.Get<SignIn>($"{BaseUrl}event/bbs_sign_reward/info?act_id={ActId}&region={role.Region}&uid={role.GameUid}",true);
+                        requester.Get<SignIn>($"{BaseUrl}event/bbs_sign_reward/info?act_id={ActId}&region={role.Region}&uid={role.GameUid}", true);
                     results.Add(signIn);
                     if (signIn.ReturnCode == 0)
                     {

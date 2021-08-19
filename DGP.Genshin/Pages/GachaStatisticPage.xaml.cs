@@ -20,7 +20,7 @@ namespace DGP.Genshin.Pages
         {
             this.Service = new GachaStatisticService();
             this.DataContext = this.Service;
-            this.InitializeComponent();
+            InitializeComponent();
         }
         private void RefreshAppBarButtonClick(object sender, RoutedEventArgs e) => this.Service.Refresh();
         protected override void OnNavigatedFrom(NavigationEventArgs e)

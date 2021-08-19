@@ -77,6 +77,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\CachedImage\CachedBitmapIcon.cs" />
+    <Compile Include="Controls\CachedImage\CachedIconElementBase.cs" />
     <Compile Include="Controls\CachedImage\FileCache.cs" />
     <Compile Include="Controls\CachedImage\CachedImage.cs" />
     <Compile Include="Controls\Characters\CharacterItem.xaml.cs">
@@ -317,14 +319,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="EPPlus">
+      <Version>5.7.3</Version>
+    </PackageReference>
     <PackageReference Include="ModernWpfUI">
       <Version>0.9.4</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="NPOI">
-      <Version>2.5.4</Version>
     </PackageReference>
     <PackageReference Include="Octokit">
       <Version>0.50.0</Version>

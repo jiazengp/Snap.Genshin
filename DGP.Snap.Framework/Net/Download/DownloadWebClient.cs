@@ -22,7 +22,7 @@ namespace DGP.Snap.Framework.Net.Download
         public void OpenReadAsync(Uri address, long newPosition)
         {
             this.position = newPosition;
-            this.OpenReadAsync(address);
+            OpenReadAsync(address);
         }
 
         public string GetOriginalFileNameFromDownload()

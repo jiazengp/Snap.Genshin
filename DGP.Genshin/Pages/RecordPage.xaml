@@ -34,11 +34,12 @@
                             </ui:AppBarToggleButton.Icon>
                         </ui:AppBarToggleButton>
                     </ui:AppBarElementContainer>
-                    <ui:AutoSuggestBox Margin="12,4,0,0" MinWidth="240" PlaceholderText="{Binding CurrentRecord.UserId,FallbackValue=键入UID以查询}" QueryIcon="Find"
+                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" Margin="12,4,0,0" MinWidth="160" PlaceholderText="键入UID以查询" QueryIcon="Find"
                                        TextChanged="AutoSuggestBox_TextChanged" 
                                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
                                        QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
                     <ui:ProgressRing x:Name="RequestingProgressRing" Margin="12,4,0,0"/>
+                    <TextBlock x:Name="RequestingProgressText" Margin="12,0" VerticalAlignment="Center"/>
                 </StackPanel>
             </ui:CommandBar.Content>
             <ui:AppBarToggleButton Label="统计信息" IsChecked="{Binding ElementName=StatisticSplitView,Path=IsPaneOpen}">
@@ -132,7 +133,7 @@
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
                                             <Border Width="72" Height="72">
-                                                <c:CachedImage HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="64" Grid.Column="0" ImageUrl="{Binding Icon}" />
+                                                <c:CachedBitmapIcon HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="64" Grid.Column="0" UriSource="{Binding Icon}" />
                                             </Border>
                                             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1">
                                                 <Grid>
@@ -1183,7 +1184,7 @@
                 </s:SmoothScrollViewer>
             </ui:SplitView.Pane>
             <ui:SplitView.Content>
-                <ui:SplitView x:Name="CharactersSplitView" DisplayMode="Inline" FlowDirection="LeftToRight" OpenPaneLength="374">
+                <ui:SplitView x:Name="CharactersSplitView" DisplayMode="Inline" FlowDirection="LeftToRight" OpenPaneLength="376">
                     <ui:SplitView.Pane>
                         <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                             <ui:GridView 
@@ -1350,7 +1351,7 @@
                                                             <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
                                                         <Border Width="48" Height="48" Margin="4">
-                                                            <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                                            <c:CachedBitmapIcon UriSource="{Binding Icon}"/>
                                                         </Border>
                                                         <StackPanel Grid.Column="1">
                                                             <TextBlock Margin="8,4,8,0" Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}"/>

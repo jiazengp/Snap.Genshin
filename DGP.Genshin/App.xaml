@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Markdown/MarkdownStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-
+            <!--Texts-->
             <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
                 <!--<Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MessageFontFamilyKey}}" />-->
                 <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
@@ -52,15 +52,14 @@
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="FontWeight" Value="Normal" />
             </Style>
-
+            <!--Converters-->
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            
-            <CornerRadius x:Key="IconCornerRadius">0</CornerRadius>
-
+            <!--Modefied Styles-->
             <Style TargetType="{x:Type Expander}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Padding" Value="8"/>
                 <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
@@ -442,6 +441,7 @@
             <Style TargetType="{x:Type c:CachedImage}">
                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Focusable" Value="False"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

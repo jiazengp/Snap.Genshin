@@ -26,7 +26,7 @@ namespace DGP.Genshin.Controls
                     InitializeCompleted?.Invoke();
                 }
             };
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e) => await DataService.Instance.CheckAllIntegrityAsync();

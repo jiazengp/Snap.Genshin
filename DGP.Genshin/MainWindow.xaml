@@ -8,17 +8,18 @@
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown"
-        ui:WindowHelper.UseModernWindowStyle="True"
-        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown" xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="Snap原神" 
+        Title="Snap 原神" 
         MinWidth="1046"
         MinHeight="680"
         Width="1046"
         Height="680" 
-        WindowStartupLocation="CenterScreen">
+        ui:TitleBar.IsIconVisible="True"
+        WindowStartupLocation="CenterScreen"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.ExtendViewIntoTitleBar="True">
     <Window.Resources>
         <converters:DevModeVisibilityConverter x:Key="DevModeVisibilityConverter"/>
         <m:Markdown x:Key="Markdown"
@@ -35,6 +36,7 @@
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
+            IsPaneToggleButtonVisible="True"
             x:Name="NavView" 
             OpenPaneLength="172" 
             CompactPaneLength="48"
@@ -52,7 +54,7 @@
                         <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/weapons_35.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                
+
                 <ui:NavigationViewItemHeader Content="记录工具"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
@@ -60,7 +62,7 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
-                
+
                 <ui:NavigationViewItemHeader Content="高级工具" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
                 <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
                     <ui:NavigationViewItem.Icon>
@@ -68,9 +70,9 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
-            <ui:Frame x:Name="ContentFrame"/>
+            <ui:Frame Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}" x:Name="ContentFrame"/>
         </ui:NavigationView>
-        <Image Height="16" Margin="16,10" 
+        <Image Height="16" Margin="16,8" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" 
                Source="SG_Logo.ico" 

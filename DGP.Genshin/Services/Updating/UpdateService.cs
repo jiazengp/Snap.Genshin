@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Models.Github;
-using DGP.Snap.Framework.Data.Json;
-using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Download;
+using Octokit;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Updating
 {
@@ -13,7 +13,7 @@ namespace DGP.Genshin.Services.Updating
     {
         public Uri PackageUri { get; set; }
         public Version NewVersion { get; set; }
-        public Release ReleaseInfo { get; set; }
+        public Release Release { get; set; }
         public UpdateInfo UpdateInfo { get; set; }
         public Version CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -21,37 +21,27 @@ namespace DGP.Genshin.Services.Updating
 
         private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
 
-        public UpdateState CheckUpdateState(string url)
+        public async Task<UpdateState> CheckUpdateStateAsync(string url)
         {
             try
             {
-                this.ReleaseInfo = Json.GetWebResponseObject<Release>(url);
+                GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"));
+                this.Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 
-                this.PackageUri = new Uri(this.ReleaseInfo.Assets[0].BrowserDownloadUrl);
+                this.PackageUri = new Uri(this.Release.Assets[0].BrowserDownloadUrl);
                 this.UpdateInfo = new UpdateInfo
                 {
-                    Title = this.ReleaseInfo.Name,
-                    Detail = this.ReleaseInfo.Body
+                    Title = this.Release.Name,
+                    Detail = this.Release.Body
                 };
-                string newVersion = this.ReleaseInfo.TagName;
-                this.NewVersion = new Version(this.ReleaseInfo.TagName);
+                string newVersion = this.Release.TagName;
+                this.NewVersion = new Version(this.Release.TagName);
 
-                if (new Version(newVersion) > this.CurrentVersion)//有新版本
-                {
-
-                    return UpdateState.NeedUpdate;
-                }
-                else
-                {
-                    if (new Version(newVersion) == this.CurrentVersion)
-                    {
-                        return UpdateState.IsNewestRelease;
-                    }
-                    else
-                    {
-                        return UpdateState.IsInsiderVersion;
-                    }
-                }
+                return new Version(newVersion) > this.CurrentVersion
+                    ? UpdateState.NeedUpdate
+                    : new Version(newVersion) == this.CurrentVersion
+                           ? UpdateState.IsNewestRelease
+                           : UpdateState.IsInsiderVersion;
             }
             catch (Exception)
             {
@@ -59,13 +49,13 @@ namespace DGP.Genshin.Services.Updating
             }
         }
 
-        public UpdateState CheckUpdateStateViaGithub() => this.CheckUpdateState(GithubUrl);
+        public async Task<UpdateState> CheckUpdateStateViaGithubAsync() => await CheckUpdateStateAsync(GithubUrl);
 
         public void DownloadAndInstallPackage()
         {
             this.InnerFileDownloader = new FileDownloader();
-            this.InnerFileDownloader.DownloadProgressChanged += this.OnDownloadProgressChanged;
-            this.InnerFileDownloader.DownloadFileCompleted += this.OnDownloadFileCompleted;
+            this.InnerFileDownloader.DownloadProgressChanged += OnDownloadProgressChanged;
+            this.InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
             this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);

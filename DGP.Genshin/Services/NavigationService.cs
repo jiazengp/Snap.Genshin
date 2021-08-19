@@ -23,7 +23,7 @@ namespace DGP.Genshin.Services
             this.navigationView = navigationView;
             this.frame = frame;
 
-            this.navigationView.ItemInvoked += this.OnItemInvoked;
+            this.navigationView.ItemInvoked += OnItemInvoked;
         }
 
         public static NavigationService Current;
@@ -53,25 +53,27 @@ namespace DGP.Genshin.Services
             }
             if (isSyncTabRequested)
             {
-                this.SyncTabWith(pageType);
+                SyncTabWith(pageType);
             }
             this.backItemStack.Push(this.selected);
             bool result = this.frame.Navigate(pageType, data, info);
             this.frame.RemoveBackEntry();
             return result;
         }
-        public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null) where T : System.Windows.Controls.Page => this.Navigate(typeof(T), isSyncTabRequested, data, info);
+        public bool Navigate<T>(bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null)
+            where T : System.Windows.Controls.Page =>
+            Navigate(typeof(T), isSyncTabRequested, data, info);
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             this.selected = this.navigationView.SelectedItem as NavigationViewItem;
             if (args.IsSettingsInvoked)
             {
-                this.Navigate<SettingsPage>();
+                Navigate<SettingsPage>();
             }
             else
             {
-                this.Navigate(this.selected.GetValue(NavHelper.NavigateToProperty) as Type);
+                Navigate(this.selected.GetValue(NavHelper.NavigateToProperty) as Type);
             }
         }
     }

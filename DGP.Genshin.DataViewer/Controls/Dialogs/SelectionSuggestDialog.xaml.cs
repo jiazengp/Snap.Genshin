@@ -7,7 +7,7 @@
     {
         public SelectionSuggestDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

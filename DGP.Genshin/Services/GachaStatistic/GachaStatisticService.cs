@@ -35,14 +35,14 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         public GachaStatisticService()
         {
-            this.Initialize();
+            Initialize();
         }
         ~GachaStatisticService()
         {
-            this.UnInitialize();
+            UnInitialize();
         }
 
-        public void Initialize() => this.LoadLocalData();
+        public void Initialize() => LoadLocalData();
         public void UnInitialize() => this.gachaLogProvider = null;
 
         #region observables
@@ -51,14 +51,14 @@ namespace DGP.Genshin.Services.GachaStatistic
         private bool hasData = true;
         private FetchProgress fetchProgress;
 
-        public Statistic Statistic { get => this.statistic; set => this.Set(ref this.statistic, value); }
+        public Statistic Statistic { get => this.statistic; set => Set(ref this.statistic, value); }
         public string SelectedUid
         {
-            get => this.selectedUid; set => this.Set(ref this.selectedUid, value);
+            get => this.selectedUid; set => Set(ref this.selectedUid, value);
         }
         public ObservableCollection<string> Uids { get; set; } = new ObservableCollection<string>();
-        public bool HasNoData { get => this.hasData; set => this.Set(ref this.hasData, value); }
-        public FetchProgress FetchProgress { get => this.fetchProgress; set => this.Set(ref this.fetchProgress, value); }
+        public bool HasNoData { get => this.hasData; set => Set(ref this.hasData, value); }
+        public FetchProgress FetchProgress { get => this.fetchProgress; set => Set(ref this.fetchProgress, value); }
         #endregion
 
         public void AddOrIgnore(string uid)
@@ -70,20 +70,22 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             if (this.GachaLogProvider.TryFindUrlInLogFile())
             {
-                this.GachaLogProvider.OnFetchProgressed += this.OnFetchProgressed;
+                this.GachaLogProvider.OnFetchProgressed += OnFetchProgressed;
                 await Task.Run(() =>
                 {
+                    //gacha config can be null
                     foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
                     {
                         this.GachaLogProvider.FetchGachaLogIncrement(pool);
                     }
                     this.GachaLogProvider.SaveAllLogs();
-                }).ContinueWith((t) =>
+                });
+                await Task.Run(() =>
                 {
                     this.Statistic = StatisticFactory.ToStatistic(this.GachaLogProvider.LocalGachaLogProvider.Data[this.SelectedUid], this.SelectedUid);
                     this.HasNoData = false;
                 });
-                this.GachaLogProvider.OnFetchProgressed -= this.OnFetchProgressed;
+                this.GachaLogProvider.OnFetchProgressed -= OnFetchProgressed;
                 this.FetchProgress = null;
             }
             else

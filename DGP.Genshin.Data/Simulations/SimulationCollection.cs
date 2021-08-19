@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace DGP.Genshin.Data.Simulations
 {
+    [Obsolete]
     public class SimulationCollection
     {
         public string Name { get; set; }

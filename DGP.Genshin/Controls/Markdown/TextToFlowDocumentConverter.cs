@@ -9,8 +9,8 @@ namespace DGP.Genshin.Controls.Markdown
     {
         public Markdown Markdown
         {
-            get => (Markdown)this.GetValue(MarkdownProperty);
-            set => this.SetValue(MarkdownProperty, value);
+            get => (Markdown)GetValue(MarkdownProperty);
+            set => SetValue(MarkdownProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Markdown.  This enables animation, styling, binding, etc...

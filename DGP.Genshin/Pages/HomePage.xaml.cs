@@ -11,7 +11,7 @@ namespace DGP.Genshin.Pages
         public HomePage()
         {
             this.DataContext = DailyViewService.Instance;
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

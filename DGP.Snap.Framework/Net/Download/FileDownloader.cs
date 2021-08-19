@@ -57,7 +57,7 @@ namespace DGP.Snap.Framework.Net.Download
             this.downloadCache = downloadCache;
             this.disposed = false;
 
-            this.attemptTimer.Elapsed += this.OnDownloadAttemptTimer;
+            this.attemptTimer.Elapsed += OnDownloadAttemptTimer;
         }
 
         /// <summary>
@@ -117,14 +117,14 @@ namespace DGP.Snap.Framework.Net.Download
         /// </summary>
         /// <param name="source">Source URI</param>
         /// <param name="destinationPath">Full path with file name.</param>
-        public void DownloadFileAsync(Uri source, string destinationPath) => this.DownloadFileAsync(source, destinationPath, false);
+        public void DownloadFileAsync(Uri source, string destinationPath) => DownloadFileAsync(source, destinationPath, false);
 
         /// <summary>
         /// Start download of source file to downloadDirectory. File would be saved with filename taken from server 
         /// </summary>
         /// <param name="source">Source URI</param>
         /// <param name="destinationDirectory">Destination directory</param>
-        public void DownloadFileAsyncPreserveServerFileName(Uri source, string destinationDirectory) => this.DownloadFileAsync(source, Path.Combine(destinationDirectory, Guid.NewGuid().ToString()), true);
+        public void DownloadFileAsyncPreserveServerFileName(Uri source, string destinationDirectory) => DownloadFileAsync(source, Path.Combine(destinationDirectory, Guid.NewGuid().ToString()), true);
 
         /// <summary>
         /// Cancel current download
@@ -145,8 +145,8 @@ namespace DGP.Snap.Framework.Net.Download
                 this.worker.Cancel();
             }
 
-            this.TriggerDownloadWebClientCancelAsync();
-            this.DeleteDownloadedFile();  ////todo: maybe this is equal to InvalidateCache? Can we get rid of DeleteDownloadedFile ?
+            TriggerDownloadWebClientCancelAsync();
+            DeleteDownloadedFile();  ////todo: maybe this is equal to InvalidateCache? Can we get rid of DeleteDownloadedFile ?
 
             this.readyToDownload.Set();
         }
@@ -165,7 +165,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void DownloadFileAsync(Uri source, string destinationPath, bool useServerFileName)
         {
-            if (!this.WaitSafeStart())
+            if (!WaitSafeStart())
             {
                 throw new Exception("Unable to start download because another request is still in progress.");
             }
@@ -182,28 +182,28 @@ namespace DGP.Snap.Framework.Net.Download
 
             this.attemptNumber = 0;
 
-            this.StartDownload();
+            StartDownload();
         }
 
-        private void OnDownloadAttemptTimer(object sender, EventArgs eventArgs) => this.StartDownload();
+        private void OnDownloadAttemptTimer(object sender, EventArgs eventArgs) => StartDownload();
 
         private void StartDownload()
         {
-            if (this.IsCancelled())
+            if (IsCancelled())
             {
                 return;
             }
 
-            this.localFileName = this.ComposeLocalFilename();
+            this.localFileName = ComposeLocalFilename();
 
             if (!this.UseCaching)
             {
-                this.TriggerWebClientDownloadFileAsync();
+                TriggerWebClientDownloadFileAsync();
                 return;
             }
 
             this.TotalBytesToReceive = -1;
-            WebHeaderCollection headers = this.GetHttpHeaders(this.fileSource);
+            WebHeaderCollection headers = GetHttpHeaders(this.fileSource);
             if (headers != null)
             {
                 this.TotalBytesToReceive = headers.GetContentLength();
@@ -212,11 +212,11 @@ namespace DGP.Snap.Framework.Net.Download
             if (this.TotalBytesToReceive == -1)
             {
                 this.TotalBytesToReceive = 0;
-                this.TriggerWebClientDownloadFileAsync();
+                TriggerWebClientDownloadFileAsync();
             }
             else
             {
-                this.ResumeDownload(headers);
+                ResumeDownload(headers);
             }
         }
 
@@ -224,7 +224,7 @@ namespace DGP.Snap.Framework.Net.Download
         {
             this.isFallback = false;
 
-            string downloadedFileName = this.GetDestinationFileName(headers);
+            string downloadedFileName = GetDestinationFileName(headers);
 
             if (!FileUtils.TryGetFileSize(downloadedFileName, out long downloadedFileSize))
             {
@@ -238,28 +238,28 @@ namespace DGP.Snap.Framework.Net.Download
 
             if (downloadedFileSize > this.TotalBytesToReceive)
             {
-                this.InvalidateCache(this.fileSource);
+                InvalidateCache(this.fileSource);
             }
 
             if (downloadedFileSize != this.TotalBytesToReceive)
             {
                 if (!FileUtils.ReplaceFile(downloadedFileName, this.localFileName))
                 {
-                    this.InvalidateCache(this.fileSource);
+                    InvalidateCache(this.fileSource);
                 }
 
-                this.Download(this.fileSource, this.localFileName, this.TotalBytesToReceive);
+                Download(this.fileSource, this.localFileName, this.TotalBytesToReceive);
             }
             else
             {
-                this.DownloadFromCache(downloadedFileName);
+                DownloadFromCache(downloadedFileName);
             }
         }
 
         private void DownloadFromCache(string cachedResource)
         {
-            this.OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(100, this.TotalBytesToReceive, this.TotalBytesToReceive));
-            this.InvokeDownloadCompleted(CompletedState.Succeeded, cachedResource, null, true);
+            OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(100, this.TotalBytesToReceive, this.TotalBytesToReceive));
+            InvokeDownloadCompleted(CompletedState.Succeeded, cachedResource, null, true);
             this.readyToDownload.Set();
         }
 
@@ -273,16 +273,16 @@ namespace DGP.Snap.Framework.Net.Download
                 {
                     Directory.CreateDirectory(destinationDirectory);
                 }
-                this.TryCleanupExistingDownloadWebClient();
+                TryCleanupExistingDownloadWebClient();
 
-                this.downloadWebClient = this.CreateWebClient();
+                this.downloadWebClient = CreateWebClient();
                 this.downloadWebClient.DownloadFileAsync(this.fileSource, this.localFileName);
             }
             catch (Exception ex)
             {
-                if (!this.AttemptDownload())
+                if (!AttemptDownload())
                 {
-                    this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, ex);
+                    InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, ex);
                 }
             }
         }
@@ -290,9 +290,9 @@ namespace DGP.Snap.Framework.Net.Download
         private DownloadWebClient CreateWebClient()
         {
             DownloadWebClient webClient = new DownloadWebClient();
-            webClient.DownloadFileCompleted += this.OnDownloadCompleted;
-            webClient.DownloadProgressChanged += this.OnDownloadProgressChanged;
-            webClient.OpenReadCompleted += this.OnOpenReadCompleted;
+            webClient.DownloadFileCompleted += OnDownloadCompleted;
+            webClient.DownloadProgressChanged += OnDownloadProgressChanged;
+            webClient.OpenReadCompleted += OnOpenReadCompleted;
             return webClient;
         }
 
@@ -308,9 +308,9 @@ namespace DGP.Snap.Framework.Net.Download
                 {
                     if (this.downloadWebClient != null)
                     {
-                        this.downloadWebClient.DownloadFileCompleted -= this.OnDownloadCompleted;
-                        this.downloadWebClient.DownloadProgressChanged -= this.OnDownloadProgressChanged;
-                        this.downloadWebClient.OpenReadCompleted -= this.OnOpenReadCompleted;
+                        this.downloadWebClient.DownloadFileCompleted -= OnDownloadCompleted;
+                        this.downloadWebClient.DownloadProgressChanged -= OnDownloadProgressChanged;
+                        this.downloadWebClient.OpenReadCompleted -= OnOpenReadCompleted;
                         this.downloadWebClient.CancelAsync();
                         this.downloadWebClient.Dispose();
                         this.downloadWebClient = null;
@@ -347,7 +347,7 @@ namespace DGP.Snap.Framework.Net.Download
             if (cachedDestinationPath == null)
             {
                 //logger.Debug("No cache item found. Source: {0} Destination: {1}", fileSource, localFileName);
-                this.DeleteDownloadedFile();
+                DeleteDownloadedFile();
                 return this.localFileName;
             }
 
@@ -370,15 +370,15 @@ namespace DGP.Snap.Framework.Net.Download
             {
                 FileUtils.TryGetFileSize(fileDestination, out long seekPosition);
 
-                this.TryCleanupExistingDownloadWebClient();
-                this.downloadWebClient = this.CreateWebClient();
+                TryCleanupExistingDownloadWebClient();
+                this.downloadWebClient = CreateWebClient();
                 this.downloadWebClient.OpenReadAsync(source, seekPosition);
             }
             catch (Exception e)
             {
-                if (!this.AttemptDownload())
+                if (!AttemptDownload())
                 {
-                    this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, e);
+                    InvokeDownloadCompleted(CompletedState.Failed, this.localFileName, e);
                 }
             }
         }
@@ -405,7 +405,7 @@ namespace DGP.Snap.Framework.Net.Download
         {
             DownloadFileProgressChangedArgs e = new DownloadFileProgressChangedArgs(args.ProgressPercentage, args.BytesReceived, args.TotalBytesToReceive);
 
-            this.OnDownloadProgressChanged(sender, e);
+            OnDownloadProgressChanged(sender, e);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadFileProgressChangedArgs args)
@@ -450,19 +450,19 @@ namespace DGP.Snap.Framework.Net.Download
 
                 if (!webClient.HasResponse)
                 {
-                    this.TriggerWebClientDownloadFileAsync();
+                    TriggerWebClientDownloadFileAsync();
                     return;
                 }
 
                 bool appendExistingChunk = webClient.IsPartialResponse;
-                Stream destinationStream = this.CreateDestinationStream(appendExistingChunk);
+                Stream destinationStream = CreateDestinationStream(appendExistingChunk);
                 if (destinationStream != null)
                 {
-                    this.TrySetStreamReadTimeout(args.Result, (int)this.SourceStreamReadTimeout.TotalMilliseconds);
+                    TrySetStreamReadTimeout(args.Result, (int)this.SourceStreamReadTimeout.TotalMilliseconds);
 
                     this.worker = new StreamCopyWorker();
-                    this.worker.Completed += this.OnWorkerCompleted;
-                    this.worker.ProgressChanged += this.OnWorkerProgressChanged;
+                    this.worker.Completed += OnWorkerCompleted;
+                    this.worker.ProgressChanged += OnWorkerProgressChanged;
                     this.worker.CopyAsync(args.Result, destinationStream, this.TotalBytesToReceive);
                 }
             }
@@ -509,7 +509,7 @@ namespace DGP.Snap.Framework.Net.Download
                     destinationStream.Dispose();
                     destinationStream = null;
                 }
-                this.OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(ex, false, null));
+                OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(ex, false, null));
             }
             return destinationStream;
         }
@@ -528,19 +528,19 @@ namespace DGP.Snap.Framework.Net.Download
             long progress = eventArgs.BytesReceived / this.TotalBytesToReceive;
             int progressPercentage = (int)(progress * 100);
 
-            this.OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(progressPercentage, eventArgs.BytesReceived, this.TotalBytesToReceive));
+            OnDownloadProgressChanged(this, new DownloadFileProgressChangedArgs(progressPercentage, eventArgs.BytesReceived, this.TotalBytesToReceive));
         }
 
         private void OnWorkerCompleted(object sender, StreamCopyCompleteEventArgs eventArgs)
         {
             try
             {
-                this.OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(eventArgs.Exception, eventArgs.CompleteState == CompletedState.Canceled, null));
+                OnDownloadCompleted(this.downloadWebClient, new AsyncCompletedEventArgs(eventArgs.Exception, eventArgs.CompleteState == CompletedState.Canceled, null));
             }
             finally
             {
-                this.worker.ProgressChanged -= this.OnWorkerProgressChanged;
-                this.worker.Completed -= this.OnWorkerCompleted;
+                this.worker.ProgressChanged -= OnWorkerProgressChanged;
+                this.worker.Completed -= OnWorkerCompleted;
                 this.worker.Dispose();
             }
         }
@@ -556,42 +556,42 @@ namespace DGP.Snap.Framework.Net.Download
             if (webClient == null)
             {
                 //logger.Warn("Wrong sender in OnDownloadCompleted: Actual:{0} Expected:{1}", sender.GetType(), typeof(DownloadWebClient));
-                this.InvokeDownloadCompleted(CompletedState.Failed, this.localFileName);
+                InvokeDownloadCompleted(CompletedState.Failed, this.localFileName);
                 return;
             }
 
             if (args.Cancelled)
             {
                 //logger.Debug("Download cancelled. Source: {0} Destination: {1}", fileSource, localFileName);
-                this.DeleteDownloadedFile();
+                DeleteDownloadedFile();
 
-                this.InvokeDownloadCompleted(CompletedState.Canceled, this.localFileName);
+                InvokeDownloadCompleted(CompletedState.Canceled, this.localFileName);
                 this.readyToDownload.Set();
             }
             else if (args.Error != null)
             {
                 if (this.isFallback)
                 {
-                    this.DeleteDownloadedFile();
+                    DeleteDownloadedFile();
                 }
 
                 ////We may have NameResolutionFailure on internet connectivity problem.
                 ////We don't use DnsFallbackResolver if we successfully started downloading, and then got internet problem.
                 ////If we change [this.fileSource] here - we lose downloaded chunk in Cache (i.e. we create a new Cache item for new [this.fileSource]
-                if (this.attemptNumber == 1 && this.DnsFallbackResolver != null && this.IsNameResolutionFailure(args.Error))
+                if (this.attemptNumber == 1 && this.DnsFallbackResolver != null && IsNameResolutionFailure(args.Error))
                 {
                     Uri newFileSource = this.DnsFallbackResolver.Resolve(this.fileSource);
                     if (newFileSource != null)
                     {
                         this.fileSource = newFileSource;
-                        this.AttemptDownload();
+                        AttemptDownload();
                         return;
                     }
                 }
 
-                if (!this.AttemptDownload())
+                if (!AttemptDownload())
                 {
-                    this.InvokeDownloadCompleted(CompletedState.Failed, null, args.Error);
+                    InvokeDownloadCompleted(CompletedState.Failed, null, args.Error);
                     this.readyToDownload.Set();
                 }
             }
@@ -599,7 +599,7 @@ namespace DGP.Snap.Framework.Net.Download
             {
                 if (this.useFileNameFromServer)
                 {
-                    this.localFileName = this.ApplyNewFileName(this.localFileName, webClient.GetOriginalFileNameFromDownload());
+                    this.localFileName = ApplyNewFileName(this.localFileName, webClient.GetOriginalFileNameFromDownload());
                 }
 
                 if (this.UseCaching)
@@ -608,9 +608,9 @@ namespace DGP.Snap.Framework.Net.Download
                 }
 
                 ////we may have the destination file not immediately closed after downloading
-                this.WaitFileClosed(this.localFileName, TimeSpan.FromSeconds(3));
+                WaitFileClosed(this.localFileName, TimeSpan.FromSeconds(3));
 
-                this.InvokeDownloadCompleted(CompletedState.Succeeded, this.localFileName, null);
+                InvokeDownloadCompleted(CompletedState.Succeeded, this.localFileName, null);
                 this.readyToDownload.Set();
             }
         }
@@ -641,7 +641,7 @@ namespace DGP.Snap.Framework.Net.Download
                 }
                 catch (Exception)
                 {
-                    newFilePath = Path.Combine(this.CreateTempFolder(downloadDirectory), newFileName);
+                    newFilePath = Path.Combine(CreateTempFolder(downloadDirectory), newFileName);
                 }
             }
 
@@ -659,7 +659,7 @@ namespace DGP.Snap.Framework.Net.Download
             if (this.downloadWebClient != null)
             {
                 this.downloadWebClient.CancelAsync();
-                this.downloadWebClient.OpenReadCompleted -= this.OnOpenReadCompleted;
+                this.downloadWebClient.OpenReadCompleted -= OnOpenReadCompleted;
             }
         }
 
@@ -730,7 +730,7 @@ namespace DGP.Snap.Framework.Net.Download
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 

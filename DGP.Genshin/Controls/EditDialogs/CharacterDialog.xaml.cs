@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.EditDialogs
     {
         public CharacterDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

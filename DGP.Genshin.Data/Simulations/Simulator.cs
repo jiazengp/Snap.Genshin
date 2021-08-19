@@ -1,5 +1,8 @@
-﻿namespace DGP.Genshin.Data.Simulations
+﻿using System;
+
+namespace DGP.Genshin.Data.Simulations
 {
+    [Obsolete]
     public class Simulator
     {
         public SimulationInput Input { get; set; }
@@ -52,23 +55,23 @@
         {
             return this.Input.ATK
                 * this.Input.SkillRate
-                * this.GetFianlDMGBonus()
-                * (1 - this.GetFinalResistance())
-                * this.GetLevelSupressDEFRate()
+                * GetFianlDMGBonus()
+                * (1 - GetFinalResistance())
+                * GetLevelSupressDEFRate()
                 * this.Input.ElementReactionRate
-                * (1 + this.GetFianlReactionBonus());
+                * (1 + GetFianlReactionBonus());
         }
         public double EvaluateDamageCrit()
         {
             return this.Input.ATK
                 * this.Input.SkillRate
                 * (1 + this.Input.CritDMG)
-                * this.GetFianlDMGBonus()
-                * (1 - this.GetFinalResistance())
-                * this.GetLevelSupressDEFRate()
+                * GetFianlDMGBonus()
+                * (1 - GetFinalResistance())
+                * GetLevelSupressDEFRate()
                 * this.Input.ElementReactionRate
-                * (1 + this.GetFianlReactionBonus());
+                * (1 + GetFianlReactionBonus());
         }
-        public double EvaluateDamageAverage() => ((1 - this.Input.CritRate) * this.EvaluateDamageNoCrit() + this.Input.CritRate * this.EvaluateDamageCrit()) / 2;
+        public double EvaluateDamageAverage() => ((1 - this.Input.CritRate) * EvaluateDamageNoCrit() + this.Input.CritRate * EvaluateDamageCrit()) / 2;
     }
 }

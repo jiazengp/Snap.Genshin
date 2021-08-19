@@ -1,8 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +23,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             Directory.CreateDirectory(localFolderName);
             this.Service = service;
-            this.LoadAllLogs();
+            LoadAllLogs();
             if (service.Uids.Count > 0)
             {
                 service.HasNoData = false;
@@ -32,7 +31,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             }
         }
 
-        public void CreateEmptyUser(string uid) => this.Data.Add(uid, new GachaData());
+        public void CreateUser(string uid) => this.Data.Add(uid, new GachaData());
 
         /// <summary>
         /// 获取最新的时间戳id
@@ -52,12 +51,12 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 string uid = new DirectoryInfo(user).Name;
                 this.Service.AddOrIgnore(uid);
-                this.LoadLogOf(uid);
+                LoadLogOf(uid);
             }
         }
         private void LoadLogOf(string uid)
         {
-            this.CreateEmptyUser(uid);
+            CreateUser(uid);
             foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
             {
                 FileInfo fileInfo = new FileInfo(p);
@@ -71,7 +70,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             foreach (KeyValuePair<string, GachaData> entry in this.Data)
             {
-                this.SaveLogOf(entry.Key);
+                SaveLogOf(entry.Key);
             }
         }
         public void SaveLogOf(string uid)
@@ -91,39 +90,64 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             lock (this.processing)
             {
-                IWorkbook workbook = new XSSFWorkbook();
                 if (this.Data.ContainsKey(this.Service.SelectedUid))
                 {
-                    foreach (string pool in this.Data[this.Service.SelectedUid].Keys)
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (FileStream fs = File.Create(fileName))
                     {
-                        ISheet sheet = workbook.CreateSheet(pool);
-                        IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid][pool];
-                        IEnumerable<GachaLogItem> rlogs = logs.Reverse();
-                        //header
-                        IRow header = sheet.CreateRow(0);
-                        header.CreateCell(0).SetCellValue("时间");
-                        header.CreateCell(1).SetCellValue("名称");
-                        header.CreateCell(2).SetCellValue("类别");
-                        header.CreateCell(3).SetCellValue("星级");
-                        //content
-                        int count = rlogs.Count();
-                        if (count > 0)
+                        using (ExcelPackage package = new ExcelPackage(fs))
                         {
-                            int j = 0;
-                            foreach (GachaLogItem item in rlogs)
+                            foreach (string pool in this.Data[this.Service.SelectedUid].Keys)
                             {
-                                IRow currentRow = sheet.CreateRow(++j);
-                                currentRow.CreateCell(0).SetCellValue(item.Time.ToString("yyyy-MM-dd HH:mm:ss"));
-                                currentRow.CreateCell(1).SetCellValue(item.Name);
-                                currentRow.CreateCell(2).SetCellValue(item.ItemType);
-                                currentRow.CreateCell(3).SetCellValue(Int32.Parse(item.Rank));
+                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
+                                IEnumerable<GachaLogItem> logs = Enumerable.Reverse(this.Data[this.Service.SelectedUid][pool]);
+                                //header
+                                sheet.Cells[1, 1].Value = "时间";
+                                sheet.Cells[1, 2].Value = "名称";
+                                sheet.Cells[1, 3].Value = "类别";
+                                sheet.Cells[1, 4].Value = "星级";
+                                //content
+                                int count = logs.Count();
+                                int j = 1;
+                                if (count > 0)
+                                {
+                                    foreach (GachaLogItem item in logs)
+                                    {
+                                        j++;
+                                        sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                                        sheet.Cells[j, 2].Value = item.Name;
+                                        sheet.Cells[j, 3].Value = item.ItemType;
+                                        sheet.Cells[j, 4].Value = Int32.Parse(item.Rank);
+                                        using (ExcelRange range = sheet.Cells[j, 1, j, 4])
+                                        {
+                                            range.Style.Font.Color.SetColor(ToDrawingColor(Int32.Parse(item.Rank)));
+                                        }
+                                    }
+                                }
+                                sheet.Cells[1, 1, j, 4].AutoFitColumns(0);
+
+                                package.Workbook.Properties.Title = "祈愿记录";
+                                package.Workbook.Properties.Author = "Snap Genshin";
                             }
+                            package.Save();
                         }
                     }
-                    using FileStream fileStream = File.Create(fileName);
-                    workbook.Write(fileStream);
                 }
             }
+        }
+
+        public System.Drawing.Color ToDrawingColor(int rank)
+        {
+            return rank switch
+            {
+                1 => System.Drawing.Color.FromArgb(255, 114, 119, 139),
+                2 => System.Drawing.Color.FromArgb(255, 42, 143, 114),
+                3 => System.Drawing.Color.FromArgb(255, 81, 128, 203),
+                4 => System.Drawing.Color.FromArgb(255, 161, 86, 224),
+                5 => System.Drawing.Color.FromArgb(255, 188, 105, 50),
+                _ => throw new Exception("invalid rank"),
+            };
         }
         #endregion
     }

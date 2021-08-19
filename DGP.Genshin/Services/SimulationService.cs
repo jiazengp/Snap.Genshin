@@ -8,13 +8,14 @@ using System.IO;
 
 namespace DGP.Genshin.Services
 {
+    [Obsolete]
     public class SimulationService : Observable
     {
         private const string simulationsFileName = "simulations.json";
         private readonly string simulationsFile = AppDomain.CurrentDomain.BaseDirectory + simulationsFileName;
 
         private SimulationCollection selectedSimulationCollection;
-        public SimulationCollection SelectedSimulationCollection { get => this.selectedSimulationCollection; set => this.Set(ref this.selectedSimulationCollection, value); }
+        public SimulationCollection SelectedSimulationCollection { get => this.selectedSimulationCollection; set => Set(ref this.selectedSimulationCollection, value); }
         public ObservableCollection<SimulationCollection> SimulationCollections { get; set; }
 
         public void Initialize()
@@ -46,11 +47,11 @@ namespace DGP.Genshin.Services
         public SimulationService()
         {
             this.Log("SimulationService Initialized");
-            this.Initialize();
+            Initialize();
         }
         ~SimulationService()
         {
-            this.UnInitialize();
+            UnInitialize();
         }
     }
 }

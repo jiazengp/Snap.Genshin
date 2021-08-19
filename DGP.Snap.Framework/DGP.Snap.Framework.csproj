@@ -51,11 +51,10 @@
     <Compile Include="Attributes\HandleEventAttribute.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
-    <Compile Include="Core\Concurrent\ThreadSafe.cs" />
     <Compile Include="Data\Behavior\BindWrapper.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />
     <Compile Include="Data\Behavior\Selectable.cs" />
-    <Compile Include="Data\Behavior\ValueBoxes.cs" />
+    <Compile Include="Data\Behavior\BoxedValue.cs" />
     <Compile Include="Data\Json\Json.cs" />
     <Compile Include="Data\Regex\RegexPatterns.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />

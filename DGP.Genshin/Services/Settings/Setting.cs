@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernWpf;
+using System;
 
 namespace DGP.Genshin.Services.Settings
 {
@@ -9,6 +10,8 @@ namespace DGP.Genshin.Services.Settings
         public const string AppTheme = "AppTheme";
         public const string IsDevMode = "IsDevMode";
         public const string Uid = "Uid";
-        public static T EnumConverter<T>(object n) => (T)Enum.Parse(typeof(T), n.ToString());
+
+        public static ApplicationTheme? ApplicationThemeConverter(object n) =>
+            n == null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);
     }
 }

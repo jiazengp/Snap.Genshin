@@ -4,7 +4,6 @@ using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 
 namespace DGP.Genshin.Pages
 {
@@ -16,55 +15,69 @@ namespace DGP.Genshin.Pages
         public RecordPage()
         {
             this.DataContext = RecordService.Instance;
-            this.InitializeComponent();
+            InitializeComponent();
+            this.QueryAutoSuggestBox.Text = RecordService.Instance.QueryHistory.First();
         }
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput || args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
+            if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
-                IEnumerable<string> result = RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                IEnumerable<string> result =
+                    RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
             sender.Text = (string)args.SelectedItem;
+
+        private bool isQuerying = false;
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            this.RequestingProgressRing.IsActive = true;
-            string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-            Record record = await RecordService.Instance.GetRecordAsync(uid);
-            this.RequestingProgressRing.IsActive = false;
-            if (record.Success)
+            if (!this.isQuerying)
             {
-                RecordService service = RecordService.Instance;
-                service.CurrentRecord = record;
-                service.SelectedAvatar = record.DetailedAvatars.First();
-                service.AddQueryHistory(uid);
-            }
-            else
-            {
-                if (record.Message.Length == 0)
+                this.isQuerying = true;
+                this.RequestingProgressRing.IsActive = true;
+                RecordService.RecordProgressHandler += RecordService_RecordProgressed;
+                string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
+                Record record = await RecordService.Instance.GetRecordAsync(uid);
+                RecordService.RecordProgressHandler -= RecordService_RecordProgressed;
+                this.RequestingProgressRing.IsActive = false;
+
+                if (record.Success)
                 {
-                    await new ContentDialog()
-                    {
-                        Title = "查询失败",
-                        Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
-                        PrimaryButtonText = "确认",
-                        DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync();
-                    Process.Start("https://bbs.mihoyo.com/ys/");
+                    RecordService service = RecordService.Instance;
+                    service.CurrentRecord = record;
+                    service.SelectedAvatar = record.DetailedAvatars.First();
+                    service.AddQueryHistory(uid);
                 }
                 else
                 {
-                    await new ContentDialog()
+                    if (record.Message.Length == 0)
                     {
-                        Title = "查询失败",
-                        Content = $"UID:{uid}\n{record.Message}",
-                        PrimaryButtonText = "确认",
-                        DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync();
+                        await new ContentDialog()
+                        {
+                            Title = "查询失败",
+                            Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
+                            PrimaryButtonText = "确认",
+                            DefaultButton = ContentDialogButton.Primary
+                        }.ShowAsync();
+                        Process.Start("https://bbs.mihoyo.com/ys/");
+                    }
+                    else
+                    {
+                        await new ContentDialog()
+                        {
+                            Title = "查询失败",
+                            Content = $"UID:{uid}\n{record.Message}",
+                            PrimaryButtonText = "确认",
+                            DefaultButton = ContentDialogButton.Primary
+                        }.ShowAsync();
+                    }
                 }
+                this.isQuerying = false;
             }
         }
+
+        private void RecordService_RecordProgressed(string info) => this.RequestingProgressText.Text = info;
     }
 }

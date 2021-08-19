@@ -20,14 +20,14 @@ namespace DGP.Genshin.Controls.CachedImage
 
         public string ImageUrl
         {
-            get => (string)this.GetValue(ImageUrlProperty);
-            set => this.SetValue(ImageUrlProperty, value);
+            get => (string)GetValue(ImageUrlProperty);
+            set => SetValue(ImageUrlProperty, value);
         }
 
         public BitmapCreateOptions CreateOptions
         {
-            get => (BitmapCreateOptions)this.GetValue(CreateOptionsProperty);
-            set => this.SetValue(CreateOptionsProperty, value);
+            get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
+            set => SetValue(CreateOptionsProperty, value);
         }
 
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

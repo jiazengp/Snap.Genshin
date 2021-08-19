@@ -143,6 +143,6 @@
         /// </summary>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        public object GetValue(string propertyName) => this.GetType().GetField(propertyName).GetValue(null);
+        public object GetValue(string propertyName) => GetType().GetField(propertyName).GetValue(null);
     }
 }

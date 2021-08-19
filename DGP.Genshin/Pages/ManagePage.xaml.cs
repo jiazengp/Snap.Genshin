@@ -13,7 +13,7 @@ namespace DGP.Genshin.Pages
     {
         public ManagePage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             this.DataContext = DataService.Instance;
         }
 

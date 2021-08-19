@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             get
             {
                 if (this.gachaConfig == null)
-                    this.gachaConfig = this.GetGachaConfig();
+                    this.gachaConfig = GetGachaConfig();
                 return this.gachaConfig;
             }
         }
@@ -86,7 +86,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         }
 
         /// <summary>
-        /// 获取祈愿记录增量信息，能改变当前uid
+        /// 获取单个奖池的祈愿记录增量信息，能改变当前uid
         /// </summary>
         /// <param name="type"></param>
         public void FetchGachaLogIncrement(ConfigType type)
@@ -96,15 +96,16 @@ namespace DGP.Genshin.Services.GachaStatistic
             long endId = 0;
             do
             {
-                if (this.TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
+                if (TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
                 {
                     foreach (GachaLogItem item in gachaLog.List)
                     {
                         //first time fetch ,no local data
                         if (!this.LocalGachaLogProvider.Data.ContainsKey(item.Uid))
                         {
-                            this.LocalGachaLogProvider.CreateEmptyUser(item.Uid);
-                            App.Current.Dispatcher.Invoke(() => this.Service.Uids.Add(item.Uid));
+                            //change the current uid
+                            this.LocalGachaLogProvider.CreateUser(item.Uid);
+                            System.Windows.Application.Current.Dispatcher.Invoke(() => this.Service.Uids.Add(item.Uid));
                             this.Service.SelectedUid = item.Uid;
                         }
                         if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
@@ -113,8 +114,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                         }
                         else//already done the new item
                         {
-                            //works bad with break.
-                            this.MergeIncrement(type, result);
+                            MergeIncrement(type, result);
                             return;
                         }
                     }
@@ -131,7 +131,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                     break;
                 }
             } while (true);
-            this.MergeIncrement(type, result);
+            MergeIncrement(type, result);
         }
 
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)

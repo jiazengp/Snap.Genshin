@@ -12,22 +12,16 @@ namespace DGP.Genshin.Pages
         internal GithubService Service { get; set; } = new GithubService();
         public GithubPage()
         {
-            this.DataContext = Service;
+            this.DataContext = this.Service;
             InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await Service.InitializeAsync();
-        }
+        private async void Page_Loaded(object sender, RoutedEventArgs e) => await this.Service.InitializeAsync();
 
-        private async void AutoSuggestBox_QuerySubmitted(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            await Service.AddRepository(args.QueryText);
-        }
+        private async void AutoSuggestBox_QuerySubmitted(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxQuerySubmittedEventArgs args) => await this.Service.AddRepository(args.QueryText);
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Service.UnInitialize();
+            this.Service.UnInitialize();
             base.OnNavigatedFrom(e);
         }
     }

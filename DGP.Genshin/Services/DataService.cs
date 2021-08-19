@@ -25,7 +25,7 @@ namespace DGP.Genshin.Services
 {
     internal class DataService : DependencyObject
     {
-        private static readonly string folderPath = $"{AppDomain.CurrentDomain.BaseDirectory}Metadata\\";
+        private static readonly string folderPath = @"Metadata\";
 
         #region Collections
         public ObservableCollection<Boss> Bosses
@@ -34,7 +34,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.bosses == null)
                 {
-                    this.bosses = Json.ToObject<ObservableCollection<Boss>>(this.Read("bosses.json"));
+                    this.bosses = Json.ToObject<ObservableCollection<Boss>>(Read("bosses.json"));
                 }
                 return this.bosses;
             }
@@ -49,7 +49,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.characters == null)
                 {
-                    this.characters = Json.ToObject<ObservableCollection<Character>>(this.Read("characters.json"));
+                    this.characters = Json.ToObject<ObservableCollection<Character>>(Read("characters.json"));
                 }
                 return this.characters;
             }
@@ -102,7 +102,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.filterElements == null)
                 {
-                    this.filterElements = this.Elements.ToObservableSelectable(true, this.UpdateCharacterView);
+                    this.filterElements = this.Elements.ToObservableSelectable(true, UpdateCharacterView);
                 }
                 return this.filterElements;
             }
@@ -117,7 +117,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.cities == null)
                 {
-                    this.cities = Json.ToObject<ObservableCollection<KeySource>>(this.Read("cities.json"));
+                    this.cities = Json.ToObject<ObservableCollection<KeySource>>(Read("cities.json"));
                 }
                 return this.cities;
             }
@@ -131,7 +131,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.dailyTalents == null)
                 {
-                    this.dailyTalents = Json.ToObject<ObservableCollection<Talent>>(this.Read("dailytalents.json"));
+                    this.dailyTalents = Json.ToObject<ObservableCollection<Talent>>(Read("dailytalents.json"));
                 }
                 return this.dailyTalents;
             }
@@ -145,7 +145,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.dailyWeapons == null)
                 {
-                    this.dailyWeapons = Json.ToObject<ObservableCollection<Data.Materials.Weapons.Weapon>>(this.Read("dailyweapons.json"));
+                    this.dailyWeapons = Json.ToObject<ObservableCollection<Data.Materials.Weapons.Weapon>>(Read("dailyweapons.json"));
                 }
                 return this.dailyWeapons;
             }
@@ -159,7 +159,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.elements == null)
                 {
-                    this.elements = Json.ToObject<ObservableCollection<KeySource>>(this.Read("elements.json"));
+                    this.elements = Json.ToObject<ObservableCollection<KeySource>>(Read("elements.json"));
                 }
                 return this.elements;
             }
@@ -173,7 +173,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.elites == null)
                 {
-                    this.elites = Json.ToObject<ObservableCollection<Elite>>(this.Read("elites.json"));
+                    this.elites = Json.ToObject<ObservableCollection<Elite>>(Read("elites.json"));
                 }
                 return this.elites;
             }
@@ -187,7 +187,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.gemstones == null)
                 {
-                    this.gemstones = Json.ToObject<ObservableCollection<GemStone>>(this.Read("gemstones.json"));
+                    this.gemstones = Json.ToObject<ObservableCollection<GemStone>>(Read("gemstones.json"));
                 }
                 return this.gemstones;
             }
@@ -201,7 +201,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.locals == null)
                 {
-                    this.locals = Json.ToObject<ObservableCollection<Local>>(this.Read("locals.json"));
+                    this.locals = Json.ToObject<ObservableCollection<Local>>(Read("locals.json"));
                 }
                 return this.locals;
             }
@@ -215,7 +215,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.monsters == null)
                 {
-                    this.monsters = Json.ToObject<ObservableCollection<Monster>>(this.Read("monsters.json"));
+                    this.monsters = Json.ToObject<ObservableCollection<Monster>>(Read("monsters.json"));
                 }
                 return this.monsters;
             }
@@ -229,7 +229,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.stars == null)
                 {
-                    this.stars = Json.ToObject<ObservableCollection<KeySource>>(this.Read("stars.json"));
+                    this.stars = Json.ToObject<ObservableCollection<KeySource>>(Read("stars.json"));
                 }
                 return this.stars;
             }
@@ -243,7 +243,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.weapons == null)
                 {
-                    this.weapons = Json.ToObject<ObservableCollection<Weapon>>(this.Read("weapons.json"));
+                    this.weapons = Json.ToObject<ObservableCollection<Weapon>>(Read("weapons.json"));
                 }
                 return this.weapons;
             }
@@ -257,7 +257,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.weaponTypes == null)
                 {
-                    this.weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(this.Read("weapontypes.json"));
+                    this.weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(Read("weapontypes.json"));
                 }
                 return this.weaponTypes;
             }
@@ -271,7 +271,7 @@ namespace DGP.Genshin.Services
             {
                 if (this.weeklyTalents == null)
                 {
-                    this.weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(this.Read("weeklytalents.json"));
+                    this.weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(Read("weeklytalents.json"));
                 }
                 return this.weeklyTalents;
             }
@@ -284,112 +284,112 @@ namespace DGP.Genshin.Services
         #region Bindable
         public Boss SelectedBoss
         {
-            get => (Boss)this.GetValue(SelectedBossProperty);
-            set => this.SetValue(SelectedBossProperty, value);
+            get => (Boss)GetValue(SelectedBossProperty);
+            set => SetValue(SelectedBossProperty, value);
         }
         public static readonly DependencyProperty SelectedBossProperty =
             DependencyProperty.Register("SelectedBoss", typeof(Boss), typeof(DataService), new PropertyMetadata(null));
 
         public Character SelectedCharacter
         {
-            get => (Character)this.GetValue(SelectedCharacterProperty);
-            set => this.SetValue(SelectedCharacterProperty, value);
+            get => (Character)GetValue(SelectedCharacterProperty);
+            set => SetValue(SelectedCharacterProperty, value);
         }
         public static readonly DependencyProperty SelectedCharacterProperty =
             DependencyProperty.Register("SelectedCharacter", typeof(Character), typeof(DataService), new PropertyMetadata(null));
 
         public KeySource SelectedCity
         {
-            get => (KeySource)this.GetValue(SelectedCityProperty);
-            set => this.SetValue(SelectedCityProperty, value);
+            get => (KeySource)GetValue(SelectedCityProperty);
+            set => SetValue(SelectedCityProperty, value);
         }
         public static readonly DependencyProperty SelectedCityProperty =
             DependencyProperty.Register("SelectedCity", typeof(KeySource), typeof(DataService), new PropertyMetadata(null));
 
         public Talent SelectedDailyTalent
         {
-            get => (Talent)this.GetValue(SelectedDailyTalentProperty);
-            set => this.SetValue(SelectedDailyTalentProperty, value);
+            get => (Talent)GetValue(SelectedDailyTalentProperty);
+            set => SetValue(SelectedDailyTalentProperty, value);
         }
         public static readonly DependencyProperty SelectedDailyTalentProperty =
             DependencyProperty.Register("SelectedDailyTalent", typeof(Talent), typeof(DataService), new PropertyMetadata(null));
 
         public Data.Materials.Weapons.Weapon SelectedDailyWeapon
         {
-            get => (Data.Materials.Weapons.Weapon)this.GetValue(SelectedDailyWeaponProperty);
-            set => this.SetValue(SelectedDailyWeaponProperty, value);
+            get => (Data.Materials.Weapons.Weapon)GetValue(SelectedDailyWeaponProperty);
+            set => SetValue(SelectedDailyWeaponProperty, value);
         }
         public static readonly DependencyProperty SelectedDailyWeaponProperty =
             DependencyProperty.Register("SelectedDailyWeapon", typeof(Data.Materials.Weapons.Weapon), typeof(DataService), new PropertyMetadata(null));
 
         public KeySource SelectedElement
         {
-            get => (KeySource)this.GetValue(SelectedElementProperty);
-            set => this.SetValue(SelectedElementProperty, value);
+            get => (KeySource)GetValue(SelectedElementProperty);
+            set => SetValue(SelectedElementProperty, value);
         }
         public static readonly DependencyProperty SelectedElementProperty =
             DependencyProperty.Register("SelectedElement", typeof(KeySource), typeof(DataService), new PropertyMetadata(null));
 
         public Elite SelectedElite
         {
-            get => (Elite)this.GetValue(SelectedEliteProperty);
-            set => this.SetValue(SelectedEliteProperty, value);
+            get => (Elite)GetValue(SelectedEliteProperty);
+            set => SetValue(SelectedEliteProperty, value);
         }
         public static readonly DependencyProperty SelectedEliteProperty =
             DependencyProperty.Register("SelectedElite", typeof(Elite), typeof(DataService), new PropertyMetadata(null));
 
         public GemStone SelectedGemStone
         {
-            get => (GemStone)this.GetValue(SelectedGemStoneProperty);
-            set => this.SetValue(SelectedGemStoneProperty, value);
+            get => (GemStone)GetValue(SelectedGemStoneProperty);
+            set => SetValue(SelectedGemStoneProperty, value);
         }
         public static readonly DependencyProperty SelectedGemStoneProperty =
             DependencyProperty.Register("SelectedGemStone", typeof(GemStone), typeof(DataService), new PropertyMetadata(null));
 
         public Local SelectedLocal
         {
-            get => (Local)this.GetValue(SelectedLocalProperty);
-            set => this.SetValue(SelectedLocalProperty, value);
+            get => (Local)GetValue(SelectedLocalProperty);
+            set => SetValue(SelectedLocalProperty, value);
         }
         public static readonly DependencyProperty SelectedLocalProperty =
             DependencyProperty.Register("SelectedLocal", typeof(Local), typeof(DataService), new PropertyMetadata(null));
 
         public Monster SelectedMonster
         {
-            get => (Monster)this.GetValue(SelectedMonsterProperty);
-            set => this.SetValue(SelectedMonsterProperty, value);
+            get => (Monster)GetValue(SelectedMonsterProperty);
+            set => SetValue(SelectedMonsterProperty, value);
         }
         public static readonly DependencyProperty SelectedMonsterProperty =
             DependencyProperty.Register("SelectedMonster", typeof(Monster), typeof(DataService), new PropertyMetadata(null));
 
         public KeySource SelectedStar
         {
-            get => (KeySource)this.GetValue(SelectedStarProperty);
-            set => this.SetValue(SelectedStarProperty, value);
+            get => (KeySource)GetValue(SelectedStarProperty);
+            set => SetValue(SelectedStarProperty, value);
         }
         public static readonly DependencyProperty SelectedStarProperty =
             DependencyProperty.Register("SelectedStar", typeof(KeySource), typeof(DataService), new PropertyMetadata(null));
 
         public Weapon SelectedWeapon
         {
-            get => (Weapon)this.GetValue(SelectedWeaponProperty);
-            set => this.SetValue(SelectedWeaponProperty, value);
+            get => (Weapon)GetValue(SelectedWeaponProperty);
+            set => SetValue(SelectedWeaponProperty, value);
         }
         public static readonly DependencyProperty SelectedWeaponProperty =
             DependencyProperty.Register("SelectedWeapon", typeof(Weapon), typeof(DataService), new PropertyMetadata(null));
 
         public KeySource SelectedWeaponType
         {
-            get => (KeySource)this.GetValue(SelectedWeaponTypeProperty);
-            set => this.SetValue(SelectedWeaponTypeProperty, value);
+            get => (KeySource)GetValue(SelectedWeaponTypeProperty);
+            set => SetValue(SelectedWeaponTypeProperty, value);
         }
         public static readonly DependencyProperty SelectedWeaponTypeProperty =
             DependencyProperty.Register("SelectedWeaponType", typeof(KeySource), typeof(DataService), new PropertyMetadata(null));
 
         public Weekly SelectedWeeklyTalent
         {
-            get => (Weekly)this.GetValue(SelectedWeeklyTalentProperty);
-            set => this.SetValue(SelectedWeeklyTalentProperty, value);
+            get => (Weekly)GetValue(SelectedWeeklyTalentProperty);
+            set => SetValue(SelectedWeeklyTalentProperty, value);
         }
         public static readonly DependencyProperty SelectedWeeklyTalentProperty =
             DependencyProperty.Register("SelectedWeeklyTalent", typeof(Weekly), typeof(DataService), new PropertyMetadata(null));
@@ -399,55 +399,61 @@ namespace DGP.Genshin.Services
         private string Read(string filename)
         {
             string path = folderPath + filename;
-            FileStream fs = !File.Exists(path) ? File.Create(path) : File.OpenRead(path);
-            string json;
-            using (StreamReader sr = new(fs))
+            if (File.Exists(path))
             {
-                json = sr.ReadToEnd();
+                FileStream fs = File.OpenRead(path);
+                string json;
+                using (StreamReader sr = new(fs))
+                {
+                    json = sr.ReadToEnd();
+                }
+                this.Log($"{filename} loaded.");
+                return json;
             }
-            this.Log($"{filename} loaded.");
-            return json;
+            return null;
         }
         private void Save<T>(ObservableCollection<T> collection, string filename) where T : Primitive
         {
             string json = Json.Stringify(collection.OrderByDescending(i => i.Star));
-            using StreamWriter sw = new StreamWriter(File.Create(folderPath + filename));
-            sw.Write(json);
+            using (StreamWriter sw = new StreamWriter(File.Create(folderPath + filename)))
+            {
+                sw.Write(json);
+            }
             this.Log($"Save composed metadata to {filename}");
         }
         private void Save(ObservableCollection<KeySource> collection, string filename)
         {
             string json = Json.Stringify(collection);
-            using StreamWriter sw = new StreamWriter(File.Create(folderPath + filename));
-            sw.Write(json);
+            using (StreamWriter sw = new StreamWriter(File.Create(folderPath + filename)))
+            {
+                sw.Write(json);
+            }
             this.Log($"Save metadata to {filename}");
         }
         public void Initialize() => this.Log("DataService Instantiated");
         public void UnInitialize()
         {
-            //ConvertXAMLToJSON();
-            this.Save(this.Bosses, "bosses.json");
-            this.Save(this.Characters, "characters.json");
-            this.Save(this.Cities, "cities.json");
-            this.Save(this.DailyTalents, "dailytalents.json");
-            this.Save(this.DailyWeapons, "dailyweapons.json");
-            this.Save(this.Elements, "elements.json");
-            this.Save(this.Elites, "elites.json");
-            this.Save(this.GemStones, "gemstones.json");
-            this.Save(this.Locals, "locals.json");
-            this.Save(this.Monsters, "monsters.json");
-            this.Save(this.Stars, "stars.json");
-            this.Save(this.Weapons, "weapons.json");
-            this.Save(this.WeaponTypes, "weapontypes.json");
-            this.Save(this.WeeklyTalents, "weeklytalents.json");
+            Save(this.Bosses, "bosses.json");
+            Save(this.Characters, "characters.json");
+            Save(this.Cities, "cities.json");
+            Save(this.DailyTalents, "dailytalents.json");
+            Save(this.DailyWeapons, "dailyweapons.json");
+            Save(this.Elements, "elements.json");
+            Save(this.Elites, "elites.json");
+            Save(this.GemStones, "gemstones.json");
+            Save(this.Locals, "locals.json");
+            Save(this.Monsters, "monsters.json");
+            Save(this.Stars, "stars.json");
+            Save(this.Weapons, "weapons.json");
+            Save(this.WeaponTypes, "weapontypes.json");
+            Save(this.WeeklyTalents, "weeklytalents.json");
         }
-
         #region 单例
         private static DataService instance;
         private static readonly object _lock = new();
         private DataService()
         {
-            this.Initialize();
+            Initialize();
         }
         public static DataService Instance
         {
@@ -473,37 +479,38 @@ namespace DGP.Genshin.Services
         #region CheckSource
         public int CurrentCount
         {
-            get => (int)this.GetValue(CurrentCountProperty);
-            set => this.SetValue(CurrentCountProperty, value);
+            get => (int)GetValue(CurrentCountProperty);
+            set => SetValue(CurrentCountProperty, value);
         }
         public static readonly DependencyProperty CurrentCountProperty =
             DependencyProperty.Register("CurrentCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
 
         public int TotalCount
         {
-            get => (int)this.GetValue(TotalCountProperty);
-            set => this.SetValue(TotalCountProperty, value);
+            get => (int)GetValue(TotalCountProperty);
+            set => SetValue(TotalCountProperty, value);
         }
         public static readonly DependencyProperty TotalCountProperty =
             DependencyProperty.Register("TotalCount", typeof(int), typeof(DataService), new PropertyMetadata(0));
 
         public double Percent
         {
-            get => (double)this.GetValue(PercentProperty);
-            set => this.SetValue(PercentProperty, value);
+            get => (double)GetValue(PercentProperty);
+            set => SetValue(PercentProperty, value);
         }
         public static readonly DependencyProperty PercentProperty =
             DependencyProperty.Register("Percent", typeof(double), typeof(DataService), new PropertyMetadata(0.0));
 
         public bool HasCheckCompleted
         {
-            get => (bool)this.GetValue(HasCheckCompletedProperty);
-            set => this.SetValue(HasCheckCompletedProperty, value);
+            get => (bool)GetValue(HasCheckCompletedProperty);
+            set => SetValue(HasCheckCompletedProperty, value);
         }
         public static readonly DependencyProperty HasCheckCompletedProperty =
             DependencyProperty.Register("HasCheckCompleted", typeof(bool), typeof(DataService), new PropertyMetadata(false, OnCompleteStateChanged));
 
-        private static void OnCompleteStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => CompleteStateChanged?.Invoke((bool)e.NewValue);
+        private static void OnCompleteStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+            CompleteStateChanged?.Invoke((bool)e.NewValue);
 
         public static event Action<bool> CompleteStateChanged;
 
@@ -517,39 +524,52 @@ namespace DGP.Genshin.Services
                 {
                     await FileCache.HitAsync(t.Source);
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    this.Log(e);
+                }
                 progress.Report(++currentCount);
             }
         }
 
         /// <summary>
-        /// 检查缓存图片完整性，不完整的自动下载补全
+        /// 检查基础缓存图片完整性，不完整的自动下载补全
         /// </summary>
         public async Task CheckAllIntegrityAsync()
         {
             this.HasCheckCompleted = false;
             this.CurrentCount = 0;
-            this.TotalCount = this.Bosses.Count + this.Characters.Count + this.Cities.Count +
-                           this.DailyTalents.Count + this.DailyWeapons.Count + this.Elements.Count +
-                           this.Elites.Count + this.GemStones.Count + this.Locals.Count +
-                           this.Monsters.Count + this.Stars.Count + this.Weapons.Count +
-                           this.WeaponTypes.Count + this.WeeklyTalents.Count;
+            this.TotalCount =
+                this.Bosses.Count +
+                this.Characters.Count +
+                this.Cities.Count +
+                this.DailyTalents.Count +
+                this.DailyWeapons.Count +
+                this.Elements.Count +
+                this.Elites.Count +
+                this.GemStones.Count +
+                this.Locals.Count +
+                this.Monsters.Count +
+                this.Stars.Count +
+                this.Weapons.Count +
+                this.WeaponTypes.Count +
+                this.WeeklyTalents.Count;
             Progress<int> progress = new Progress<int>(i => { this.CurrentCount = i; this.Percent = i * 1.0 / this.TotalCount; });
 
-            await this.CheckIntegrityAsync(this.Bosses, progress);
-            await this.CheckIntegrityAsync(this.Characters, progress);
-            await this.CheckIntegrityAsync(this.Cities, progress);
-            await this.CheckIntegrityAsync(this.DailyTalents, progress);
-            await this.CheckIntegrityAsync(this.DailyWeapons, progress);
-            await this.CheckIntegrityAsync(this.Elements, progress);
-            await this.CheckIntegrityAsync(this.Elites, progress);
-            await this.CheckIntegrityAsync(this.GemStones, progress);
-            await this.CheckIntegrityAsync(this.Locals, progress);
-            await this.CheckIntegrityAsync(this.Monsters, progress);
-            await this.CheckIntegrityAsync(this.Stars, progress);
-            await this.CheckIntegrityAsync(this.Weapons, progress);
-            await this.CheckIntegrityAsync(this.WeaponTypes, progress);
-            await this.CheckIntegrityAsync(this.WeeklyTalents, progress);
+            await CheckIntegrityAsync(this.Bosses, progress);
+            await CheckIntegrityAsync(this.Characters, progress);
+            await CheckIntegrityAsync(this.Cities, progress);
+            await CheckIntegrityAsync(this.DailyTalents, progress);
+            await CheckIntegrityAsync(this.DailyWeapons, progress);
+            await CheckIntegrityAsync(this.Elements, progress);
+            await CheckIntegrityAsync(this.Elites, progress);
+            await CheckIntegrityAsync(this.GemStones, progress);
+            await CheckIntegrityAsync(this.Locals, progress);
+            await CheckIntegrityAsync(this.Monsters, progress);
+            await CheckIntegrityAsync(this.Stars, progress);
+            await CheckIntegrityAsync(this.Weapons, progress);
+            await CheckIntegrityAsync(this.WeaponTypes, progress);
+            await CheckIntegrityAsync(this.WeeklyTalents, progress);
 
             this.HasCheckCompleted = true;
         }

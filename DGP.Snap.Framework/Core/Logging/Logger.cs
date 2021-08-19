@@ -11,12 +11,12 @@ namespace DGP.Snap.Framework.Core.Logging
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        internal void Log(object obj, object info, Func<object, string> formatter = null)
+        internal void Log(object callerObject, object info, Func<object, string> formatter = null)
         {
             if (formatter != null)
                 info = formatter.Invoke(info);
 
-            Type type = obj.GetType();
+            Type type = callerObject.GetType();
             string typename = $"{type.Namespace}.{type.Name}";
 
             if (this.isLoggingtoFile)
@@ -25,7 +25,7 @@ namespace DGP.Snap.Framework.Core.Logging
             }
             if (this.isLoggingtoConsole)
             {
-                Debug.WriteLine($"{DateTime.Now} | DEBUG | {typename}:\n{info}");
+                Debug.WriteLine($"{typename}:\n{info}");
             }
         }
 
@@ -53,10 +53,6 @@ namespace DGP.Snap.Framework.Core.Logging
             }
         }
         #endregion
-
-        public void Initialize()
-        {
-        }
         public void UnInitialize()
         {
             //make sure all logs are written in the log file

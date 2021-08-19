@@ -25,6 +25,13 @@
                                     <BeginStoryboard>
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="SplashBorder" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.5" Duration="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SplashBorder" Storyboard.TargetProperty="Visibility" BeginTime="0:0:1">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </DataTrigger.EnterActions>

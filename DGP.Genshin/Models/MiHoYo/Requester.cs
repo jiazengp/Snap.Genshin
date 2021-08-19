@@ -34,7 +34,7 @@ namespace DGP.Genshin.Models.MiHoYo
                     client.Headers["Cookie"] = this.cookie;
                     string response = requestMethod(client);
                     return Json.ToObject<Response<T>>(response);
-                }   
+                }
             }
             catch (Exception ex)
             {
@@ -46,9 +46,9 @@ namespace DGP.Genshin.Models.MiHoYo
                 };
             }
         }
-        public Response<T> Get<T>(string url,bool isSignInRequest = false) => this.Request<T>(x => x.DownloadString(url), isSignInRequest);
-        public Response<T> Post<T>(string url, dynamic data,bool isSignInRequest = false) => this.Request<T>(x => x.UploadString(url, Json.Stringify(data)),isSignInRequest);
-        public bool Check<T>(string url) => this.Get<T>(url).ReturnCode == 0;
+        public Response<T> Get<T>(string url, bool isSignInRequest = false) => Request<T>(x => x.DownloadString(url), isSignInRequest);
+        public Response<T> Post<T>(string url, dynamic data, bool isSignInRequest = false) => Request<T>(x => x.UploadString(url, Json.Stringify(data)), isSignInRequest);
+        public bool Check<T>(string url) => Get<T>(url).ReturnCode == 0;
     }
-    
+
 }

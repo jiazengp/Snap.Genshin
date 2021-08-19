@@ -2,3 +2,13 @@
 
 # IDE0058: 永远不会使用表达式值
 dotnet_diagnostic.IDE0058.severity = none
+csharp_prefer_simple_using_statement=false:suggestion
+csharp_prefer_static_local_function=false:suggestion
+
+# IDE0051: 删除未使用的私有成员
+dotnet_diagnostic.IDE0051.severity = none
+
+[*.{cs,vb}]
+dotnet_style_qualification_for_property=true:silent
+dotnet_style_qualification_for_method=false:silent
+dotnet_style_qualification_for_event=false:silent

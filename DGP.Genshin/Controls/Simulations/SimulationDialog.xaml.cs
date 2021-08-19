@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.Simulations
     {
         public SimulationDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

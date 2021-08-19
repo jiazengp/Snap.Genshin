@@ -10,20 +10,20 @@ namespace DGP.Genshin.Controls.Simulations
     {
         public SimulationCollectionDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
         public string InputName
         {
-            get => (string)this.GetValue(InputNameProperty);
-            set => this.SetValue(InputNameProperty, value);
+            get => (string)GetValue(InputNameProperty);
+            set => SetValue(InputNameProperty, value);
         }
         public static readonly DependencyProperty InputNameProperty =
             DependencyProperty.Register("InputName", typeof(string), typeof(SimulationCollectionDialog), new PropertyMetadata(null));
 
         public string InputDescription
         {
-            get => (string)this.GetValue(InputDescriptionProperty);
-            set => this.SetValue(InputDescriptionProperty, value);
+            get => (string)GetValue(InputDescriptionProperty);
+            set => SetValue(InputDescriptionProperty, value);
         }
         public static readonly DependencyProperty InputDescriptionProperty =
             DependencyProperty.Register("InputDescription", typeof(string), typeof(SimulationCollectionDialog), new PropertyMetadata(null));
