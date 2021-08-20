@@ -387,7 +387,7 @@
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Right">
-                            <TextBlock HorizontalAlignment="Center" Text="{Binding Battles[1].Time,StringFormat={}下半 - {0:yyyy-MM-dd hh:mm:ss}}"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Battles[1].Time,StringFormat={}下半 - {0:yyyy-MM-dd HH:mm:ss}}"/>
                             <ItemsControl ItemsSource="{Binding Battles[1].Avatars}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>

@@ -1,9 +1,12 @@
 ﻿using DGP.Genshin.Controls.Markdown;
+using DGP.Genshin.Models.MiHoYo;
+using DGP.Genshin.Models.MiHoYo.BBSAPI;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Attributes;
 using ModernWpf.Controls;
+using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +27,8 @@ namespace DGP.Genshin
         {
             InitializeComponent();
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
+            CookieManager.CookieChanged += RefreshUserInfo;
         }
-
 
         [HandleEvent]
         private async void SplashInitializeCompleted()
@@ -56,6 +59,7 @@ namespace DGP.Genshin
                     await new UpdateDialog().ShowAsync();
                 }
             }
+            await RefreshUserInfoAsync();
         }
 
         private bool isSigningIn = false;
@@ -75,6 +79,23 @@ namespace DGP.Genshin
                 }.ShowAsync();
                 this.isSigningIn = false;
             }
+        }
+
+        public UserInfo UserInfo
+        {
+            get => (UserInfo)GetValue(UserInfoProperty);
+            set => SetValue(UserInfoProperty, value);
+        }
+        public static readonly DependencyProperty UserInfoProperty =
+            DependencyProperty.Register("UserInfo", typeof(UserInfo), typeof(MainWindow), new PropertyMetadata(null));
+        private async void RefreshUserInfo() => this.UserInfo = await new MiHoYoBBSService().GetCurrentUserInfoAsync();
+        private async Task RefreshUserInfoAsync() => this.UserInfo = await new MiHoYoBBSService().GetCurrentUserInfoAsync();
+        private void UserTitleButtonClick(object sender, RoutedEventArgs e)
+        {
+            Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
+            Grid grid = flyout.Content as Grid;
+            grid.DataContext = this;
+            FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
         }
     }
 }

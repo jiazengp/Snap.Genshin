@@ -96,6 +96,13 @@
     <Compile Include="Controls\EditDialogs\WeaponDialog.xaml.cs">
       <DependentUpon>WeaponDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Html\CssStylesheet.cs" />
+    <Compile Include="Controls\Html\HtmlCssParser.cs" />
+    <Compile Include="Controls\Html\HtmlLexicalAnalyzer.cs" />
+    <Compile Include="Controls\Html\HtmlParser.cs" />
+    <Compile Include="Controls\Html\HtmlSchema.cs" />
+    <Compile Include="Controls\Html\HtmlTokenType.cs" />
+    <Compile Include="Controls\Html\HtmlToXamlConverter.cs" />
     <Compile Include="Controls\Markdown\Markdown.cs" />
     <Compile Include="Controls\Markdown\TextToFlowDocumentConverter.cs" />
     <Compile Include="Controls\Records\ActivityTemplateSelector.cs" />
@@ -120,6 +127,17 @@
     <Compile Include="Models\Github\Asset.cs" />
     <Compile Include="Models\Github\Person.cs" />
     <Compile Include="Models\Github\Release.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\Achieve.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\Certification.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\CommunityInfo.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\LevelExp.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\NotifyDisable.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\Post\Post.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\Post\PostWrapper.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\PrivacyInvisible.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\UserFuncStatus.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\UserInfo.cs" />
+    <Compile Include="Models\MiHoYo\BBSAPI\UserInfoWrapper.cs" />
     <Compile Include="Models\MiHoYo\CookieDialog.xaml.cs">
       <DependentUpon>CookieDialog.xaml</DependentUpon>
     </Compile>
@@ -174,6 +192,9 @@
     <Compile Include="Pages\GithubPage.xaml.cs">
       <DependentUpon>GithubPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DailyPage.xaml.cs">
+      <DependentUpon>DailyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -208,6 +229,7 @@
     <Compile Include="Services\Updating\UpdateInfo.cs" />
     <Compile Include="Services\Updating\UpdateService.cs" />
     <Compile Include="Services\Updating\UpdateState.cs" />
+    <Compile Include="Services\MiHoYoBBSService.cs" />
     <Page Include="Controls\Characters\CharacterItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,6 +295,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\GithubPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DailyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,7 +383,9 @@
   <ItemGroup>
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\Adaptive\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"
@@ -432,7 +460,14 @@ rd /s /q zh-TW
 
 del *.pdb *.xml *dll.config DGP.Snap.Updater.exe.config
 
+move /Y *.dll .\libraries
 
-move /Y *.dll .\libraries</PostBuildEvent>
+if exist Package.zip del Package.zip
+
+$(SolutionDir)Build\7z a Package.zip libraries
+$(SolutionDir)Build\7z a Package.zip Metadata
+$(SolutionDir)Build\7z a Package.zip zh-CN
+$(SolutionDir)Build\7z a Package.zip *.exe
+$(SolutionDir)Build\7z a Package.zip *.exe.config</PostBuildEvent>
   </PropertyGroup>
 </Project>

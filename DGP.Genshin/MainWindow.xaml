@@ -33,6 +33,33 @@
                         SeparatorStyle="{StaticResource SeparatorStyle}"
                         TableStyle="{StaticResource TableStyle}"
                         TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
+        <ui:Flyout x:Key="UserFlyout" Placement="Bottom">
+            <Grid RenderOptions.BitmapScalingMode="Fant">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             Width="48" Height="48" Margin="0,4,12,4">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             Width="52" Height="52" Margin="0,4,12,4">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <TextBlock Text="{Binding UserInfo.Uid,StringFormat={}通行证ID：{0}}"/>
+                    </StackPanel>
+                </Grid>
+                
+            </Grid>
+        </ui:Flyout>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -44,6 +71,7 @@
             PaneDisplayMode="Auto">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
+                <ui:NavigationViewItem Content="日常材料" helpers:NavHelper.NavigateTo="{x:Type pages:DailyPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/char_35.png"/>
@@ -79,6 +107,13 @@
                SnapsToDevicePixels="True"
                RenderOptions.BitmapScalingMode="HighQuality"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,140,0">
+            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
+                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
+                               Click="UserTitleButtonClick" 
+                               Content="{Binding UserInfo.Nickname,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"
+                               ui:FlyoutBase.AttachedFlyout="{StaticResource UserFlyout}"
+                               />
+
             <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
                                Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="米游社每日签到"
                                Click="SignInTitleBarButtonClick"/>

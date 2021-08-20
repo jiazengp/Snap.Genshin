@@ -65,7 +65,7 @@ namespace DGP.Genshin.Pages
             }
         }
         public static readonly DependencyProperty IsDevModeProperty =
-            DependencyProperty.Register("IsDevMode", typeof(bool), typeof(HomePage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
+            DependencyProperty.Register("IsDevMode", typeof(bool), typeof(DailyPage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
         #endregion
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)

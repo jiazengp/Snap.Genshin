@@ -4,6 +4,7 @@ using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace DGP.Genshin.Pages
 {
@@ -16,7 +17,18 @@ namespace DGP.Genshin.Pages
         {
             this.DataContext = RecordService.Instance;
             InitializeComponent();
-            this.QueryAutoSuggestBox.Text = RecordService.Instance.QueryHistory.First();
+            if (RecordService.Instance.QueryHistory.Count > 0)
+            {
+                var s = RecordService.Instance;
+                if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
+                {
+                    this.QueryAutoSuggestBox.Text=s.CurrentRecord?.UserId;
+                }
+                else if(s.QueryHistory.Count > 0)
+                {
+                    this.QueryAutoSuggestBox.Text = s.QueryHistory.First();
+                }
+            }
         }
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -79,5 +91,11 @@ namespace DGP.Genshin.Pages
         }
 
         private void RecordService_RecordProgressed(string info) => this.RequestingProgressText.Text = info;
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //set correct state
+            VisualStateManager.GoToElementState(CharacterAppBarToggleButton, "LabelOnRight", false);
+        }
     }
 }
