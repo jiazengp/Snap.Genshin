@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Record.Avatar;
+using DGP.Snap.Framework.Attributes.DataModel;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
     /// <summary>
     /// 包装一次查询的数据
     /// </summary>
+    [JsonModel]
     internal class Record
     {
         public Record()

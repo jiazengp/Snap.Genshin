@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// <summary>
     /// 圣遗物套装信息
     /// </summary>
+    [JsonModel]
     internal class ReliquarySet
     {
         [JsonProperty("id")] public int Id { get; set; }

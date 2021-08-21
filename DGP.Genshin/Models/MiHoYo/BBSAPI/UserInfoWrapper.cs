@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.BBSAPI
 {
+    [JsonModel]
     public class UserInfoWrapper
     {
         [JsonProperty("user_info")] public UserInfo UserInfo { get; set; }

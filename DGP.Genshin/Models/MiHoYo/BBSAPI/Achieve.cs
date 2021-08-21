@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.BBSAPI
 {
+    [JsonModel]
     public class Achieve
     {
         [JsonProperty("like_num")] public string LikeNum { get; set; }
@@ -14,5 +16,4 @@ namespace DGP.Genshin.Models.MiHoYo.BBSAPI
         [JsonProperty("good_post_num")] public string GoodPostNum { get; set; }
         [JsonProperty("follow_collection_cnt")] public string FollowCollectionCnt { get; set; }
     }
-
 }

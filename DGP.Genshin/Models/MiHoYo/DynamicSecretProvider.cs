@@ -5,6 +5,9 @@ using System.Text;
 
 namespace DGP.Genshin.Models.MiHoYo
 {
+    /// <summary>
+    /// 为MiHoYo接口请求器 <see cref="Requester"/> 提供动态密钥
+    /// </summary>
     internal static class DynamicSecretProvider
     {
         [Github("https://github.com/Azure99/GenshinPlayerQuery/blob/main/src/Core/GenshinAPI.cs")]
@@ -22,15 +25,14 @@ namespace DGP.Genshin.Models.MiHoYo
         }
         private static string GetRandomString(int length)
         {
-
             StringBuilder sb = new StringBuilder(length);
             Random random = new Random();
+
             for (int i = 0; i < length; i++)
             {
                 int pos = random.Next(0, RandomStringTemplate.Length);
                 sb.Append(RandomStringTemplate[pos]);
             }
-
             return sb.ToString();
         }
         private static string GetComputedMd5(string content)

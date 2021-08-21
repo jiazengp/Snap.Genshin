@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Sign
 {
+    [JsonModel]
     public class SignIn
     {
         [JsonProperty("total_sign_day")] public int TotalSignDay { get; set; }

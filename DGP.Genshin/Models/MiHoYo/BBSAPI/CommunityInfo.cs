@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.BBSAPI
 {
+    [JsonModel]
     public class CommunityInfo
     {
         [JsonProperty("is_realname")] public bool IsRealname { get; set; }
@@ -16,5 +18,4 @@ namespace DGP.Genshin.Models.MiHoYo.BBSAPI
         [JsonProperty("user_func_status")] public UserFuncStatus UserFuncStatus { get; set; }
         [JsonProperty("forum_silent_info")] public List<string> ForumSilentInfo { get; set; }
     }
-
 }

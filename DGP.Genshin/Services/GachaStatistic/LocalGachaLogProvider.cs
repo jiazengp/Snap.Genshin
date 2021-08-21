@@ -40,7 +40,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public long GetNewestTimeId(ConfigType type, string uid)
         {
             return this.Data.ContainsKey(uid) && this.Data[uid].ContainsKey(type.Key)
-                ? this.Data[uid][type.Key]/*.OrderByDescending(i => i.TimeId)*/.First().TimeId
+                ? this.Data[uid][type.Key].First().TimeId
                 : 0L;
         }
 
@@ -90,6 +90,10 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             lock (this.processing)
             {
+                if (this.Service.SelectedUid == null)
+                {
+                    return;
+                }
                 if (this.Data.ContainsKey(this.Service.SelectedUid))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -146,7 +150,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 3 => System.Drawing.Color.FromArgb(255, 81, 128, 203),
                 4 => System.Drawing.Color.FromArgb(255, 161, 86, 224),
                 5 => System.Drawing.Color.FromArgb(255, 188, 105, 50),
-                _ => throw new Exception("invalid rank"),
+                _ => throw new ArgumentOutOfRangeException(nameof(rank)),
             };
         }
         #endregion

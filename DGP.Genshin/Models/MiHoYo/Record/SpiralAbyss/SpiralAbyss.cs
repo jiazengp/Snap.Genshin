@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     /// <summary>
     /// 深境螺旋信息
     /// </summary>
+    [JsonModel]
     internal class SpiralAbyss
     {
         [JsonProperty("schedule_id")] public int ScheduleId { get; set; }

@@ -1,7 +1,7 @@
 ﻿namespace DGP.Genshin.Services.GachaStatistic
 {
     /// <summary>
-    /// Fetch页面进度
+    /// 请求祈愿记录页面进度
     /// </summary>
     public class FetchProgress
     {

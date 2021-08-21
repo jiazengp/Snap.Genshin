@@ -103,7 +103,7 @@ namespace DGP.Genshin.Pages
             };
             SetAppTheme();
         }
-        internal static void SetAppTheme()
+        internal void SetAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
@@ -112,6 +112,7 @@ namespace DGP.Genshin.Pages
         private void NavigateToManagePage(object sender, RoutedEventArgs e) =>
             Services.NavigationService.Current.Navigate<ManagePage>();
 
-        private async void ResetCookieButtonClick(object sender, RoutedEventArgs e) => await CookieManager.SetCookieAsync();
+        private async void ResetCookieButtonClick(object sender, RoutedEventArgs e) =>
+            await CookieManager.SetCookieAsync();
     }
 }

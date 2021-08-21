@@ -46,20 +46,18 @@ namespace DGP.Snap.Framework.Data.Json
         }
 
         /// <summary>	
-        /// 获取网页响应	
+        /// 简单获取网页响应	
         /// </summary>	
         /// <param name="requestUrl">请求的URL</param>	
         /// <returns>响应字符串</returns>	
         private static string GetWebResponse(string requestUrl)
         {
             HttpWebRequest request = WebRequest.CreateHttp(requestUrl);
-            //为了能正常的获取GitHub的数据	
+
             request.Proxy = WebRequest.DefaultWebProxy;
             request.Credentials = CredentialCache.DefaultCredentials;
-
-            request.Method = "GET";
             request.ContentType = "application/json;charset=UTF-8";
-            request.UserAgent = "Wget/1.9.1";
+
             request.Timeout = 5000;
             string jsonMetaString;
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())

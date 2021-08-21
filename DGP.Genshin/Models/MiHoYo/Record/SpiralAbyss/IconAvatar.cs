@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Data.Helpers;
+using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     /// <summary>
     /// 仅包含头像的角色信息
     /// </summary>
+    [JsonModel]
     public class IconAvatar
     {
         [JsonProperty("id")] public int Id { get; set; }

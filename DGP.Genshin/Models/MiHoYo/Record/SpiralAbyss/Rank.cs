@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Data.Helpers;
+using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     /// <summary>
     /// 角色数值排行信息
     /// </summary>
+    [JsonModel]
     public class Rank
     {
         [JsonProperty("avatar_id")] public int AvatarId { get; set; }

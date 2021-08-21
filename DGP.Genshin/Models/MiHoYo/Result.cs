@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.Models.MiHoYo
 {
+    /// <summary>
+    /// 提供 <see cref="Response{T}"/> 的非泛型基类
+    /// </summary>
     public class Result
     {
         /// <summary>

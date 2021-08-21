@@ -142,8 +142,10 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public static readonly DependencyProperty IsInertiaEnabledProperty = DependencyProperty.RegisterAttached(
             "IsInertiaEnabled", typeof(bool), typeof(SmoothScrollViewer), new PropertyMetadata(BoxedValue.TrueBox));
-        public static void SetIsInertiaEnabled(DependencyObject element, bool value) => element.SetValue(IsInertiaEnabledProperty, BoxedValue.BooleanBox(value));
-        public static bool GetIsInertiaEnabled(DependencyObject element) => (bool)element.GetValue(IsInertiaEnabledProperty);
+        public static void SetIsInertiaEnabled(DependencyObject element, bool value) => 
+            element.SetValue(IsInertiaEnabledProperty, BoxedValue.BooleanBox(value));
+        public static bool GetIsInertiaEnabled(DependencyObject element) => 
+            (bool)element.GetValue(IsInertiaEnabledProperty);
 
         /// <summary>
         ///     是否支持惯性
@@ -169,9 +171,11 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
             set => SetValue(IsPenetratingProperty, BoxedValue.BooleanBox(value));
         }
 
-        public static void SetIsPenetrating(DependencyObject element, bool value) => element.SetValue(IsPenetratingProperty, BoxedValue.BooleanBox(value));
+        public static void SetIsPenetrating(DependencyObject element, bool value) => 
+            element.SetValue(IsPenetratingProperty, BoxedValue.BooleanBox(value));
 
-        public static bool GetIsPenetrating(DependencyObject element) => (bool)element.GetValue(IsPenetratingProperty);
+        public static bool GetIsPenetrating(DependencyObject element) => 
+            (bool)element.GetValue(IsPenetratingProperty);
 
         /// <summary>
         ///     当前垂直滚动偏移

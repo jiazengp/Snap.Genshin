@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.User
 {
+    [JsonModel]
     public class UserGameRole
     {
         [JsonProperty("game_biz")] public string GameBiz { get; set; }

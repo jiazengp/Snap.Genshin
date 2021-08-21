@@ -1,8 +1,11 @@
-﻿namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+
+namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
     /// <summary>
     /// 带有个数统计的奖池统计物品
     /// </summary>
+    [InterModel]
     public class StatisticItem
     {
         public string StarUrl { get; set; }

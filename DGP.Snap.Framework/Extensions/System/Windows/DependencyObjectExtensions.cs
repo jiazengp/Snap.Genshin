@@ -10,7 +10,6 @@ namespace DGP.Snap.Framework.Extensions.System.Windows
         {
             if (depObj != null)
             {
-                VisualTreeHelper.GetChildrenCount(depObj).DebugWriteLine();
                 for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
                 {
                     DependencyObject child = VisualTreeHelper.GetChild(depObj, i);

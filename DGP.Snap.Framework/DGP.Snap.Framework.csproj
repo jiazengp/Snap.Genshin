@@ -49,6 +49,9 @@
   <ItemGroup>
     <Compile Include="Attributes\GithubAttribute.cs" />
     <Compile Include="Attributes\HandleEventAttribute.cs" />
+    <Compile Include="Attributes\DataModel\InterModelAttribute.cs" />
+    <Compile Include="Attributes\DataModel\JsonModelAttribute.cs" />
+    <Compile Include="Attributes\DataModel\ModelFactoryAttribute.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Data\Behavior\BindWrapper.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="Device\File\KnownPath.cs" />
     <Compile Include="Device\Monitor.cs" />
     <Compile Include="Exceptions\UrlNotFoundException.cs" />
+    <Compile Include="Extensions\System\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="Extensions\System\Collections\ObjectModel\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\System\StringExtensions.cs" />
     <Compile Include="Extensions\System\Windows\Controls\DataGridExtensions.cs" />

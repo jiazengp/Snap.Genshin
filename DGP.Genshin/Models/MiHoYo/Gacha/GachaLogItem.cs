@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
     /// <summary>
     /// 表示获取的单个卡池物品信息
     /// </summary>
+    [JsonModel]
     public class GachaLogItem
     {
         [JsonProperty("uid")] public string Uid { get; set; }

@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
     /// <summary>
     /// 圣遗物套装效果
     /// </summary>
+    [JsonModel]
     internal class ReliquaryAffix
     {
         [JsonProperty("activation_number")] public int ActivationNumber { get; set; }

@@ -11,12 +11,12 @@ namespace DGP.Snap.Framework.Core.Logging
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        internal void Log(object callerObject, object info, Func<object, string> formatter = null)
+        internal void LogInternal<T>(object info, Func<object, string> formatter = null)
         {
             if (formatter != null)
                 info = formatter.Invoke(info);
 
-            Type type = callerObject.GetType();
+            Type type = typeof(T);
             string typename = $"{type.Namespace}.{type.Name}";
 
             if (this.isLoggingtoFile)

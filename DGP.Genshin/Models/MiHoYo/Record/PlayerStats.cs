@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
     /// <summary>
     /// 玩家统计数据
     /// </summary>
+    [JsonModel]
     internal class PlayerStats
     {
         [JsonProperty("active_day_number")] public int ActiveDayNumber { get; set; }
