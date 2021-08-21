@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
 {
     /// <summary>
     /// 家园信息
     /// </summary>
+    [JsonModel]
     internal class Home
     {
         [JsonProperty("level")] public int Level { get; set; }

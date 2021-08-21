@@ -48,7 +48,7 @@ namespace DGP.Genshin.Pages
                 }.ShowAsync();
             }
         }
-        private async void ExportImageButtonClick(object sender, RoutedEventArgs e)
+        private async void ExportImageAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog
             {
@@ -88,5 +88,11 @@ namespace DGP.Genshin.Pages
                 }.ShowAsync();
             }
         }
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            UnInitialize();
+            base.OnNavigatingFrom(e);
+        }
+        private void UnInitialize() => this.Service = null;
     }
 }

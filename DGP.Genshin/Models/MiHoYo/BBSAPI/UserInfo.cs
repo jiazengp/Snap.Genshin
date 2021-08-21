@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.BBSAPI
 {
+    [JsonModel]
     public class UserInfo
     {
         [JsonProperty("uid")] public string Uid { get; set; }
@@ -25,5 +27,4 @@ namespace DGP.Genshin.Models.MiHoYo.BBSAPI
         /// </summary>
         [JsonProperty("pendant")] public string Pendant { get; set; }
     }
-
 }

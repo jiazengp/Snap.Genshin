@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     /// <summary>
     /// 表示一次战斗
     /// </summary>
+    [JsonModel]
     public class Battle
     {
         [JsonProperty("index")] public int Index { get; set; }

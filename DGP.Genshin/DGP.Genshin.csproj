@@ -124,9 +124,6 @@
     </Compile>
     <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Models\Github\Asset.cs" />
-    <Compile Include="Models\Github\Person.cs" />
-    <Compile Include="Models\Github\Release.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\Achieve.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\Certification.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\CommunityInfo.cs" />
@@ -383,9 +380,7 @@
   <ItemGroup>
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\Adaptive\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"

@@ -42,6 +42,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             this.Service = service;
             this.LocalGachaLogProvider = new LocalGachaLogProvider(service);
         }
+
         public bool TryFindUrlInLogFile()
         {
             string LocalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -108,6 +109,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                             System.Windows.Application.Current.Dispatcher.Invoke(() => this.Service.Uids.Add(item.Uid));
                             this.Service.SelectedUid = item.Uid;
                         }
+
                         if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
                         {
                             result.Add(item);
@@ -127,7 +129,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 }
                 else
                 {
-                    //notify user to re open log page
+                    //url no longer valid
                     break;
                 }
             } while (true);
@@ -169,7 +171,6 @@ namespace DGP.Genshin.Services.GachaStatistic
             //20 is the max size the api can return
             query.Set("size", "20");
             query.Set("lang", "zh-cn");
-            //page no longer matters.
             query.Set("end_id", endId.ToString());
             string finalUrl = $"{baseUrl}?{query}";
 

@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.BBSAPI.Post
 {
+    [JsonModel]
     public class Post
     {
         [JsonProperty("post_id")] public string PostId { get; set; }

@@ -37,7 +37,7 @@
                         <ui:FontIcon Glyph="&#xEDE1;"/>
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
-                <ui:AppBarButton Label="导出到图片" Click="ExportImageButtonClick">
+                <ui:AppBarButton Label="导出到图片" Click="ExportImageAppBarButtonClick">
                     <ui:AppBarButton.Icon>
                         <ui:FontIcon Glyph="&#xEB9F;"/>
                     </ui:AppBarButton.Icon>

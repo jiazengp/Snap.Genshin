@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Services;
+using DGP.Snap.Framework.Attributes.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     /// <summary>
     /// 构造奖池统计信息的工厂类
     /// </summary>
-    public static class StatisticFactory
+    [ModelFactory]
+    public abstract class StatisticFactory
     {
         public static Statistic ToStatistic(GachaData data, string uid)
         {
@@ -23,7 +25,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 Weapons = ToTotalCountList(data, "武器")
             };
         }
-
         private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob, int granteeCount)
         {
             List<GachaLogItem> list = data[type];
@@ -62,8 +63,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
             return banner;
         }
-
-        public static List<StatisticItem> ToTotalCountList(Dictionary<string, List<GachaLogItem>> dict, string itemType)
+        private static List<StatisticItem> ToTotalCountList(Dictionary<string, List<GachaLogItem>> dict, string itemType)
         {
             Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
             foreach (List<GachaLogItem> list in dict.Values)

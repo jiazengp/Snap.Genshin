@@ -21,8 +21,14 @@ namespace DGP.Genshin.Pages
         private async void AutoSuggestBox_QuerySubmitted(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxQuerySubmittedEventArgs args) => await this.Service.AddRepository(args.QueryText);
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.Service.UnInitialize();
+            UnInitialize();
             base.OnNavigatedFrom(e);
+        }
+
+        private void UnInitialize()
+        {
+            this.Service.UnInitialize();
+            Service = null;
         }
     }
 }

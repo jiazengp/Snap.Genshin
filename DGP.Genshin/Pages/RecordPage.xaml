@@ -29,7 +29,7 @@
                 <StackPanel Orientation="Horizontal">
                     <ui:AppBarElementContainer>
                         <ui:CommandBar Background="Transparent">
-                            <ui:AppBarToggleButton x:Name="CharacterAppBarToggleButton" Label="角色列表" Height="40" IsChecked="{Binding ElementName=CharactersSplitView,Path=IsPaneOpen}" ToolTipService.ToolTip="角色列表">
+                            <ui:AppBarToggleButton Label="角色列表" Height="40" IsChecked="{Binding ElementName=CharactersSplitView,Path=IsPaneOpen}">
                                 <ui:AppBarToggleButton.Icon>
                                     <ui:FontIcon Glyph="&#xE779;"/>
                                 </ui:AppBarToggleButton.Icon>

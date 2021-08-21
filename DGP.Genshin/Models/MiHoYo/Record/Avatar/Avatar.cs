@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Data.Helpers;
+using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
@@ -6,6 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// <summary>
     /// 包含一个角色的基础信息
     /// </summary>
+    [JsonModel]
     internal class Avatar
     {
         [JsonProperty("id")] public int Id { get; set; }

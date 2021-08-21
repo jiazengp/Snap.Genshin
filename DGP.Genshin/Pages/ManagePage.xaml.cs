@@ -84,5 +84,4 @@ namespace DGP.Genshin.Pages
             }
         }
     }
-
 }

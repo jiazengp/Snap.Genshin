@@ -89,13 +89,6 @@ namespace DGP.Genshin.Pages
                 this.isQuerying = false;
             }
         }
-
         private void RecordService_RecordProgressed(string info) => this.RequestingProgressText.Text = info;
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            //set correct state
-            VisualStateManager.GoToElementState(CharacterAppBarToggleButton, "LabelOnRight", false);
-        }
     }
 }

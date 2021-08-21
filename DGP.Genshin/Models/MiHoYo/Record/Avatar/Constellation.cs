@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Attributes.DataModel;
+using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
     /// <summary>
     /// 命座信息
     /// </summary>
+    [JsonModel]
     internal class Constellation
     {
         [JsonProperty("id")] public int Id { get; set; }

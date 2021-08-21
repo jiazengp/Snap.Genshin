@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Services;
+using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// <summary>
     /// 角色详细详细
     /// </summary>
+    [JsonModel]
     internal class DetailedAvatar : Avatar
     {
         /// <summary>
@@ -25,7 +27,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
                 return result == null ? this.Icon : result.Source;
             }
         }
-
         [JsonProperty("weapon")] public Weapon Weapon { get; set; }
         [JsonProperty("reliquaries")] public List<Reliquary> Reliquaries { get; set; }
         [JsonProperty("constellations")] public List<Constellation> Constellations { get; set; }
