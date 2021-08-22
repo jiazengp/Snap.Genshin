@@ -5,5 +5,6 @@
         AlreadySignedIn = -5003,
         Failed = -1,
         OK = 0,
+        NotDefined = 7,
     }
 }

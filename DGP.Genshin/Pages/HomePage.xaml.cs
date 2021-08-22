@@ -43,7 +43,7 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Posts = (await new MiHoYoBBSService().GettOfficialRecommendedPostsAsync())
+            this.Posts = (await new MiHoYoBBSService().GetOfficialRecommendedPostsAsync())
                 .OrderBy(p => p.OfficialType).ToList();
         }
 

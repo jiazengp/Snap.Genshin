@@ -8,7 +8,8 @@
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown" xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.CachedImage"
+        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown" 
+        xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
@@ -47,7 +48,7 @@
                         </Ellipse.Fill>
                     </Ellipse>
                     <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Width="52" Height="52" Margin="0,4,12,4">
+                             Width="64" Height="64" Margin="0,4,12,4">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
                         </Ellipse.Fill>
@@ -57,7 +58,6 @@
                         <TextBlock Text="{Binding UserInfo.Uid,StringFormat={}通行证ID：{0}}"/>
                     </StackPanel>
                 </Grid>
-                
             </Grid>
         </ui:Flyout>
     </Window.Resources>
@@ -74,19 +74,19 @@
                 <ui:NavigationViewItem Content="日常材料" helpers:NavHelper.NavigateTo="{x:Type pages:DailyPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/char_35.png"/>
+                        <ui:BitmapIcon UriSource="pack://application:,,,/Resources/CharactersIcon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/weapons_35.png"/>
+                        <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WeaponsIcon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
 
                 <ui:NavigationViewItemHeader Content="记录工具"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon UriSource="https://genshin.honeyhunterworld.com/img/icons/wish_35.png"/>
+                        <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WishIcon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>

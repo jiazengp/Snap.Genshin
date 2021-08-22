@@ -14,11 +14,10 @@ namespace DGP.Genshin.Pages
         {
             DataService service = DataService.Instance;
             this.DataContext = service;
-            //if (service.SelectedCharacter == null)
-            //{
-            //    service.SelectedCharacter = service.Characters.First();
-            //}
-            service.SelectedCharacter.InitValue(service.Characters.First());
+            if (service.SelectedCharacter == null)
+            {
+                service.SelectedCharacter = service.Characters.First();
+            }
             InitializeComponent();
         }
     }

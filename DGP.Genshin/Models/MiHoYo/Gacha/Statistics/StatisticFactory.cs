@@ -84,6 +84,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                             {
                                 Data.Weapons.Weapon weapon = DataService.Instance.Weapons.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon.Source;
+                                counter[i.Name].WeaponIcon = weapon.Type;
                             }
                             else//角色
                             {

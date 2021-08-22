@@ -2,6 +2,7 @@
 using DGP.Genshin.Models.MiHoYo.Record;
 using DGP.Genshin.Models.MiHoYo.Record.Avatar;
 using DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss;
+using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using System;
@@ -17,9 +18,9 @@ namespace DGP.Genshin.Services
     /// </summary>
     internal class RecordService : Observable
     {
-        private static readonly string QueryHistoryFile = "history.dat";
+        private const string QueryHistoryFile = "history.dat";
         private static readonly string BaseUrl = $@"https://api-takumi.mihoyo.com/game_record/genshin/api";
-
+        private const string Referer = @"https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6";
         #region Observable
         private Record currentRecord;
         public Record CurrentRecord { get => this.currentRecord; set => Set(ref this.currentRecord, value); }
@@ -46,10 +47,23 @@ namespace DGP.Genshin.Services
         }
         public async Task<Record> GetRecordAsync(string uid)
         {
-            RecordProgressHandler?.Invoke("正在获取 Cookie");
-            Requester requester = new Requester(await CookieManager.GetCookieAsync());
+
+            RecordProgressed?.Invoke("正在获取 Cookie");
+            string cookie = await CookieManager.GetCookieAsync();
+            Requester requester = new Requester(new RequestOptions
+            {
+                {"Accept", RequestOptions.Json },
+                {"DS", DynamicSecretProvider.Create() },
+                {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
+                {"User-Agent", RequestOptions.CommonUA },
+                {"x-rpc-client_type", "5" },
+                {"Referer",Referer },
+                {"x-rpc-device_id", RequestOptions.DeviceId },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            });
             //figure out the server
-            RecordProgressHandler?.Invoke("正在确定UID的服务器");
+            RecordProgressed?.Invoke("正在确定UID的服务器");
             string server = null;
             try
             {
@@ -66,60 +80,63 @@ namespace DGP.Genshin.Services
             }
             catch
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record("不支持查询此UID");
             }
-            RecordProgressHandler?.Invoke("正在获取 玩家基础统计信息");
+            RecordProgressed?.Invoke("正在获取 玩家基础统计信息");
             Response<PlayerInfo> playerInfo = await Task.Run(() =>
-            requester.Get<PlayerInfo>($@"{BaseUrl}/index?role_id={uid}&server={server}"));
+            requester.Get<PlayerInfo>($@"{BaseUrl}/index?server={server}&role_id={uid}"));
             if (playerInfo.ReturnCode != 0)
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record($"获取玩家基本信息失败：\n{playerInfo.Message}");
             }
 
-            RecordProgressHandler?.Invoke("正在获取 本期深境螺旋信息");
+            RecordProgressed?.Invoke("正在获取 本期深境螺旋信息");
             Response<SpiralAbyss> spiralAbyss = await Task.Run(() =>
             requester.Get<SpiralAbyss>($@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}"));
             if (spiralAbyss.ReturnCode != 0)
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss.Message}");
             }
 
-            RecordProgressHandler?.Invoke("正在获取 上期深境螺旋信息");
+            RecordProgressed?.Invoke("正在获取 上期深境螺旋信息");
             Response<SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
             requester.Get<SpiralAbyss>($@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}"));
             if (lastSpiralAbyss.ReturnCode != 0)
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss.Message}");
             }
 
-            RecordProgressHandler?.Invoke("正在获取 活动挑战信息");
+            RecordProgressed?.Invoke("正在获取 活动挑战信息");
             Response<dynamic> activitiesInfo = await Task.Run(() =>
             requester.Get<dynamic>($@"{BaseUrl}/activities?server={server}&role_id={uid}"));
             if (activitiesInfo.ReturnCode != 0)
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record($"获取活动信息失败：\n{activitiesInfo.Message}");
             }
 
-            RecordProgressHandler?.Invoke("正在获取 详细角色信息");
-            //post anonymous object is fine
-            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
-            requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", new
-            {
-                character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
-                role_id = uid,
-                server = server
-            }));
+            RecordProgressed?.Invoke("正在获取 详细角色信息");
+            requester.Headers.Remove("x-rpc-device_id");
+            Response<DetailedAvatarInfo> roles = await Task.Run(() => {
+                var data = new
+                {
+                    character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                    role_id = uid,
+                    server = server
+                };
+                //post anonymous object is fine
+                return requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data);
+            });
             if (roles.ReturnCode != 0)
             {
-                RecordProgressHandler?.Invoke(null);
+                RecordProgressed?.Invoke(null);
                 return new Record($"获取详细角色信息失败：\n{roles.Message}");
             }
-            RecordProgressHandler?.Invoke(null);
+            RecordProgressed?.Invoke(null);
             //return
             return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
             {
@@ -134,7 +151,7 @@ namespace DGP.Genshin.Services
             };
         }
 
-        public static event Action<string> RecordProgressHandler;
+        public static event Action<string> RecordProgressed;
 
         #region 单例
         private static RecordService instance;

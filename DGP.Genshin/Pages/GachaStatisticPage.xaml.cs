@@ -23,11 +23,6 @@ namespace DGP.Genshin.Pages
             InitializeComponent();
         }
         private void RefreshAppBarButtonClick(object sender, RoutedEventArgs e) => this.Service.Refresh();
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            this.Service.UnInitialize();
-            base.OnNavigatedFrom(e);
-        }
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog
@@ -93,6 +88,10 @@ namespace DGP.Genshin.Pages
             UnInitialize();
             base.OnNavigatingFrom(e);
         }
-        private void UnInitialize() => this.Service = null;
+        private void UnInitialize()
+        {
+            Service.UnInitialize();
+            this.Service = null;
+        }
     }
 }

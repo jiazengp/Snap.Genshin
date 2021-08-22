@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\ValidateHelper.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\Achieve.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\Certification.cs" />
     <Compile Include="Models\MiHoYo\BBSAPI\CommunityInfo.cs" />
@@ -139,7 +140,7 @@
       <DependentUpon>CookieDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MiHoYo\CookieManager.cs" />
-    <Compile Include="Models\MiHoYo\DynamicSecretProvider.cs" />
+    <Compile Include="Models\MiHoYo\Request\DynamicSecretProvider.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Config.cs" />
     <Compile Include="Models\MiHoYo\Gacha\ConfigType.cs" />
     <Compile Include="Models\MiHoYo\Gacha\GachaData.cs" />
@@ -163,7 +164,9 @@
     <Compile Include="Models\MiHoYo\Record\Avatar\Reliquary.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquaryAffix.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquarySet.cs" />
-    <Compile Include="Models\MiHoYo\Requester.cs" />
+    <Compile Include="Models\MiHoYo\Request\Requester.cs" />
+    <Compile Include="Models\MiHoYo\Request\Requesters.cs" />
+    <Compile Include="Models\MiHoYo\Request\RequestOptions.cs" />
     <Compile Include="Models\MiHoYo\Response.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Weapon.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Battle.cs" />
@@ -380,7 +383,15 @@
   <ItemGroup>
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\CharactersIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WeaponsIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WishIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"

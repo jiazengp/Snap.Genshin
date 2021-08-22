@@ -12,6 +12,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public string Source { get; set; }
         public string Name { get; set; }
         public string Element { get; set; }
+        public string WeaponIcon { get; set; }
         public int Count { get; set; }
     }
 }

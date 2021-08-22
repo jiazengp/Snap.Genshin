@@ -24,6 +24,6 @@
         public static object Int5Box = 5;
         public static object Int99Box = 99;
 
-        public static object BooleanBox(bool value) => value ? TrueBox : FalseBox;
+        public static object Boolean(bool value) => value ? TrueBox : FalseBox;
     }
 }

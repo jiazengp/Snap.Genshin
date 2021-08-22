@@ -368,6 +368,7 @@
                                     <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
+                                                          BadgeUrl="{Binding WeaponIcon}"
                                                               IsCountVisible="True"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

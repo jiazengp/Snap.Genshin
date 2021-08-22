@@ -3,13 +3,15 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DGP.Genshin.Models.MiHoYo
+namespace DGP.Genshin.Models.MiHoYo.Request
 {
     /// <summary>
     /// 为MiHoYo接口请求器 <see cref="Requester"/> 提供动态密钥
     /// </summary>
     internal static class DynamicSecretProvider
     {
+        public const string AppVersion = "2.10.1";
+
         [Github("https://github.com/Azure99/GenshinPlayerQuery/blob/main/src/Core/GenshinAPI.cs")]
         private static readonly string APISalt = "4a8knnbk5pbjqsrudp3dq484m9axoc5g"; // @Azure99    //respect original author
         private static readonly string RandomStringTemplate = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

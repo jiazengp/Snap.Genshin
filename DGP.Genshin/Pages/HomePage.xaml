@@ -9,12 +9,22 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Style TargetType="{x:Type ui:ListViewItem}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+    </Page.Resources>
     <Grid>
-        <smoothscrollviewer:SmoothScrollViewer Grid.Column="0">
-            <ui:GridView HorizontalAlignment="Center" ItemsSource="{Binding Posts}" IsSelectionEnabled="False" Padding="0" Margin="12,12,16,8" SnapsToDevicePixels="True">
-                <ui:GridView.ItemTemplate>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <smoothscrollviewer:SmoothScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
+            <ui:ListView HorizontalAlignment="Left" ItemsSource="{Binding Posts}" IsSelectionEnabled="False" Padding="0" Margin="12,0,0,0" SnapsToDevicePixels="True">
+                <ui:ListView.ItemTemplate>
                     <DataTemplate>
-                        <Button Width="400" Tag="{Binding PostId}" Click="PostButtonClick">
+                        <Button Tag="{Binding PostId}" Click="PostButtonClick">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Background" Value="Transparent"/>
@@ -47,16 +57,35 @@
                                     </Setter>
                                 </Style>
                             </Button.Style>
-                            <Grid Margin="0">
+                            <Grid Margin="0" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                                 <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Banner}"/>
                                 <Border VerticalAlignment="Bottom" Padding="8" Background="{StaticResource SystemControlBackgroundAltMediumBrush}">
                                     <TextBlock Text="{Binding Subject}" Foreground="{StaticResource SystemControlForegroundBaseHighBrush}" TextTrimming="CharacterEllipsis"/>
                                 </Border>
+                                <Border VerticalAlignment="Top" HorizontalAlignment="Right" Padding="8,4" Background="{StaticResource SystemControlBackgroundAltMediumBrush}">
+                                    <TextBlock Foreground="{StaticResource SystemControlForegroundBaseHighBrush}" TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding OfficialType}" Value="1">
+                                                        <Setter Property="Text" Value="公告"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding OfficialType}" Value="2">
+                                                        <Setter Property="Text" Value="活动"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding OfficialType}" Value="3">
+                                                        <Setter Property="Text" Value="资讯"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
                             </Grid>
                         </Button>
                     </DataTemplate>
-                </ui:GridView.ItemTemplate>
-            </ui:GridView>
+                </ui:ListView.ItemTemplate>
+            </ui:ListView>
         </smoothscrollviewer:SmoothScrollViewer>
     </Grid>
 </Page>

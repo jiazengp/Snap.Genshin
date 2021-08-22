@@ -9,7 +9,8 @@ namespace DGP.Genshin.Services.Settings
         [Obsolete] public const string PresentTravelerElementType = "PresentTravelerElementType";
         public const string AppTheme = "AppTheme";
         public const string IsDevMode = "IsDevMode";
-        public const string Uid = "Uid";
+        [Obsolete] public const string Uid = "Uid";
+        public const string ShowFullUID = "ShowFullUID";
 
         public static ApplicationTheme? ApplicationThemeConverter(object n) =>
             n == null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);

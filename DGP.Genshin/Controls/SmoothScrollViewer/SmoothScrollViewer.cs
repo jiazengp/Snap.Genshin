@@ -42,7 +42,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         public bool CanMouseWheel
         {
             get => (bool)GetValue(CanMouseWheelProperty);
-            set => SetValue(CanMouseWheelProperty, BoxedValue.BooleanBox(value));
+            set => SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -143,7 +143,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         public static readonly DependencyProperty IsInertiaEnabledProperty = DependencyProperty.RegisterAttached(
             "IsInertiaEnabled", typeof(bool), typeof(SmoothScrollViewer), new PropertyMetadata(BoxedValue.TrueBox));
         public static void SetIsInertiaEnabled(DependencyObject element, bool value) => 
-            element.SetValue(IsInertiaEnabledProperty, BoxedValue.BooleanBox(value));
+            element.SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
         public static bool GetIsInertiaEnabled(DependencyObject element) => 
             (bool)element.GetValue(IsInertiaEnabledProperty);
 
@@ -153,7 +153,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         public bool IsInertiaEnabled
         {
             get => (bool)GetValue(IsInertiaEnabledProperty);
-            set => SetValue(IsInertiaEnabledProperty, BoxedValue.BooleanBox(value));
+            set => SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
         }
 
         /// <summary>
@@ -168,11 +168,11 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         public bool IsPenetrating
         {
             get => (bool)GetValue(IsPenetratingProperty);
-            set => SetValue(IsPenetratingProperty, BoxedValue.BooleanBox(value));
+            set => SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
         }
 
         public static void SetIsPenetrating(DependencyObject element, bool value) => 
-            element.SetValue(IsPenetratingProperty, BoxedValue.BooleanBox(value));
+            element.SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
 
         public static bool GetIsPenetrating(DependencyObject element) => 
             (bool)element.GetValue(IsPenetratingProperty);

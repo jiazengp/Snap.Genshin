@@ -49,10 +49,10 @@ namespace DGP.Genshin.Pages
             {
                 this.isQuerying = true;
                 this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressHandler += RecordService_RecordProgressed;
+                RecordService.RecordProgressed += RecordService_RecordProgressed;
                 string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressHandler -= RecordService_RecordProgressed;
+                RecordService.RecordProgressed -= RecordService_RecordProgressed;
                 this.RequestingProgressRing.IsActive = false;
 
                 if (record.Success)
