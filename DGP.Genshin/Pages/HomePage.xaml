@@ -9,54 +9,27 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Style TargetType="{x:Type ui:ListViewItem}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        <local:IdToPostConverter x:Key="IdToPostConverter"/>
+    </Page.Resources>
     <Grid>
-        <smoothscrollviewer:SmoothScrollViewer Grid.Column="0">
-            <ui:GridView HorizontalAlignment="Center" ItemsSource="{Binding Posts}" IsSelectionEnabled="False" Padding="0" Margin="12,12,16,8" SnapsToDevicePixels="True">
-                <ui:GridView.ItemTemplate>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Top">
+            <TextBlock Text="公告" Margin="12,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <ItemsControl HorizontalAlignment="Left"  ItemsSource="{Binding Posts}" Padding="0" Margin="12,0,0,6" SnapsToDevicePixels="True">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Width="400" Tag="{Binding PostId}" Click="PostButtonClick">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderBrush" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border 
-                                x:Name="border" 
-                                CornerRadius="{DynamicResource IconCornerRadius}"
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" 
-                                SnapsToDevicePixels="true">
-                                                    <ui:ContentPresenterEx 
-                                    x:Name="contentPresenter" 
-                                    Focusable="False" 
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                    Margin="{TemplateBinding Padding}" 
-                                    RecognizesAccessKey="True" 
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                            <Grid Margin="0">
-                                <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Banner}"/>
-                                <Border VerticalAlignment="Bottom" Padding="8" Background="{StaticResource SystemControlBackgroundAltMediumBrush}">
-                                    <TextBlock Text="{Binding Subject}" Foreground="{StaticResource SystemControlForegroundBaseHighBrush}" TextTrimming="CharacterEllipsis"/>
-                                </Border>
-                            </Grid>
-                        </Button>
+                        <ui:HyperlinkButton Content="{Binding Subject}" NavigateUri="{Binding PostId,Converter={StaticResource IdToPostConverter}}" />
                     </DataTemplate>
-                </ui:GridView.ItemTemplate>
-            </ui:GridView>
-        </smoothscrollviewer:SmoothScrollViewer>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </Page>

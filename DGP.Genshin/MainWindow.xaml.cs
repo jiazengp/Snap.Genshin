@@ -88,8 +88,8 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty UserInfoProperty =
             DependencyProperty.Register("UserInfo", typeof(UserInfo), typeof(MainWindow), new PropertyMetadata(null));
-        private async void RefreshUserInfo() => this.UserInfo = await new MiHoYoBBSService().GetCurrentUserInfoAsync();
-        private async Task RefreshUserInfoAsync() => this.UserInfo = await new MiHoYoBBSService().GetCurrentUserInfoAsync();
+        private async void RefreshUserInfo() => this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
+        private async Task RefreshUserInfoAsync() => this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
         private void UserTitleButtonClick(object sender, RoutedEventArgs e)
         {
             Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;

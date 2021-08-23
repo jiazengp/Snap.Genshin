@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Snap.Framework.Extensions.System;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -12,13 +11,12 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
-            DataService service = DataService.Instance;
+            MetaDataService service = MetaDataService.Instance;
             this.DataContext = service;
-            //if (service.SelectedCharacter == null)
-            //{
-            //    service.SelectedCharacter = service.Characters.First();
-            //}
-            service.SelectedCharacter.InitValue(service.Characters.First());
+            if (service.SelectedCharacter == null)
+            {
+                service.SelectedCharacter = service.Characters.First();
+            }
             InitializeComponent();
         }
     }

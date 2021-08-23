@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Gacha;
+using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Web.QueryString;
@@ -174,7 +175,14 @@ namespace DGP.Genshin.Services.GachaStatistic
             query.Set("end_id", endId.ToString());
             string finalUrl = $"{baseUrl}?{query}";
 
-            Response<GachaLog> resp = Json.GetWebResponseObject<Response<GachaLog>>(finalUrl);
+            Requester requester = new Requester(new RequestOptions
+            {
+                {"Accept", RequestOptions.Json },
+                {"User-Agent", RequestOptions.CommonUA }
+                //{"Referer", Referer },
+                //{"Cookie", cookie },
+            });
+            Response<GachaLog> resp = requester.Get<GachaLog>(finalUrl);
 
             if (resp.ReturnCode == 0)
             {

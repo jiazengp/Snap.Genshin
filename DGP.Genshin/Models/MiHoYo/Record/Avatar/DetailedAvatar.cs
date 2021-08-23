@@ -23,7 +23,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         {
             get
             {
-                Data.Characters.Character result = DataService.Instance.Characters.FirstOrDefault(c => c.Name == this.Name);
+                Data.Characters.Character result = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == this.Name);
                 return result == null ? this.Icon : result.Source;
             }
         }

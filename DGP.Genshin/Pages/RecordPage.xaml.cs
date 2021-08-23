@@ -4,7 +4,6 @@ using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 
 namespace DGP.Genshin.Pages
 {
@@ -19,12 +18,12 @@ namespace DGP.Genshin.Pages
             InitializeComponent();
             if (RecordService.Instance.QueryHistory.Count > 0)
             {
-                var s = RecordService.Instance;
+                RecordService s = RecordService.Instance;
                 if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
                 {
-                    this.QueryAutoSuggestBox.Text=s.CurrentRecord?.UserId;
+                    this.QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
                 }
-                else if(s.QueryHistory.Count > 0)
+                else if (s.QueryHistory.Count > 0)
                 {
                     this.QueryAutoSuggestBox.Text = s.QueryHistory.First();
                 }
@@ -49,10 +48,10 @@ namespace DGP.Genshin.Pages
             {
                 this.isQuerying = true;
                 this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressHandler += RecordService_RecordProgressed;
+                RecordService.RecordProgressed += RecordService_RecordProgressed;
                 string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressHandler -= RecordService_RecordProgressed;
+                RecordService.RecordProgressed -= RecordService_RecordProgressed;
                 this.RequestingProgressRing.IsActive = false;
 
                 if (record.Success)

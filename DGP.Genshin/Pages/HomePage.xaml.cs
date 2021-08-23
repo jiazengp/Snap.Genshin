@@ -1,12 +1,15 @@
 ﻿using DGP.Genshin.Models.MiHoYo.BBSAPI.Post;
 using DGP.Genshin.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DGP.Genshin.Pages
 {
@@ -19,10 +22,10 @@ namespace DGP.Genshin.Pages
 
         public HomePage()
         {
-            DataContext = this;
+            this.DataContext = this;
             InitializeComponent();
         }
-        public List<Post> Posts { get => posts; set => Set(ref posts, value); }
+        public List<Post> Posts { get => this.posts; set => Set(ref this.posts, value); }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,7 +46,7 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Posts = (await new MiHoYoBBSService().GettOfficialRecommendedPostsAsync())
+            this.Posts = (await new MiHoYoBBSService().GetOfficialRecommendedPostsAsync())
                 .OrderBy(p => p.OfficialType).ToList();
         }
 
@@ -52,5 +55,13 @@ namespace DGP.Genshin.Pages
             Button b = (Button)sender;
             Process.Start($@"https://bbs.mihoyo.com/ys/article/{b.Tag}");
         }
+    }
+
+    public class IdToPostConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+            new Uri($@"https://bbs.mihoyo.com/ys/article/{value}");
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

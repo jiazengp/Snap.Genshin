@@ -6,6 +6,9 @@ using System.IO;
 
 namespace DGP.Genshin.Services.Settings
 {
+    /// <summary>
+    /// 实现了各项设置的保存，向下兼容
+    /// </summary>
     internal class SettingService
     {
         private const string settingsFileName = "settings.json";
@@ -47,7 +50,10 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
-        public static event Action<string, object> SettingChanged;
+        /// <summary>
+        /// 当设置项发生改变时触发
+        /// </summary>
+        public event SettingChangedHandler SettingChanged;
 
         public void Initialize()
         {
@@ -93,6 +99,48 @@ namespace DGP.Genshin.Services.Settings
                         if (instance == null)
                         {
                             instance = new SettingService();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+        #endregion
+    }
+    /// <summary>
+    /// 设置项改变委托
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    public delegate void SettingChangedHandler(string key, object value);
+
+    /// <summary>
+    /// 为需要及时响应的设置项提供模型支持
+    /// </summary>
+    internal class SettingModel
+    {
+        private static void SettingChanged(string key, object value)
+        {
+        }
+
+        #region 单例
+        private static SettingModel instance;
+        private static readonly object _lock = new();
+        private SettingModel()
+        {
+            SettingService.Instance.SettingChanged += SettingChanged;
+        }
+        public static SettingModel Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new SettingModel();
                         }
                     }
                 }

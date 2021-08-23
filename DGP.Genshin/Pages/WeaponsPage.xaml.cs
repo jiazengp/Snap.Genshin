@@ -10,7 +10,7 @@ namespace DGP.Genshin.Pages
     {
         public WeaponsPage()
         {
-            DataService service = DataService.Instance;
+            MetaDataService service = MetaDataService.Instance;
             this.DataContext = service;
             if (service.SelectedWeapon == null)
             {
