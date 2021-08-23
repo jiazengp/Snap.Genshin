@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Attributes.DataModel;
+using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     /// 构造奖池统计信息的工厂类
     /// </summary>
     [ModelFactory]
-    public abstract class StatisticFactory
+    public static class StatisticFactory
     {
         public static Statistic ToStatistic(GachaData data, string uid)
         {
@@ -22,7 +23,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 WeaponEvent = ToBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 80),
                 CharacterEvent = ToBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 90),
                 Characters = ToTotalCountList(data, "角色"),
-                Weapons = ToTotalCountList(data, "武器")
+                Weapons = ToTotalCountList(data, "武器"),
+                SpecificBanners = ToSpecificBanners(data)
             };
         }
         private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob, int granteeCount)
@@ -33,16 +35,19 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             StatisticBanner banner = new StatisticBanner()
             {
                 TotalCount = list.Count,
-                StartTime = list.Last().Time,
-                EndTime = list.First().Time,
+
                 CurrentName = name,
                 CountSinceLastStar5 = index == -1 ? 0 : index,
                 Star5Count = list.Count(i => i.Rank == "5"),
                 Star4Count = list.Count(i => i.Rank == "4"),
                 Star3Count = list.Count(i => i.Rank == "3"),
             };
-            banner.Star5List = CountStar5(list, banner.Star5Count);
-
+            if (list.Count > 0)
+            {
+                banner.StartTime = list.Last().Time;
+                banner.EndTime = list.First().Time;
+            }
+            banner.Star5List = ListOutStar5(list, banner.Star5Count);
             if (banner.Star5List.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
@@ -82,15 +87,15 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                             };
                             if (i.ItemType == "武器")
                             {
-                                Data.Weapons.Weapon weapon = DataService.Instance.Weapons.First(w => w.Name == i.Name);
+                                Data.Weapons.Weapon weapon = MetaDataService.Instance.Weapons.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon.Source;
-                                counter[i.Name].WeaponIcon = weapon.Type;
+                                counter[i.Name].Badge = weapon.Type;
                             }
                             else//角色
                             {
-                                Data.Characters.Character character = DataService.Instance.Characters.First(c => c.Name == i.Name);
+                                Data.Characters.Character character = MetaDataService.Instance.Characters.First(c => c.Name == i.Name);
                                 counter[i.Name].Source = character.Source;
-                                counter[i.Name].Element = character.Element;
+                                counter[i.Name].Badge = character.Element;
                             }
                         }
                         counter[i.Name].Count += 1;
@@ -99,7 +104,28 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             }
             return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
-        private static List<StatisticItem5Star> CountStar5(IEnumerable<GachaLogItem> items, int star5Count)
+        private static List<StatisticItem> ToTotalCountList(List<SpecificItem> list)
+        {
+            Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
+            foreach (SpecificItem i in list)
+            {
+                if (!counter.ContainsKey(i.Name))
+                {
+                    counter[i.Name] = new StatisticItem()
+                    {
+                        Count = 0,
+                        Name = i.Name,
+                        StarUrl = i.StarUrl,
+                        Source = i.Source,
+                        Badge = i.Badge,
+                        Time = i.Time
+                    };
+                }
+                counter[i.Name].Count += 1;
+            }
+            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
+        }
+        private static List<StatisticItem5Star> ListOutStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
             List<GachaLogItem> reversedItems = items.Reverse().ToList();
@@ -135,6 +161,81 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 }
             }
             return predicatedCount;
+        }
+        private static List<SpecificBanner> ToSpecificBanners(GachaData data)
+        {
+
+            List<SpecificBanner> results = MetaDataService.Instance.SpecificBanners;
+
+            foreach (SpecificBanner result in results)
+            {
+                result.Items?.Clear();
+                result.StatisticList?.Clear();
+                result.Star5List?.Clear();
+            }
+
+            foreach (string type in data.Keys)
+            {
+                if (type is ConfigType.NoviceWishes or ConfigType.PermanentWish)
+                {
+                    continue;
+                }
+                foreach (GachaLogItem item in data[type])
+                {
+                    SpecificBanner banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                    Data.Characters.Character isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
+                    Data.Weapons.Weapon isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
+                    SpecificItem ni = new SpecificItem
+                    {
+                        Time = item.Time
+                    };
+                    if (isc != null)
+                    {
+                        ni.StarUrl = isc.Star;
+                        ni.Source = isc.Source;
+                        ni.Name = isc.Name;
+                        ni.Badge = isc.Element;
+                    }
+                    else if (isw != null)
+                    {
+                        ni.StarUrl = isw.Star;
+                        ni.Source = isw.Source;
+                        ni.Name = isw.Name;
+                        ni.Badge = isw.Type;
+                    }
+                    else
+                    {
+                        ni.Name = item.Name;
+                        ni.StarUrl = StarHelper.FromRank(Int32.Parse(item.Rank));
+                        ni.Log($"不支持的角色或武器{item.Name}");
+                    }
+                    banner.Items.Add(ni);
+                }
+            }
+
+            CalculateDetails(results);
+
+            return results
+                .Where(b => b.TotalCount > 0)
+                .OrderByDescending(b => b.StartTime)
+                .ThenBy(b => b.Type)
+                .ToList();
+        }
+
+        private static void CalculateDetails(List<SpecificBanner> results)
+        {
+            foreach (SpecificBanner banner in results)
+            {
+                banner.TotalCount = banner.Items.Count;
+                if (banner.TotalCount == 0)
+                    continue;
+
+                banner.Star5Count = banner.Items.Count(i => i.StarUrl.ToRank() == 5);
+                banner.Star4Count = banner.Items.Count(i => i.StarUrl.ToRank() == 4);
+                banner.Star3Count = banner.Items.Count(i => i.StarUrl.ToRank() == 3);
+
+                banner.StatisticList = ToTotalCountList(banner.Items);
+            }
         }
     }
 }

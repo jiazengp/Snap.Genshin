@@ -105,7 +105,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                             foreach (string pool in this.Data[this.Service.SelectedUid].Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
-                                IEnumerable<GachaLogItem> logs = Enumerable.Reverse(this.Data[this.Service.SelectedUid][pool]);
+                                IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid][pool];
                                 //header
                                 sheet.Cells[1, 1].Value = "时间";
                                 sheet.Cells[1, 2].Value = "名称";

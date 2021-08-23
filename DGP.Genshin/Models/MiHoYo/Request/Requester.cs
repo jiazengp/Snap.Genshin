@@ -12,7 +12,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         public RequestOptions Headers { get; set; }
         public Requester(RequestOptions headers)
         {
-            Headers = headers;
+            this.Headers = headers;
         }
         private Response<T> Request<T>(Func<WebClient, string> requestMethod, bool isRefererRequired)
         {
@@ -21,7 +21,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                 using (WebClient client = new WebClient())
                 {
                     client.Encoding = Encoding.UTF8;
-                    foreach(var entry in Headers)
+                    foreach (KeyValuePair<string, string> entry in this.Headers)
                     {
                         client.Headers[entry.Key] = entry.Value;
                     }

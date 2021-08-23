@@ -28,7 +28,7 @@ namespace DGP.Genshin.Pages
         private void UnInitialize()
         {
             this.Service.UnInitialize();
-            Service = null;
+            this.Service = null;
         }
     }
 }

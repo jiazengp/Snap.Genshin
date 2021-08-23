@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Genshin.Models.MiHoYo.Request
+﻿namespace DGP.Genshin.Models.MiHoYo.Request
 {
     public class Requesters
     {

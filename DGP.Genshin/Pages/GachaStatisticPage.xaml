@@ -9,7 +9,7 @@
       xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
          xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
          mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1000" d:DesignWidth="800"
       Title="GachaStatisticPage">
     <Page.Resources>
         <!--<SolidColorBrush x:Key="Star1Brush" Color="#FF72778B"/>
@@ -351,13 +351,13 @@
                                     <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
-                                                              BadgeUrl="{Binding Element}"
+                                                              BadgeUrl="{Binding Badge}"
                                                               IsCountVisible="True"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <TextBlock Text="武器" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                        <ItemsControl Margin="0,12,0,8" ItemsSource="{Binding Statistic.Weapons}">
+                        <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Statistic.Weapons}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -368,16 +368,99 @@
                                     <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
-                                                          BadgeUrl="{Binding WeaponIcon}"
+                                                          BadgeUrl="{Binding Badge}"
                                                               IsCountVisible="True"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock Text="历史活动祈愿"  Style="{StaticResource TitleTextBlockStyle}"/>
+                            <ComboBox Margin="12,0,0,0" Focusable="False" ItemsSource="{Binding Statistic.SpecificBanners}" SelectedItem="{Binding SelectedSpecificBanner}"/>
+                        </StackPanel>
+                        <Grid Margin="0,12,4,12" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="以下物品获得概率提升" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" Orientation="Horizontal">
+                                    <ItemsControl ItemsSource="{Binding SelectedSpecificBanner.UpStar5List}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
+                                                              BackgroundUrl="{Binding StarUrl}"
+                                                              ForegroundUrl="{Binding Source}"
+                                                              BadgeUrl="{Binding Badge}"
+                                                              IsCountVisible="False"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <ItemsControl ItemsSource="{Binding SelectedSpecificBanner.UpStar4List}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
+                                                              BackgroundUrl="{Binding StarUrl}"
+                                                              ForegroundUrl="{Binding Source}"
+                                                              BadgeUrl="{Binding Badge}"
+                                                              IsCountVisible="False"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="总计" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Margin="8" VerticalAlignment="Bottom">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding SelectedSpecificBanner.TotalCount,StringFormat={}{0}}" FontSize="48"/>
+                                        <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="8" Text="获取物品" Style="{StaticResource BaseTextBlockStyle}"/>
+                            <ItemsControl Grid.Row="2" Margin="8,0,4,4" ItemsSource="{Binding SelectedSpecificBanner.StatisticList}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
+                                                              BackgroundUrl="{Binding StarUrl}"
+                                                              ForegroundUrl="{Binding Source}"
+                                                              BadgeUrl="{Binding Badge}"
+                                                                            
+                                                              IsCountVisible="True"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </StackPanel>
                 </Border>
             </s:SmoothScrollViewer>
             <!--FallBack-->
-            <Border Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border d:IsHidden="true" Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
                     <TextBlock HorizontalAlignment="Center" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}" Text="点击刷新以获取历史记录"/>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin.Helpers
 {
@@ -18,8 +14,8 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfDouble(object value)
         {
-            var v = (double)value;
-            return !(double.IsNaN(v) || double.IsInfinity(v));
+            double v = (double)value;
+            return !(Double.IsNaN(v) || Double.IsInfinity(v));
         }
 
         /// <summary>
@@ -29,8 +25,8 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfPosDouble(object value)
         {
-            var v = (double)value;
-            return !(double.IsNaN(v) || double.IsInfinity(v)) && v > 0;
+            double v = (double)value;
+            return !(Double.IsNaN(v) || Double.IsInfinity(v)) && v > 0;
         }
 
         /// <summary>
@@ -40,8 +36,8 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfPosDoubleIncludeZero(object value)
         {
-            var v = (double)value;
-            return !(double.IsNaN(v) || double.IsInfinity(v)) && v >= 0;
+            double v = (double)value;
+            return !(Double.IsNaN(v) || Double.IsInfinity(v)) && v >= 0;
         }
 
         /// <summary>
@@ -51,8 +47,8 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfNegDouble(object value)
         {
-            var v = (double)value;
-            return !(double.IsNaN(v) || double.IsInfinity(v)) && v < 0;
+            double v = (double)value;
+            return !(Double.IsNaN(v) || Double.IsInfinity(v)) && v < 0;
         }
 
         /// <summary>
@@ -62,8 +58,8 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfNegDoubleIncludeZero(object value)
         {
-            var v = (double)value;
-            return !(double.IsNaN(v) || double.IsInfinity(v)) && v <= 0;
+            double v = (double)value;
+            return !(Double.IsNaN(v) || Double.IsInfinity(v)) && v <= 0;
         }
 
         /// <summary>
@@ -73,7 +69,7 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfPosInt(object value)
         {
-            var v = (int)value;
+            int v = (int)value;
             return v > 0;
         }
 
@@ -84,7 +80,7 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfPosIntIncludeZero(object value)
         {
-            var v = (int)value;
+            int v = (int)value;
             return v >= 0;
         }
 
@@ -95,7 +91,7 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfNegInt(object value)
         {
-            var v = (int)value;
+            int v = (int)value;
             return v < 0;
         }
 
@@ -106,7 +102,7 @@ namespace DGP.Genshin.Helpers
         /// <returns></returns>
         public static bool IsInRangeOfNegIntIncludeZero(object value)
         {
-            var v = (int)value;
+            int v = (int)value;
             return v <= 0;
         }
     }

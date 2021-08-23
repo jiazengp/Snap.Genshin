@@ -12,7 +12,7 @@ namespace DGP.Genshin.Services
     /// </summary>
     public class DailyViewService
     {
-        private readonly DataService dataService = DataService.Instance;
+        private readonly MetaDataService dataService = MetaDataService.Instance;
 
         #region Mondstadt
         private IEnumerable<Talent> todayMondstadtTalent;

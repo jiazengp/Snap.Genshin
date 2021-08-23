@@ -140,6 +140,9 @@
       <DependentUpon>CookieDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MiHoYo\CookieManager.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\Banner.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\SpecificBanner.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Statistics\SpecificItem.cs" />
     <Compile Include="Models\MiHoYo\Request\DynamicSecretProvider.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Config.cs" />
     <Compile Include="Models\MiHoYo\Gacha\ConfigType.cs" />
@@ -210,7 +213,10 @@
     <Compile Include="Pages\WeaponsPage.xaml.cs">
       <DependentUpon>WeaponsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Pages\WeeklyPage.xaml.cs">
+      <DependentUpon>WeeklyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\MetaDataService.cs" />
     <Compile Include="Services\DailyViewService.cs" />
     <Compile Include="Services\GachaStatistic\FetchProgress.cs" />
     <Compile Include="Services\GachaStatistic\GachaStatisticService.cs" />
@@ -230,6 +236,7 @@
     <Compile Include="Services\Updating\UpdateService.cs" />
     <Compile Include="Services\Updating\UpdateState.cs" />
     <Compile Include="Services\MiHoYoBBSService.cs" />
+    <Compile Include="Services\WeeklyViewService.cs" />
     <Page Include="Controls\Characters\CharacterItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,6 +326,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WeaponsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WeeklyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

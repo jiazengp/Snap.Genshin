@@ -2176,7 +2176,7 @@ namespace DGP.Genshin.Controls.Html
                 {
                     case "font-family":
                         //  Convert from font-family value list into xaml FontFamily value
-                        xamlElement.SetAttribute(XamlFontFamily,"Microsoft YaHei UI"/*(string)propertyEnumerator.Value*/);
+                        xamlElement.SetAttribute(XamlFontFamily, "Microsoft YaHei UI"/*(string)propertyEnumerator.Value*/);
                         break;
                     case "font-style":
                         xamlElement.SetAttribute(XamlFontStyle, (string)propertyEnumerator.Value);

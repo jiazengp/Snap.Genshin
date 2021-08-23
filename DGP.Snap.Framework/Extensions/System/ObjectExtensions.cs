@@ -1,6 +1,5 @@
 ﻿using DGP.Snap.Framework.Core.Logging;
 using System;
-using System.Diagnostics;
 
 namespace DGP.Snap.Framework.Extensions.System
 {

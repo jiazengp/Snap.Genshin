@@ -121,7 +121,8 @@ namespace DGP.Genshin.Services
 
             RecordProgressed?.Invoke("正在获取 详细角色信息");
             requester.Headers.Remove("x-rpc-device_id");
-            Response<DetailedAvatarInfo> roles = await Task.Run(() => {
+            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
+            {
                 var data = new
                 {
                     character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),

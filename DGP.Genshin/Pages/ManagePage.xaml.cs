@@ -14,7 +14,7 @@ namespace DGP.Genshin.Pages
         public ManagePage()
         {
             InitializeComponent();
-            this.DataContext = DataService.Instance;
+            this.DataContext = MetaDataService.Instance;
         }
 
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
@@ -22,11 +22,11 @@ namespace DGP.Genshin.Pages
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    this.CharacterEditDialog.DataContext = DataService.Instance;
+                    this.CharacterEditDialog.DataContext = MetaDataService.Instance;
                     await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
-                    this.WeaponEditDialog.DataContext = DataService.Instance;
+                    this.WeaponEditDialog.DataContext = MetaDataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
                     break;
             }
@@ -34,7 +34,7 @@ namespace DGP.Genshin.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DataService data = DataService.Instance;
+            MetaDataService data = MetaDataService.Instance;
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
@@ -50,7 +50,7 @@ namespace DGP.Genshin.Pages
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            DataService data = DataService.Instance;
+            MetaDataService data = MetaDataService.Instance;
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
@@ -66,7 +66,7 @@ namespace DGP.Genshin.Pages
                     };
                     data.Characters.Add(character);
                     data.SelectedCharacter = character;
-                    this.CharacterEditDialog.DataContext = DataService.Instance;
+                    this.CharacterEditDialog.DataContext = MetaDataService.Instance;
                     await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
@@ -78,7 +78,7 @@ namespace DGP.Genshin.Pages
                     };
                     data.Weapons.Add(weapon);
                     data.SelectedWeapon = weapon;
-                    this.WeaponEditDialog.DataContext = DataService.Instance;
+                    this.WeaponEditDialog.DataContext = MetaDataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
                     break;
             }

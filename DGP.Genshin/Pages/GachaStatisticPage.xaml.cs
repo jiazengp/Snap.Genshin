@@ -90,7 +90,7 @@ namespace DGP.Genshin.Pages
         }
         private void UnInitialize()
         {
-            Service.UnInitialize();
+            this.Service.UnInitialize();
             this.Service = null;
         }
     }
