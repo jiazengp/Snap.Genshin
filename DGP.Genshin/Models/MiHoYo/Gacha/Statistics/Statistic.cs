@@ -15,5 +15,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public StatisticBanner WeaponEvent { get; set; }
         public List<StatisticItem> Characters { get; set; }
         public List<StatisticItem> Weapons { get; set; }
+        public List<SpecificBanner> SpecificBanners { get; set; }
     }
 }

@@ -41,10 +41,12 @@
                 </Expander>
                 <Expander Margin="12,12,16,0">
                     <Expander.Header>
-                        <TextBlock Text="数据" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <TextBlock Text="数据与隐私" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
                     <StackPanel>
-                        <Button Content="重置Cookie" Click="ResetCookieButtonClick"/>
+                        <TextBlock Text="米游社Cookie"/>
+                        <Button Content="重置Cookie" Margin="0,12,0,0" Click="ResetCookieButtonClick"/>
+                        <ui:ToggleSwitch Margin="0,12,0,0" Header="显示完整的UID" Visibility="Collapsed"/>
                     </StackPanel>
                 </Expander>
                 <Expander Margin="12,12,16,0">

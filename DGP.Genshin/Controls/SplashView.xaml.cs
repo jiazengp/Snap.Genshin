@@ -12,12 +12,12 @@ namespace DGP.Genshin.Controls
     /// </summary>
     public partial class SplashView : UserControl
     {
-        internal DataService DataService => DataService.Instance;
+        internal MetaDataService DataService => MetaDataService.Instance;
 
         public SplashView()
         {
-            this.DataContext = DataService.Instance;
-            DataService.CompleteStateChanged += async b =>
+            this.DataContext = MetaDataService.Instance;
+            MetaDataService.Instance.CompleteStateChanged += async b =>
             {
                 if (b)
                 {
@@ -29,7 +29,7 @@ namespace DGP.Genshin.Controls
             InitializeComponent();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e) => await DataService.Instance.CheckAllIntegrityAsync();
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e) => await MetaDataService.Instance.CheckAllIntegrityAsync();
 
         public event Action InitializeCompleted;
     }

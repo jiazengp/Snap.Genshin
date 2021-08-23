@@ -72,6 +72,7 @@
     <Compile Include="Extensions\System\Windows\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\System\Windows\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\System\Windows\Media\VisualExtensions.cs" />
+    <Compile Include="Extensions\System\Windows\UIElementExtensions.cs" />
     <Compile Include="NativeMethods\WinInet.cs" />
     <Compile Include="Net\Download\CompletedState.cs" />
     <Compile Include="Net\Download\DownloadFileCompletedArgs.cs" />

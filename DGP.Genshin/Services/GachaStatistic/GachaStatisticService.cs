@@ -3,6 +3,7 @@ using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using ModernWpf.Controls;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.GachaStatistic
@@ -49,15 +50,14 @@ namespace DGP.Genshin.Services.GachaStatistic
         private string selectedUid;
         private bool hasData = true;
         private FetchProgress fetchProgress;
+        private SpecificBanner selectedSpecificBanner;
 
         public Statistic Statistic { get => this.statistic; set => Set(ref this.statistic, value); }
-        public string SelectedUid
-        {
-            get => this.selectedUid; set => Set(ref this.selectedUid, value);
-        }
+        public string SelectedUid { get => this.selectedUid; set => Set(ref this.selectedUid, value); }
         public ObservableCollection<string> Uids { get; set; } = new ObservableCollection<string>();
         public bool HasNoData { get => this.hasData; set => Set(ref this.hasData, value); }
         public FetchProgress FetchProgress { get => this.fetchProgress; set => Set(ref this.fetchProgress, value); }
+        public SpecificBanner SelectedSpecificBanner { get => this.selectedSpecificBanner; set => Set(ref this.selectedSpecificBanner, value); }
         #endregion
 
         public void AddOrIgnore(string uid)
@@ -81,7 +81,12 @@ namespace DGP.Genshin.Services.GachaStatistic
                 });
                 await Task.Run(() =>
                 {
-                    this.Statistic = StatisticFactory.ToStatistic(this.GachaLogProvider.LocalGachaLogProvider.Data[this.SelectedUid], this.SelectedUid);
+                    LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
+                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid], this.SelectedUid);
+                    if (this.Statistic.SpecificBanners.Count > 0)
+                    {
+                        this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();
+                    }
                     this.HasNoData = false;
                 });
                 this.GachaLogProvider.OnFetchProgressed -= OnFetchProgressed;
@@ -107,11 +112,15 @@ namespace DGP.Genshin.Services.GachaStatistic
                 if (localProvider.Data.Count > 0)
                 {
                     this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid], this.SelectedUid);
+                    if (this.Statistic.SpecificBanners.Count > 0)
+                    {
+                        this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();
+                    }
                     this.HasNoData = false;
                 }
             });
         }
-
-        public async Task ExportDataToExcelAsync(string path) => await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveLocalGachaDataToExcel(path));
+        public async Task ExportDataToExcelAsync(string path) =>
+            await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveLocalGachaDataToExcel(path));
     }
 }
