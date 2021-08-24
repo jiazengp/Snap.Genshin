@@ -1,4 +1,5 @@
-﻿using DGP.Snap.Framework.Data.Json;
+﻿using DGP.Snap.Framework.Data.Behavior;
+using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
+        internal void SetValueInternal(string key, object value) => this.settingDictionary.AddOrSet(key, value);
         /// <summary>
         /// 当设置项发生改变时触发
         /// </summary>
@@ -117,14 +119,34 @@ namespace DGP.Genshin.Services.Settings
     /// <summary>
     /// 为需要及时响应的设置项提供模型支持
     /// </summary>
-    internal class SettingModel
+    public class SettingModel : Observable
     {
-        private static void SettingChanged(string key, object value)
+        private void SettingChanged(string key, object value)
         {
+            switch (key)
+            {
+                case Setting.ShowFullUID:
+                    this.ShowFullUID = (bool)value;
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+
+        public bool ShowFullUID
+        {
+            get => this.showFullUID; set
+            {
+                SettingService.Instance.SetValueInternal(Setting.ShowFullUID, value);
+                Set(ref this.showFullUID, value);
+            }
         }
 
         #region 单例
         private static SettingModel instance;
+        private bool showFullUID;
         private static readonly object _lock = new();
         private SettingModel()
         {

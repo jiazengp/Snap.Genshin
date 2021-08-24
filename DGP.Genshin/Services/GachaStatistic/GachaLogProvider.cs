@@ -2,6 +2,7 @@
 using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using System;
@@ -33,6 +34,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             }
         }
 
+        //don't use auto property
         private LocalGachaLogProvider localGachaLogProvider;
         public LocalGachaLogProvider LocalGachaLogProvider { get => this.localGachaLogProvider; private set => this.localGachaLogProvider = value; }
 
@@ -107,8 +109,19 @@ namespace DGP.Genshin.Services.GachaStatistic
                         {
                             //change the current uid
                             this.LocalGachaLogProvider.CreateUser(item.Uid);
-                            System.Windows.Application.Current.Dispatcher.Invoke(() => this.Service.Uids.Add(item.Uid));
-                            this.Service.SelectedUid = item.Uid;
+                            PrivateString pUid = new PrivateString(item.Uid, PrivateString.DefaultMasker, Settings.SettingModel.Instance.ShowFullUID);
+                            System.Windows.Application.Current.Dispatcher.Invoke(() => this.Service.AddOrIgnore(pUid));
+                            this.Service.SelectedUid = pUid;
+                        }
+                        //switch uid context
+                        if (this.Service.SelectedUid == null || this.Service.SelectedUid.UnMaskedValue != item.Uid)
+                        {
+                            //可能会选到null
+                            string tmpUid = item.Uid;
+                            if (this.Service.SelectedUid.UnMaskedValue != tmpUid)
+                            {
+                                this.Service.SelectedUid = this.Service.Uids.FirstOrDefault(u => u.UnMaskedValue == tmpUid);
+                            }
                         }
 
                         if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
@@ -139,7 +152,7 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
         {
-            GachaData dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid];
+            GachaData dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid.UnMaskedValue];
             if (dict.ContainsKey(type.Key))
             {
                 List<GachaLogItem> local = dict[type.Key];
@@ -175,24 +188,24 @@ namespace DGP.Genshin.Services.GachaStatistic
             query.Set("end_id", endId.ToString());
             string finalUrl = $"{baseUrl}?{query}";
 
-            Requester requester = new Requester(new RequestOptions
+            Response<GachaLog> resp = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA }
                 //{"Referer", Referer },
                 //{"Cookie", cookie },
-            });
-            Response<GachaLog> resp = requester.Get<GachaLog>(finalUrl);
+            }).Get<GachaLog>(finalUrl);
 
             if (resp.ReturnCode == 0)
             {
                 if (resp.Data.List.Count > 0)
                 {
-                    string tmpUid = resp.Data.List.First().Uid;
-                    if (this.Service.SelectedUid != tmpUid)
-                    {
-                        this.Service.SelectedUid = tmpUid;
-                    }
+                    ////可能会选到null
+                    //string tmpUid = resp.Data.List.First().Uid;
+                    //if (this.Service.SelectedUid.UnMaskedValue != tmpUid)
+                    //{
+                    //    this.Service.SelectedUid = this.Service.Uids.FirstOrDefault(u => u.UnMaskedValue == tmpUid);
+                    //}
                 }
                 result = resp.Data;
                 return true;

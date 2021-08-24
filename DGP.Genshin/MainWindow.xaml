@@ -17,7 +17,6 @@
         MinHeight="680"
         Width="1046"
         Height="680" 
-        ui:TitleBar.IsIconVisible="True"
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True">

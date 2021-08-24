@@ -59,6 +59,7 @@
     <Compile Include="Data\Behavior\Selectable.cs" />
     <Compile Include="Data\Behavior\BoxedValue.cs" />
     <Compile Include="Data\Json\Json.cs" />
+    <Compile Include="Data\Privacy\PrivateString.cs" />
     <Compile Include="Data\Regex\RegexPatterns.cs" />
     <Compile Include="Device\Disk\DiskInfomation.cs" />
     <Compile Include="Device\File\File.cs" />

@@ -14,6 +14,8 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
+        public SettingModel SettingModel => SettingModel.Instance;
+
         public SettingsPage()
         {
             this.DataContext = this;

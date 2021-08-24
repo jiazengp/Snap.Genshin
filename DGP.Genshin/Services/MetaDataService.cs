@@ -17,7 +17,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Services
 {
@@ -258,10 +257,10 @@ namespace DGP.Genshin.Services
 
         #region Selected Bindable
         private Character selectedCharacter;
-        public Character SelectedCharacter { get => selectedCharacter; set => Set(ref selectedCharacter, value); }
+        public Character SelectedCharacter { get => this.selectedCharacter; set => Set(ref this.selectedCharacter, value); }
 
         private Weapon selectedWeapon;
-        public Weapon SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
+        public Weapon SelectedWeapon { get => this.selectedWeapon; set => Set(ref this.selectedWeapon, value); }
         #endregion
 
         #region LifeCycle
@@ -358,20 +357,20 @@ namespace DGP.Genshin.Services
 
         #region CheckIntegrity
         private int currentCount;
-        public int CurrentCount { get => currentCount; set => Set(ref currentCount, value); }
+        public int CurrentCount { get => this.currentCount; set => Set(ref this.currentCount, value); }
 
         private int totalCount;
-        public int TotalCount { get => totalCount; set => Set(ref totalCount, value); }
+        public int TotalCount { get => this.totalCount; set => Set(ref this.totalCount, value); }
 
         private double percent;
-        public double Percent { get => percent; set => Set(ref percent, value); }
+        public double Percent { get => this.percent; set => Set(ref this.percent, value); }
 
         private bool hasCheckCompleted;
         public bool HasCheckCompleted
         {
-            get => hasCheckCompleted; set
+            get => this.hasCheckCompleted; set
             {
-                Set(ref hasCheckCompleted, value);
+                Set(ref this.hasCheckCompleted, value);
                 CompleteStateChanged?.Invoke(value);
             }
         }

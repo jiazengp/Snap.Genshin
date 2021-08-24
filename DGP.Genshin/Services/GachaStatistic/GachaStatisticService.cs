@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
+using DGP.Snap.Framework.Data.Privacy;
 using ModernWpf.Controls;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -47,20 +48,20 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         #region observables
         private Statistic statistic;
-        private string selectedUid;
+        private PrivateString selectedUid;
         private bool hasData = true;
         private FetchProgress fetchProgress;
         private SpecificBanner selectedSpecificBanner;
 
         public Statistic Statistic { get => this.statistic; set => Set(ref this.statistic, value); }
-        public string SelectedUid { get => this.selectedUid; set => Set(ref this.selectedUid, value); }
-        public ObservableCollection<string> Uids { get; set; } = new ObservableCollection<string>();
+        public PrivateString SelectedUid { get => this.selectedUid; set => Set(ref this.selectedUid, value); }
+        public ObservableCollection<PrivateString> Uids { get; set; } = new ObservableCollection<PrivateString>();
         public bool HasNoData { get => this.hasData; set => Set(ref this.hasData, value); }
         public FetchProgress FetchProgress { get => this.fetchProgress; set => Set(ref this.fetchProgress, value); }
         public SpecificBanner SelectedSpecificBanner { get => this.selectedSpecificBanner; set => Set(ref this.selectedSpecificBanner, value); }
         #endregion
 
-        public void AddOrIgnore(string uid)
+        public void AddOrIgnore(PrivateString uid)
         {
             if (!this.Uids.Contains(uid))
                 this.Uids.Add(uid);
@@ -82,7 +83,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 await Task.Run(() =>
                 {
                     LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
-                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid], this.SelectedUid);
+                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
                     if (this.Statistic.SpecificBanners.Count > 0)
                     {
                         this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();
@@ -111,7 +112,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
                 if (localProvider.Data.Count > 0)
                 {
-                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid], this.SelectedUid);
+                    this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
                     if (this.Statistic.SpecificBanners.Count > 0)
                     {
                         this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();

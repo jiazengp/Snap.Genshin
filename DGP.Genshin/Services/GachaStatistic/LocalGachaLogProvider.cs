@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
+using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Data.Privacy;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -50,7 +52,8 @@ namespace DGP.Genshin.Services.GachaStatistic
             foreach (string user in Directory.EnumerateDirectories($@"{localFolderName}"))
             {
                 string uid = new DirectoryInfo(user).Name;
-                this.Service.AddOrIgnore(uid);
+
+                this.Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
                 LoadLogOf(uid);
             }
         }
@@ -94,7 +97,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 {
                     return;
                 }
-                if (this.Data.ContainsKey(this.Service.SelectedUid))
+                if (this.Data.ContainsKey(this.Service.SelectedUid.UnMaskedValue))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -102,10 +105,10 @@ namespace DGP.Genshin.Services.GachaStatistic
                     {
                         using (ExcelPackage package = new ExcelPackage(fs))
                         {
-                            foreach (string pool in this.Data[this.Service.SelectedUid].Keys)
+                            foreach (string pool in this.Data[this.Service.SelectedUid.UnMaskedValue].Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
-                                IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid][pool];
+                                IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid.UnMaskedValue][pool];
                                 //header
                                 sheet.Cells[1, 1].Value = "时间";
                                 sheet.Cells[1, 2].Value = "名称";
