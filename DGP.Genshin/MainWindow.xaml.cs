@@ -33,7 +33,7 @@ namespace DGP.Genshin
         [HandleEvent]
         private async void SplashInitializeCompleted()
         {
-            this.navigationService.Navigate<HomePage>(true);
+            
             //check for update
             UpdateState result = await UpdateService.Instance.CheckUpdateStateViaGithubAsync();
             if (result == UpdateState.NeedUpdate)
@@ -60,6 +60,7 @@ namespace DGP.Genshin
                 }
             }
             await RefreshUserInfoAsync();
+            this.navigationService.Navigate<HomePage>(true);
         }
 
         private bool isSigningIn = false;

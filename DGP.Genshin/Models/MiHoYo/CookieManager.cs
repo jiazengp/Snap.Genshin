@@ -19,6 +19,7 @@ namespace DGP.Genshin.Models.MiHoYo
             }
         }
         private static string Cookie { get; set; }
+
         public static async Task<string> GetCookieAsync()
         {
             if (String.IsNullOrEmpty(Cookie))

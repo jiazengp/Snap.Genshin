@@ -10,7 +10,6 @@
     public class PrivateString
     {
         private readonly StringMasker masker;
-        private readonly string value;
 
         /// <summary>
         /// 构造一个新的隐私字符串对象
@@ -19,7 +18,7 @@
         /// <param name="masker">掩码算法</param>
         public PrivateString(string data, StringMasker masker, bool shouldNotMask)
         {
-            this.value = data;
+            this.UnMaskedValue = data;
             this.masker = masker;
             this.ShouldNotMask = shouldNotMask;
         }
@@ -27,9 +26,9 @@
         /// <summary>
         /// 经过隐私设置处理后的字符串
         /// </summary>
-        public string Value => this.ShouldNotMask ? this.value : this.masker.Invoke(this.value);
+        public string Value => this.ShouldNotMask ? this.UnMaskedValue : this.masker.Invoke(this.UnMaskedValue);
 
-        public string UnMaskedValue => this.value;
+        public string UnMaskedValue { get; }
 
         /// <summary>
         /// 告知次隐私字符串是否需要设置掩码

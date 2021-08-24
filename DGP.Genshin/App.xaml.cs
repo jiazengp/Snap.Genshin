@@ -14,6 +14,7 @@ namespace DGP.Genshin
 {
     public partial class App : Application
     {
+        #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -46,6 +47,8 @@ namespace DGP.Genshin
                 }
             }
         }
+        #endregion
+
         internal void SetAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =

@@ -221,7 +221,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 .ThenBy(b => b.Type)
                 .ToList();
         }
-
         private static void CalculateDetails(List<SpecificBanner> results)
         {
             foreach (SpecificBanner banner in results)

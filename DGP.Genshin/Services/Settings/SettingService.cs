@@ -66,15 +66,7 @@ namespace DGP.Genshin.Services.Settings
                 {
                     json = sr.ReadToEnd();
                 }
-                Dictionary<string, object> dict = Json.ToObject<Dictionary<string, object>>(json);
-                if (dict != null)
-                {
-                    this.settingDictionary = dict;
-                }
-                else
-                {
-                    this.settingDictionary = new Dictionary<string, object>();
-                }
+                this.settingDictionary = Json.ToObject<Dictionary<string, object>>(json) ?? new Dictionary<string, object>();
             }
         }
         public void UnInitialize()
@@ -128,10 +120,8 @@ namespace DGP.Genshin.Services.Settings
                 case Setting.ShowFullUID:
                     this.ShowFullUID = (bool)value;
                     break;
-
                 default:
                     break;
-
             }
         }
 
@@ -150,8 +140,15 @@ namespace DGP.Genshin.Services.Settings
         private static readonly object _lock = new();
         private SettingModel()
         {
+            Initialize();
             SettingService.Instance.SettingChanged += SettingChanged;
         }
+
+        private void Initialize()
+        {
+            this.showFullUID = SettingService.Instance.GetOrDefault(Setting.ShowFullUID, false);
+        }
+
         public static SettingModel Instance
         {
             get
