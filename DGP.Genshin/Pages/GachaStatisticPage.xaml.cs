@@ -22,14 +22,16 @@ namespace DGP.Genshin.Pages
             this.DataContext = this.Service;
             InitializeComponent();
         }
-        private void RefreshAppBarButtonClick(object sender, RoutedEventArgs e) => this.Service.Refresh();
+        private void RefreshAppBarButtonClick(object sender, RoutedEventArgs e) =>
+            this.Service.Refresh();
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog
             {
                 Filter = "Excel 工作簿|*.xlsx",
-                Title = "保存",
+                Title = "保存到表格",
                 ValidateNames = true,
+                CheckPathExists = true
             };
             if (dialog.ShowDialog() == true)
             {
@@ -48,8 +50,9 @@ namespace DGP.Genshin.Pages
             SaveFileDialog dialog = new SaveFileDialog
             {
                 Filter = "PNG 图像|*.png",
-                Title = "保存",
+                Title = "导出至图片",
                 ValidateNames = true,
+                CheckPathExists = true
             };
             if (dialog.ShowDialog() == true)
             {
@@ -92,6 +95,21 @@ namespace DGP.Genshin.Pages
         {
             this.Service.UnInitialize();
             this.Service = null;
+        }
+
+        private async void ImportFromGenshinGachaExportAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "JS对象简谱文件|*.json",
+                Title = "从 Genshin Gacha Export 记录文件导入",
+                Multiselect = false,
+                CheckFileExists = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                await Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Controls
@@ -7,6 +8,8 @@ namespace DGP.Genshin.Controls
     {
         public ContentIcon()
         {
+            //suppress the databinding warning
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             InitializeComponent();
         }
 

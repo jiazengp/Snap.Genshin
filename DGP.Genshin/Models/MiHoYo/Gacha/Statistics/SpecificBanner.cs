@@ -1,5 +1,7 @@
 ﻿using DGP.Snap.Framework.Attributes.DataModel;
+using DGP.Snap.Framework.Core;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
@@ -8,13 +10,29 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     /// 20或14天一轮的up卡池信息
     /// </summary>
     [InterModel]
-    public class SpecificBanner : Banner
+    public class SpecificBanner : Banner, IPartiallyCloneable
     {
         public string Type { get; set; }
         public List<SpecificItem> UpStar5List { get; set; }
         public List<SpecificItem> UpStar4List { get; set; }
         [JsonIgnore] public List<StatisticItem> StatisticList { get; set; }
         [JsonIgnore] public List<SpecificItem> Items { get; set; } = new List<SpecificItem>();
+
+        public object ClonePartially()
+        {
+            return new SpecificBanner
+            {
+                Type = this.Type,
+                UpStar5List = this.UpStar5List,
+                UpStar4List = this.UpStar4List,
+                CurrentName = this.CurrentName,
+                StartTime = this.StartTime,
+                EndTime = this.EndTime
+            };
+        }
+
         public override string ToString() => $"{this.CurrentName} | {this.StartTime:yyyy.MM.dd HH:mm} - {this.EndTime:yyyy.MM.dd HH:mm}";
     }
+
+
 }

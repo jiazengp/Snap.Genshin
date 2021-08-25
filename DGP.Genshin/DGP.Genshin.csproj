@@ -140,6 +140,7 @@
       <DependentUpon>CookieDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MiHoYo\CookieManager.cs" />
+    <Compile Include="Models\MiHoYo\Gacha\Compatibility\GenshinGachaExportFile.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\Banner.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\SpecificBanner.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\SpecificItem.cs" />

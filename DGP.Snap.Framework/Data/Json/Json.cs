@@ -13,7 +13,8 @@ namespace DGP.Snap.Framework.Data.Json
         /// <typeparam name="T">要反序列化的对象的类型</typeparam>	
         /// <param name="value">要反序列化的JSON</param>	
         /// <returns>JSON字符串中的反序列化对象</returns>	
-        public static T ToObject<T>(string value) => JsonConvert.DeserializeObject<T>(value);
+        public static T ToObject<T>(string value) =>
+            JsonConvert.DeserializeObject<T>(value);
 
         /// <summary>	
         /// 将指定的对象序列化为JSON字符串	
@@ -33,39 +34,38 @@ namespace DGP.Snap.Framework.Data.Json
             return JsonConvert.SerializeObject(value, jsonSerializerSettings);
         }
 
-        /// <summary>	
-        /// 向指定 <paramref name="requestUrl"/> 的服务器请求Json数据，并将结果返回为类型为 <typeparamref name="TResponse"/> 的实例	
-        /// </summary>	
-        /// <typeparam name="TResponse"></typeparam>	
-        /// <param name="requestUrl"></param>	
-        /// <returns></returns>	
-        public static TResponse GetWebResponseObject<TResponse>(string requestUrl)
+        /// <summary>
+        /// 从文件中读取后转化为实体类
+        /// </summary>
+        /// <typeparam name="T">要反序列化的对象的类型</typeparam>
+        /// <param name="fileName">存放JSON数据的文件路径</param>
+        /// <returns>JSON字符串中的反序列化对象</returns>
+        public static T FromFile<T>(string fileName)
         {
-            string jsonMetaString = GetWebResponse(requestUrl);
-            return ToObject<TResponse>(jsonMetaString);
-        }
-
-        /// <summary>	
-        /// 简单获取网页响应	
-        /// </summary>	
-        /// <param name="requestUrl">请求的URL</param>	
-        /// <returns>响应字符串</returns>	
-        private static string GetWebResponse(string requestUrl)
-        {
-            HttpWebRequest request = WebRequest.CreateHttp(requestUrl);
-
-            request.Proxy = WebRequest.DefaultWebProxy;
-            request.Credentials = CredentialCache.DefaultCredentials;
-            request.ContentType = "application/json;charset=UTF-8";
-
-            request.Timeout = 5000;
-            string jsonMetaString;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (StreamReader sr = File.OpenText(fileName))
             {
-                using StreamReader responseStreamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                jsonMetaString = responseStreamReader.ReadToEnd();
+                return ToObject<T>(sr.ReadToEnd());
             }
-            return jsonMetaString;
+        }
+        /// <summary>
+        /// 从文件中读取后转化为实体类
+        /// </summary>
+        /// <typeparam name="T">要反序列化的对象的类型</typeparam>
+        /// <param name="fileName">存放JSON数据的文件路径</param>
+        /// <returns>JSON字符串中的反序列化对象</returns>
+        public static T FromFile<T>(FileInfo file)
+        {
+            using (StreamReader sr = file.OpenText())
+            {
+                return ToObject<T>(sr.ReadToEnd());
+            }
+        }
+        public static void ToFile(string fileName,object value)
+        {
+            using (StreamWriter sw = new StreamWriter(File.OpenWrite(fileName)))
+            {
+                sw.Write(Stringify(value));
+            }
         }
     }
 }

@@ -26,18 +26,20 @@
         <ui:CommandBar IsOpen="False">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
-                    <ComboBox Margin="0,4" ItemsSource="{Binding Uids}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedUid,Mode=TwoWay}"/>
+                    <ComboBox IsEnabled="{Binding CanUserSwitchUid}" Focusable="False" Margin="0,4" ItemsSource="{Binding Uids}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedUid,Mode=TwoWay}"/>
                     <TextBlock Margin="12,12,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
                 </StackPanel>
             </ui:CommandBar.Content>
             <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreshAppBarButtonClick"/>
             <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Label="从 Genshin Gacha Export 导入" Click="ImportFromGenshinGachaExportAppBarButtonClick" Icon="Import"/>
+                <ui:AppBarSeparator/>
                 <ui:AppBarButton Label="导出到 Excel 表格" Click="ExportExcelAppBarButtonClick">
                     <ui:AppBarButton.Icon>
                         <ui:FontIcon Glyph="&#xEDE1;"/>
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
-                <ui:AppBarButton Label="导出到图片" Click="ExportImageAppBarButtonClick">
+                <ui:AppBarButton Label="导出到 PNG 图片" Click="ExportImageAppBarButtonClick">
                     <ui:AppBarButton.Icon>
                         <ui:FontIcon Glyph="&#xEB9F;"/>
                     </ui:AppBarButton.Icon>
@@ -51,7 +53,7 @@
                         <Grid Margin="0,12,4,0" x:Name="TitleGrid" Visibility="Collapsed">
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
                                 <TextBlock HorizontalAlignment="Left" Text="UID" Margin="0,0,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUid}" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUid.Value}" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
                                 <Image HorizontalAlignment="Right" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
@@ -375,7 +377,7 @@
                         </ItemsControl>
                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                             <TextBlock Text="历史活动祈愿"  Style="{StaticResource TitleTextBlockStyle}"/>
-                            <ComboBox Margin="12,0,0,0" Focusable="False" ItemsSource="{Binding Statistic.SpecificBanners}" SelectedItem="{Binding SelectedSpecificBanner}"/>
+                            <ComboBox Margin="12,0,0,0" Focusable="False" ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" SelectedItem="{Binding SelectedSpecificBanner,Mode=TwoWay,IsAsync=True}"/>
                         </StackPanel>
                         <Grid Margin="0,12,4,12" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.RowDefinitions>
@@ -449,8 +451,7 @@
                                         <controls:ContentIcon Width="70" Height="70" Margin="0,0,4,4"
                                                               BackgroundUrl="{Binding StarUrl}"
                                                               ForegroundUrl="{Binding Source}"
-                                                              BadgeUrl="{Binding Badge}"
-                                                                            
+                                                              BadgeUrl="{Binding Badge}"          
                                                               IsCountVisible="True"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

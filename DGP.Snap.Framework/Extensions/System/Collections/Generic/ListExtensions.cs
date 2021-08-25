@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Core;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
 {
@@ -27,6 +29,13 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         }
 
         public static Random Random = new Random();
-        public static T GetRandom<T>(this IList<T> list) => list[Random.Next(0, list.Count)];
+        public static T GetRandom<T>(this IList<T> list) =>
+            list[Random.Next(0, list.Count)];
+
+        public static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable =>
+            listToClone.Select(item => (T)item.Clone()).ToList();
+
+        public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable =>
+            listToClone.Select(item => (T)item.ClonePartially()).ToList();
     }
 }

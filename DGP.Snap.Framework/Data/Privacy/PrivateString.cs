@@ -7,6 +7,9 @@
     /// <returns></returns>
     public delegate string StringMasker(string input);
 
+    /// <summary>
+    /// 隐私字符串
+    /// </summary>
     public class PrivateString
     {
         private readonly StringMasker masker;

@@ -2,6 +2,7 @@
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Attributes.DataModel;
 using DGP.Snap.Framework.Extensions.System;
+using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.MinGetStar5Count = 0;
             }
 
-            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount), banner);
+            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount), banner, granteeCount);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
@@ -146,26 +147,25 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             counter.Reverse();
             return counter;
         }
-        private static int RestrictPredicatedCount(int predicatedCount, StatisticBanner banner)
+        private static int RestrictPredicatedCount(int predicatedCount, StatisticBanner banner, int granteeCount)
         {
-            int predicatedSum = predicatedCount + banner.CountSinceLastStar5;
-            if (predicatedSum > 90 || predicatedSum < 1)
+            if (predicatedCount < 1)
             {
-                if (predicatedSum > 90)
+                return 1;
+            }
+            int predicatedSum = predicatedCount + banner.CountSinceLastStar5;
+            if (predicatedSum > granteeCount)
+            {
+                if (predicatedSum > granteeCount)
                 {
-                    predicatedCount = 90 - banner.CountSinceLastStar5;
-                }
-                else if (predicatedSum < 1)
-                {
-                    predicatedCount = 1;
+                    predicatedCount = granteeCount - banner.CountSinceLastStar5;
                 }
             }
             return predicatedCount;
         }
         private static List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
-
-            List<SpecificBanner> results = MetaDataService.Instance.SpecificBanners;
+            List<SpecificBanner> results = MetaDataService.Instance.SpecificBanners.ClonePartially();
 
             foreach (SpecificBanner result in results)
             {

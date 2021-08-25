@@ -1,9 +1,9 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Request;
-using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using DGP.Snap.Framework.Net.Web.QueryString;
 using System;
 using System.Collections.Generic;
@@ -34,24 +34,29 @@ namespace DGP.Genshin.Services.GachaStatistic
             }
         }
 
-        //don't use auto property
-        private LocalGachaLogProvider localGachaLogProvider;
-        public LocalGachaLogProvider LocalGachaLogProvider { get => this.localGachaLogProvider; private set => this.localGachaLogProvider = value; }
+        public LocalGachaLogProvider LocalGachaLogProvider { get; private set; }
 
         public GachaStatisticService Service { get; set; }
 
+        #region Initialization
         public GachaLogProvider(GachaStatisticService service)
         {
             this.Service = service;
             this.LocalGachaLogProvider = new LocalGachaLogProvider(service);
         }
 
+        #endregion
+
+        /// <summary>
+        /// 尝试在日志文件中寻找url
+        /// </summary>
+        /// <returns></returns>
         public bool TryFindUrlInLogFile()
         {
+            //combine into locallow
             string LocalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             this.logFilePath = LocalPath + @"Low\miHoYo\原神\output_log.txt";
-            //share the file to make genshin access it
-            //so it doesn't crash when game is running
+            //share the file to make genshin access it so it doesn't crash when game is running
             using (StreamReader sr = new StreamReader(File.Open(this.logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 string str;
@@ -85,73 +90,69 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <returns></returns>
         private Config GetGachaConfig()
         {
-            Response<Config> resp = Json.GetWebResponseObject<Response<Config>>(this.configListUrl);
+            Response<Config> resp = new Requester(new RequestOptions
+            {
+                {"Accept", RequestOptions.Json },
+                {"User-Agent", RequestOptions.CommonUA }
+            }).Get<Config>(this.configListUrl);
             return resp.ReturnCode == 0 ? resp.Data : null;
         }
 
         /// <summary>
         /// 获取单个奖池的祈愿记录增量信息，能改变当前uid
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">卡池类型</param>
         public void FetchGachaLogIncrement(ConfigType type)
         {
-            List<GachaLogItem> result = new List<GachaLogItem>();
-            int currentPage = 0;
-            long endId = 0;
-            do
+            lock (LocalGachaLogProvider.processing)
             {
-                if (TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
+                List<GachaLogItem> increment = new List<GachaLogItem>();
+                int currentPage = 0;
+                long endId = 0;
+                do
                 {
-                    foreach (GachaLogItem item in gachaLog.List)
+                    if (TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
                     {
-                        //first time fetch ,no local data
-                        if (!this.LocalGachaLogProvider.Data.ContainsKey(item.Uid))
+                        foreach (GachaLogItem item in gachaLog.List)
                         {
-                            //change the current uid
-                            this.LocalGachaLogProvider.CreateUser(item.Uid);
-                            PrivateString pUid = new PrivateString(item.Uid, PrivateString.DefaultMasker, Settings.SettingModel.Instance.ShowFullUID);
-                            System.Windows.Application.Current.Dispatcher.Invoke(() => this.Service.AddOrIgnore(pUid));
-                            this.Service.SelectedUid = pUid;
-                        }
-                        //switch uid context
-                        if (this.Service.SelectedUid == null || this.Service.SelectedUid.UnMaskedValue != item.Uid)
-                        {
-                            //可能会选到null
-                            string tmpUid = item.Uid;
-                            if (this.Service.SelectedUid.UnMaskedValue != tmpUid)
+                            App.Current.Invoke(() => Service.SwitchUidContext(item.Uid));
+                            //this one is increment
+                            if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
                             {
-                                this.Service.SelectedUid = this.Service.Uids.FirstOrDefault(u => u.UnMaskedValue == tmpUid);
+                                increment.Add(item);
+                            }
+                            else//already done the new item
+                            {
+                                MergeIncrement(type, increment);
+                                return;
                             }
                         }
-
-                        if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
+                        //last page
+                        if (gachaLog.List.Count < 20)
                         {
-                            result.Add(item);
+                            break;
                         }
-                        else//already done the new item
-                        {
-                            MergeIncrement(type, result);
-                            return;
-                        }
+                        endId = gachaLog.List.Last().TimeId;
                     }
-
-                    if (gachaLog.List.Count < 20)
+                    else
                     {
+                        //url not valid
                         break;
                     }
-                    endId = gachaLog.List.Last().TimeId;
-                }
-                else
-                {
-                    //url no longer valid
-                    break;
-                }
-            } while (true);
-            MergeIncrement(type, result);
+                } while (true);
+                //first time fecth could go here
+                MergeIncrement(type, increment);
+            }
         }
 
+        /// <summary>
+        /// 合并增量
+        /// </summary>
+        /// <param name="type">卡池类型</param>
+        /// <param name="increment">增量</param>
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
         {
+            //简单的将老数据插入到增量后侧，最后重置数据
             GachaData dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid.UnMaskedValue];
             if (dict.ContainsKey(type.Key))
             {
@@ -180,6 +181,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             string[] splitedUrl = this.gachaLogUrl.Split('?');
             string baseUrl = splitedUrl[0];
 
+            //parse querystrings
             QueryString query = QueryString.Parse(splitedUrl[1]);
             query.Set("gacha_type", type.Key);
             //20 is the max size the api can return
@@ -192,21 +194,10 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA }
-                //{"Referer", Referer },
-                //{"Cookie", cookie },
             }).Get<GachaLog>(finalUrl);
 
             if (resp.ReturnCode == 0)
             {
-                if (resp.Data.List.Count > 0)
-                {
-                    ////可能会选到null
-                    //string tmpUid = resp.Data.List.First().Uid;
-                    //if (this.Service.SelectedUid.UnMaskedValue != tmpUid)
-                    //{
-                    //    this.Service.SelectedUid = this.Service.Uids.FirstOrDefault(u => u.UnMaskedValue == tmpUid);
-                    //}
-                }
                 result = resp.Data;
                 return true;
             }
@@ -215,7 +206,6 @@ namespace DGP.Genshin.Services.GachaStatistic
                 result = null;
                 return false;
             }
-
         }
     }
 }

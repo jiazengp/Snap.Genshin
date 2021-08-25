@@ -53,6 +53,7 @@
     <Compile Include="Attributes\DataModel\JsonModelAttribute.cs" />
     <Compile Include="Attributes\DataModel\ModelFactoryAttribute.cs" />
     <Compile Include="Core\Entry\EntryHelper.cs" />
+    <Compile Include="Core\IPartiallyCloneable.cs" />
     <Compile Include="Core\Logging\Logger.cs" />
     <Compile Include="Data\Behavior\BindWrapper.cs" />
     <Compile Include="Data\Behavior\Observable.cs" />

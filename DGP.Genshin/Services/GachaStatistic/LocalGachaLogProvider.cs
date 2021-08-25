@@ -1,8 +1,9 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
+using DGP.Genshin.Models.MiHoYo.Gacha.Compatibility;
 using DGP.Genshin.Services.Settings;
-using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Data.Privacy;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,14 @@ namespace DGP.Genshin.Services.GachaStatistic
     /// <summary>
     /// 本地抽卡记录提供器
     /// </summary>
-    public class LocalGachaLogProvider : Observable
+    public class LocalGachaLogProvider
     {
-        private static readonly string localFolderName = "GachaStatistic";
+        public readonly object processing = new object();
+        private const string localFolderName = "GachaStatistic";
         public Dictionary<string, GachaData> Data { get; set; } = new Dictionary<string, GachaData>();
-
         private GachaStatisticService Service { get; set; }
 
+        #region Initialization
         public LocalGachaLogProvider(GachaStatisticService service)
         {
             Directory.CreateDirectory(localFolderName);
@@ -29,11 +31,36 @@ namespace DGP.Genshin.Services.GachaStatistic
             if (service.Uids.Count > 0)
             {
                 service.HasNoData = false;
-                service.SelectedUid = service.Uids.First();
+                service.SetSelectedUidSuppressSyncStatistic(service.Uids.First());
+                //service.SelectedUid = service.Uids.First();
             }
         }
+        private void LoadAllLogs()
+        {
+            foreach (string user in Directory.EnumerateDirectories($@"{localFolderName}"))
+            {
+                string uid = new DirectoryInfo(user).Name;
+                this.Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
+                LoadLogOf(uid);
+            }
+        }
+        private void LoadLogOf(string uid)
+        {
+            InitializeUser(uid);
+            foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
+            {
+                FileInfo fileInfo = new FileInfo(p);
+                string pool = fileInfo.Name.Replace(".json", "");
+                this.Data[uid][pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
+            }
+        }
+        #endregion
 
-        public void CreateUser(string uid) => this.Data.Add(uid, new GachaData());
+        /// <summary>
+        /// 在初始化阶段将uid与对应的抽卡数据准备就绪
+        /// </summary>
+        /// <param name="uid"></param>
+        public void InitializeUser(string uid) => this.Data.Add(uid, new GachaData());
 
         /// <summary>
         /// 获取最新的时间戳id
@@ -41,34 +68,13 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <returns>default 0</returns>
         public long GetNewestTimeId(ConfigType type, string uid)
         {
+            //有uid有卡池记录就读取最新物品的id,否则返回0
             return this.Data.ContainsKey(uid) && this.Data[uid].ContainsKey(type.Key)
                 ? this.Data[uid][type.Key].First().TimeId
                 : 0L;
         }
 
-        #region load&save
-        private void LoadAllLogs()
-        {
-            foreach (string user in Directory.EnumerateDirectories($@"{localFolderName}"))
-            {
-                string uid = new DirectoryInfo(user).Name;
-
-                this.Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
-                LoadLogOf(uid);
-            }
-        }
-        private void LoadLogOf(string uid)
-        {
-            CreateUser(uid);
-            foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
-            {
-                FileInfo fileInfo = new FileInfo(p);
-                using StreamReader reader = new StreamReader(fileInfo.OpenRead());
-                string typeName = fileInfo.Name.Replace(".json", "");
-                this.Data[uid].Add(typeName, Json.ToObject<List<GachaLogItem>>(reader.ReadToEnd()));
-            }
-        }
-
+        #region save
         public void SaveAllLogs()
         {
             foreach (KeyValuePair<string, GachaData> entry in this.Data)
@@ -81,14 +87,76 @@ namespace DGP.Genshin.Services.GachaStatistic
             Directory.CreateDirectory($@"{localFolderName}\{uid}");
             foreach (KeyValuePair<string, List<GachaLogItem>> entry in this.Data[uid])
             {
-                using StreamWriter writer = new StreamWriter(File.Create($@"{localFolderName}\{uid}\{entry.Key}.json"));
-                writer.Write(Json.Stringify(entry.Value));
+                Json.ToFile($@"{localFolderName}\{uid}\{entry.Key}.json", entry.Value);
+            }
+        }
+        #endregion
+
+        #region import
+        public void ImportFromGenshinGachaExport(string filePath)
+        {
+            Service.CanUserSwitchUid = false;
+            lock (this.processing)
+            {
+                GenshinGachaExportFile file = Json.FromFile<GenshinGachaExportFile>(filePath);
+                GachaData data = file.Data;
+                //is new uid
+                if (App.Current.Invoke(() => this.Service.SwitchUidContext(file.Uid)))
+                {
+                    this.Data[file.Uid] = data;
+                }
+                else//we need to perform merge operation
+                {
+                    foreach (KeyValuePair<string, List<GachaLogItem>> pool in data)
+                    {
+                        List<GachaLogItem> backIncrement = PickBackIncrement(file.Uid, pool.Key, pool.Value);
+                        MergeBackIncrement(pool.Key, backIncrement);
+                    }
+                }
+            }
+            Service.SyncStatisticWithUidAsync();
+            Service.CanUserSwitchUid = true;
+            SaveAllLogs();
+        }
+
+        private List<GachaLogItem> PickBackIncrement(string uid, string poolType, List<GachaLogItem> importList)
+        {
+            List<GachaLogItem> currentItems = this.Data[uid][poolType];
+            if (currentItems.Count > 0)
+            {
+                //首个比当前最后的物品id早的物品
+                long lastTimeId = currentItems.Last().TimeId;
+                int index = importList.FindIndex(i => i.TimeId < lastTimeId);
+                if (index < 0)
+                {
+                    return new List<GachaLogItem>();
+                }
+                //修改了原先的列表
+                importList.RemoveRange(0, index);
+            }
+            return importList;
+        }
+
+        /// <summary>
+        /// 合并老数据
+        /// </summary>
+        /// <param name="type">卡池</param>
+        /// <param name="backIncrement">增量</param>
+        private void MergeBackIncrement(string type, List<GachaLogItem> backIncrement)
+        {
+            GachaData dict = this.Data[this.Service.SelectedUid.UnMaskedValue];
+            if (dict.ContainsKey(type))
+            {
+                dict[type].AddRange(backIncrement);
+            }
+            else
+            {
+                dict[type] = backIncrement;
             }
         }
         #endregion
 
         #region export
-        private readonly object processing = new object();
         public void SaveLocalGachaDataToExcel(string fileName)
         {
             lock (this.processing)
