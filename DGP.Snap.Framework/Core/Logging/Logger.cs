@@ -21,7 +21,8 @@ namespace DGP.Snap.Framework.Core.Logging
 
             if (this.isLoggingtoFile)
             {
-                this.loggerWriter.WriteLine($"{typename}:\n{info}");
+                TextWriter syncWirtter = TextWriter.Synchronized(this.loggerWriter);
+                syncWirtter.WriteLine($"{typename}:\n{info}");
             }
             if (this.isLoggingtoConsole)
             {

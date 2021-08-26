@@ -377,7 +377,7 @@
                         </ItemsControl>
                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                             <TextBlock Text="历史活动祈愿"  Style="{StaticResource TitleTextBlockStyle}"/>
-                            <ComboBox Margin="12,0,0,0" Focusable="False" ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" SelectedItem="{Binding SelectedSpecificBanner,Mode=TwoWay,IsAsync=True}"/>
+                            <ComboBox Margin="12,0,0,0" Focusable="False" MinWidth="352" ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" SelectedItem="{Binding SelectedSpecificBanner,IsAsync=True}"/>
                         </StackPanel>
                         <Grid Margin="0,12,4,12" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.RowDefinitions>

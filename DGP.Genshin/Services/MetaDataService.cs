@@ -11,11 +11,13 @@ using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
+using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
@@ -358,6 +360,9 @@ namespace DGP.Genshin.Services
         #region CheckIntegrity
         private int currentCount;
         public int CurrentCount { get => this.currentCount; set => Set(ref this.currentCount, value); }
+        
+        private string currentInfo;
+        public string CurrentInfo { get => this.currentInfo; set => Set(ref this.currentInfo, value); }
 
         private int totalCount;
         public int TotalCount { get => this.totalCount; set => Set(ref this.totalCount, value); }
@@ -380,20 +385,41 @@ namespace DGP.Genshin.Services
 
         private static int checkingCount = 0;
 
-        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection, IProgress<int> progress) where T : KeySource
+
+        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection, IProgress<InitializeState> progress) where T : KeySource
         {
-            foreach (T t in collection)
+            await collection.ParallelForEachAsync(async (t) =>
             {
                 try
                 {
                     await FileCache.HitAsync(t.Source);
                 }
-                catch (Exception e)
+                catch { }
+
+                progress.Report(new InitializeState(++checkingCount, t.Source.ToFileName()));
+            }, Environment.ProcessorCount);
+        }
+
+        public async Task CheckCharactersAdditionAsync(ObservableCollection<Character> characters, IProgress<InitializeState> progress)
+        {
+            await characters.ParallelForEachAsync(async c =>
+            {
+                try
                 {
-                    this.Log(e);
+                    await FileCache.HitAsync(c.GachaCard);
                 }
-                progress.Report(++checkingCount);
-            }
+                catch { }
+                progress.Report(new InitializeState(++checkingCount, c.Source.ToFileName()));
+            }, Environment.ProcessorCount);
+            await characters.ParallelForEachAsync(async c =>
+            {
+                try
+                {
+                    await FileCache.HitAsync(c.Profile);
+                }
+                catch { }
+                progress.Report(new InitializeState(++checkingCount, c.Source.ToFileName()));
+            }, Environment.ProcessorCount);
         }
 
         /// <summary>
@@ -402,10 +428,16 @@ namespace DGP.Genshin.Services
         public async Task CheckAllIntegrityAsync()
         {
             this.HasCheckCompleted = false;
+            Progress<InitializeState> progress = new Progress<InitializeState>(i =>
+            {
+                this.CurrentCount = i.CurrentCount; 
+                this.Percent = i.CurrentCount * 1.0 / this.TotalCount;
+                this.CurrentInfo = i.Info;
+            });
             this.CurrentCount = 0;
             this.TotalCount =
                 this.Bosses.Count +
-                this.Characters.Count +
+                (this.Characters.Count * 3) +
                 this.Cities.Count +
                 this.DailyTalents.Count +
                 this.DailyWeapons.Count +
@@ -418,24 +450,35 @@ namespace DGP.Genshin.Services
                 this.Weapons.Count +
                 this.WeaponTypes.Count +
                 this.WeeklyTalents.Count;
-            Progress<int> progress = new Progress<int>(i => { this.CurrentCount = i; this.Percent = i * 1.0 / this.TotalCount; });
-
-            await CheckIntegrityAsync(this.Bosses, progress);
-            await CheckIntegrityAsync(this.Characters, progress);
-            await CheckIntegrityAsync(this.Cities, progress);
-            await CheckIntegrityAsync(this.DailyTalents, progress);
-            await CheckIntegrityAsync(this.DailyWeapons, progress);
-            await CheckIntegrityAsync(this.Elements, progress);
-            await CheckIntegrityAsync(this.Elites, progress);
-            await CheckIntegrityAsync(this.GemStones, progress);
-            await CheckIntegrityAsync(this.Locals, progress);
-            await CheckIntegrityAsync(this.Monsters, progress);
-            await CheckIntegrityAsync(this.Stars, progress);
-            await CheckIntegrityAsync(this.Weapons, progress);
-            await CheckIntegrityAsync(this.WeaponTypes, progress);
-            await CheckIntegrityAsync(this.WeeklyTalents, progress);
+            await Task.WhenAll(
+                CheckIntegrityAsync(this.Bosses, progress),
+                CheckIntegrityAsync(this.Characters, progress),
+                CheckIntegrityAsync(this.Cities, progress),
+                CheckIntegrityAsync(this.DailyTalents, progress),
+                CheckIntegrityAsync(this.DailyWeapons, progress),
+                CheckIntegrityAsync(this.Elements, progress),
+                CheckIntegrityAsync(this.Elites, progress),
+                CheckIntegrityAsync(this.GemStones, progress),
+                CheckIntegrityAsync(this.Locals, progress),
+                CheckIntegrityAsync(this.Monsters, progress),
+                CheckIntegrityAsync(this.Stars, progress),
+                CheckIntegrityAsync(this.Weapons, progress),
+                CheckIntegrityAsync(this.WeaponTypes, progress),
+                CheckIntegrityAsync(this.WeeklyTalents, progress),
+                CheckCharactersAdditionAsync(this.Characters, progress));
 
             this.HasCheckCompleted = true;
+        }
+
+        public class InitializeState
+        {
+            public InitializeState(int count, string info)
+            {
+                CurrentCount = count;
+                Info = info;
+            }
+            public int CurrentCount { get; set; }
+            public string Info { get; set; }
         }
         #endregion
     }

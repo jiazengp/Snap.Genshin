@@ -129,8 +129,14 @@ namespace DGP.Genshin.Controls.CachedImage
                     BitmapImage imageSource = new BitmapImage();
                     imageSource.BeginInit();
                     imageSource.CreateOptions = BitmapCreateOptions.None;
-                    imageSource.StreamSource = await FileCache.HitAsync(uriSource.ToString());
-                    imageSource.EndInit();
+                    try
+                    {
+                        imageSource.StreamSource = await FileCache.HitAsync(uriSource.ToString());
+                    }
+                    finally
+                    {
+                        imageSource.EndInit();
+                    }
                     this._image.Source = imageSource;
                     this._opacityMask.ImageSource = imageSource;
                 }

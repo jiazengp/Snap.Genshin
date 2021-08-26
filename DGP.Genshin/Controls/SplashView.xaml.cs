@@ -12,8 +12,6 @@ namespace DGP.Genshin.Controls
     /// </summary>
     public partial class SplashView : UserControl
     {
-        internal MetaDataService DataService => MetaDataService.Instance;
-
         public SplashView()
         {
             this.DataContext = MetaDataService.Instance;

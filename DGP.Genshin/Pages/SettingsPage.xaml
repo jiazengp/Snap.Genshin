@@ -51,7 +51,7 @@
                 </Expander>
                 <Expander Margin="12,12,16,0">
                     <Expander.Header>
-                        <TextBlock Text="反馈" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <TextBlock Text="问题与反馈" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
                     <StackPanel>
                         <TextBlock Text="如果你在使用软件的过程中遇到问题，可以" Style="{StaticResource BodyTextBlockStyle}"/>

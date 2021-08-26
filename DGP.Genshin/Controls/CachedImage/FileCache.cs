@@ -35,8 +35,9 @@ namespace DGP.Genshin.Controls.CachedImage
         {
             Directory.CreateDirectory(AppCacheDirectory);
 
-            Uri uri = new(url);
-            StringBuilder fileNameBuilder = new();
+            Uri uri = new Uri(url);
+            //build filename
+            StringBuilder fileNameBuilder = new StringBuilder();
             using (SHA1Managed sha1 = new())
             {
                 string canonicalUrl = uri.ToString();
@@ -45,12 +46,13 @@ namespace DGP.Genshin.Controls.CachedImage
                 if (Path.HasExtension(canonicalUrl))
                     fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
             }
-
             string fileName = fileNameBuilder.ToString();
-            string localFile = String.Format("{0}\\{1}", AppCacheDirectory, fileName);
-            MemoryStream memoryStream = new MemoryStream();
+            string localFile = $"{AppCacheDirectory}\\{fileName}";
 
+            MemoryStream memoryStream = new MemoryStream();
             FileStream fileStream = null;
+            //未写文件且文件存在
+            //读取文件缓存并返回
             if (!IsWritingFile.ContainsKey(fileName) && File.Exists(localFile))
             {
                 using (fileStream = new FileStream(localFile, FileMode.Open, FileAccess.Read))
@@ -67,25 +69,29 @@ namespace DGP.Genshin.Controls.CachedImage
             {
                 WebResponse response = await request.GetResponseAsync();
                 Stream responseStream = response.GetResponseStream();
+                //url返回为空
                 if (responseStream == null)
                     return null;
+                //未在写文件
                 if (!IsWritingFile.ContainsKey(fileName))
                 {
                     IsWritingFile[fileName] = true;
                     fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
                 }
-
+                //开始写文件
                 using (responseStream)
                 {
                     byte[] bytebuffer = new byte[100];
                     int bytesRead;
                     do
                     {
+                        //分段读取流内容
                         bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
                         if (fileStream != null)
                             await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
                         await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
                     } while (bytesRead > 0);
+                    
                     if (fileStream != null)
                     {
                         await fileStream.FlushAsync();

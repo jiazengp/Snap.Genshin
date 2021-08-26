@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019" 
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
-             d:DesignHeight="400" d:DesignWidth="800"
+             d:DesignHeight="600" d:DesignWidth="800"
              Loaded="UserControl_Loaded"
              IsHitTestVisible="False">
     <UserControl.Resources>
@@ -51,6 +51,7 @@
         
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MaxHeight="160" Margin="12">
             <TextBlock Text="校验图片资源完整性" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Text="首次校验可能会花费较长时间" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
             <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1} - {2:p}">
@@ -60,6 +61,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
+            <TextBlock Text="{Binding CurrentInfo}" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
             <ProgressBar Margin="6,12,6,6" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding Percent}"/>
         </StackPanel>
     </Grid>
