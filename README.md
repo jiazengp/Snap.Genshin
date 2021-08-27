@@ -45,7 +45,7 @@
 [![sunfkny/genshin-gacha-export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-yellow?style=for-the-badge)](https://github.com/sunfkny/genshin-gacha-export)
 
 祈愿记录页面设计  
-[![sunfkny/genshin-gacha-export](https://img.shields.io/badge/Scighost-KeqingNiuza-yellow?style=for-the-badge)](https://github.com/Scighost/KeqingNiuza)
+[![Scighost/KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-yellow?style=for-the-badge)](https://github.com/Scighost/KeqingNiuza)
 
 玩家信息查询逻辑  
 [![Azure99/GenshinPlayerQuery](https://img.shields.io/badge/Azure99-GenshinPlayerQuery-yellow?style=for-the-badge)](https://github.com/Azure99/GenshinPlayerQuery)
