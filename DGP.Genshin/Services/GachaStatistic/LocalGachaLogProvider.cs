@@ -3,6 +3,7 @@ using DGP.Genshin.Models.MiHoYo.Gacha.Compatibility;
 using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Data.Privacy;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using OfficeOpenXml;
 using System;
@@ -32,8 +33,8 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 service.HasNoData = false;
                 service.SetSelectedUidSuppressSyncStatistic(service.Uids.First());
-                //service.SelectedUid = service.Uids.First();
             }
+            this.Log("initialized");
         }
         private void LoadAllLogs()
         {
@@ -95,7 +96,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         #region import
         public void ImportFromGenshinGachaExport(string filePath)
         {
-            Service.CanUserSwitchUid = false;
+            this.Service.CanUserSwitchUid = false;
             lock (this.processing)
             {
                 GenshinGachaExportFile file = Json.FromFile<GenshinGachaExportFile>(filePath);
@@ -114,8 +115,8 @@ namespace DGP.Genshin.Services.GachaStatistic
                     }
                 }
             }
-            Service.SyncStatisticWithUidAsync();
-            Service.CanUserSwitchUid = true;
+            this.Service.SyncStatisticWithUidAsync();
+            this.Service.CanUserSwitchUid = true;
             SaveAllLogs();
         }
 

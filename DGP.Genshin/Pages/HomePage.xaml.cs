@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo.BBSAPI.Post;
 using DGP.Genshin.Services;
+using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace DGP.Genshin.Pages
         {
             this.DataContext = this;
             InitializeComponent();
+            this.Log("initialized");
         }
         public List<Post> Posts { get => this.posts; set => Set(ref this.posts, value); }
 
@@ -56,7 +58,6 @@ namespace DGP.Genshin.Pages
             Process.Start($@"https://bbs.mihoyo.com/ys/article/{b.Tag}");
         }
     }
-
     public class IdToPostConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>

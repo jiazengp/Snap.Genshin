@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Attributes.DataModel;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     {
         public static Statistic ToStatistic(GachaData data, string uid)
         {
+            Logger.LogStatic(typeof(StatisticFactory), $"convert data of {uid} to statistic view");
             return new Statistic()
             {
                 Uid = uid,
@@ -207,7 +208,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                     {
                         ni.Name = item.Name;
                         ni.StarUrl = StarHelper.FromRank(Int32.Parse(item.Rank));
-                        ni.Log($"不支持的角色或武器{item.Name}");
+                        Logger.LogStatic(typeof(StatisticFactory), $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
                     }
                     banner.Items.Add(ni);
                 }

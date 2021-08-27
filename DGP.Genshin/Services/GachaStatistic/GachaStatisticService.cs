@@ -2,6 +2,7 @@
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Privacy;
+using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ namespace DGP.Genshin.Services.GachaStatistic
     {
         private GachaLogProvider gachaLogProvider;
         private readonly object providerLocker = new object();
+        public static GachaLogUrlMode CurrentMode = GachaLogUrlMode.GameLogFile;
         private GachaLogProvider GachaLogProvider
         {
             get
@@ -39,6 +41,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public GachaStatisticService()
         {
             Initialize();
+            this.Log("initialized");
             OnSelectedUidChanged += SyncStatisticWithUidAsync;
         }
 
@@ -49,7 +52,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             await Task.Run(() =>
             {
                 LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
-                if (!HasNoData)
+                if (!this.HasNoData)
                 {
                     this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
                     //select default banner
@@ -64,6 +67,7 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         ~GachaStatisticService()
         {
+            this.Log("uninitialized");
             UnInitialize();
         }
         public void UnInitialize() => this.gachaLogProvider = null;
@@ -74,7 +78,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         private bool hasData = true;
         private FetchProgress fetchProgress;
         private SpecificBanner selectedSpecificBanner;
-        private bool canUserSwitchUid=true;
+        private bool canUserSwitchUid = true;
 
         public Statistic Statistic { get => this.statistic; set => Set(ref this.statistic, value); }
         public PrivateString SelectedUid
@@ -82,7 +86,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             get => this.selectedUid; set
             {
                 Set(ref this.selectedUid, value);
-                if (CanUserSwitchUid)
+                if (this.CanUserSwitchUid)
                 {
                     OnSelectedUidChanged?.Invoke();
                 }
@@ -93,7 +97,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public void SetSelectedUidSuppressSyncStatistic(PrivateString uid) =>
             this.selectedUid = uid;
         public ObservableCollection<PrivateString> Uids { get; set; } = new ObservableCollection<PrivateString>();
-        public bool CanUserSwitchUid { get => canUserSwitchUid; set => Set(ref canUserSwitchUid, value); }
+        public bool CanUserSwitchUid { get => this.canUserSwitchUid; set => Set(ref this.canUserSwitchUid, value); }
         public bool HasNoData { get => this.hasData; set => Set(ref this.hasData, value); }
         public FetchProgress FetchProgress { get => this.fetchProgress; set => Set(ref this.fetchProgress, value); }
         public SpecificBanner SelectedSpecificBanner { get => this.selectedSpecificBanner; set => Set(ref this.selectedSpecificBanner, value); }
@@ -144,37 +148,56 @@ namespace DGP.Genshin.Services.GachaStatistic
             if (!this.Uids.Contains(uid))
                 this.Uids.Add(uid);
         }
-        public async void Refresh()
+
+        public async Task RefreshAsync(GachaLogUrlMode mode)
         {
             this.CanUserSwitchUid = false;
-            if (this.GachaLogProvider.TryFindUrlInLogFile())
+            if (await this.GachaLogProvider.TryGetUrlAsync(mode))
             {
-                this.GachaLogProvider.OnFetchProgressed += OnFetchProgressed;
-                await Task.Run(() =>
-                {
-                    //gacha config can be null
-                    foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
-                    {
-                        this.GachaLogProvider.FetchGachaLogIncrement(pool);
-                    }
-                    this.GachaLogProvider.SaveAllLogs();
-                });
-                SyncStatisticWithUidAsync();
-                this.GachaLogProvider.OnFetchProgressed -= OnFetchProgressed;
-                this.FetchProgress = null;
+                await RefreshInternalAsync();
             }
             else
             {
                 await new ContentDialog()
                 {
                     Title = "获取祈愿记录失败",
-                    Content = "请在游戏中打开祈愿历史记录页面后尝试刷新",
+                    Content = GetFailHintByMode(mode),
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
             }
             this.CanUserSwitchUid = true;
         }
+
+        private readonly Random random = new Random();
+        private async Task RefreshInternalAsync()
+        {
+            this.GachaLogProvider.OnFetchProgressed += OnFetchProgressed;
+            await Task.Run(async () =>
+            {
+                //gacha config can be null
+                foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
+                {
+                    this.GachaLogProvider.FetchGachaLogIncrement(pool);
+                    await Task.Delay(1000 + this.random.Next(0, 1000));
+                }
+                this.GachaLogProvider.SaveAllLogs();
+            });
+            SyncStatisticWithUidAsync();
+            this.GachaLogProvider.OnFetchProgressed -= OnFetchProgressed;
+            this.FetchProgress = null;
+        }
+
+        private string GetFailHintByMode(GachaLogUrlMode mode)
+        {
+            return mode switch
+            {
+                GachaLogUrlMode.GameLogFile => "请在游戏中打开祈愿历史记录页面后尝试刷新",
+                GachaLogUrlMode.ManualInput => "请重新输入有效的Url",
+                _ => String.Empty,
+            };
+        }
+
         private void OnFetchProgressed(FetchProgress p) => this.FetchProgress = p;
 
         public async Task ExportDataToExcelAsync(string path) =>
@@ -182,6 +205,5 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         public async Task ImportFromGenshinGachaExportAsync(string path) =>
             await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.ImportFromGenshinGachaExport(path));
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Core.Logging;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -22,21 +24,29 @@ namespace DGP.Genshin.Models.MiHoYo
 
         public static async Task<string> GetCookieAsync()
         {
+            await EnsureCookieExistAsync();
+            return Cookie;
+        }
+
+        public static async Task EnsureCookieExistAsync()
+        {
             if (String.IsNullOrEmpty(Cookie))
             {
+                Logger.LogStatic(typeof(CookieManager), "can't find available cookie");
                 await SetCookieAsync();
             }
-            return Cookie;
         }
 
         public static async Task SetCookieAsync()
         {
-            Cookie = await System.Windows.Application.Current.Dispatcher.Invoke(
-                async () => await new CookieDialog().GetInputCookieAsync());
+            Cookie = await App.Current.Invoke(async () =>
+            await new CookieDialog().GetInputCookieAsync());
             CookieChanged?.Invoke();
             File.WriteAllText(CookieFile, Cookie);
         }
-
+        /// <summary>
+        /// unpreventable static event.
+        /// </summary>
         public static event Action CookieChanged;
     }
 }

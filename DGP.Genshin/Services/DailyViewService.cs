@@ -2,6 +2,7 @@
 using DGP.Genshin.Data.Helpers;
 using DGP.Genshin.Data.Materials.Talents;
 using DGP.Genshin.Data.Weapons;
+using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -259,6 +260,7 @@ namespace DGP.Genshin.Services
         private static readonly object _lock = new();
         private DailyViewService()
         {
+            this.Log("initialized");
         }
         public static DailyViewService Instance
         {

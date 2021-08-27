@@ -1,4 +1,5 @@
 ﻿using DGP.Snap.Framework.Attributes;
+using DGP.Snap.Framework.Core.Logging;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -22,7 +23,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
 
             string random = GetRandomString(6);
             string check = GetComputedMd5($"salt={APISalt}&t={time}&r={random}");
-
+            Logger.LogStatic(typeof(DynamicSecretProvider), $"generated DS:{time},{random},{check}");
             return $"{time},{random},{check}";
         }
         private static string GetRandomString(int length)

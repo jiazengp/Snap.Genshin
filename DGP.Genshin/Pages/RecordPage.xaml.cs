@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Record;
 using DGP.Genshin.Services;
+using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +29,7 @@ namespace DGP.Genshin.Pages
                     this.QueryAutoSuggestBox.Text = s.QueryHistory.First();
                 }
             }
+            this.Log("initialized");
         }
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {

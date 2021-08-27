@@ -11,23 +11,44 @@ namespace DGP.Snap.Framework.Core.Logging
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        internal void LogInternal<T>(object info, Func<object, string> formatter = null)
+        internal void LogInternal<T>(object info, Func<object, string> formatter = null) =>
+            LogInternal(typeof(T), info, formatter);
+
+        private void LogInternal(Type t, object info, Func<object, string> formatter = null)
         {
             if (formatter != null)
                 info = formatter.Invoke(info);
 
-            Type type = typeof(T);
+            Type type = t;
             string typename = $"{type.Namespace}.{type.Name}";
-
+            typename = ToSimplifiedName(typename);
             if (this.isLoggingtoFile)
             {
                 TextWriter syncWirtter = TextWriter.Synchronized(this.loggerWriter);
-                syncWirtter.WriteLine($"{typename}:\n{info}");
+                try
+                {
+                    syncWirtter.WriteLine($"{typename}:{info}");
+                }
+                catch { }
             }
             if (this.isLoggingtoConsole)
             {
-                Debug.WriteLine($"{typename}:\n{info}");
+                Debug.WriteLine($"{typename}:{info}");
             }
+        }
+
+        public static void LogStatic(Type t, object info, Func<object, string> formatter = null) =>
+            Instance.LogInternal(t, info, formatter);
+
+        private string ToSimplifiedName(string typename)
+        {
+            string[] names = typename.Split('.');
+            for (int i = 0; i < names.Length - 1; i++)
+            {
+                names[i] = names[i][0].ToString();
+            }
+            typename = String.Join(".", names);
+            return typename;
         }
 
         #region 单例

@@ -2,11 +2,15 @@
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
+using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// 每日签到服务
+    /// </summary>
     public class DailySignInService
     {
         private const string ApiTakumi = @"https://api-takumi.mihoyo.com";
@@ -15,6 +19,11 @@ namespace DGP.Genshin.Services
 
         private static readonly string Referer =
             $"{ReferBaseUrl}?bbs_auth_required=true&act_id={ActivityId}&utm_source=bbs&utm_medium=mys&utm_campaign=icon";
+
+        public DailySignInService()
+        {
+            this.Log("initialized");
+        }
 
         public async Task<List<Result>> SignInAsync()
         {
@@ -44,7 +53,7 @@ namespace DGP.Genshin.Services
                         {"Referer", Referer },
                         {"Cookie", cookie },
                         {"X-Requested-With", RequestOptions.Hyperion }
-                    }).Get<SignIn>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}", true);
+                    }).Get<SignIn>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}");
                     results.Add(signIn);
                     if (signIn.ReturnCode == 0)
                     {
@@ -62,7 +71,7 @@ namespace DGP.Genshin.Services
                             {"Referer", Referer },
                             {"Cookie", cookie },
                             {"X-Requested-With", RequestOptions.Hyperion }
-                        }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data, true);
+                        }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data);
                         results.Add(result);
                     }
                 }

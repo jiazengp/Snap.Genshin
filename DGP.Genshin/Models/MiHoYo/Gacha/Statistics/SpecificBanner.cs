@@ -1,7 +1,6 @@
 ﻿using DGP.Snap.Framework.Attributes.DataModel;
 using DGP.Snap.Framework.Core;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics

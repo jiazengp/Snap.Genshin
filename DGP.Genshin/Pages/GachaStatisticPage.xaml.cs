@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Services.GachaStatistic;
+using DGP.Snap.Framework.Extensions.System;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System.IO;
@@ -21,9 +22,30 @@ namespace DGP.Genshin.Pages
             this.Service = new GachaStatisticService();
             this.DataContext = this.Service;
             InitializeComponent();
+            this.Log("initialized");
         }
-        private void RefreshAppBarButtonClick(object sender, RoutedEventArgs e) =>
-            this.Service.Refresh();
+
+        private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e) =>
+            await this.Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
+        private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e) =>
+            await this.Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+
+        private async void ImportFromGenshinGachaExportAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "JS对象简谱文件|*.json",
+                Title = "从 Genshin Gacha Export 记录文件导入",
+                Multiselect = false,
+                CheckFileExists = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                this.Log("try to import from genshin gacha export");
+                await this.Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
+            }
+        }
+
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog
@@ -35,6 +57,7 @@ namespace DGP.Genshin.Pages
             };
             if (dialog.ShowDialog() == true)
             {
+                this.Log("try to export to excel");
                 await this.Service.ExportDataToExcelAsync(dialog.FileName);
                 await new ContentDialog
                 {
@@ -56,27 +79,8 @@ namespace DGP.Genshin.Pages
             };
             if (dialog.ShowDialog() == true)
             {
-                this.TitleGrid.Visibility = Visibility.Visible;
-                double offset = this.ContentScrollViewer.CurrentVerticalOffset;
-                this.ContentScrollViewer.ScrollToTop();
-                this.ContentScrollViewer.UpdateLayout();
-                Matrix dpiMatrix = PresentationSource.FromDependencyObject(this.Container).CompositionTarget.TransformToDevice;
-                RenderTargetBitmap bitmap = new RenderTargetBitmap(
-                    (int)this.Container.ActualWidth,
-                    (int)this.Container.ActualHeight,
-                    dpiMatrix.OffsetX,
-                    dpiMatrix.OffsetY,
-                    PixelFormats.Pbgra32);
-                bitmap.Render(this.Container);
-                this.ContentScrollViewer.ScrollToVerticalOffset(offset);
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmap));
-
-                using (FileStream fs = File.Create(dialog.FileName))
-                {
-                    encoder.Save(fs);
-                }
-                this.TitleGrid.Visibility = Visibility.Collapsed;
+                this.Log("try to export to png");
+                SaveRenderTargetBitmapTo(dialog.FileName);
                 await new ContentDialog
                 {
                     Title = "导出图片完成",
@@ -86,6 +90,32 @@ namespace DGP.Genshin.Pages
                 }.ShowAsync();
             }
         }
+
+        private void SaveRenderTargetBitmapTo(string path)
+        {
+            this.TitleGrid.Visibility = Visibility.Visible;
+            double offset = this.ContentScrollViewer.CurrentVerticalOffset;
+            this.ContentScrollViewer.ScrollToTop();
+            this.ContentScrollViewer.UpdateLayout();
+            Matrix dpiMatrix = PresentationSource.FromDependencyObject(this.Container).CompositionTarget.TransformToDevice;
+            RenderTargetBitmap bitmap = new RenderTargetBitmap(
+                (int)this.Container.ActualWidth,
+                (int)this.Container.ActualHeight,
+                dpiMatrix.OffsetX,
+                dpiMatrix.OffsetY,
+                PixelFormats.Pbgra32);
+            bitmap.Render(this.Container);
+            this.ContentScrollViewer.ScrollToVerticalOffset(offset);
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            using (FileStream fs = File.Create(path))
+            {
+                encoder.Save(fs);
+            }
+            this.TitleGrid.Visibility = Visibility.Collapsed;
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             UnInitialize();
@@ -93,23 +123,11 @@ namespace DGP.Genshin.Pages
         }
         private void UnInitialize()
         {
+            this.Log("uninitialized");
             this.Service.UnInitialize();
             this.Service = null;
         }
 
-        private async void ImportFromGenshinGachaExportAppBarButtonClick(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "JS对象简谱文件|*.json",
-                Title = "从 Genshin Gacha Export 记录文件导入",
-                Multiselect = false,
-                CheckFileExists = true
-            };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                await Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
-            }
-        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
+using DGP.Snap.Framework.Extensions.System;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -37,10 +38,10 @@ namespace DGP.Genshin.Pages
                     _ => 2,
                 };
             this.IsDevMode = SettingService.Instance.GetOrDefault(Setting.IsDevMode, false);
+            this.Log("initialized");
         }
 
         #region propdp
-
         public string VersionString
         {
             get => (string)GetValue(VersionStringProperty);

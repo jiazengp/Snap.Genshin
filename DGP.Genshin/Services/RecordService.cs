@@ -5,6 +5,7 @@ using DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,7 +48,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<Record> GetRecordAsync(string uid)
         {
-
+            this.Log($"querying uid:{uid}");
             RecordProgressed?.Invoke("正在获取 Cookie");
             string cookie = await CookieManager.GetCookieAsync();
             Requester requester = new Requester(new RequestOptions
@@ -123,13 +124,13 @@ namespace DGP.Genshin.Services
             requester.Headers.Remove("x-rpc-device_id");
             Response<DetailedAvatarInfo> roles = await Task.Run(() =>
             {
+                //don't convert to value tuple
                 var data = new
                 {
                     character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
                     role_id = uid,
                     server = server
                 };
-                //post anonymous object is fine
                 return requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data);
             });
             if (roles.ReturnCode != 0)
@@ -163,6 +164,7 @@ namespace DGP.Genshin.Services
             {
                 this.QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile));
             }
+            this.Log("initialized");
         }
         public static RecordService Instance
         {
@@ -185,6 +187,7 @@ namespace DGP.Genshin.Services
         ~RecordService()
         {
             File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
+            this.Log("uninitialized");
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using ModernWpf.Controls;
+﻿using DGP.Snap.Framework.Extensions.System;
+using ModernWpf.Controls;
 using System.Windows;
 
 namespace DGP.Genshin.Services.Updating
@@ -12,6 +13,7 @@ namespace DGP.Genshin.Services.Updating
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
             InitializeComponent();
+            this.Log("initialized");
         }
 
         private void UpdateCancellationRequested(ContentDialog sender, ContentDialogButtonClickEventArgs args) => UpdateService.Instance.CancelUpdate();

@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Services;
+using DGP.Snap.Framework.Extensions.System;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -17,6 +18,7 @@ namespace DGP.Genshin.Pages
                 service.SelectedWeapon = service.Weapons[0];
             }
             InitializeComponent();
+            this.Log("initialized");
         }
     }
 }

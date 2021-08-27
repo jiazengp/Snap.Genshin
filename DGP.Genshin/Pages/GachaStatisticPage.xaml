@@ -21,17 +21,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <ui:CommandBar IsOpen="False">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                    <TextBlock Margin="0,12,12,0" Text="UID"/>
                     <ComboBox IsEnabled="{Binding CanUserSwitchUid}" Focusable="False" Margin="0,4" ItemsSource="{Binding Uids}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedUid,Mode=TwoWay}"/>
                     <TextBlock Margin="12,12,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
                 </StackPanel>
             </ui:CommandBar.Content>
-            <ui:AppBarButton Icon="Refresh" Label="刷新" Click="RefreshAppBarButtonClick"/>
             <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Icon="Refresh" Label="从 日志文件 刷新" Click="AutoFindAppBarButtonClick"/>
+                <ui:AppBarButton Icon="Rename" Label="从输入的 Url 刷新" Click="ManualInputUrlAppBarButtonClick"/>
+                <ui:AppBarSeparator/>
                 <ui:AppBarButton Label="从 Genshin Gacha Export 导入" Click="ImportFromGenshinGachaExportAppBarButtonClick" Icon="Import"/>
                 <ui:AppBarSeparator/>
                 <ui:AppBarButton Label="导出到 Excel 表格" Click="ExportExcelAppBarButtonClick">
@@ -385,7 +388,7 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            
+
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -460,13 +463,22 @@
                     </StackPanel>
                 </Border>
             </s:SmoothScrollViewer>
-            <!--FallBack-->
-            <Border d:IsHidden="true" Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
-                    <TextBlock HorizontalAlignment="Center" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}" Text="点击刷新以获取历史记录"/>
-                </StackPanel>
-            </Border>
         </Grid>
+        <!--FallBack-->
+        <!--d:IsHidden="true"-->
+        <Border d:IsHidden="true" Grid.RowSpan="2" Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
+                <ui:CommandBar Margin="0,8,0,0" Background="Transparent" HorizontalAlignment="Center">
+                    <ui:AppBarButton Label="从日志中获取" Click="AutoFindAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE773;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                    <ui:AppBarButton Icon="Rename" Label="手动输入Url" Click="ManualInputUrlAppBarButtonClick"/>
+                </ui:CommandBar>
+                <TextBlock Margin="0,36,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </ui:Page>

@@ -91,7 +91,7 @@ namespace DGP.Genshin.Controls.CachedImage
                             await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
                         await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
                     } while (bytesRead > 0);
-                    
+
                     if (fileStream != null)
                     {
                         await fileStream.FlushAsync();

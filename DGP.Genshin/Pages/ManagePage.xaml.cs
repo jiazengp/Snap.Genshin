@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Data.Characters;
 using DGP.Genshin.Services;
+using DGP.Snap.Framework.Extensions.System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,8 +14,9 @@ namespace DGP.Genshin.Pages
     {
         public ManagePage()
         {
-            InitializeComponent();
             this.DataContext = MetaDataService.Instance;
+            InitializeComponent();
+            this.Log("unitialized");
         }
 
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
@@ -28,6 +30,8 @@ namespace DGP.Genshin.Pages
                 case "武器":
                     this.WeaponEditDialog.DataContext = MetaDataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
+                    break;
+                default:
                     break;
             }
         }
@@ -44,6 +48,8 @@ namespace DGP.Genshin.Pages
                 case "武器":
                     data.Weapons.Remove(data.SelectedWeapon);
                     data.SelectedWeapon = null;
+                    break;
+                default:
                     break;
             }
         }
@@ -80,6 +86,8 @@ namespace DGP.Genshin.Pages
                     data.SelectedWeapon = weapon;
                     this.WeaponEditDialog.DataContext = MetaDataService.Instance;
                     await this.WeaponEditDialog.ShowAsync();
+                    break;
+                default:
                     break;
             }
         }

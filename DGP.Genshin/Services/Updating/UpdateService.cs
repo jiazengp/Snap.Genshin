@@ -60,7 +60,8 @@ namespace DGP.Genshin.Services.Updating
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
             this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);
         }
-        public void CancelUpdate() => this.InnerFileDownloader.CancelDownloadAsync();
+        public void CancelUpdate() =>
+            this.InnerFileDownloader.CancelDownloadAsync();
 
         internal void OnDownloadProgressChanged(object sender, DownloadFileProgressChangedArgs args)
         {
@@ -96,7 +97,7 @@ namespace DGP.Genshin.Services.Updating
         private static readonly object _lock = new object();
         private UpdateService()
         {
-            this.Log("UpdateService Initialized");
+            this.Log("initialized");
         }
         public static UpdateService Instance
         {

@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Data.Characters;
+using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -223,6 +224,7 @@ namespace DGP.Genshin.Services
         private static readonly object _lock = new();
         private WeeklyViewService()
         {
+            this.Log("initialized");
         }
         public static WeeklyViewService Instance
         {

@@ -9,5 +9,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
     [InterModel]
     public class GachaData : Dictionary<string, List<GachaLogItem>>
     {
+
     }
 }

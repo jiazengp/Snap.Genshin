@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
+using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
@@ -27,6 +28,7 @@ namespace DGP.Genshin.Services
         }
 
         public static NavigationService Current;
+        public bool HasEverNavigated { get; set; } = false;
 
         public void SyncTabWith(Type pageType)
         {
@@ -47,6 +49,7 @@ namespace DGP.Genshin.Services
 
         public bool Navigate(Type pageType, bool isSyncTabRequested = false, object data = null, NavigationTransitionInfo info = null)
         {
+            this.HasEverNavigated = true;
             if (this.frame.Content?.GetType() == pageType)
             {
                 return false;
@@ -57,6 +60,7 @@ namespace DGP.Genshin.Services
             }
             this.backItemStack.Push(this.selected);
             bool result = this.frame.Navigate(pageType, data, info);
+            this.Log($"navigate to {pageType}:{result}");
             this.frame.RemoveBackEntry();
             return result;
         }

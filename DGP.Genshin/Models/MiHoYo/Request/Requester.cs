@@ -14,7 +14,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         {
             this.Headers = headers;
         }
-        private Response<T> Request<T>(Func<WebClient, string> requestMethod, bool isRefererRequired)
+        private Response<T> Request<T>(Func<WebClient, string> requestMethod)
         {
             try
             {
@@ -26,12 +26,14 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                         client.Headers[entry.Key] = entry.Value;
                     }
                     string response = requestMethod(client);
-                    return Json.ToObject<Response<T>>(response);
+                    Response<T> resp = Json.ToObject<Response<T>>(response);
+                    this.Log($"return code:{resp.ReturnCode}");
+                    return resp;
                 }
             }
             catch (Exception ex)
             {
-                this.Log("Request data failed");
+                this.Log($"failed. reason:{ex.Message}");
                 return new Response<T>
                 {
                     ReturnCode = (int)ReturnCode.Failed,
@@ -39,11 +41,9 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                 };
             }
         }
-        public Response<T> Get<T>(string url, bool isRefererRequired = false) =>
-            Request<T>(x => x.DownloadString(url), isRefererRequired);
-        public Response<T> Post<T>(string url, dynamic data, bool isRefererRequired = false) =>
-            Request<T>(x => x.UploadString(url, Json.Stringify(data)), isRefererRequired);
-        public bool Check<T>(string url) =>
-            Get<T>(url).ReturnCode == 0;
+        public Response<T> Get<T>(string url) =>
+            Request<T>(client => client.DownloadString(url));
+        public Response<T> Post<T>(string url, dynamic data) =>
+            Request<T>(client => client.UploadString(url, Json.Stringify(data)));
     }
 }

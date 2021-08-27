@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using System.Net;
-using System.Text;
 
 namespace DGP.Snap.Framework.Data.Json
 {
@@ -60,7 +58,7 @@ namespace DGP.Snap.Framework.Data.Json
                 return ToObject<T>(sr.ReadToEnd());
             }
         }
-        public static void ToFile(string fileName,object value)
+        public static void ToFile(string fileName, object value)
         {
             using (StreamWriter sw = new StreamWriter(File.OpenWrite(fileName)))
             {

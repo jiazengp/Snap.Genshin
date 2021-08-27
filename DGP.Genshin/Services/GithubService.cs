@@ -1,5 +1,6 @@
 ﻿using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace DGP.Genshin.Services
         public GithubService()
         {
             this.client = new GitHubClient(new ProductHeaderValue("SnapGenshin"));
+            this.Log("initialized");
             SelectedRepositoryChanged += OnSelectedRepositoryChanged;
         }
 

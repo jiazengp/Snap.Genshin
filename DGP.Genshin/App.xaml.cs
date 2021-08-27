@@ -28,6 +28,7 @@ namespace DGP.Genshin
         }
         protected override void OnExit(ExitEventArgs e)
         {
+            base.OnExit(e);
             if (!this.isExitDueToSingleInstanceRestriction)
             {
                 MetaDataService.Instance.UnInitialize();
@@ -35,7 +36,6 @@ namespace DGP.Genshin
                 this.Log($"Exit code:{e.ApplicationExitCode}");
                 Logger.Instance.UnInitialize();
             }
-            base.OnExit(e);
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -72,11 +72,11 @@ namespace DGP.Genshin
                 this.eventWaitHandle.Set();
                 // Terminate this instance.
                 this.isExitDueToSingleInstanceRestriction = true;
-                this.isEnsureingSingleInstance = false;
                 Shutdown();
             }
             catch (WaitHandleCannotBeOpenedException)
             {
+                this.isEnsureingSingleInstance = false;
                 // listen to a new event (this app instance will be the new "master")
                 this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
             }

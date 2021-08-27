@@ -17,13 +17,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
     internal class MetaDataService : Observable
     {
+        #region Consts
         private const string BossesJson = "bosses.json";
         private const string CharactersJson = "characters.json";
         private const string CitiesJson = "cities.json";
@@ -40,6 +40,7 @@ namespace DGP.Genshin.Services
         private const string WeeklyTalentsJson = "weeklytalents.json";
         private const string GachaEventJson = "gachaevents.json";
         private static readonly string folderPath = @"Metadata\";
+        #endregion
 
         #region Collections
         public ObservableCollection<Boss> Bosses
@@ -309,7 +310,7 @@ namespace DGP.Genshin.Services
             }
             this.Log($"Save metadata to {filename}");
         }
-        public void Initialize() => this.Log("DataService Instantiated");
+        public void Initialize() => this.Log("instantiated");
         public void UnInitialize()
         {
             Save(this.Bosses, BossesJson);
@@ -328,6 +329,7 @@ namespace DGP.Genshin.Services
             Save(this.WeeklyTalents, WeeklyTalentsJson);
 
             Save(this.SpecificBanners, GachaEventJson);
+            this.Log("uninitialized");
         }
         #region 单例
         private static MetaDataService instance;
@@ -360,7 +362,7 @@ namespace DGP.Genshin.Services
         #region CheckIntegrity
         private int currentCount;
         public int CurrentCount { get => this.currentCount; set => Set(ref this.currentCount, value); }
-        
+
         private string currentInfo;
         public string CurrentInfo { get => this.currentInfo; set => Set(ref this.currentInfo, value); }
 
@@ -406,15 +408,6 @@ namespace DGP.Genshin.Services
             {
                 try
                 {
-                    await FileCache.HitAsync(c.GachaCard);
-                }
-                catch { }
-                progress.Report(new InitializeState(++checkingCount, c.Source.ToFileName()));
-            }, Environment.ProcessorCount);
-            await characters.ParallelForEachAsync(async c =>
-            {
-                try
-                {
                     await FileCache.HitAsync(c.Profile);
                 }
                 catch { }
@@ -430,14 +423,14 @@ namespace DGP.Genshin.Services
             this.HasCheckCompleted = false;
             Progress<InitializeState> progress = new Progress<InitializeState>(i =>
             {
-                this.CurrentCount = i.CurrentCount; 
+                this.CurrentCount = i.CurrentCount;
                 this.Percent = i.CurrentCount * 1.0 / this.TotalCount;
                 this.CurrentInfo = i.Info;
             });
             this.CurrentCount = 0;
             this.TotalCount =
                 this.Bosses.Count +
-                (this.Characters.Count * 3) +
+                (this.Characters.Count * 2) +
                 this.Cities.Count +
                 this.DailyTalents.Count +
                 this.DailyWeapons.Count +
@@ -474,8 +467,8 @@ namespace DGP.Genshin.Services
         {
             public InitializeState(int count, string info)
             {
-                CurrentCount = count;
-                Info = info;
+                this.CurrentCount = count;
+                this.Info = info;
             }
             public int CurrentCount { get; set; }
             public string Info { get; set; }

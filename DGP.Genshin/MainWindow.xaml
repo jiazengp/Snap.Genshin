@@ -122,7 +122,7 @@
                                />
 
             <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
-                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="米游社每日签到"
+                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="每日签到"
                                Click="SignInTitleBarButtonClick"/>
             <Rectangle
                     Fill="{DynamicResource SystemControlForegroundBaseHighBrush}"

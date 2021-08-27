@@ -3,20 +3,19 @@ using ModernWpf.Controls;
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Models.MiHoYo
+namespace DGP.Genshin.Services.GachaStatistic
 {
     /// <summary>
-    /// CookieDialog.xaml 的交互逻辑
+    /// GachaLogUrlDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class CookieDialog : ContentDialog
+    public partial class GachaLogUrlDialog : ContentDialog
     {
-        public CookieDialog()
+        public GachaLogUrlDialog()
         {
             InitializeComponent();
             this.Log("initialized");
         }
-
-        public async Task<string> GetInputCookieAsync() =>
+        public async Task<string> GetInputUrlAsync() =>
             await ShowAsync() == ContentDialogResult.Primary ? this.InputText.Text : String.Empty;
     }
 }

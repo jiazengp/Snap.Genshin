@@ -5,6 +5,7 @@ using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Attributes;
+using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
@@ -27,14 +28,24 @@ namespace DGP.Genshin
         {
             InitializeComponent();
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
-            CookieManager.CookieChanged += RefreshUserInfo;
+            this.Log("initialized");
+            CookieManager.CookieChanged += RefreshUserInfoAsync;
         }
 
         [HandleEvent]
         private async void SplashInitializeCompleted()
         {
-            
-            //check for update
+            await CookieManager.EnsureCookieExistAsync();
+            await InitializeUserInfoAsync();
+            if (!this.navigationService.HasEverNavigated)
+            {
+                this.navigationService.Navigate<HomePage>(true);
+            }
+            await CheckUpdateAsync();
+        }
+
+        private async Task CheckUpdateAsync()
+        {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateViaGithubAsync();
             if (result == UpdateState.NeedUpdate)
             {
@@ -59,8 +70,6 @@ namespace DGP.Genshin
                     await new UpdateDialog().ShowAsync();
                 }
             }
-            await RefreshUserInfoAsync();
-            this.navigationService.Navigate<HomePage>(true);
         }
 
         private bool isSigningIn = false;
@@ -89,8 +98,10 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty UserInfoProperty =
             DependencyProperty.Register("UserInfo", typeof(UserInfo), typeof(MainWindow), new PropertyMetadata(null));
-        private async void RefreshUserInfo() => this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
-        private async Task RefreshUserInfoAsync() => this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
+        private async void RefreshUserInfoAsync() =>
+            this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
+        private async Task InitializeUserInfoAsync() =>
+            this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
         private void UserTitleButtonClick(object sender, RoutedEventArgs e)
         {
             Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;

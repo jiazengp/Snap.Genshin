@@ -11,13 +11,20 @@
 
 ---
 
-### 主页
-![主页.png](https://i.loli.net/2021/08/24/mGSsKA9qcMg2NXT.png)
+### 首页
+![首页.png](https://i.loli.net/2021/08/24/mGSsKA9qcMg2NXT.png)
 ### 日常材料
 ![日常.png](https://i.loli.net/2021/08/24/HGUqPasvlfOj38I.png)
 ### 周常材料
 ![周常.png](https://i.loli.net/2021/08/24/SdWrjBXmqzGspZM.png)
-### 祈愿记录
+## 祈愿记录
+* 支持多UID切换
+* 支持导出到 Excel/图片
+* 支持从[sunfkny/genshin-gacha-export](https://img.shields.io/badge/Scighost-KeqingNiuza-yellow?style=for-the-badge)导入
+* 从游戏日志文件中获取Url/手动输入Url 双模式
+* 展示角色/武器/常驻祈愿的统计信息
+* 展示累积获得的角色与武器
+* 分祈愿展示累积获得的角色与武器
 ![祈愿记录](https://i.loli.net/2021/08/24/ZswzlWGEce7kquO.png)
 ![祈愿历史记录](https://i.loli.net/2021/08/24/MeswcNXbzTjiA3l.png)
 ### 玩家信息

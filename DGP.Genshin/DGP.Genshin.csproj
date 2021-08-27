@@ -217,6 +217,10 @@
     <Compile Include="Pages\WeeklyPage.xaml.cs">
       <DependentUpon>WeeklyPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\GachaStatistic\GachaLogUrlDialog.xaml.cs">
+      <DependentUpon>GachaLogUrlDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GachaStatistic\GachaLogUrlMode.cs" />
     <Compile Include="Services\MetaDataService.cs" />
     <Compile Include="Services\DailyViewService.cs" />
     <Compile Include="Services\GachaStatistic\FetchProgress.cs" />
@@ -227,6 +231,7 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Settings\Setting.cs" />
+    <Compile Include="Services\Settings\SettingModel.cs" />
     <Compile Include="Services\Settings\SettingService.cs" />
     <Compile Include="Services\DailySignInService.cs" />
     <Compile Include="Services\SimulationService.cs" />
@@ -331,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WeeklyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\GachaStatistic\GachaLogUrlDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

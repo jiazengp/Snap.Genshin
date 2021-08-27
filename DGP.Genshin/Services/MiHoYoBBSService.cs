@@ -2,6 +2,7 @@
 using DGP.Genshin.Models.MiHoYo.BBSAPI;
 using DGP.Genshin.Models.MiHoYo.BBSAPI.Post;
 using DGP.Genshin.Models.MiHoYo.Request;
+using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,11 @@ namespace DGP.Genshin.Services
         public const string Referer = @"https://bbs.mihoyo.com/";
         public const string BaseUrl = @"https://bbs-api.mihoyo.com/user/wapi";
         public const string PostBaseUrl = @"https://bbs-api.mihoyo.com/post/wapi";
+
+        public MiHoYoBBSService()
+        {
+            this.Log("initialized");
+        }
         public async Task<UserInfo> GetUserFullInfoAsync()
         {
             string cookie = await CookieManager.GetCookieAsync();
@@ -65,7 +71,7 @@ namespace DGP.Genshin.Services
                 {"Cookie", cookie }
             });
             Response<dynamic> resp = await Task.Run(() =>
-            requester.Get<dynamic>($"{PostBaseUrl}/getPostFull?gids=2&post_id={postId}&read=1", true));
+            requester.Get<dynamic>($"{PostBaseUrl}/getPostFull?gids=2&post_id={postId}&read=1"));
             return resp.Data;
         }
     }

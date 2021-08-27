@@ -1,5 +1,5 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Data.Json;
+﻿using DGP.Snap.Framework.Data.Json;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,11 @@ namespace DGP.Genshin.Services.Settings
                 SettingChanged?.Invoke(key, value);
             }
         }
-
+        /// <summary>
+        /// 设置设置选项，不触发改变事件
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         internal void SetValueInternal(string key, object value) => this.settingDictionary.AddOrSet(key, value);
         /// <summary>
         /// 当设置项发生改变时触发
@@ -81,6 +85,7 @@ namespace DGP.Genshin.Services.Settings
         private static readonly object _lock = new();
         private SettingService()
         {
+            this.Log("initialized");
         }
         public static SettingService Instance
         {
@@ -107,65 +112,4 @@ namespace DGP.Genshin.Services.Settings
     /// <param name="key"></param>
     /// <param name="value"></param>
     public delegate void SettingChangedHandler(string key, object value);
-
-    /// <summary>
-    /// 为需要及时响应的设置项提供模型支持
-    /// </summary>
-    public class SettingModel : Observable
-    {
-        private void SettingChanged(string key, object value)
-        {
-            switch (key)
-            {
-                case Setting.ShowFullUID:
-                    this.ShowFullUID = (bool)value;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public bool ShowFullUID
-        {
-            get => this.showFullUID; set
-            {
-                SettingService.Instance.SetValueInternal(Setting.ShowFullUID, value);
-                Set(ref this.showFullUID, value);
-            }
-        }
-
-        #region 单例
-        private static SettingModel instance;
-        private bool showFullUID;
-        private static readonly object _lock = new();
-        private SettingModel()
-        {
-            Initialize();
-            SettingService.Instance.SettingChanged += SettingChanged;
-        }
-
-        private void Initialize()
-        {
-            this.showFullUID = SettingService.Instance.GetOrDefault(Setting.ShowFullUID, false);
-        }
-
-        public static SettingModel Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (_lock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new SettingModel();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-        #endregion
-    }
 }

@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Services;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +19,7 @@ namespace DGP.Genshin.Controls
                 if (b)
                 {
                     //wait for animation
-                    await Task.Run(() => Thread.Sleep(1000));
+                    await Task.Delay(1000);
                     InitializeCompleted?.Invoke();
                 }
             };
