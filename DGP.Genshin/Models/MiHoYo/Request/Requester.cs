@@ -27,7 +27,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                     }
                     string response = requestMethod(client);
                     Response<T> resp = Json.ToObject<Response<T>>(response);
-                    this.Log($"return code:{resp.ReturnCode}");
+                    this.Log($"retcode:{resp.ReturnCode} | message:{resp.Message}");
                     return resp;
                 }
             }
@@ -41,9 +41,16 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                 };
             }
         }
-        public Response<T> Get<T>(string url) =>
-            Request<T>(client => client.DownloadString(url));
-        public Response<T> Post<T>(string url, dynamic data) =>
-            Request<T>(client => client.UploadString(url, Json.Stringify(data)));
+        public Response<T> Get<T>(string url)
+        {
+            this.Log($"GET {url.Split('?')[0]}");
+            return Request<T>(client => client.DownloadString(url));
+        }
+
+        public Response<T> Post<T>(string url, dynamic data)
+        {
+            this.Log($"POST {url.Split('?')[0]}");
+            return Request<T>(client => client.UploadString(url, Json.Stringify(data)));
+        }
     }
 }

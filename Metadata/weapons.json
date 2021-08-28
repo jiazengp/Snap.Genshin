@@ -2,7 +2,7 @@
   {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101_70.png",
     "ATK": "674",
-    "SubStat": "暴击率",
+    "SubStat": "暴击伤害",
     "SubStatValue": "44.1%",
     "Ascension": {
       "City": "Inazuma",

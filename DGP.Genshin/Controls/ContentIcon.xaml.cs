@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using DGP.Snap.Framework.Data.Behavior;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -45,16 +46,12 @@ namespace DGP.Genshin.Controls
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(ContentIcon), new PropertyMetadata(""));
 
-
-
         public bool IsCountVisible
         {
             get => (bool)GetValue(IsCountVisibleProperty);
             set => SetValue(IsCountVisibleProperty, value);
         }
         public static readonly DependencyProperty IsCountVisibleProperty =
-            DependencyProperty.Register("IsCountVisible", typeof(bool), typeof(ContentIcon), new PropertyMetadata(false));
-
-
+            DependencyProperty.Register("IsCountVisible", typeof(bool), typeof(ContentIcon), new PropertyMetadata(BoxedValue.FalseBox));
     }
 }

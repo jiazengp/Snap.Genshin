@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:DGP.Genshin"
     xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
     xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
+    xmlns:controls="clr-namespace:DGP.Genshin.Controls"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnMainWindowClose">
@@ -442,6 +443,36 @@
                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Focusable" Value="False"/>
+            </Style>
+            <Style TargetType="{x:Type controls:ContentIcon}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border 
+                                x:Name="border" 
+                                CornerRadius="{DynamicResource IconCornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="true">
+                                <ui:ContentPresenterEx 
+                                    x:Name="contentPresenter" 
+                                    Focusable="False" 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    Margin="{TemplateBinding Padding}" 
+                                    RecognizesAccessKey="True" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -10,38 +10,6 @@
         d:DesignHeight="70" d:DesignWidth="70" 
         BorderThickness="0"
         >
-    <Button.Resources>
-        <Style TargetType="{x:Type local:ContentIcon}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border 
-                                x:Name="border" 
-                                CornerRadius="{DynamicResource IconCornerRadius}"
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" 
-                                SnapsToDevicePixels="true">
-                            <ui:ContentPresenterEx 
-                                    x:Name="contentPresenter" 
-                                    Focusable="False" 
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                    Margin="{TemplateBinding Padding}" 
-                                    RecognizesAccessKey="True" 
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Button.Resources>
     <Grid>
         <c:CachedImage ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
         <c:CachedImage ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>

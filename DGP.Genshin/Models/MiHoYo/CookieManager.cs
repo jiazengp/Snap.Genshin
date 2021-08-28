@@ -39,8 +39,8 @@ namespace DGP.Genshin.Models.MiHoYo
 
         public static async Task SetCookieAsync()
         {
-            Cookie = await App.Current.Invoke(async () =>
-            await new CookieDialog().GetInputCookieAsync());
+            Cookie = await App.Current.Invoke(() =>
+            new CookieDialog().GetInputCookieAsync());
             CookieChanged?.Invoke();
             File.WriteAllText(CookieFile, Cookie);
         }

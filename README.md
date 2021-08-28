@@ -5,11 +5,10 @@
 [![爱发电](https://img.shields.io/badge/爱发电-DismissedLight-blue?style=for-the-badge)](https://afdian.net/@DismissedLight)
 ### 前往下载
 
-[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)  
+[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
----
-# Snap Genshin 特性
+# Snap Genshin
 > 整体使用现代化响应式UI设计，杜绝无响应  
 > 全自动更新流程，省心一键升级
 
