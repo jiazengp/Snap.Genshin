@@ -140,6 +140,9 @@
       <DependentUpon>CookieDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MiHoYo\CookieManager.cs" />
+    <Compile Include="Models\MiHoYo\CookieWindow.xaml.cs">
+      <DependentUpon>CookieWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\MiHoYo\Gacha\Compatibility\GenshinGachaExportFile.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\Banner.cs" />
     <Compile Include="Models\MiHoYo\Gacha\Statistics\SpecificBanner.cs" />
@@ -180,10 +183,11 @@
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\Rank.cs" />
     <Compile Include="Models\MiHoYo\Record\SpiralAbyss\SpiralAbyss.cs" />
     <Compile Include="Models\MiHoYo\Record\WorldExploration.cs" />
-    <Compile Include="Models\MiHoYo\Result.cs" />
     <Compile Include="Models\MiHoYo\ReturnCode.cs" />
-    <Compile Include="Models\MiHoYo\Sign\SignIn.cs" />
+    <Compile Include="Models\MiHoYo\Sign\SignInInfo.cs" />
+    <Compile Include="Models\MiHoYo\Sign\SignInAward.cs" />
     <Compile Include="Models\MiHoYo\Sign\SignInResult.cs" />
+    <Compile Include="Models\MiHoYo\Sign\SignInReward.cs" />
     <Compile Include="Models\MiHoYo\StringExtensions.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRole.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRoleInfo.cs" />
@@ -201,6 +205,9 @@
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\JourneyLogPage.xaml.cs">
+      <DependentUpon>JourneyLogPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ManagePage.xaml.cs">
       <DependentUpon>ManagePage.xaml</DependentUpon>
@@ -221,6 +228,7 @@
       <DependentUpon>GachaLogUrlDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\GachaStatistic\GachaLogUrlMode.cs" />
+    <Compile Include="Services\JourneyLogService.cs" />
     <Compile Include="Services\MetaDataService.cs" />
     <Compile Include="Services\DailyViewService.cs" />
     <Compile Include="Services\GachaStatistic\FetchProgress.cs" />
@@ -299,6 +307,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Models\MiHoYo\CookieWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CharactersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,6 +328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\JourneyLogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -367,7 +383,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EPPlus">
-      <Version>5.7.3</Version>
+      <Version>5.7.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2">
+      <Version>1.0.902.49</Version>
     </PackageReference>
     <PackageReference Include="ModernWpfUI">
       <Version>0.9.4</Version>
@@ -412,6 +431,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WishIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BookmarkIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -488,6 +510,7 @@ rd /s /q zh-TW
 del *.xml *dll.config DGP.Snap.Updater.exe.config
 
 move /Y *.dll .\libraries
+move /y .\runtimes .\libraries
 
 if exist Package.zip del Package.zip
 

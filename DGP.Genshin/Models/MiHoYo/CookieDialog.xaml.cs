@@ -1,6 +1,7 @@
 ﻿using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo
@@ -16,7 +17,26 @@ namespace DGP.Genshin.Models.MiHoYo
             this.Log("initialized");
         }
 
-        public async Task<string> GetInputCookieAsync() =>
-            await ShowAsync() == ContentDialogResult.Primary ? this.InputText.Text : String.Empty;
+        public async Task<string> GetInputCookieAsync()
+        {
+            await ShowAsync();
+            return this.InputText.Text;
+        }
+
+        private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            e.Handled = true;
+            Debug.WriteLine(sender);
+
+            using (CookieWindow cookieWindow = new CookieWindow())
+            {
+                cookieWindow.ShowDialog();
+                bool isLoggedIn = cookieWindow.IsLoggedIn;
+                if (isLoggedIn)
+                {
+                    this.InputText.Text = cookieWindow.Cookie;
+                }
+            }
+        }
     }
 }

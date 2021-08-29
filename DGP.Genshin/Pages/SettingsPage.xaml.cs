@@ -112,9 +112,6 @@ namespace DGP.Genshin.Pages
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
 
-        private void NavigateToManagePage(object sender, RoutedEventArgs e) =>
-            Services.NavigationService.Current.Navigate<ManagePage>();
-
         private async void ResetCookieButtonClick(object sender, RoutedEventArgs e) =>
             await CookieManager.SetCookieAsync();
     }

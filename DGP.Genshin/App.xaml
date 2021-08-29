@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:DGP.Genshin"
     xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
     xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
-    xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+    xmlns:controls="clr-namespace:DGP.Genshin.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnMainWindowClose">
@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Markdown/MarkdownStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
             <!--Texts-->
             <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
                 <!--<Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MessageFontFamilyKey}}" />-->

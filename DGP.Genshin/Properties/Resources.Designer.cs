@@ -63,6 +63,16 @@ namespace DGP.Genshin.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap BookmarkIcon {
+            get {
+                object obj = ResourceManager.GetObject("BookmarkIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap CharactersIcon {
             get {
                 object obj = ResourceManager.GetObject("CharactersIcon", resourceCulture);

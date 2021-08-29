@@ -4,6 +4,8 @@ using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
 using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
@@ -24,59 +26,72 @@ namespace DGP.Genshin.Services
         {
             this.Log("initialized");
         }
-
-        public async Task<List<Result>> SignInAsync()
+        public async Task<SignInResult> SignInAsync()
         {
-            List<Result> results = new List<Result>();
+            UserGameRoleInfo rolesInfo = await GetUserGameRolesAsync();
+
+            if (rolesInfo != null)
+            {
+                Debug.Assert(rolesInfo.List.Count == 1);
+
+                UserGameRole role = rolesInfo.List[0];
+                return await SignInInternalAsync(role);
+            }
+            return null; 
+        }
+        public async Task<SignInInfo> GetSignInInfoAsync(UserGameRole role)
+        {
             string cookie = await CookieManager.GetCookieAsync();
-            Response<UserGameRoleInfo> rolesInfo = new Requester(new RequestOptions
+            return await Task.Run(() => new Requester(new RequestOptions
+            {
+                {"Accept", RequestOptions.Json },
+                {"User-Agent",RequestOptions.CommonUA },
+                {"x-rpc-device_id", RequestOptions.DeviceId },
+                {"Referer", Referer },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            }).Get<SignInInfo>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}").Data);
+        }
+        [SuppressMessage("", "IDE0050")] private async Task<SignInResult> SignInInternalAsync(UserGameRole role)
+        {
+            string cookie = await CookieManager.GetCookieAsync();
+            var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };
+            return await Task.Run(() => new Requester(new RequestOptions
+            {
+                {"DS", DynamicSecretProvider.Create() },
+                {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
+                {"User-Agent", RequestOptions.CommonUA },
+                {"x-rpc-device_id", RequestOptions.DeviceId },
+                {"Accept", RequestOptions.Json },
+                {"x-rpc-client_type", "5" },
+                {"Referer", Referer },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data).Data);
+        }
+        public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
+        {
+            string cookie = await CookieManager.GetCookieAsync();
+            return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA },
                 {"Referer", Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
-            }).Get<UserGameRoleInfo>($"{ApiTakumi}/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn");
-            results.Add(rolesInfo);
-
-            if (rolesInfo.ReturnCode == 0)
+            }).Get<UserGameRoleInfo>($"{ApiTakumi}/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn").Data);
+        }
+        public async Task<SignInReward> GetSignInRewardAsync()
+        {
+            string cookie = await CookieManager.GetCookieAsync();
+            return await Task.Run(() => new Requester(new RequestOptions
             {
-                int accountBindCount = rolesInfo.Data.List.Count;
-                for (int i = 0; i < accountBindCount; i++)
-                {
-                    UserGameRole role = rolesInfo.Data.List[i];
-                    Response<SignIn> signIn = new Requester(new RequestOptions
-                    {
-                        {"Accept", RequestOptions.Json },
-                        {"User-Agent",RequestOptions.CommonUA },
-                        {"x-rpc-device_id", RequestOptions.DeviceId },
-                        {"Referer", Referer },
-                        {"Cookie", cookie },
-                        {"X-Requested-With", RequestOptions.Hyperion }
-                    }).Get<SignIn>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}");
-                    results.Add(signIn);
-                    if (signIn.ReturnCode == 0)
-                    {
-                        //don't ever convert to value tuple,just ignore the intellisense
-                        var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };
-
-                        Response<SignInResult> result = new Requester(new RequestOptions
-                        {
-                            {"DS", DynamicSecretProvider.Create() },
-                            {"x-rpc-app_version", DynamicSecretProvider.AppVersion/*"2.2.1"*/ },
-                            {"User-Agent", RequestOptions.CommonUA },
-                            {"x-rpc-device_id", RequestOptions.DeviceId },
-                            {"Accept", RequestOptions.Json },
-                            {"x-rpc-client_type", "5" },
-                            {"Referer", Referer },
-                            {"Cookie", cookie },
-                            {"X-Requested-With", RequestOptions.Hyperion }
-                        }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data);
-                        results.Add(result);
-                    }
-                }
-            }
-            return results;
+                {"Accept", RequestOptions.Json },
+                {"User-Agent", RequestOptions.CommonUA },
+                {"Referer", Referer },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            }).Get<SignInReward>($"{ApiTakumi}/event/bbs_sign_reward/home?act_id={ActivityId}").Data);
         }
     }
 }

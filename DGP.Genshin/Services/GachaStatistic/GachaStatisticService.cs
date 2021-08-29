@@ -3,6 +3,7 @@ using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -55,6 +56,8 @@ namespace DGP.Genshin.Services.GachaStatistic
                 if (!this.HasNoData)
                 {
                     this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
+                    //cause we suppress the notify in ctor of LocalGachaProvider
+                    OnPropertyChanged(nameof(SelectedUid));
                     //select default banner
                     if (this.Statistic.SpecificBanners.Count > 0)
                     {
@@ -146,7 +149,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public void AddOrIgnore(PrivateString uid)
         {
             if (!this.Uids.Contains(uid))
-                this.Uids.Add(uid);
+                App.Current.Invoke(() => this.Uids.Add(uid));
         }
 
         public async Task RefreshAsync(GachaLogUrlMode mode)

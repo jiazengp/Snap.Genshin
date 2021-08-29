@@ -8,8 +8,7 @@
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown" 
-        xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.CachedImage"
+        xmlns:m="clr-namespace:DGP.Genshin.Controls.Markdown" xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
@@ -66,6 +65,56 @@
                 </Grid>
             </Grid>
         </ui:Flyout>
+        <ui:Flyout x:Key="SignInFlyout" Placement="Bottom">
+            <Grid RenderOptions.BitmapScalingMode="Fant">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0,0,0,12" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}月已累积签到 {1} 天">
+                            <Binding Path="SignInReward.Month"/>
+                            <Binding Path="SignInInfo.TotalSignDay"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="540" ItemsSource="{Binding SignInReward.Awards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,0,4,4" Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" Opacity="{Binding Opacity,IsAsync=True}">
+                                <StackPanel Width="70">
+                                    <Grid Width="70" Height="70">
+                                        <Border>
+                                            <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                        </Border>
+                                        <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#00000000"/>
+                                                    <GradientStop Offset="1" Color="#CC000000"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="White" FontSize="10" Text="{Binding Name}"/>
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock Margin="0,2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Count,StringFormat={}X{0}}" FontSize="10" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Grid.Row="2">
+                    <Button HorizontalAlignment="Stretch" IsEnabled="{Binding SignInInfo.IsNotSign}" Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" Content="签到" Margin="0,12,0,0" Click="SignInButtonClick"/>
+                </Grid>
+            </Grid>
+        </ui:Flyout>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -96,10 +145,20 @@
                         <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WishIcon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="旅行札记" helpers:NavHelper.NavigateTo="{x:Type pages:JourneyLogPage}"
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE8FD;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
 
-                <ui:NavigationViewItemHeader Content="高级工具" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
-                <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
+                <ui:NavigationViewItemHeader Content="高级工具" 
+                                             Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
+                <ui:NavigationViewItem Content="管理" Icon="Manage" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" 
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
+                <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" 
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE8F1;"/>
                     </ui:NavigationViewItem.Icon>
@@ -123,7 +182,8 @@
 
             <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
                                Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="每日签到"
-                               Click="SignInTitleBarButtonClick"/>
+                               Click="SignInTitleBarButtonClick"
+                               ui:FlyoutBase.AttachedFlyout="{StaticResource SignInFlyout}"/>
             <Rectangle
                     Fill="{DynamicResource SystemControlForegroundBaseHighBrush}"
                     Width="1"

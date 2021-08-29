@@ -237,10 +237,9 @@
                         <TextBlock Text="开发者" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
                     <StackPanel>
-                        <TextBlock Text="下方按钮仅供开发人员调试使用" Foreground="DarkRed" Margin="0,0,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock Text="在Github上提交的下方工具或模块的错误不会修复" Foreground="DarkRed" Margin="0,0,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock Text="点击下方按钮表示您愿意承担可能造成的损失" Foreground="Red" Margin="0,4,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <Button Content="数据管理页面" Click="NavigateToManagePage"/>
+                        <TextBlock Text="开发者模式仅供开发人员调试使用" Foreground="DarkRed" Margin="0,0,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Text="在Github上提交的相关的错误不会修复" Foreground="DarkRed" Margin="0,0,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <!--<TextBlock Text="点击下方按钮表示您愿意承担可能造成的损失" Foreground="Red" Margin="0,4,0,8" Style="{StaticResource BodyTextBlockStyle}"/>-->
                     </StackPanel>
                 </Expander>
             </StackPanel>
