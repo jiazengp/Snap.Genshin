@@ -1,6 +1,5 @@
 ﻿using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 

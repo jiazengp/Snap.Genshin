@@ -58,9 +58,9 @@ namespace DGP.Genshin.Services.GachaStatistic
         #endregion
 
         /// <summary>
-        /// 在初始化阶段将uid与对应的抽卡数据准备就绪
+        /// 将uid与对应的抽卡数据准备就绪
         /// </summary>
-        /// <param name="uid"></param>
+        /// <param name="uid">uid</param>
         public void InitializeUser(string uid) => this.Data.Add(uid, new GachaData());
 
         /// <summary>
@@ -178,6 +178,8 @@ namespace DGP.Genshin.Services.GachaStatistic
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
                                 IEnumerable<GachaLogItem> logs = this.Data[this.Service.SelectedUid.UnMaskedValue][pool];
+                                //fix issue with compatibility
+                                logs = logs.Reverse();
                                 //header
                                 sheet.Cells[1, 1].Value = "时间";
                                 sheet.Cells[1, 2].Value = "名称";

@@ -210,7 +210,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                         ni.StarUrl = StarHelper.FromRank(Int32.Parse(item.Rank));
                         Logger.LogStatic(typeof(StatisticFactory), $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
                     }
-                    banner.Items.Add(ni);
+                    //fix issue where crashes when no banner exists
+                    banner?.Items.Add(ni);
                 }
             }
 

@@ -57,7 +57,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 {
                     this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
                     //cause we suppress the notify in ctor of LocalGachaProvider
-                    OnPropertyChanged(nameof(SelectedUid));
+                    OnPropertyChanged(nameof(this.SelectedUid));
                     //select default banner
                     if (this.Statistic.SpecificBanners.Count > 0)
                     {

@@ -14,7 +14,8 @@ namespace DGP.Genshin.Controls.Records
             { "activities[2]", "FleurFair" },
             { "activities[3]", "ChannellerSlab" },
             { "activities[4]", "MartialLegend" },
-            { "activities[5]", "Chess" }
+            { "activities[5]", "Chess" },
+            { "activities[6]", "Sumo" }
         };
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -23,7 +24,15 @@ namespace DGP.Genshin.Controls.Records
             {
                 JToken token = item as JToken;
                 string path = token.Path;
-                return element.FindResource(TemplateDict[path]) as DataTemplate;
+                if (TemplateDict.ContainsKey(path))
+                {
+                    return element.FindResource(TemplateDict[path]) as DataTemplate;
+                }
+                else
+                {
+                    return element.FindResource("Default") as DataTemplate;
+                }
+                
             }
             return null;
         }

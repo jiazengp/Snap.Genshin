@@ -10,9 +10,7 @@ using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,8 +84,8 @@ namespace DGP.Genshin
 
         public SignInInfo SignInInfo
         {
-            get { return (SignInInfo)GetValue(SignInInfoProperty); }
-            set { SetValue(SignInInfoProperty, value); }
+            get => (SignInInfo)GetValue(SignInInfoProperty);
+            set => SetValue(SignInInfoProperty, value);
         }
         public static readonly DependencyProperty SignInInfoProperty =
             DependencyProperty.Register("SignInInfo", typeof(SignInInfo), typeof(MainWindow), new PropertyMetadata(null));
@@ -106,10 +104,10 @@ namespace DGP.Genshin
 
         private void UpdateSignInAwards()
         {
-            for (int i = 0; i < SignInReward.Awards.Count; i++)
+            for (int i = 0; i < this.SignInReward.Awards.Count; i++)
             {
-                SignInAward item = SignInReward.Awards[i];
-                item.Opacity = (i + 1) <= SignInInfo.TotalSignDay ? 0.2 : 1;
+                SignInAward item = this.SignInReward.Awards[i];
+                item.Opacity = (i + 1) <= this.SignInInfo.TotalSignDay ? 0.2 : 1;
             }
         }
 
@@ -117,13 +115,13 @@ namespace DGP.Genshin
         {
             if (this.SignInReward == null)
             {
-                this.SignInReward = await dailySignInService.GetSignInRewardAsync();
+                this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
             }
             if (this.SignInInfo == null)
             {
-                UserGameRoleInfo info = await dailySignInService.GetUserGameRolesAsync();
+                UserGameRoleInfo info = await this.dailySignInService.GetUserGameRolesAsync();
                 Debug.Assert(info.List.Count == 1);
-                this.SignInInfo = await dailySignInService.GetSignInInfoAsync(info.List[0]);
+                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(info.List[0]);
             }
         }
 
@@ -132,7 +130,7 @@ namespace DGP.Genshin
             if (!this.isSigningIn)
             {
                 this.isSigningIn = true;
-                SignInResult result = await dailySignInService.SignInAsync();
+                SignInResult result = await this.dailySignInService.SignInAsync();
                 await new ContentDialog
                 {
                     Title = "签到",
@@ -140,10 +138,10 @@ namespace DGP.Genshin
                     PrimaryButtonText = "确认",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
-                this.SignInReward = await dailySignInService.GetSignInRewardAsync();
-                UserGameRoleInfo info = await dailySignInService.GetUserGameRolesAsync();
+                this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
+                UserGameRoleInfo info = await this.dailySignInService.GetUserGameRolesAsync();
                 Debug.Assert(info.List.Count == 1);
-                this.SignInInfo = await dailySignInService.GetSignInInfoAsync(info.List[0]);
+                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(info.List[0]);
                 UpdateSignInAwards();
                 this.isSigningIn = false;
             }

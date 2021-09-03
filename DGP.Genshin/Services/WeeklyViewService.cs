@@ -178,43 +178,43 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region 女士
-        private IEnumerable<Character> laSignoria1;
-        public IEnumerable<Character> LaSignoria1
+        private IEnumerable<Character> moltenMoment;
+        public IEnumerable<Character> MoltenMoment
         {
             get
             {
-                if (this.laSignoria1 == null)
+                if (this.moltenMoment == null)
                 {
-                    this.laSignoria1 = this.dataService.Characters
+                    this.moltenMoment = this.dataService.Characters
                         .Where(c => c.Weekly.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_480_70.png").ToList();
                 }
-                return this.laSignoria1;
+                return this.moltenMoment;
             }
         }
-        private IEnumerable<Character> laSignoria2;
-        public IEnumerable<Character> LaSignoria2
+        private IEnumerable<Character> hellfireButterfly;
+        public IEnumerable<Character> HellfireButterfly
         {
             get
             {
-                if (this.laSignoria2 == null)
+                if (this.hellfireButterfly == null)
                 {
-                    this.laSignoria2 = this.dataService.Characters
+                    this.hellfireButterfly = this.dataService.Characters
                         .Where(c => c.Weekly.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_481_70.png").ToList();
                 }
-                return this.laSignoria2;
+                return this.hellfireButterfly;
             }
         }
-        private IEnumerable<Character> laSignoria3;
-        public IEnumerable<Character> LaSignoria3
+        private IEnumerable<Character> ashenHeart;
+        public IEnumerable<Character> AshenHeart
         {
             get
             {
-                if (this.laSignoria3 == null)
+                if (this.ashenHeart == null)
                 {
-                    this.laSignoria3 = this.dataService.Characters
+                    this.ashenHeart = this.dataService.Characters
                         .Where(c => c.Weekly.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482_70.png").ToList();
                 }
-                return this.laSignoria3;
+                return this.ashenHeart;
             }
         }
         #endregion

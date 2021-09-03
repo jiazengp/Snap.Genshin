@@ -9,5 +9,4 @@ namespace DGP.Genshin.Models.MiHoYo.BBSAPI
         [JsonProperty("type")] public int Type { get; set; }
         [JsonProperty("label")] public string Label { get; set; }
     }
-
 }

@@ -12,6 +12,6 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         [JsonProperty("icon")] public string Icon { get; set; }
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("cnt")] public string Count { get; set; }
-        public double Opacity { get => opacity; set => Set(ref opacity, value); }
+        public double Opacity { get => this.opacity; set => Set(ref this.opacity, value); }
     }
 }

@@ -175,24 +175,24 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding LaSignoria1[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding LaSignoria1[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding MoltenMoment[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding MoltenMoment[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding LaSignoria1}" 
+                <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding MoltenMoment}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding LaSignoria2[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding LaSignoria2[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding HellfireButterfly[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding HellfireButterfly[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding LaSignoria2}" 
+                <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding HellfireButterfly}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding LaSignoria3[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding LaSignoria3[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding AshenHeart[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding AshenHeart[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding LaSignoria3}" 
+                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding AshenHeart}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
             </Grid>
         </StackPanel>

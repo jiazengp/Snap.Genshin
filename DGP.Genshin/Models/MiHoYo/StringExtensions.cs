@@ -1,4 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Windows.Data;
 
 namespace DGP.Genshin.Models.MiHoYo
 {
@@ -20,5 +24,13 @@ namespace DGP.Genshin.Models.MiHoYo
             s = s.Replace(@"\n", "\n").Replace(@"\r", "\r");
             return s;
         }
+    }
+
+    public class HtmlStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+            ((JValue)value).Value.ToString().RemoveHtmlFormat();
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

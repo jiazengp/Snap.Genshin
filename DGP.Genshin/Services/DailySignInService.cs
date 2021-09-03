@@ -3,7 +3,6 @@ using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
 using DGP.Snap.Framework.Extensions.System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace DGP.Genshin.Services
                 UserGameRole role = rolesInfo.List[0];
                 return await SignInInternalAsync(role);
             }
-            return null; 
+            return null;
         }
         public async Task<SignInInfo> GetSignInInfoAsync(UserGameRole role)
         {
@@ -52,7 +51,8 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             }).Get<SignInInfo>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}").Data);
         }
-        [SuppressMessage("", "IDE0050")] private async Task<SignInResult> SignInInternalAsync(UserGameRole role)
+        [SuppressMessage("", "IDE0050")]
+        private async Task<SignInResult> SignInInternalAsync(UserGameRole role)
         {
             string cookie = await CookieManager.GetCookieAsync();
             var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };

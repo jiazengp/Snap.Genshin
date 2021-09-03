@@ -507,7 +507,7 @@ rd /s /q uz-Latn-UZ
 rd /s /q vi-VN
 rd /s /q zh-TW
 
-del *.xml *dll.config DGP.Snap.Updater.exe.config
+del *.pdb *.xml *dll.config DGP.Snap.Updater.exe.config
 
 move /Y *.dll .\libraries
 move /y .\runtimes .\libraries

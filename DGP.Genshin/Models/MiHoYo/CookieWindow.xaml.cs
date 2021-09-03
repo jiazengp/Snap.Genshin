@@ -9,7 +9,7 @@ namespace DGP.Genshin.Models.MiHoYo
     /// <summary>
     /// CookieWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class CookieWindow : Window,IDisposable
+    public partial class CookieWindow : Window, IDisposable
     {
         public string Cookie { get; set; }
         public bool IsLoggedIn { get; set; } = false;

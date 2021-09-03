@@ -53,7 +53,8 @@ namespace DGP.Genshin.Pages
                 Filter = "Excel 工作簿|*.xlsx",
                 Title = "保存到表格",
                 ValidateNames = true,
-                CheckPathExists = true
+                CheckPathExists = true,
+                FileName = $"{this.Service.SelectedUid}.xlsx"
             };
             if (dialog.ShowDialog() == true)
             {
@@ -75,7 +76,8 @@ namespace DGP.Genshin.Pages
                 Filter = "PNG 图像|*.png",
                 Title = "导出至图片",
                 ValidateNames = true,
-                CheckPathExists = true
+                CheckPathExists = true,
+                FileName = $"{this.Service.SelectedUid}.png"
             };
             if (dialog.ShowDialog() == true)
             {
@@ -127,7 +129,5 @@ namespace DGP.Genshin.Pages
             this.Service.UnInitialize();
             this.Service = null;
         }
-
-
     }
 }
