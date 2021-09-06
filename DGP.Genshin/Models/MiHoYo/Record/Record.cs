@@ -13,6 +13,10 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         public Record()
         {
         }
+        /// <summary>
+        /// 构造新的失败的<see cref="Record"/>实例
+        /// </summary>
+        /// <param name="message"></param>
         public Record(string message)
         {
             this.Message = message;

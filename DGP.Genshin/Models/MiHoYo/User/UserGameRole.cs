@@ -15,6 +15,6 @@ namespace DGP.Genshin.Models.MiHoYo.User
         [JsonProperty("region_name")] public string RegionName { get; set; }
         [JsonProperty("is_official")] public string IsOfficial { get; set; }
 
-        public override string ToString() => $"昵称:{this.Nickname},等级:{this.Level},区域:{this.RegionName}";
+        public override string ToString() => $"{this.Nickname} | {this.Level}级 | {this.RegionName}";
     }
 }

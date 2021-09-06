@@ -8,6 +8,7 @@ using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace DGP.Genshin.Services
     internal class RecordService : Observable
     {
         private const string QueryHistoryFile = "history.dat";
-        private static readonly string BaseUrl = $@"https://api-takumi.mihoyo.com/game_record/app/genshin/api";
+        private const string BaseUrl = @"https://api-takumi.mihoyo.com/game_record/app/genshin/api";
         private const string Referer = @"https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6";
         #region Observable
         private Record currentRecord;
@@ -46,15 +47,16 @@ namespace DGP.Genshin.Services
             if (!this.QueryHistory.Contains(uid))
                 this.QueryHistory.Add(uid);
         }
+
+        [SuppressMessage("", "IDE0037")]
+        [SuppressMessage("", "IDE0050")]
         public async Task<Record> GetRecordAsync(string uid)
         {
             this.Log($"querying uid:{uid}");
-            RecordProgressed?.Invoke("正在获取 Cookie");
             string cookie = await CookieManager.GetCookieAsync();
             Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                //{"DS", DynamicSecretProvider.Create() },
                 {"x-rpc-app_version", DynamicSecretProvider2.AppVersion },
                 {"User-Agent", RequestOptions.CommonUA },
                 {"x-rpc-client_type", "5" },
@@ -63,87 +65,111 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
             //figure out the server
-            RecordProgressed?.Invoke("正在确定UID的服务器");
-            string server = null;
-            try
-            {
-                server = new Dictionary<char, string>()
-                {
-                    { '1', "cn_gf01" },
-                    { '5', "cn_qd01" },
-                    //server below is currently not supported
-                    //{ '6', "os_usa" },
-                    //{ '7', "os_euro" },
-                    //{ '8', "os_asia" },
-                    //{ '9', "os_cht" }
-                }[uid[0]];
-            }
-            catch
+            if (!TryEvaluateUidRegion(uid, out string server))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record("不支持查询此UID");
             }
-            RecordProgressed?.Invoke("正在获取 玩家基础统计信息");
-            string indexUrl = $@"{BaseUrl}/index?server={server}&role_id={uid}";
-            requester.Headers["DS"] = DynamicSecretProvider2.Create(indexUrl);
-            Response<PlayerInfo> playerInfo = await Task.Run(() =>
-            requester.Get<PlayerInfo>(indexUrl));
-            if (playerInfo.ReturnCode != 0)
+
+            //RecordProgressed?.Invoke("正在获取 玩家基础统计信息");
+            //string indexUrl = $@"{BaseUrl}/index?server={server}&role_id={uid}";
+            //requester.Headers["DS"] = DynamicSecretProvider2.Create(indexUrl);
+            //Response<PlayerInfo> playerInfo = await Task.Run(() =>
+            //requester.Get<PlayerInfo>(indexUrl));
+            //if (playerInfo.ReturnCode != 0)
+            //{
+            //    RecordProgressed?.Invoke(null);
+            //    return new Record($"获取玩家基本信息失败：\n{playerInfo.Message}");
+            //}
+
+            //RecordProgressed?.Invoke("正在获取 本期深境螺旋信息");
+            //string spiralAbyss1Url = $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}";
+            //requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss1Url);
+            //Response<SpiralAbyss> spiralAbyss = await Task.Run(() =>
+            //requester.Get<SpiralAbyss>(spiralAbyss1Url));
+            //if (spiralAbyss.ReturnCode != 0)
+            //{
+            //    RecordProgressed?.Invoke(null);
+            //    return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss.Message}");
+            //}
+
+            //RecordProgressed?.Invoke("正在获取 上期深境螺旋信息");
+            //string spiralAbyss2Url = $@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}";
+            //requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss2Url);
+            //Response<SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
+            //requester.Get<SpiralAbyss>(spiralAbyss2Url));
+            //if (lastSpiralAbyss.ReturnCode != 0)
+            //{
+            //    RecordProgressed?.Invoke(null);
+            //    return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss.Message}");
+            //}
+
+            //RecordProgressed?.Invoke("正在获取 活动挑战信息");
+            //string activitiesUrl = $@"{BaseUrl}/activities?server={server}&role_id={uid}";
+            //requester.Headers["DS"] = DynamicSecretProvider2.Create(activitiesUrl);
+            //Response<dynamic> activitiesInfo = await Task.Run(() =>
+            //requester.Get<dynamic>($@"{BaseUrl}/activities?server={server}&role_id={uid}"));
+            //if (activitiesInfo.ReturnCode != 0)
+            //{
+            //    RecordProgressed?.Invoke(null);
+            //    return new Record($"获取活动信息失败：\n{activitiesInfo.Message}");
+            //}
+
+            //RecordProgressed?.Invoke("正在获取 详细角色信息");
+            //string characterUrl = $@"{BaseUrl}/character";
+            //requester.Headers["DS"] = DynamicSecretProvider2.Create(characterUrl, data);
+            //Response<DetailedAvatarInfo> roles = await Task.Run(() =>
+            //requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data));
+            //if (roles.ReturnCode != 0)
+            //{
+            //    RecordProgressed?.Invoke(null);
+            //    return new Record($"获取详细角色信息失败：\n{roles.Message}");
+            //}
+
+            Response<PlayerInfo> playerInfo = null;
+            if (!await Task.Run(() => TryGet("正在获取 玩家基础统计信息",
+                $@"{BaseUrl}/index?server={server}&role_id={uid}", requester, out playerInfo)))
             {
                 RecordProgressed?.Invoke(null);
-                return new Record($"获取玩家基本信息失败：\n{playerInfo.Message}");
+                return new Record($"获取玩家基本信息失败：\n{playerInfo?.Message}");
             }
-
-            RecordProgressed?.Invoke("正在获取 本期深境螺旋信息");
-            string spiralAbyss1Url = $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}";
-            requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss1Url);
-            Response<SpiralAbyss> spiralAbyss = await Task.Run(() =>
-            requester.Get<SpiralAbyss>(spiralAbyss1Url));
-            if (spiralAbyss.ReturnCode != 0)
+            Response<SpiralAbyss> spiralAbyss = null;
+            if (!await Task.Run(() => TryGet("正在获取 本期深境螺旋信息",
+                $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}", requester, out spiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
-                return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss.Message}");
+                return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss?.Message}");
             }
-
-            RecordProgressed?.Invoke("正在获取 上期深境螺旋信息");
-            string spiralAbyss2Url = $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}";
-            requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss2Url);
-            Response<SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
-            requester.Get<SpiralAbyss>(spiralAbyss2Url));
-            if (lastSpiralAbyss.ReturnCode != 0)
+            Response<SpiralAbyss> lastSpiralAbyss = null;
+            if (!await Task.Run(() => TryGet("正在获取 上期深境螺旋信息",
+                $@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}", requester, out lastSpiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
-                return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss.Message}");
+                return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss?.Message}");
             }
-
-            RecordProgressed?.Invoke("正在获取 活动挑战信息");
-            string activitiesUrl = $@"{BaseUrl}/activities?server={server}&role_id={uid}";
-            requester.Headers["DS"] = DynamicSecretProvider2.Create(activitiesUrl);
-            Response<dynamic> activitiesInfo = await Task.Run(() =>
-            requester.Get<dynamic>($@"{BaseUrl}/activities?server={server}&role_id={uid}"));
-            if (activitiesInfo.ReturnCode != 0)
+            Response<dynamic> activitiesInfo = null;
+            if (!await Task.Run(() => TryGet("正在获取 活动挑战信息",
+                $@"{BaseUrl}/activities?server={server}&role_id={uid}", requester, out activitiesInfo)))
             {
                 RecordProgressed?.Invoke(null);
-                return new Record($"获取活动信息失败：\n{activitiesInfo.Message}");
+                return new Record($"获取活动信息失败：\n{activitiesInfo?.Message}");
             }
-
-            RecordProgressed?.Invoke("正在获取 详细角色信息");
+            //prepare for character
             requester.Headers.Remove("x-rpc-device_id");
-            string characterUrl = $@"{BaseUrl}/character";
             var data = new
             {
                 character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
                 role_id = uid,
                 server = server
             };
-            requester.Headers["DS"] = DynamicSecretProvider2.Create(characterUrl, data);
-            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
-            requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data));
-            if (roles.ReturnCode != 0)
+            Response<DetailedAvatarInfo> roles = null;
+            if (!await Task.Run(() => TryPost("正在获取 详细角色信息",
+                $@"{BaseUrl}/character", data, requester, out roles)))
             {
                 RecordProgressed?.Invoke(null);
-                return new Record($"获取详细角色信息失败：\n{roles.Message}");
+                return new Record($"获取详细角色信息失败：\n{roles?.Message}");
             }
+
             RecordProgressed?.Invoke(null);
             //return
             return roles.ReturnCode != 0 ? new Record(roles.Message) : new Record
@@ -159,7 +185,35 @@ namespace DGP.Genshin.Services
             };
         }
 
-        public static event Action<string> RecordProgressed;
+        private bool TryEvaluateUidRegion(string uid,out string result)
+        {
+            Dictionary<char,string> serverDict = new Dictionary<char, string>()
+            {
+                { '1', "cn_gf01" },
+                { '5', "cn_qd01" },
+                //{ '6', "os_usa" },
+                //{ '7', "os_euro" },
+                //{ '8', "os_asia" },
+                //{ '9', "os_cht" }
+            };
+            return serverDict.TryGetValue(uid[0],out result);
+        }
+
+        private bool TryGet<T>(string info,string url,Requester requester,out Response<T> response)
+        {
+            RecordProgressed?.Invoke(info);
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(url);
+            response = requester.Get<T>(url);
+            return response.ReturnCode == 0;
+        }
+        private bool TryPost<T>(string info, string url, object data, Requester requester, out Response<T> response)
+        {
+            RecordProgressed?.Invoke(info);
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(url, data);
+            response = requester.Post<T>(url,data);
+            return response.ReturnCode == 0;
+        }
+        public static event RecordProgressedHandler RecordProgressed;
 
         #region 单例
         private static RecordService instance;
@@ -197,4 +251,5 @@ namespace DGP.Genshin.Services
         }
         #endregion
     }
+    public delegate void RecordProgressedHandler(string info);
 }

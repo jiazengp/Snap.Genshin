@@ -134,6 +134,7 @@
     <Compile Include="Models\MiHoYo\Journey\JourneyBase.cs" />
     <Compile Include="Models\MiHoYo\Journey\Month.cs" />
     <Compile Include="Models\MiHoYo\Request\DynamicSecretProvider2.cs" />
+    <Compile Include="Models\MiHoYo\Request\Md5DynamicSecretProviderBase.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\Achieve.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\Certification.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\CommunityInfo.cs" />

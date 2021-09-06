@@ -25,19 +25,6 @@ namespace DGP.Genshin.Services
         {
             this.Log("initialized");
         }
-        public async Task<SignInResult> SignInAsync()
-        {
-            UserGameRoleInfo rolesInfo = await GetUserGameRolesAsync();
-
-            if (rolesInfo != null)
-            {
-                Debug.Assert(rolesInfo.List.Count == 1);
-
-                UserGameRole role = rolesInfo.List[0];
-                return await SignInInternalAsync(role);
-            }
-            return null;
-        }
         public async Task<SignInInfo> GetSignInInfoAsync(UserGameRole role)
         {
             string cookie = await CookieManager.GetCookieAsync();
@@ -53,7 +40,7 @@ namespace DGP.Genshin.Services
         }
 
         [SuppressMessage("", "IDE0050")]
-        private async Task<SignInResult> SignInInternalAsync(UserGameRole role)
+        public async Task<SignInResult> SignInAsync(UserGameRole role)
         {
             string cookie = await CookieManager.GetCookieAsync();
             var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };

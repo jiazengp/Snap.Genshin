@@ -90,6 +90,7 @@ namespace DGP.Genshin.Pages
                 this.isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string info) => this.RequestingProgressText.Text = info;
+        private void RecordService_RecordProgressed(string info) =>
+            this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
     }
 }

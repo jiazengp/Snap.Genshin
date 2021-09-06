@@ -11,8 +11,13 @@ namespace DGP.Genshin.Models.MiHoYo.Request
     /// <summary>
     /// 为MiHoYo接口请求器 <see cref="Requester"/> 提供2代动态密钥
     /// </summary>
-    internal static class DynamicSecretProvider2
+    [Github("https://github.com/Azure99/GenshinPlayerQuery/issues/20")]
+    internal class DynamicSecretProvider2 : Md5DynamicSecretProviderBase
     {
+        /// <summary>
+        /// 防止从外部创建 <see cref="DynamicSecretProvider2"/> 的实例
+        /// </summary>
+        private DynamicSecretProvider2() { }
         public const string AppVersion = "2.11.1";
 
         [Github("https://github.com/Azure99/GenshinPlayerQuery/blob/main/src/Core/GenshinAPI.cs")]
@@ -20,50 +25,28 @@ namespace DGP.Genshin.Models.MiHoYo.Request
 
         public static string Create(string queryUrl, object postBody = null)
         {
+            //unix timestamp
+            int t = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            //random
+            string r = GetRandomString();
+            //body
+            string b = postBody == null ? "" : Json.Stringify(postBody);
+            //query
             string q = "";
             string[] url = queryUrl.Split('?');
             if (url.Length == 2)
             {
-                //dictionary order
                 string[] queryParams = url[1].Split('&').OrderBy(x => x).ToArray();
-                q = string.Join("&", queryParams);
+                q = String.Join("&", queryParams);
             }
-            //unix timestamp
-            int time = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-
-            string random = GetRandomString(6);
-
-            //lulu666lulu https://github.com/Azure99/GenshinPlayerQuery/issues/20
-            string target = $"salt={APISalt}&t={time}&r={random}&b={(postBody == null ? "" : Json.Stringify(postBody))}&q={q}";
-            string check = GetComputedMd5(target);
-            Logger.LogStatic(typeof(DynamicSecretProvider2), $"generated DS:{time},{random},{check}");
-            return $"{time},{random},{check}";
+            //check
+            string check = GetComputedMd5($"salt={APISalt}&t={t}&r={r}&b={b}&q={q}");
+            string result = $"{t},{r},{check}";
+            Logger.LogStatic(typeof(DynamicSecretProvider2), $"generated DS : {result}");
+            return result;
         }
-        private static string GetRandomString(int length)
-        {
-            StringBuilder builder = new StringBuilder(length);
-
-            const string randomStringTemplate = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            Random random = new Random();
-            for (int i = 0; i < length; i++)
-            {
-                int pos = random.Next(0, randomStringTemplate.Length);
-                builder.Append(randomStringTemplate[pos]);
-            }
-
-            return builder.ToString();
-        }
-        private static string GetComputedMd5(string content)
-        {
-            using MD5 md5 = MD5.Create();
-            byte[] result = md5.ComputeHash(Encoding.UTF8.GetBytes(content));
-
-            StringBuilder builder = new StringBuilder();
-            foreach (byte b in result)
-            {
-                builder.Append(b.ToString("x2"));
-            }
-            return builder.ToString();
-        }
+        private static readonly Random random = new Random();
+        private static string GetRandomString() =>
+            random.Next(100000, 200000).ToString();
     }
 }

@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Linq;
+using System;
 
 namespace DGP.Genshin
 {
@@ -75,6 +76,9 @@ namespace DGP.Genshin
         }
 
         #region SignIn
+        /// <summary>
+        /// 签到奖励一览
+        /// </summary>
         public SignInReward SignInReward
         {
             get => (SignInReward)GetValue(SignInRewardProperty);
@@ -82,7 +86,9 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty SignInRewardProperty =
             DependencyProperty.Register("SignInReward", typeof(SignInReward), typeof(MainWindow), new PropertyMetadata(null));
-
+        /// <summary>
+        /// 当前签到状态信息
+        /// </summary>
         public SignInInfo SignInInfo
         {
             get => (SignInInfo)GetValue(SignInInfoProperty);
@@ -90,7 +96,9 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty SignInInfoProperty =
             DependencyProperty.Register("SignInInfo", typeof(SignInInfo), typeof(MainWindow), new PropertyMetadata(null));
-
+        /// <summary>
+        /// 绑定的角色信息
+        /// </summary>
         public UserGameRoleInfo RoleInfo
         {
             get { return (UserGameRoleInfo)GetValue(RoleInfoProperty); }
@@ -98,29 +106,40 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty RoleInfoProperty =
             DependencyProperty.Register("RoleInfo", typeof(UserGameRoleInfo), typeof(MainWindow), new PropertyMetadata(null));
-
+        /// <summary>
+        /// 选择的角色
+        /// </summary>
         public UserGameRole SelectedRole
         {
             get { return (UserGameRole)GetValue(SelectedRoleProperty); }
             set { SetValue(SelectedRoleProperty, value); }
         }
         public static readonly DependencyProperty SelectedRoleProperty =
-            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null,OnSelectedRoleChanged));
+
+        private static async void OnSelectedRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            MainWindow window = (MainWindow)d;
+            window.SignInInfo = await window.dailySignInService.GetSignInInfoAsync(window.SelectedRole);
+            window.SyncItemsStateWithCurrentInfo();
+        }
 
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
+            //initialize flyout
             Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
             Grid grid = flyout.Content as Grid;
             grid.DataContext = this;
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
-            await InitializeSignInDataAsync();
-            UpdateSignInAwards();
+
+            await InitializeSignInPanelDataAsync();
+            //SyncItemsStateWithCurrentInfo();
         }
 
         /// <summary>
         /// 更新物品透明度
         /// </summary>
-        private void UpdateSignInAwards()
+        private void SyncItemsStateWithCurrentInfo()
         {
             for (int i = 0; i < this.SignInReward.Awards.Count; i++)
             {
@@ -128,10 +147,12 @@ namespace DGP.Genshin
                 item.Opacity = (i + 1) <= this.SignInInfo.TotalSignDay ? 0.2 : 1;
             }
         }
-
-        private async Task InitializeSignInDataAsync()
+        /// <summary>
+        /// 初始化 <see cref="SignInReward"/> 与 <see cref="SignInInfo"/>
+        /// </summary>
+        /// <returns></returns>
+        private async Task InitializeSignInPanelDataAsync()
         {
-            //no cookie data needed
             if (this.SignInReward == null)
             {
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
@@ -140,7 +161,6 @@ namespace DGP.Genshin
             {
                 this.RoleInfo = await this.dailySignInService.GetUserGameRolesAsync();
                 this.SelectedRole = this.RoleInfo.List.First();
-                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(this.SelectedRole);
             }
         }
 
@@ -150,7 +170,7 @@ namespace DGP.Genshin
             if (!this.isSigningIn)
             {
                 this.isSigningIn = true;
-                SignInResult result = await this.dailySignInService.SignInAsync();
+                SignInResult result = await this.dailySignInService.SignInAsync(this.SelectedRole);
                 await new ContentDialog
                 {
                     Title = "签到",
@@ -160,8 +180,8 @@ namespace DGP.Genshin
                 }.ShowAsync();
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
                 //refresh info
-                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(SelectedRole);
-                UpdateSignInAwards();
+                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(this.SelectedRole);
+                SyncItemsStateWithCurrentInfo();
                 this.isSigningIn = false;
             }
         }

@@ -111,10 +111,16 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Grid.Row="2">
-                    <Button HorizontalAlignment="Stretch" 
-                            Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding SignInInfo.IsNotSign}" 
-                            Content="签到" Margin="0,12,0,0" Click="SignInButtonClick"/>
+                <Grid Grid.Row="2" Margin="0,12,0,0">
+                    <!--Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding SignInInfo.IsNotSign}"-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox ItemsSource="{Binding RoleInfo.List}" SelectedItem="{Binding SelectedRole}"/>
+                        <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" Grid.Column="1" Content="签到"  Click="SignInButtonClick" IsEnabled="{Binding SignInInfo.IsNotSign}"/>
+                    </Grid>
                 </Grid>
             </Grid>
         </ui:Flyout>
