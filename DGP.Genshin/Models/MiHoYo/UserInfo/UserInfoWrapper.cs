@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DGP.Genshin.Models.MiHoYo.BBSAPI
+namespace DGP.Genshin.Models.MiHoYo.UserInfo
 {
     [JsonModel]
     public class UserInfoWrapper

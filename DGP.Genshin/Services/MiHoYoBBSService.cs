@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
-using DGP.Genshin.Models.MiHoYo.BBSAPI;
-using DGP.Genshin.Models.MiHoYo.BBSAPI.Post;
+using DGP.Genshin.Models.MiHoYo.UserInfo;
+using DGP.Genshin.Models.MiHoYo.Post;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
@@ -18,6 +18,8 @@ namespace DGP.Genshin.Services
         {
             this.Log("initialized");
         }
+
+        #region User
         public async Task<UserInfo> GetUserFullInfoAsync()
         {
             string cookie = await CookieManager.GetCookieAsync();
@@ -36,7 +38,9 @@ namespace DGP.Genshin.Services
             requester.Get<UserInfoWrapper>($"{BaseUrl}/getUserFullInfo?gids=2"));
             return resp.ReturnCode == 0 ? resp.Data.UserInfo : null;
         }
+        #endregion
 
+        #region Post
         public async Task<List<Post>> GetOfficialRecommendedPostsAsync()
         {
             string cookie = await CookieManager.GetCookieAsync();
@@ -51,11 +55,10 @@ namespace DGP.Genshin.Services
                 {"Referer",Referer },
                 {"Cookie", cookie }
             });
-            Response<PostWrapper> resp = await Task.Run(() =>
-            requester.Get<PostWrapper>($"{PostBaseUrl}/getOfficialRecommendedPosts?gids=2"));
+            Response<ListWrapper<Post>> resp = await Task.Run(() =>
+            requester.Get<ListWrapper<Post>>($"{PostBaseUrl}/getOfficialRecommendedPosts?gids=2"));
             return resp.Data.List;
         }
-
         public async Task<dynamic> GetPostFullAsync(string postId)
         {
             string cookie = await CookieManager.GetCookieAsync();
@@ -74,5 +77,6 @@ namespace DGP.Genshin.Services
             requester.Get<dynamic>($"{PostBaseUrl}/getPostFull?gids=2&post_id={postId}&read=1"));
             return resp.Data;
         }
+        #endregion
     }
 }

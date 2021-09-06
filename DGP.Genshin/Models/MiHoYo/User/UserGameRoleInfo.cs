@@ -8,8 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.User
     /// 包装用户角色列表信息
     /// </summary>
     [JsonModel]
-    public class UserGameRoleInfo
+    public class UserGameRoleInfo : ListWrapper<UserGameRole>
     {
-        [JsonProperty("list")] public List<UserGameRole> List { get; set; } = new List<UserGameRole>();
     }
 }

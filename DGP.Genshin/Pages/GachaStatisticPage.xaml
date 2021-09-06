@@ -378,17 +378,17 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <!--历史-->
                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                             <TextBlock Text="历史活动祈愿"  Style="{StaticResource TitleTextBlockStyle}"/>
                             <ComboBox Margin="12,0,0,0" Focusable="False" MinWidth="352" ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" SelectedItem="{Binding SelectedSpecificBanner,IsAsync=True}"/>
                         </StackPanel>
-                        <Grid Margin="0,12,4,12" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                        <Grid Margin="0,12,0,8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -398,8 +398,8 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="以下物品获得概率提升" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" Orientation="Horizontal">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,8,8,8" Text="以下物品获得概率提升" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Margin="0,0,0,0" Orientation="Horizontal">
                                     <ItemsControl ItemsSource="{Binding SelectedSpecificBanner.UpStar5List}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -442,8 +442,8 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="8" Text="获取物品" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <ItemsControl Grid.Row="2" Margin="8,0,4,4" ItemsSource="{Binding SelectedSpecificBanner.StatisticList}">
+                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,8,8,8" Text="获取物品" Style="{StaticResource BaseTextBlockStyle}"/>
+                            <ItemsControl Grid.Row="2" Margin="0,0,0,0" ItemsSource="{Binding SelectedSpecificBanner.StatisticList}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel/>

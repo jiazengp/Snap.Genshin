@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Models.MiHoYo.BBSAPI.Post;
+﻿using DGP.Genshin.Models.MiHoYo.Post;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Extensions.System;
 using System;

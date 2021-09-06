@@ -1,7 +1,7 @@
 ﻿using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
-namespace DGP.Genshin.Models.MiHoYo.BBSAPI.Post
+namespace DGP.Genshin.Models.MiHoYo.Post
 {
     [JsonModel]
     public class Post

@@ -51,6 +51,7 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             }).Get<SignInInfo>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}").Data);
         }
+
         [SuppressMessage("", "IDE0050")]
         private async Task<SignInResult> SignInInternalAsync(UserGameRole role)
         {

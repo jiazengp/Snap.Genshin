@@ -112,7 +112,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Grid Grid.Row="2">
-                    <Button HorizontalAlignment="Stretch" IsEnabled="{Binding SignInInfo.IsNotSign}" Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" Content="签到" Margin="0,12,0,0" Click="SignInButtonClick"/>
+                    <Button HorizontalAlignment="Stretch" 
+                            Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding SignInInfo.IsNotSign}" 
+                            Content="签到" Margin="0,12,0,0" Click="SignInButtonClick"/>
                 </Grid>
             </Grid>
         </ui:Flyout>

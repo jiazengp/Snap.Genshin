@@ -10,7 +10,7 @@ namespace DGP.Genshin.Pages
     {
         public JourneyLogPage()
         {
-            this.DataContext = new JourneyLogService();
+            this.DataContext = new JourneyService();
             InitializeComponent();
         }
     }

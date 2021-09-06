@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Controls.Markdown;
 using DGP.Genshin.Models.MiHoYo;
-using DGP.Genshin.Models.MiHoYo.BBSAPI;
+using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
 using DGP.Genshin.Pages;
@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Linq;
 
 namespace DGP.Genshin
 {
@@ -90,8 +91,22 @@ namespace DGP.Genshin
         public static readonly DependencyProperty SignInInfoProperty =
             DependencyProperty.Register("SignInInfo", typeof(SignInInfo), typeof(MainWindow), new PropertyMetadata(null));
 
+        public UserGameRoleInfo RoleInfo
+        {
+            get { return (UserGameRoleInfo)GetValue(RoleInfoProperty); }
+            set { SetValue(RoleInfoProperty, value); }
+        }
+        public static readonly DependencyProperty RoleInfoProperty =
+            DependencyProperty.Register("RoleInfo", typeof(UserGameRoleInfo), typeof(MainWindow), new PropertyMetadata(null));
 
-        private bool isSigningIn = false;
+        public UserGameRole SelectedRole
+        {
+            get { return (UserGameRole)GetValue(SelectedRoleProperty); }
+            set { SetValue(SelectedRoleProperty, value); }
+        }
+        public static readonly DependencyProperty SelectedRoleProperty =
+            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null));
+
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
             Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
@@ -102,6 +117,9 @@ namespace DGP.Genshin
             UpdateSignInAwards();
         }
 
+        /// <summary>
+        /// 更新物品透明度
+        /// </summary>
         private void UpdateSignInAwards()
         {
             for (int i = 0; i < this.SignInReward.Awards.Count; i++)
@@ -113,18 +131,20 @@ namespace DGP.Genshin
 
         private async Task InitializeSignInDataAsync()
         {
+            //no cookie data needed
             if (this.SignInReward == null)
             {
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
             }
             if (this.SignInInfo == null)
             {
-                UserGameRoleInfo info = await this.dailySignInService.GetUserGameRolesAsync();
-                Debug.Assert(info.List.Count == 1);
-                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(info.List[0]);
+                this.RoleInfo = await this.dailySignInService.GetUserGameRolesAsync();
+                this.SelectedRole = this.RoleInfo.List.First();
+                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(this.SelectedRole);
             }
         }
 
+        private bool isSigningIn = false;
         private async void SignInButtonClick(object sender, RoutedEventArgs e)
         {
             if (!this.isSigningIn)
@@ -139,9 +159,8 @@ namespace DGP.Genshin
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
-                UserGameRoleInfo info = await this.dailySignInService.GetUserGameRolesAsync();
-                Debug.Assert(info.List.Count == 1);
-                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(info.List[0]);
+                //refresh info
+                this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(SelectedRole);
                 UpdateSignInAwards();
                 this.isSigningIn = false;
             }

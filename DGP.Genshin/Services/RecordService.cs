@@ -20,7 +20,7 @@ namespace DGP.Genshin.Services
     internal class RecordService : Observable
     {
         private const string QueryHistoryFile = "history.dat";
-        private static readonly string BaseUrl = $@"https://api-takumi.mihoyo.com/game_record/genshin/api";
+        private static readonly string BaseUrl = $@"https://api-takumi.mihoyo.com/game_record/app/genshin/api";
         private const string Referer = @"https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6";
         #region Observable
         private Record currentRecord;
@@ -54,12 +54,11 @@ namespace DGP.Genshin.Services
             Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"DS", DynamicSecretProvider.Create() },
-                {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
+                //{"DS", DynamicSecretProvider.Create() },
+                {"x-rpc-app_version", DynamicSecretProvider2.AppVersion },
                 {"User-Agent", RequestOptions.CommonUA },
                 {"x-rpc-client_type", "5" },
                 {"Referer",Referer },
-                {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
@@ -85,8 +84,10 @@ namespace DGP.Genshin.Services
                 return new Record("不支持查询此UID");
             }
             RecordProgressed?.Invoke("正在获取 玩家基础统计信息");
+            string indexUrl = $@"{BaseUrl}/index?server={server}&role_id={uid}";
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(indexUrl);
             Response<PlayerInfo> playerInfo = await Task.Run(() =>
-            requester.Get<PlayerInfo>($@"{BaseUrl}/index?server={server}&role_id={uid}"));
+            requester.Get<PlayerInfo>(indexUrl));
             if (playerInfo.ReturnCode != 0)
             {
                 RecordProgressed?.Invoke(null);
@@ -94,8 +95,10 @@ namespace DGP.Genshin.Services
             }
 
             RecordProgressed?.Invoke("正在获取 本期深境螺旋信息");
+            string spiralAbyss1Url = $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}";
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss1Url);
             Response<SpiralAbyss> spiralAbyss = await Task.Run(() =>
-            requester.Get<SpiralAbyss>($@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}"));
+            requester.Get<SpiralAbyss>(spiralAbyss1Url));
             if (spiralAbyss.ReturnCode != 0)
             {
                 RecordProgressed?.Invoke(null);
@@ -103,8 +106,10 @@ namespace DGP.Genshin.Services
             }
 
             RecordProgressed?.Invoke("正在获取 上期深境螺旋信息");
+            string spiralAbyss2Url = $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}";
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(spiralAbyss2Url);
             Response<SpiralAbyss> lastSpiralAbyss = await Task.Run(() =>
-            requester.Get<SpiralAbyss>($@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}"));
+            requester.Get<SpiralAbyss>(spiralAbyss2Url));
             if (lastSpiralAbyss.ReturnCode != 0)
             {
                 RecordProgressed?.Invoke(null);
@@ -112,6 +117,8 @@ namespace DGP.Genshin.Services
             }
 
             RecordProgressed?.Invoke("正在获取 活动挑战信息");
+            string activitiesUrl = $@"{BaseUrl}/activities?server={server}&role_id={uid}";
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(activitiesUrl);
             Response<dynamic> activitiesInfo = await Task.Run(() =>
             requester.Get<dynamic>($@"{BaseUrl}/activities?server={server}&role_id={uid}"));
             if (activitiesInfo.ReturnCode != 0)
@@ -122,17 +129,16 @@ namespace DGP.Genshin.Services
 
             RecordProgressed?.Invoke("正在获取 详细角色信息");
             requester.Headers.Remove("x-rpc-device_id");
-            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
+            string characterUrl = $@"{BaseUrl}/character";
+            var data = new
             {
-                //don't convert to value tuple
-                var data = new
-                {
-                    character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
-                    role_id = uid,
-                    server = server
-                };
-                return requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data);
-            });
+                character_ids = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                role_id = uid,
+                server = server
+            };
+            requester.Headers["DS"] = DynamicSecretProvider2.Create(characterUrl, data);
+            Response<DetailedAvatarInfo> roles = await Task.Run(() =>
+            requester.Post<DetailedAvatarInfo>($@"{BaseUrl}/character", data));
             if (roles.ReturnCode != 0)
             {
                 RecordProgressed?.Invoke(null);
