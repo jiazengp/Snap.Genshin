@@ -155,9 +155,20 @@ namespace DGP.Genshin.Services.GachaStatistic
         public async Task RefreshAsync(GachaLogUrlMode mode)
         {
             this.CanUserSwitchUid = false;
+            bool refreshSucceed = false;
             if (await this.GachaLogProvider.TryGetUrlAsync(mode))
             {
                 await RefreshInternalAsync();
+                if (!refreshSucceed)
+                {
+                    await new ContentDialog()
+                    {
+                        Title = "获取祈愿配置信息失败",
+                        Content = "可能是验证密钥已过期",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                }
             }
             else
             {
@@ -173,22 +184,34 @@ namespace DGP.Genshin.Services.GachaStatistic
         }
 
         private readonly Random random = new Random();
-        private async Task RefreshInternalAsync()
+        private async Task<bool> RefreshInternalAsync()
         {
             this.GachaLogProvider.OnFetchProgressed += OnFetchProgressed;
-            await Task.Run(async () =>
+            bool result = await Task.Run(async () =>
             {
-                //gacha config can be null
-                foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
+                //gacha config can be null while authkey timeout or no url
+                if (this.GachaLogProvider.GachaConfig != null&& this.GachaLogProvider.GachaConfig.Types!=null)
                 {
-                    this.GachaLogProvider.FetchGachaLogIncrement(pool);
-                    await Task.Delay(1000 + this.random.Next(0, 1000));
+                    foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
+                    {
+                        this.GachaLogProvider.FetchGachaLogIncrement(pool);
+                        await Task.Delay(this.random.Next(0, 1000));
+                    }
+                    this.GachaLogProvider.SaveAllLogs();
+                    return true;
                 }
-                this.GachaLogProvider.SaveAllLogs();
+                else
+                {
+                    return false;
+                }
             });
-            SyncStatisticWithUidAsync();
+            if (Statistic != null && Statistic.Uid != SelectedUid.UnMaskedValue)
+            {
+                SyncStatisticWithUidAsync();
+            }
             this.GachaLogProvider.OnFetchProgressed -= OnFetchProgressed;
             this.FetchProgress = null;
+            return result;
         }
 
         private string GetFailHintByMode(GachaLogUrlMode mode)

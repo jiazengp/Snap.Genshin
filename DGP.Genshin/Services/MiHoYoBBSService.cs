@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services
             {
                 {"DS", DynamicSecretProvider.Create() },
                 {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Accept", RequestOptions.Json },
                 {"x-rpc-client_type", "4" },
@@ -48,7 +48,7 @@ namespace DGP.Genshin.Services
             {
                 {"DS", DynamicSecretProvider.Create() },
                 {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Accept", RequestOptions.Json },
                 {"x-rpc-client_type", "4" },
@@ -66,7 +66,7 @@ namespace DGP.Genshin.Services
             {
                 {"DS", DynamicSecretProvider.Create() },
                 {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Accept", RequestOptions.Json },
                 {"x-rpc-client_type", "4" },

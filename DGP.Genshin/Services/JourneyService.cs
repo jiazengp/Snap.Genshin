@@ -2,6 +2,8 @@
 using DGP.Genshin.Models.MiHoYo.Journey;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.User;
+using DGP.Snap.Framework.Data.Behavior;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
@@ -9,15 +11,21 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 旅行札记服务
     /// </summary>
-    public class JourneyService
+    public class JourneyService : Observable
     {
         private const string ApiTakumi = @"https://api-takumi.mihoyo.com";
         private const string ApiHk4e = "https://hk4e-api.mihoyo.com";
         private const string ReferBaseUrl = @"https://webstatic.mihoyo.com/bbs/event/e20200709ysjournal/index.html";
         private const string BBSStyle = "bbs_presentation_style=fullscreen&bbs_auth_required=true&utm_source=bbs&utm_medium=mys&utm_campaign=icon";
 
-        private static readonly string Referer =
-            $"{ReferBaseUrl}?{BBSStyle}";
+        private static readonly string Referer = $"{ReferBaseUrl}?{BBSStyle}";
+
+        public JourneyService()
+        {
+            UserGameRoleChanged += OnUserGameRoleChanged;
+        }
+
+        #region API Interop
         /// <summary>
         /// 获取月份信息
         /// </summary>
@@ -30,15 +38,16 @@ namespace DGP.Genshin.Services
             string cookie = await CookieManager.GetCookieAsync();
             Requester requester = new Requester(new RequestOptions
             {
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"Referer",Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
-            Response<JourneyInfo> resp = await Task.Run(() =>
-            requester.Get<JourneyInfo>($@"{ApiHk4e}/event/ys_ledger/monthInfo?month={month}&bind_uid={uid}&bind_region={region}&{BBSStyle}"));
-            return resp.ReturnCode == 0 ? resp.Data : null;
+            Response<JourneyInfo> resp = await requester.GetAsync<JourneyInfo>
+                ($@"{ApiHk4e}/event/ys_ledger/monthInfo?month={month}&bind_uid={uid}&bind_region={region}&{BBSStyle}");
+            return resp.Data;
         }
+
         /// <summary>
         /// 一次请求10条记录
         /// </summary>
@@ -53,30 +62,65 @@ namespace DGP.Genshin.Services
             string cookie = await CookieManager.GetCookieAsync();
             Requester requester = new Requester(new RequestOptions
             {
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"Referer",Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
-            Response<JourneyDetail> resp = await Task.Run(() =>
-            requester.Get<JourneyDetail>($@"{ApiHk4e}/event/ys_ledger/monthDetail?page={page}&month={month}&limit=10&type=2&bind_uid={uid}&bind_region={region}&{BBSStyle}"));
-            return resp.ReturnCode == 0 ? resp.Data : null;
+            Response<JourneyDetail> resp = await requester.GetAsync<JourneyDetail>
+                ($@"{ApiHk4e}/event/ys_ledger/monthDetail?page={page}&month={month}&limit=10&type=2&bind_uid={uid}&bind_region={region}&{BBSStyle}");
+            return resp.Data;
         }
+
         /// <summary>
-        /// 
+        /// 获取用户角色信息
         /// </summary>
-        /// <returns></returns>
+        /// <returns>用户角色信息</returns>
         public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
         {
             string cookie = await CookieManager.GetCookieAsync();
-            return await Task.Run(() => new Requester(new RequestOptions
+            Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"Referer", Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
-            }).Get<UserGameRoleInfo>($"{ApiTakumi}/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn").Data);
+            });
+            Response<UserGameRoleInfo> resp = await requester.GetAsync<UserGameRoleInfo>
+                ($"{ApiTakumi}/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn");
+            return resp.Data;
         }
+        #endregion
+
+        #region Observable
+        private JourneyInfo journeyInfo;
+        private UserGameRoleInfo userGameRoleInfo;
+        private UserGameRole selectedRole;
+
+        public JourneyInfo JourneyInfo { get => journeyInfo; set => Set(ref journeyInfo, value); }
+        public UserGameRoleInfo UserGameRoleInfo { get => userGameRoleInfo; set => Set(ref userGameRoleInfo, value); }
+        public UserGameRole SelectedRole
+        {
+            get => selectedRole; set
+            {
+                Set(ref selectedRole, value);
+                UserGameRoleChanged?.Invoke(value);
+            }
+        }
+        #endregion
+
+        public async Task InitializeAsync()
+        {
+            UserGameRoleInfo = await GetUserGameRolesAsync();
+            SelectedRole = UserGameRoleInfo.List.First();
+        }
+        private async void OnUserGameRoleChanged(UserGameRole role)
+        {
+            JourneyInfo = await GetMonthInfoAsync(role.GameUid, role.Region);
+        }
+
+        private event UserGameRoleChangedHandler UserGameRoleChanged;
     }
+    public delegate void UserGameRoleChangedHandler(UserGameRole role);
 }

@@ -10,5 +10,4 @@ namespace DGP.Genshin.Models.MiHoYo.Journey
         [JsonProperty("month_data")] public Month MonthData { get; set; }
         [Obsolete] [JsonProperty("lantern")] public bool Lantern { get; set; }
     }
-
 }

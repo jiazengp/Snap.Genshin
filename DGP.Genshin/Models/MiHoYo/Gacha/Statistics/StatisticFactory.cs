@@ -21,25 +21,27 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             return new Statistic()
             {
                 Uid = uid,
-                Permanent = ToBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 90),
-                WeaponEvent = ToBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 80),
-                CharacterEvent = ToBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 90),
+                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 13 / 100.0, 90),
+                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 14.5 / 100.0, 80),
+                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 13 / 100.0, 90),
                 Characters = ToTotalCountList(data, "角色"),
                 Weapons = ToTotalCountList(data, "武器"),
                 SpecificBanners = ToSpecificBanners(data)
             };
         }
-        private static StatisticBanner ToBanner(GachaData data, string type, string name, double prob, int granteeCount)
+        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, double prob5, double prob4, int granteeCount)
         {
             List<GachaLogItem> list = data[type];
-            int index = list.FindIndex(i => i.Rank == "5");
+            int index5 = list.FindIndex(i => i.Rank == "5");
+            int index4 = list.FindIndex(i => i.Rank == "4");
 
             StatisticBanner banner = new StatisticBanner()
             {
                 TotalCount = list.Count,
-
                 CurrentName = name,
-                CountSinceLastStar5 = index == -1 ? 0 : index,
+                CountSinceLastStar5 = index5 == -1 ? 0 : index5,
+                CountSinceLastStar4 = index4 == -1 ? 0 : index4,
+
                 Star5Count = list.Count(i => i.Rank == "5"),
                 Star4Count = list.Count(i => i.Rank == "4"),
                 Star3Count = list.Count(i => i.Rank == "3"),
@@ -63,7 +65,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.MinGetStar5Count = 0;
             }
 
-            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob) - banner.TotalCount), banner, granteeCount);
+            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
+            banner.NextStar4PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner, granteeCount);
+
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;

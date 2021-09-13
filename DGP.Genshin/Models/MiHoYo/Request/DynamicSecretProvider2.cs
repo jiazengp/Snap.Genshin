@@ -3,8 +3,6 @@ using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Data.Json;
 using System;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace DGP.Genshin.Models.MiHoYo.Request
 {

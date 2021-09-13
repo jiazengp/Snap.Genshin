@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo.Request
 {
@@ -52,5 +53,24 @@ namespace DGP.Genshin.Models.MiHoYo.Request
             this.Log($"POST {url.Split('?')[0]}");
             return Request<T>(client => client.UploadString(url, Json.Stringify(data)));
         }
+
+        /// <summary>
+        /// 对<see cref="Get{T}(string)"/>方法的异步包装
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public async Task<Response<T>> GetAsync<T>(string url) =>
+            await Task.Run(() => Get<T>(url));
+
+        /// <summary>
+        /// 对<see cref="Post{T}(string, object)"/>方法的异步包装
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<Response<T>> PostAsync<T>(string url, object data) =>
+            await Task.Run(() => Post<T>(url, data));
     }
 }

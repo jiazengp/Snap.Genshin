@@ -137,12 +137,14 @@
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="日常材料" helpers:NavHelper.NavigateTo="{x:Type pages:DailyPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="周常材料" helpers:NavHelper.NavigateTo="{x:Type pages:WeeklyPage}" Icon="CalendarWeek"/>
-                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}">
+                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharactersPage}"
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="pack://application:,,,/Resources/CharactersIcon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
+                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}"
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WeaponsIcon.png"/>
                     </ui:NavigationViewItem.Icon>

@@ -1290,6 +1290,7 @@
                 <ui:SplitView x:Name="CharactersSplitView" DisplayMode="Inline" FlowDirection="LeftToRight" OpenPaneLength="376">
                     <ui:SplitView.Pane>
                         <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                            <!--角色列表-->
                             <ui:GridView 
                                     SelectionMode="Single"
                                     HorizontalAlignment="Left" 
@@ -1305,7 +1306,7 @@
                                                     <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                                 </Border>
                                                 <Border>
-                                                    <c:CachedImage ImageUrl="{Binding ConvertedIcon}"/>
+                                                    <c:CachedImage ImageUrl="{Binding Icon}"/>
                                                 </Border>
                                                 <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <c:CachedImage ImageUrl="{Binding ElementUrl}"/>

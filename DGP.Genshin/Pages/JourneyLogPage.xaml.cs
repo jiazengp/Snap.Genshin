@@ -8,10 +8,17 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class JourneyLogPage : Page
     {
+        private JourneyService journeyService;
         public JourneyLogPage()
         {
-            this.DataContext = new JourneyService();
+            this.journeyService = new JourneyService();
+            this.DataContext = this.journeyService;
             InitializeComponent();
+        }
+
+        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            await journeyService.InitializeAsync();
         }
     }
 }

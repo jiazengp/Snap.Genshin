@@ -130,9 +130,9 @@ namespace DGP.Genshin.Services.GachaStatistic
             Response<Config> resp = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA }
+                {"User-Agent", RequestOptions.CommonUA2_10_1 }
             }).Get<Config>(this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?"));
-            return resp.ReturnCode == 0 ? resp.Data : null;
+            return resp.Data;
         }
 
         private readonly Random random = new Random();
@@ -234,7 +234,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             Response<GachaLog> resp = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA }
+                {"User-Agent", RequestOptions.CommonUA2_10_1 }
             }).Get<GachaLog>(finalUrl);
 
             if (resp.ReturnCode == 0)

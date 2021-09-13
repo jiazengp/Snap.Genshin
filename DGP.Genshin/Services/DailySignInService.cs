@@ -31,7 +31,7 @@ namespace DGP.Genshin.Services
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent",RequestOptions.CommonUA },
+                {"User-Agent",RequestOptions.CommonUA2_10_1 },
                 {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Referer", Referer },
                 {"Cookie", cookie },
@@ -48,7 +48,7 @@ namespace DGP.Genshin.Services
             {
                 {"DS", DynamicSecretProvider.Create() },
                 {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"x-rpc-device_id", RequestOptions.DeviceId },
                 {"Accept", RequestOptions.Json },
                 {"x-rpc-client_type", "5" },
@@ -63,7 +63,7 @@ namespace DGP.Genshin.Services
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"Referer", Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
@@ -75,7 +75,7 @@ namespace DGP.Genshin.Services
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
                 {"Referer", Referer },
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
