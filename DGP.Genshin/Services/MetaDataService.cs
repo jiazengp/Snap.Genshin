@@ -429,34 +429,35 @@ namespace DGP.Genshin.Services
             });
             this.CurrentCount = 0;
             this.TotalCount =
-                //this.Bosses.Count +
+                this.Bosses.Count +
                 this.Cities.Count +
-                //this.DailyTalents.Count +
-                //this.DailyWeapons.Count +
-                //this.Elements.Count +
-                //this.Elites.Count +
-                //this.GemStones.Count +
-                //this.Locals.Count +
-                //this.Monsters.Count +
+                this.Characters.Count +
+                this.DailyTalents.Count +
+                this.DailyWeapons.Count +
+                this.Elements.Count +
+                this.Elites.Count +
+                this.GemStones.Count +
+                this.Locals.Count +
+                this.Monsters.Count +
                 this.Stars.Count +
                 this.Weapons.Count +
-                //this.WeeklyTalents.Count +
+                this.WeeklyTalents.Count +
                 this.WeaponTypes.Count;
 
             await Task.WhenAll(
-                //CheckIntegrityAsync(this.Bosses, progress),
+                CheckIntegrityAsync(this.Bosses, progress),
                 CheckIntegrityAsync(this.Characters, progress),
                 CheckIntegrityAsync(this.Cities, progress),
-                //CheckIntegrityAsync(this.DailyTalents, progress),
-                //CheckIntegrityAsync(this.DailyWeapons, progress),
-                //CheckIntegrityAsync(this.Elements, progress),
-                //CheckIntegrityAsync(this.Elites, progress),
-                //CheckIntegrityAsync(this.GemStones, progress),
-                //CheckIntegrityAsync(this.Locals, progress),
-                //CheckIntegrityAsync(this.Monsters, progress),
+                CheckIntegrityAsync(this.DailyTalents, progress),
+                CheckIntegrityAsync(this.DailyWeapons, progress),
+                CheckIntegrityAsync(this.Elements, progress),
+                CheckIntegrityAsync(this.Elites, progress),
+                CheckIntegrityAsync(this.GemStones, progress),
+                CheckIntegrityAsync(this.Locals, progress),
+                CheckIntegrityAsync(this.Monsters, progress),
                 CheckIntegrityAsync(this.Stars, progress),
                 CheckIntegrityAsync(this.Weapons, progress),
-                //CheckIntegrityAsync(this.WeeklyTalents, progress),
+                CheckIntegrityAsync(this.WeeklyTalents, progress),
                 CheckIntegrityAsync(this.WeaponTypes, progress));
 
             this.HasCheckCompleted = true;

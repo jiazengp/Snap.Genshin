@@ -45,6 +45,7 @@ namespace DGP.Genshin
                 {
                     sw.Write(e.ExceptionObject);
                 }
+                Logger.Instance.UnInitialize();
             }
         }
         #endregion

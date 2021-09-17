@@ -15,6 +15,10 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public List<SpecificItem> UpStar5List { get; set; }
         public List<SpecificItem> UpStar4List { get; set; }
         [JsonIgnore] public List<StatisticItem> StatisticList { get; set; }
+        [JsonIgnore] public List<StatisticItem> StatisticList5 { get; set; }
+        [JsonIgnore] public List<StatisticItem> StatisticList4 { get; set; }
+        [JsonIgnore] public List<StatisticItem> StatisticList3 { get; set; }
+        [JsonIgnore] public bool IsWeaponBanner { get; set; }
         [JsonIgnore] public List<SpecificItem> Items { get; set; } = new List<SpecificItem>();
 
         public object ClonePartially()

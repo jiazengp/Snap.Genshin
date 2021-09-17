@@ -24,9 +24,6 @@ namespace DGP.Genshin.Models.MiHoYo
 
         private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            e.Handled = true;
-            Debug.WriteLine(sender);
-
             using (CookieWindow cookieWindow = new CookieWindow())
             {
                 cookieWindow.ShowDialog();
@@ -37,5 +34,8 @@ namespace DGP.Genshin.Models.MiHoYo
                 }
             }
         }
+
+        private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) =>
+            this.IsPrimaryButtonEnabled = this.InputText.Text.Contains("account_id");
     }
 }

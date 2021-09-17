@@ -18,14 +18,19 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public static Statistic ToStatistic(GachaData data, string uid)
         {
             Logger.LogStatic(typeof(StatisticFactory), $"convert data of {uid} to statistic view");
+            List<StatisticItem> characters = ToTotalCountList(data, "角色");
+            List<StatisticItem> weapons = ToTotalCountList(data, "武器");
             return new Statistic()
             {
                 Uid = uid,
                 Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 13 / 100.0, 90),
                 WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 14.5 / 100.0, 80),
                 CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 13 / 100.0, 90),
-                Characters = ToTotalCountList(data, "角色"),
-                Weapons = ToTotalCountList(data, "武器"),
+                Characters5 = characters.Where(i => i.StarUrl.ToRank() == 5).ToList(),
+                Characters4 = characters.Where(i => i.StarUrl.ToRank() == 4).ToList(),
+                Weapons5 = weapons.Where(i => i.StarUrl.ToRank() == 5).ToList(),
+                Weapons4 = weapons.Where(i => i.StarUrl.ToRank() == 4).ToList(),
+                Weapons3 = weapons.Where(i => i.StarUrl.ToRank() == 3).ToList(),
                 SpecificBanners = ToSpecificBanners(data)
             };
         }
@@ -65,8 +70,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.MinGetStar5Count = 0;
             }
 
-            banner.NextStar5PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
-            banner.NextStar4PredictCount = RestrictPredicatedCount((int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner, granteeCount);
+            banner.NextStar5PredictCount = RestrictPredicatedCount5((int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
+            banner.NextStar4PredictCount = RestrictPredicatedCount4((int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner);
 
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
@@ -74,10 +79,10 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
             return banner;
         }
-        private static List<StatisticItem> ToTotalCountList(Dictionary<string, List<GachaLogItem>> dict, string itemType)
+        private static List<StatisticItem> ToTotalCountList(GachaData data, string itemType)
         {
             Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
-            foreach (List<GachaLogItem> list in dict.Values)
+            foreach (List<GachaLogItem> list in data.Values)
             {
                 foreach (GachaLogItem i in list)
                 {
@@ -91,7 +96,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                                 Name = i.Name,
                                 StarUrl = StarHelper.FromRank(Int32.Parse(i.Rank))
                             };
-                            if (i.ItemType == "武器")
+                            if (itemType == "武器")
                             {
                                 Data.Weapons.Weapon weapon = MetaDataService.Instance.Weapons.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon.Source;
@@ -152,7 +157,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             counter.Reverse();
             return counter;
         }
-        private static int RestrictPredicatedCount(int predicatedCount, StatisticBanner banner, int granteeCount)
+        private static int RestrictPredicatedCount5(int predicatedCount, StatisticBanner banner, int granteeCount)
         {
             if (predicatedCount < 1)
             {
@@ -168,6 +173,22 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             }
             return predicatedCount;
         }
+        private static int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner)
+        {
+            if (predicatedCount < 1)
+            {
+                return 1;
+            }
+            int predicatedSum = predicatedCount + banner.CountSinceLastStar4;
+            if (predicatedSum > 10)
+            {
+                if (predicatedSum > 10)
+                {
+                    predicatedCount = 10 - banner.CountSinceLastStar4;
+                }
+            }
+            return predicatedCount;
+        }
         private static List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             List<SpecificBanner> results = MetaDataService.Instance.SpecificBanners.ClonePartially();
@@ -175,7 +196,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             foreach (SpecificBanner result in results)
             {
                 result.Items?.Clear();
-                result.StatisticList?.Clear();
                 result.Star5List?.Clear();
             }
 
@@ -212,7 +232,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                     {
                         ni.Name = item.Name;
                         ni.StarUrl = StarHelper.FromRank(Int32.Parse(item.Rank));
-                        Logger.LogStatic(typeof(StatisticFactory), $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
+                        Logger.LogStatic(typeof(StatisticFactory),
+                            $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
                     }
                     //fix issue where crashes when no banner exists
                     banner?.Items.Add(ni);
@@ -239,7 +260,10 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.Star4Count = banner.Items.Count(i => i.StarUrl.ToRank() == 4);
                 banner.Star3Count = banner.Items.Count(i => i.StarUrl.ToRank() == 3);
 
-                banner.StatisticList = ToTotalCountList(banner.Items);
+                List<StatisticItem> statisticList = ToTotalCountList(banner.Items);
+                banner.StatisticList5 = statisticList.Where(i => i.StarUrl.ToRank() == 5).ToList();
+                banner.StatisticList4 = statisticList.Where(i => i.StarUrl.ToRank() == 4).ToList();
+                banner.StatisticList3 = statisticList.Where(i => i.StarUrl.ToRank() == 3).ToList();
             }
         }
     }

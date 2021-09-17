@@ -57,7 +57,7 @@ namespace DGP.Genshin.Services
             });
             Response<ListWrapper<Post>> resp = await Task.Run(() =>
             requester.Get<ListWrapper<Post>>($"{PostBaseUrl}/getOfficialRecommendedPosts?gids=2"));
-            return resp.Data.List;
+            return resp.Data?.List;
         }
         public async Task<dynamic> GetPostFullAsync(string postId)
         {

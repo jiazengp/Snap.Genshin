@@ -73,7 +73,7 @@ namespace DGP.Genshin.Pages
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)
         {
-            UpdateState u = await UpdateService.Instance.CheckUpdateStateViaGithubAsync();
+            UpdateState u = await UpdateService.Instance.CheckUpdateStateAsync();
 
             switch (u)
             {

@@ -47,9 +47,10 @@ namespace DGP.Genshin
             }
             await CheckUpdateAsync();
         }
+
         private async Task CheckUpdateAsync()
         {
-            UpdateState result = await UpdateService.Instance.CheckUpdateStateViaGithubAsync();
+            UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
             if (result == UpdateState.NeedUpdate)
             {
                 ContentDialogResult dialogResult = await new ContentDialog
@@ -76,6 +77,7 @@ namespace DGP.Genshin
         }
 
         #region SignIn
+        #region Observable
         /// <summary>
         /// 签到奖励一览
         /// </summary>
@@ -116,6 +118,7 @@ namespace DGP.Genshin
         }
         public static readonly DependencyProperty SelectedRoleProperty =
             DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null,OnSelectedRoleChanged));
+        #endregion
 
         private static async void OnSelectedRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -133,7 +136,6 @@ namespace DGP.Genshin
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
 
             await InitializeSignInPanelDataAsync();
-            //SyncItemsStateWithCurrentInfo();
         }
 
         /// <summary>

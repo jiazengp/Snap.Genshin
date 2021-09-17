@@ -5,7 +5,15 @@ namespace DGP.Genshin.Data.Helpers
 {
     public static class StarHelper
     {
-        public static string FromRank(int rank) => rank >= 1 && rank <= 5 ? $@"https://genshin.honeyhunterworld.com/img/back/item/{rank}star.png" : null;
+        public static string FromRank(int rank)
+        {
+            if (rank == 105)
+            {
+                rank = 5;
+            }
+            return rank >= 1 && rank <= 5 ? $@"https://genshin.honeyhunterworld.com/img/back/item/{rank}star.png" : null;
+        }
+
         public static int ToRank(this string starurl) => Int32.Parse(starurl[51].ToString());
         public static SolidColorBrush ToSolid(int rank)
         {
@@ -20,6 +28,7 @@ namespace DGP.Genshin.Data.Helpers
                 case 4:
                     return new SolidColorBrush(Color.FromRgb(161, 86, 224));
                 case 5:
+                case 105:
                     return new SolidColorBrush(Color.FromRgb(188, 105, 50));
                 default:
                     return null;

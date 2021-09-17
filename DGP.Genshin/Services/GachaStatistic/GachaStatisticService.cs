@@ -155,11 +155,9 @@ namespace DGP.Genshin.Services.GachaStatistic
         public async Task RefreshAsync(GachaLogUrlMode mode)
         {
             this.CanUserSwitchUid = false;
-            bool refreshSucceed = false;
             if (await this.GachaLogProvider.TryGetUrlAsync(mode))
             {
-                await RefreshInternalAsync();
-                if (!refreshSucceed)
+                if (!await RefreshInternalAsync())
                 {
                     await new ContentDialog()
                     {
@@ -190,7 +188,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             bool result = await Task.Run(async () =>
             {
                 //gacha config can be null while authkey timeout or no url
-                if (this.GachaLogProvider.GachaConfig != null&& this.GachaLogProvider.GachaConfig.Types!=null)
+                if (this.GachaLogProvider.GachaConfig != null && this.GachaLogProvider.GachaConfig.Types != null)
                 {
                     foreach (ConfigType pool in this.GachaLogProvider.GachaConfig.Types)
                     {
@@ -205,7 +203,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                     return false;
                 }
             });
-            if (Statistic != null && Statistic.Uid != SelectedUid.UnMaskedValue)
+            if (this.Statistic != null)
             {
                 SyncStatisticWithUidAsync();
             }
@@ -224,7 +222,8 @@ namespace DGP.Genshin.Services.GachaStatistic
             };
         }
 
-        private void OnFetchProgressed(FetchProgress p) => this.FetchProgress = p;
+        private void OnFetchProgressed(FetchProgress p) =>
+            this.FetchProgress = p;
 
         public async Task ExportDataToExcelAsync(string path) =>
             await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveLocalGachaDataToExcel(path));

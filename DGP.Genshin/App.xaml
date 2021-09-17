@@ -12,7 +12,18 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources/>
+                <ui:ThemeResources>
+                    <ui:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
+                            <Color x:Key="SystemAccentColor">#FF8E42</Color>
+                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#FFFFCC41"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
+                            <Color x:Key="SystemAccentColor">#FF8E42</Color>
+                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#FF311B0C"/>
+                        </ResourceDictionary>
+                    </ui:ThemeResources.ThemeDictionaries>
+                </ui:ThemeResources>
                 <ui:XamlControlsResources/>
                 <ui:IntellisenseResources/>
                 <!-- Other merged dictionaries here -->

@@ -1,4 +1,5 @@
-﻿using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Snap.Framework.Attributes;
+using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Download;
 using Octokit;
 using System;
@@ -21,11 +22,16 @@ namespace DGP.Genshin.Services.Updating
 
         private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
 
-        public async Task<UpdateState> CheckUpdateStateAsync(string url)
+        [Github("https://github.com/settings/tokens")]
+        public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try
             {
-                GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"));
+                //use token to increase github rate limit
+                GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
+                {
+                    Credentials = new Credentials("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")
+                };
                 this.Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 
                 this.PackageUri = new Uri(this.Release.Assets[0].BrowserDownloadUrl);
@@ -48,8 +54,6 @@ namespace DGP.Genshin.Services.Updating
                 return UpdateState.NotAvailable;
             }
         }
-
-        public async Task<UpdateState> CheckUpdateStateViaGithubAsync() => await CheckUpdateStateAsync(GithubUrl);
 
         public void DownloadAndInstallPackage()
         {
