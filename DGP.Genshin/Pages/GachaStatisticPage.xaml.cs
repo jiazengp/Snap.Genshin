@@ -54,7 +54,7 @@ namespace DGP.Genshin.Pages
                 Title = "保存到表格",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{this.Service.SelectedUid}.xlsx"
+                FileName = $"{this.Service.SelectedUid.UnMaskedValue}.xlsx"
             };
             if (dialog.ShowDialog() == true)
             {
@@ -77,7 +77,7 @@ namespace DGP.Genshin.Pages
                 Title = "导出至图片",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{this.Service.SelectedUid}.png"
+                FileName = $"{this.Service.SelectedUid.UnMaskedValue}.png"
             };
             if (dialog.ShowDialog() == true)
             {

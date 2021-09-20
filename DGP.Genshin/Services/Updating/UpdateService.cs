@@ -30,7 +30,7 @@ namespace DGP.Genshin.Services.Updating
                 //use token to increase github rate limit
                 GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
                 {
-                    Credentials = new Credentials("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")
+                    Credentials = new Credentials("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")
                 };
                 this.Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 

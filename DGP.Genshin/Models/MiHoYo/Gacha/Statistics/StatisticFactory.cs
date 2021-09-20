@@ -57,22 +57,26 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.EndTime = list.First().Time;
             }
             banner.Star5List = ListOutStar5(list, banner.Star5Count);
+            
             if (banner.Star5List.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
                 banner.MaxGetStar5Count = banner.Star5List.Max(i => i.Count);
                 banner.MinGetStar5Count = banner.Star5List.Min(i => i.Count);
+                banner.NextGuaranteeType = banner.Star5List.First().IsUp ? "小保底" : "大保底";
             }
             else//while no 5 star get
             {
                 banner.AverageGetStar5 = 0.0;
                 banner.MaxGetStar5Count = 0;
                 banner.MinGetStar5Count = 0;
+                banner.NextGuaranteeType = "小保底";
             }
 
-            banner.NextStar5PredictCount = RestrictPredicatedCount5((int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
-            banner.NextStar4PredictCount = RestrictPredicatedCount4((int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner);
-
+            banner.NextStar5PredictCount = RestrictPredicatedCount5(
+                (int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
+            banner.NextStar4PredictCount = RestrictPredicatedCount4(
+                (int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
@@ -139,18 +143,26 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         private static List<StatisticItem5Star> ListOutStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
+            //search from the earliest time
             List<GachaLogItem> reversedItems = items.Reverse().ToList();
             List<StatisticItem5Star> counter = new List<StatisticItem5Star>();
             for (int i = 0; i < star5Count; i++)
             {
-
                 GachaLogItem currentStar5 = reversedItems.First(i => i.Rank == "5");
                 int count = reversedItems.IndexOf(currentStar5) + 1;
+                bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
+
+                SpecificBanner banner = MetaDataService.Instance.SpecificBanners
+                    .Find(b => b.Type == currentStar5.GachaType && currentStar5.Time >= b.StartTime && currentStar5.Time <= b.EndTime);
+
                 counter.Add(new StatisticItem5Star()
                 {
                     Name = currentStar5.Name,
                     Count = count,
-                    Time = currentStar5.Time
+                    Time = currentStar5.Time,
+                    IsUp = banner == null || banner.UpStar5List.Exists(i =>
+                    i.Name == currentStar5.Name) || banner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
+                    IsBigGuarantee = isBigGuarantee
                 });
                 reversedItems.RemoveRange(0, count);
             }

@@ -23,7 +23,10 @@ namespace DGP.Genshin.Services
 
         public GithubService()
         {
-            this.client = new GitHubClient(new ProductHeaderValue("SnapGenshin"));
+            this.client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
+            {
+                Credentials = new Credentials("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")
+            };
             this.Log("initialized");
             SelectedRepositoryChanged += OnSelectedRepositoryChanged;
         }

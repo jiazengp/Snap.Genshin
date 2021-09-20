@@ -26,6 +26,28 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="Star5ListTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,0,8,0">
+                <TextBlock  Foreground="{Binding Background}">
+                    <ToolTipService.ToolTip>
+                        <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
+                    </ToolTipService.ToolTip>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}[{1}]">
+                            <Binding Path="Name"/>
+                            <Binding Path="Count"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Border Margin="2,0,0,0" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" BorderBrush="#FFFFC400" Padding="8,2" Visibility="{Binding IsUp,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="UP" FontSize="9" VerticalAlignment="Center"/>
+                </Border>
+                <Border Margin="2,0,0,0" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" BorderBrush="#FF0063FF" Padding="8,2" Visibility="{Binding IsBigGuarantee,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="大保底" FontSize="9" VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PermanentStar5ListTemplate">
             <TextBlock Margin="0,0,8,0" Foreground="{Binding Background}">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
@@ -110,7 +132,7 @@
                         <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" MinWidth="200"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -179,6 +201,7 @@
                                 <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="预计"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
+                                    <Run Text="{Binding Statistic.CharacterEvent.NextGuaranteeType,StringFormat={}[{0}]}" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
                                     <Run Text="抽后出货"/>
@@ -203,7 +226,7 @@
                         <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" MinWidth="200"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -268,6 +291,7 @@
                                 <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="预计"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
+                                    <Run Text="{Binding Statistic.WeaponEvent.NextGuaranteeType,StringFormat={}[{0}]}" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
                                     <Run Text="抽后出货"/>
@@ -290,7 +314,7 @@
                         <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" MinWidth="200"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -371,28 +395,33 @@
                             <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
                                           ItemsSource="{Binding Statistic.Permanent.Star5List}"
                                           ItemsPanel="{StaticResource WarpPanelTemplate}"
-                                          ItemTemplate="{StaticResource Star5ListTemplate}"/>
+                                          ItemTemplate="{StaticResource PermanentStar5ListTemplate}"/>
                         </Grid>
-
+                        
                         <TextBlock Text="角色" Margin="0,12,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                        <ItemsControl Margin="0,12,0,0" 
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
+                        <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Characters5}"
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,4,8,4" Text="四星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Characters4}"
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
                         
                         <TextBlock Text="武器" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                        <ItemsControl Margin="0,12,0,0" 
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
+                        <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Weapons5}"
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,4,8,4" Text="四星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Weapons4}"
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,4,8,4" Text="三星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Weapons3}"
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"

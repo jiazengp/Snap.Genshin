@@ -15,6 +15,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public string Name { get; set; }
         public int Count { get; set; }
         public DateTime Time { get; set; }
+        public bool IsBigGuarantee { get; set; }
+        public bool IsUp { get; set; }
         public SolidColorBrush Background
         {
             get
