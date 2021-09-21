@@ -1,4 +1,5 @@
-﻿using DGP.Snap.Framework.Attributes;
+﻿using DGP.Genshin.Helpers;
+using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Download;
 using Octokit;
@@ -30,7 +31,7 @@ namespace DGP.Genshin.Services.Updating
                 //use token to increase github rate limit
                 GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
                 {
-                    Credentials = new Credentials("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")
+                    Credentials = new Credentials(TokenHelper.GetToken())
                 };
                 this.Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 

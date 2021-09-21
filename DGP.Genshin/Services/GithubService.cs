@@ -1,4 +1,5 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
+﻿using DGP.Genshin.Helpers;
+using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using Octokit;
@@ -25,7 +26,7 @@ namespace DGP.Genshin.Services
         {
             this.client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
             {
-                Credentials = new Credentials("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")
+                Credentials = new Credentials(TokenHelper.GetToken())
             };
             this.Log("initialized");
             SelectedRepositoryChanged += OnSelectedRepositoryChanged;

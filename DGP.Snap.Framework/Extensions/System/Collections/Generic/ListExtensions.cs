@@ -35,7 +35,7 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         public static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable =>
             listToClone.Select(item => (T)item.Clone()).ToList();
 
-        public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable =>
-            listToClone.Select(item => (T)item.ClonePartially()).ToList();
+        public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable<T> =>
+            listToClone.Select(item => item.ClonePartially()).ToList();
     }
 }

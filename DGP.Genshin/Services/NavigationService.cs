@@ -61,6 +61,7 @@ namespace DGP.Genshin.Services
             this.backItemStack.Push(this.selected);
             bool result = this.frame.Navigate(pageType, data, info);
             this.Log($"navigate to {pageType}:{result}");
+            //fix memory leak issue
             this.frame.RemoveBackEntry();
             return result;
         }

@@ -9,7 +9,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     /// 20或14天一轮的up卡池信息
     /// </summary>
     [InterModel]
-    public class SpecificBanner : Banner, IPartiallyCloneable
+    public class SpecificBanner : Banner, IPartiallyCloneable<SpecificBanner>
     {
         public string Type { get; set; }
         public List<SpecificItem> UpStar5List { get; set; }
@@ -21,7 +21,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         [JsonIgnore] public bool IsWeaponBanner { get; set; }
         [JsonIgnore] public List<SpecificItem> Items { get; set; } = new List<SpecificItem>();
 
-        public object ClonePartially()
+        public SpecificBanner ClonePartially()
         {
             return new SpecificBanner
             {

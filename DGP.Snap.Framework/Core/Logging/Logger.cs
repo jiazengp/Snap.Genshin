@@ -7,7 +7,6 @@ namespace DGP.Snap.Framework.Core.Logging
     public class Logger
     {
         private readonly bool isLoggingtoFile = true;
-        private readonly bool isLoggingtoConsole = true;
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
@@ -27,11 +26,11 @@ namespace DGP.Snap.Framework.Core.Logging
                 TextWriter syncWirtter = TextWriter.Synchronized(this.loggerWriter);
                 try
                 {
-                    syncWirtter.WriteLine($"{typename}:{info}");
+                    syncWirtter.WriteLine($"{typename}:\n{info}");
                 }
                 catch { }
             }
-            if (this.isLoggingtoConsole)
+            if (Debugger.IsAttached)
             {
                 Debug.WriteLine($"{typename}:{info}");
             }

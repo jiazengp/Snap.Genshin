@@ -26,7 +26,7 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="Star5ListTemplate">
-            <StackPanel Orientation="Horizontal" Margin="0,0,8,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
                 <TextBlock  Foreground="{Binding Background}">
                     <ToolTipService.ToolTip>
                         <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy.MM.dd HH:mm:ss}}"/>
@@ -38,11 +38,19 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <Border Margin="2,0,0,0" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" BorderBrush="#FFFFC400" Padding="8,2" Visibility="{Binding IsUp,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Border Margin="2,0,0,0" Height="16" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" 
+                        BorderBrush="#FFFFC400" Padding="8,1" 
+                        Visibility="{Binding IsUp,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="UP" FontSize="9" VerticalAlignment="Center"/>
                 </Border>
-                <Border Margin="2,0,0,0" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" BorderBrush="#FF0063FF" Padding="8,2" Visibility="{Binding IsBigGuarantee,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="大保底" FontSize="9" VerticalAlignment="Center"/>
+                <Border Margin="2,0,0,0" Height="16" VerticalAlignment="Center" CornerRadius="8" BorderThickness="1" 
+                        BorderBrush="#FF0063FF" Padding="8,1" 
+                        Visibility="{Binding IsBigGuarantee,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="保" FontSize="9" VerticalAlignment="Center">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform Y="-01"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -127,7 +135,6 @@
                                 <TextBlock HorizontalAlignment="Right" Text="Snap 原神" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                             </StackPanel>
                         </Grid>
-                        <TextBlock Text="统计" Margin="0,12,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                         <!--角色祈愿-->
                         <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <Grid.ColumnDefinitions>
@@ -398,7 +405,7 @@
                                           ItemTemplate="{StaticResource PermanentStar5ListTemplate}"/>
                         </Grid>
                         
-                        <TextBlock Text="角色" Margin="0,12,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBlock Text="角色" Margin="0,36,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Characters5}"
@@ -410,7 +417,7 @@
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
                         
-                        <TextBlock Text="武器" Margin="0,8,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBlock Text="武器" Margin="0,32,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Weapons5}"
@@ -427,7 +434,7 @@
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
                         <!--历史-->
-                        <ComboBox Margin="0,8,0,0" Focusable="False" MinWidth="352" 
+                        <ComboBox Margin="0,32,0,0" Focusable="False" MinWidth="352" 
                                   ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" 
                                   SelectedItem="{Binding SelectedSpecificBanner,IsAsync=True}"/>
                         <Grid Margin="0,0,0,8">

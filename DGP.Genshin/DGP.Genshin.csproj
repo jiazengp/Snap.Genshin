@@ -123,6 +123,7 @@
       <DependentUpon>WeaponItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AnimationHelper.cs" />
+    <Compile Include="Helpers\GithubTokenHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\ValidateHelper.cs" />
     <Compile Include="Models\MiHoYo\Journey\DetailAction.cs" />
