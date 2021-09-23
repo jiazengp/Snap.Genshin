@@ -73,28 +73,28 @@ namespace DGP.Genshin.Services
             }
 
             Response<PlayerInfo> playerInfo = null;
-            if (!await Task.Run(() => TryGet("正在获取 玩家基础统计信息",
+            if (!await Task.Run(() => TryGet("正在获取 玩家基础统计信息 (1/5)",
                 $@"{BaseUrl}/index?server={server}&role_id={uid}", requester, out playerInfo)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取玩家基本信息失败：\n{playerInfo?.Message}");
             }
             Response<SpiralAbyss> spiralAbyss = null;
-            if (!await Task.Run(() => TryGet("正在获取 本期深境螺旋信息",
+            if (!await Task.Run(() => TryGet("正在获取 本期深境螺旋信息 (2/5)",
                 $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}", requester, out spiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss?.Message}");
             }
             Response<SpiralAbyss> lastSpiralAbyss = null;
-            if (!await Task.Run(() => TryGet("正在获取 上期深境螺旋信息",
+            if (!await Task.Run(() => TryGet("正在获取 上期深境螺旋信息 (3/5)",
                 $@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}", requester, out lastSpiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss?.Message}");
             }
             Response<dynamic> activitiesInfo = null;
-            if (!await Task.Run(() => TryGet("正在获取 活动挑战信息",
+            if (!await Task.Run(() => TryGet("正在获取 活动挑战信息 (4/5)",
                 $@"{BaseUrl}/activities?server={server}&role_id={uid}", requester, out activitiesInfo)))
             {
                 RecordProgressed?.Invoke(null);
@@ -109,7 +109,7 @@ namespace DGP.Genshin.Services
                 server = server
             };
             Response<DetailedAvatarInfo> roles = null;
-            if (!await Task.Run(() => TryPost("正在获取 详细角色信息",
+            if (!await Task.Run(() => TryPost("正在获取 详细角色信息 (5/5)",
                 $@"{BaseUrl}/character", data, requester, out roles)))
             {
                 RecordProgressed?.Invoke(null);
@@ -136,6 +136,7 @@ namespace DGP.Genshin.Services
             Dictionary<char,string> serverDict = new Dictionary<char, string>()
             {
                 { '1', "cn_gf01" },
+                { '2', "cn_gf01" },
                 { '5', "cn_qd01" },
                 //{ '6', "os_usa" },
                 //{ '7', "os_euro" },

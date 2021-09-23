@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Helpers;
+using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Extensions.System;
@@ -16,6 +17,7 @@ namespace DGP.Genshin.Pages
     public partial class SettingsPage : Page
     {
         public SettingModel SettingModel => SettingModel.Instance;
+        private AutoRunHelper autoRunHelper = new AutoRunHelper();
 
         public SettingsPage()
         {
@@ -70,6 +72,8 @@ namespace DGP.Genshin.Pages
         public static readonly DependencyProperty IsDevModeProperty =
             DependencyProperty.Register("IsDevMode", typeof(bool), typeof(DailyPage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
         #endregion
+
+        public AutoRunHelper AutoRunHelper { get => this.autoRunHelper; set => this.autoRunHelper = value; }
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)
         {

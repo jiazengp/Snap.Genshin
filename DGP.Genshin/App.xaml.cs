@@ -17,6 +17,9 @@ namespace DGP.Genshin
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
+            //set working dir while launch by windows autorun
+            string path = Assembly.GetEntryAssembly().Location;
+            Environment.CurrentDirectory = Path.GetDirectoryName(path);
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             EnsureSingleInstance();

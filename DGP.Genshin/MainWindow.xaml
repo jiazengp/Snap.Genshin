@@ -13,9 +13,9 @@
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
-        MinWidth="1046"
+        MinWidth="1050"
         MinHeight="680"
-        Width="1046"
+        Width="1050"
         Height="680" 
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
@@ -148,7 +148,7 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
 
-                <ui:NavigationViewItemHeader Content="记录工具"/>
+                <ui:NavigationViewItemHeader Content="记录"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WishIcon.png"/>
@@ -160,10 +160,15 @@
                         <ui:FontIcon Glyph="&#xE8FD;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="游戏截图" helpers:NavHelper.NavigateTo="{x:Type pages:ScreenshotsPage}"
+                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xEB9F;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                
+                <ui:NavigationViewItemHeader Content="高级"/>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
-
-                <ui:NavigationViewItemHeader Content="高级工具" 
-                                             Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
                 <ui:NavigationViewItem Content="管理" Icon="Manage" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" 
                                        Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
                 <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" 

@@ -5,12 +5,16 @@ namespace DGP.Genshin.Services.Settings
 {
     public static class Setting
     {
+        #region Obsolete
         [Obsolete] public const string ShowUnreleasedData = "ShowUnreleasedCharacter";
         [Obsolete] public const string PresentTravelerElementType = "PresentTravelerElementType";
+        [Obsolete] public const string Uid = "Uid";
+        #endregion
+
         public const string AppTheme = "AppTheme";
         public const string IsDevMode = "IsDevMode";
-        [Obsolete] public const string Uid = "Uid";
         public const string ShowFullUID = "ShowFullUID";
+        public const string AutoDailySignInOnLaunch = "AutoDailySignInOnLaunch";
 
         public static ApplicationTheme? ApplicationThemeConverter(object n) =>
             n == null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);

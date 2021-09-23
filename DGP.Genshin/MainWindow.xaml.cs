@@ -10,13 +10,13 @@ using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Linq;
 using System;
+using DGP.Genshin.Helpers;
 
 namespace DGP.Genshin
 {
@@ -39,15 +39,16 @@ namespace DGP.Genshin
         [HandleEvent]
         private async void SplashInitializeCompleted()
         {
+            NotificationHelper.SendNotification();
             await CookieManager.EnsureCookieExistAsync();
             await InitializeUserInfoAsync();
+            await CheckUpdateAsync();
             if (!this.navigationService.HasEverNavigated)
             {
                 this.navigationService.Navigate<HomePage>(true);
             }
-            await CheckUpdateAsync();
         }
-
+        //TO-DO:replace dialog to unblock ui
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
@@ -143,7 +144,7 @@ namespace DGP.Genshin
         /// </summary>
         private void SyncItemsStateWithCurrentInfo()
         {
-            for (int i = 0; i < this.SignInReward.Awards.Count; i++)
+            for (int i = 0; i < this.SignInReward?.Awards.Count; i++)
             {
                 SignInAward item = this.SignInReward.Awards[i];
                 item.Opacity = (i + 1) <= this.SignInInfo.TotalSignDay ? 0.2 : 1;
@@ -162,7 +163,7 @@ namespace DGP.Genshin
             if (this.SignInInfo == null)
             {
                 this.RoleInfo = await this.dailySignInService.GetUserGameRolesAsync();
-                this.SelectedRole = this.RoleInfo.List.First();
+                this.SelectedRole = this.RoleInfo?.List.First();
             }
         }
 

@@ -475,6 +475,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!--override win10 icon font-->
+            <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
+            <Style TargetType="{x:Type ui:FontIcon}">
+                <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -50,12 +50,18 @@ namespace DGP.Genshin.Services.Settings
                 SettingChanged?.Invoke(key, value);
             }
         }
+
         /// <summary>
         /// 设置设置选项，不触发改变事件
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        internal void SetValueInternal(string key, object value) => this.settingDictionary.AddOrSet(key, value);
+        internal void SetValueInternal(string key, object value)
+        {
+            this.Log($"setting {key} to {value} internally without notify");
+            this.settingDictionary.AddOrSet(key, value);
+        }
+
         /// <summary>
         /// 当设置项发生改变时触发
         /// </summary>
@@ -106,6 +112,7 @@ namespace DGP.Genshin.Services.Settings
         }
         #endregion
     }
+
     /// <summary>
     /// 设置项改变委托
     /// </summary>

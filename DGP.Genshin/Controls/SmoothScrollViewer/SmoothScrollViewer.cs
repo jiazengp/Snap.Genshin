@@ -47,6 +47,16 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
+            //scroll optimized
+            if (this.ViewportHeight + this.VerticalOffset >= this.ExtentHeight && e.Delta <= 0)
+            {
+                return;
+            }
+            if (this.VerticalOffset == 0 && e.Delta >= 0)
+            {
+                return;
+            }
+
             if (!this.CanMouseWheel) return;
 
             if (!this.IsInertiaEnabled)

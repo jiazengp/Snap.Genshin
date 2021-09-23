@@ -8,6 +8,11 @@ namespace DGP.Genshin.Services.Settings
     /// </summary>
     public class SettingModel : Observable
     {
+        /// <summary>
+        /// 当以编程形式改变设置时触发
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         private void SettingChanged(string key, object value)
         {
             this.Log($"receive setting changed event {key}:{value}");
@@ -16,10 +21,16 @@ namespace DGP.Genshin.Services.Settings
                 case Setting.ShowFullUID:
                     this.ShowFullUID = (bool)value;
                     break;
+                case Setting.AutoDailySignInOnLaunch:
+                    this.AutoDailySignInOnLaunch = (bool)value;
+                    break;
                 default:
                     break;
             }
         }
+
+        private bool showFullUID;
+        private bool autoDailySignInOnLaunch;
 
         public bool ShowFullUID
         {
@@ -30,9 +41,17 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
+        public bool AutoDailySignInOnLaunch
+        {
+            get => this.autoDailySignInOnLaunch; set
+            {
+                SettingService.Instance.SetValueInternal(Setting.AutoDailySignInOnLaunch, value);
+                Set(ref this.autoDailySignInOnLaunch, value);
+            }
+        }
+
         #region 单例
         private static SettingModel instance;
-        private bool showFullUID;
         private static readonly object _lock = new();
         private SettingModel()
         {

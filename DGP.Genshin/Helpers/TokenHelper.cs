@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DGP.Snap.Framework.Attributes;
+using System;
 using System.Text;
 
 namespace DGP.Genshin.Helpers
 {
+    [Github("https://github.com/settings/tokens")]
     public class TokenHelper
     {
         public static string GetToken() =>

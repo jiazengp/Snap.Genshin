@@ -18,26 +18,19 @@
         <ui:CommandBar Grid.Row="0">
             <ui:AppBarButton Label="排序" Icon="Sort" IsEnabled="False"/>
         </ui:CommandBar>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <w:WeaponItem Margin="12" VerticalAlignment="Top" DataContext="{Binding SelectedWeapon}"/>
-            <s:SmoothScrollViewer Grid.Column="1" Padding="0,0,16,0">
-                <ui:GridView HorizontalAlignment="Left" ItemsSource="{Binding Weapons}" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}"  Padding="0,12,0,0">
-                    <ui:GridView.ItemTemplate>
-                        <DataTemplate>
-                            <controls:ContentIcon Width="70" Height="70" 
-                                  BadgeUrl="{Binding Type}"
-                                  BackgroundUrl="{Binding Star}" 
-                                  ForegroundUrl="{Binding Source}" 
-                                  Text="{Binding Name}"
-                                                  IsHitTestVisible="False"/>
-                        </DataTemplate>
-                    </ui:GridView.ItemTemplate>
-                </ui:GridView>
-            </s:SmoothScrollViewer>
-        </Grid>
+        <s:SmoothScrollViewer Grid.Row="1" Padding="8,0,12,0">
+            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Weapons}" Margin="4,0,0,0" Padding="0,12,0,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <w:WeaponItem Margin="0,0,4,4" VerticalAlignment="Top"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </s:SmoothScrollViewer>
     </Grid>
 </Page>

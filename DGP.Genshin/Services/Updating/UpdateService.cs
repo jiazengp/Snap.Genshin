@@ -23,7 +23,6 @@ namespace DGP.Genshin.Services.Updating
 
         private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
 
-        [Github("https://github.com/settings/tokens")]
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try

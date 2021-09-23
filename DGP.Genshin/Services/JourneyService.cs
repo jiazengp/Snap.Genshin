@@ -35,6 +35,10 @@ namespace DGP.Genshin.Services
         /// <returns></returns>
         public async Task<JourneyInfo> GetMonthInfoAsync(string uid, string region, int month = 0)
         {
+            if (uid == null || region == null)
+            {
+                return null;
+            }
             string cookie = await CookieManager.GetCookieAsync();
             Requester requester = new Requester(new RequestOptions
             {
@@ -113,11 +117,11 @@ namespace DGP.Genshin.Services
         public async Task InitializeAsync()
         {
             UserGameRoleInfo = await GetUserGameRolesAsync();
-            SelectedRole = UserGameRoleInfo.List.First();
+            SelectedRole = UserGameRoleInfo?.List.First();
         }
         private async void OnUserGameRoleChanged(UserGameRole role)
         {
-            JourneyInfo = await GetMonthInfoAsync(role.GameUid, role.Region);
+            JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
         }
 
         private event UserGameRoleChangedHandler UserGameRoleChanged;
