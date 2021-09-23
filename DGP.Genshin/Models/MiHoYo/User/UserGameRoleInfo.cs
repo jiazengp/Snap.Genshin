@@ -1,6 +1,4 @@
 ﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.User
 {

@@ -32,7 +32,7 @@ namespace DGP.Genshin.Controls.Records
                 {
                     return element.FindResource("Default") as DataTemplate;
                 }
-                
+
             }
             return null;
         }

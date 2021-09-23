@@ -1,8 +1,9 @@
 ﻿using DGP.Genshin.Controls.Markdown;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Models.MiHoYo;
-using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
+using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Updating;
@@ -10,13 +11,12 @@ using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Linq;
-using System;
-using DGP.Genshin.Helpers;
 
 namespace DGP.Genshin
 {
@@ -104,8 +104,8 @@ namespace DGP.Genshin
         /// </summary>
         public UserGameRoleInfo RoleInfo
         {
-            get { return (UserGameRoleInfo)GetValue(RoleInfoProperty); }
-            set { SetValue(RoleInfoProperty, value); }
+            get => (UserGameRoleInfo)GetValue(RoleInfoProperty);
+            set => SetValue(RoleInfoProperty, value);
         }
         public static readonly DependencyProperty RoleInfoProperty =
             DependencyProperty.Register("RoleInfo", typeof(UserGameRoleInfo), typeof(MainWindow), new PropertyMetadata(null));
@@ -114,11 +114,11 @@ namespace DGP.Genshin
         /// </summary>
         public UserGameRole SelectedRole
         {
-            get { return (UserGameRole)GetValue(SelectedRoleProperty); }
-            set { SetValue(SelectedRoleProperty, value); }
+            get => (UserGameRole)GetValue(SelectedRoleProperty);
+            set => SetValue(SelectedRoleProperty, value);
         }
         public static readonly DependencyProperty SelectedRoleProperty =
-            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null,OnSelectedRoleChanged));
+            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null, OnSelectedRoleChanged));
         #endregion
 
         private static async void OnSelectedRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

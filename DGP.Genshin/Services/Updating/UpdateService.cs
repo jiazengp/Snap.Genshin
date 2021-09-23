@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Helpers;
-using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Net.Download;
 using Octokit;

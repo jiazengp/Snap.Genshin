@@ -102,13 +102,13 @@ namespace DGP.Genshin.Services
         private UserGameRoleInfo userGameRoleInfo;
         private UserGameRole selectedRole;
 
-        public JourneyInfo JourneyInfo { get => journeyInfo; set => Set(ref journeyInfo, value); }
-        public UserGameRoleInfo UserGameRoleInfo { get => userGameRoleInfo; set => Set(ref userGameRoleInfo, value); }
+        public JourneyInfo JourneyInfo { get => this.journeyInfo; set => Set(ref this.journeyInfo, value); }
+        public UserGameRoleInfo UserGameRoleInfo { get => this.userGameRoleInfo; set => Set(ref this.userGameRoleInfo, value); }
         public UserGameRole SelectedRole
         {
-            get => selectedRole; set
+            get => this.selectedRole; set
             {
-                Set(ref selectedRole, value);
+                Set(ref this.selectedRole, value);
                 UserGameRoleChanged?.Invoke(value);
             }
         }
@@ -116,13 +116,10 @@ namespace DGP.Genshin.Services
 
         public async Task InitializeAsync()
         {
-            UserGameRoleInfo = await GetUserGameRolesAsync();
-            SelectedRole = UserGameRoleInfo?.List.First();
+            this.UserGameRoleInfo = await GetUserGameRolesAsync();
+            this.SelectedRole = this.UserGameRoleInfo?.List.First();
         }
-        private async void OnUserGameRoleChanged(UserGameRole role)
-        {
-            JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
-        }
+        private async void OnUserGameRoleChanged(UserGameRole role) => this.JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
 
         private event UserGameRoleChangedHandler UserGameRoleChanged;
     }

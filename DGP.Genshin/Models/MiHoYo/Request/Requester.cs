@@ -55,7 +55,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         }
 
         /// <summary>
-        /// 对<see cref="Get{T}(string)"/>方法的异步包装
+        /// 对<see cref="Get{T}(String)"/>方法的异步包装
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
@@ -64,7 +64,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
             await Task.Run(() => Get<T>(url));
 
         /// <summary>
-        /// 对<see cref="Post{T}(string, object)"/>方法的异步包装
+        /// 对<see cref="Post{T}(String, Object)"/>方法的异步包装
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>

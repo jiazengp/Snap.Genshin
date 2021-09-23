@@ -65,6 +65,10 @@
     <Compile Include="Device\Disk\DiskInfomation.cs" />
     <Compile Include="Device\File\File.cs" />
     <Compile Include="Device\File\KnownPath.cs" />
+    <Compile Include="Device\Keyboard\GlobalKeyboardHookEventArgs.cs" />
+    <Compile Include="Device\Keyboard\GlobalKeyboardHook.cs" />
+    <Compile Include="Device\Keyboard\KeyboardState.cs" />
+    <Compile Include="Device\Keyboard\LowLevelKeyboardInputEvent.cs" />
     <Compile Include="Device\Monitor.cs" />
     <Compile Include="Exceptions\UrlNotFoundException.cs" />
     <Compile Include="Extensions\System\Collections\Generic\EnumerableExtensions.cs" />
@@ -104,8 +108,6 @@
     <Compile Include="Net\Web\QueryString\QueryStringParameter.cs" />
     <Compile Include="Net\Web\QueryString\QueryStringSeparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shell\SettingManager.cs" />
-    <Compile Include="Shell\Setting\Setting.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
@@ -119,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Model\" />
+    <Folder Include="Shell\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

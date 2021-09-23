@@ -116,7 +116,7 @@ namespace DGP.Genshin.Services.Settings
     /// <summary>
     /// 设置项改变委托
     /// </summary>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
+    /// <param name="key">设置项名称</param>
+    /// <param name="value">项的值</param>
     public delegate void SettingChangedHandler(string key, object value);
 }

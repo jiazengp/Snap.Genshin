@@ -131,9 +131,9 @@ namespace DGP.Genshin.Services
             };
         }
 
-        private bool TryEvaluateUidRegion(string uid,out string result)
+        private bool TryEvaluateUidRegion(string uid, out string result)
         {
-            Dictionary<char,string> serverDict = new Dictionary<char, string>()
+            Dictionary<char, string> serverDict = new Dictionary<char, string>()
             {
                 { '1', "cn_gf01" },
                 { '2', "cn_gf01" },
@@ -143,9 +143,9 @@ namespace DGP.Genshin.Services
                 //{ '8', "os_asia" },
                 //{ '9', "os_cht" }
             };
-            return serverDict.TryGetValue(uid[0],out result);
+            return serverDict.TryGetValue(uid[0], out result);
         }
-        private bool TryGet<T>(string info,string url,Requester requester,out Response<T> response)
+        private bool TryGet<T>(string info, string url, Requester requester, out Response<T> response)
         {
             RecordProgressed?.Invoke(info);
             requester.Headers["DS"] = DynamicSecretProvider2.Create(url);
@@ -156,7 +156,7 @@ namespace DGP.Genshin.Services
         {
             RecordProgressed?.Invoke(info);
             requester.Headers["DS"] = DynamicSecretProvider2.Create(url, data);
-            response = requester.Post<T>(url,data);
+            response = requester.Post<T>(url, data);
             return response.ReturnCode == 0;
         }
 

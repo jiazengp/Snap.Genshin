@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace DGP.Snap.Framework.NativeMethods
 {
@@ -29,6 +30,16 @@ namespace DGP.Snap.Framework.NativeMethods
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GlobalMemoryStatusEx(ref MemoryStatusEx meminfo);
+        #endregion
+
+        #region LoadLibrary
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string lpFileName);
+        #endregion
+
+        #region FreeLibrary
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern bool FreeLibrary(IntPtr hModule);
         #endregion
     }
 }

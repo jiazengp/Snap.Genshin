@@ -1,10 +1,8 @@
 ﻿using DGP.Genshin.Data.Helpers;
-using DGP.Genshin.Services;
 using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {

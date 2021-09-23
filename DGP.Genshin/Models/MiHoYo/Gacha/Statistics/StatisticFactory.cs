@@ -57,7 +57,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 banner.EndTime = list.First().Time;
             }
             banner.Star5List = ListOutStar5(list, banner.Star5Count);
-            
+
             if (banner.Star5List.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;

@@ -1,6 +1,5 @@
 ﻿using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo

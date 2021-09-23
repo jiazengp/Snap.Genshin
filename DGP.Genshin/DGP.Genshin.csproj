@@ -254,7 +254,7 @@
     <Compile Include="Services\GithubService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
-    <Compile Include="Services\ScreenshotService.cs" />
+    <Compile Include="Services\Screenshots\ScreenshotService.cs" />
     <Compile Include="Services\Settings\Setting.cs" />
     <Compile Include="Services\Settings\SettingModel.cs" />
     <Compile Include="Services\Settings\SettingService.cs" />
