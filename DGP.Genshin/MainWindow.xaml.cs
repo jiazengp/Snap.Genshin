@@ -6,9 +6,11 @@ using DGP.Genshin.Models.MiHoYo.User;
 using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Screenshots;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
+using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System;
@@ -42,38 +44,56 @@ namespace DGP.Genshin
             NotificationHelper.SendNotification();
             await CookieManager.EnsureCookieExistAsync();
             await InitializeUserInfoAsync();
+            ScreenshotService.Instance.TryInitialize(false);
             await CheckUpdateAsync();
+
             if (!this.navigationService.HasEverNavigated)
             {
                 this.navigationService.Navigate<HomePage>(true);
             }
         }
-        //TO-DO:replace dialog to unblock ui
+
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
-            if (result == UpdateState.NeedUpdate)
+            switch (result)
             {
-                ContentDialogResult dialogResult = await new ContentDialog
-                {
-                    Title = UpdateService.Instance.Release.Name,
-                    Content = new FlowDocumentScrollViewer
+                case UpdateState.NeedUpdate:
                     {
-                        Document = new TextToFlowDocumentConverter
+                        ContentDialogResult dialogResult = await new ContentDialog
                         {
-                            Markdown = FindResource("Markdown") as Markdown
-                        }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
-                    },
-                    PrimaryButtonText = "更新",
-                    CloseButtonText = "忽略",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
+                            Title = UpdateService.Instance.Release.Name,
+                            Content = new FlowDocumentScrollViewer
+                            {
+                                Document = new TextToFlowDocumentConverter
+                                {
+                                    Markdown = FindResource("Markdown") as Markdown
+                                }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
+                            },
+                            PrimaryButtonText = "更新",
+                            CloseButtonText = "忽略",
+                            DefaultButton = ContentDialogButton.Primary
+                        }.ShowAsync();
 
-                if (dialogResult == ContentDialogResult.Primary)
-                {
-                    UpdateService.Instance.DownloadAndInstallPackage();
-                    await new UpdateDialog().ShowAsync();
-                }
+                        if (dialogResult == ContentDialogResult.Primary)
+                        {
+                            UpdateService.Instance.DownloadAndInstallPackage();
+                            await new UpdateDialog().ShowAsync();
+                        }
+
+                        break;
+                    }
+                case UpdateState.NotAvailable:
+                    {
+                        new ToastContentBuilder()
+                            .AddText("检查更新失败")
+                            .Show();
+                        break;
+                    }
+                case UpdateState.IsNewestRelease:
+                case UpdateState.IsInsiderVersion:
+                default:
+                    break;
             }
         }
 

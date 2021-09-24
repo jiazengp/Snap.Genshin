@@ -442,6 +442,7 @@
             <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="{x:Type s:SmoothScrollViewer}"/>
             <Style TargetType="{x:Type c:CachedImage}">
                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <!--<Setter Property="RenderOptions.CachingHint" Value="Cache"/>-->
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>

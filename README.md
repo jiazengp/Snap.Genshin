@@ -2,14 +2,17 @@
 
 [![Snap.Genshin](https://socialify.git.ci/DGP-Studio/Snap.Genshin/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fgithub.com%2FDGP-Studio%2FSnap.Genshin%2Fblob%2Fmain%2FDesign%2FSGLogo.png%3Fraw%3Dtrue&pattern=Signal&stargazers=1&theme=Dark)](https://github.com/DGP-Studio/Snap.Genshin/stargazers)
 
-[![爱发电](https://img.shields.io/badge/爱发电-DismissedLight-blue?style=for-the-badge)](https://afdian.net/@DismissedLight)
 ### 前往下载
 
 [![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
+### 说明
+
+由于开发周期问题，下方的示例图片可能会与发行版有所出入，仅供参考
+
 # Snap Genshin
-> 整体使用现代化响应式UI设计，杜绝无响应  
+> 现代化响应式UI设计，杜绝无响应  
 > 全自动更新流程，省心一键升级
 
 > 标题栏显示当前用户相关信息，与米游社同步  
@@ -56,8 +59,8 @@
 
 # 贡献
 
-请自行发起 pull request
+发起 pull request 以向我们提交代码
 
-# 反馈
+# 反馈须知
 
 提交Bug/程序崩溃：程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交

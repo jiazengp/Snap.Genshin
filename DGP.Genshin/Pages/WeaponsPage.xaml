@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:w="clr-namespace:DGP.Genshin.Controls.Weapons" 
-      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+      xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
+      xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="武器">

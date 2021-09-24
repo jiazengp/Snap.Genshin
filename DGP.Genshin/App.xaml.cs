@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Services;
+using DGP.Genshin.Services.Screenshots;
 using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System;
@@ -26,6 +27,8 @@ namespace DGP.Genshin
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             //app theme
             SetAppTheme();
+            //post app window created
+            
         }
         private void EnsureWorkingPath()
         {
@@ -44,6 +47,7 @@ namespace DGP.Genshin
             {
                 MetaDataService.Instance.UnInitialize();
                 SettingService.Instance.UnInitialize();
+                ScreenshotService.Instance.UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
                 Logger.Instance.UnInitialize();
             }

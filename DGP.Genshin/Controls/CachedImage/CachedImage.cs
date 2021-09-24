@@ -1,4 +1,5 @@
 ﻿using DGP.Snap.Framework.Attributes;
+using Nito.AsyncEx;
 using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -29,35 +30,40 @@ namespace DGP.Genshin.Controls.CachedImage
             get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
             set => SetValue(CreateOptionsProperty, value);
         }
-
+        private static readonly AsyncLock _mutex = new AsyncLock();
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            string url = e.NewValue as string;
-
-            if (String.IsNullOrEmpty(url))
-                return;
-
-            CachedImage cachedImage = (CachedImage)obj;
-            BitmapImage bitmapImage = new BitmapImage();
-
-            try
+            using (await _mutex.LockAsync())
             {
-                System.IO.MemoryStream memoryStream = await FileCache.HitAsync(url);
-                if (memoryStream == null)
+                string url = e.NewValue as string;
+
+                if (String.IsNullOrEmpty(url))
                 {
-                    cachedImage.Source = null;
                     return;
                 }
-                bitmapImage.BeginInit();
-                bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                bitmapImage.StreamSource = memoryStream;
-                bitmapImage.EndInit();
-                cachedImage.Source = bitmapImage;
-            }
-            catch (Exception)
-            {
-                // ignored, in case the downloaded file is a broken or not an image.
-            }
+
+                CachedImage cachedImage = (CachedImage)obj;
+                BitmapImage bitmapImage = new BitmapImage();
+
+                try
+                {
+                    System.IO.MemoryStream memoryStream = await FileCache.HitAsync(url);
+                    if (memoryStream == null)
+                    {
+                        cachedImage.Source = null;
+                        return;
+                    }
+                    bitmapImage.BeginInit();
+                    bitmapImage.CreateOptions = cachedImage.CreateOptions;
+                    bitmapImage.StreamSource = memoryStream;
+                    bitmapImage.EndInit();
+                    cachedImage.Source = bitmapImage;
+                }
+                catch (Exception)
+                {
+                    // ignored, in case the downloaded file is a broken or not an image.
+                }
+            }  
         }
 
         public static readonly DependencyProperty ImageUrlProperty =
