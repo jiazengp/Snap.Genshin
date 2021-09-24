@@ -54,7 +54,7 @@
                     </Expander.Header>
                     <StackPanel>
                         <TextBlock Text="米游社Cookie"/>
-                        <Button Content="重置Cookie" Margin="0,12,0,0" Click="ResetCookieButtonClick"/>
+                        <Button Content="重置Cookie" Margin="0,8,0,0" Click="ResetCookieButtonClick"/>
                         <ui:ToggleSwitch Margin="0,12,0,0" Header="祈愿记录显示完整的UID" IsOn="{Binding SettingModel.ShowFullUID}"/>
                     </StackPanel>
                 </Expander>

@@ -49,17 +49,9 @@ namespace DGP.Genshin.Services.Screenshots
             this.fileSystemWatcher.Dispose();
         }
 
-        private void OnGameScreenshotCreated(object sender, FileSystemEventArgs e) => this.ScreenShots.Add(new Screenshot(e.FullPath));
+        private void OnGameScreenshotCreated(object sender, FileSystemEventArgs e) =>
+            this.ScreenShots.Add(new Screenshot(e.FullPath));
 
         public ObservableCollection<Screenshot> ScreenShots { get; set; } = new ObservableCollection<Screenshot>();
-    }
-    public class Screenshot
-    {
-        public Screenshot(string path)
-        {
-            this.Path = path;
-        }
-        public string Path { get; set; }
-        public string Name { get; set; }
     }
 }

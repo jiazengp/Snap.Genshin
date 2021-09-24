@@ -1,6 +1,9 @@
-﻿using DGP.Genshin.Services;
+﻿using DGP.Genshin.Controls.Characters;
+using DGP.Genshin.Services;
 using DGP.Snap.Framework.Extensions.System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages

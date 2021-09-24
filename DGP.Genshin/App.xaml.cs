@@ -17,9 +17,7 @@ namespace DGP.Genshin
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
-            //set working dir while launch by windows autorun
-            string path = Assembly.GetEntryAssembly().Location;
-            Environment.CurrentDirectory = Path.GetDirectoryName(path);
+            EnsureWorkingPath();
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             EnsureSingleInstance();
@@ -29,9 +27,19 @@ namespace DGP.Genshin
             //app theme
             SetAppTheme();
         }
+        private void EnsureWorkingPath()
+        {
+            //set working dir while launch by windows autorun
+            string path = Assembly.GetEntryAssembly().Location;
+            Environment.CurrentDirectory = Path.GetDirectoryName(path);
+        }
+        private void SetAppTheme()
+        {
+            ThemeManager.Current.ApplicationTheme =
+                SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+        }
         protected override void OnExit(ExitEventArgs e)
         {
-            base.OnExit(e);
             if (!this.isExitDueToSingleInstanceRestriction)
             {
                 MetaDataService.Instance.UnInitialize();
@@ -39,6 +47,7 @@ namespace DGP.Genshin
                 this.Log($"Exit code:{e.ApplicationExitCode}");
                 Logger.Instance.UnInitialize();
             }
+            base.OnExit(e);
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -46,18 +55,13 @@ namespace DGP.Genshin
             {
                 using (StreamWriter sw = new(File.Create($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}-crash.log")))
                 {
+                    sw.Write($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
                     sw.Write(e.ExceptionObject);
                 }
                 Logger.Instance.UnInitialize();
             }
         }
         #endregion
-
-        internal void SetAppTheme()
-        {
-            ThemeManager.Current.ApplicationTheme =
-                SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
-        }
 
         #region SingleInstance
         private const string UniqueEventName = "Snap.Genshin";

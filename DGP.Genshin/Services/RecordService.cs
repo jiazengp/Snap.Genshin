@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// this service shouldn't be disposed during the runtime cause re-request web produces a lot lag
+    /// this service shouldn't be disposed during the runtime cause re-request web really slow
     /// </summary>
     internal class RecordService : Observable
     {
@@ -133,6 +133,11 @@ namespace DGP.Genshin.Services
 
         private bool TryEvaluateUidRegion(string uid, out string result)
         {
+            if (String.IsNullOrEmpty(uid))
+            {
+                result = null;
+                return false;
+            }
             Dictionary<char, string> serverDict = new Dictionary<char, string>()
             {
                 { '1', "cn_gf01" },
@@ -198,5 +203,6 @@ namespace DGP.Genshin.Services
         }
         #endregion
     }
+
     public delegate void RecordProgressedHandler(string info);
 }
