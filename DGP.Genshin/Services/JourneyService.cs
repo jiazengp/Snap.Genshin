@@ -39,7 +39,7 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"User-Agent", RequestOptions.CommonUA2_10_1 },
@@ -63,7 +63,7 @@ namespace DGP.Genshin.Services
         /// <returns>当返回列表的数量不足10个时应停止请求</returns>
         public async Task<JourneyDetail> GetMonthDetailAsync(string uid, string region, int month, int type, int page = 1)
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"User-Agent", RequestOptions.CommonUA2_10_1 },
@@ -82,7 +82,7 @@ namespace DGP.Genshin.Services
         /// <returns>用户角色信息</returns>
         public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },

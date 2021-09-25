@@ -59,7 +59,8 @@ namespace DGP.Genshin.Services
                 SyncTabWith(pageType);
             }
             this.backItemStack.Push(this.selected);
-            bool result = this.frame.Navigate(pageType, data, info);
+            //bool result = this.frame.Navigate(pageType, data, info);
+            bool result = this.frame.Navigate(pageType, data, new DrillInNavigationTransitionInfo());
             this.Log($"navigate to {pageType}:{result}");
             //fix memory leak issue
             this.frame.RemoveBackEntry();
@@ -74,7 +75,7 @@ namespace DGP.Genshin.Services
             this.selected = this.navigationView.SelectedItem as NavigationViewItem;
             if (args.IsSettingsInvoked)
             {
-                Navigate<SettingsPage>();
+                Navigate<SettingsPage>(false);
             }
             else
             {

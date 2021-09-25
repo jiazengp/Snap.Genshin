@@ -28,7 +28,7 @@ namespace DGP.Genshin
             //app theme
             SetAppTheme();
             //post app window created
-            
+
         }
         private void EnsureWorkingPath()
         {

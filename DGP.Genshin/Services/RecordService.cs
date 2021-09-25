@@ -54,7 +54,7 @@ namespace DGP.Genshin.Services
         public async Task<Record> GetRecordAsync(string uid)
         {
             this.Log($"querying uid:{uid}");
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },

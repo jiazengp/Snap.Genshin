@@ -22,7 +22,7 @@ namespace DGP.Genshin.Services
         #region User
         public async Task<UserInfo> GetUserFullInfoAsync()
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },
@@ -43,7 +43,7 @@ namespace DGP.Genshin.Services
         #region Post
         public async Task<List<Post>> GetOfficialRecommendedPostsAsync()
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },
@@ -61,7 +61,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<dynamic> GetPostFullAsync(string postId)
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },

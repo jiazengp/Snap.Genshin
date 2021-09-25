@@ -17,7 +17,8 @@ namespace DGP.Snap.Framework.Device.Keyboard
         {
             this._windowsHookHandle = IntPtr.Zero;
             this._user32LibraryHandle = IntPtr.Zero;
-            this._hookProc = LowLevelKeyboardProc; // we must keep alive _hookProc, because GC is not aware about SetWindowsHookEx behaviour.
+            // we must keep alive _hookProc, because GC is not aware about SetWindowsHookEx behaviour.
+            this._hookProc = LowLevelKeyboardProc;
 
             this._user32LibraryHandle = LoadLibrary("User32");
             if (this._user32LibraryHandle == IntPtr.Zero)
@@ -30,7 +31,9 @@ namespace DGP.Snap.Framework.Device.Keyboard
             if (this._windowsHookHandle == IntPtr.Zero)
             {
                 int errorCode = Marshal.GetLastWin32Error();
-                throw new Win32Exception(errorCode, $"Failed to adjust keyboard hooks for '{Process.GetCurrentProcess().ProcessName}'. Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
+                throw new Win32Exception(errorCode,
+                    $"Failed to adjust keyboard hooks for '{Process.GetCurrentProcess().ProcessName}'. " +
+                    $"Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
             }
         }
 
@@ -44,7 +47,9 @@ namespace DGP.Snap.Framework.Device.Keyboard
                     if (!UnhookWindowsHookEx(this._windowsHookHandle))
                     {
                         int errorCode = Marshal.GetLastWin32Error();
-                        throw new Win32Exception(errorCode, $"Failed to remove keyboard hooks for '{Process.GetCurrentProcess().ProcessName}'. Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
+                        throw new Win32Exception(errorCode,
+                            $"Failed to remove keyboard hooks for '{Process.GetCurrentProcess().ProcessName}'. " +
+                            $"Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
                     }
                     this._windowsHookHandle = IntPtr.Zero;
 
@@ -58,7 +63,9 @@ namespace DGP.Snap.Framework.Device.Keyboard
                 if (!FreeLibrary(this._user32LibraryHandle)) // reduces reference to library by 1.
                 {
                     int errorCode = Marshal.GetLastWin32Error();
-                    throw new Win32Exception(errorCode, $"Failed to unload library 'User32.dll'. Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
+                    throw new Win32Exception(errorCode,
+                        $"Failed to unload library 'User32.dll'. " +
+                        $"Error {errorCode}: {new Win32Exception(Marshal.GetLastWin32Error()).Message}.");
                 }
                 this._user32LibraryHandle = IntPtr.Zero;
             }

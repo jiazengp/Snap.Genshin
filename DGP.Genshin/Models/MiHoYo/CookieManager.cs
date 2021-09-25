@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Core.Logging;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
+﻿using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -20,33 +19,29 @@ namespace DGP.Genshin.Models.MiHoYo
                 File.Create(CookieFile).Dispose();
             }
         }
-        private static string Cookie { get; set; }
+        public static string Cookie { get; private set; }
+        public static bool IsCookieAvailable =>
+            !String.IsNullOrEmpty(Cookie);
 
-        public static async Task<string> GetCookieAsync()
-        {
-            await EnsureCookieExistAsync();
-            return Cookie;
-        }
-
-        public static async Task EnsureCookieExistAsync()
-        {
-            if (String.IsNullOrEmpty(Cookie))
-            {
-                Logger.LogStatic(typeof(CookieManager), "can't find available cookie");
-                await SetCookieAsync();
-            }
-        }
+        //public static async Task EnsureCookieExistAsync()
+        //{
+        //    if (String.IsNullOrEmpty(Cookie))
+        //    {
+        //        Logger.LogStatic(typeof(CookieManager), "can't find available cookie");
+        //        await SetCookieAsync();
+        //    }
+        //}
 
         public static async Task SetCookieAsync()
         {
-            Cookie = await App.Current.Invoke(() =>
-            new CookieDialog().GetInputCookieAsync());
-            CookieChanged?.Invoke();
+            //Cookie = await App.Current.Invoke(() => new CookieDialog().GetInputCookieAsync());
+            Cookie = await App.Current.Invoke(new CookieDialog().GetInputCookieAsync);
+            CookieRefreshed?.Invoke();
             File.WriteAllText(CookieFile, Cookie);
         }
         /// <summary>
         /// unpreventable static event.
         /// </summary>
-        public static event Action CookieChanged;
+        public static event Action CookieRefreshed;
     }
 }

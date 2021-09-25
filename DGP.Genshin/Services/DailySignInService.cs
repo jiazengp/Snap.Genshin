@@ -30,7 +30,7 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
@@ -49,7 +49,7 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };
             return await Task.Run(() => new Requester(new RequestOptions
             {
@@ -66,7 +66,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
@@ -78,7 +78,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<SignInReward> GetSignInRewardAsync()
         {
-            string cookie = await CookieManager.GetCookieAsync();
+            string cookie = CookieManager.Cookie;
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },

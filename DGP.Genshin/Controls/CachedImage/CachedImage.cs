@@ -63,7 +63,7 @@ namespace DGP.Genshin.Controls.CachedImage
                 {
                     // ignored, in case the downloaded file is a broken or not an image.
                 }
-            }  
+            }
         }
 
         public static readonly DependencyProperty ImageUrlProperty =

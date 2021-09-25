@@ -9,7 +9,7 @@
              xmlns:controls="clr-namespace:DGP.Genshin.Controls"
              mc:Ignorable="d"
              Width="240"
-             d:DesignHeight="150" d:DesignWidth="200">
+             d:DesignHeight="150" d:DesignWidth="240">
     <Grid Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>

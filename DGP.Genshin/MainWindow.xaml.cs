@@ -35,17 +35,17 @@ namespace DGP.Genshin
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.dailySignInService = new DailySignInService();
             this.Log("initialized");
-            CookieManager.CookieChanged += RefreshUserInfoAsync;
+            CookieManager.CookieRefreshed += RefreshUserInfoAsync;
         }
 
         [HandleEvent]
         private async void SplashInitializeCompleted()
         {
+            ScreenshotService.Instance.Initialize();
             NotificationHelper.SendNotification();
-            await CookieManager.EnsureCookieExistAsync();
-            await InitializeUserInfoAsync();
-            ScreenshotService.Instance.TryInitialize(false);
+
             await CheckUpdateAsync();
+            await InitializeUserInfoAsync();
 
             if (!this.navigationService.HasEverNavigated)
             {

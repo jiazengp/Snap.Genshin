@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
-    internal class MetaDataService : Observable
+    public class MetaDataService : Observable
     {
         #region Consts
         private const string BossesJson = "bosses.json";
