@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Controls.Markdown;
+﻿using DGP.Genshin.Controls;
+using DGP.Genshin.Controls.Markdown;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Sign;
@@ -32,6 +33,7 @@ namespace DGP.Genshin
         public MainWindow()
         {
             InitializeComponent();
+            MainSplashView.InitializationPostAction += SplashInitializeCompleted;
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.dailySignInService = new DailySignInService();
             this.Log("initialized");
@@ -39,14 +41,17 @@ namespace DGP.Genshin
         }
 
         [HandleEvent]
-        private async void SplashInitializeCompleted()
+        private async void SplashInitializeCompleted(SplashView splashView)
         {
             ScreenshotService.Instance.Initialize();
             NotificationHelper.SendNotification();
 
+            splashView.CurrentStateDescription = "检查程序更新";
             await CheckUpdateAsync();
+            splashView.CurrentStateDescription = "初始化用户信息";
             await InitializeUserInfoAsync();
 
+            splashView.HasCheckCompleted = true;
             if (!this.navigationService.HasEverNavigated)
             {
                 this.navigationService.Navigate<HomePage>(true);

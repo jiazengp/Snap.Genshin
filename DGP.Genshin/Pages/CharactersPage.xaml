@@ -11,7 +11,7 @@
       xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="角色">
+      Title="角色" Loaded="Page_Loaded">
     <Page.Resources>
         <DataTemplate x:Key="FilterDataTemplate">
             <CheckBox MinWidth="16" IsChecked="{Binding IsSelected,Mode=TwoWay}">

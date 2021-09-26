@@ -200,7 +200,6 @@
                                Content="{Binding UserInfo.Nickname,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"
                                ui:FlyoutBase.AttachedFlyout="{StaticResource UserFlyout}"
                                />
-
             <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
                                Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="每日签到"
                                Click="SignInTitleBarButtonClick"
@@ -210,6 +209,6 @@
                     Width="1"
                     Margin="12,8"/>
         </StackPanel>
-        <cf:SplashView InitializeCompleted="SplashInitializeCompleted" d:IsHidden="True"/>
+        <cf:SplashView x:Name="MainSplashView" d:IsHidden="True"/>
     </Grid>
 </Window>

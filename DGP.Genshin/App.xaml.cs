@@ -23,8 +23,8 @@ namespace DGP.Genshin
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             EnsureSingleInstance();
             //file operation starts
-            SettingService.Instance.Initialize();
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
+            SettingService.Instance.Initialize();
             //app theme
             SetAppTheme();
             //post app window created

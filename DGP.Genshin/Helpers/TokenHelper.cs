@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DGP.Genshin.Helpers
 {
+    /// <summary>
+    /// because repo cant cantain original token string
+    /// </summary>
     [Github("https://github.com/settings/tokens")]
     public class TokenHelper
     {

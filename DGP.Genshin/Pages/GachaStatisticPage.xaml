@@ -54,7 +54,6 @@
                 </Border>
             </StackPanel>
         </DataTemplate>
-
         <DataTemplate x:Key="PermanentStar5ListTemplate">
             <TextBlock Margin="0,0,8,0" Foreground="{Binding Background}">
                 <ToolTipService.ToolTip>

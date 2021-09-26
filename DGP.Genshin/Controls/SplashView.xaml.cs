@@ -22,6 +22,7 @@ namespace DGP.Genshin.Controls
         private bool isCookieVisible = true;
         private bool isLauncherPathVisible = true;
         private bool hasCheckCompleted;
+        private string currentStateDescription = "校验图片资源完整性";
 
         public bool IsCookieVisible
         {
@@ -41,16 +42,14 @@ namespace DGP.Genshin.Controls
         }
 
         public bool HasCheckCompleted { get => this.hasCheckCompleted; set => Set(ref this.hasCheckCompleted, value); }
-
+        public string CurrentStateDescription { get => currentStateDescription; set => Set(ref currentStateDescription, value); }
         public SplashView()
         {
             this.DataContext = this;
-            MetaDataService.Instance.CompleteStateChanged += async isCompleted =>
+            MetaDataService.Instance.CompleteStateChanged += isCompleted =>
             {
                 if (isCompleted)
                 {
-                    //wait for animation
-                    await Task.Delay(1000);
                     this.integrityCheckCompleted = true;
                     OnInitializeStateChanged();
                 }
@@ -61,8 +60,10 @@ namespace DGP.Genshin.Controls
         }
 
         private async void UserControlLoaded(object sender, RoutedEventArgs e) => await MetaDataService.Instance.CheckAllIntegrityAsync();
-
-        public event Action InitializeCompleted;
+        /// <summary>
+        /// you need to set <see cref="HasCheckCompleted"/> to true to collaspe the view
+        /// </summary>
+        public event Action<SplashView> InitializationPostAction;
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -81,7 +82,11 @@ namespace DGP.Genshin.Controls
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
-        private void CookieButtonClick(object sender, RoutedEventArgs e) => this.IsCookieVisible = !CookieManager.IsCookieAvailable;
+        private async void CookieButtonClick(object sender, RoutedEventArgs e)
+        {
+            await CookieManager.SetCookieAsync();
+            this.IsCookieVisible = !CookieManager.IsCookieAvailable;
+        }
 
         private void LauncherPathButtonClick(object sender, RoutedEventArgs e)
         {
@@ -108,8 +113,7 @@ namespace DGP.Genshin.Controls
         {
             if (this.IsCookieVisible == false && this.IsLauncherPathVisible == false && this.integrityCheckCompleted)
             {
-                this.HasCheckCompleted = true;
-                InitializeCompleted?.Invoke();
+                InitializationPostAction?.Invoke(this);
             }
         }
     }

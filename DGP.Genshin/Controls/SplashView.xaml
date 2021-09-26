@@ -42,12 +42,13 @@
 
     </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlBackgroundAltHighBrush}">
-        <StackPanel Margin="12" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Width="80" Height="80" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
-            <TextBlock HorizontalAlignment="Center" Text="Snap 原神" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-        </StackPanel>
+        
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,12">
-            <StackPanel Margin="0,12,0,0" Visibility="{Binding IsCookieVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Margin="12" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Image Width="80" Height="80" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
+                <TextBlock HorizontalAlignment="Center" Text="Snap 原神" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Margin="0,0,0,0" Visibility="{Binding IsCookieVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <TextBlock Text="我们需要 米游社Cookie" Margin="0,0,0,6" Style="{StaticResource BaseTextBlockStyle}"/>
                 <TextBlock Text="● 每日签到" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="● 访问角色信息" Style="{StaticResource BodyTextBlockStyle}"/>
@@ -61,7 +62,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MaxHeight="160" Margin="12">
-            <TextBlock Text="校验图片资源完整性" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Text="{Binding CurrentStateDescription}" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
             <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1} - {2:p} {3}">
