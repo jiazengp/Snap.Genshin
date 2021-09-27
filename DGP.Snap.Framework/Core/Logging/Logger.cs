@@ -30,10 +30,7 @@ namespace DGP.Snap.Framework.Core.Logging
                 }
                 catch { }
             }
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine($"{typename}:{info}");
-            }
+            Debug.WriteLine($"{typename}:{info}");
         }
 
         public static void LogStatic(Type t, object info, Func<object, string> formatter = null) =>

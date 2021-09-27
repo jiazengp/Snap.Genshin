@@ -103,6 +103,7 @@ namespace DGP.Genshin.Services.Screenshots
         {
             if (e.KeyboardData.VirtualCode != GlobalKeyboardHook.VkSnapshot)
             {
+                this.Log($"Current pressed key {e.KeyboardData.VirtualCode}");
                 return;
             }
             if (e.KeyboardState == KeyboardState.KeyDown)
@@ -140,7 +141,7 @@ namespace DGP.Genshin.Services.Screenshots
         private void OnScreenshotCreated(object sender, FileSystemEventArgs e)
         {
             //avoid IOException from some strange issue
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             App.Current.Invoke(() => this.Screenshots.Add(new Screenshot(e.FullPath)));
         }
 
