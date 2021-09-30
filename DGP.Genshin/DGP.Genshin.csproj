@@ -138,6 +138,7 @@
     <Compile Include="Models\MiHoYo\Journey\Month.cs" />
     <Compile Include="Models\MiHoYo\Request\DynamicSecretProvider2.cs" />
     <Compile Include="Models\MiHoYo\Request\Md5DynamicSecretProviderBase.cs" />
+    <Compile Include="Models\MiHoYo\Sign\ReSignInfo.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\Achieve.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\Certification.cs" />
     <Compile Include="Models\MiHoYo\UserInfo\CommunityInfo.cs" />
@@ -185,7 +186,6 @@
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquaryAffix.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\ReliquarySet.cs" />
     <Compile Include="Models\MiHoYo\Request\Requester.cs" />
-    <Compile Include="Models\MiHoYo\Request\Requesters.cs" />
     <Compile Include="Models\MiHoYo\Request\RequestOptions.cs" />
     <Compile Include="Models\MiHoYo\Response.cs" />
     <Compile Include="Models\MiHoYo\Record\Avatar\Weapon.cs" />
@@ -204,6 +204,17 @@
     <Compile Include="Models\MiHoYo\StringExtensions.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRole.cs" />
     <Compile Include="Models\MiHoYo\User\UserGameRoleInfo.cs" />
+    <Compile Include="Models\YoungMoe\AvatarInfo.cs" />
+    <Compile Include="Models\YoungMoe\AvatarSimple.cs" />
+    <Compile Include="Models\YoungMoe\Collocation\CollocationAvatar.cs" />
+    <Compile Include="Models\YoungMoe\Collocation\CollocationWeapon.cs" />
+    <Compile Include="Models\YoungMoe\Collocation\DetailedAvatarInfo.cs" />
+    <Compile Include="Models\YoungMoe\Collocation\CollocationRelic.cs" />
+    <Compile Include="Models\YoungMoe\Collocation\ProcessedRelic.cs" />
+    <Compile Include="Models\YoungMoe\Gamers.cs" />
+    <Compile Include="Pages\CelestiaDatabasePage.xaml.cs">
+      <DependentUpon>CelestiaDatabasePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CharactersPage.xaml.cs">
       <DependentUpon>CharactersPage.xaml</DependentUpon>
     </Compile>
@@ -240,6 +251,7 @@
     <Compile Include="Pages\WeeklyPage.xaml.cs">
       <DependentUpon>WeeklyPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\CelestiaDatabaseService.cs" />
     <Compile Include="Services\GachaStatistic\GachaLogUrlDialog.xaml.cs">
       <DependentUpon>GachaLogUrlDialog.xaml</DependentUpon>
     </Compile>
@@ -326,6 +338,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Models\MiHoYo\CookieWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CelestiaDatabasePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

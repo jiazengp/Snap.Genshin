@@ -8,6 +8,7 @@ using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Screenshots;
+using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Extensions.System;
@@ -33,7 +34,7 @@ namespace DGP.Genshin
         public MainWindow()
         {
             InitializeComponent();
-            MainSplashView.InitializationPostAction += SplashInitializeCompleted;
+            this.MainSplashView.InitializationPostAction += SplashInitializeCompleted;
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.dailySignInService = new DailySignInService();
             this.Log("initialized");
@@ -44,13 +45,23 @@ namespace DGP.Genshin
         private async void SplashInitializeCompleted(SplashView splashView)
         {
             ScreenshotService.Instance.Initialize();
-            NotificationHelper.SendNotification();
+            //NotificationHelper.SendNotification();
 
-            splashView.CurrentStateDescription = "检查程序更新";
+            splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
-            splashView.CurrentStateDescription = "初始化用户信息";
+
+            splashView.CurrentStateDescription = "初始化用户信息...";
             await InitializeUserInfoAsync();
 
+            if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+            {
+                splashView.CurrentStateDescription = "签到中...";
+                await InitializeSignInPanelDataAsync();
+                SignInResult result = await dailySignInService.SignInAsync(SelectedRole);
+                new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
+            }
+
+            splashView.CurrentStateDescription = "完成";
             splashView.HasCheckCompleted = true;
             if (!this.navigationService.HasEverNavigated)
             {
@@ -199,13 +210,7 @@ namespace DGP.Genshin
             {
                 this.isSigningIn = true;
                 SignInResult result = await this.dailySignInService.SignInAsync(this.SelectedRole);
-                await new ContentDialog
-                {
-                    Title = "签到",
-                    Content = result != null ? "签到成功" : "签到失败",
-                    PrimaryButtonText = "确认",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
+                new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
                 //refresh info
                 this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(this.SelectedRole);

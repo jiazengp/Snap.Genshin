@@ -6,7 +6,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,7 +21,7 @@ namespace DGP.Genshin.Controls
         private bool isCookieVisible = true;
         private bool isLauncherPathVisible = true;
         private bool hasCheckCompleted;
-        private string currentStateDescription = "校验图片资源完整性";
+        private string currentStateDescription = "校验图片资源完整性...";
 
         public bool IsCookieVisible
         {
@@ -42,7 +41,7 @@ namespace DGP.Genshin.Controls
         }
 
         public bool HasCheckCompleted { get => this.hasCheckCompleted; set => Set(ref this.hasCheckCompleted, value); }
-        public string CurrentStateDescription { get => currentStateDescription; set => Set(ref currentStateDescription, value); }
+        public string CurrentStateDescription { get => this.currentStateDescription; set => Set(ref this.currentStateDescription, value); }
         public SplashView()
         {
             this.DataContext = this;

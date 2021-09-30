@@ -37,8 +37,7 @@
                                         <ControlTemplate>
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock HorizontalAlignment="Center" Text="暂无图片" Style="{StaticResource HeaderTextBlockStyle}"/>
-                                                <TextBlock HorizontalAlignment="Center" Margin="0,12,0,0" Text="按下 Print Screen 键添加屏幕截图" Style="{StaticResource BodyTextBlockStyle}"/>
-                                                <TextBlock HorizontalAlignment="Center" Text="使用游戏中相机保存的图片也会移动到这里" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock HorizontalAlignment="Center" Text="使用游戏中相机保存的图片会移动到这里" Style="{StaticResource BodyTextBlockStyle}"/>
                                             </StackPanel>
                                         </ControlTemplate>
                                     </Setter.Value>

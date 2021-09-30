@@ -31,5 +31,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
+        <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32" Content="启动游戏" Click="LaunchButtonClick"/>
     </Grid>
 </Page>

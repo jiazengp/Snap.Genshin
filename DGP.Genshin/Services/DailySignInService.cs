@@ -24,6 +24,7 @@ namespace DGP.Genshin.Services
         {
             this.Log("initialized");
         }
+
         public async Task<SignInInfo> GetSignInInfoAsync(UserGameRole role)
         {
             if (role == null)
@@ -40,6 +41,22 @@ namespace DGP.Genshin.Services
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
             }).Get<SignInInfo>($"{ApiTakumi}/event/bbs_sign_reward/info?act_id={ActivityId}&region={role.Region}&uid={role.GameUid}").Data);
+        }
+        public async Task<ReSignInfo> GetReSignInfoAsync(UserGameRole role)
+        {
+            if (role == null)
+            {
+                return null;
+            }
+            string cookie = CookieManager.Cookie;
+            return await Task.Run(() => new Requester(new RequestOptions
+            {
+                {"Accept", RequestOptions.Json },
+                {"User-Agent",RequestOptions.CommonUA2_10_1 },
+                {"Referer", Referer },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            }).Get<ReSignInfo>($"{ApiTakumi}/event/bbs_sign_reward/resign_info?uid={role.GameUid}&region={role.Region}&act_id={ActivityId}").Data);
         }
 
         [SuppressMessage("", "IDE0050")]
@@ -64,6 +81,30 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data).Data);
         }
+
+        [SuppressMessage("", "IDE0050")]
+        public async Task<SignInResult> ReSignAsync(UserGameRole role)
+        {
+            if (role == null)
+            {
+                return null;
+            }
+            string cookie = CookieManager.Cookie;
+            var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };
+            return await Task.Run(() => new Requester(new RequestOptions
+            {
+                {"DS", DynamicSecretProvider.Create() },
+                {"x-rpc-app_version", DynamicSecretProvider.AppVersion },
+                {"User-Agent", RequestOptions.CommonUA2_10_1 },
+                {"x-rpc-device_id", RequestOptions.DeviceId },
+                {"Accept", RequestOptions.Json },
+                {"x-rpc-client_type", "5" },
+                {"Referer", Referer },
+                {"Cookie", cookie },
+                {"X-Requested-With", RequestOptions.Hyperion }
+            }).Post<SignInResult>($"{ApiTakumi}/event/bbs_sign_reward/sign", data).Data);
+        }
+
         public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
         {
             string cookie = CookieManager.Cookie;

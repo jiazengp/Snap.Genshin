@@ -59,7 +59,13 @@ namespace DGP.Genshin.Services.Settings
             SettingService.Instance.SettingChanged += SettingChanged;
         }
 
-        private void Initialize() => this.showFullUID = SettingService.Instance.GetOrDefault(Setting.ShowFullUID, false);
+        private void Initialize()
+        {
+            SettingService service = SettingService.Instance;
+
+            this.showFullUID = service.GetOrDefault(Setting.ShowFullUID, false);
+            this.autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
+        }
 
         public static SettingModel Instance
         {

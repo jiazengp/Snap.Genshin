@@ -1,11 +1,13 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Post;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -56,6 +58,27 @@ namespace DGP.Genshin.Pages
         {
             Button b = (Button)sender;
             Process.Start($@"https://bbs.mihoyo.com/ys/article/{b.Tag}");
+        }
+
+        private void LaunchButtonClick(object sender, RoutedEventArgs e)
+        {
+            string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
+            if (launcherPath != null)
+            {
+                string yuanshenPath = $@"{Path.GetDirectoryName(launcherPath)}\Genshin Impact Game\Yuanshen.exe";
+                try
+                {
+                    Process p = Process.Start(yuanshenPath);
+                }
+                catch(Win32Exception)
+                {
+
+                }
+            }
+            else
+            {
+                //TODO add warning here.
+            }
         }
     }
     public class IdToPostConverter : IValueConverter

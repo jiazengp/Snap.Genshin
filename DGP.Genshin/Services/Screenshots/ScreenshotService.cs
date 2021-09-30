@@ -1,28 +1,24 @@
 ﻿using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Device.Keyboard;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 
 namespace DGP.Genshin.Services.Screenshots
 {
     /// <summary>
-    /// TODO add keyboard hook
+    /// keyboard hook is not practical
+    /// cause game already hook the key
     /// </summary>
     public class ScreenshotService : Observable
     {
         private const string ScreenshotFolder = "Screenshots";
         private FileSystemWatcher gameScreenshotWatcher;
         private FileSystemWatcher localScreenshotWatcher;
-        private GlobalKeyboardHook globalKeyboardHook;
 
         #region LifeCycle
         private bool isInitialized = false;
@@ -32,32 +28,32 @@ namespace DGP.Genshin.Services.Screenshots
             {
                 return;
             }
-            else
-            {
-                this.isInitialized = true;
-            }
+            this.isInitialized = true;
 
             Directory.CreateDirectory(ScreenshotFolder);
 
-            foreach (string image in Directory.EnumerateFiles($@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}"))
-            {
-                this.Screenshots.Add(new Screenshot(image));
-            }
+            //move launcher image to local
             string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
             string launcherDir = Path.GetDirectoryName(launcherPath);
             foreach (string image in Directory.EnumerateFiles($@"{launcherDir}\Genshin Impact Game\ScreenShot"))
             {
                 string filename = $@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss}.{Guid.NewGuid()}.png";
                 File.Move(image, filename);
-                this.Screenshots.Add(new Screenshot(filename));
             }
+            //load local 
+            foreach (string image in Directory.EnumerateFiles($@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}"))
+            {
+                this.Screenshots.Add(new Screenshot(image));
+            }
+
+            //watch game folder
             string gamePath = $@"{launcherDir}\Genshin Impact Game\ScreenShot";
             this.gameScreenshotWatcher = new FileSystemWatcher(gamePath)
             {
                 EnableRaisingEvents = true
             };
             this.gameScreenshotWatcher.Created += OnGameScreenshotCreated;
-
+            //watch local folder
             string localPath = $@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}";
             this.localScreenshotWatcher = new FileSystemWatcher(localPath)
             {
@@ -66,22 +62,17 @@ namespace DGP.Genshin.Services.Screenshots
             this.localScreenshotWatcher.Created += OnScreenshotCreated;
             this.localScreenshotWatcher.Deleted += OnLocalScreenshotDeleted;
 
-            SetupKeyboardHooks();
             this.Log("initialized");
         }
 
         /// <summary>
-        /// move game generated screenshot to out folder.
+        /// move game generated screenshot to our folder.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnGameScreenshotCreated(object sender, FileSystemEventArgs e) => File.Move(e.FullPath, $@"{ScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss.fffffff}.png");
+        private void OnGameScreenshotCreated(object sender, FileSystemEventArgs e) =>
+            File.Move(e.FullPath, $@"{ScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss.fffffff}.png");
 
-        public void SetupKeyboardHooks()
-        {
-            this.globalKeyboardHook = new GlobalKeyboardHook();
-            this.globalKeyboardHook.KeyboardPressed += OnKeyPressed;
-        }
         public void UnInitialize()
         {
             if (this.gameScreenshotWatcher != null)
@@ -94,49 +85,10 @@ namespace DGP.Genshin.Services.Screenshots
                 this.localScreenshotWatcher.Created -= OnScreenshotCreated;
                 this.localScreenshotWatcher.Dispose();
             }
-            this.globalKeyboardHook?.Dispose();
             this.Log("uninitialized");
         }
         #endregion
 
-        private void OnKeyPressed(object sender, GlobalKeyboardHookEventArgs e)
-        {
-            if (e.KeyboardData.VirtualCode != GlobalKeyboardHook.VkSnapshot)
-            {
-                this.Log($"Current pressed key {e.KeyboardData.VirtualCode}");
-                return;
-            }
-            if (e.KeyboardState == KeyboardState.KeyDown)
-            {
-                this.Log("PrtScr Pressed");
-                TakeFullScreenshot();
-                e.Handled = true;
-            }
-        }
-        private void TakeFullScreenshot()
-        {
-            double screenLeft = SystemParameters.VirtualScreenLeft;
-            double screenTop = SystemParameters.VirtualScreenTop;
-            double screenWidth = SystemParameters.VirtualScreenWidth;
-            double screenHeight = SystemParameters.VirtualScreenHeight;
-            try
-            {
-                using (Bitmap bmp = new Bitmap((int)screenWidth, (int)screenHeight))
-                {
-                    using (Graphics graphics = Graphics.FromImage(bmp))
-                    {
-                        string filename = $@"{ScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss.fffffff}.png";
-                        graphics.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
-                        bmp.Save(filename, ImageFormat.Png);
-                    }
-                }
-                this.Log("take and save screenshot complete");
-            }
-            catch
-            {
-                //save img failed
-            }
-        }
 
         private void OnScreenshotCreated(object sender, FileSystemEventArgs e)
         {

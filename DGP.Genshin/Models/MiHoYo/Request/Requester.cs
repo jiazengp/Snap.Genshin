@@ -10,7 +10,10 @@ namespace DGP.Genshin.Models.MiHoYo.Request
 {
     public class Requester
     {
-        public RequestOptions Headers { get; set; }
+        public RequestOptions Headers { get; set; } = new RequestOptions();
+        public Requester()
+        {
+        }
         public Requester(RequestOptions headers)
         {
             this.Headers = headers;

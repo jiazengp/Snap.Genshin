@@ -1,5 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Snap.Framework.Core.Logging;
+using Newtonsoft.Json;
+using System;
 using System.IO;
+using System.Net;
+using System.Text;
 
 namespace DGP.Snap.Framework.Data.Json
 {
@@ -58,11 +62,35 @@ namespace DGP.Snap.Framework.Data.Json
                 return ToObject<T>(sr.ReadToEnd());
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="value"></param>
         public static void ToFile(string fileName, object value)
         {
             using (StreamWriter sw = new StreamWriter(File.OpenWrite(fileName)))
             {
                 sw.Write(Stringify(value));
+            }
+        }
+
+        public static T FromWebsite<T>(string url)
+        {
+            Logger.LogStatic(typeof(Json), $"GET {url}");
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    string response = client.DownloadString(url);
+                    return ToObject<T>(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogStatic(typeof(Json), $"web request failed. reason:{ex.Message}");
+                return default;
             }
         }
     }
