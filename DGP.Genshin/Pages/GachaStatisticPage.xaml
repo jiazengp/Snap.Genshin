@@ -112,46 +112,32 @@
                         <ui:FontIcon Glyph="&#xEDE1;"/>
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
-                <ui:AppBarButton Label="导出到 PNG 图片" Click="ExportImageAppBarButtonClick">
-                    <ui:AppBarButton.Icon>
-                        <ui:FontIcon Glyph="&#xEB9F;"/>
-                    </ui:AppBarButton.Icon>
-                </ui:AppBarButton>
             </ui:CommandBar.SecondaryCommands>
         </ui:CommandBar>
         <Grid Grid.Row="1">
             <s:SmoothScrollViewer x:Name="ContentScrollViewer">
                 <Border Padding="12,0,12,0" x:Name="Container" Background="{StaticResource SystemControlBackgroundAltHighBrush}">
                     <StackPanel>
-                        <!--抬头-->
-                        <Grid Margin="0,12,4,0" x:Name="TitleGrid" Visibility="Collapsed">
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
-                                <TextBlock HorizontalAlignment="Left" Text="UID" Margin="0,0,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding SelectedUid.Value}" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                            </StackPanel>
-                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
-                                <Image HorizontalAlignment="Right" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
-                                <TextBlock HorizontalAlignment="Right" Text="Snap 原神" Margin="0,8,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                            </StackPanel>
-                        </Grid>
                         <!--角色祈愿-->
-                        <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto" MinWidth="200"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.CharacterEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
-                                    <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
-                                </StackPanel>
-                                <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto" MinWidth="200"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.CharacterEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
+                                        <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                    <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="已垫"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.CountSinceLastStar5}" 
                                          FontFamily="Consolas" Foreground="{StaticResource Star5Brush}"/>
@@ -159,252 +145,261 @@
                                     <Run Text="{Binding Statistic.CharacterEvent.CountSinceLastStar4}" 
                                          FontFamily="Consolas" Foreground="{StaticResource Star4Brush}"/>
                                     <Run Text="抽"/>
-                                </TextBlock>
-                                
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.CharacterEvent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.CharacterEvent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
-                                
-                                <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                            <Binding Path="Statistic.CharacterEvent.StartTime"/>
-                                            <Binding Path="Statistic.CharacterEvent.EndTime"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </StackPanel>
+                                    </TextBlock>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.CharacterEvent.Star5Count"/>
-                                            <Binding Path="Statistic.CharacterEvent.Star5Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.CharacterEvent.Star4Count"/>
-                                            <Binding Path="Statistic.CharacterEvent.Star4Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.CharacterEvent.Star3Count"/>
-                                            <Binding Path="Statistic.CharacterEvent.Star3Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" 
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.CharacterEvent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.CharacterEvent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
+
+                                    <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                                <Binding Path="Statistic.CharacterEvent.StartTime"/>
+                                                <Binding Path="Statistic.CharacterEvent.EndTime"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.CharacterEvent.Star5Count"/>
+                                                <Binding Path="Statistic.CharacterEvent.Star5Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.CharacterEvent.Star4Count"/>
+                                                <Binding Path="Statistic.CharacterEvent.Star4Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.CharacterEvent.Star3Count"/>
+                                                <Binding Path="Statistic.CharacterEvent.Star3Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" 
                                            Text="{Binding Statistic.CharacterEvent.AverageGetStar5,StringFormat={}平均 {0:f} 抽出货}"
                                            Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
+                                    <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="预计"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.NextGuaranteeType,StringFormat={}[{0}]}" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.CharacterEvent.NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
                                     <Run Text="抽后出货"/>
-                                </TextBlock>
-                                           
-                                <Grid>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" 
+                                    </TextBlock>
+
+                                    <Grid>
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" 
                                                Text="{Binding Statistic.CharacterEvent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" 
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" 
                                                Text="{Binding Statistic.CharacterEvent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </Grid>
+                                    </Grid>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
+                                <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
                                           ItemsSource="{Binding Statistic.CharacterEvent.Star5List}"
                                           ItemsPanel="{StaticResource WarpPanelTemplate}"
                                           ItemTemplate="{StaticResource Star5ListTemplate}"/>
-                        </Grid>
+                            </Grid>
+                        </Border>
+                        
                         <!--武器祈愿-->
-                        <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto" MinWidth="200"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.WeaponEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
-                                    <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
-                                </StackPanel>
-                                <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto" MinWidth="200"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.WeaponEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
+                                        <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                    <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="已垫"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.CountSinceLastStar5}" FontFamily="Consolas" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.CountSinceLastStar4}" FontFamily="Consolas" Foreground="{StaticResource Star4Brush}"/>
                                     <Run Text="抽"/>
-                                </TextBlock>
+                                    </TextBlock>
 
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.WeaponEvent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.WeaponEvent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.WeaponEvent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.WeaponEvent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
 
-                                <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                            <Binding Path="Statistic.WeaponEvent.StartTime"/>
-                                            <Binding Path="Statistic.WeaponEvent.EndTime"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </StackPanel>
+                                    <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                                <Binding Path="Statistic.WeaponEvent.StartTime"/>
+                                                <Binding Path="Statistic.WeaponEvent.EndTime"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.WeaponEvent.Star5Count"/>
-                                            <Binding Path="Statistic.WeaponEvent.Star5Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.WeaponEvent.Star4Count"/>
-                                            <Binding Path="Statistic.WeaponEvent.Star4Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.WeaponEvent.Star3Count"/>
-                                            <Binding Path="Statistic.WeaponEvent.Star3Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.AverageGetStar5,StringFormat={}平均 {0:f} 抽出货}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.WeaponEvent.Star5Count"/>
+                                                <Binding Path="Statistic.WeaponEvent.Star5Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.WeaponEvent.Star4Count"/>
+                                                <Binding Path="Statistic.WeaponEvent.Star4Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.WeaponEvent.Star3Count"/>
+                                                <Binding Path="Statistic.WeaponEvent.Star3Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.AverageGetStar5,StringFormat={}平均 {0:f} 抽出货}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="预计"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.NextGuaranteeType,StringFormat={}[{0}]}" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.WeaponEvent.NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
                                     <Run Text="抽后出货"/>
-                                </TextBlock>
+                                    </TextBlock>
 
-                                <Grid>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </Grid>
+                                    <Grid>
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </Grid>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
+                                <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
                                           ItemsSource="{Binding Statistic.WeaponEvent.Star5List}"
                                           ItemsPanel="{StaticResource WarpPanelTemplate}"
                                           ItemTemplate="{StaticResource Star5ListTemplate}"/>
-                        </Grid>
+                            </Grid>
+                        </Border>
+                        
                         <!--常驻祈愿-->
-                        <Grid Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto" MinWidth="200"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.Permanent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
-                                    <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
-                                </StackPanel>
-                                <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto" MinWidth="200"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.Permanent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
+                                        <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                    <TextBlock Margin="0,6,0,0" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="已垫"/>
                                     <Run Text="{Binding Statistic.Permanent.CountSinceLastStar5}" FontFamily="Consolas" Foreground="{StaticResource Star5Brush}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.Permanent.CountSinceLastStar4}" FontFamily="Consolas" Foreground="{StaticResource Star4Brush}"/>
                                     <Run Text="抽"/>
-                                </TextBlock>
+                                    </TextBlock>
 
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.Permanent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
-                                <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.Permanent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.Permanent.CountSinceLastStar5}" Maximum="90" Foreground="{StaticResource Star5Brush}"/>
+                                    <ui:ProgressBar Margin="0,8,0,0" Value="{Binding Statistic.Permanent.CountSinceLastStar4}" Maximum="10" Foreground="{StaticResource Star4Brush}"/>
 
-                                <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                            <Binding Path="Statistic.Permanent.StartTime"/>
-                                            <Binding Path="Statistic.Permanent.EndTime"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </StackPanel>
+                                    <TextBlock Margin="0,12,0,0" Text="记录时间" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Margin="0,4,0,0" FontFamily="Consolas" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                                <Binding Path="Statistic.Permanent.StartTime"/>
+                                                <Binding Path="Statistic.Permanent.EndTime"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.Permanent.Star5Count"/>
-                                            <Binding Path="Statistic.Permanent.Star5Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.Permanent.Star4Count"/>
-                                            <Binding Path="Statistic.Permanent.Star4Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
-                                            <Binding Path="Statistic.Permanent.Star3Count"/>
-                                            <Binding Path="Statistic.Permanent.Star3Prob"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.AverageGetStar5,StringFormat={}平均 {0:f} 抽出货}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="8" Text="概率" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Margin="8">
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star5Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}五星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.Permanent.Star5Count"/>
+                                                <Binding Path="Statistic.Permanent.Star5Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star4Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}四星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.Permanent.Star4Count"/>
+                                                <Binding Path="Statistic.Permanent.Star4Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Foreground="{StaticResource Star3Brush}" Style="{StaticResource BodyTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}三星：{0,8} [{1:p}]">
+                                                <Binding Path="Statistic.Permanent.Star3Count"/>
+                                                <Binding Path="Statistic.Permanent.Star3Prob"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Margin="0,16,0,2" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.AverageGetStar5,StringFormat={}平均 {0:f} 抽出货}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Margin="0,0,0,2" Style="{StaticResource BodyTextBlockStyle}">
                                     <Run Text="预计"/>
                                     <Run Text="{Binding Statistic.Permanent.NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding Statistic.Permanent.NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
                                     <Run Text="抽后出货"/>
-                                </TextBlock>
+                                    </TextBlock>
 
-                                <Grid>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </Grid>
+                                    <Grid>
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        <TextBlock Margin="0,16,0,2" HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </Grid>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
-                            <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
+                                <TextBlock Grid.Column="2" Grid.Row="0" Margin="8" Text="五星记录" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="8" 
                                           ItemsSource="{Binding Statistic.Permanent.Star5List}"
                                           ItemsPanel="{StaticResource WarpPanelTemplate}"
                                           ItemTemplate="{StaticResource PermanentStar5ListTemplate}"/>
-                        </Grid>
+                            </Grid>
+                        </Border>
                         
-                        <TextBlock Text="角色" Margin="0,36,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBlock Text="角色" Margin="0,24,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Characters5}"
@@ -416,7 +411,7 @@
                                       ItemsPanel="{StaticResource WarpPanelTemplate}"
                                       ItemTemplate="{StaticResource TotalListTemplate}"/>
                         
-                        <TextBlock Text="武器" Margin="0,32,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBlock Text="武器" Margin="0,24,0,0" Style="{StaticResource TitleTextBlockStyle}"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Margin="0,12,8,4" Text="五星" Style="{StaticResource BaseTextBlockStyle}"/>
                         <ItemsControl Margin="0,4,0,0" 
                                       ItemsSource="{Binding Statistic.Weapons5}"
@@ -491,7 +486,10 @@
         </Grid>
         <!--FallBack-->
         <!--d:IsHidden="true"-->
-        <Border d:IsHidden="true" Grid.RowSpan="2" Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border d:IsHidden="true" 
+                Grid.RowSpan="2" 
+                Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" 
+                Visibility="{Binding HasNoData,Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
                 <ui:CommandBar Margin="0,8,0,0" Background="Transparent" HorizontalAlignment="Center">

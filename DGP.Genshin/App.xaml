@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:DGP.Genshin"
     xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
     xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
-    xmlns:controls="clr-namespace:DGP.Genshin.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:controls="clr-namespace:DGP.Genshin.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnMainWindowClose">
@@ -19,6 +19,10 @@
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Markdown/MarkdownStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <CornerRadius x:Key="CompatCornerRadius" >4</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusTop" >4,4,0,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusBottom" >0,0,4,4</CornerRadius>
+            <CornerRadius x:Key="SmallCompatCornerRadius" >2,2,2,2</CornerRadius>
             <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
             <!--Texts-->
             <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
@@ -56,6 +60,7 @@
             </Style>
             <!--Converters-->
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
             <!--Modefied Styles-->
             <Style TargetType="{x:Type Expander}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -68,7 +73,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Expander}">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource IconCornerRadius}" SnapsToDevicePixels="True">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    CornerRadius="{DynamicResource CompatCornerRadius}" 
+                                    SnapsToDevicePixels="True">
                                 <DockPanel>
                                     <ToggleButton 
                                         x:Name="HeaderSite" 
@@ -442,7 +451,6 @@
             <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="{x:Type s:SmoothScrollViewer}"/>
             <Style TargetType="{x:Type c:CachedImage}">
                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
-                <!--<Setter Property="RenderOptions.CachingHint" Value="Cache"/>-->
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>

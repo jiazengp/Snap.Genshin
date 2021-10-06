@@ -5,17 +5,17 @@ namespace DGP.Genshin.Data.Materials.Weapons
 {
     public class Weapon : Material
     {
-        private const string Decarabian = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504_70.png";
-        private const string DandelionGladiator = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544_70.png";
-        private const string BorealWolf = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524_70.png";
+        private const string Decarabian = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png";
+        private const string DandelionGladiator = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png";
+        private const string BorealWolf = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png";
 
-        private const string Guyun = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514_70.png";
-        private const string MistVeiled = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534_70.png";
-        private const string Aerosiderite = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554_70.png";
+        private const string Guyun = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png";
+        private const string MistVeiled = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png";
+        private const string Aerosiderite = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png";
 
-        private const string DistantSea = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564_70.png";
-        private const string Narukami = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574_70.png";
-        private const string Mask = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584_70.png";
+        private const string DistantSea = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png";
+        private const string Narukami = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png";
+        private const string Mask = @"https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png";
 
         public Weapon()
         {

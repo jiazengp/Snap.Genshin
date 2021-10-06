@@ -24,7 +24,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar Grid.Row="0">
+        <!--<ui:CommandBar Grid.Row="0">
             <ui:AppBarButton Label="排序" Icon="Sort" IsEnabled="False"/>
             <ui:AppBarButton Label="元素" Icon="Filter">
                 <ui:AppBarButton.Flyout>
@@ -33,7 +33,7 @@
                     </ui:Flyout>
                 </ui:AppBarButton.Flyout>
             </ui:AppBarButton>
-        </ui:CommandBar>
+        </ui:CommandBar>-->
         <s:SmoothScrollViewer Grid.Row="1" Padding="8,0,12,0">
             <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Characters}" Margin="4,0,0,8" Padding="0,12,0,0">
                 <ItemsControl.ItemsPanel>

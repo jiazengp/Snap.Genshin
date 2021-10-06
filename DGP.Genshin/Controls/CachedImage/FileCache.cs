@@ -33,6 +33,10 @@ namespace DGP.Genshin.Controls.CachedImage
 
         public static async Task<MemoryStream> HitAsync(string url)
         {
+            if (url == null)
+            {
+                return null;
+            }
             Directory.CreateDirectory(AppCacheDirectory);
 
             Uri uri = new Uri(url);

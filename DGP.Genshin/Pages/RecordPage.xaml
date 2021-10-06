@@ -9,10 +9,10 @@
          xmlns:r="clr-namespace:DGP.Genshin.Controls.Records" 
          xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-         xmlns:mihoyo="clr-namespace:DGP.Genshin.Models.MiHoYo"
+         xmlns:mihoyo="clr-namespace:DGP.Genshin.Models.MiHoYo" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="1200"
-         Title="RecordPage">
+         Title="RecordPage" Loaded="Page_Loaded">
     <Page.Resources>
         <mihoyo:HtmlStringConverter x:Key="HtmlStringConverter"/>
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
@@ -28,16 +28,7 @@
         <ui:CommandBar Grid.Row="0">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
-                    <ui:AppBarElementContainer>
-                        <ui:CommandBar Background="Transparent">
-                            <ui:AppBarToggleButton Label="角色列表" Height="40" IsChecked="{Binding ElementName=CharactersSplitView,Path=IsPaneOpen}">
-                                <ui:AppBarToggleButton.Icon>
-                                    <ui:FontIcon Glyph="&#xE779;"/>
-                                </ui:AppBarToggleButton.Icon>
-                            </ui:AppBarToggleButton>
-                        </ui:CommandBar>
-                    </ui:AppBarElementContainer>
-                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" Margin="4,4,0,0" MinWidth="160" PlaceholderText="键入UID以查询" QueryIcon="Find"
+                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" Margin="8,4,0,0" MinWidth="240" PlaceholderText="键入UID以查询" QueryIcon="Find"
                                        TextChanged="AutoSuggestBox_TextChanged" 
                                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
                                        QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
@@ -45,17 +36,26 @@
                     <TextBlock x:Name="RequestingProgressText" Margin="12,0" VerticalAlignment="Center"/>
                 </StackPanel>
             </ui:CommandBar.Content>
-            <ui:AppBarToggleButton Label="统计信息" IsChecked="{Binding ElementName=StatisticSplitView,Path=IsPaneOpen}">
-                <ui:AppBarToggleButton.Icon>
-                    <ui:FontIcon Glyph="&#xF168;"/>
-                </ui:AppBarToggleButton.Icon>
-            </ui:AppBarToggleButton>
         </ui:CommandBar>
-        <ui:SplitView Name="StatisticSplitView" Grid.Row="1" OpenPaneLength="480" FlowDirection="RightToLeft" LightDismissOverlayMode="On">
-            <ui:SplitView.Pane>
-                <s:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" FlowDirection="LeftToRight">
-                    <StackPanel Margin="8,0,0,8">
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="数据总览">
+        <s:SmoothScrollViewer Grid.Row="1" Padding="0,4,4,0">
+            <Grid Margin="12,0,12,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,12,6,0" VerticalAlignment="Top">
+                    <Border Tag="Stats" Padding="8" 
+                        VerticalAlignment="Top"
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                        <StackPanel>
+                            <TextBlock Text="基本信息" HorizontalAlignment="Center" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -125,8 +125,62 @@
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.DomainNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
                             </Grid>
-                        </Expander>
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="世界探索">
+                        </StackPanel>
+
+                    </Border>
+                    <Border Tag="HomeWorld" Padding="8" Margin="0,12,0,0"
+                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                        <StackPanel>
+                            <TextBlock Text="尘歌壶信息" HorizontalAlignment="Center" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="信任等阶" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].Level}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="最高洞天仙力" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ComfortNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="获得摆设数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ItemNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="历史访客数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock HorizontalAlignment="Center" Text="已解锁的洞天" Style="{StaticResource CaptionTextBlockStyle}"/>
+                            <ItemsControl ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" HorizontalAlignment="Center" Padding="0" Margin="0,0,-4,0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="4">
+                                            <TextBlock Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="6,12,0,0" VerticalAlignment="Top">
+                    <Border Tag="Explore" Padding="8" 
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                        <StackPanel>
+                            <TextBlock Text="世界探索" HorizontalAlignment="Center" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
                             <ItemsControl ItemsSource="{Binding CurrentRecord.PlayerInfo.WorldExplorations}" Padding="0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -135,413 +189,59 @@
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <Border Width="72" Height="72">
-                                                <c:CachedBitmapIcon HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="64" Grid.Column="0" UriSource="{Binding Icon}" />
+                                            <Border Width="64" Height="64">
+                                                <c:CachedBitmapIcon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" UriSource="{Binding Icon}" />
                                             </Border>
-                                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1">
+                                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="8,0,0,0">
                                                 <Grid>
                                                     <TextBlock HorizontalAlignment="Left" Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                                                     <TextBlock HorizontalAlignment="Right" Text="{Binding ExplorationPercentageBy10,StringFormat={}探索度 - {0}%}"/>
                                                 </Grid>
                                                 <ui:ProgressBar Margin="0,4" Value="{Binding ExplorationPercentage}" Minimum="0" Maximum="1000"/>
-                                                <TextBlock Visibility="{Binding IsReputation,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}{0} - {1}级">
-                                                            <Binding Path="ConvertedType"/>
-                                                            <Binding Path="Level"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-                                                <ItemsControl ItemsSource="{Binding Offerings}" Padding="0,-12">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock>
-                                                                <TextBlock.Text>
-                                                                    <MultiBinding StringFormat="{}{0} - {1}级">
-                                                                        <Binding Path="Name"/>
-                                                                        <Binding Path="Level"/>
-                                                                    </MultiBinding>
-                                                                </TextBlock.Text>
-                                                            </TextBlock>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Margin="0,0,12,0" Visibility="{Binding IsReputation,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} - {1}级">
+                                                                <Binding Path="ConvertedType"/>
+                                                                <Binding Path="Level"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    <ItemsControl ItemsSource="{Binding Offerings}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock>
+                                                                    <TextBlock.Text>
+                                                                        <MultiBinding StringFormat="{}{0} - {1}级">
+                                                                            <Binding Path="Name"/>
+                                                                            <Binding Path="Level"/>
+                                                                        </MultiBinding>
+                                                                    </TextBlock.Text>
+                                                                </TextBlock>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </Expander>
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="尘歌壶">
-                            <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="信任等阶" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].Level}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="最高洞天仙力" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ComfortNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="获得摆设数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ItemNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="历史访客数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                </Grid>
-                                <TextBlock HorizontalAlignment="Center" Text="解锁洞天" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                <ItemsControl ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" HorizontalAlignment="Center" Padding="0" Margin="0,0,-4,0">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="4">
-                                                <TextBlock Text="{Binding Name}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Expander>
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="本期深境螺旋">
-                            <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                </Grid>
-                                <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,4,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.RevealRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="64" Height="64">
-                                                        <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                    </Border>
-                                                    <Border Width="64" Height="64">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="击破数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DefeatRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DamageRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.TakeDamageRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.NormalSkillRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.EnergySkillRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <ItemsControl ItemsSource="{Binding CurrentRecord.SpiralAbyss.Floors}" Padding="0">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <r:RecordFloorExpander/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Expander>
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="上期深境螺旋">
-                            <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
-                                        <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    </StackPanel>
-                                </Grid>
-                                <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,4,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.RevealRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="64" Height="64">
-                                                        <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                    </Border>
-                                                    <Border Width="64" Height="64">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="击破数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DefeatRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DamageRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.TakeDamageRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.NormalSkillRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
-                                <ItemsControl Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.EnergySkillRank}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="2,0">
-                                                <Grid>
-                                                    <Border Width="32" Height="32">
-                                                        <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
-                                                    </Border>
-                                                </Grid>
-                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <ItemsControl ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.Floors}" Padding="0">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <r:RecordFloorExpander/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Expander>
-                        <Expander Margin="0,8,8,0" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Header="活动信息">
+                        </StackPanel>
+                    </Border>
+                    <Expander Margin="0,12,0,0" Padding="8" 
+                        VerticalAlignment="Top"
+                        Background="{StaticResource SystemControlBackgroundChromeMediumBrush}"
+                        >
+                        <Expander.Header>
+                            <TextBlock Text="活动信息" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        </Expander.Header>
+                        <StackPanel>
                             <ItemsControl 
                                     ItemsSource="{Binding CurrentRecord.Activities.activities}" 
                                     ItemTemplateSelector="{StaticResource ActivityTemplateSelector}">
@@ -1282,196 +982,457 @@
                                     </DataTemplate>
                                 </ItemsControl.Resources>
                             </ItemsControl>
-                        </Expander>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+
+                <Border Grid.Row="1" Grid.Column="0" Margin="0,12,6,0" Padding="8" 
+                        VerticalAlignment="Top"
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                    <StackPanel>
+                        <TextBlock Text="本期深境螺旋" HorizontalAlignment="Center" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.SpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,4,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.RevealRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
+                                            </Border>
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="击破数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DefeatRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.DamageRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.TakeDamageRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.NormalSkillRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.SpiralAbyss.EnergySkillRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding CurrentRecord.SpiralAbyss.Floors}" Padding="0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <r:RecordFloorExpander/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
-                </s:SmoothScrollViewer>
-            </ui:SplitView.Pane>
-            <ui:SplitView.Content>
-                <ui:SplitView x:Name="CharactersSplitView" DisplayMode="Inline" FlowDirection="LeftToRight" OpenPaneLength="376">
-                    <ui:SplitView.Pane>
-                        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                            <!--角色列表-->
-                            <ui:GridView 
-                                    SelectionMode="Single"
-                                    HorizontalAlignment="Left" 
-                                    ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                                    ItemsSource="{Binding CurrentRecord.DetailedAvatars}" 
-                                    SelectedItem="{Binding SelectedAvatar,Mode=TwoWay}"
-                                    Padding="4,4,0,0">
-                                <ui:GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Background="{StaticResource SystemControlPageBackgroundChromeMediumLowBrush}">
-                                            <Grid Width="70" Height="70">
-                                                <Border>
-                                                    <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                </Border>
-                                                <Border>
-                                                    <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                                </Border>
-                                                <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                    <c:CachedImage ImageUrl="{Binding ElementUrl}"/>
-                                                </Border>
-                                                <Border Background="#66000000" Padding="4,0" Height="16"  HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ActivedConstellationNum}" FontSize="10"/>
-                                                </Border>
-                                                <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                            <GradientStop Color="#00000000"/>
-                                                            <GradientStop Offset="1" Color="#CC000000"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
-                                                </Border>
-                                            </Grid>
-                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Level,StringFormat={}Lv.{0}}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ui:GridView.ItemTemplate>
-                            </ui:GridView>
-                        </s:SmoothScrollViewer>
-                    </ui:SplitView.Pane>
-                    <s:SmoothScrollViewer>
-                        <StackPanel Margin="0,0,8,8">
-                            <!--角色名称-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                                <TextBlock HorizontalAlignment="Center" Margin="8,9" Style="{StaticResource BaseTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0} 好感度等级 - {1}">
-                                            <Binding Path="SelectedAvatar.Name"/>
-                                            <Binding Path="SelectedAvatar.Fetter"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </Grid>
-                            <!--武器-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Margin="8" Width="48" Height="48" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Border>
-                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.StarUrl}"/>
-                                    </Border>
-                                    <Border>
-                                        <c:CachedImage ImageUrl="{Binding SelectedAvatar.Weapon.Icon}"/>
-                                    </Border>
-                                </Grid>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,8,8,0" Style="{StaticResource BodyTextBlockStyle}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} Lv.{1} 精炼{2}阶" TargetNullValue="">
-                                                <Binding Path="SelectedAvatar.Weapon.Name"/>
-                                                <Binding Path="SelectedAvatar.Weapon.Level"/>
-                                                <Binding Path="SelectedAvatar.Weapon.AffixLevel"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock 
-                                        HorizontalAlignment="Left" 
-                                        Margin="0,12,8,8" 
-                                        Text="{Binding SelectedAvatar.Weapon.ProcessedDescription}" 
-                                        TextWrapping="Wrap"
-                                        Style="{StaticResource BodyTextBlockStyle}"/>
-                                </StackPanel>
-                            </Grid>
-                            <!--圣遗物-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                                <StackPanel>
-                                    <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="圣遗物" Style="{StaticResource BodyTextBlockStyle}"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Margin="6,12,0,0" Padding="8" 
+                        VerticalAlignment="Top"
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                    <StackPanel>
+                        <TextBlock Text="上期深境螺旋" HorizontalAlignment="Center" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="最深抵达" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.MaxFloor}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="战斗次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalBattleTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="胜利次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalWinTimes}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                <TextBlock HorizontalAlignment="Center" Text="渊星" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.LastSpiralAbyss.TotalStar}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Text="出战次数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,4,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.RevealRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
+                                            </Border>
+                                            <Border Width="64" Height="64">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="击破数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DefeatRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="最强一击" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.DamageRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="承受伤害" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.TakeDamageRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="元素战技释放数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,0,0,8" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.NormalSkillRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <!--use RenderOptions.BitmapScalingMode to get rid of the unbearable aliasing-->
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="元素爆发释放数" HorizontalAlignment="Center"/>
+                        <ItemsControl Margin="0,4,0,0" HorizontalAlignment="Center" ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.EnergySkillRank}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,0">
+                                        <Grid>
+                                            <Border Width="32" Height="32">
+                                                <c:CachedImage ImageUrl="{Binding AvatarIcon}"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Value,StringFormat={}{0}次}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding CurrentRecord.LastSpiralAbyss.Floors}" Padding="0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <r:RecordFloorExpander/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="0,12,0,0">
+                    <TextBlock HorizontalAlignment="Center" Text="角色 · 武器 · 圣遗物" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <ItemsControl HorizontalAlignment="Center" Margin="0,12,-8,0" ItemsSource="{Binding CurrentRecord.DetailedAvatars}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,8,8" CornerRadius="{StaticResource CompatCornerRadius}"
+                                        Background="{StaticResource SystemControlPageBackgroundChromeMediumLowBrush}">
                                     <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <ui:ListView HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding SelectedAvatar.Reliquaries}" SelectedItem="{Binding SelectedReliquary,Mode=TwoWay}" Padding="0">
-                                            <ui:ListView.ItemTemplate>
-                                                <DataTemplate>
+                                        <StackPanel Margin="12,12,8,0" Grid.Column="0" HorizontalAlignment="Left">
+                                            <Border Width="70" Height="70"
+                                                CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                c:ImageAsyncHelper.ImageUrl="{Binding StarUrl}">
+                                                <Border Width="70" Height="70" HorizontalAlignment="Center"
+                                                    CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                    c:ImageAsyncHelper.ImageUrl="{Binding Icon}"
+                                                    RenderOptions.BitmapScalingMode="HighQuality">
                                                     <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid Width="32" Height="32" Margin="0,6">
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                            </Border>
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                                            </Border>
-                                                        </Grid>
-                                                        <TextBlock Margin="8,0" VerticalAlignment="Center" Grid.Column="1">
-                                                            <TextBlock.Text>
-                                                                <MultiBinding StringFormat="{}{0} +{1}">
-                                                                    <Binding Path="Name"/>
-                                                                    <Binding Path="Level"/>
-                                                                </MultiBinding>
-                                                            </TextBlock.Text>
-                                                        </TextBlock>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ui:ListView.ItemTemplate>
-                                        </ui:ListView>
-                                        <StackPanel Margin="8,0,8,8" Grid.Column="1">
-                                            <TextBlock Text="{Binding SelectedReliquary.ReliquarySet.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                            <ItemsControl ItemsSource="{Binding SelectedReliquary.ReliquarySet.Affixes}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="0,8,0,0">
-                                                            <TextBlock Text="{Binding ActivationNumber,StringFormat={}{0}件套}" Style="{StaticResource BaseTextBlockStyle}"/>
-                                                            <TextBlock Text="{Binding Effect}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap" TextTrimming="None"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                            <!--命之座-->
-                            <Grid Margin="8,8,8,0" VerticalAlignment="Top" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
-                                <StackPanel Margin="0,0,0,8">
-                                    <TextBlock HorizontalAlignment="Center" Margin="8,9,8,8" Text="命之座" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding SelectedAvatar.Constellations}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <DataTemplate.Triggers>
-                                                    
-                                                </DataTemplate.Triggers>
-                                                <ContentControl IsEnabled="{Binding IsActived}" Margin="0,4">
-                                                    <Grid>
-                                                        <Grid.Style>
-                                                            <Style TargetType="Grid">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsActived}" Value="False">
-                                                                        <Setter Property="Opacity" Value="0.6"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Grid.Style>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Border Width="48" Height="48" Margin="4">
-                                                            <c:CachedBitmapIcon UriSource="{Binding Icon}"/>
+                                                        <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+                                                            <c:CachedImage ImageUrl="{Binding ElementUrl}"/>
                                                         </Border>
-                                                        <StackPanel Grid.Column="1">
-                                                            <TextBlock Margin="8,4,8,0" Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}"/>
-                                                            <TextBlock Margin="8,4,8,0" Text="{Binding ProcessedEffect}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                                                        </StackPanel>
+                                                        <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ActivedConstellationNum}" FontSize="10"/>
+                                                        </Border>
+                                                        <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                    <GradientStop Color="#00000000"/>
+                                                                    <GradientStop Offset="1" Color="#CC000000"/>
+                                                                </LinearGradientBrush>
+                                                            </Border.Background>
+                                                            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                        </Border>
                                                     </Grid>
-                                                </ContentControl>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </s:SmoothScrollViewer>
-                </ui:SplitView>
-            </ui:SplitView.Content>
-        </ui:SplitView>
+                                                </Border>
+                                            </Border>
+
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Lv.{0} F.{1}">
+                                                        <Binding Path="Level"/>
+                                                        <Binding Path="Fetter"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="8,12,12,0" Grid.Column="1" HorizontalAlignment="Right">
+                                            <Border Width="70" Height="70"
+                                                CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                c:ImageAsyncHelper.ImageUrl="{Binding Weapon.StarUrl}">
+                                                <Border Width="70" Height="70" HorizontalAlignment="Center"
+                                                    CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                    c:ImageAsyncHelper.ImageUrl="{Binding Weapon.Icon}"
+                                                    RenderOptions.BitmapScalingMode="HighQuality">
+                                                    <Grid>
+                                                        <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.AffixLevel}" FontSize="10"/>
+                                                        </Border>
+                                                        <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                    <GradientStop Color="#00000000"/>
+                                                                    <GradientStop Offset="1" Color="#CC000000"/>
+                                                                </LinearGradientBrush>
+                                                            </Border.Background>
+                                                            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Weapon.Level,StringFormat={}Lv.{0}}"/>
+                                        </StackPanel>
+                                        <ItemsControl Margin="0,4" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Reliquaries}" HorizontalAlignment="Center" Padding="0">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Width="32" Height="32">
+                                                        <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
+        </s:SmoothScrollViewer>
+        <Border Grid.Row="1" Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Text="暂无数据" HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}"/>
+                <TextBlock Text="在上方的搜索栏中键入UID以查询" Margin="0,8,0,0" HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </ui:Page>

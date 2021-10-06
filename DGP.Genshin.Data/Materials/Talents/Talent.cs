@@ -5,17 +5,17 @@ namespace DGP.Genshin.Data.Materials.Talents
 {
     public class Talent : Material
     {
-        private const string Freedom = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423_70.png";
-        private const string Prosperity = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443_70.png";
-        private const string Transience = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_408_70.png";
+        private const string Freedom = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_423.png";
+        private const string Prosperity = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443.png";
+        private const string Transience = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_408.png";
 
-        private const string Resistance = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453_70.png";
-        private const string Diligence = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413_70.png";
-        private const string Elegance = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418_70.png";
+        private const string Resistance = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453.png";
+        private const string Diligence = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413.png";
+        private const string Elegance = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418.png";
 
-        private const string Ballad = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403_70.png";
-        private const string Gold = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433_70.png";
-        private const string Light = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428_70.png";
+        private const string Ballad = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_403.png";
+        private const string Gold = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_433.png";
+        private const string Light = "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428.png";
 
         public Talent()
         {

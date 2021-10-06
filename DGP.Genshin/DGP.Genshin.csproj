@@ -79,6 +79,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\CachedImage\CachedBitmapIcon.cs" />
     <Compile Include="Controls\CachedImage\CachedIconElementBase.cs" />
+    <Compile Include="Controls\CachedImage\ImageAsyncHelper.cs" />
     <Compile Include="Controls\CachedImage\FileCache.cs" />
     <Compile Include="Controls\CachedImage\CachedImage.cs" />
     <Compile Include="Controls\Characters\CharacterItem.xaml.cs">

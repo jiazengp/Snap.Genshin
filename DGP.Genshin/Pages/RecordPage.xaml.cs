@@ -15,8 +15,12 @@ namespace DGP.Genshin.Pages
     {
         public RecordPage()
         {
-            this.DataContext = RecordService.Instance;
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            this.DataContext = RecordService.Instance;
             if (RecordService.Instance.QueryHistory.Count > 0)
             {
                 RecordService s = RecordService.Instance;
@@ -31,6 +35,7 @@ namespace DGP.Genshin.Pages
             }
             this.Log("initialized");
         }
+
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
