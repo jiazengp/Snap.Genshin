@@ -45,7 +45,7 @@
                     </Expander.Header>
                     <StackPanel>
                         <ui:ToggleSwitch Header="开机时启动" IsOn="{Binding AutoRunHelper.IsAutoRun}"/>
-                        <ui:ToggleSwitch Header="每日首次启动时尝试签到" IsOn="{Binding SettingModel.AutoDailySignInOnLaunch}"/>
+                        <ui:ToggleSwitch Header="启动时签到" IsOn="{Binding SettingModel.AutoDailySignInOnLaunch}"/>
                     </StackPanel>
                 </Expander>
                 <Expander Margin="12,12,16,0">

@@ -9,7 +9,8 @@
          xmlns:r="clr-namespace:DGP.Genshin.Controls.Records" 
          xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer" 
          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-         xmlns:mihoyo="clr-namespace:DGP.Genshin.Models.MiHoYo" xmlns:controls="clr-namespace:DGP.Genshin.Controls"
+         xmlns:mihoyo="clr-namespace:DGP.Genshin.Models.MiHoYo" 
+         xmlns:controls="clr-namespace:DGP.Genshin.Controls"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="1200"
          Title="RecordPage" Loaded="Page_Loaded">
@@ -28,7 +29,11 @@
         <ui:CommandBar Grid.Row="0">
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
-                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" Margin="8,4,0,0" MinWidth="240" PlaceholderText="键入UID以查询" QueryIcon="Find"
+                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" 
+                                       Margin="8,4,0,0" 
+                                       MinWidth="240" 
+                                       PlaceholderText="键入UID以查询" 
+                                       QueryIcon="Find"
                                        TextChanged="AutoSuggestBox_TextChanged" 
                                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
                                        QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
@@ -37,8 +42,8 @@
                 </StackPanel>
             </ui:CommandBar.Content>
         </ui:CommandBar>
-        <s:SmoothScrollViewer Grid.Row="1" Padding="0,4,4,0">
-            <Grid Margin="12,0,12,4">
+        <s:SmoothScrollViewer Grid.Row="1" Padding="0,0,4,0">
+            <Grid Margin="12,4,12,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>

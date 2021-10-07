@@ -228,7 +228,18 @@ namespace DGP.Genshin.Services.GachaStatistic
         public async Task ExportDataToExcelAsync(string path) =>
             await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.SaveLocalGachaDataToExcel(path));
 
-        public async Task ImportFromGenshinGachaExportAsync(string path) =>
-            await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.ImportFromGenshinGachaExport(path));
+        public async Task ImportFromGenshinGachaExportAsync(string path)
+        {
+            if (!await Task.Run(() => this.GachaLogProvider.LocalGachaLogProvider.ImportFromGenshinGachaExport(path)))
+            {
+                await new ContentDialog()
+                {
+                    Title = "导入祈愿记录失败",
+                    Content = "选择的文件内部格式不正确",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            }
+        }
     }
 }

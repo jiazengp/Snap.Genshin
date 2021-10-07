@@ -94,30 +94,54 @@ namespace DGP.Genshin.Services.GachaStatistic
         #endregion
 
         #region import
-        public void ImportFromGenshinGachaExport(string filePath)
+        public bool ImportFromGenshinGachaExport(string filePath)
         {
+            return ImportExternalData<GenshinGachaExportFile>(filePath, file => new ImportableGachaData
+            {
+                Uid = file.Uid,
+                Data = file.Data,
+                Types = file.Types
+            });
+        }
+
+        public bool ImportExternalData<T>(string filePath, Func<T, ImportableGachaData> converter)
+        {
+            bool successful = true;
             this.Service.CanUserSwitchUid = false;
             lock (this.processing)
             {
-                GenshinGachaExportFile file = Json.FromFile<GenshinGachaExportFile>(filePath);
-                GachaData data = file.Data;
-                //is new uid
-                if (App.Current.Invoke(() => this.Service.SwitchUidContext(file.Uid)))
+                try
                 {
-                    this.Data[file.Uid] = data;
+                    T file = Json.FromFile<T>(filePath);
+                    ImportCoreInternal(converter.Invoke(file));
                 }
-                else//we need to perform merge operation
+                catch
                 {
-                    foreach (KeyValuePair<string, List<GachaLogItem>> pool in data)
-                    {
-                        List<GachaLogItem> backIncrement = PickBackIncrement(file.Uid, pool.Key, pool.Value);
-                        MergeBackIncrement(pool.Key, backIncrement);
-                    }
+                    successful = false;
                 }
             }
             this.Service.SyncStatisticWithUidAsync();
             this.Service.CanUserSwitchUid = true;
             SaveAllLogs();
+            return successful;
+        }
+
+        private void ImportCoreInternal(ImportableGachaData importable)
+        {
+            GachaData data = importable.Data;
+            //is new uid
+            if (App.Current.Invoke(() => this.Service.SwitchUidContext(importable.Uid)))
+            {
+                this.Data[importable.Uid] = data;
+            }
+            else//we need to perform merge operation
+            {
+                foreach (KeyValuePair<string, List<GachaLogItem>> pool in data)
+                {
+                    List<GachaLogItem> backIncrement = PickBackIncrement(importable.Uid, pool.Key, pool.Value);
+                    MergeBackIncrement(pool.Key, backIncrement);
+                }
+            }
         }
 
         private List<GachaLogItem> PickBackIncrement(string uid, string poolType, List<GachaLogItem> importList)

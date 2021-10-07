@@ -19,7 +19,17 @@
         </Grid.RowDefinitions>
         <ui:CommandBar>
             <ui:CommandBar.Content>
-                <ui:BitmapIcon Margin="12,4,0,0" UriSource="https://youngmoe.com/static/img/png/logo.c2ceb873.png"/>
+                <StackPanel Orientation="Horizontal">
+                    <ui:BitmapIcon Margin="12,4,0,0" UriSource="https://youngmoe.com/static/img/png/logo.c2ceb873.png"/>
+                    <TextBlock Margin="24,12,0,0">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}当前收录人数：{0} | 深渊满星人数：{1}">
+                                <Binding Path="TotalSubmitted"/>
+                                <Binding Path="AbyssPassed"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
             </ui:CommandBar.Content>
         </ui:CommandBar>
         <smoothscrollviewer:SmoothScrollViewer Padding="12,0,16,0" Grid.Row="1">
@@ -35,6 +45,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
+                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}"/>
@@ -44,6 +55,7 @@
                                     <TextBlock Grid.Column="2" Text="{Binding AvgConstellation,StringFormat={}平均命座：{0:0.00}}"/>
                                     <TextBlock Grid.Column="3" Text="{Binding HaveRate,StringFormat={}持有率：{0:p}}"/>
                                     <TextBlock Grid.Column="4" Text="{Binding UseRate,StringFormat={}使用率：{0:p}}"/>
+                                    <TextBlock Grid.Column="5" Text="{Binding UpRate,StringFormat={}上场率：{0:p}}"/>
                                 </Grid>
                             </Expander.Header>
                             <Grid>

@@ -1,13 +1,13 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Post;
 using DGP.Genshin.Services;
-using DGP.Genshin.Services.Settings;
+using DGP.Genshin.Services.Launching;
 using DGP.Snap.Framework.Extensions.System;
+using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -19,17 +19,21 @@ namespace DGP.Genshin.Pages
     /// <summary>
     /// HomePage.xaml 的交互逻辑
     /// </summary>
-    public partial class HomePage : Page, INotifyPropertyChanged
+    public partial class HomePage : System.Windows.Controls.Page, INotifyPropertyChanged
     {
         private List<Post> posts;
 
         public HomePage()
         {
+            this.Launcher = LaunchService.Instance;
+            this.Launcher.Initialize();
             this.DataContext = this;
             InitializeComponent();
             this.Log("initialized");
         }
+
         public List<Post> Posts { get => this.posts; set => Set(ref this.posts, value); }
+        public LaunchService Launcher{ get; set; }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -53,34 +57,29 @@ namespace DGP.Genshin.Pages
             this.Posts = (await new MiHoYoBBSService().GetOfficialRecommendedPostsAsync())?
                 .OrderBy(p => p.OfficialType).ToList();
         }
-
         private void PostButtonClick(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
             Process.Start($@"https://bbs.mihoyo.com/ys/article/{b.Tag}");
         }
-
         private void LaunchButtonClick(object sender, RoutedEventArgs e)
         {
-            string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
-            if (launcherPath != null)
+            this.Launcher.Launch(this.Launcher.CurrentScheme, async ex =>
             {
-                string yuanshenPath = $@"{Path.GetDirectoryName(launcherPath)}\Genshin Impact Game\Yuanshen.exe";
-                try
+                await new ContentDialog()
                 {
-                    Process p = Process.Start(yuanshenPath);
-                }
-                catch(Win32Exception)
-                {
-
-                }
-            }
-            else
-            {
-                //TODO add warning here.
-            }
+                    Title = "原神启动失败",
+                    Content = ex.Message,
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            });
         }
     }
+
+    /// <summary>
+    /// 导航到网站的支持
+    /// </summary>
     public class IdToPostConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>

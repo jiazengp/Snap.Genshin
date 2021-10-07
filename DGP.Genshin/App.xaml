@@ -5,7 +5,9 @@
     xmlns:local="clr-namespace:DGP.Genshin"
     xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
     xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
-    xmlns:controls="clr-namespace:DGP.Genshin.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+    xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnMainWindowClose">

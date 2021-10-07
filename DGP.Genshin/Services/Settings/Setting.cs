@@ -16,6 +16,8 @@ namespace DGP.Genshin.Services.Settings
         public const string ShowFullUID = "ShowFullUID";
         public const string AutoDailySignInOnLaunch = "AutoDailySignInOnLaunch";
         public const string LauncherPath = "LauncherPath";
+        public const string IsBorderless = "IsBorderlessLaunch";
+        public const string LastAutoSignInTime = "LastAutoSignInTime";
 
         public static ApplicationTheme? ApplicationThemeConverter(object n) =>
             n == null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);

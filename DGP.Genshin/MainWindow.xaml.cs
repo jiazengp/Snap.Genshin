@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.Markdown;
-using DGP.Genshin.Helpers;
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
@@ -55,10 +54,18 @@ namespace DGP.Genshin
 
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
-                splashView.CurrentStateDescription = "签到中...";
-                await InitializeSignInPanelDataAsync();
-                SignInResult result = await dailySignInService.SignInAsync(SelectedRole);
-                new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
+                DateTime time = SettingService.Instance.GetOrDefault(
+                    Setting.LastAutoSignInTime, 
+                    DateTime.Today.AddDays(-1), 
+                    str => DateTime.Parse((string)str));
+
+                if (time <= DateTime.Today)
+                {
+                    splashView.CurrentStateDescription = "签到中...";
+                    await InitializeSignInPanelDataAsync();
+                    SignInResult result = await this.dailySignInService.SignInAsync(this.SelectedRole);
+                    new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
+                }
             }
 
             splashView.CurrentStateDescription = "完成";

@@ -2,7 +2,9 @@
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
+using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Extensions.System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -68,6 +70,7 @@ namespace DGP.Genshin.Services
             }
             string cookie = CookieManager.Cookie;
             var data = new { act_id = ActivityId, region = role.Region, uid = role.GameUid };
+            SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
             return await Task.Run(() => new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },

@@ -30,32 +30,36 @@ namespace DGP.Genshin.Services.Screenshots
             }
             this.isInitialized = true;
 
-            Directory.CreateDirectory(ScreenshotFolder);
-
-            //move launcher image to local
             string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
             string launcherDir = Path.GetDirectoryName(launcherPath);
-            foreach (string image in Directory.EnumerateFiles($@"{launcherDir}\Genshin Impact Game\ScreenShot"))
+            string gameScreenshotFolder = $@"{launcherDir}\Genshin Impact Game\ScreenShot";
+            string localScreenshotFolder = $@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}";
+
+            Directory.CreateDirectory(ScreenshotFolder);
+            Directory.CreateDirectory(gameScreenshotFolder);
+
+            //move launcher image to local
+            foreach (string image in Directory.EnumerateFiles(gameScreenshotFolder))
             {
-                string filename = $@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss}.{Guid.NewGuid()}.png";
+                string filename = $@"{localScreenshotFolder}\{DateTime.Now:yyyy-MM-dd HH-mm-ss}.{Guid.NewGuid()}.png";
                 File.Move(image, filename);
             }
             //load local 
-            foreach (string image in Directory.EnumerateFiles($@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}"))
+
+            foreach (string image in Directory.EnumerateFiles(localScreenshotFolder))
             {
                 this.Screenshots.Add(new Screenshot(image));
             }
 
             //watch game folder
-            string gamePath = $@"{launcherDir}\Genshin Impact Game\ScreenShot";
-            this.gameScreenshotWatcher = new FileSystemWatcher(gamePath)
+            this.gameScreenshotWatcher = new FileSystemWatcher(gameScreenshotFolder)
             {
                 EnableRaisingEvents = true
             };
             this.gameScreenshotWatcher.Created += OnGameScreenshotCreated;
+
             //watch local folder
-            string localPath = $@"{Directory.GetCurrentDirectory()}\{ScreenshotFolder}";
-            this.localScreenshotWatcher = new FileSystemWatcher(localPath)
+            this.localScreenshotWatcher = new FileSystemWatcher(localScreenshotFolder)
             {
                 EnableRaisingEvents = true
             };
@@ -88,7 +92,6 @@ namespace DGP.Genshin.Services.Screenshots
             this.Log("uninitialized");
         }
         #endregion
-
 
         private void OnScreenshotCreated(object sender, FileSystemEventArgs e)
         {
