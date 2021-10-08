@@ -11,16 +11,14 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// 开发者功能：Github储存库服务
+    /// </summary>
     internal class GithubService : Observable
     {
         private const string repoFile = "repoinfos.json";
         private readonly GitHubClient client;
         private List<RepoInfo> repoInfos;
-
-        private ObservableCollection<Repository> repositories = new ObservableCollection<Repository>();
-        private Repository selectedRepository;
-        private List<Release> releases;
-        private Release selectedRelease;
 
         public GithubService()
         {
@@ -32,9 +30,8 @@ namespace DGP.Genshin.Services
             SelectedRepositoryChanged += OnSelectedRepositoryChanged;
         }
 
-        private async void OnSelectedRepositoryChanged(long id) => this.Releases = new List<Release>(await GetRepositoryReleases(id));
-
-        public async Task<IReadOnlyList<Release>> GetRepositoryReleases(long id) => await this.client.Repository.Release.GetAll(id);
+        public async Task<IReadOnlyList<Release>> GetRepositoryReleases(long id) =>
+            await this.client.Repository.Release.GetAll(id);
 
         public async Task<Repository> GetRepository(string ownerAndName)
         {
@@ -53,6 +50,11 @@ namespace DGP.Genshin.Services
             }
         }
 
+        #region Observable
+        private ObservableCollection<Repository> repositories = new ObservableCollection<Repository>();
+        private Repository selectedRepository;
+        private List<Release> releases;
+        private Release selectedRelease;
         public ObservableCollection<Repository> Repositories { get => this.repositories; set => Set(ref this.repositories, value); }
         public Repository SelectedRepository
         {
@@ -64,9 +66,10 @@ namespace DGP.Genshin.Services
         }
         public List<Release> Releases { get => this.releases; set => Set(ref this.releases, value); }
         public Release SelectedRelease { get => this.selectedRelease; set => Set(ref this.selectedRelease, value); }
+        #endregion
 
+        #region LifeCycle
         private bool isInitialized = false;
-
         public async Task InitializeAsync()
         {
             if (!this.isInitialized)
@@ -94,15 +97,19 @@ namespace DGP.Genshin.Services
             using StreamWriter writer = new StreamWriter(File.Create(repoFile));
             writer.Write(Json.Stringify(this.repoInfos));
         }
-
         ~GithubService()
         {
             UnInitialize();
         }
+        #endregion
 
         private event Action<long> SelectedRepositoryChanged;
+        private async void OnSelectedRepositoryChanged(long id) =>
+            this.Releases = new List<Release>(await GetRepositoryReleases(id));
     }
-
+    /// <summary>
+    /// 储存库信息
+    /// </summary>
     public class RepoInfo : IEquatable<RepoInfo>
     {
         public RepoInfo(string owner, string name)

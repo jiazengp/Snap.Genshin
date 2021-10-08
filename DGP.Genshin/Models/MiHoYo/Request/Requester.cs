@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo.Request
 {
+    /// <summary>
+    /// MiHoYo API 专用请求器
+    /// </summary>
     public class Requester
     {
         public RequestOptions Headers { get; set; } = new RequestOptions();

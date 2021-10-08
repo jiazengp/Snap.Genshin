@@ -6,6 +6,9 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Controls.CachedImage
 {
+    /// <summary>
+    /// 用来在 <see cref="Border"/> 上设置异步设置 <see cref="Border.Background"/>
+    /// </summary>
     public class ImageAsyncHelper : DependencyObject
     {
         public static string GetImageUrl(DependencyObject obj) => (string)obj.GetValue(ImageUrlProperty);

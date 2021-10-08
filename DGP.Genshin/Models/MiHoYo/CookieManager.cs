@@ -1,11 +1,15 @@
 ﻿using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Models.MiHoYo
 {
-    public static class CookieManager
+    /// <summary>
+    /// Cookie管理器
+    /// </summary>
+    public class CookieManager
     {
         private static readonly string CookieFile = "cookie.dat";
         static CookieManager()
@@ -23,18 +27,9 @@ namespace DGP.Genshin.Models.MiHoYo
         public static bool IsCookieAvailable =>
             !String.IsNullOrEmpty(Cookie);
 
-        //public static async Task EnsureCookieExistAsync()
-        //{
-        //    if (String.IsNullOrEmpty(Cookie))
-        //    {
-        //        Logger.LogStatic(typeof(CookieManager), "can't find available cookie");
-        //        await SetCookieAsync();
-        //    }
-        //}
-
+        [SuppressMessage("", "IDE0002")]
         public static async Task SetCookieAsync()
         {
-            //Cookie = await App.Current.Invoke(() => new CookieDialog().GetInputCookieAsync());
             Cookie = await App.Current.Invoke(new CookieDialog().GetInputCookieAsync);
             CookieRefreshed?.Invoke();
             File.WriteAllText(CookieFile, Cookie);

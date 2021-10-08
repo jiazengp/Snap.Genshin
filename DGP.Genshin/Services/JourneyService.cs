@@ -119,9 +119,11 @@ namespace DGP.Genshin.Services
             this.UserGameRoleInfo = await GetUserGameRolesAsync();
             this.SelectedRole = this.UserGameRoleInfo?.List.First();
         }
-        private async void OnUserGameRoleChanged(UserGameRole role) => this.JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
 
         private event UserGameRoleChangedHandler UserGameRoleChanged;
+        private async void OnUserGameRoleChanged(UserGameRole role) =>
+            this.JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
     }
+
     public delegate void UserGameRoleChangedHandler(UserGameRole role);
 }

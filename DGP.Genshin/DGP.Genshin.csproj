@@ -98,13 +98,6 @@
     <Compile Include="Controls\EditDialogs\WeaponDialog.xaml.cs">
       <DependentUpon>WeaponDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Html\CssStylesheet.cs" />
-    <Compile Include="Controls\Html\HtmlCssParser.cs" />
-    <Compile Include="Controls\Html\HtmlLexicalAnalyzer.cs" />
-    <Compile Include="Controls\Html\HtmlParser.cs" />
-    <Compile Include="Controls\Html\HtmlSchema.cs" />
-    <Compile Include="Controls\Html\HtmlTokenType.cs" />
-    <Compile Include="Controls\Html\HtmlToXamlConverter.cs" />
     <Compile Include="Controls\Markdown\Markdown.cs" />
     <Compile Include="Controls\Markdown\TextToFlowDocumentConverter.cs" />
     <Compile Include="Controls\Records\ActivityTemplateSelector.cs" />
@@ -126,7 +119,6 @@
     </Compile>
     <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\AutoRunHelper.cs" />
-    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\TokenHelper.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\ValidateHelper.cs" />

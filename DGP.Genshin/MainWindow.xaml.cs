@@ -44,7 +44,6 @@ namespace DGP.Genshin
         private async void SplashInitializeCompleted(SplashView splashView)
         {
             ScreenshotService.Instance.Initialize();
-            //NotificationHelper.SendNotification();
 
             splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
@@ -52,11 +51,12 @@ namespace DGP.Genshin
             splashView.CurrentStateDescription = "初始化用户信息...";
             await InitializeUserInfoAsync();
 
+            //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
                 DateTime time = SettingService.Instance.GetOrDefault(
-                    Setting.LastAutoSignInTime, 
-                    DateTime.Today.AddDays(-1), 
+                    Setting.LastAutoSignInTime,
+                    DateTime.Today.AddDays(-1),
                     str => DateTime.Parse((string)str));
 
                 if (time <= DateTime.Today)
@@ -69,13 +69,14 @@ namespace DGP.Genshin
             }
 
             splashView.CurrentStateDescription = "完成";
-            splashView.HasCheckCompleted = true;
             if (!this.navigationService.HasEverNavigated)
             {
                 this.navigationService.Navigate<HomePage>(true);
             }
+            splashView.HasCheckCompleted = true;
         }
 
+        #region Update
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
@@ -83,27 +84,11 @@ namespace DGP.Genshin
             {
                 case UpdateState.NeedUpdate:
                     {
-                        ContentDialogResult dialogResult = await new ContentDialog
-                        {
-                            Title = UpdateService.Instance.Release.Name,
-                            Content = new FlowDocumentScrollViewer
-                            {
-                                Document = new TextToFlowDocumentConverter
-                                {
-                                    Markdown = FindResource("Markdown") as Markdown
-                                }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
-                            },
-                            PrimaryButtonText = "更新",
-                            CloseButtonText = "忽略",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
-
-                        if (dialogResult == ContentDialogResult.Primary)
+                        if (await ShowConfirmUpdateDialogAsync() == ContentDialogResult.Primary)
                         {
                             UpdateService.Instance.DownloadAndInstallPackage();
                             await new UpdateDialog().ShowAsync();
                         }
-
                         break;
                     }
                 case UpdateState.NotAvailable:
@@ -120,7 +105,27 @@ namespace DGP.Genshin
             }
         }
 
+        private async Task<ContentDialogResult> ShowConfirmUpdateDialogAsync()
+        {
+            return await new ContentDialog
+            {
+                Title = UpdateService.Instance.Release.Name,
+                Content = new FlowDocumentScrollViewer
+                {
+                    Document = new TextToFlowDocumentConverter
+                    {
+                        Markdown = FindResource("Markdown") as Markdown
+                    }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
+                },
+                PrimaryButtonText = "更新",
+                CloseButtonText = "忽略",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
+        }
+        #endregion
+
         #region SignIn
+
         #region Observable
         /// <summary>
         /// 签到奖励一览

@@ -8,10 +8,25 @@
         xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
         mc:Ignorable="d" 
         d:DesignHeight="70" d:DesignWidth="70" 
-        Width="70" Height="70"
+        Width="70" Height="0"
+        Opacity="0"
         BorderThickness="0"
-        RenderOptions.BitmapScalingMode="HighQuality"
+        RenderOptions.BitmapScalingMode="HighQuality" 
+        x:Name="ContentButton"
         >
+    <Button.Resources>
+        <ui:CubicBezierEase x:Key="CubicBezierEase"/>
+    </Button.Resources>
+    <Button.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Storyboard.TargetName="ContentButton">
+                    <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="70" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Button.Triggers>
     <Border Width="70" Height="70"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
@@ -37,6 +52,4 @@
             </Grid>
         </Border>
     </Border>
-    <!--<c:CachedImage ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
-        <c:CachedImage ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>-->
 </Button>

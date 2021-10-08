@@ -15,6 +15,7 @@ namespace DGP.Genshin.Models.MiHoYo
 
         public override string ToString() => $"状态：{this.ReturnCode} | 信息：{this.Message}";
     }
+
     /// <summary>
     /// Mihoyo 标准API响应
     /// </summary>

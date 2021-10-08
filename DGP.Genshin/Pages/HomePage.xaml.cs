@@ -33,7 +33,7 @@ namespace DGP.Genshin.Pages
         }
 
         public List<Post> Posts { get => this.posts; set => Set(ref this.posts, value); }
-        public LaunchService Launcher{ get; set; }
+        public LaunchService Launcher { get; set; }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

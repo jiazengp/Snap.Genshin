@@ -21,6 +21,9 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// 元数据服务
+    /// </summary>
     public class MetaDataService : Observable
     {
         #region Consts

@@ -25,7 +25,9 @@ namespace DGP.Genshin.Models.MiHoYo
             return s;
         }
     }
-
+    /// <summary>
+    /// 在XAML中支持移除Html内容
+    /// </summary>
     public class HtmlStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>

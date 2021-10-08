@@ -38,7 +38,7 @@
                                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
                                        QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
                     <ui:ProgressRing x:Name="RequestingProgressRing" Margin="12,4,0,0"/>
-                    <TextBlock x:Name="RequestingProgressText" Margin="12,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="RequestingProgressText" Margin="12,4,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
             </ui:CommandBar.Content>
         </ui:CommandBar>

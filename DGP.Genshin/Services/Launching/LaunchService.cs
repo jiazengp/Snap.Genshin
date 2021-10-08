@@ -57,7 +57,7 @@ namespace DGP.Genshin.Services.Launching
             string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
             if (launcherPath != null)
             {
-                string unescapedGameFolder = this.launcherConfig["launcher"]["game_install_path"].Replace("x", "u");
+                string unescapedGameFolder = GetUnescapedGameFolder();
                 string gamePath = $@"{unescapedGameFolder}/{this.launcherConfig["launcher"]["game_start_name"]}";
                 gamePath = Regex.Unescape(gamePath);
 
@@ -90,7 +90,7 @@ namespace DGP.Genshin.Services.Launching
             FileIniDataParser launcherParser = new FileIniDataParser();
             this.launcherConfig = launcherParser.ReadFile(configPath);
 
-            string unescapedGameFolder = Regex.Unescape(this.launcherConfig["launcher"]["game_install_path"].Replace("x", "u"));
+            string unescapedGameFolder = GetUnescapedGameFolder();
 
             FileIniDataParser gameParser = new FileIniDataParser();
             this.gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
@@ -99,6 +99,8 @@ namespace DGP.Genshin.Services.Launching
             //cause we don't wanna trigger the save func
             OnPropertyChanged(nameof(this.CurrentScheme));
         }
+
+        private string GetUnescapedGameFolder() => Regex.Unescape(this.launcherConfig["launcher"]["game_install_path"].Replace(@"\x", @"\u"));
 
         #region 单例
         private static LaunchService instance;

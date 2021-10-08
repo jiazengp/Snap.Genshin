@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// 导航服务
+    /// </summary>
     public class NavigationService
     {
         private readonly Frame frame;
@@ -26,6 +29,7 @@ namespace DGP.Genshin.Services
 
             this.navigationView.ItemInvoked += OnItemInvoked;
         }
+
 
         public static NavigationService Current;
         public bool HasEverNavigated { get; set; } = false;

@@ -198,11 +198,10 @@
                                 </Grid>
                             </Grid>
                         </Expander>
-                        
+
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </smoothscrollviewer:SmoothScrollViewer>
-        
     </Grid>
 </Page>

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
+    /// <summary>
+    /// 天空岛数据库服务
+    /// </summary>
     public class CelestiaDatabaseService : Observable
     {
         private const string YoungMoeData = @"https://youngmoe.com/data";
