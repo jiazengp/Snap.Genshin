@@ -372,10 +372,10 @@
                                     <DataTemplate>
                                         <StackPanel Margin="2">
                                             <Grid>
-                                                <Border Width="48" Height="48">
+                                                <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
                                                 </Border>
-                                                <Border Width="48" Height="48">
+                                                <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
                                                 </Border>
                                             </Grid>
@@ -398,10 +398,10 @@
                                     <DataTemplate>
                                         <StackPanel Margin="2">
                                             <Grid>
-                                                <Border Width="48" Height="48">
+                                                <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
                                                 </Border>
-                                                <Border Width="48" Height="48">
+                                                <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
                                                 </Border>
                                             </Grid>

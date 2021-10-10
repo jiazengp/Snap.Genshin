@@ -207,6 +207,7 @@
     <Compile Include="Models\YoungMoe\Collocation\CollocationRelic.cs" />
     <Compile Include="Models\YoungMoe\Collocation\ProcessedRelic.cs" />
     <Compile Include="Models\YoungMoe\Gamers.cs" />
+    <Compile Include="Models\YoungMoe\Recommand\Recommand.cs" />
     <Compile Include="Pages\CelestiaDatabasePage.xaml.cs">
       <DependentUpon>CelestiaDatabasePage.xaml</DependentUpon>
     </Compile>
@@ -234,9 +235,6 @@
     <Compile Include="Pages\RecordPage.xaml.cs">
       <DependentUpon>RecordPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ScreenshotsPage.xaml.cs">
-      <DependentUpon>ScreenshotsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -263,8 +261,6 @@
     <Compile Include="Services\GithubService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\RecordService.cs" />
-    <Compile Include="Services\Screenshots\Screenshot.cs" />
-    <Compile Include="Services\Screenshots\ScreenshotService.cs" />
     <Compile Include="Services\Settings\Setting.cs" />
     <Compile Include="Services\Settings\SettingModel.cs" />
     <Compile Include="Services\Settings\SettingService.cs" />
@@ -371,10 +367,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\RecordPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\ScreenshotsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
     /// 世界探索
     /// </summary>
     [JsonModel]
-    internal class WorldExploration
+    public class WorldExploration
     {
         [JsonProperty("level")] public int Level { get; set; }
         /// <summary>

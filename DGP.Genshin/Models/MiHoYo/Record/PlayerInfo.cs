@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
     /// 玩家信息
     /// </summary>
     [JsonModel]
-    internal class PlayerInfo
+    public class PlayerInfo
     {
         [JsonProperty("avatars")] public List<Avatar.Avatar> Avatars { get; set; }
         [JsonProperty("stats")] public PlayerStats PlayerStat { get; set; }

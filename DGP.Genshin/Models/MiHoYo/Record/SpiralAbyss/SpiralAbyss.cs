@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     /// 深境螺旋信息
     /// </summary>
     [JsonModel]
-    internal class SpiralAbyss
+    public class SpiralAbyss
     {
         [JsonProperty("schedule_id")] public int ScheduleId { get; set; }
         [JsonProperty("start_time")] public string StartTime { get; set; }

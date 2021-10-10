@@ -10,7 +10,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// 角色详细详细
     /// </summary>
     [JsonModel]
-    internal class DetailedAvatar : Avatar
+    public class DetailedAvatar : Avatar
     {
         /// <summary>
         /// we don't want to use this ugly pic here

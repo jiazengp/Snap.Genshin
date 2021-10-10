@@ -6,7 +6,6 @@ using DGP.Genshin.Models.MiHoYo.User;
 using DGP.Genshin.Models.MiHoYo.UserInfo;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
-using DGP.Genshin.Services.Screenshots;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Attributes;
@@ -43,8 +42,6 @@ namespace DGP.Genshin
         [HandleEvent]
         private async void SplashInitializeCompleted(SplashView splashView)
         {
-            ScreenshotService.Instance.Initialize();
-
             splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
 

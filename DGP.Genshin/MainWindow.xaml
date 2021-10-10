@@ -160,12 +160,7 @@
                         <ui:FontIcon Glyph="&#xE8FD;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="游戏截图" helpers:NavHelper.NavigateTo="{x:Type pages:ScreenshotsPage}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Glyph="&#xEB9F;"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
-                
+
                 <ui:NavigationViewItemHeader Content="高级"/>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 <ui:NavigationViewItem Content="天空岛数据库" helpers:NavHelper.NavigateTo="{x:Type pages:CelestiaDatabasePage}">

@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// 圣遗物
     /// </summary>
     [JsonModel]
-    internal class Reliquary
+    public class Reliquary
     {
         [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("name")] public string Name { get; set; }

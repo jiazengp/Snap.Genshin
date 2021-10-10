@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// 武器信息
     /// </summary>
     [JsonModel]
-    internal class Weapon
+    public class Weapon
     {
         [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("name")] public string Name { get; set; }

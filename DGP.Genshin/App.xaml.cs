@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Genshin.Services.Screenshots;
 using DGP.Genshin.Services.Settings;
 using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System;
@@ -47,7 +46,6 @@ namespace DGP.Genshin
             {
                 MetaDataService.Instance.UnInitialize();
                 SettingService.Instance.UnInitialize();
-                ScreenshotService.Instance.UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
                 Logger.Instance.UnInitialize();
             }

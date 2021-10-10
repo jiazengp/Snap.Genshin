@@ -10,22 +10,30 @@
 ### 说明
 
 由于开发周期问题，下方的示例图片可能会与发行版有所出入，仅供参考  
-目前我们正计划将项目UI层迁移到 Win UI 3
+下方的示意图取自程序的开发版本，部分功能对非开发者不会开放
+
+### 系统要求
+
+> Windows 10 20H1 或更新的版本（完全支持 Windows 11）  
+> .NET Framework 4.8  
+> 运行时内存需求：300MB  
+> 储存空间：200MB
 
 # Snap Genshin
 > 现代化响应式UI设计，杜绝无响应  
 > 全自动更新流程，省心一键升级
 
 > 标题栏显示当前用户相关信息，与米游社同步  
-> 米游社每日签到简化签到流程，一键签到领取奖励
+> 简化米游社每日签到流程，一键签到领取奖励
 
-> 数据与程序分离，开发人员高度自定义功能
+> 数据与程序本体分离，开发人员高度自定义
 
 # 首页
 
-> 显示最新官方公告
+> 显示最新官方公告  
+> 启动游戏
 
-![首页.png](https://i.loli.net/2021/08/24/mGSsKA9qcMg2NXT.png)
+![首页](https://i.loli.net/2021/10/10/5pQdSKxrEDAzg7t.png)
 
 # 祈愿记录
 
@@ -39,8 +47,8 @@
 > 祈愿记录导出的 Excel 可以导入到 [voderl/genshin-gacha-analyzer](https://github.com/voderl/genshin-gacha-analyzer)  
 > 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 的 json 文件导入
 
-![祈愿记录](https://i.loli.net/2021/08/24/ZswzlWGEce7kquO.png)
-![祈愿历史记录](https://i.loli.net/2021/08/24/MeswcNXbzTjiA3l.png)
+![祈愿记录](https://i.loli.net/2021/10/10/Y2JUDdTpSGlhOme.png)
+![祈愿历史记录](https://i.loli.net/2021/10/10/8VPfkl4KaoCSZeY.png)
 
 # 玩家信息
 
@@ -48,13 +56,16 @@
 > 展示全角色等级武器圣遗物命座信息  
 > 展示玩家基础信息、世界探索、尘歌壶、深境螺旋、活动信息  
 
-![玩家信息](https://i.loli.net/2021/08/24/WUxkruiLb1NHIFa.png)
+![record1.png](https://i.loli.net/2021/10/10/vVgPOADeiwptocz.png)
+![record.png](https://i.loli.net/2021/10/10/L7naeUitXCp3Ggf.png)
 
-# 其他功能
-### 日常材料
-![日常.png](https://i.loli.net/2021/08/24/HGUqPasvlfOj38I.png)
-### 周常材料
-![周常.png](https://i.loli.net/2021/08/24/SdWrjBXmqzGspZM.png)
+# 天空岛数据库
+
+> 从 [天空岛数据库](https://youngmoe.com/) 获取数据，重新呈现  
+> 优化的队伍推荐功能，直接访问玩家角色信息，提供最佳推荐方案
+
+![database1.png](https://i.loli.net/2021/10/10/j48U3Av2n9ftOQD.png)
+![database.png](https://i.loli.net/2021/10/10/pKqHmZnMBYD4ayF.png)
 
 </div>
 
@@ -65,3 +76,5 @@
 # 反馈须知
 
 提交Bug/程序崩溃：程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交
+
+> 我们的反馈QQ群：910780153

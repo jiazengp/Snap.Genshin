@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// 包装详细角色信息列表
     /// </summary>
     [JsonModel]
-    internal class DetailedAvatarInfo
+    public class DetailedAvatarInfo
     {
         [JsonProperty("avatars")] public List<DetailedAvatar> Avatars { get; set; }
     }

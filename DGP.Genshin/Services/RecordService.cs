@@ -18,7 +18,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// this service shouldn't be disposed during the runtime cause re-request web really slow
     /// </summary>
-    internal class RecordService : Observable
+    public class RecordService : Observable
     {
         private const string QueryHistoryFile = "history.dat";
         private const string BaseUrl = @"https://api-takumi.mihoyo.com/game_record/app/genshin/api";

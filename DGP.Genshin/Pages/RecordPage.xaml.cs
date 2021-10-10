@@ -35,7 +35,7 @@ namespace DGP.Genshin.Pages
             }
             this.Log("initialized");
         }
-
+        #region AutoSuggest
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
@@ -64,7 +64,12 @@ namespace DGP.Genshin.Pages
                 if (record.Success)
                 {
                     RecordService service = RecordService.Instance;
+                    //so that current record is always has data
                     service.CurrentRecord = record;
+                    if (CelestiaDatabaseService.Instance.IsInitialized)
+                    {
+                        await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
+                    }
                     service.SelectedAvatar = record.DetailedAvatars.First();
                     service.AddQueryHistory(uid);
                 }
@@ -97,5 +102,6 @@ namespace DGP.Genshin.Pages
         }
         private void RecordService_RecordProgressed(string info) =>
             this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
+        #endregion
     }
 }

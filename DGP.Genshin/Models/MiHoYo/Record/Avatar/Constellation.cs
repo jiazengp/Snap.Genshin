@@ -7,7 +7,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     /// 命座信息
     /// </summary>
     [JsonModel]
-    internal class Constellation
+    public class Constellation
     {
         [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("name")] public string Name { get; set; }

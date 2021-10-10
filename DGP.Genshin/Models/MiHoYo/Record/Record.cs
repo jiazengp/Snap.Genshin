@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
     /// 包装一次查询的数据
     /// </summary>
     [InterModel]
-    internal class Record
+    public class Record
     {
         public Record()
         {
