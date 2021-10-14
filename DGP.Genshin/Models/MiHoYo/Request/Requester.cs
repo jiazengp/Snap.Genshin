@@ -60,6 +60,13 @@ namespace DGP.Genshin.Models.MiHoYo.Request
             return Request<T>(client => client.UploadString(url, Json.Stringify(data)));
         }
 
+        public Response<T> Post<T>(string url, string str)
+        {
+            this.Log($"POST {url.Split('?')[0]}");
+            return Request<T>(client => client.UploadString(url, str));
+        }
+
+
         /// <summary>
         /// 对<see cref="Get{T}(String)"/>方法的异步包装
         /// </summary>
@@ -67,7 +74,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         /// <param name="url"></param>
         /// <returns></returns>
         public async Task<Response<T>> GetAsync<T>(string url) =>
-            await Task.Run(() => Get<T>(url));
+        await Task.Run(() => Get<T>(url));
 
         /// <summary>
         /// 对<see cref="Post{T}(String, Object)"/>方法的异步包装

@@ -126,6 +126,18 @@ namespace DGP.Genshin.Services
             Json.FromWebsite<List<int[]>>($@"{YoungMoeData}/teamRankMin_{floor}_3.json"));
             return resp;
         }
+
+        public async Task<string> PostUid(string uid)
+        {
+            Requester requester = new Requester(new RequestOptions
+            {
+                {"Content-Type","application/x-www-form-urlencoded;charset=UTF-8" }
+            });
+
+            Response<string> resp = await Task.Run(() =>
+            requester.Post<string>($@"{ApiYoungMoe}/postuid", $"uid={uid}"));
+            return resp.Data;
+        }
         #endregion
 
         #region Recommand
@@ -153,6 +165,7 @@ namespace DGP.Genshin.Services
             {
                 return;
             }
+            this.Recommands = null;
 
             List<int[]> teamDataRaw = await GetTeamRankRawDataAsync(this.SelectedFloor);
 
@@ -193,7 +206,6 @@ namespace DGP.Genshin.Services
                 },
                 Count = raw[8]
             }).TakeWhileAndPreserve(i => i.Count > this.TotalSubmitted * 0.0005, 10).AsParallel().ToList();
-            //we restrict it to 100 items
         }
 
         private Character ToCharacter(AvatarSimple avatar)

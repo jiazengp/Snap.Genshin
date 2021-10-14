@@ -42,7 +42,8 @@ namespace DGP.Genshin.Services
         private const string WeaponTypesJson = "weapontypes.json";
         private const string WeeklyTalentsJson = "weeklytalents.json";
         private const string GachaEventJson = "gachaevents.json";
-        private static readonly string folderPath = @"Metadata\";
+
+        private const string folderPath = "Metadata\\";
         #endregion
 
         #region Collections

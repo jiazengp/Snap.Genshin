@@ -111,6 +111,23 @@ namespace DGP.Genshin.Pages
         private void RecordService_RecordProgressed(string info) =>
             this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
         #endregion
+
+        private async void PostUidAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            string result = "当前无可用玩家信息";
+            if (RecordService.Instance.CurrentRecord != null)
+            {
+                result = await CelestiaDatabaseService.Instance.PostUid(RecordService.Instance.CurrentRecord.UserId);
+            }
+
+            await new ContentDialog()
+            {
+                Title = "提交数据",
+                Content = result,
+                PrimaryButtonText = "确认",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
+        }
     }
 
     public class BooleanToStyleConverter : DependencyObject, IValueConverter

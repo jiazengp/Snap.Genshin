@@ -24,15 +24,21 @@
     <TabControl Style="{StaticResource TabControlPivotStyle}">
         <ui:PivotHelper.RightHeader>
             <StackPanel Orientation="Horizontal" Height="40">
-                <ui:BitmapIcon Margin="0,11,0,11" VerticalAlignment="Center" UriSource="https://youngmoe.com/static/img/png/logo.c2ceb873.png"/>
-                <TextBlock VerticalAlignment="Center" Margin="24,0,16,0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}当前收录人数：{0} | 深渊满星人数：{1}">
-                            <Binding Path="TotalSubmitted"/>
-                            <Binding Path="AbyssPassed"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <ui:BitmapIcon Margin="0,11,0,11" VerticalAlignment="Center" 
+                               UriSource="https://youngmoe.com/static/img/png/logo.c2ceb873.png"/>
+                <StackPanel Margin="24,0,16,0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding TotalSubmitted,StringFormat={}当前收录人数：{0}}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    <TextBlock Text="{Binding AbyssPassed,StringFormat={}深渊满星人数：{0}}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                </StackPanel>
+                <ui:CommandBar Background="Transparent">
+                    <ui:CommandBar.SecondaryCommands>
+                        <ui:AppBarButton Label="提交我的数据" Click="PostUidAppBarButtonClick">
+                            <ui:AppBarButton.Icon>
+                                <ui:FontIcon Glyph="&#xE898;"/>
+                            </ui:AppBarButton.Icon>
+                        </ui:AppBarButton>
+                    </ui:CommandBar.SecondaryCommands>
+                </ui:CommandBar>
             </StackPanel>
         </ui:PivotHelper.RightHeader>
         <TabItem Header="12层" Height="40">

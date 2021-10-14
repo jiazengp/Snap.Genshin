@@ -131,6 +131,8 @@
     <Compile Include="Models\MiHoYo\Journey\SumAction.cs" />
     <Compile Include="Models\MiHoYo\Journey\JourneyBase.cs" />
     <Compile Include="Models\MiHoYo\Journey\Month.cs" />
+    <Compile Include="Models\MiHoYo\Record\DailyNote\DailyNote.cs" />
+    <Compile Include="Models\MiHoYo\Record\DailyNote\Expedition.cs" />
     <Compile Include="Models\MiHoYo\Request\DynamicSecretProvider2.cs" />
     <Compile Include="Models\MiHoYo\Request\Md5DynamicSecretProviderBase.cs" />
     <Compile Include="Models\MiHoYo\Sign\ReSignInfo.cs" />
@@ -245,6 +247,7 @@
       <DependentUpon>WeeklyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\CelestiaDatabaseService.cs" />
+    <Compile Include="Services\DailyNoteService.cs" />
     <Compile Include="Services\GachaStatistic\GachaLogUrlDialog.xaml.cs">
       <DependentUpon>GachaLogUrlDialog.xaml</DependentUpon>
     </Compile>
@@ -472,6 +475,7 @@
   <ItemGroup>
     <Resource Include="Resources\BookmarkIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"

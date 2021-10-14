@@ -68,7 +68,7 @@ namespace DGP.Genshin
             splashView.CurrentStateDescription = "完成";
             if (!this.navigationService.HasEverNavigated)
             {
-                this.navigationService.Navigate<HomePage>(true);
+                this.navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             }
             splashView.HasCheckCompleted = true;
         }
