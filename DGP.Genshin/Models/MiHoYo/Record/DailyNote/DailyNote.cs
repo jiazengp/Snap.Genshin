@@ -18,6 +18,15 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// 树脂恢复时间<see cref="String"/>类型的秒数
         /// </summary>
         [JsonProperty("resin_recovery_time")] public string ResinRecoveryTime { get; set; }
+
+        public string ResinRecoveryTimeFormatted
+        {
+            get
+            {
+                TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(ResinRecoveryTime));
+                return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
+            }
+        }
         /// <summary>
         /// 委托完成数
         /// </summary>
@@ -29,7 +38,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// <summary>
         /// 4次委托额外奖励是否领取
         /// </summary>
-        [JsonProperty("is_extra_task_reward_received")] public string IsExtraTaskRewardReceived { get; set; }
+        [JsonProperty("is_extra_task_reward_received")] public bool IsExtraTaskRewardReceived { get; set; }
+
+        public string ExtraTaskRewardDescription => IsExtraTaskRewardReceived ? "已领取「每日委托」奖励" : "今日完成委托次数不足";
         /// <summary>
         /// 剩余周本折扣次数
         /// </summary>

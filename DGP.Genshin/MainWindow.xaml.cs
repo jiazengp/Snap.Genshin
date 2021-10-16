@@ -29,14 +29,19 @@ namespace DGP.Genshin
     {
         private readonly NavigationService navigationService;
         private readonly DailySignInService dailySignInService;
+        private readonly DailyNoteService dailyNoteService;
         public MainWindow()
         {
+            //never set datacontext for mainwindow
             InitializeComponent();
             this.MainSplashView.InitializationPostAction += SplashInitializeCompleted;
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.dailySignInService = new DailySignInService();
-            this.Log("initialized");
+            this.dailyNoteService = new DailyNoteService();
+            
             CookieManager.CookieRefreshed += RefreshUserInfoAsync;
+
+            this.Log("initialized");
         }
 
         [HandleEvent]
@@ -66,6 +71,8 @@ namespace DGP.Genshin
             }
 
             splashView.CurrentStateDescription = "完成";
+            //post actions
+            await this.dailyNoteService.RefreshAsync();
             if (!this.navigationService.HasEverNavigated)
             {
                 this.navigationService.Navigate<HomePage>(isSyncTabRequested: true);
@@ -246,6 +253,18 @@ namespace DGP.Genshin
             Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
             Grid grid = flyout.Content as Grid;
             grid.DataContext = this;
+            FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
+        }
+        #endregion
+
+        #region DailyNote
+        private async void DailyNoteTitleBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            await this.dailyNoteService.RefreshAsync();
+
+            Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
+            Grid grid = flyout.Content as Grid;
+            grid.DataContext = dailyNoteService;
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
         }
         #endregion

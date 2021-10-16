@@ -14,7 +14,7 @@
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
-        MinWidth="1050"
+        MinWidth="1075"
         MinHeight="680"
         Width="1050"
         Height="680" 
@@ -90,7 +90,9 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="0,0,4,4" Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" Opacity="{Binding Opacity,IsAsync=True}">
+                            <Border Margin="0,0,4,4" 
+                                    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
+                                    Opacity="{Binding Opacity,IsAsync=True}">
                                 <StackPanel Width="70">
                                     <Grid Width="70" Height="70">
                                         <Border>
@@ -125,6 +127,117 @@
                 </Grid>
             </Grid>
         </ui:Flyout>
+        <ui:Flyout x:Key="DailyNoteFlyout" Placement="Bottom">
+            <Grid Width="272">
+                <ItemsControl ItemsSource="{Binding DailyNotes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecoveryTimeFormatted,StringFormat={}将于{0}后全部恢复}" 
+                                                       Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="CurrentResin"/>
+                                                    <Binding Path="MaxResin"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="每日委托任务" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding ExtraTaskRewardDescription}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="FinishedTaskNum"/>
+                                                    <Binding Path="TotalTaskNum"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="本周剩余消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="RemainResinDiscountNum"/>
+                                                    <Binding Path="ResinDiscountNumLimit"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="探索派遣" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}限制：{0}/{1}">
+                                                        <Binding Path="CurrentExpeditionNum"/>
+                                                        <Binding Path="MaxExpeditionNum"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <ItemsControl Grid.Row="1" Margin="8,0,8,16" ItemsSource="{Binding Expeditions}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,8,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <c:CachedImage Width="32" Height="32" ImageUrl="{Binding AvatarSideIcon}"/>
+                                                        <TextBlock Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                   Text="{Binding RemainedTimeFormatted,StringFormat={}剩余探索时间：{0}}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ui:Flyout>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -146,6 +259,12 @@
                 <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponsPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon UriSource="pack://application:,,,/Resources/WeaponsIcon.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="大地图" helpers:NavHelper.NavigateTo="{x:Type pages:MapPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon ShowAsMonochrome="False" 
+                                       UriSource="https://webstatic.mihoyo.com/upload/static-resource/2021/09/06/1ec1d1e2afbcc99f8f8c58eabb88a69d_3023852421646190619.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
 
@@ -721,14 +840,21 @@
                                ui:FlyoutBase.AttachedFlyout="{StaticResource UserFlyout}"
                                />
             <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
-                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="每日签到"
+                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
+                               Content="每日签到"
                                Click="SignInTitleBarButtonClick"
                                ui:FlyoutBase.AttachedFlyout="{StaticResource SignInFlyout}"/>
+            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
+                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
+                               Content="实时便笺"
+                               Click="DailyNoteTitleBarButtonClick"
+                               ui:FlyoutBase.AttachedFlyout="{StaticResource DailyNoteFlyout}"/>
             <Rectangle
                     Fill="{DynamicResource SystemControlForegroundBaseHighBrush}"
                     Width="1"
                     Margin="12,8"/>
         </StackPanel>
+         
         <cf:SplashView x:Name="MainSplashView" d:IsHidden="True"/>
     </Grid>
 </Window>

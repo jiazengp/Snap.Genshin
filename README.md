@@ -10,7 +10,8 @@
 ### 说明
 
 由于开发周期问题，下方的示例图片可能会与发行版有所出入，仅供参考  
-下方的示意图取自程序的开发版本，部分功能对非开发者不会开放
+下方的示意图取自程序的开发版本，部分功能对非开发者不会开放  
+按[Win UI 3 RoadMap](https://github.com/microsoft/microsoft-ui-xaml/blob/main/docs/roadmap.md)的说法，我们将在 Windows App SDK 1.0 发布时将项目迁移到全新的界面上
 
 ### 系统要求
 

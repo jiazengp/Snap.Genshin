@@ -24,5 +24,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         [JsonProperty("precious_chest_number")] public int PreciousChestNumber { get; set; }
         [JsonProperty("exquisite_chest_number")] public int ExquisiteChestNumber { get; set; }
         [JsonProperty("common_chest_number")] public int CommonChestNumber { get; set; }
+        /// <summary>
+        /// 奇馈宝箱
+        /// </summary>
+        [JsonProperty("magic_chest_number")] public int MagicChestNumber { get; set; }
     }
 }

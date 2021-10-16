@@ -67,6 +67,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -109,23 +110,28 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Grid.Column="0" Margin="8">
+                                    <TextBlock HorizontalAlignment="Center" Text="奇馈宝箱数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.MagicChestNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="3" Grid.Column="0" Margin="8">
                                     <TextBlock HorizontalAlignment="Center" Text="风神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.AnemoculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
-                                <StackPanel Grid.Row="2" Grid.Column="1" Margin="8">
+                                <StackPanel Grid.Row="3" Grid.Column="1" Margin="8">
                                     <TextBlock HorizontalAlignment="Center" Text="岩神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.GeoculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
-                                <StackPanel Grid.Row="2" Grid.Column="2" Margin="8">
+                                <StackPanel Grid.Row="3" Grid.Column="2" Margin="8">
                                     <TextBlock HorizontalAlignment="Center" Text="雷神瞳" Style="{StaticResource CaptionTextBlockStyle}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.ElectroculusNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Row="3" Grid.Column="0" Margin="8">
+                                <StackPanel Grid.Row="4" Grid.Column="0" Margin="8">
                                     <TextBlock HorizontalAlignment="Center" Text="解锁传送点" Style="{StaticResource CaptionTextBlockStyle}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.WayPointNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
-                                <StackPanel Grid.Row="3" Grid.Column="1" Margin="8">
+                                <StackPanel Grid.Row="4" Grid.Column="1" Margin="8">
                                     <TextBlock HorizontalAlignment="Center" Text="解锁秘境" Style="{StaticResource CaptionTextBlockStyle}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.PlayerStat.DomainNumber}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
                                 </StackPanel>
