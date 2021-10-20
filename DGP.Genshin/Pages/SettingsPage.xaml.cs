@@ -22,7 +22,7 @@ namespace DGP.Genshin.Pages
         public SettingsPage()
         {
             this.DataContext = this;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -46,27 +46,27 @@ namespace DGP.Genshin.Pages
         #region propdp
         public string VersionString
         {
-            get => (string)GetValue(VersionStringProperty);
-            set => SetValue(VersionStringProperty, value);
+            get => (string)this.GetValue(VersionStringProperty);
+            set => this.SetValue(VersionStringProperty, value);
         }
         public static readonly DependencyProperty VersionStringProperty =
             DependencyProperty.Register("VersionString", typeof(string), typeof(SettingsPage), new PropertyMetadata(""));
 
         public ApplicationTheme CurrentTheme
         {
-            get => (ApplicationTheme)GetValue(CurrentThemeProperty);
-            set => SetValue(CurrentThemeProperty, value);
+            get => (ApplicationTheme)this.GetValue(CurrentThemeProperty);
+            set => this.SetValue(CurrentThemeProperty, value);
         }
         public static readonly DependencyProperty CurrentThemeProperty =
             DependencyProperty.Register("CurrentTheme", typeof(ApplicationTheme), typeof(SettingsPage), new PropertyMetadata(null));
 
         public bool IsDevMode
         {
-            get => (bool)GetValue(IsDevModeProperty);
+            get => (bool)this.GetValue(IsDevModeProperty);
             set
             {
                 SettingService.Instance[Setting.IsDevMode] = value;
-                SetValue(IsDevModeProperty, value);
+                this.SetValue(IsDevModeProperty, value);
             }
         }
         public static readonly DependencyProperty IsDevModeProperty =
@@ -108,7 +108,7 @@ namespace DGP.Genshin.Pages
                 1 => ApplicationTheme.Dark,
                 _ => null,
             };
-            SetAppTheme();
+            this.SetAppTheme();
         }
         internal void SetAppTheme()
         {

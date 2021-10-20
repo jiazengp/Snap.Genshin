@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Services;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -11,11 +12,12 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class GithubPage : Page
     {
-        internal GithubService Service { get; set; } = new GithubService();
+        [NotNull]
+        internal GithubService? Service { get; set; } = new GithubService();
         public GithubPage()
         {
             this.DataContext = this.Service;
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
 
@@ -25,7 +27,7 @@ namespace DGP.Genshin.Pages
             await this.Service.AddRepository(args.QueryText);
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            UnInitialize();
+            this.UnInitialize();
             base.OnNavigatedFrom(e);
         }
 

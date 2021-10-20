@@ -7,7 +7,7 @@ namespace DGP.Snap.AutoVersion
     /// 编译时，项目版本号自动更新的工具
     /// <para>使用方法：</para>
     /// <para>打开要处理的项目，对其属性下的生成事件页签，预生成事件命令行输入</para>
-    /// <para><code>$(SolutionDir)Build\DGP.Snap.AutoVersion.exe "$(ProjectDir)"</code></para>
+    /// <para><code>$(SolutionDir)Build\net5.0\DGP.Snap.AutoVersion.exe "$(ProjectDir)"</code></para>
     /// </summary>
     internal class Program
     {
@@ -24,7 +24,7 @@ namespace DGP.Snap.AutoVersion
                 return;
             }
 
-            string sPath = args[0].Replace("\"", String.Empty) + "\\Properties\\";
+            string sPath = args[0].Replace("\"", String.Empty) + "\\";
             string sAssemOld = sPath + "AssemblyInfo.old";
             string sAssem = sPath + "AssemblyInfo.cs";
             string sAssemNew = sPath + "AssemblyInfo.new";

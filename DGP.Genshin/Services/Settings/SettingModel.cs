@@ -37,7 +37,7 @@ namespace DGP.Genshin.Services.Settings
             get => this.showFullUID; set
             {
                 SettingService.Instance.SetValueInternal(Setting.ShowFullUID, value);
-                Set(ref this.showFullUID, value);
+                this.Set(ref this.showFullUID, value);
             }
         }
 
@@ -46,7 +46,7 @@ namespace DGP.Genshin.Services.Settings
             get => this.autoDailySignInOnLaunch; set
             {
                 SettingService.Instance.SetValueInternal(Setting.AutoDailySignInOnLaunch, value);
-                Set(ref this.autoDailySignInOnLaunch, value);
+                this.Set(ref this.autoDailySignInOnLaunch, value);
             }
         }
 
@@ -55,8 +55,8 @@ namespace DGP.Genshin.Services.Settings
         private static readonly object _lock = new();
         private SettingModel()
         {
-            Initialize();
-            SettingService.Instance.SettingChanged += SettingChanged;
+            this.Initialize();
+            SettingService.Instance.SettingChanged += this.SettingChanged;
         }
 
         private void Initialize()

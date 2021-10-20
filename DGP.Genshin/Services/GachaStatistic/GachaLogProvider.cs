@@ -30,7 +30,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             get
             {
                 if (this.gachaConfig == null)
-                    this.gachaConfig = GetGachaConfig();
+                    this.gachaConfig = this.GetGachaConfig();
                 return this.gachaConfig;
             }
         }
@@ -58,10 +58,10 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 case GachaLogUrlMode.GameLogFile:
                     if (!File.Exists(logFilePath)) return false;
-                    url = GetUrlFromLogFile();
+                    url = this.GetUrlFromLogFile();
                     break;
                 case GachaLogUrlMode.ManualInput:
-                    url = await GetUrlFromManualInputAsync();
+                    url = await this.GetUrlFromManualInputAsync();
                     break;
                 default:
                     url = null;
@@ -149,7 +149,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 long endId = 0;
                 do
                 {
-                    if (TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
+                    if (this.TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
                     {
                         foreach (GachaLogItem item in gachaLog.List)
                         {
@@ -161,7 +161,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                             }
                             else//already done the new item
                             {
-                                MergeIncrement(type, increment);
+                                this.MergeIncrement(type, increment);
                                 return;
                             }
                         }
@@ -180,7 +180,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                     Task.Delay(1000 + this.random.Next(0, 1000)).Wait();
                 } while (true);
                 //first time fecth could go here
-                MergeIncrement(type, increment);
+                this.MergeIncrement(type, increment);
             }
         }
 

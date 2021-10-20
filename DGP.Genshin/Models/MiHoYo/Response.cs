@@ -11,7 +11,7 @@ namespace DGP.Genshin.Models.MiHoYo
         /// 0 is OK
         /// </summary>
         [JsonProperty("retcode")] public int ReturnCode { get; set; }
-        [JsonProperty("message")] public string Message { get; set; }
+        [JsonProperty("message")] public string? Message { get; set; }
 
         public override string ToString() => $"状态：{this.ReturnCode} | 信息：{this.Message}";
     }
@@ -22,6 +22,6 @@ namespace DGP.Genshin.Models.MiHoYo
     /// <typeparam name="T">数据类型</typeparam>
     public class Response<T> : Response
     {
-        [JsonProperty("data")] public T Data { get; set; }
+        [JsonProperty("data")] public T? Data { get; set; }
     }
 }

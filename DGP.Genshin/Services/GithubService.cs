@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services
                 Credentials = new Credentials(TokenHelper.GetToken())
             };
             this.Log("initialized");
-            SelectedRepositoryChanged += OnSelectedRepositoryChanged;
+            SelectedRepositoryChanged += this.OnSelectedRepositoryChanged;
         }
 
         public async Task<IReadOnlyList<Release>> GetRepositoryReleases(long id) =>
@@ -46,7 +46,7 @@ namespace DGP.Genshin.Services
             if (!this.repoInfos.Contains(info))
             {
                 this.repoInfos.Add(info);
-                this.Repositories.Add(await GetRepository(ownerAndName));
+                this.Repositories.Add(await this.GetRepository(ownerAndName));
             }
         }
 
@@ -55,17 +55,17 @@ namespace DGP.Genshin.Services
         private Repository selectedRepository;
         private List<Release> releases;
         private Release selectedRelease;
-        public ObservableCollection<Repository> Repositories { get => this.repositories; set => Set(ref this.repositories, value); }
+        public ObservableCollection<Repository> Repositories { get => this.repositories; set => this.Set(ref this.repositories, value); }
         public Repository SelectedRepository
         {
             get => this.selectedRepository; set
             {
-                Set(ref this.selectedRepository, value);
+                this.Set(ref this.selectedRepository, value);
                 SelectedRepositoryChanged?.Invoke(value.Id);
             }
         }
-        public List<Release> Releases { get => this.releases; set => Set(ref this.releases, value); }
-        public Release SelectedRelease { get => this.selectedRelease; set => Set(ref this.selectedRelease, value); }
+        public List<Release> Releases { get => this.releases; set => this.Set(ref this.releases, value); }
+        public Release SelectedRelease { get => this.selectedRelease; set => this.Set(ref this.selectedRelease, value); }
         #endregion
 
         #region LifeCycle
@@ -99,13 +99,13 @@ namespace DGP.Genshin.Services
         }
         ~GithubService()
         {
-            UnInitialize();
+            this.UnInitialize();
         }
         #endregion
 
         private event Action<long> SelectedRepositoryChanged;
         private async void OnSelectedRepositoryChanged(long id) =>
-            this.Releases = new List<Release>(await GetRepositoryReleases(id));
+            this.Releases = new List<Release>(await this.GetRepositoryReleases(id));
     }
     /// <summary>
     /// 储存库信息

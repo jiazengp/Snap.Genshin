@@ -28,7 +28,7 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
             return false;
         }
 
-        public static Random Random = new Random();
+        private static readonly Random Random = new Random();
         public static T GetRandom<T>(this IList<T> list) =>
             list[Random.Next(0, list.Count)];
 

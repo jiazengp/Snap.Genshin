@@ -9,6 +9,6 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         /// <summary>
         /// 通常是 ""
         /// </summary>
-        [JsonProperty("code")] public string Code { get; set; }
+        [JsonProperty("code")] public string? Code { get; set; }
     }
 }

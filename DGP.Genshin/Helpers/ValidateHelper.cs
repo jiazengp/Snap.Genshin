@@ -8,7 +8,7 @@ namespace DGP.Genshin.Helpers
     public class ValidateHelper
     {
         /// <summary>
-        ///     是否在浮点数范围内
+        /// 是否在浮点数范围内
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -19,7 +19,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在正浮点数范围内
+        /// 是否在正浮点数范围内
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -30,7 +30,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在正浮点数范围内（包括0）
+        /// 是否在正浮点数范围内（包括0）
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在负浮点数范围内
+        /// 是否在负浮点数范围内
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在负浮点数范围内（包括0）
+        /// 是否在负浮点数范围内（包括0）
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -63,7 +63,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在正整数范围内
+        /// 是否在正整数范围内
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在正整数范围内（包括0）
+        /// 是否在正整数范围内（包括0）
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -85,7 +85,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在负整数范围内
+        /// 是否在负整数范围内
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -96,7 +96,7 @@ namespace DGP.Genshin.Helpers
         }
 
         /// <summary>
-        ///     是否在负整数范围内（包括0）
+        /// 是否在负整数范围内（包括0）
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

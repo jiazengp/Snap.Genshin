@@ -14,8 +14,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         [JsonIgnore] public int TotalCount { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string CurrentName { get; set; }
-        [JsonIgnore] public List<StatisticItem5Star> Star5List { get; set; }
+        public string? CurrentName { get; set; }
+        [JsonIgnore] public List<StatisticItem5Star>? Star5List { get; set; }
         [JsonIgnore] public double Star5Prob { get; set; }
         [JsonIgnore] public int Star5Count { get; set; }
         [JsonIgnore] public double Star4Prob { get; set; }

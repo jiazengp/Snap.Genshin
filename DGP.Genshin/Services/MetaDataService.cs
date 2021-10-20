@@ -53,13 +53,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.bosses == null)
                 {
-                    this.bosses = Json.ToObject<ObservableCollection<Boss>>(Read(BossesJson));
+                    this.bosses = Json.ToObject<ObservableCollection<Boss>>(this.Read(BossesJson));
                 }
                 return this.bosses;
             }
             set => this.bosses = value;
         }
-        private ObservableCollection<Boss> bosses;
+        private ObservableCollection<Boss>? bosses;
 
         #region Characters
         public ObservableCollection<Character> Characters
@@ -68,13 +68,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.characters == null)
                 {
-                    this.characters = Json.ToObject<ObservableCollection<Character>>(Read(CharactersJson));
+                    this.characters = Json.ToObject<ObservableCollection<Character>>(this.Read(CharactersJson));
                 }
                 return this.characters;
             }
             set => this.characters = value;
         }
-        private ObservableCollection<Character> characters;
+        private ObservableCollection<Character>? characters;
         #endregion
         public ObservableCollection<KeySource> Cities
         {
@@ -82,13 +82,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.cities == null)
                 {
-                    this.cities = Json.ToObject<ObservableCollection<KeySource>>(Read(CitiesJson));
+                    this.cities = Json.ToObject<ObservableCollection<KeySource>>(this.Read(CitiesJson));
                 }
                 return this.cities;
             }
             set => this.cities = value;
         }
-        private ObservableCollection<KeySource> cities;
+        private ObservableCollection<KeySource>? cities;
 
         public ObservableCollection<Talent> DailyTalents
         {
@@ -96,13 +96,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.dailyTalents == null)
                 {
-                    this.dailyTalents = Json.ToObject<ObservableCollection<Talent>>(Read(DailyTalentsJson));
+                    this.dailyTalents = Json.ToObject<ObservableCollection<Talent>>(this.Read(DailyTalentsJson));
                 }
                 return this.dailyTalents;
             }
             set => this.dailyTalents = value;
         }
-        private ObservableCollection<Talent> dailyTalents;
+        private ObservableCollection<Talent>? dailyTalents;
 
         public ObservableCollection<Data.Materials.Weapons.Weapon> DailyWeapons
         {
@@ -110,13 +110,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.dailyWeapons == null)
                 {
-                    this.dailyWeapons = Json.ToObject<ObservableCollection<Data.Materials.Weapons.Weapon>>(Read(DailyWeaponsJson));
+                    this.dailyWeapons = Json.ToObject<ObservableCollection<Data.Materials.Weapons.Weapon>>(this.Read(DailyWeaponsJson));
                 }
                 return this.dailyWeapons;
             }
             set => this.dailyWeapons = value;
         }
-        private ObservableCollection<Data.Materials.Weapons.Weapon> dailyWeapons;
+        private ObservableCollection<Data.Materials.Weapons.Weapon>? dailyWeapons;
 
         public ObservableCollection<KeySource> Elements
         {
@@ -124,13 +124,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.elements == null)
                 {
-                    this.elements = Json.ToObject<ObservableCollection<KeySource>>(Read(ElementsJson));
+                    this.elements = Json.ToObject<ObservableCollection<KeySource>>(this.Read(ElementsJson));
                 }
                 return this.elements;
             }
             set => this.elements = value;
         }
-        private ObservableCollection<KeySource> elements;
+        private ObservableCollection<KeySource>? elements;
 
         public ObservableCollection<Elite> Elites
         {
@@ -138,13 +138,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.elites == null)
                 {
-                    this.elites = Json.ToObject<ObservableCollection<Elite>>(Read(ElitesJson));
+                    this.elites = Json.ToObject<ObservableCollection<Elite>>(this.Read(ElitesJson));
                 }
                 return this.elites;
             }
             set => this.elites = value;
         }
-        private ObservableCollection<Elite> elites;
+        private ObservableCollection<Elite>? elites;
 
         public ObservableCollection<GemStone> GemStones
         {
@@ -152,13 +152,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.gemstones == null)
                 {
-                    this.gemstones = Json.ToObject<ObservableCollection<GemStone>>(Read(GemStonesJson));
+                    this.gemstones = Json.ToObject<ObservableCollection<GemStone>>(this.Read(GemStonesJson));
                 }
                 return this.gemstones;
             }
             set => this.gemstones = value;
         }
-        private ObservableCollection<GemStone> gemstones;
+        private ObservableCollection<GemStone>? gemstones;
 
         public ObservableCollection<Local> Locals
         {
@@ -166,13 +166,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.locals == null)
                 {
-                    this.locals = Json.ToObject<ObservableCollection<Local>>(Read(LocalsJson));
+                    this.locals = Json.ToObject<ObservableCollection<Local>>(this.Read(LocalsJson));
                 }
                 return this.locals;
             }
             set => this.locals = value;
         }
-        private ObservableCollection<Local> locals;
+        private ObservableCollection<Local>? locals;
 
         public ObservableCollection<Monster> Monsters
         {
@@ -180,13 +180,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.monsters == null)
                 {
-                    this.monsters = Json.ToObject<ObservableCollection<Monster>>(Read(MonstersJson));
+                    this.monsters = Json.ToObject<ObservableCollection<Monster>>(this.Read(MonstersJson));
                 }
                 return this.monsters;
             }
             set => this.monsters = value;
         }
-        private ObservableCollection<Monster> monsters;
+        private ObservableCollection<Monster>? monsters;
 
         public ObservableCollection<KeySource> Stars
         {
@@ -194,13 +194,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.stars == null)
                 {
-                    this.stars = Json.ToObject<ObservableCollection<KeySource>>(Read(StarsJson));
+                    this.stars = Json.ToObject<ObservableCollection<KeySource>>(this.Read(StarsJson));
                 }
                 return this.stars;
             }
             set => this.stars = value;
         }
-        private ObservableCollection<KeySource> stars;
+        private ObservableCollection<KeySource>? stars;
 
         public ObservableCollection<Weapon> Weapons
         {
@@ -208,13 +208,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.weapons == null)
                 {
-                    this.weapons = Json.ToObject<ObservableCollection<Weapon>>(Read(WeaponsJson));
+                    this.weapons = Json.ToObject<ObservableCollection<Weapon>>(this.Read(WeaponsJson));
                 }
                 return this.weapons;
             }
             set => this.weapons = value;
         }
-        private ObservableCollection<Weapon> weapons;
+        private ObservableCollection<Weapon>? weapons;
 
         public ObservableCollection<KeySource> WeaponTypes
         {
@@ -222,13 +222,13 @@ namespace DGP.Genshin.Services
             {
                 if (this.weaponTypes == null)
                 {
-                    this.weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(Read(WeaponTypesJson));
+                    this.weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(this.Read(WeaponTypesJson));
                 }
                 return this.weaponTypes;
             }
             set => this.weaponTypes = value;
         }
-        private ObservableCollection<KeySource> weaponTypes;
+        private ObservableCollection<KeySource>? weaponTypes;
 
         public ObservableCollection<Weekly> WeeklyTalents
         {
@@ -236,25 +236,25 @@ namespace DGP.Genshin.Services
             {
                 if (this.weeklyTalents == null)
                 {
-                    this.weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(Read(WeeklyTalentsJson));
+                    this.weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(this.Read(WeeklyTalentsJson));
                 }
                 return this.weeklyTalents;
             }
             set => this.weeklyTalents = value;
         }
-        private ObservableCollection<Weekly> weeklyTalents;
+        private ObservableCollection<Weekly>? weeklyTalents;
 
         #endregion
 
         #region GachaEvents
-        private List<SpecificBanner> specificBanners;
+        private List<SpecificBanner>? specificBanners;
         public List<SpecificBanner> SpecificBanners
         {
             get
             {
                 if (this.specificBanners == null)
                 {
-                    this.specificBanners = Json.ToObject<List<SpecificBanner>>(Read(GachaEventJson));
+                    this.specificBanners = Json.ToObject<List<SpecificBanner>>(this.Read(GachaEventJson));
                 }
                 return this.specificBanners;
             }
@@ -263,15 +263,15 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Selected Bindable
-        private Character selectedCharacter;
-        public Character SelectedCharacter { get => this.selectedCharacter; set => Set(ref this.selectedCharacter, value); }
+        private Character? selectedCharacter;
+        public Character? SelectedCharacter { get => this.selectedCharacter; set => this.Set(ref this.selectedCharacter, value); }
 
-        private Weapon selectedWeapon;
-        public Weapon SelectedWeapon { get => this.selectedWeapon; set => Set(ref this.selectedWeapon, value); }
+        private Weapon? selectedWeapon;
+        public Weapon? SelectedWeapon { get => this.selectedWeapon; set => this.Set(ref this.selectedWeapon, value); }
         #endregion
 
         #region LifeCycle
-        private string Read(string filename)
+        private string? Read(string filename)
         {
             string path = folderPath + filename;
             if (File.Exists(path))
@@ -317,30 +317,30 @@ namespace DGP.Genshin.Services
         public void Initialize() => this.Log("instantiated");
         public void UnInitialize()
         {
-            Save(this.Bosses, BossesJson);
-            Save(this.Characters, CharactersJson);
-            Save(this.Cities, CitiesJson);
-            Save(this.DailyTalents, DailyTalentsJson);
-            Save(this.DailyWeapons, DailyWeaponsJson);
-            Save(this.Elements, ElementsJson);
-            Save(this.Elites, ElitesJson);
-            Save(this.GemStones, GemStonesJson);
-            Save(this.Locals, LocalsJson);
-            Save(this.Monsters, MonstersJson);
-            Save(this.Stars, StarsJson);
-            Save(this.Weapons, WeaponsJson);
-            Save(this.WeaponTypes, WeaponTypesJson);
-            Save(this.WeeklyTalents, WeeklyTalentsJson);
+            this.Save(this.Bosses, BossesJson);
+            this.Save(this.Characters, CharactersJson);
+            this.Save(this.Cities, CitiesJson);
+            this.Save(this.DailyTalents, DailyTalentsJson);
+            this.Save(this.DailyWeapons, DailyWeaponsJson);
+            this.Save(this.Elements, ElementsJson);
+            this.Save(this.Elites, ElitesJson);
+            this.Save(this.GemStones, GemStonesJson);
+            this.Save(this.Locals, LocalsJson);
+            this.Save(this.Monsters, MonstersJson);
+            this.Save(this.Stars, StarsJson);
+            this.Save(this.Weapons, WeaponsJson);
+            this.Save(this.WeaponTypes, WeaponTypesJson);
+            this.Save(this.WeeklyTalents, WeeklyTalentsJson);
 
-            Save(this.SpecificBanners, GachaEventJson);
+            this.Save(this.SpecificBanners, GachaEventJson);
             this.Log("uninitialized");
         }
         #region 单例
-        private static MetaDataService instance;
+        private static MetaDataService? instance;
         private static readonly object _lock = new();
         private MetaDataService()
         {
-            Initialize();
+            this.Initialize();
         }
         public static MetaDataService Instance
         {
@@ -365,57 +365,37 @@ namespace DGP.Genshin.Services
 
         #region CheckIntegrity
         private int currentCount;
-        public int CurrentCount { get => this.currentCount; set => Set(ref this.currentCount, value); }
+        public int CurrentCount { get => this.currentCount; set => this.Set(ref this.currentCount, value); }
 
-        private string currentInfo;
-        public string CurrentInfo { get => this.currentInfo; set => Set(ref this.currentInfo, value); }
+        private string? currentInfo;
+        public string? CurrentInfo { get => this.currentInfo; set => this.Set(ref this.currentInfo, value); }
 
         private int totalCount;
-        public int TotalCount { get => this.totalCount; set => Set(ref this.totalCount, value); }
+        public int TotalCount { get => this.totalCount; set => this.Set(ref this.totalCount, value); }
 
         private double percent;
-        public double Percent { get => this.percent; set => Set(ref this.percent, value); }
+        public double Percent { get => this.percent; set => this.Set(ref this.percent, value); }
 
         private bool hasCheckCompleted;
         public bool HasCheckCompleted
         {
             get => this.hasCheckCompleted; set
             {
-                Set(ref this.hasCheckCompleted, value);
+                this.Set(ref this.hasCheckCompleted, value);
                 CompleteStateChanged?.Invoke(value);
             }
         }
 
+        private int checkingCount;
 
-        public event Action<bool> CompleteStateChanged;
-
-        private static int checkingCount = 0;
-
+        public event Action<bool>? CompleteStateChanged;
 
         public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection, IProgress<InitializeState> progress) where T : KeySource
         {
             await collection.ParallelForEachAsync(async (t) =>
             {
-                try
-                {
-                    await FileCache.HitAsync(t.Source);
-                }
-                catch { }
-
-                progress.Report(new InitializeState(++checkingCount, t.Source.ToFileName()));
-            }, Environment.ProcessorCount);
-        }
-
-        public async Task CheckCharactersAdditionAsync(ObservableCollection<Character> characters, IProgress<InitializeState> progress)
-        {
-            await characters.ParallelForEachAsync(async c =>
-            {
-                try
-                {
-                    await FileCache.HitAsync(c.Profile);
-                }
-                catch { }
-                progress.Report(new InitializeState(++checkingCount, c.Source.ToFileName()));
+                await FileCache.HitAsync(t.Source);
+                progress.Report(new InitializeState(++this.checkingCount, t.Source?.ToFileName()));
             }, Environment.ProcessorCount);
         }
 
@@ -449,33 +429,33 @@ namespace DGP.Genshin.Services
                 this.WeaponTypes.Count;
 
             await Task.WhenAll(
-                CheckIntegrityAsync(this.Bosses, progress),
-                CheckIntegrityAsync(this.Characters, progress),
-                CheckIntegrityAsync(this.Cities, progress),
-                CheckIntegrityAsync(this.DailyTalents, progress),
-                CheckIntegrityAsync(this.DailyWeapons, progress),
-                CheckIntegrityAsync(this.Elements, progress),
-                CheckIntegrityAsync(this.Elites, progress),
-                CheckIntegrityAsync(this.GemStones, progress),
-                CheckIntegrityAsync(this.Locals, progress),
-                CheckIntegrityAsync(this.Monsters, progress),
-                CheckIntegrityAsync(this.Stars, progress),
-                CheckIntegrityAsync(this.Weapons, progress),
-                CheckIntegrityAsync(this.WeeklyTalents, progress),
-                CheckIntegrityAsync(this.WeaponTypes, progress));
+                this.CheckIntegrityAsync(this.Bosses, progress),
+                this.CheckIntegrityAsync(this.Characters, progress),
+                this.CheckIntegrityAsync(this.Cities, progress),
+                this.CheckIntegrityAsync(this.DailyTalents, progress),
+                this.CheckIntegrityAsync(this.DailyWeapons, progress),
+                this.CheckIntegrityAsync(this.Elements, progress),
+                this.CheckIntegrityAsync(this.Elites, progress),
+                this.CheckIntegrityAsync(this.GemStones, progress),
+                this.CheckIntegrityAsync(this.Locals, progress),
+                this.CheckIntegrityAsync(this.Monsters, progress),
+                this.CheckIntegrityAsync(this.Stars, progress),
+                this.CheckIntegrityAsync(this.Weapons, progress),
+                this.CheckIntegrityAsync(this.WeeklyTalents, progress),
+                this.CheckIntegrityAsync(this.WeaponTypes, progress));
 
             this.HasCheckCompleted = true;
         }
 
         public class InitializeState
         {
-            public InitializeState(int count, string info)
+            public InitializeState(int count, string? info)
             {
                 this.CurrentCount = count;
                 this.Info = info;
             }
             public int CurrentCount { get; set; }
-            public string Info { get; set; }
+            public string? Info { get; set; }
         }
         #endregion
     }

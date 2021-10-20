@@ -9,9 +9,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
     [JsonModel]
     public class ConfigType
     {
-        [JsonProperty("id")] public string Id { get; set; }
-        [JsonProperty("key")] public string Key { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("id")] public string? Id { get; set; }
+        [JsonProperty("key")] public string? Key { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
 
         public const string PermanentWish = "200";
         public const string NoviceWishes = "100";

@@ -57,8 +57,8 @@ namespace DGP.Genshin.Services.Updating
         public void DownloadAndInstallPackage()
         {
             this.InnerFileDownloader = new FileDownloader();
-            this.InnerFileDownloader.DownloadProgressChanged += OnDownloadProgressChanged;
-            this.InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
+            this.InnerFileDownloader.DownloadProgressChanged += this.OnDownloadProgressChanged;
+            this.InnerFileDownloader.DownloadFileCompleted += this.OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
             this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);

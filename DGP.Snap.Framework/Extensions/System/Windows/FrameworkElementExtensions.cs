@@ -29,6 +29,7 @@ namespace DGP.Snap.Framework.Extensions.System.Windows
             }
         }
 
-        public static bool GoToElementState(this FrameworkElement element, string stateName, bool useTransions) => VisualStateManager.GoToElementState(element, stateName, useTransions);
+        public static bool GoToElementState(this FrameworkElement element, string stateName, bool useTransions) =>
+            VisualStateManager.GoToElementState(element, stateName, useTransions);
     }
 }

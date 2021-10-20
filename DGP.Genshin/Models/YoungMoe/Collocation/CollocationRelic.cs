@@ -9,7 +9,7 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
         /// 套装数
         /// </summary>
         [JsonProperty("n")] public int Count { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
         /// <summary>
         /// 当其中只含有Rate时为使用率
         /// </summary>

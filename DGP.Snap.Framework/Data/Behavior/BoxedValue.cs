@@ -1,10 +1,14 @@
-﻿namespace DGP.Snap.Framework.Data.Behavior
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DGP.Snap.Framework.Data.Behavior
 {
     /// <summary>
     /// increase a slightly performances
     /// </summary>
+    [SuppressMessage("Usage", "CA2211:非常量字段应当不可见")]
     public static class BoxedValue
     {
+
         public static object TrueBox = true;
         public static object FalseBox = false;
 

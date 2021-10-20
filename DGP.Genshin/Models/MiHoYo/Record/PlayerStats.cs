@@ -18,7 +18,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         [JsonProperty("avatar_number")] public int AvatarNumber { get; set; }
         [JsonProperty("way_point_number")] public int WayPointNumber { get; set; }
         [JsonProperty("domain_number")] public int DomainNumber { get; set; }
-        [JsonProperty("spiral_abyss")] public string SpiralAbyss { get; set; }
+        [JsonProperty("spiral_abyss")] public string? SpiralAbyss { get; set; }
 
         [JsonProperty("luxurious_chest_number")] public int LuxuriousChestNumber { get; set; }
         [JsonProperty("precious_chest_number")] public int PreciousChestNumber { get; set; }

@@ -41,8 +41,8 @@ namespace DGP.Genshin.Controls.CachedImage
         /// <returns>The Uri of the bitmap to use as the icon content. The default is **null**.</returns>
         public Uri UriSource
         {
-            get => (Uri)GetValue(UriSourceProperty);
-            set => SetValue(UriSourceProperty, value);
+            get => (Uri)this.GetValue(UriSourceProperty);
+            set => this.SetValue(UriSourceProperty, value);
         }
 
         private static void OnUriSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((CachedBitmapIcon)d).ApplyUriSource();
@@ -70,8 +70,8 @@ namespace DGP.Genshin.Controls.CachedImage
         /// </returns>
         public bool ShowAsMonochrome
         {
-            get => (bool)GetValue(ShowAsMonochromeProperty);
-            set => SetValue(ShowAsMonochromeProperty, value);
+            get => (bool)this.GetValue(ShowAsMonochromeProperty);
+            set => this.SetValue(ShowAsMonochromeProperty, value);
         }
 
         private static void OnShowAsMonochromeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((CachedBitmapIcon)d).ApplyShowAsMonochrome();
@@ -91,21 +91,21 @@ namespace DGP.Genshin.Controls.CachedImage
                 OpacityMask = _opacityMask
             };
 
-            ApplyForeground();
-            ApplyUriSource();
+            this.ApplyForeground();
+            this.ApplyUriSource();
 
             this.Children.Add(this._image);
 
-            ApplyShowAsMonochrome();
+            this.ApplyShowAsMonochrome();
         }
 
-        private protected override void OnShouldInheritForegroundFromVisualParentChanged() => ApplyForeground();
+        private protected override void OnShouldInheritForegroundFromVisualParentChanged() => this.ApplyForeground();
 
         private protected override void OnVisualParentForegroundPropertyChanged(DependencyPropertyChangedEventArgs args)
         {
             if (this.ShouldInheritForegroundFromVisualParent)
             {
-                ApplyForeground();
+                this.ApplyForeground();
             }
         }
 
@@ -173,8 +173,8 @@ namespace DGP.Genshin.Controls.CachedImage
             }
         }
 
-        private Image _image;
-        private Rectangle _foreground;
-        private ImageBrush _opacityMask;
+        private Image? _image;
+        private Rectangle? _foreground;
+        private ImageBrush? _opacityMask;
     }
 }

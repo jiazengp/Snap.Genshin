@@ -11,7 +11,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
     /// </summary>
     public class QueryString : IEnumerable<QueryStringParameter>, IEquatable<QueryString>
     {
-        private readonly Dictionary<string, List<string>> _dictionary = new();
+        private readonly Dictionary<string, List<string?>> _dictionary = new();
 
         /// <summary>
         /// Constructs a new empty query string.
@@ -28,7 +28,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// </summary>
         /// <param name="name">The parameter name to find.</param>
         /// <returns></returns>
-        public string this[string name]
+        public string? this[string name]
         {
             get
             {
@@ -36,7 +36,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
                 {
                     throw new ArgumentNullException("name");
                 }
-                if (TryGetValue(name, out string value))
+                if (this.TryGetValue(name, out string? value))
                 {
                     return value;
                 }
@@ -50,13 +50,13 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <param name="name">The parameter name to find.</param>
         /// <param name="value">The parameter's value will be written here once found.</param>
         /// <returns></returns>
-        public bool TryGetValue(string name, out string value)
+        public bool TryGetValue(string name, out string? value)
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-            if (this._dictionary.TryGetValue(name, out List<string> values))
+            if (this._dictionary.TryGetValue(name, out List<string?>? values))
             {
                 value = values.First();
                 return true;
@@ -71,13 +71,13 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <param name="name">The parameter name to find.</param>
         /// <param name="values">The parameter's values will be written here once found.</param>
         /// <returns></returns>
-        public bool TryGetValues(string name, out string[] values)
+        public bool TryGetValues(string name, out string?[]? values)
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-            if (this._dictionary.TryGetValue(name, out List<string> storedValues))
+            if (this._dictionary.TryGetValue(name, out List<string?>? storedValues))
             {
                 values = storedValues.ToArray();
                 return true;
@@ -96,15 +96,15 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// </summary>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="value">The optional value of the parameter.</param>
-        public void Add(string name, string value = null)
+        public void Add(string name, string? value = null)
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-            if (!this._dictionary.TryGetValue(name, out List<string> values))
+            if (!this._dictionary.TryGetValue(name, out List<string?>? values))
             {
-                values = new List<string>();
+                values = new List<string?>();
                 this._dictionary[name] = values;
             }
             values.Add(value);
@@ -115,13 +115,13 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// </summary>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="value">The optional value of the parameter.</param>
-        public void Set(string name, string value = null)
+        public void Set(string name, string? value = null)
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-            this._dictionary[name] = new List<string>() { value };
+            this._dictionary[name] = new List<string?>() { value };
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
             {
                 throw new ArgumentNullException("name");
             }
-            return this._dictionary.TryGetValue(name, out List<string> values) && values.Contains(value);
+            return this._dictionary.TryGetValue(name, out List<string?>? values) && values.Contains(value);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <returns>True if the parameters were removed, else false.</returns>
         public bool Remove(string name)
         {
-            if (this._dictionary.TryGetValue(name, out List<string> values))
+            if (this._dictionary.TryGetValue(name, out List<string?>? values))
             {
                 if (values.Count == 1)
                 {
@@ -190,7 +190,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <returns>True if parameter was removed, else false.</returns>
         public bool Remove(string name, string value)
         {
-            if (this._dictionary.TryGetValue(name, out List<string> values))
+            if (this._dictionary.TryGetValue(name, out List<string?>? values))
             {
                 if (values.RemoveFirstWhere(i => Equals(i, value)))
                 {
@@ -213,7 +213,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <returns>The count of parameters removed.</returns>
         public int RemoveAll(string name, string value)
         {
-            if (this._dictionary.TryGetValue(name, out List<string> values))
+            if (this._dictionary.TryGetValue(name, out List<string?>? values))
             {
                 int countRemoved = values.RemoveAll(i => Object.Equals(i, value));
                 // If removed last value, remove the key
@@ -226,7 +226,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
             return 0;
         }
 
-        private static string UrlEncode(string str) =>
+        private static string? UrlEncode(string? str) =>
             //return Uri.EscapeDataString(str)
             str;
 
@@ -250,7 +250,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
             foreach (string pair in pairs)
             {
                 string name;
-                string value;
+                string? value;
                 int indexOfEquals = pair.IndexOf('=');
                 if (indexOfEquals == -1)
                 {
@@ -274,7 +274,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// Null values are not written (only their key is written).
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => ToString(QueryStringSeparator.Ampersand);
+        public override string ToString() => this.ToString(QueryStringSeparator.Ampersand);
 
         private static string GetSeparatorString(QueryStringSeparator separator)
         {
@@ -302,9 +302,9 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// <returns></returns>
         public IEnumerator<QueryStringParameter> GetEnumerator()
         {
-            foreach (KeyValuePair<string, List<string>> pair in this._dictionary)
+            foreach (KeyValuePair<string, List<string?>> pair in this._dictionary)
             {
-                foreach (string value in pair.Value)
+                foreach (string? value in pair.Value)
                 {
                     yield return new QueryStringParameter(pair.Key, value);
                 }
@@ -315,14 +315,21 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// Gets an enumerator to enumerate the query string parameters.
         /// </summary>
         /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <summary>
         /// Determines whether the current query string is equivalent to the provided query string.
         /// </summary>
         /// <param name="other">The query string to compare to.</param>
         /// <returns>Returns true if the query string has the exact same parameters as the current query string (order is irrelevant).</returns>
-        public bool Equals(QueryString other) => Equals(other, default, default);
+        public bool Equals(QueryString? other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            return this.Equals(other, default, default);
+        }
 
         public bool Equals(QueryString other, StringComparison nameComparisonType, StringComparison valueComparisonType)
         {
@@ -332,12 +339,12 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
                 return false;
             }
             // Go through each key from current object
-            foreach (KeyValuePair<string, List<string>> param in this._dictionary)
+            foreach (KeyValuePair<string, List<string?>> param in this._dictionary)
             {
                 // Get values for this key
-                List<string> thisValues = param.Value;
+                List<string?> thisValues = param.Value;
                 // If the other didn't have param name
-                if (!other._dictionary.TryGetValue(param.Key, out List<string> otherValues))
+                if (!other._dictionary.TryGetValue(param.Key, out List<string?>? otherValues))
                 {
                     return false;
                 }
@@ -347,12 +354,12 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
                     return false;
                 }
                 // Create copy of the other values list
-                otherValues = new List<string>(otherValues);
+                otherValues = new List<string?>(otherValues);
                 // And then remove matching values
-                foreach (string thisVal in thisValues)
+                foreach (string? thisVal in thisValues)
                 {
                     // If we couldn't find matching to remove
-                    if (!otherValues.RemoveFirstWhere(i => ValueEquals(thisVal, i, valueComparisonType)))
+                    if (!otherValues.RemoveFirstWhere(i => this.ValueEquals(thisVal, i, valueComparisonType)))
                     {
                         return false;
                     }
@@ -362,7 +369,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
             return true;
         }
 
-        private bool ValueEquals(string value1, string value2, StringComparison comparisonType)
+        private bool ValueEquals(string? value1, string? value2, StringComparison comparisonType)
         {
             // If both are null, true
             if (value1 == null && value2 == null)

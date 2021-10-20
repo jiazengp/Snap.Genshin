@@ -13,7 +13,7 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         /// <summary>
         /// yyyy-MM-dd
         /// </summary>
-        [JsonProperty("today")] public string Today { get; set; }
+        [JsonProperty("today")] public string? Today { get; set; }
         /// <summary>
         /// 今日是否已签到
         /// </summary>

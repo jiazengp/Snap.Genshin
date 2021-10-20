@@ -32,11 +32,11 @@ namespace DGP.Genshin.Services
         private int totalSubmitted;
         private int abyssPassed;
 
-        public List<AvatarSimple> AvatarDictionary { get => this.allAvatarMap; set => Set(ref this.allAvatarMap, value); }
-        public List<DetailedAvatarInfo> CollocationAll { get => this.collocationAll; set => Set(ref this.collocationAll, value); }
-        public List<AvatarInfo> Collocation11 { get => this.collocation11; set => Set(ref this.collocation11, value); }
-        public int TotalSubmitted { get => this.totalSubmitted; set => Set(ref this.totalSubmitted, value); }
-        public int AbyssPassed { get => this.abyssPassed; set => Set(ref this.abyssPassed, value); }
+        public List<AvatarSimple> AvatarDictionary { get => this.allAvatarMap; set => this.Set(ref this.allAvatarMap, value); }
+        public List<DetailedAvatarInfo> CollocationAll { get => this.collocationAll; set => this.Set(ref this.collocationAll, value); }
+        public List<AvatarInfo> Collocation11 { get => this.collocation11; set => this.Set(ref this.collocation11, value); }
+        public int TotalSubmitted { get => this.totalSubmitted; set => this.Set(ref this.totalSubmitted, value); }
+        public int AbyssPassed { get => this.abyssPassed; set => this.Set(ref this.abyssPassed, value); }
         #endregion
 
         public bool IsInitialized => this.isInitialized;
@@ -52,14 +52,14 @@ namespace DGP.Genshin.Services
 
             this.selectedFloor = this.Floors.First();
 
-            this.AvatarDictionary = await GetAllAvatarAsync();
-            this.CollocationAll = await GetCollocationRankFinalAsync();
-            this.Collocation11 = await GetCollocationRankOf11FloorAsync();
+            this.AvatarDictionary = await this.GetAllAvatarAsync();
+            this.CollocationAll = await this.GetCollocationRankFinalAsync();
+            this.Collocation11 = await this.GetCollocationRankOf11FloorAsync();
 
-            this.TotalSubmitted = Int32.Parse((await GetTotalSubmittedGamerAsync()).Count);
-            this.AbyssPassed = Int32.Parse((await GetSprialAbyssPassedGamerAsync()).Count);
+            this.TotalSubmitted = Int32.Parse((await this.GetTotalSubmittedGamerAsync()).Count);
+            this.AbyssPassed = Int32.Parse((await this.GetSprialAbyssPassedGamerAsync()).Count);
 
-            await RefershRecommandsAsync();
+            await this.RefershRecommandsAsync();
         }
 
         #region API
@@ -127,8 +127,12 @@ namespace DGP.Genshin.Services
             return resp;
         }
 
-        public async Task<string> PostUid(string uid)
+        public async Task<string?> PostUid(string? uid)
         {
+            if (uid is null)
+            {
+                return "当前无可用玩家信息";
+            }
             Requester requester = new Requester(new RequestOptions
             {
                 {"Content-Type","application/x-www-form-urlencoded;charset=UTF-8" }
@@ -142,10 +146,10 @@ namespace DGP.Genshin.Services
 
         #region Recommand
         private List<Recommand> recommands;
-        public List<Recommand> Recommands { get => this.recommands; set => Set(ref this.recommands, value); }
+        public List<Recommand> Recommands { get => this.recommands; set => this.Set(ref this.recommands, value); }
 
         private List<int> floors = new List<int> { 12, 11, 10, 9 };
-        public List<int> Floors { get => this.floors; set => Set(ref this.floors, value); }
+        public List<int> Floors { get => this.floors; set => this.Set(ref this.floors, value); }
 
         private int selectedFloor;
         public int SelectedFloor
@@ -153,11 +157,11 @@ namespace DGP.Genshin.Services
             get => this.selectedFloor; set
             {
                 this.selectedFloor = value;
-                OnFloorChanged();
+                this.OnFloorChanged();
             }
         }
 
-        private async void OnFloorChanged() => await RefershRecommandsAsync();
+        private async void OnFloorChanged() => await this.RefershRecommandsAsync();
 
         public async Task RefershRecommandsAsync()
         {
@@ -167,7 +171,7 @@ namespace DGP.Genshin.Services
             }
             this.Recommands = null;
 
-            List<int[]> teamDataRaw = await GetTeamRankRawDataAsync(this.SelectedFloor);
+            List<int[]> teamDataRaw = await this.GetTeamRankRawDataAsync(this.SelectedFloor);
 
             List<int> ownedAvatarRaw = RecordService.Instance.CurrentRecord.DetailedAvatars
                 .Where(i => this.allAvatarMap.Exists(a => a.CnName == i.Name))
@@ -192,17 +196,17 @@ namespace DGP.Genshin.Services
             {
                 UpHalf = new List<Character>
                 {
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[0])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[1])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[2])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[3]))
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[0])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[1])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[2])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[3]))
                 },
                 DownHalf = new List<Character>
                 {
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[4])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[5])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[6])),
-                    ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[7]))
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[4])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[5])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[6])),
+                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[7]))
                 },
                 Count = raw[8]
             }).TakeWhileAndPreserve(i => i.Count > this.TotalSubmitted * 0.0005, 10).AsParallel().ToList();

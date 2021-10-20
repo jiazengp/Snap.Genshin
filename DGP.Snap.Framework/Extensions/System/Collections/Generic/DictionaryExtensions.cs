@@ -13,7 +13,7 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         /// <param name="dictionary">操作的字典对象</param>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value) where TKey : notnull
         {
             if (dictionary.ContainsKey(key))
             {
@@ -29,9 +29,9 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         /// <param name="dictionary">操作的字典对象</param>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue, TValue> valueFunc)
+        public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue?, TValue> valueFunc) where TKey : notnull
         {
-            if (dictionary.TryGetValue(key, out TValue value))
+            if (dictionary.TryGetValue(key, out TValue? value))
                 dictionary.Remove(key);
 
             dictionary.Add(key, valueFunc.Invoke(value));

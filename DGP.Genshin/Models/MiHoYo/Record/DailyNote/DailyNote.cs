@@ -17,14 +17,18 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// <summary>
         /// 树脂恢复时间<see cref="String"/>类型的秒数
         /// </summary>
-        [JsonProperty("resin_recovery_time")] public string ResinRecoveryTime { get; set; }
+        [JsonProperty("resin_recovery_time")] public string? ResinRecoveryTime { get; set; }
 
-        public string ResinRecoveryTimeFormatted
+        public string? ResinRecoveryTimeFormatted
         {
             get
             {
-                TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(ResinRecoveryTime));
-                return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
+                if (this.ResinRecoveryTime is not null)
+                {
+                    TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(this.ResinRecoveryTime));
+                    return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
+                }
+                return null;
             }
         }
         /// <summary>
@@ -40,7 +44,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// </summary>
         [JsonProperty("is_extra_task_reward_received")] public bool IsExtraTaskRewardReceived { get; set; }
 
-        public string ExtraTaskRewardDescription => IsExtraTaskRewardReceived ? "已领取「每日委托」奖励" : "今日完成委托次数不足";
+        public string ExtraTaskRewardDescription => this.IsExtraTaskRewardReceived ? "已领取「每日委托」奖励" : "今日完成委托次数不足";
         /// <summary>
         /// 剩余周本折扣次数
         /// </summary>
@@ -60,7 +64,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// <summary>
         /// 派遣
         /// </summary>
-        [JsonProperty("expeditions")] public List<Expedition> Expeditions { get; set; }
+        [JsonProperty("expeditions")] public List<Expedition>? Expeditions { get; set; }
     }
 
 }

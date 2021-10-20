@@ -10,10 +10,10 @@ namespace DGP.Snap.Framework.Net.Download
     internal class DownloadWebClient : WebClient
     {
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private WebResponse webResponse;
+        private WebResponse? webResponse;
         private long position;
 
-        private TimeSpan timeout = TimeSpan.FromMinutes(2);
+        private readonly TimeSpan timeout = TimeSpan.FromMinutes(2);
 
         public bool HasResponse => this.webResponse != null;
 
@@ -22,10 +22,10 @@ namespace DGP.Snap.Framework.Net.Download
         public void OpenReadAsync(Uri address, long newPosition)
         {
             this.position = newPosition;
-            OpenReadAsync(address);
+            this.OpenReadAsync(address);
         }
 
-        public string GetOriginalFileNameFromDownload()
+        public string? GetOriginalFileNameFromDownload()
         {
             if (this.webResponse == null)
             {
@@ -34,10 +34,10 @@ namespace DGP.Snap.Framework.Net.Download
 
             try
             {
-                System.Net.Mime.ContentDisposition contentDisposition = this.webResponse.Headers.GetContentDisposition();
+                System.Net.Mime.ContentDisposition? contentDisposition = this.webResponse.Headers.GetContentDisposition();
                 if (contentDisposition != null)
                 {
-                    string filename = contentDisposition.FileName;
+                    string? filename = contentDisposition.FileName;
                     if (!String.IsNullOrEmpty(filename))
                     {
                         return Path.GetFileName(filename);
@@ -66,6 +66,7 @@ namespace DGP.Snap.Framework.Net.Download
             return response;
         }
 
+#nullable disable
         protected override WebRequest GetWebRequest(Uri address)
         {
             WebRequest request = base.GetWebRequest(address);
@@ -75,8 +76,7 @@ namespace DGP.Snap.Framework.Net.Download
                 request.Timeout = (int)this.timeout.TotalMilliseconds;
             }
 
-            HttpWebRequest webRequest = request as HttpWebRequest;
-            if (webRequest == null)
+            if (request is not HttpWebRequest webRequest)
             {
                 return request;
             }
@@ -91,5 +91,6 @@ namespace DGP.Snap.Framework.Net.Download
             webRequest.CookieContainer = this.cookieContainer;
             return request;
         }
+#nullable enable
     }
 }

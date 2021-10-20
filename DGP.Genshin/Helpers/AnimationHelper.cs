@@ -1,9 +1,6 @@
 ﻿using DGP.Snap.Framework.Attributes;
-using DGP.Snap.Framework.Data.Regex;
-using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -39,16 +36,6 @@ namespace DGP.Genshin.Helpers
             {
                 EasingFunction = new PowerEase { EasingMode = EasingMode.EaseInOut }
             };
-        }
-
-        internal static void DecomposeGeometryStr(string geometryStr, out double[] arr)
-        {
-            MatchCollection collection = Regex.Matches(geometryStr, RegexPatterns.DigitsPattern);
-            arr = new double[collection.Count];
-            for (int i = 0; i < collection.Count; i++)
-            {
-                arr[i] = collection[i].Value.Value<double>();
-            }
         }
 
         internal static Geometry ComposeGeometry(string[] strings, double[] arr)

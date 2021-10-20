@@ -11,6 +11,7 @@ namespace DGP.Snap.Framework.Extensions.System.Windows
         /// </summary>
         /// <param name="window"></param>
         /// <returns>整型窗体句柄指针</returns>
-        public static IntPtr GetHandle(this Window window) => new WindowInteropHelper(window).Handle;
+        public static IntPtr GetHandle(this Window window) =>
+            new WindowInteropHelper(window).Handle;
     }
 }

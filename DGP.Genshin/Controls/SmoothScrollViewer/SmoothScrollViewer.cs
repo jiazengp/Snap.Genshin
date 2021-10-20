@@ -2,6 +2,7 @@
 using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Data.Behavior;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using System.Windows.Media.Animation;
 namespace DGP.Genshin.Controls.SmoothScrollViewer
 {
     [Github("https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Controls/Other/ScrollViewer.cs")]
+    [SuppressMessage("", "CA1416")]
     public class SmoothScrollViewer : ScrollViewer
     {
         private double _totalVerticalOffset;
@@ -27,8 +29,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public Orientation Orientation
         {
-            get => (Orientation)GetValue(OrientationProperty);
-            set => SetValue(OrientationProperty, value);
+            get => (Orientation)this.GetValue(OrientationProperty);
+            set => this.SetValue(OrientationProperty, value);
         }
 
         /// <summary>
@@ -41,8 +43,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public bool CanMouseWheel
         {
-            get => (bool)GetValue(CanMouseWheelProperty);
-            set => SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
+            get => (bool)this.GetValue(CanMouseWheelProperty);
+            set => this.SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -84,7 +86,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
                     this.CurrentVerticalOffset = this.VerticalOffset;
                 }
                 this._totalVerticalOffset = Math.Min(Math.Max(0, this._totalVerticalOffset - e.Delta), this.ScrollableHeight);
-                ScrollToVerticalOffsetWithAnimation(this._totalVerticalOffset);
+                this.ScrollToVerticalOffsetWithAnimation(this._totalVerticalOffset);
             }
             else
             {
@@ -94,7 +96,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
                     this.CurrentHorizontalOffset = this.HorizontalOffset;
                 }
                 this._totalHorizontalOffset = Math.Min(Math.Max(0, this._totalHorizontalOffset - e.Delta), this.ScrollableWidth);
-                ScrollToHorizontalOffsetWithAnimation(this._totalHorizontalOffset);
+                this.ScrollToHorizontalOffsetWithAnimation(this._totalHorizontalOffset);
             }
         }
 
@@ -105,7 +107,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
                 this._totalVerticalOffset = this.VerticalOffset;
                 this.CurrentVerticalOffset = this.VerticalOffset;
             }
-            ScrollToVerticalOffsetWithAnimation(0, milliseconds);
+            this.ScrollToVerticalOffsetWithAnimation(0, milliseconds);
         }
 
         public void ScrollToVerticalOffsetWithAnimation(double offset, double milliseconds = 500)
@@ -123,7 +125,7 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
             };
             this._isRunning = true;
 
-            BeginAnimation(CurrentVerticalOffsetProperty, animation, HandoffBehavior.Compose);
+            this.BeginAnimation(CurrentVerticalOffsetProperty, animation, HandoffBehavior.Compose);
         }
 
         public void ScrollToHorizontalOffsetWithAnimation(double offset, double milliseconds = 500)
@@ -141,10 +143,10 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
             };
             this._isRunning = true;
 
-            BeginAnimation(CurrentHorizontalOffsetProperty, animation, HandoffBehavior.Compose);
+            this.BeginAnimation(CurrentHorizontalOffsetProperty, animation, HandoffBehavior.Compose);
         }
 
-        protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters) =>
+        protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters) =>
             this.IsPenetrating ? null : base.HitTestCore(hitTestParameters);
 
         /// <summary>
@@ -162,8 +164,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public bool IsInertiaEnabled
         {
-            get => (bool)GetValue(IsInertiaEnabledProperty);
-            set => SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
+            get => (bool)this.GetValue(IsInertiaEnabledProperty);
+            set => this.SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
         }
 
         /// <summary>
@@ -177,8 +179,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         public bool IsPenetrating
         {
-            get => (bool)GetValue(IsPenetratingProperty);
-            set => SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
+            get => (bool)this.GetValue(IsPenetratingProperty);
+            set => this.SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
         }
 
         public static void SetIsPenetrating(DependencyObject element, bool value) =>
@@ -207,8 +209,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         internal double CurrentVerticalOffset
         {
             // ReSharper disable once UnusedMember.Local
-            get => (double)GetValue(CurrentVerticalOffsetProperty);
-            set => SetValue(CurrentVerticalOffsetProperty, value);
+            get => (double)this.GetValue(CurrentVerticalOffsetProperty);
+            set => this.SetValue(CurrentVerticalOffsetProperty, value);
         }
 
         /// <summary>
@@ -230,8 +232,8 @@ namespace DGP.Genshin.Controls.SmoothScrollViewer
         /// </summary>
         internal double CurrentHorizontalOffset
         {
-            get => (double)GetValue(CurrentHorizontalOffsetProperty);
-            set => SetValue(CurrentHorizontalOffsetProperty, value);
+            get => (double)this.GetValue(CurrentHorizontalOffsetProperty);
+            set => this.SetValue(CurrentHorizontalOffsetProperty, value);
         }
     }
 }

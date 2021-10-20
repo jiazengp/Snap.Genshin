@@ -10,6 +10,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     [JsonModel]
     public class DetailedAvatarInfo
     {
-        [JsonProperty("avatars")] public List<DetailedAvatar> Avatars { get; set; }
+        [JsonProperty("avatars")] public List<DetailedAvatar>? Avatars { get; set; }
     }
 }

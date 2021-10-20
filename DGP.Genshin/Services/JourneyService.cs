@@ -22,7 +22,7 @@ namespace DGP.Genshin.Services
 
         public JourneyService()
         {
-            UserGameRoleChanged += OnUserGameRoleChanged;
+            UserGameRoleChanged += this.OnUserGameRoleChanged;
         }
 
         #region API Interop
@@ -102,13 +102,13 @@ namespace DGP.Genshin.Services
         private UserGameRoleInfo userGameRoleInfo;
         private UserGameRole selectedRole;
 
-        public JourneyInfo JourneyInfo { get => this.journeyInfo; set => Set(ref this.journeyInfo, value); }
-        public UserGameRoleInfo UserGameRoleInfo { get => this.userGameRoleInfo; set => Set(ref this.userGameRoleInfo, value); }
+        public JourneyInfo JourneyInfo { get => this.journeyInfo; set => this.Set(ref this.journeyInfo, value); }
+        public UserGameRoleInfo UserGameRoleInfo { get => this.userGameRoleInfo; set => this.Set(ref this.userGameRoleInfo, value); }
         public UserGameRole SelectedRole
         {
             get => this.selectedRole; set
             {
-                Set(ref this.selectedRole, value);
+                this.Set(ref this.selectedRole, value);
                 UserGameRoleChanged?.Invoke(value);
             }
         }
@@ -116,13 +116,13 @@ namespace DGP.Genshin.Services
 
         public async Task InitializeAsync()
         {
-            this.UserGameRoleInfo = await GetUserGameRolesAsync();
+            this.UserGameRoleInfo = await this.GetUserGameRolesAsync();
             this.SelectedRole = this.UserGameRoleInfo?.List.First();
         }
 
         private event UserGameRoleChangedHandler UserGameRoleChanged;
         private async void OnUserGameRoleChanged(UserGameRole role) =>
-            this.JourneyInfo = await GetMonthInfoAsync(role?.GameUid, role?.Region);
+            this.JourneyInfo = await this.GetMonthInfoAsync(role?.GameUid, role?.Region);
     }
 
     public delegate void UserGameRoleChangedHandler(UserGameRole role);

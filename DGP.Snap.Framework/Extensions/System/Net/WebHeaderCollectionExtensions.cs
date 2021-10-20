@@ -16,11 +16,16 @@ namespace DGP.Snap.Framework.Extensions.System.Net
             return contentLength;
         }
 
-        public static ContentDisposition GetContentDisposition(this WebHeaderCollection responseHeaders)
+        public static ContentDisposition? GetContentDisposition(this WebHeaderCollection responseHeaders)
         {
             if (responseHeaders != null && !String.IsNullOrEmpty(responseHeaders["Content-Disposition"]))
             {
-                return new ContentDisposition(responseHeaders["Content-Disposition"]);
+                string? pos = responseHeaders["Content-Disposition"];
+                if (pos is not null)
+                {
+                    return new ContentDisposition(pos);
+                }
+
             }
             return null;
         }

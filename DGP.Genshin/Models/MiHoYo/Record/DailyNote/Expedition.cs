@@ -11,22 +11,26 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         /// <summary>
         /// 图标
         /// </summary>
-        [JsonProperty("avatar_side_icon")] public string AvatarSideIcon { get; set; }
+        [JsonProperty("avatar_side_icon")] public string? AvatarSideIcon { get; set; }
         /// <summary>
         /// 状态 Ongoing:派遣中
         /// </summary>
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public string? Status { get; set; }
         /// <summary>
         /// 剩余时间
         /// </summary>
-        [JsonProperty("remained_time")] public string RemainedTime { get; set; }
+        [JsonProperty("remained_time")] public string? RemainedTime { get; set; }
 
-        public string RemainedTimeFormatted
+        public string? RemainedTimeFormatted
         {
             get
             {
-                TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(RemainedTime));
-                return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
+                if (this.RemainedTime is not null)
+                {
+                    TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(this.RemainedTime));
+                    return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
+                }
+                return null;
             }
         }
     }

@@ -11,7 +11,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
     public class Rank
     {
         [JsonProperty("avatar_id")] public int AvatarId { get; set; }
-        [JsonProperty("avatar_icon")] public string AvatarIcon { get; set; }
+        [JsonProperty("avatar_icon")] public string? AvatarIcon { get; set; }
         [JsonProperty("value")] public int Value { get; set; }
         [JsonProperty("rarity")] public int Rarity { get; set; }
         public string StarUrl => StarHelper.FromRank(this.Rarity);

@@ -10,9 +10,9 @@ namespace DGP.Snap.Framework.Extensions.System.Windows.Media
         /// <typeparam name="T">可视对象类型</typeparam> 
         /// <param name="parent">父可视对象</param> 
         /// <returns>第一个指定类型的子可视对象</returns> 
-        public static T FirstVisualChild<T>(this Visual parent) where T : Visual
+        public static T? FirstVisualChild<T>(this Visual parent) where T : Visual
         {
-            T child = default(T);
+            T? child = default(T);
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
                 Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);

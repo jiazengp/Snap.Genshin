@@ -10,9 +10,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record
     [JsonModel]
     public class PlayerInfo
     {
-        [JsonProperty("avatars")] public List<Avatar.Avatar> Avatars { get; set; }
-        [JsonProperty("stats")] public PlayerStats PlayerStat { get; set; }
-        [JsonProperty("world_explorations")] public List<WorldExploration> WorldExplorations { get; set; }
+        [JsonProperty("avatars")] public List<Avatar.Avatar>? Avatars { get; set; }
+        [JsonProperty("stats")] public PlayerStats? PlayerStat { get; set; }
+        [JsonProperty("world_explorations")] public List<WorldExploration>? WorldExplorations { get; set; }
         [JsonProperty("homes")] public List<Home> Homes { get; set; } = new List<Home>();
     }
 }

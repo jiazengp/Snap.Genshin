@@ -1,6 +1,7 @@
 ﻿using DGP.Snap.Framework.Attributes;
 using Nito.AsyncEx;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -21,21 +22,21 @@ namespace DGP.Genshin.Controls.CachedImage
 
         public string ImageUrl
         {
-            get => (string)GetValue(ImageUrlProperty);
-            set => SetValue(ImageUrlProperty, value);
+            get => (string)this.GetValue(ImageUrlProperty);
+            set => this.SetValue(ImageUrlProperty, value);
         }
 
         public BitmapCreateOptions CreateOptions
         {
-            get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
-            set => SetValue(CreateOptionsProperty, value);
+            get => (BitmapCreateOptions)this.GetValue(CreateOptionsProperty);
+            set => this.SetValue(CreateOptionsProperty, value);
         }
         private static readonly AsyncLock _mutex = new AsyncLock();
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             using (await _mutex.LockAsync())
             {
-                string url = e.NewValue as string;
+                string? url = e.NewValue as string;
 
                 if (String.IsNullOrEmpty(url))
                 {
@@ -47,7 +48,7 @@ namespace DGP.Genshin.Controls.CachedImage
 
                 try
                 {
-                    System.IO.MemoryStream memoryStream = await FileCache.HitAsync(url);
+                    MemoryStream? memoryStream = await FileCache.HitAsync(url);
                     if (memoryStream == null)
                     {
                         cachedImage.Source = null;

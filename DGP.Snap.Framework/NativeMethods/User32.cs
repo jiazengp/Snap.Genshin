@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace DGP.Snap.Framework.NativeMethods
 {
@@ -202,60 +201,6 @@ namespace DGP.Snap.Framework.NativeMethods
         /// <param name="data"></param>
         /// <returns></returns>
         [DllImport("user32.dll")] public static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-        #endregion
-
-        #region EnumDisplaySettings
-        public const int ENUM_CURRENT_SETTINGS = -1;
-        public const int ENUM_REGISTRY_SETTINGS = -2;
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        public struct DEVMODE
-        {
-            private const int CCHDEVICENAME = 32;
-            private const int CCHFORMNAME = 32;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
-            public string dmDeviceName;
-            public short dmSpecVersion;
-            public short dmDriverVersion;
-            public short dmSize;
-            public short dmDriverExtra;
-            public int dmFields;
-            public int dmPositionX;
-            public int dmPositionY;
-            public ScreenOrientation dmDisplayOrientation;
-            public int dmDisplayFixedOutput;
-            public short dmColor;
-            public short dmDuplex;
-            public short dmYResolution;
-            public short dmTTOption;
-            public short dmCollate;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHFORMNAME)]
-            public string dmFormName;
-            public short dmLogPixels;
-            public int dmBitsPerPel;
-            public int dmPelsWidth;
-            public int dmPelsHeight;
-            public int dmDisplayFlags;
-            public int dmDisplayFrequency;
-            public int dmICMMethod;
-            public int dmICMIntent;
-            public int dmMediaType;
-            public int dmDitherType;
-            public int dmReserved1;
-            public int dmReserved2;
-            public int dmPanningWidth;
-            public int dmPanningHeight;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="deviceName"></param>
-        /// <param name="modeNum"></param>
-        /// <param name="devMode"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")] public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
         #endregion
 
         #region SetWindowsHookEx

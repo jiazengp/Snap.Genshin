@@ -11,6 +11,6 @@ namespace DGP.Genshin.Models.MiHoYo
     [JsonModel]
     public class ListWrapper<T>
     {
-        [JsonProperty("list")] public List<T> List { get; set; }
+        [JsonProperty("list")] public List<T>? List { get; set; }
     }
 }

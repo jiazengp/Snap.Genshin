@@ -11,9 +11,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     public class Avatar
     {
         [JsonProperty("id")] public int Id { get; set; }
-        [JsonProperty("image")] public string Image { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("element")] public string Element { get; set; }
+        [JsonProperty("image")] public string? Image { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
+        [JsonProperty("element")] public string? Element { get; set; }
         public string ElementUrl => ElementHelper.FromENGName(this.Element);
         [JsonProperty("fetter")] public int Fetter { get; set; }
         [JsonProperty("level")] public int Level { get; set; }

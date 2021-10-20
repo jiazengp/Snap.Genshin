@@ -12,7 +12,7 @@ namespace DGP.Genshin.Pages
     {
         public WeeklyPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)

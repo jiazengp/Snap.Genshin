@@ -13,27 +13,36 @@ namespace DGP.Genshin.Helpers
             get
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                RegistryKey run = currentUser.OpenSubKey(RunPath);
+                RegistryKey? run = currentUser.OpenSubKey(RunPath);
                 return run != null && run.GetValue(AppName) != null;
             }
             set
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                RegistryKey run = currentUser.OpenSubKey(RunPath, true);
+                RegistryKey? run = currentUser.OpenSubKey(RunPath, true);
                 if (run == null)
                 {
                     currentUser.CreateSubKey(RunPath);
                     run = currentUser.OpenSubKey(RunPath, true);
                 }
-
-                if (value)
+                if (run != null)
                 {
-                    run.SetValue(AppName, Process.GetCurrentProcess().MainModule.FileName);
+                    if (value)
+                    {
+                        string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
+                        Debug.Assert(appFileName is not null);
+                        run.SetValue(AppName, appFileName);
+                    }
+                    else
+                    {
+                        run.DeleteValue(AppName);
+                    }
                 }
                 else
                 {
-                    run.DeleteValue(AppName);
+                    throw new System.Exception("无法创建自启动注册表项");
                 }
+
             }
         }
     }

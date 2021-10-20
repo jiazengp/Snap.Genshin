@@ -13,12 +13,12 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            await Task.Delay(1000);
+            await Task.Delay(500);
             MetaDataService service = MetaDataService.Instance;
             this.DataContext = service;
             if (service.SelectedCharacter == null)

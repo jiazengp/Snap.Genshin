@@ -21,24 +21,24 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class HomePage : System.Windows.Controls.Page, INotifyPropertyChanged
     {
-        private List<Post> posts;
+        private List<Post>? posts;
 
         public HomePage()
         {
             this.Launcher = LaunchService.Instance;
             this.Launcher.Initialize();
             this.DataContext = this;
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
 
-        public List<Post> Posts { get => this.posts; set => Set(ref this.posts, value); }
+        public List<Post>? Posts { get => this.posts; set => this.Set(ref this.posts, value); }
         public LaunchService Launcher { get; set; }
 
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
         {
             if (Equals(storage, value))
             {
@@ -46,7 +46,7 @@ namespace DGP.Genshin.Pages
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

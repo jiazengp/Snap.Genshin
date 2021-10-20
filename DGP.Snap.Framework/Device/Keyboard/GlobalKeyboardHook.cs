@@ -18,7 +18,7 @@ namespace DGP.Snap.Framework.Device.Keyboard
             this._windowsHookHandle = IntPtr.Zero;
             this._user32LibraryHandle = IntPtr.Zero;
             // we must keep alive _hookProc, because GC is not aware about SetWindowsHookEx behaviour.
-            this._hookProc = LowLevelKeyboardProc;
+            this._hookProc = this.LowLevelKeyboardProc;
 
             this._user32LibraryHandle = LoadLibrary("User32");
             if (this._user32LibraryHandle == IntPtr.Zero)
@@ -54,7 +54,7 @@ namespace DGP.Snap.Framework.Device.Keyboard
                     this._windowsHookHandle = IntPtr.Zero;
 
                     // ReSharper disable once DelegateSubtraction
-                    this._hookProc -= LowLevelKeyboardProc;
+                    this._hookProc -= this.LowLevelKeyboardProc;
                 }
             }
 
@@ -73,12 +73,12 @@ namespace DGP.Snap.Framework.Device.Keyboard
 
         ~GlobalKeyboardHook()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 

@@ -15,7 +15,7 @@ namespace DGP.Genshin.Pages
         public ManagePage()
         {
             this.DataContext = MetaDataService.Instance;
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("unitialized");
         }
 

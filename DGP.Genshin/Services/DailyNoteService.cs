@@ -15,24 +15,24 @@ namespace DGP.Genshin.Services
         private const string Referer = @"https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6";
 
         private List<DailyNote> dailyNotes;
-        public List<DailyNote> DailyNotes { get => dailyNotes; set => Set(ref dailyNotes, value); }
+        public List<DailyNote> DailyNotes { get => this.dailyNotes; set => this.Set(ref this.dailyNotes, value); }
 
-        bool isRefreshing = false;
+        private bool isRefreshing = false;
         public async Task RefreshAsync()
         {
-            if (isRefreshing)
+            if (this.isRefreshing)
             {
                 return;
             }
-            isRefreshing = true;
+            this.isRefreshing = true;
             List<DailyNote> list = new List<DailyNote>();
-            UserGameRoleInfo roles = await GetUserGameRolesAsync();
-            foreach(UserGameRole role in roles.List)
+            UserGameRoleInfo roles = await this.GetUserGameRolesAsync();
+            foreach (UserGameRole role in roles.List)
             {
-                list.Add(GetDailyNote(role.Region, role.GameUid));
+                list.Add(this.GetDailyNote(role.Region, role.GameUid));
             }
-            DailyNotes = list;
-            isRefreshing = false;
+            this.DailyNotes = list;
+            this.isRefreshing = false;
         }
 
         public async Task<UserGameRoleInfo> GetUserGameRolesAsync()
@@ -62,7 +62,7 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
 
-            return TryGet($"{BaseUrl}/dailyNote?server={server}&role_id={uid}", requester, out Response<DailyNote> resp)
+            return this.TryGet($"{BaseUrl}/dailyNote?server={server}&role_id={uid}", requester, out Response<DailyNote> resp)
                 ? resp.Data
                 : null;
         }

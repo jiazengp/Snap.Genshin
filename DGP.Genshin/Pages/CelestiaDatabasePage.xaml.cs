@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DGP.Genshin.Pages
@@ -20,7 +19,7 @@ namespace DGP.Genshin.Pages
         public RecordService RecordServiceView { get; set; } = RecordService.Instance;
         public CelestiaDatabasePage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -63,46 +62,52 @@ namespace DGP.Genshin.Pages
             {
                 this.isQuerying = true;
                 this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressed += RecordService_RecordProgressed;
-                string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-                Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressed -= RecordService_RecordProgressed;
-                this.RequestingProgressRing.IsActive = false;
+                RecordService.RecordProgressed += this.RecordService_RecordProgressed;
+                string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
+                if (uid is not null)
+                {
+                    Record record = await RecordService.Instance.GetRecordAsync(uid);
+                    RecordService.RecordProgressed -= this.RecordService_RecordProgressed;
+                    this.RequestingProgressRing.IsActive = false;
 
-                if (record.Success)
-                {
-                    RecordService service = RecordService.Instance;
-                    //so that current record is always has data
-                    service.CurrentRecord = record;
-                    if (CelestiaDatabaseService.Instance.IsInitialized)
+                    if (record.Success)
                     {
-                        await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
-                    }
-                    service.SelectedAvatar = record.DetailedAvatars.First();
-                    service.AddQueryHistory(uid);
-                }
-                else
-                {
-                    if (record.Message.Length == 0)
-                    {
-                        await new ContentDialog()
+                        RecordService service = RecordService.Instance;
+                        //so that current record is always has data
+                        service.CurrentRecord = record;
+                        if (CelestiaDatabaseService.Instance.IsInitialized)
                         {
-                            Title = "查询失败",
-                            Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
-                        Process.Start("https://bbs.mihoyo.com/ys/");
+                            await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
+                        }
+                        if (record.DetailedAvatars is not null)
+                        {
+                            service.SelectedAvatar = record.DetailedAvatars.First();
+                        }
+                        service.AddQueryHistory(uid);
                     }
                     else
                     {
-                        await new ContentDialog()
+                        if (record.Message?.Length == 0)
                         {
-                            Title = "查询失败",
-                            Content = $"UID:{uid}\n{record.Message}",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
+                            await new ContentDialog()
+                            {
+                                Title = "查询失败",
+                                Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
+                                PrimaryButtonText = "确认",
+                                DefaultButton = ContentDialogButton.Primary
+                            }.ShowAsync();
+                            Process.Start("https://bbs.mihoyo.com/ys/");
+                        }
+                        else
+                        {
+                            await new ContentDialog()
+                            {
+                                Title = "查询失败",
+                                Content = $"UID:{uid}\n{record.Message}",
+                                PrimaryButtonText = "确认",
+                                DefaultButton = ContentDialogButton.Primary
+                            }.ShowAsync();
+                        }
                     }
                 }
                 this.isQuerying = false;
@@ -114,7 +119,7 @@ namespace DGP.Genshin.Pages
 
         private async void PostUidAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            string result = "当前无可用玩家信息";
+            string? result = "当前无可用玩家信息";
             if (RecordService.Instance.CurrentRecord != null)
             {
                 result = await CelestiaDatabaseService.Instance.PostUid(RecordService.Instance.CurrentRecord.UserId);
@@ -152,16 +157,16 @@ namespace DGP.Genshin.Pages
 
         public Style TrueStyle
         {
-            get => (Style)GetValue(TrueStyleProperty);
-            set => SetValue(TrueStyleProperty, value);
+            get => (Style)this.GetValue(TrueStyleProperty);
+            set => this.SetValue(TrueStyleProperty, value);
         }
         public static readonly DependencyProperty TrueStyleProperty =
             DependencyProperty.Register("TrueStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));
 
         public Style FalseStyle
         {
-            get => (Style)GetValue(FalseStyleProperty);
-            set => SetValue(FalseStyleProperty, value);
+            get => (Style)this.GetValue(FalseStyleProperty);
+            set => this.SetValue(FalseStyleProperty, value);
         }
         public static readonly DependencyProperty FalseStyleProperty =
             DependencyProperty.Register("FalseStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));

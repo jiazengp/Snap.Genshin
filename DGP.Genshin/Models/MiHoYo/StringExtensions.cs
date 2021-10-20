@@ -30,8 +30,7 @@ namespace DGP.Genshin.Models.MiHoYo
     /// </summary>
     public class HtmlStringConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
-            ((JValue)value).Value.ToString().RemoveHtmlFormat();
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => ((JValue)value).Value?.ToString()?.RemoveHtmlFormat();
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }

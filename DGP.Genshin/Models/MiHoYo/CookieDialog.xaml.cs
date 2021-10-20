@@ -11,13 +11,13 @@ namespace DGP.Genshin.Models.MiHoYo
     {
         public CookieDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
 
         public async Task<string> GetInputCookieAsync()
         {
-            await ShowAsync();
+            await this.ShowAsync();
             return this.InputText.Text;
         }
 

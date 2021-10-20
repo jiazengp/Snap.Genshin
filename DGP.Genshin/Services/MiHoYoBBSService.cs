@@ -20,9 +20,13 @@ namespace DGP.Genshin.Services
         }
 
         #region User
-        public async Task<UserInfo> GetUserFullInfoAsync()
+        public async Task<UserInfo?> GetUserFullInfoAsync()
         {
-            string cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookie;
+            if (cookie is null)
+            {
+                return null;
+            }
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },
@@ -36,14 +40,18 @@ namespace DGP.Genshin.Services
             });
             Response<UserInfoWrapper> resp = await Task.Run(() =>
             requester.Get<UserInfoWrapper>($"{BaseUrl}/getUserFullInfo?gids=2"));
-            return resp.ReturnCode == 0 ? resp.Data.UserInfo : null;
+            return resp.ReturnCode == 0 ? resp.Data?.UserInfo : null;
         }
         #endregion
 
         #region Post
-        public async Task<List<Post>> GetOfficialRecommendedPostsAsync()
+        public async Task<List<Post>?> GetOfficialRecommendedPostsAsync()
         {
-            string cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookie;
+            if (cookie is null)
+            {
+                return null;
+            }
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },
@@ -59,9 +67,13 @@ namespace DGP.Genshin.Services
             requester.Get<ListWrapper<Post>>($"{PostBaseUrl}/getOfficialRecommendedPosts?gids=2"));
             return resp.Data?.List;
         }
-        public async Task<dynamic> GetPostFullAsync(string postId)
+        public async Task<dynamic?> GetPostFullAsync(string postId)
         {
-            string cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookie;
+            if (cookie is null)
+            {
+                return null;
+            }
             Requester requester = new Requester(new RequestOptions
             {
                 {"DS", DynamicSecretProvider.Create() },

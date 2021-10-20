@@ -12,10 +12,10 @@ namespace DGP.Genshin.Services.GachaStatistic
     {
         public GachaLogUrlDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
         public async Task<string> GetInputUrlAsync() =>
-            await ShowAsync() == ContentDialogResult.Primary ? this.InputText.Text : String.Empty;
+            await this.ShowAsync() == ContentDialogResult.Primary ? this.InputText.Text : String.Empty;
     }
 }

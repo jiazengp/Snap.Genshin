@@ -2,6 +2,7 @@
 using DGP.Snap.Framework.Extensions.System;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -12,13 +13,14 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class GachaStatisticPage : Page
     {
-        private GachaStatisticService Service { get; set; }
+        [NotNull]
+        private GachaStatisticService? Service { get; set; }
 
         public GachaStatisticPage()
         {
             this.Service = new GachaStatisticService();
             this.DataContext = this.Service;
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
 
@@ -69,13 +71,13 @@ namespace DGP.Genshin.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            UnInitialize();
+            this.UnInitialize();
             base.OnNavigatingFrom(e);
         }
         private void UnInitialize()
         {
             this.Log("uninitialized");
-            this.Service.UnInitialize();
+            this.Service?.UnInitialize();
             this.Service = null;
         }
     }

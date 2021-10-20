@@ -10,10 +10,10 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
     [InterModel]
     public class SpecificItem
     {
-        public string StarUrl { get; set; }
-        public string Source { get; set; }
-        public string Name { get; set; }
-        public string Badge { get; set; }
+        public string? StarUrl { get; set; }
+        public string? Source { get; set; }
+        public string? Name { get; set; }
+        public string? Badge { get; set; }
 
         [JsonIgnore] public DateTime Time { get; set; }
         public override string ToString() => $"{this.Time}-{this.Name}";

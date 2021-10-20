@@ -17,20 +17,20 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         /// 构造新的失败的<see cref="Record"/>实例
         /// </summary>
         /// <param name="message"></param>
-        public Record(string message)
+        public Record(string? message)
         {
             this.Message = message;
         }
 
         public bool Success { get; set; } = false;
-        public string Message { get; set; }
-        public string UserId { get; set; }
-        public string Server { get; set; }
+        public string? Message { get; set; }
+        public string? UserId { get; set; }
+        public string? Server { get; set; }
 
-        public PlayerInfo PlayerInfo { get; set; }
-        public SpiralAbyss.SpiralAbyss SpiralAbyss { get; set; }
-        public SpiralAbyss.SpiralAbyss LastSpiralAbyss { get; set; }
-        public List<DetailedAvatar> DetailedAvatars { get; set; }
-        public dynamic Activities { get; set; }
+        public PlayerInfo? PlayerInfo { get; set; }
+        public SpiralAbyss.SpiralAbyss? SpiralAbyss { get; set; }
+        public SpiralAbyss.SpiralAbyss? LastSpiralAbyss { get; set; }
+        public List<DetailedAvatar>? DetailedAvatars { get; set; }
+        public dynamic? Activities { get; set; }
     }
 }

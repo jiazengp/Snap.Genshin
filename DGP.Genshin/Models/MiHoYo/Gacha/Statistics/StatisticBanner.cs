@@ -15,6 +15,6 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public double AverageGetStar5 { get; set; }
         public int MaxGetStar5Count { get; set; }
         public int MinGetStar5Count { get; set; }
-        public string NextGuaranteeType { get; set; }
+        public string? NextGuaranteeType { get; set; }
     }
 }

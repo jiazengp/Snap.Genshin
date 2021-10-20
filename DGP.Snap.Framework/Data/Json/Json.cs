@@ -15,7 +15,7 @@ namespace DGP.Snap.Framework.Data.Json
         /// <typeparam name="T">要反序列化的对象的类型</typeparam>	
         /// <param name="value">要反序列化的JSON</param>	
         /// <returns>JSON字符串中的反序列化对象</returns>	
-        public static T ToObject<T>(string value) =>
+        public static T? ToObject<T>(string value) =>
             JsonConvert.DeserializeObject<T>(value);
 
         /// <summary>	
@@ -42,7 +42,7 @@ namespace DGP.Snap.Framework.Data.Json
         /// <typeparam name="T">要反序列化的对象的类型</typeparam>
         /// <param name="fileName">存放JSON数据的文件路径</param>
         /// <returns>JSON字符串中的反序列化对象</returns>
-        public static T FromFile<T>(string fileName)
+        public static T? FromFile<T>(string fileName)
         {
             using (StreamReader sr = File.OpenText(fileName))
             {
@@ -55,7 +55,7 @@ namespace DGP.Snap.Framework.Data.Json
         /// <typeparam name="T">要反序列化的对象的类型</typeparam>
         /// <param name="fileName">存放JSON数据的文件路径</param>
         /// <returns>JSON字符串中的反序列化对象</returns>
-        public static T FromFile<T>(FileInfo file)
+        public static T? FromFile<T>(FileInfo file)
         {
             using (StreamReader sr = file.OpenText())
             {
@@ -75,7 +75,7 @@ namespace DGP.Snap.Framework.Data.Json
             }
         }
 
-        public static T FromWebsite<T>(string url)
+        public static T? FromWebsite<T>(string url)
         {
             Logger.LogStatic(typeof(Json), $"GET {url}");
             try

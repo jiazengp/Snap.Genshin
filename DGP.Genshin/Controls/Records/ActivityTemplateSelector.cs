@@ -18,21 +18,23 @@ namespace DGP.Genshin.Controls.Records
             { "activities[6]", "Sumo" }
         };
 
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        public override DataTemplate? SelectTemplate(object item, DependencyObject container)
         {
             if (container is FrameworkElement element && item != null)
             {
-                JToken token = item as JToken;
-                string path = token.Path;
-                if (TemplateDict.ContainsKey(path))
+                JToken? token = item as JToken;
+                string? path = token?.Path;
+                if (path is not null)
                 {
-                    return element.FindResource(TemplateDict[path]) as DataTemplate;
+                    if (TemplateDict.ContainsKey(path))
+                    {
+                        return element.FindResource(TemplateDict[path]) as DataTemplate;
+                    }
+                    else
+                    {
+                        return element.FindResource("Default") as DataTemplate;
+                    }
                 }
-                else
-                {
-                    return element.FindResource("Default") as DataTemplate;
-                }
-
             }
             return null;
         }

@@ -10,6 +10,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     public class ReliquaryAffix
     {
         [JsonProperty("activation_number")] public int ActivationNumber { get; set; }
-        [JsonProperty("effect")] public string Effect { get; set; }
+        [JsonProperty("effect")] public string? Effect { get; set; }
     }
 }

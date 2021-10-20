@@ -12,7 +12,7 @@ namespace DGP.Genshin.Services.Updating
         public UpdateDialog()
         {
             UpdateService.Instance.UpdateInfo = this.UpdateInfo;
-            InitializeComponent();
+            this.InitializeComponent();
             this.Log("initialized");
         }
 
@@ -20,8 +20,8 @@ namespace DGP.Genshin.Services.Updating
 
         public UpdateInfo UpdateInfo
         {
-            get => (UpdateInfo)GetValue(UpdateInfoProperty);
-            set => SetValue(UpdateInfoProperty, value);
+            get => (UpdateInfo)this.GetValue(UpdateInfoProperty);
+            set => this.SetValue(UpdateInfoProperty, value);
         }
         public static readonly DependencyProperty UpdateInfoProperty =
             DependencyProperty.Register("UpdateInfo", typeof(UpdateInfo), typeof(UpdateDialog), new PropertyMetadata(new UpdateInfo()));

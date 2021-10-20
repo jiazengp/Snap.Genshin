@@ -12,6 +12,6 @@ namespace DGP.Genshin.Models.MiHoYo.Journey
         [JsonProperty("current_primogems_level")] public int CurrentPrimogemsLevel { get; set; }
         [JsonProperty("primogems_rate")] public int PrimogemsRate { get; set; }
         [JsonProperty("mora_rate")] public int MoraRate { get; set; }
-        [JsonProperty("group_by")] public List<SumAction> GroupBy { get; set; }
+        [JsonProperty("group_by")] public List<SumAction>? GroupBy { get; set; }
     }
 }

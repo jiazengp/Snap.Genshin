@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,7 +20,7 @@ namespace DGP.Genshin.Controls.CachedImage
             {
                 PropertyChangedCallback = async (obj, e) =>
                 {
-                    System.IO.MemoryStream memoryStream = await FileCache.HitAsync((string)e.NewValue);
+                    MemoryStream? memoryStream = await FileCache.HitAsync((string)e.NewValue);
                     if (memoryStream == null)
                     {
                         return;

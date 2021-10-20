@@ -26,11 +26,11 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 13 / 100.0, 90),
                 WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 14.5 / 100.0, 80),
                 CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 13 / 100.0, 90),
-                Characters5 = characters.Where(i => i.StarUrl.ToRank() == 5).ToList(),
-                Characters4 = characters.Where(i => i.StarUrl.ToRank() == 4).ToList(),
-                Weapons5 = weapons.Where(i => i.StarUrl.ToRank() == 5).ToList(),
-                Weapons4 = weapons.Where(i => i.StarUrl.ToRank() == 4).ToList(),
-                Weapons3 = weapons.Where(i => i.StarUrl.ToRank() == 3).ToList(),
+                Characters5 = characters.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
+                Characters4 = characters.Where(i => i.StarUrl?.ToRank() == 4).ToList(),
+                Weapons5 = weapons.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
+                Weapons4 = weapons.Where(i => i.StarUrl?.ToRank() == 4).ToList(),
+                Weapons3 = weapons.Where(i => i.StarUrl?.ToRank() == 3).ToList(),
                 SpecificBanners = ToSpecificBanners(data)
             };
         }
@@ -117,13 +117,17 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                     }
                 }
             }
-            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
+            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
         private static List<StatisticItem> ToTotalCountList(List<SpecificItem> list)
         {
             Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
             foreach (SpecificItem i in list)
             {
+                if (i.Name is null)
+                {
+                    continue;
+                }
                 if (!counter.ContainsKey(i.Name))
                 {
                     counter[i.Name] = new StatisticItem()
@@ -138,7 +142,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 }
                 counter[i.Name].Count += 1;
             }
-            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl.ToRank()).ThenByDescending(i => i.Count).ToList();
+            return counter.Select(k => k.Value)
+                .OrderByDescending(i => i.StarUrl?.ToRank())
+                .ThenByDescending(i => i.Count).ToList();
         }
         private static List<StatisticItem5Star> ListOutStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
@@ -152,19 +158,37 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
-                SpecificBanner banner = MetaDataService.Instance.SpecificBanners
-                    .Find(b => b.Type == currentStar5.GachaType && currentStar5.Time >= b.StartTime && currentStar5.Time <= b.EndTime);
+                SpecificBanner? banner = MetaDataService.Instance.SpecificBanners.Find(b =>
+                    b.Type == currentStar5.GachaType &&
+                    currentStar5.Time >= b.StartTime &&
+                    currentStar5.Time <= b.EndTime);
 
-                counter.Add(new StatisticItem5Star()
+                if (banner is not null && banner.UpStar5List is not null && banner.UpStar4List is not null)
                 {
-                    Name = currentStar5.Name,
-                    Count = count,
-                    Time = currentStar5.Time,
-                    IsUp = banner == null || banner.UpStar5List.Exists(i =>
-                    i.Name == currentStar5.Name) || banner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
-                    IsBigGuarantee = isBigGuarantee
-                });
+                    counter.Add(new StatisticItem5Star()
+                    {
+                        Name = currentStar5.Name,
+                        Count = count,
+                        Time = currentStar5.Time,
+                        IsUp = banner.UpStar5List.Exists(i =>
+                        i.Name == currentStar5.Name) || banner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
+                        IsBigGuarantee = isBigGuarantee
+                    });
+                }
+                else
+                {
+                    //no banner info
+                    counter.Add(new StatisticItem5Star()
+                    {
+                        Name = currentStar5.Name,
+                        Count = count,
+                        Time = currentStar5.Time,
+                        IsUp = false,
+                        IsBigGuarantee = false
+                    });
+                }
                 reversedItems.RemoveRange(0, count);
+
             }
             counter.Reverse();
             return counter;
@@ -219,9 +243,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 }
                 foreach (GachaLogItem item in data[type])
                 {
-                    SpecificBanner banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
-                    Data.Characters.Character isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
-                    Data.Weapons.Weapon isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
+                    SpecificBanner? banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                    Data.Characters.Character? isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
+                    Data.Weapons.Weapon? isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
                     SpecificItem ni = new SpecificItem
                     {
                         Time = item.Time
@@ -268,14 +292,14 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 if (banner.TotalCount == 0)
                     continue;
 
-                banner.Star5Count = banner.Items.Count(i => i.StarUrl.ToRank() == 5);
-                banner.Star4Count = banner.Items.Count(i => i.StarUrl.ToRank() == 4);
-                banner.Star3Count = banner.Items.Count(i => i.StarUrl.ToRank() == 3);
+                banner.Star5Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 5);
+                banner.Star4Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 4);
+                banner.Star3Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 3);
 
                 List<StatisticItem> statisticList = ToTotalCountList(banner.Items);
-                banner.StatisticList5 = statisticList.Where(i => i.StarUrl.ToRank() == 5).ToList();
-                banner.StatisticList4 = statisticList.Where(i => i.StarUrl.ToRank() == 4).ToList();
-                banner.StatisticList3 = statisticList.Where(i => i.StarUrl.ToRank() == 3).ToList();
+                banner.StatisticList5 = statisticList.Where(i => i.StarUrl?.ToRank() == 5).ToList();
+                banner.StatisticList4 = statisticList.Where(i => i.StarUrl?.ToRank() == 4).ToList();
+                banner.StatisticList3 = statisticList.Where(i => i.StarUrl?.ToRank() == 3).ToList();
             }
         }
     }

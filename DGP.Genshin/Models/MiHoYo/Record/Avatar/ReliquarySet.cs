@@ -11,7 +11,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     public class ReliquarySet
     {
         [JsonProperty("id")] public int Id { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("affixes")] public List<ReliquaryAffix> Affixes { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
+        [JsonProperty("affixes")] public List<ReliquaryAffix>? Affixes { get; set; }
     }
 }

@@ -10,17 +10,17 @@ namespace DGP.Snap.Framework.Core.Logging
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        internal void LogInternal<T>(object info, Func<object, string> formatter = null) =>
-            LogInternal(typeof(T), info, formatter);
+        internal void LogInternal<T>(object info, Func<object, string>? formatter = null) =>
+            this.LogInternal(typeof(T), info, formatter);
 
-        private void LogInternal(Type t, object info, Func<object, string> formatter = null)
+        private void LogInternal(Type t, object info, Func<object, string>? formatter = null)
         {
             if (formatter != null)
                 info = formatter.Invoke(info);
 
             Type type = t;
             string typename = $"{type.Namespace}.{type.Name}";
-            typename = ToSimplifiedName(typename);
+            typename = this.ToSimplifiedName(typename);
             if (this.isLoggingtoFile)
             {
                 TextWriter syncWirtter = TextWriter.Synchronized(this.loggerWriter);
@@ -33,7 +33,7 @@ namespace DGP.Snap.Framework.Core.Logging
             Debug.WriteLine($"{typename}:{info}");
         }
 
-        public static void LogStatic(Type t, object info, Func<object, string> formatter = null) =>
+        public static void LogStatic(Type t, object info, Func<object, string>? formatter = null) =>
             Instance.LogInternal(t, info, formatter);
 
         private string ToSimplifiedName(string typename)
@@ -48,7 +48,7 @@ namespace DGP.Snap.Framework.Core.Logging
         }
 
         #region 单例
-        private static Logger instance;
+        private static Logger? instance;
         private static readonly object _lock = new();
         private Logger()
         {

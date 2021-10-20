@@ -1,10 +1,13 @@
 ﻿using DGP.Snap.Framework.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Controls.CachedImage
@@ -20,9 +23,6 @@ namespace DGP.Genshin.Controls.CachedImage
         // Record whether a file is being written.
         private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
 
-        // Timeout for performing the file download request.
-        private static readonly int RequestTimeout = TimeSpan.FromSeconds(5).Milliseconds;
-
         static FileCache()
         {
             // default cache directory - can be changed if needed from App.xaml
@@ -31,9 +31,12 @@ namespace DGP.Genshin.Controls.CachedImage
 
         public static string AppCacheDirectory { get; set; }
 
-        public static async Task<MemoryStream> HitAsync(string url)
+        [SuppressMessage("", "CA5350")]
+        [SuppressMessage("", "CA1304")]
+        [SuppressMessage("", "CA1835")]
+        public static async Task<MemoryStream?> HitAsync(string? url)
         {
-            if (url == null)
+            if (url is null)
             {
                 return null;
             }
@@ -54,7 +57,7 @@ namespace DGP.Genshin.Controls.CachedImage
             string localFile = $"{AppCacheDirectory}\\{fileName}";
 
             MemoryStream memoryStream = new MemoryStream();
-            FileStream fileStream = null;
+            FileStream? fileStream = null;
             //未写文件且文件存在
             //读取文件缓存并返回
             if (!IsWritingFile.ContainsKey(fileName) && File.Exists(localFile))
@@ -67,35 +70,39 @@ namespace DGP.Genshin.Controls.CachedImage
                 return memoryStream;
             }
 
-            WebRequest request = WebRequest.Create(uri);
-            request.Timeout = RequestTimeout;
+            HttpClient client = new HttpClient
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
             try
             {
-                WebResponse response = await request.GetResponseAsync();
-                Stream responseStream = response.GetResponseStream();
-                //url返回为空
-                if (responseStream == null)
+                HttpResponseMessage? response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+
+                if (response.IsSuccessStatusCode is false)
+                {
                     return null;
-                //未在写文件
+                }
+
+                Stream? responseStream = await response.Content.ReadAsStreamAsync();
+
                 if (!IsWritingFile.ContainsKey(fileName))
                 {
                     IsWritingFile[fileName] = true;
                     fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
                 }
-                //开始写文件
+
                 using (responseStream)
                 {
-                    byte[] bytebuffer = new byte[100];
+                    byte[]? bytebuffer = new byte[100];
                     int bytesRead;
                     do
                     {
-                        //分段读取流内容
                         bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
                         if (fileStream != null)
                             await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
                         await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
-                    } while (bytesRead > 0);
-
+                    }
+                    while (bytesRead > 0);
                     if (fileStream != null)
                     {
                         await fileStream.FlushAsync();
@@ -106,9 +113,13 @@ namespace DGP.Genshin.Controls.CachedImage
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
-            catch (WebException)
+            catch (Exception ex) when (ex is WebException || ex is IOException || ex is HttpRequestException)
             {
                 return null;
+            }
+            finally
+            {
+                client.Dispose();
             }
         }
     }

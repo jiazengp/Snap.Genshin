@@ -41,8 +41,8 @@ namespace DGP.Genshin.Services.Settings
                 return converter.Invoke(value);
             }
         }
-        public bool? Equals<T>(string key, T defaultValue, T value) where T : IEquatable<T> =>
-            GetOrDefault(key, defaultValue)?.Equals(value);
+        public bool? Equals<T>(string key, T? defaultValue, T? value) where T : IEquatable<T> =>
+            this.GetOrDefault(key, defaultValue)?.Equals(value);
 
         public bool Has(string key) => this.settingDictionary.ContainsKey(key);
         public object this[string key]

@@ -21,20 +21,20 @@ namespace DGP.Genshin.Services.Launching
         private LaunchScheme currentScheme;
         private bool isBorderless;
 
-        public List<LaunchScheme> KnownSchemes { get => this.knownSchemes; set => Set(ref this.knownSchemes, value); }
+        public List<LaunchScheme> KnownSchemes { get => this.knownSchemes; set => this.Set(ref this.knownSchemes, value); }
         public LaunchScheme CurrentScheme
         {
             get => this.currentScheme; set
             {
-                Set(ref this.currentScheme, value);
-                OnSchemeChanged();
+                this.Set(ref this.currentScheme, value);
+                this.OnSchemeChanged();
             }
         }
         public bool IsBorderless
         {
             get => this.isBorderless; set
             {
-                Set(ref this.isBorderless, value);
+                this.Set(ref this.isBorderless, value);
                 SettingService.Instance[Setting.IsBorderless] = value;
             }
         }
@@ -57,7 +57,7 @@ namespace DGP.Genshin.Services.Launching
             string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
             if (launcherPath != null)
             {
-                string unescapedGameFolder = GetUnescapedGameFolder();
+                string unescapedGameFolder = this.GetUnescapedGameFolder();
                 string gamePath = $@"{unescapedGameFolder}/{this.launcherConfig["launcher"]["game_start_name"]}";
                 gamePath = Regex.Unescape(gamePath);
 
@@ -82,7 +82,7 @@ namespace DGP.Genshin.Services.Launching
         public void Initialize()
         {
             this.isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
-            OnPropertyChanged(nameof(this.IsBorderless));
+            this.OnPropertyChanged(nameof(this.IsBorderless));
 
             string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
             string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
@@ -90,14 +90,14 @@ namespace DGP.Genshin.Services.Launching
             FileIniDataParser launcherParser = new FileIniDataParser();
             this.launcherConfig = launcherParser.ReadFile(configPath);
 
-            string unescapedGameFolder = GetUnescapedGameFolder();
+            string unescapedGameFolder = this.GetUnescapedGameFolder();
 
             FileIniDataParser gameParser = new FileIniDataParser();
             this.gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
 
             this.currentScheme = this.KnownSchemes.First(item => item.Channel == this.gameConfig["General"]["channel"]);
             //cause we don't wanna trigger the save func
-            OnPropertyChanged(nameof(this.CurrentScheme));
+            this.OnPropertyChanged(nameof(this.CurrentScheme));
         }
 
         private string GetUnescapedGameFolder() => Regex.Unescape(this.launcherConfig["launcher"]["game_install_path"].Replace(@"\x", @"\u"));

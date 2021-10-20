@@ -22,18 +22,22 @@ namespace DGP.Snap.Framework.Net.Download
             return true;
         }
 
-        public static bool TryFileDelete(string filename)
+        public static bool TryFileDelete(string? filename)
         {
-            try
+            if (filename is not null)
             {
-                File.Delete(filename);
+                try
+                {
+
+                    File.Delete(filename);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                return true;
             }
-            catch (Exception)
-            {
-                //Logger.Debug("Unable to delete file {0}. Exception: {1}", filename, e.Message);
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public static bool ReplaceFile(string source, string destination)

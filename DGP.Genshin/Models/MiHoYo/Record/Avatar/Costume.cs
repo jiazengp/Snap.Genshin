@@ -10,7 +10,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
     public class Costume
     {
         [JsonProperty("id")] public int Id { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("icon")] public string Icon { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
+        [JsonProperty("icon")] public string? Icon { get; set; }
     }
 }

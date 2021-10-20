@@ -13,9 +13,10 @@ namespace DGP.Genshin.Pages
         {
             this.journeyService = new JourneyService();
             this.DataContext = this.journeyService;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) => await this.journeyService.InitializeAsync();
+        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) =>
+            await this.journeyService.InitializeAsync();
     }
 }

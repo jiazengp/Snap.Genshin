@@ -10,10 +10,10 @@ namespace DGP.Genshin.Models.YoungMoe
 {
     public class AvatarInfo
     {
-        [JsonProperty("avatar")] public string Avatar { get; set; }
-        [JsonProperty("enname")] public string EnName { get; set; }
-        [JsonProperty("star")] public string Star { get; set; }
-        [JsonProperty("element")] public string ElementType { get; set; }
+        [JsonProperty("avatar")] public string? Avatar { get; set; }
+        [JsonProperty("enname")] public string? EnName { get; set; }
+        [JsonProperty("star")] public string? Star { get; set; }
+        [JsonProperty("element")] public string? ElementType { get; set; }
         /// <summary>
         /// 持有率
         /// </summary>
@@ -28,12 +28,12 @@ namespace DGP.Genshin.Models.YoungMoe
         [JsonProperty("useRate")] public double UseRate { get; set; }
 
         #region Injection
-        public string Source => this.Character.Source;
-        public string StarUrl => this.Character.Star;
-        public SolidColorBrush StarSolid => StarHelper.ToSolid(this.StarUrl);
-        public string Element => this.Character.Element;
+        public string? Source => this.Character?.Source;
+        public string? StarUrl => this.Character?.Star;
+        public SolidColorBrush? StarSolid => StarHelper.ToSolid(this.StarUrl);
+        public string? Element => this.Character?.Element;
 
-        private Character character;
+        private Character? character;
         private Character Character
         {
             get

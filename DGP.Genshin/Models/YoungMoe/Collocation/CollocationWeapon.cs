@@ -7,16 +7,16 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
 {
     public class CollocationWeapon
     {
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("src")] public string Src { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
+        [JsonProperty("src")] public string? Src { get; set; }
         [JsonProperty("rate")] public double Rate { get; set; }
 
-        public string Source => this.Weapon.Source;
-        public string StarUrl => this.Weapon.Star;
+        public string? Source => this.Weapon?.Source;
+        public string? StarUrl => this.Weapon?.Star;
 
         public string Type => this.Weapon.Type;
 
-        private Weapon weapon;
+        private Weapon? weapon;
         private Weapon Weapon
         {
             get

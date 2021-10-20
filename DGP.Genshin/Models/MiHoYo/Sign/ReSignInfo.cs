@@ -11,6 +11,6 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         [JsonProperty("sign_cnt_missed")] public bool SignCountMissed { get; set; }
         [JsonProperty("coin_cnt")] public bool CoinCount { get; set; }
         [JsonProperty("coin_cost")] public bool CoinCost { get; set; }
-        [JsonProperty("rule")] public string Rule { get; set; }
+        [JsonProperty("rule")] public string? Rule { get; set; }
     }
 }

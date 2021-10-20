@@ -17,23 +17,28 @@ namespace DGP.Genshin
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
-            EnsureWorkingPath();
+            this.EnsureWorkingPath();
             base.OnStartup(e);
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-            EnsureSingleInstance();
+            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
+            this.EnsureSingleInstance();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
-            SetAppTheme();
+            this.SetAppTheme();
             //post app window created
 
         }
         private void EnsureWorkingPath()
         {
             //set working dir while launch by windows autorun
-            string path = Assembly.GetEntryAssembly().Location;
-            Environment.CurrentDirectory = Path.GetDirectoryName(path);
+            string? path = Assembly.GetEntryAssembly()?.Location;
+            string? workingPath = Path.GetDirectoryName(path);
+            if (workingPath is not null)
+            {
+                Environment.CurrentDirectory = workingPath;
+            }
+
         }
         private void SetAppTheme()
         {
@@ -67,7 +72,7 @@ namespace DGP.Genshin
 
         #region SingleInstance
         private const string UniqueEventName = "Snap.Genshin";
-        private EventWaitHandle eventWaitHandle;
+        private EventWaitHandle? eventWaitHandle;
         private bool isExitDueToSingleInstanceRestriction = false;
         private bool isEnsureingSingleInstance = false;
         private void EnsureSingleInstance()
@@ -82,7 +87,7 @@ namespace DGP.Genshin
                 this.eventWaitHandle.Set();
                 // Terminate this instance.
                 this.isExitDueToSingleInstanceRestriction = true;
-                Shutdown();
+                this.Shutdown();
             }
             catch (WaitHandleCannotBeOpenedException)
             {

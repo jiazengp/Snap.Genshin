@@ -1,5 +1,5 @@
-﻿using DGP.Snap.Framework.Extensions.System;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
@@ -13,8 +13,8 @@ namespace DGP.Snap.Framework.Net.Download
         private readonly TimeSpan safeWaitTimeout;
         private readonly int copyBufferSize;
 
-        private Stream sourceStream;
-        private Stream destinationStream;
+        private Stream? sourceStream;
+        private Stream? destinationStream;
         private long previousReportedBytesReceived;
         private bool disposed;
         private long totalBytes;
@@ -32,12 +32,12 @@ namespace DGP.Snap.Framework.Net.Download
             this.safeWaitTimeout = safeWaitTimeout;
 
             this.progressUpdateTimer = new System.Timers.Timer(progressUpdateInterval.TotalMilliseconds);
-            this.progressUpdateTimer.Elapsed += OnProgressUpdateTimerElapsed;
+            this.progressUpdateTimer.Elapsed += this.OnProgressUpdateTimerElapsed;
         }
 
-        public event EventHandler<StreamCopyCompleteEventArgs> Completed;
+        public event EventHandler<StreamCopyCompleteEventArgs>? Completed;
 
-        public event EventHandler<StreamCopyProgressEventArgs> ProgressChanged;
+        public event EventHandler<StreamCopyProgressEventArgs>? ProgressChanged;
 
         private enum WorkerState
         {
@@ -51,7 +51,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         public void CopyAsync(Stream source, Stream destination, long sizeInBytes)
         {
-            if (ChangeState(WorkerState.Started) == false)
+            if (this.ChangeState(WorkerState.Started) == false)
             {
                 return;
             }
@@ -60,12 +60,12 @@ namespace DGP.Snap.Framework.Net.Download
             this.destinationStream = destination;
             this.totalBytes = sizeInBytes;
 
-            ThreadPool.QueueUserWorkItem(stateInfo => RunCopyProcess());
+            ThreadPool.QueueUserWorkItem(stateInfo => this.RunCopyProcess());
         }
 
         public void Cancel()
         {
-            if (ChangeState(WorkerState.Canceled) == false)
+            if (this.ChangeState(WorkerState.Canceled) == false)
             {
                 return;
             }
@@ -77,26 +77,26 @@ namespace DGP.Snap.Framework.Net.Download
 
             ////We may reach this code when cancel is requested BEFORE the RunCopyProcess
             ////There are moments when worker is not started, but still can be cancelled.
-            FinalizeStream(ref this.destinationStream);
-            FinalizeStream(ref this.sourceStream);
+            this.FinalizeStream(ref this.destinationStream);
+            this.FinalizeStream(ref this.sourceStream);
         }
 
-        private void OnCompleted(StreamCopyCompleteEventArgs args) => Completed.SafeInvoke(this, args);
+        private void OnCompleted(StreamCopyCompleteEventArgs args) => Completed?.Invoke(this, args);
 
-        private void OnProgressChanged(StreamCopyProgressEventArgs args) => ProgressChanged.SafeInvoke(this, args);
+        private void OnProgressChanged(StreamCopyProgressEventArgs args) => ProgressChanged?.Invoke(this, args);
 
         private void RunCopyProcess()
         {
-            if (!InitializeCopyProcess())
+            if (!this.InitializeCopyProcess())
             {
                 return;
             }
 
-            Exception error = null;
+            Exception? error = null;
             try
             {
-                Copy();
-                EmitFinalProgress();
+                this.Copy();
+                this.EmitFinalProgress();
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace DGP.Snap.Framework.Net.Download
                 error = ex;
             }
 
-            FinalizeCopyProcess(error);
+            this.FinalizeCopyProcess(error);
         }
 
         private bool InitializeCopyProcess()
@@ -116,7 +116,7 @@ namespace DGP.Snap.Framework.Net.Download
             this.streamCopyFinished.Reset();
 
             this.Position = 0;
-            ChangeState(WorkerState.Started);
+            this.ChangeState(WorkerState.Started);
 
             this.progressUpdateTimer.Start();
             return true;
@@ -124,6 +124,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void Copy()
         {
+            Debug.Assert(this.destinationStream is not null && this.sourceStream is not null);
             byte[] buffer = new byte[this.copyBufferSize];
             using (BinaryWriter binaryWriter = new BinaryWriter(this.destinationStream))
             {
@@ -133,7 +134,7 @@ namespace DGP.Snap.Framework.Net.Download
                     binaryWriter.Write(buffer, 0, readBytes);
                     this.Position = this.destinationStream.Position;
 
-                    if (GetState() == WorkerState.Canceled || GetState() == WorkerState.Finished)
+                    if (this.GetState() == WorkerState.Canceled || this.GetState() == WorkerState.Finished)
                     {
                         this.completedState = CompletedState.Canceled;
                         return;
@@ -155,26 +156,26 @@ namespace DGP.Snap.Framework.Net.Download
                     throw new System.Exception(String.Format("Stream incomplete. Expected size: {0}, actual size {1}", this.totalBytes, this.Position));
                 }
 
-                OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
+                this.OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
             }
         }
 
-        private void FinalizeCopyProcess(System.Exception error)
+        private void FinalizeCopyProcess(Exception? error)
         {
             this.progressUpdateTimer.Stop();
 
-            FinalizeStream(ref this.sourceStream);
-            FinalizeStream(ref this.destinationStream);
+            this.FinalizeStream(ref this.sourceStream);
+            this.FinalizeStream(ref this.destinationStream);
 
-            ChangeState(WorkerState.Finished);
+            this.ChangeState(WorkerState.Finished);
 
             this.streamCopyFinished.Set();
-            OnCompleted(new StreamCopyCompleteEventArgs { CompleteState = completedState, Exception = error });
+            this.OnCompleted(new StreamCopyCompleteEventArgs { CompleteState = completedState, Exception = error });
         }
 
-        private void FinalizeStream(ref Stream stream)
+        private void FinalizeStream(ref Stream? stream)
         {
-            if (stream == null)
+            if (stream is null)
             {
                 return;
             }
@@ -191,7 +192,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         private void OnProgressUpdateTimerElapsed(object sender, EventArgs eventArgs)
         {
-            if (GetState() != WorkerState.Started)
+            if (this.GetState() != WorkerState.Started)
             {
                 return;
             }
@@ -199,7 +200,7 @@ namespace DGP.Snap.Framework.Net.Download
             if (this.Position != this.previousReportedBytesReceived)
             {
                 this.previousReportedBytesReceived = this.Position;
-                OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
+                this.OnProgressChanged(new StreamCopyProgressEventArgs { BytesReceived = Position });
             }
         }
 
@@ -217,7 +218,7 @@ namespace DGP.Snap.Framework.Net.Download
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -229,9 +230,9 @@ namespace DGP.Snap.Framework.Net.Download
                 {
                     this.progressUpdateTimer.Dispose();
                     this.streamCopyFinished.Close();
-                    ChangeState(WorkerState.Finished);
-                    FinalizeStream(ref this.sourceStream);
-                    FinalizeStream(ref this.destinationStream);
+                    this.ChangeState(WorkerState.Finished);
+                    this.FinalizeStream(ref this.sourceStream);
+                    this.FinalizeStream(ref this.destinationStream);
                 }
                 this.disposed = true;
             }

@@ -8,7 +8,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
     /// </summary>
     public class Config
     {
-        [JsonProperty("gacha_type_list")] public List<ConfigType> Types { get; set; }
-        [JsonProperty("region")] public string Region { get; set; }
+        [JsonProperty("gacha_type_list")] public List<ConfigType>? Types { get; set; }
+        [JsonProperty("region")] public string? Region { get; set; }
     }
 }

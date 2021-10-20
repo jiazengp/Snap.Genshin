@@ -51,19 +51,19 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         public Response<T> Get<T>(string url)
         {
             this.Log($"GET {url.Split('?')[0]}");
-            return Request<T>(client => client.DownloadString(url));
+            return this.Request<T>(client => client.DownloadString(url));
         }
 
         public Response<T> Post<T>(string url, dynamic data)
         {
             this.Log($"POST {url.Split('?')[0]}");
-            return Request<T>(client => client.UploadString(url, Json.Stringify(data)));
+            return this.Request<T>(client => client.UploadString(url, Json.Stringify(data)));
         }
 
         public Response<T> Post<T>(string url, string str)
         {
             this.Log($"POST {url.Split('?')[0]}");
-            return Request<T>(client => client.UploadString(url, str));
+            return this.Request<T>(client => client.UploadString(url, str));
         }
 
 
@@ -74,7 +74,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         /// <param name="url"></param>
         /// <returns></returns>
         public async Task<Response<T>> GetAsync<T>(string url) =>
-        await Task.Run(() => Get<T>(url));
+        await Task.Run(() => this.Get<T>(url));
 
         /// <summary>
         /// 对<see cref="Post{T}(String, Object)"/>方法的异步包装
@@ -84,6 +84,6 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         /// <param name="data"></param>
         /// <returns></returns>
         public async Task<Response<T>> PostAsync<T>(string url, object data) =>
-            await Task.Run(() => Post<T>(url, data));
+            await Task.Run(() => this.Post<T>(url, data));
     }
 }

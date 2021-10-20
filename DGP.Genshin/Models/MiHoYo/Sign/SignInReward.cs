@@ -10,7 +10,7 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         /// <summary>
         /// 月份
         /// </summary>
-        [JsonProperty("month")] public string Month { get; set; }
-        [JsonProperty("awards")] public List<SignInAward> Awards { get; set; }
+        [JsonProperty("month")] public string? Month { get; set; }
+        [JsonProperty("awards")] public List<SignInAward>? Awards { get; set; }
     }
 }

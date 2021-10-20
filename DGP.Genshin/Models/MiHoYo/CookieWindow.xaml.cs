@@ -11,12 +11,12 @@ namespace DGP.Genshin.Models.MiHoYo
     /// </summary>
     public partial class CookieWindow : Window, IDisposable
     {
-        public string Cookie { get; set; }
+        public string? Cookie { get; set; }
         public bool IsLoggedIn { get; set; } = false;
 
         public CookieWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void ContinueButtonClick(object sender, RoutedEventArgs e)
@@ -27,7 +27,7 @@ namespace DGP.Genshin.Models.MiHoYo
             if (this.Cookie.Contains("account_id"))
             {
                 this.IsLoggedIn = true;
-                Close();
+                this.Close();
             }
         }
 

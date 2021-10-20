@@ -1,6 +1,5 @@
 ﻿using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -23,11 +22,10 @@ namespace DGP.Genshin.Models.MiHoYo
                 File.Create(CookieFile).Dispose();
             }
         }
-        public static string Cookie { get; private set; }
+        public static string? Cookie { get; private set; }
         public static bool IsCookieAvailable =>
             !String.IsNullOrEmpty(Cookie);
 
-        [SuppressMessage("", "IDE0002")]
         public static async Task SetCookieAsync()
         {
             Cookie = await App.Current.Invoke(new CookieDialog().GetInputCookieAsync);
@@ -37,6 +35,6 @@ namespace DGP.Genshin.Models.MiHoYo
         /// <summary>
         /// unpreventable static event.
         /// </summary>
-        public static event Action CookieRefreshed;
+        public static event Action? CookieRefreshed;
     }
 }

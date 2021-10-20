@@ -27,21 +27,21 @@ namespace DGP.Genshin.Controls
         {
             get => this.isCookieVisible; set
             {
-                Set(ref this.isCookieVisible, value);
-                OnInitializeStateChanged();
+                this.Set(ref this.isCookieVisible, value);
+                this.OnInitializeStateChanged();
             }
         }
         public bool IsLauncherPathVisible
         {
             get => this.isLauncherPathVisible; set
             {
-                Set(ref this.isLauncherPathVisible, value);
-                OnInitializeStateChanged();
+                this.Set(ref this.isLauncherPathVisible, value);
+                this.OnInitializeStateChanged();
             }
         }
 
-        public bool HasCheckCompleted { get => this.hasCheckCompleted; set => Set(ref this.hasCheckCompleted, value); }
-        public string CurrentStateDescription { get => this.currentStateDescription; set => Set(ref this.currentStateDescription, value); }
+        public bool HasCheckCompleted { get => this.hasCheckCompleted; set => this.Set(ref this.hasCheckCompleted, value); }
+        public string CurrentStateDescription { get => this.currentStateDescription; set => this.Set(ref this.currentStateDescription, value); }
         public SplashView()
         {
             this.DataContext = this;
@@ -50,24 +50,25 @@ namespace DGP.Genshin.Controls
                 if (isCompleted)
                 {
                     this.integrityCheckCompleted = true;
-                    OnInitializeStateChanged();
+                    this.OnInitializeStateChanged();
                 }
             };
             this.IsCookieVisible = !CookieManager.IsCookieAvailable;
             this.IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
-        private async void UserControlLoaded(object sender, RoutedEventArgs e) => await MetaDataService.Instance.CheckAllIntegrityAsync();
+        private async void UserControlLoaded(object sender, RoutedEventArgs e) =>
+            await MetaDataService.Instance.CheckAllIntegrityAsync();
         /// <summary>
         /// you need to set <see cref="HasCheckCompleted"/> to true to collaspe the view
         /// </summary>
-        public event Action<SplashView> InitializationPostAction;
+        public event Action<SplashView>? InitializationPostAction;
 
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
         {
             if (Equals(storage, value))
             {
@@ -75,7 +76,7 @@ namespace DGP.Genshin.Controls
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -89,7 +90,7 @@ namespace DGP.Genshin.Controls
 
         private void LauncherPathButtonClick(object sender, RoutedEventArgs e)
         {
-            string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
+            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
             if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog()

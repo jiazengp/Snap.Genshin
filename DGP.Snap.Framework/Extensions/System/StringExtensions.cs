@@ -5,7 +5,7 @@ namespace DGP.Snap.Framework.Extensions.System
 {
     public static class StringExtensions
     {
-        public static T Value<T>(this string input)
+        public static T? Value<T>(this string input)
         {
             try
             {
@@ -17,7 +17,7 @@ namespace DGP.Snap.Framework.Extensions.System
             }
         }
 
-        public static object Value(this string input, Type type)
+        public static object? Value(this string input, Type type)
         {
             try
             {

@@ -28,7 +28,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             Directory.CreateDirectory(localFolderName);
             this.Service = service;
-            LoadAllLogs();
+            this.LoadAllLogs();
             if (service.Uids.Count > 0)
             {
                 service.HasNoData = false;
@@ -42,12 +42,12 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 string uid = new DirectoryInfo(user).Name;
                 this.Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
-                LoadLogOf(uid);
+                this.LoadLogOf(uid);
             }
         }
         private void LoadLogOf(string uid)
         {
-            InitializeUser(uid);
+            this.InitializeUser(uid);
             foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
             {
                 FileInfo fileInfo = new FileInfo(p);
@@ -80,7 +80,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             foreach (KeyValuePair<string, GachaData> entry in this.Data)
             {
-                SaveLogOf(entry.Key);
+                this.SaveLogOf(entry.Key);
             }
         }
         public void SaveLogOf(string uid)
@@ -96,7 +96,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         #region import
         public bool ImportFromGenshinGachaExport(string filePath)
         {
-            return ImportExternalData<GenshinGachaExportFile>(filePath, file => new ImportableGachaData
+            return this.ImportExternalData<GenshinGachaExportFile>(filePath, file => new ImportableGachaData
             {
                 Uid = file.Uid,
                 Data = file.Data,
@@ -113,7 +113,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 try
                 {
                     T file = Json.FromFile<T>(filePath);
-                    ImportCoreInternal(converter.Invoke(file));
+                    this.ImportCoreInternal(converter.Invoke(file));
                 }
                 catch
                 {
@@ -122,7 +122,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             }
             this.Service.SyncStatisticWithUidAsync();
             this.Service.CanUserSwitchUid = true;
-            SaveAllLogs();
+            this.SaveAllLogs();
             return successful;
         }
 
@@ -138,8 +138,8 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 foreach (KeyValuePair<string, List<GachaLogItem>> pool in data)
                 {
-                    List<GachaLogItem> backIncrement = PickBackIncrement(importable.Uid, pool.Key, pool.Value);
-                    MergeBackIncrement(pool.Key, backIncrement);
+                    List<GachaLogItem> backIncrement = this.PickBackIncrement(importable.Uid, pool.Key, pool.Value);
+                    this.MergeBackIncrement(pool.Key, backIncrement);
                 }
             }
         }
@@ -223,7 +223,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                                         sheet.Cells[j, 4].Value = Int32.Parse(item.Rank);
                                         using (ExcelRange range = sheet.Cells[j, 1, j, 4])
                                         {
-                                            range.Style.Font.Color.SetColor(ToDrawingColor(Int32.Parse(item.Rank)));
+                                            range.Style.Font.Color.SetColor(this.ToDrawingColor(Int32.Parse(item.Rank)));
                                         }
                                     }
                                 }

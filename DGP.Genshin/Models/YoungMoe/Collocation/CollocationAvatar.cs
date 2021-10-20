@@ -8,16 +8,16 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
 {
     public class CollocationAvatar
     {
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("icon")] public string Icon { get; set; }
-        [JsonProperty("rate")] public double Rate { get; set; }
+        [JsonProperty("name")] public string? Name { get; set; }
+        [JsonProperty("icon")] public string? Icon { get; set; }
+        [JsonProperty("rate")] public double? Rate { get; set; }
 
-        public string Source => this.Character.Source;
-        public string StarUrl => this.Character.Star;
+        public string? Source => this.Character?.Source;
+        public string? StarUrl => this.Character?.Star;
 
-        public string Element => this.Character.Element;
+        public string? Element => this.Character?.Element;
 
-        private Character character;
+        private Character? character;
         private Character Character
         {
             get

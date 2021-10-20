@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.Records
     {
         public RecordFloorExpander()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

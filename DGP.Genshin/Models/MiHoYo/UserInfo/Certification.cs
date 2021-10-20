@@ -7,6 +7,6 @@ namespace DGP.Genshin.Models.MiHoYo.UserInfo
     public class Certification
     {
         [JsonProperty("type")] public int Type { get; set; }
-        [JsonProperty("label")] public string Label { get; set; }
+        [JsonProperty("label")] public string? Label { get; set; }
     }
 }

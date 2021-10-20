@@ -15,7 +15,7 @@ namespace DGP.Genshin.Pages
     {
         public RecordPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -55,10 +55,10 @@ namespace DGP.Genshin.Pages
             {
                 this.isQuerying = true;
                 this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressed += RecordService_RecordProgressed;
+                RecordService.RecordProgressed += this.RecordService_RecordProgressed;
                 string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressed -= RecordService_RecordProgressed;
+                RecordService.RecordProgressed -= this.RecordService_RecordProgressed;
                 this.RequestingProgressRing.IsActive = false;
 
                 if (record.Success)
