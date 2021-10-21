@@ -42,17 +42,26 @@ namespace DGP.Genshin.Services
         public Reliquary? SelectedReliquary { get => this.selectedReliquary; set => this.Set(ref this.selectedReliquary, value); }
         #endregion
 
-        public List<string> QueryHistory { get; set; } = new List<string>();
-        internal void AddQueryHistory(string uid)
+        public List<string>? QueryHistory { get; set; } = new List<string>();
+        internal void AddQueryHistory(string? uid)
         {
-            if (!this.QueryHistory.Contains(uid))
-                this.QueryHistory.Add(uid);
+            if(this.QueryHistory is not null && uid is not null)
+            {
+                if (!this.QueryHistory.Contains(uid))
+                {
+                    this.QueryHistory.Add(uid);
+                }
+            }
         }
 
         [SuppressMessage("", "IDE0037")]
         [SuppressMessage("", "IDE0050")]
-        public async Task<Record> GetRecordAsync(string uid)
+        public async Task<Record> GetRecordAsync(string? uid)
         {
+            if (uid is null)
+            {
+                return new Record("请输入Uid");
+            }
             this.Log($"querying uid:{uid}");
             string? cookie = CookieManager.Cookie;
             if (cookie is null)
@@ -154,19 +163,19 @@ namespace DGP.Genshin.Services
             };
             return serverDict.TryGetValue(uid[0], out result);
         }
-        private bool TryGet<T>(string info, string url, Requester requester, out Response<T> response)
+        private bool TryGet<T>(string info, string url, Requester requester, out Response<T>? response)
         {
             RecordProgressed?.Invoke(info);
             requester.Headers["DS"] = DynamicSecretProvider2.Create(url);
             response = requester.Get<T>(url);
-            return response.ReturnCode == 0;
+            return response?.ReturnCode == 0;
         }
-        private bool TryPost<T>(string info, string url, object data, Requester requester, out Response<T> response)
+        private bool TryPost<T>(string info, string url, object data, Requester requester, out Response<T>? response)
         {
             RecordProgressed?.Invoke(info);
             requester.Headers["DS"] = DynamicSecretProvider2.Create(url, data);
             response = requester.Post<T>(url, data);
-            return response.ReturnCode == 0;
+            return response?.ReturnCode == 0;
         }
 
         public static event RecordProgressedHandler? RecordProgressed;

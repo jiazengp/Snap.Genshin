@@ -258,7 +258,7 @@
                                     ItemTemplateSelector="{StaticResource ActivityTemplateSelector}">
                                 <ItemsControl.Resources>
                                     <DataTemplate x:Key="Default">
-                                        <Expander Margin="0,0,0,0" Header="未知的活动" IsEnabled="False" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
+                                        <Expander Margin="0,8,0,0" Header="未知的活动" IsEnabled="False" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
                                         </Expander>
                                     </DataTemplate>
                                     <DataTemplate x:Key="Effigy">
@@ -986,6 +986,87 @@
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>
                                                         </Expander>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Expander>
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="Rogue">
+                                        <Expander Margin="0,8,0,0" Header="谜境悬兵" Padding="8" Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
+                                            <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding rogue.records}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Margin="0,0,0,8" Padding="8" Background="{StaticResource SystemControlPageBackgroundListLowBrush}">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto"/>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                </Grid.RowDefinitions>
+                                                                <StackPanel Grid.Row="0">
+                                                                    <TextBlock Text="{Binding challenge_name}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                                                    <TextBlock Text="{Binding settled_level,StringFormat={}最大试炼层数 第{0}层阁}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                                </StackPanel>
+                                                                
+                                                                <ItemsControl Grid.Row="1" ItemsSource="{Binding main_avatars}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Margin="0,4,4,0" Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
+                                                                                <Grid Width="50" Height="50">
+                                                                                    <Border>
+                                                                                        <c:CachedImage ImageUrl="{Binding icon}"/>
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding level,StringFormat={}Lv.{0}}"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                                <ItemsControl Grid.Row="2" ItemsSource="{Binding support_avatars}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Margin="0,4,4,0" Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
+                                                                                <Grid Width="50" Height="50">
+                                                                                    <Border>
+                                                                                        <c:CachedImage ImageUrl="{Binding icon}"/>
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding level,StringFormat={}Lv.{0}}"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                                <ItemsControl Grid.Row="3" ItemsSource="{Binding runes}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Margin="0,8,8,0">
+                                                                                <Border Width="50" Height="50" >
+                                                                                    <c:CachedImage ImageUrl="{Binding icon}" ToolTipService.ToolTip="{Binding desc,Converter={StaticResource HtmlStringConverter}}"/>
+                                                                                </Border>
+                                                                                <TextBlock Text="{Binding name}"/>
+                                                                            </StackPanel>
+                                                                            
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </Grid>
+                                                        </Border>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>

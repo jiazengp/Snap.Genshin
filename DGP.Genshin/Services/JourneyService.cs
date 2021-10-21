@@ -33,13 +33,17 @@ namespace DGP.Genshin.Services
         /// <param name="region"></param>
         /// <param name="month">0为起始请求</param>
         /// <returns></returns>
-        public async Task<JourneyInfo> GetMonthInfoAsync(string uid, string region, int month = 0)
+        public async Task<JourneyInfo?> GetMonthInfoAsync(string? uid, string? region, int month = 0)
         {
             if (uid == null || region == null)
             {
                 return null;
             }
-            string cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookie;
+            if(cookie is null)
+            {
+                return null;
+            }
             Requester requester = new Requester(new RequestOptions
             {
                 {"User-Agent", RequestOptions.CommonUA2_10_1 },
@@ -47,9 +51,9 @@ namespace DGP.Genshin.Services
                 {"Cookie", cookie },
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
-            Response<JourneyInfo> resp = await requester.GetAsync<JourneyInfo>
+            Response<JourneyInfo>? resp = await requester.GetAsync<JourneyInfo>
                 ($@"{ApiHk4e}/event/ys_ledger/monthInfo?month={month}&bind_uid={uid}&bind_region={region}&{BBSStyle}");
-            return resp.Data;
+            return resp?.Data;
         }
 
         /// <summary>
@@ -98,13 +102,13 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Observable
-        private JourneyInfo journeyInfo;
-        private UserGameRoleInfo userGameRoleInfo;
-        private UserGameRole selectedRole;
+        private JourneyInfo? journeyInfo;
+        private UserGameRoleInfo? userGameRoleInfo;
+        private UserGameRole? selectedRole;
 
-        public JourneyInfo JourneyInfo { get => this.journeyInfo; set => this.Set(ref this.journeyInfo, value); }
-        public UserGameRoleInfo UserGameRoleInfo { get => this.userGameRoleInfo; set => this.Set(ref this.userGameRoleInfo, value); }
-        public UserGameRole SelectedRole
+        public JourneyInfo? JourneyInfo { get => this.journeyInfo; set => this.Set(ref this.journeyInfo, value); }
+        public UserGameRoleInfo? UserGameRoleInfo { get => this.userGameRoleInfo; set => this.Set(ref this.userGameRoleInfo, value); }
+        public UserGameRole? SelectedRole
         {
             get => this.selectedRole; set
             {
@@ -117,7 +121,7 @@ namespace DGP.Genshin.Services
         public async Task InitializeAsync()
         {
             this.UserGameRoleInfo = await this.GetUserGameRolesAsync();
-            this.SelectedRole = this.UserGameRoleInfo?.List.First();
+            this.SelectedRole = this.UserGameRoleInfo?.List?.First();
         }
 
         private event UserGameRoleChangedHandler UserGameRoleChanged;

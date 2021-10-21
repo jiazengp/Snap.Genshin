@@ -24,7 +24,7 @@ namespace DGP.Snap.AutoVersion
                 return;
             }
 
-            string sPath = args[0].Replace("\"", String.Empty) + "\\";
+            string sPath = args[0].Replace("\"", String.Empty) + "\\Properties\\";
             string sAssemOld = sPath + "AssemblyInfo.old";
             string sAssem = sPath + "AssemblyInfo.cs";
             string sAssemNew = sPath + "AssemblyInfo.new";

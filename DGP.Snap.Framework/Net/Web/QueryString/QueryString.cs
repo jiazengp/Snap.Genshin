@@ -239,7 +239,7 @@ namespace DGP.Snap.Framework.Net.Web.QueryString
         /// </summary>
         /// <param name="queryString">The query string to deserialize. This should NOT have a leading ? character. Valid input would be something like "a=1&amp;b=5". URL decoding of keys/values is automatically performed. Also supports query strings that are serialized using ; instead of &amp;, like "a=1;b=5"</param>
         /// <returns></returns>
-        public static QueryString Parse(string queryString)
+        public static QueryString Parse(string? queryString)
         {
             if (String.IsNullOrWhiteSpace(queryString))
             {

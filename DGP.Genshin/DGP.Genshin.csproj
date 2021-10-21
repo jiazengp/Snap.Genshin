@@ -10,10 +10,35 @@
     <ApplicationIcon>SG_Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PublishTrimmed>true</PublishTrimmed>
+    <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+
+    <!--
+        Enable aggressive trimming for assemblies marked as trimmable.
+        This is the default behavior for .NET 6 and above.
+        The line is only needed when targeting < .NET 6.
+    -->
+    <TrimMode>link</TrimMode>
+
+    <!--
+        Enable aggressive trimming for all assemblies.
+        This setting is new in .NET 6.
+    -->
+    <!--<TrimmerDefaultAction>link</TrimmerDefaultAction>-->
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>..\Build\Debug</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Build\**" />
+    <EmbeddedResource Remove="Build\**" />
+    <None Remove="Build\**" />
+    <Page Remove="Build\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\BookmarkIcon.png" />
@@ -55,10 +80,6 @@
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="$(SolutionDir)Build\net5.0\DGP.Snap.AutoVersion.exe &quot;$(ProjectDir)&quot;" />
-  </Target>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="rd /s /q af-ZA&#xD;&#xA;rd /s /q am-ET&#xD;&#xA;rd /s /q ar-SA&#xD;&#xA;rd /s /q az-Latn-AZ&#xD;&#xA;rd /s /q be-BY&#xD;&#xA;rd /s /q bg-BG&#xD;&#xA;rd /s /q bn-BD&#xD;&#xA;rd /s /q bs-Latn-BA&#xD;&#xA;rd /s /q ca-ES&#xD;&#xA;rd /s /q cs-CZ&#xD;&#xA;rd /s /q da-DK&#xD;&#xA;rd /s /q de-DE&#xD;&#xA;rd /s /q el-GR&#xD;&#xA;rd /s /q en-GB&#xD;&#xA;rd /s /q es-ES&#xD;&#xA;rd /s /q es-MX&#xD;&#xA;rd /s /q et-EE&#xD;&#xA;rd /s /q eu-ES&#xD;&#xA;rd /s /q fa-IR&#xD;&#xA;rd /s /q fi-FI&#xD;&#xA;rd /s /q fr-CA&#xD;&#xA;rd /s /q fr-FR&#xD;&#xA;rd /s /q gl-ES&#xD;&#xA;rd /s /q ha-Latn-NG&#xD;&#xA;rd /s /q he-IL&#xD;&#xA;rd /s /q hi-IN&#xD;&#xA;rd /s /q hr-HR&#xD;&#xA;rd /s /q hu-HU&#xD;&#xA;rd /s /q id-ID&#xD;&#xA;rd /s /q is-IS&#xD;&#xA;rd /s /q it-IT&#xD;&#xA;rd /s /q ja-JP&#xD;&#xA;rd /s /q ka-GE&#xD;&#xA;rd /s /q kk-KZ&#xD;&#xA;rd /s /q km-KH&#xD;&#xA;rd /s /q kn-IN&#xD;&#xA;rd /s /q ko-KR&#xD;&#xA;rd /s /q lo-LA&#xD;&#xA;rd /s /q lt-LT&#xD;&#xA;rd /s /q lv-LV&#xD;&#xA;rd /s /q mk-MK&#xD;&#xA;rd /s /q ml-IN&#xD;&#xA;rd /s /q ms-MY&#xD;&#xA;rd /s /q nb-NO&#xD;&#xA;rd /s /q nl-NL&#xD;&#xA;rd /s /q nn-NO&#xD;&#xA;rd /s /q pl-PL&#xD;&#xA;rd /s /q pt-BR&#xD;&#xA;rd /s /q pt-PT&#xD;&#xA;rd /s /q ro-RO&#xD;&#xA;rd /s /q ru-RU&#xD;&#xA;rd /s /q sk-SK&#xD;&#xA;rd /s /q sl-SI&#xD;&#xA;rd /s /q sq-AL&#xD;&#xA;rd /s /q sr-Latn-RS&#xD;&#xA;rd /s /q sv-SE&#xD;&#xA;rd /s /q sw-KE&#xD;&#xA;rd /s /q ta-IN&#xD;&#xA;rd /s /q te-IN&#xD;&#xA;rd /s /q th-TH&#xD;&#xA;rd /s /q tr-TR&#xD;&#xA;rd /s /q uk-UA&#xD;&#xA;rd /s /q uz-Latn-UZ&#xD;&#xA;rd /s /q vi-VN&#xD;&#xA;rd /s /q zh-TW&#xD;&#xA;&#xD;&#xA;del *.pdb *.xml *dll.config DGP.Snap.Updater.exe.config&#xD;&#xA;&#xD;&#xA;move /Y *.dll .\libraries&#xD;&#xA;move /y .\runtimes .\libraries&#xD;&#xA;&#xD;&#xA;if exist Package.zip del Package.zip&#xD;&#xA;&#xD;&#xA;$(SolutionDir)Build\7z a Package.zip libraries&#xD;&#xA;$(SolutionDir)Build\7z a Package.zip Metadata&#xD;&#xA;$(SolutionDir)Build\7z a Package.zip zh-CN&#xD;&#xA;$(SolutionDir)Build\7z a Package.zip *.exe&#xD;&#xA;$(SolutionDir)Build\7z a Package.zip *.exe.config" />
   </Target>
 
 </Project>

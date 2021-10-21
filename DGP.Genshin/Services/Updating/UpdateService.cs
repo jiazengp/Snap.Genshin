@@ -12,13 +12,13 @@ namespace DGP.Genshin.Services.Updating
 {
     internal class UpdateService
     {
-        public Uri PackageUri { get; set; }
-        public Version NewVersion { get; set; }
-        public Release Release { get; set; }
-        public UpdateInfo UpdateInfo { get; set; }
-        public Version CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
+        public Uri? PackageUri { get; set; }
+        public Version? NewVersion { get; set; }
+        public Release? Release { get; set; }
+        public UpdateInfo? UpdateInfo { get; set; }
+        public Version? CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
 
-        private IFileDownloader InnerFileDownloader { get; set; }
+        private IFileDownloader? InnerFileDownloader { get; set; }
 
         private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
 
@@ -61,19 +61,23 @@ namespace DGP.Genshin.Services.Updating
             this.InnerFileDownloader.DownloadFileCompleted += this.OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
+            Debug.Assert(this.PackageUri is not null);
             this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);
         }
         public void CancelUpdate() =>
-            this.InnerFileDownloader.CancelDownloadAsync();
+            this.InnerFileDownloader?.CancelDownloadAsync();
 
-        internal void OnDownloadProgressChanged(object sender, DownloadFileProgressChangedArgs args)
+        internal void OnDownloadProgressChanged(object? sender, DownloadFileProgressChangedArgs args)
         {
             double percent = Math.Round((double)args.BytesReceived / args.TotalBytesToReceive, 2);
             this.Log(percent);
-            this.UpdateInfo.Progress = percent;
-            this.UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
+            if (this.UpdateInfo is not null)
+            {
+                this.UpdateInfo.Progress = percent;
+                this.UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
+            }
         }
-        internal void OnDownloadFileCompleted(object sender, DownloadFileCompletedArgs eventArgs)
+        internal void OnDownloadFileCompleted(object? sender, DownloadFileCompletedArgs eventArgs)
         {
             if (eventArgs.State == CompletedState.Succeeded)
             {
@@ -96,7 +100,7 @@ namespace DGP.Genshin.Services.Updating
         }
 
         #region 单例
-        private static UpdateService instance;
+        private static UpdateService? instance;
         private static readonly object _lock = new object();
         private UpdateService()
         {

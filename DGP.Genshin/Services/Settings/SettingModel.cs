@@ -13,7 +13,7 @@ namespace DGP.Genshin.Services.Settings
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        private void SettingChanged(string key, object value)
+        private void SettingChanged(string key, object? value)
         {
             this.Log($"receive setting changed event {key}:{value}");
             switch (key)
@@ -51,7 +51,7 @@ namespace DGP.Genshin.Services.Settings
         }
 
         #region 单例
-        private static SettingModel instance;
+        private static SettingModel? instance;
         private static readonly object _lock = new();
         private SettingModel()
         {

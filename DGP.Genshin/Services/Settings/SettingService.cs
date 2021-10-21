@@ -15,23 +15,23 @@ namespace DGP.Genshin.Services.Settings
         private const string settingsFileName = "settings.json";
         private readonly string settingFile = AppDomain.CurrentDomain.BaseDirectory + settingsFileName;
 
-        private Dictionary<string, object> settingDictionary = new();
+        private Dictionary<string, object?> settingDictionary = new();
 
-        public T GetOrDefault<T>(string key, T defaultValue)
+        public T? GetOrDefault<T>(string key, T defaultValue)
         {
-            if (!this.settingDictionary.TryGetValue(key, out object value))
+            if (!this.settingDictionary.TryGetValue(key, out object? value))
             {
                 this.settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
             }
             else
             {
-                return (T)value;
+                return (T?)value;
             }
         }
-        public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
+        public T GetOrDefault<T>(string key, T defaultValue, Func<object?, T> converter)
         {
-            if (!this.settingDictionary.TryGetValue(key, out object value))
+            if (!this.settingDictionary.TryGetValue(key, out object? value))
             {
                 this.settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
@@ -45,7 +45,7 @@ namespace DGP.Genshin.Services.Settings
             this.GetOrDefault(key, defaultValue)?.Equals(value);
 
         public bool Has(string key) => this.settingDictionary.ContainsKey(key);
-        public object this[string key]
+        public object? this[string key]
         {
             set
             {
@@ -68,7 +68,7 @@ namespace DGP.Genshin.Services.Settings
         /// <summary>
         /// 当设置项发生改变时触发
         /// </summary>
-        public event SettingChangedHandler SettingChanged;
+        public event SettingChangedHandler? SettingChanged;
 
         public void Initialize()
         {
@@ -79,7 +79,7 @@ namespace DGP.Genshin.Services.Settings
                 {
                     json = sr.ReadToEnd();
                 }
-                this.settingDictionary = Json.ToObject<Dictionary<string, object>>(json) ?? new Dictionary<string, object>();
+                this.settingDictionary = Json.ToObject<Dictionary<string, object?>>(json) ?? new Dictionary<string, object?>();
             }
         }
         public void UnInitialize()
@@ -90,7 +90,7 @@ namespace DGP.Genshin.Services.Settings
         }
 
         #region 单例
-        private static SettingService instance;
+        private static SettingService? instance;
         private static readonly object _lock = new();
         private SettingService()
         {
@@ -121,5 +121,5 @@ namespace DGP.Genshin.Services.Settings
     /// </summary>
     /// <param name="key">设置项名称</param>
     /// <param name="value">项的值</param>
-    public delegate void SettingChangedHandler(string key, object value);
+    public delegate void SettingChangedHandler(string key, object? value);
 }

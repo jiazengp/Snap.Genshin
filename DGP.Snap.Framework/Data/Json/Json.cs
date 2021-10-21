@@ -23,7 +23,7 @@ namespace DGP.Snap.Framework.Data.Json
         /// </summary>	
         /// <param name="value">要序列化的对象</param>	
         /// <returns>对象的JSON字符串表示形式</returns>	
-        public static string Stringify(object value)
+        public static string Stringify(object? value)
         {
             //set date format string to make it compatible to gachaData
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
@@ -67,7 +67,7 @@ namespace DGP.Snap.Framework.Data.Json
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="value"></param>
-        public static void ToFile(string fileName, object value)
+        public static void ToFile(string fileName, object? value)
         {
             using (StreamWriter sw = new StreamWriter(File.OpenWrite(fileName)))
             {

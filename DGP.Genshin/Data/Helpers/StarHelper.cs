@@ -16,8 +16,15 @@ namespace DGP.Genshin.Data.Helpers
                 : throw new Exception($"稀有度不存在：{rank}");
         }
 
-        public static int ToRank(this string starurl) =>
-            Int32.Parse(starurl[51].ToString());
+        public static int ToRank(this string? starurl)
+        {
+            if(starurl is null)
+            {
+                return 1;
+            }
+            return Int32.Parse(starurl[51].ToString());
+        }
+
         public static SolidColorBrush? ToSolid(int rank)
         {
             return rank switch

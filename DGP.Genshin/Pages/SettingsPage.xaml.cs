@@ -28,8 +28,11 @@ namespace DGP.Genshin.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //version
-            Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            Version? v = Assembly.GetExecutingAssembly().GetName().Version;
+            if (v is not null)
+            {
+                this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            }
             //theme
 
             this.ThemeComboBox.SelectedIndex =

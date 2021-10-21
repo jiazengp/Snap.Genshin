@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,11 +36,11 @@ namespace DGP.Genshin
             //never set datacontext for mainwindow
             this.InitializeComponent();
             this.MainSplashView.InitializationPostAction += this.SplashInitializeCompleted;
+            CookieManager.CookieRefreshed += this.RefreshUserInfoAsync;
+
             this.navigationService = new NavigationService(this, this.NavView, this.ContentFrame);
             this.dailySignInService = new DailySignInService();
             this.dailyNoteService = new DailyNoteService();
-
-            CookieManager.CookieRefreshed += this.RefreshUserInfoAsync;
 
             this.Log("initialized");
         }
@@ -56,17 +57,17 @@ namespace DGP.Genshin
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
-                DateTime time = SettingService.Instance.GetOrDefault(
+                DateTime? time = SettingService.Instance.GetOrDefault(
                     Setting.LastAutoSignInTime,
                     DateTime.Today.AddDays(-1),
-                    str => DateTime.Parse((string)str));
+                    str => str is not null ? DateTime.Parse((string)str) : (DateTime?)null);
 
                 if (time <= DateTime.Today)
                 {
                     splashView.CurrentStateDescription = "签到中...";
                     await this.InitializeSignInPanelDataAsync();
-                    SignInResult result = await this.dailySignInService.SignInAsync(this.SelectedRole);
-                    new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
+                    SignInResult? result = await this.dailySignInService.SignInAsync(this.SelectedRole);
+                    new ToastContentBuilder().AddText(result is not null ? "签到成功" : "签到失败").Show();
                 }
             }
 
@@ -111,15 +112,17 @@ namespace DGP.Genshin
 
         private async Task<ContentDialogResult> ShowConfirmUpdateDialogAsync()
         {
+            Markdown? m = this.FindResource("Markdown") as Markdown;
+            Debug.Assert(m is not null);
             return await new ContentDialog
             {
-                Title = UpdateService.Instance.Release.Name,
+                Title = UpdateService.Instance.Release?.Name,
                 Content = new FlowDocumentScrollViewer
                 {
                     Document = new TextToFlowDocumentConverter
                     {
-                        Markdown = this.FindResource("Markdown") as Markdown
-                    }.Convert(UpdateService.Instance.Release.Body, typeof(FlowDocument), null, null) as FlowDocument
+                        Markdown = m
+                    }.Convert(UpdateService.Instance.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
                 },
                 PrimaryButtonText = "更新",
                 CloseButtonText = "忽略",
@@ -134,7 +137,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 签到奖励一览
         /// </summary>
-        public SignInReward SignInReward
+        public SignInReward? SignInReward
         {
             get => (SignInReward)this.GetValue(SignInRewardProperty);
             set => this.SetValue(SignInRewardProperty, value);
@@ -144,7 +147,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 当前签到状态信息
         /// </summary>
-        public SignInInfo SignInInfo
+        public SignInInfo? SignInInfo
         {
             get => (SignInInfo)this.GetValue(SignInInfoProperty);
             set => this.SetValue(SignInInfoProperty, value);
@@ -154,7 +157,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 绑定的角色信息
         /// </summary>
-        public UserGameRoleInfo RoleInfo
+        public UserGameRoleInfo? RoleInfo
         {
             get => (UserGameRoleInfo)this.GetValue(RoleInfoProperty);
             set => this.SetValue(RoleInfoProperty, value);
@@ -164,7 +167,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 选择的角色
         /// </summary>
-        public UserGameRole SelectedRole
+        public UserGameRole? SelectedRole
         {
             get => (UserGameRole)this.GetValue(SelectedRoleProperty);
             set => this.SetValue(SelectedRoleProperty, value);
@@ -183,8 +186,10 @@ namespace DGP.Genshin
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
             //initialize flyout
-            Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
-            Grid grid = flyout.Content as Grid;
+            Flyout? flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
+            Debug.Assert(flyout is not null);
+            Grid? grid = flyout.Content as Grid;
+            Debug.Assert(grid is not null);
             grid.DataContext = this;
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
 
@@ -196,10 +201,10 @@ namespace DGP.Genshin
         /// </summary>
         private void SyncItemsStateWithCurrentInfo()
         {
-            for (int i = 0; i < this.SignInReward?.Awards.Count; i++)
+            for (int i = 0; i < this.SignInReward?.Awards?.Count; i++)
             {
                 SignInAward item = this.SignInReward.Awards[i];
-                item.Opacity = (i + 1) <= this.SignInInfo.TotalSignDay ? 0.2 : 1;
+                item.Opacity = (i + 1) <= this.SignInInfo?.TotalSignDay ? 0.2 : 1;
             }
         }
         /// <summary>
@@ -215,7 +220,7 @@ namespace DGP.Genshin
             if (this.SignInInfo == null)
             {
                 this.RoleInfo = await this.dailySignInService.GetUserGameRolesAsync();
-                this.SelectedRole = this.RoleInfo?.List.First();
+                this.SelectedRole = this.RoleInfo?.List?.First();
             }
         }
 
@@ -225,8 +230,8 @@ namespace DGP.Genshin
             if (!this.isSigningIn)
             {
                 this.isSigningIn = true;
-                SignInResult result = await this.dailySignInService.SignInAsync(this.SelectedRole);
-                new ToastContentBuilder().AddText(result != null ? "签到成功" : "签到失败").Show();
+                SignInResult? result = await this.dailySignInService.SignInAsync(this.SelectedRole);
+                new ToastContentBuilder().AddText(result is not null ? "签到成功" : "签到失败").Show();
                 this.SignInReward = await this.dailySignInService.GetSignInRewardAsync();
                 //refresh info
                 this.SignInInfo = await this.dailySignInService.GetSignInInfoAsync(this.SelectedRole);
@@ -237,7 +242,7 @@ namespace DGP.Genshin
         #endregion
 
         #region UserInfo
-        public UserInfo UserInfo
+        public UserInfo? UserInfo
         {
             get => (UserInfo)this.GetValue(UserInfoProperty);
             set => this.SetValue(UserInfoProperty, value);
@@ -250,8 +255,10 @@ namespace DGP.Genshin
             this.UserInfo = await new MiHoYoBBSService().GetUserFullInfoAsync();
         private void UserTitleButtonClick(object sender, RoutedEventArgs e)
         {
-            Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
-            Grid grid = flyout.Content as Grid;
+            Flyout? flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
+            Debug.Assert(flyout is not null);
+            Grid? grid = flyout.Content as Grid;
+            Debug.Assert(grid is not null);
             grid.DataContext = this;
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
         }
@@ -262,8 +269,10 @@ namespace DGP.Genshin
         {
             await this.dailyNoteService.RefreshAsync();
 
-            Flyout flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
-            Grid grid = flyout.Content as Grid;
+            Flyout? flyout = FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) as Flyout;
+            Debug.Assert(flyout is not null);
+            Grid? grid = flyout.Content as Grid;
+            Debug.Assert(grid is not null);
             grid.DataContext = this.dailyNoteService;
             FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
         }

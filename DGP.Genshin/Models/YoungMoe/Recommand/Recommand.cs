@@ -8,8 +8,8 @@ namespace DGP.Genshin.Models.YoungMoe.Recommand
     /// </summary>
     public class Recommand
     {
-        public List<Character>? UpHalf { get; set; }
-        public List<Character>? DownHalf { get; set; }
+        public List<Character?>? UpHalf { get; set; }
+        public List<Character?>? DownHalf { get; set; }
 
         public int Count { get; set; }
     }

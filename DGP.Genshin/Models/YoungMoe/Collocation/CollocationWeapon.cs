@@ -14,7 +14,7 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
         public string? Source => this.Weapon?.Source;
         public string? StarUrl => this.Weapon?.Star;
 
-        public string Type => this.Weapon.Type;
+        public string? Type => this.Weapon.Type;
 
         private Weapon? weapon;
         private Weapon Weapon

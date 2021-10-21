@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Request;
+using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using DGP.Snap.Framework.Net.Web.QueryString;
@@ -22,10 +23,10 @@ namespace DGP.Genshin.Services.GachaStatistic
         private static readonly string LocalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         private static readonly string logFilePath = $@"{LocalPath}Low\miHoYo\原神\output_log.txt";
 
-        private string gachaLogUrl;
+        private string? gachaLogUrl;
 
-        private Config gachaConfig;
-        public Config GachaConfig
+        private Config? gachaConfig;
+        public Config? GachaConfig
         {
             get
             {
@@ -53,7 +54,7 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         public async Task<bool> TryGetUrlAsync(GachaLogUrlMode mode)
         {
-            string url;
+            string? url;
             switch (mode)
             {
                 case GachaLogUrlMode.GameLogFile:
@@ -83,18 +84,18 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// 在日志文件中寻找url
         /// </summary>
         /// <returns></returns>
-        private string GetUrlFromLogFile()
+        private string? GetUrlFromLogFile()
         {
-            string result = null;
+            string? result = null;
             //share the file to make genshin access it so it doesn't crash when game is running
             using (StreamReader sr = new StreamReader(File.Open(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
-                string str;
+                string? str;
                 //check till the log file end to make sure
                 while (sr.Peek() >= 0)
                 {
                     str = sr.ReadLine();
-                    if (str.StartsWith("OnGetWebViewPageFinish:") && str.EndsWith("#/log"))
+                    if (str is not null && str.StartsWith("OnGetWebViewPageFinish:") && str.EndsWith("#/log"))
                     {
                         str = str.Replace("#/log", "");
                         string[] splitedUrl = str.Split('?');
@@ -106,11 +107,11 @@ namespace DGP.Genshin.Services.GachaStatistic
             return result;
         }
 
-        private async Task<string> GetUrlFromManualInputAsync()
+        private async Task<string?> GetUrlFromManualInputAsync()
         {
             string str = await new GachaLogUrlDialog().GetInputUrlAsync();
             str = str.Trim();
-            string result = null;
+            string? result = null;
             if (str.StartsWith(@"https://webstatic.mihoyo.com") && str.EndsWith("#/log"))
             {
                 str = str.Replace("#/log", "");
@@ -125,14 +126,15 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// 获取祈愿池信息
         /// </summary>
         /// <returns></returns>
-        private Config GetGachaConfig()
+        private Config? GetGachaConfig()
         {
-            Response<Config> resp = new Requester(new RequestOptions
+            Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA2_10_1 }
-            }).Get<Config>(this.gachaLogUrl.Replace("getGachaLog?", "getConfigList?"));
-            return resp.Data;
+            });
+            Response<Config>? resp = requester.Get<Config>(this.gachaLogUrl?.Replace("getGachaLog?", "getConfigList?"));
+            return resp?.Data;
         }
 
         private readonly Random random = new Random();
@@ -149,28 +151,31 @@ namespace DGP.Genshin.Services.GachaStatistic
                 long endId = 0;
                 do
                 {
-                    if (this.TryGetBatch(out GachaLog gachaLog, type, endId, ++currentPage))
+                    if (this.TryGetBatch(out GachaLog? gachaLog, type, endId, ++currentPage))
                     {
-                        foreach (GachaLogItem item in gachaLog.List)
+                        if (gachaLog is not null && gachaLog.List is not null)
                         {
-                            App.Current.Invoke(() => this.Service.SwitchUidContext(item.Uid));
-                            //this one is increment
-                            if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
+                            foreach (GachaLogItem item in gachaLog.List)
                             {
-                                increment.Add(item);
+                                App.Current.Invoke(() => this.Service.SwitchUidContext(item.Uid));
+                                //this one is increment
+                                if (item.TimeId > this.LocalGachaLogProvider.GetNewestTimeId(type, item.Uid))
+                                {
+                                    increment.Add(item);
+                                }
+                                else//already done the new item
+                                {
+                                    this.MergeIncrement(type, increment);
+                                    return;
+                                }
                             }
-                            else//already done the new item
+                            //last page
+                            if (gachaLog.List.Count < BatchSize)
                             {
-                                this.MergeIncrement(type, increment);
-                                return;
+                                break;
                             }
+                            endId = gachaLog.List.Last().TimeId;
                         }
-                        //last page
-                        if (gachaLog.List.Count < BatchSize)
-                        {
-                            break;
-                        }
-                        endId = gachaLog.List.Last().TimeId;
                     }
                     else
                     {
@@ -191,19 +196,30 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <param name="increment">增量</param>
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
         {
-            //简单的将老数据插入到增量后侧，最后重置数据
-            GachaData dict = this.LocalGachaLogProvider.Data[this.Service.SelectedUid.UnMaskedValue];
-            if (dict.ContainsKey(type.Key))
+            PrivateString? uid = this.Service.SelectedUid;
+            if (uid is not null)
             {
-                List<GachaLogItem> local = dict[type.Key];
-                increment.AddRange(local);
+                //简单的将老数据插入到增量后侧，最后重置数据
+                GachaData dict = this.LocalGachaLogProvider.Data[uid.UnMaskedValue];
+                string? key = type.Key;
+                if (key is not null)
+                {
+                    if (dict.ContainsKey(key))
+                    {
+                        List<GachaLogItem>? local = dict[key];
+                        if(local is not null)
+                        {
+                            increment.AddRange(local);
+                        }
+                    }
+                    dict[key] = increment;
+                }
             }
-            dict[type.Key] = increment;
         }
 
         public void SaveAllLogs() => this.LocalGachaLogProvider.SaveAllLogs();
 
-        public event Action<FetchProgress> OnFetchProgressed;
+        public event Action<FetchProgress>? OnFetchProgressed;
 
 
 
@@ -214,16 +230,16 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <param name="type"></param>
         /// <param name="endId"></param>
         /// <returns></returns>
-        private bool TryGetBatch(out GachaLog result, ConfigType type, long endId, int currentPage)
+        private bool TryGetBatch(out GachaLog? result, ConfigType type, long endId, int currentPage)
         {
             this.Log($"try to get batch of {type.Name} with end_id:{endId}");
             OnFetchProgressed?.Invoke(new FetchProgress { Type = type.Name, Page = currentPage });
             //modify the url
-            string[] splitedUrl = this.gachaLogUrl.Split('?');
-            string baseUrl = splitedUrl[0];
+            string[]? splitedUrl = this.gachaLogUrl?.Split('?');
+            string? baseUrl = splitedUrl?[0];
 
             //parse querystrings
-            QueryString query = QueryString.Parse(splitedUrl[1]);
+            QueryString query = QueryString.Parse(splitedUrl?[1]);
             query.Set("gacha_type", type.Key);
             //20 is the max size the api can return
             query.Set("size", BatchSize.ToString());
@@ -231,13 +247,14 @@ namespace DGP.Genshin.Services.GachaStatistic
             query.Set("end_id", endId.ToString());
             string finalUrl = $"{baseUrl}?{query}";
 
-            Response<GachaLog> resp = new Requester(new RequestOptions
+            Requester requester = new Requester(new RequestOptions
             {
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA2_10_1 }
-            }).Get<GachaLog>(finalUrl);
+            });
+            Response<GachaLog>? resp = requester.Get<GachaLog>(finalUrl);
 
-            if (resp.ReturnCode == 0)
+            if (resp?.ReturnCode == 0)
             {
                 result = resp.Data;
                 return true;

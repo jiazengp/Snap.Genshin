@@ -17,7 +17,7 @@ namespace DGP.Genshin.Services.GachaStatistic
     /// </summary>
     public class GachaStatisticService : Observable
     {
-        private GachaLogProvider gachaLogProvider;
+        private GachaLogProvider? gachaLogProvider;
         private readonly object providerLocker = new object();
         public static GachaLogUrlMode CurrentMode = GachaLogUrlMode.GameLogFile;
         private GachaLogProvider GachaLogProvider
@@ -46,20 +46,19 @@ namespace DGP.Genshin.Services.GachaStatistic
             OnSelectedUidChanged += this.SyncStatisticWithUidAsync;
         }
 
-        private void SyncStatistic(PrivateString obj) => throw new NotImplementedException();
         public void Initialize() => this.LoadLocalData();
         private async void LoadLocalData()
         {
             await Task.Run(() =>
             {
                 LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
-                if (!this.HasNoData)
+                if (!this.HasNoData && this.SelectedUid is not null)
                 {
                     this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
                     //cause we suppress the notify in ctor of LocalGachaProvider
                     this.OnPropertyChanged(nameof(this.SelectedUid));
                     //select default banner
-                    if (this.Statistic.SpecificBanners.Count > 0)
+                    if (this.Statistic.SpecificBanners?.Count > 0)
                     {
                         this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();
                     }
@@ -76,15 +75,15 @@ namespace DGP.Genshin.Services.GachaStatistic
         public void UnInitialize() => this.gachaLogProvider = null;
 
         #region observables
-        private Statistic statistic;
-        private PrivateString selectedUid;
+        private Statistic? statistic;
+        private PrivateString? selectedUid;
         private bool hasData = true;
-        private FetchProgress fetchProgress;
-        private SpecificBanner selectedSpecificBanner;
+        private FetchProgress? fetchProgress;
+        private SpecificBanner? selectedSpecificBanner;
         private bool canUserSwitchUid = true;
 
-        public Statistic Statistic { get => this.statistic; set => this.Set(ref this.statistic, value); }
-        public PrivateString SelectedUid
+        public Statistic? Statistic { get => this.statistic; set => this.Set(ref this.statistic, value); }
+        public PrivateString? SelectedUid
         {
             get => this.selectedUid; set
             {
@@ -102,8 +101,8 @@ namespace DGP.Genshin.Services.GachaStatistic
         public ObservableCollection<PrivateString> Uids { get; set; } = new ObservableCollection<PrivateString>();
         public bool CanUserSwitchUid { get => this.canUserSwitchUid; set => this.Set(ref this.canUserSwitchUid, value); }
         public bool HasNoData { get => this.hasData; set => this.Set(ref this.hasData, value); }
-        public FetchProgress FetchProgress { get => this.fetchProgress; set => this.Set(ref this.fetchProgress, value); }
-        public SpecificBanner SelectedSpecificBanner { get => this.selectedSpecificBanner; set => this.Set(ref this.selectedSpecificBanner, value); }
+        public FetchProgress? FetchProgress { get => this.fetchProgress; set => this.Set(ref this.fetchProgress, value); }
+        public SpecificBanner? SelectedSpecificBanner { get => this.selectedSpecificBanner; set => this.Set(ref this.selectedSpecificBanner, value); }
         #endregion
 
         /// <summary>
@@ -112,8 +111,12 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// </summary>
         /// <param name="uid">目标uid</param>
         /// <returns>是否创建了新的Uid</returns>
-        public bool SwitchUidContext(string uid)
+        public bool SwitchUidContext(string? uid)
         {
+            if(uid is null)
+            {
+                return false;
+            }
             //this uid is first time fetch
             if (!this.GachaLogProvider.LocalGachaLogProvider.Data.ContainsKey(uid))
             {
@@ -124,7 +127,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 return true;
             }
             //switch to uid
-            if (this.SelectedUid.UnMaskedValue != uid)
+            if (this.SelectedUid?.UnMaskedValue != uid)
             {
                 this.SelectedUid = this.Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
             }
@@ -136,12 +139,15 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             await Task.Run(() =>
             {
+                if(this.SelectedUid is null)
+                {
+                    return;
+                }
                 LocalGachaLogProvider localProvider = this.GachaLogProvider.LocalGachaLogProvider;
                 this.Statistic = StatisticFactory.ToStatistic(localProvider.Data[this.SelectedUid.UnMaskedValue], this.SelectedUid.UnMaskedValue);
-                if (this.Statistic.SpecificBanners.Count > 0)
+                if (this.Statistic.SpecificBanners?.Count > 0)
                 {
                     this.SelectedSpecificBanner = this.Statistic.SpecificBanners.First();
-                    _ = this.SelectedSpecificBanner;
                 }
                 this.HasNoData = false;
             });

@@ -21,7 +21,7 @@ namespace DGP.Genshin.Pages
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             this.DataContext = RecordService.Instance;
-            if (RecordService.Instance.QueryHistory.Count > 0)
+            if (RecordService.Instance.QueryHistory?.Count > 0)
             {
                 RecordService s = RecordService.Instance;
                 if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
@@ -35,14 +35,15 @@ namespace DGP.Genshin.Pages
             }
             this.Log("initialized");
         }
+
         #region AutoSuggest
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
-                IEnumerable<string> result =
-                    RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
-                sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无记录" } : result;
+                IEnumerable<string>? result =
+                    RecordService.Instance.QueryHistory?.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                sender.ItemsSource = result?.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
@@ -56,7 +57,7 @@ namespace DGP.Genshin.Pages
                 this.isQuerying = true;
                 this.RequestingProgressRing.IsActive = true;
                 RecordService.RecordProgressed += this.RecordService_RecordProgressed;
-                string uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
+                string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
                 RecordService.RecordProgressed -= this.RecordService_RecordProgressed;
                 this.RequestingProgressRing.IsActive = false;
@@ -70,12 +71,12 @@ namespace DGP.Genshin.Pages
                     {
                         await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
                     }
-                    service.SelectedAvatar = record.DetailedAvatars.First();
+                    service.SelectedAvatar = record.DetailedAvatars?.First();
                     service.AddQueryHistory(uid);
                 }
                 else
                 {
-                    if (record.Message.Length == 0)
+                    if (record.Message?.Length == 0)
                     {
                         await new ContentDialog()
                         {
@@ -100,7 +101,7 @@ namespace DGP.Genshin.Pages
                 this.isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string info) =>
+        private void RecordService_RecordProgressed(string? info) =>
             this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
         #endregion
     }

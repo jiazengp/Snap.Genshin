@@ -21,7 +21,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         {
             this.Headers = headers;
         }
-        private Response<T> Request<T>(Func<WebClient, string> requestMethod)
+        private Response<T>? Request<T>(Func<WebClient, string> requestMethod)
         {
             try
             {
@@ -33,8 +33,8 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                         client.Headers[entry.Key] = entry.Value;
                     }
                     string response = requestMethod(client);
-                    Response<T> resp = Json.ToObject<Response<T>>(response);
-                    this.Log($"retcode:{resp.ReturnCode} | message:{resp.Message}");
+                    Response<T>? resp = Json.ToObject<Response<T>>(response);
+                    this.Log($"retcode:{resp?.ReturnCode} | message:{resp?.Message}");
                     return resp;
                 }
             }
@@ -48,19 +48,23 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                 };
             }
         }
-        public Response<T> Get<T>(string url)
+        public Response<T>? Get<T>(string? url)
         {
+            if(url is null)
+            {
+                return null;
+            }
             this.Log($"GET {url.Split('?')[0]}");
             return this.Request<T>(client => client.DownloadString(url));
         }
 
-        public Response<T> Post<T>(string url, dynamic data)
+        public Response<T>? Post<T>(string url, dynamic data)
         {
             this.Log($"POST {url.Split('?')[0]}");
             return this.Request<T>(client => client.UploadString(url, Json.Stringify(data)));
         }
 
-        public Response<T> Post<T>(string url, string str)
+        public Response<T>? Post<T>(string url, string str)
         {
             this.Log($"POST {url.Split('?')[0]}");
             return this.Request<T>(client => client.UploadString(url, str));
@@ -73,7 +77,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<Response<T>> GetAsync<T>(string url) =>
+        public async Task<Response<T>?> GetAsync<T>(string url) =>
         await Task.Run(() => this.Get<T>(url));
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         /// <param name="url"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public async Task<Response<T>> PostAsync<T>(string url, object data) =>
+        public async Task<Response<T>?> PostAsync<T>(string url, object data) =>
             await Task.Run(() => this.Post<T>(url, data));
     }
 }

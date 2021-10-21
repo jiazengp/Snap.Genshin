@@ -21,14 +21,14 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         [Github("https://github.com/Azure99/GenshinPlayerQuery/blob/main/src/Core/GenshinAPI.cs")]
         private static readonly string APISalt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs"; // @Azure99 respect original author
 
-        public static string Create(string queryUrl, object postBody = null)
+        public static string Create(string queryUrl, object? postBody = null)
         {
             //unix timestamp
             int t = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             //random
             string r = GetRandomString();
             //body
-            string b = postBody == null ? "" : Json.Stringify(postBody);
+            string b = postBody is null ? "" : Json.Stringify(postBody);
             //query
             string q = "";
             string[] url = queryUrl.Split('?');

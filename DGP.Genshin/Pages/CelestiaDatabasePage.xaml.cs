@@ -14,7 +14,7 @@ namespace DGP.Genshin.Pages
     /// <summary>
     /// CelestiaDatabasePage.xaml 的交互逻辑
     /// </summary>
-    public partial class CelestiaDatabasePage : ModernWpf.Controls.Page
+    public partial class CelestiaDatabasePage : Page
     {
         public RecordService RecordServiceView { get; set; } = RecordService.Instance;
         public CelestiaDatabasePage()
@@ -26,7 +26,7 @@ namespace DGP.Genshin.Pages
         {
             this.DataContext = CelestiaDatabaseService.Instance;
 
-            if (RecordService.Instance.QueryHistory.Count > 0)
+            if (RecordService.Instance.QueryHistory?.Count > 0)
             {
                 RecordService s = RecordService.Instance;
                 if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
@@ -47,9 +47,9 @@ namespace DGP.Genshin.Pages
         {
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
-                IEnumerable<string> result =
-                    RecordService.Instance.QueryHistory.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
-                sender.ItemsSource = result.Count() == 0 ? new List<string> { "暂无记录" } : result;
+                IEnumerable<string>? result =
+                    RecordService.Instance.QueryHistory?.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                sender.ItemsSource = result?.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
@@ -113,7 +113,7 @@ namespace DGP.Genshin.Pages
                 this.isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string info) =>
+        private void RecordService_RecordProgressed(string? info) =>
             this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
         #endregion
 

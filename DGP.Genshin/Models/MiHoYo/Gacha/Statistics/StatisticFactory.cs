@@ -5,6 +5,7 @@ using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
@@ -36,7 +37,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         }
         private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, double prob5, double prob4, int granteeCount)
         {
-            List<GachaLogItem> list = data[type];
+            List<GachaLogItem>? list = data[type];
+            Debug.Assert(list is not null);
             int index5 = list.FindIndex(i => i.Rank == "5");
             int index4 = list.FindIndex(i => i.Rank == "4");
 
@@ -86,14 +88,20 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         private static List<StatisticItem> ToTotalCountList(GachaData data, string itemType)
         {
             Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
-            foreach (List<GachaLogItem> list in data.Values)
+            foreach (List<GachaLogItem>? list in data.Values)
             {
+                if(list is null)
+                {
+                    continue;
+                }
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
+                        Debug.Assert(i.Name is not null);
                         if (!counter.ContainsKey(i.Name))
                         {
+                            Debug.Assert(i.Rank is not null);
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,
@@ -241,38 +249,42 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                 {
                     continue;
                 }
-                foreach (GachaLogItem item in data[type])
+                List<GachaLogItem>? list = data[type];
+                if (list is not null)
                 {
-                    SpecificBanner? banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
-                    Data.Characters.Character? isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
-                    Data.Weapons.Weapon? isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
-                    SpecificItem ni = new SpecificItem
+                    foreach (GachaLogItem item in list)
                     {
-                        Time = item.Time
-                    };
-                    if (isc != null)
-                    {
-                        ni.StarUrl = isc.Star;
-                        ni.Source = isc.Source;
-                        ni.Name = isc.Name;
-                        ni.Badge = isc.Element;
+                        SpecificBanner? banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                        Data.Characters.Character? isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
+                        Data.Weapons.Weapon? isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
+                        SpecificItem ni = new SpecificItem
+                        {
+                            Time = item.Time
+                        };
+                        if (isc != null)
+                        {
+                            ni.StarUrl = isc.Star;
+                            ni.Source = isc.Source;
+                            ni.Name = isc.Name;
+                            ni.Badge = isc.Element;
+                        }
+                        else if (isw != null)
+                        {
+                            ni.StarUrl = isw.Star;
+                            ni.Source = isw.Source;
+                            ni.Name = isw.Name;
+                            ni.Badge = isw.Type;
+                        }
+                        else
+                        {
+                            ni.Name = item.Name;
+                            ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(Int32.Parse(item.Rank));
+                            Logger.LogStatic(typeof(StatisticFactory),
+                                $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
+                        }
+                        //fix issue where crashes when no banner exists
+                        banner?.Items.Add(ni);
                     }
-                    else if (isw != null)
-                    {
-                        ni.StarUrl = isw.Star;
-                        ni.Source = isw.Source;
-                        ni.Name = isw.Name;
-                        ni.Badge = isw.Type;
-                    }
-                    else
-                    {
-                        ni.Name = item.Name;
-                        ni.StarUrl = StarHelper.FromRank(Int32.Parse(item.Rank));
-                        Logger.LogStatic(typeof(StatisticFactory),
-                            $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
-                    }
-                    //fix issue where crashes when no banner exists
-                    banner?.Items.Add(ni);
                 }
             }
 

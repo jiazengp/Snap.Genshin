@@ -26,15 +26,15 @@ namespace DGP.Genshin.Services
         /// <summary>
         /// 全角色映射
         /// </summary>
-        private List<AvatarSimple> allAvatarMap;
-        private List<DetailedAvatarInfo> collocationAll;
-        private List<AvatarInfo> collocation11;
+        private List<AvatarSimple>? allAvatarMap;
+        private List<DetailedAvatarInfo>? collocationAll;
+        private List<AvatarInfo>? collocation11;
         private int totalSubmitted;
         private int abyssPassed;
 
-        public List<AvatarSimple> AvatarDictionary { get => this.allAvatarMap; set => this.Set(ref this.allAvatarMap, value); }
-        public List<DetailedAvatarInfo> CollocationAll { get => this.collocationAll; set => this.Set(ref this.collocationAll, value); }
-        public List<AvatarInfo> Collocation11 { get => this.collocation11; set => this.Set(ref this.collocation11, value); }
+        public List<AvatarSimple>? AvatarDictionary { get => this.allAvatarMap; set => this.Set(ref this.allAvatarMap, value); }
+        public List<DetailedAvatarInfo>? CollocationAll { get => this.collocationAll; set => this.Set(ref this.collocationAll, value); }
+        public List<AvatarInfo>? Collocation11 { get => this.collocation11; set => this.Set(ref this.collocation11, value); }
         public int TotalSubmitted { get => this.totalSubmitted; set => this.Set(ref this.totalSubmitted, value); }
         public int AbyssPassed { get => this.abyssPassed; set => this.Set(ref this.abyssPassed, value); }
         #endregion
@@ -56,8 +56,17 @@ namespace DGP.Genshin.Services
             this.CollocationAll = await this.GetCollocationRankFinalAsync();
             this.Collocation11 = await this.GetCollocationRankOf11FloorAsync();
 
-            this.TotalSubmitted = Int32.Parse((await this.GetTotalSubmittedGamerAsync()).Count);
-            this.AbyssPassed = Int32.Parse((await this.GetSprialAbyssPassedGamerAsync()).Count);
+            Gamers? totalSubmitted = await this.GetTotalSubmittedGamerAsync();
+            Gamers? sprialAbyssPassed = await this.GetSprialAbyssPassedGamerAsync();
+
+            if(totalSubmitted is not null && sprialAbyssPassed is not null)
+            {
+                if(totalSubmitted.Count is not null && sprialAbyssPassed.Count is not null)
+                {
+                    this.TotalSubmitted = Int32.Parse(totalSubmitted.Count);
+                    this.AbyssPassed = Int32.Parse(sprialAbyssPassed.Count);
+                }
+            }
 
             await this.RefershRecommandsAsync();
         }
@@ -67,9 +76,9 @@ namespace DGP.Genshin.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarInfo>> GetCollocationRankOf11FloorAsync()
+        public async Task<List<AvatarInfo>?> GetCollocationRankOf11FloorAsync()
         {
-            List<AvatarInfo> resp = await Task.Run(() =>
+            List<AvatarInfo>? resp = await Task.Run(() =>
             Json.FromWebsite<List<AvatarInfo>>($@"{YoungMoeData}/collocationRank_11.json"));
             return resp;
         }
@@ -77,9 +86,9 @@ namespace DGP.Genshin.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<DetailedAvatarInfo>> GetCollocationRankFinalAsync()
+        public async Task<List<DetailedAvatarInfo>?> GetCollocationRankFinalAsync()
         {
-            List<DetailedAvatarInfo> resp = await Task.Run(() =>
+            List<DetailedAvatarInfo>? resp = await Task.Run(() =>
             Json.FromWebsite<List<DetailedAvatarInfo>>($@"{YoungMoeData}/collocationRank_fin.json"));
             return resp;
         }
@@ -87,31 +96,29 @@ namespace DGP.Genshin.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<Gamers> GetTotalSubmittedGamerAsync()
+        public async Task<Gamers?> GetTotalSubmittedGamerAsync()
         {
-            Requester requester = new Requester();
-            Response<Gamers> resp = await Task.Run(() =>
-            requester.Get<Gamers>($@"{ApiYoungMoe}/totalGamer"));
-            return resp.Data;
+            Response<Gamers>? resp = await Task.Run(() =>
+            new Requester().Get<Gamers>($@"{ApiYoungMoe}/totalGamer"));
+            return resp?.Data;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<Gamers> GetSprialAbyssPassedGamerAsync()
+        public async Task<Gamers?> GetSprialAbyssPassedGamerAsync()
         {
-            Requester requester = new Requester();
-            Response<Gamers> resp = await Task.Run(() =>
-            requester.Get<Gamers>($@"{ApiYoungMoe}/currentAbyssGamer"));
-            return resp.Data;
+            Response<Gamers>? resp = await Task.Run(() =>
+            new Requester().Get<Gamers>($@"{ApiYoungMoe}/currentAbyssGamer"));
+            return resp?.Data;
         }
         /// <summary>
         /// 获取所有角色的图片与Id
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AvatarSimple>> GetAllAvatarAsync()
+        public async Task<List<AvatarSimple>?> GetAllAvatarAsync()
         {
-            List<AvatarSimple> resp = await Task.Run(() =>
+            List<AvatarSimple>? resp = await Task.Run(() =>
             Json.FromWebsite<List<AvatarSimple>>($@"{YoungMoeData}/allAvatarMin.json"));
             return resp;
         }
@@ -120,9 +127,9 @@ namespace DGP.Genshin.Services
         /// </summary>
         /// <param name="floor">12,11,10,9</param>
         /// <returns></returns>
-        public async Task<List<int[]>> GetTeamRankRawDataAsync(int floor)
+        public async Task<List<int[]>?> GetTeamRankRawDataAsync(int floor)
         {
-            List<int[]> resp = await Task.Run(() =>
+            List<int[]>? resp = await Task.Run(() =>
             Json.FromWebsite<List<int[]>>($@"{YoungMoeData}/teamRankMin_{floor}_3.json"));
             return resp;
         }
@@ -138,15 +145,15 @@ namespace DGP.Genshin.Services
                 {"Content-Type","application/x-www-form-urlencoded;charset=UTF-8" }
             });
 
-            Response<string> resp = await Task.Run(() =>
+            Response<string>? resp = await Task.Run(() =>
             requester.Post<string>($@"{ApiYoungMoe}/postuid", $"uid={uid}"));
-            return resp.Data;
+            return resp?.Data;
         }
         #endregion
 
         #region Recommand
-        private List<Recommand> recommands;
-        public List<Recommand> Recommands { get => this.recommands; set => this.Set(ref this.recommands, value); }
+        private List<Recommand>? recommands;
+        public List<Recommand>? Recommands { get => this.recommands; set => this.Set(ref this.recommands, value); }
 
         private List<int> floors = new List<int> { 12, 11, 10, 9 };
         public List<int> Floors { get => this.floors; set => this.Set(ref this.floors, value); }
@@ -165,18 +172,24 @@ namespace DGP.Genshin.Services
 
         public async Task RefershRecommandsAsync()
         {
-            if (RecordService.Instance.CurrentRecord == null)
+            if (RecordService.Instance.CurrentRecord is null || this.allAvatarMap is null)
             {
                 return;
             }
+
             this.Recommands = null;
 
-            List<int[]> teamDataRaw = await this.GetTeamRankRawDataAsync(this.SelectedFloor);
-
-            List<int> ownedAvatarRaw = RecordService.Instance.CurrentRecord.DetailedAvatars
+            List<int[]>? teamDataRaw = await this.GetTeamRankRawDataAsync(this.SelectedFloor);
+            List<int>? ownedAvatarRaw = RecordService.Instance.CurrentRecord.DetailedAvatars?
                 .Where(i => this.allAvatarMap.Exists(a => a.CnName == i.Name))
                 .Select(i => this.allAvatarMap.First(a => a.CnName == i.Name).Id)
                 .ToList();
+
+            if (ownedAvatarRaw is null || teamDataRaw is null)
+            {
+                return;
+            }
+
             List<int> notOwnedAvatarRaw = this.allAvatarMap
                 .Select(i => i.Id)
                 .Where(i => !ownedAvatarRaw.Exists(j => j == i))
@@ -194,14 +207,14 @@ namespace DGP.Genshin.Services
 
             this.Recommands = teamDataRaw.Select(raw => new Recommand
             {
-                UpHalf = new List<Character>
+                UpHalf = new List<Character?>
                 {
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[0])),
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[1])),
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[2])),
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[3]))
                 },
-                DownHalf = new List<Character>
+                DownHalf = new List<Character?>
                 {
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[4])),
                     this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[5])),
@@ -212,7 +225,7 @@ namespace DGP.Genshin.Services
             }).TakeWhileAndPreserve(i => i.Count > this.TotalSubmitted * 0.0005, 10).AsParallel().ToList();
         }
 
-        private Character ToCharacter(AvatarSimple avatar)
+        private Character? ToCharacter(AvatarSimple? avatar)
         {
             if (avatar == null)
             {
@@ -228,7 +241,7 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region 单例
-        private static CelestiaDatabaseService instance;
+        private static CelestiaDatabaseService? instance;
 
         private static readonly object _lock = new();
         private CelestiaDatabaseService()

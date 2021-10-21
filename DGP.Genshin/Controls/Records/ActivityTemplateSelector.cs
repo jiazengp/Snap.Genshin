@@ -15,7 +15,8 @@ namespace DGP.Genshin.Controls.Records
             { "activities[3]", "ChannellerSlab" },
             { "activities[4]", "MartialLegend" },
             { "activities[5]", "Chess" },
-            { "activities[6]", "Sumo" }
+            { "activities[6]", "Sumo" },
+            { "activities[7]", "Rogue" }
         };
 
         public override DataTemplate? SelectTemplate(object item, DependencyObject container)

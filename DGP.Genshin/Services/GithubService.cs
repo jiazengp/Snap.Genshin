@@ -18,7 +18,7 @@ namespace DGP.Genshin.Services
     {
         private const string repoFile = "repoinfos.json";
         private readonly GitHubClient client;
-        private List<RepoInfo> repoInfos;
+        private List<RepoInfo>? repoInfos;
 
         public GithubService()
         {
@@ -30,8 +30,11 @@ namespace DGP.Genshin.Services
             SelectedRepositoryChanged += this.OnSelectedRepositoryChanged;
         }
 
-        public async Task<IReadOnlyList<Release>> GetRepositoryReleases(long id) =>
-            await this.client.Repository.Release.GetAll(id);
+        public async Task<IReadOnlyList<Release>?> GetRepositoryReleases(long? id)
+        {
+            return id is null ? null : await this.client.Repository.Release.GetAll(id.Value);
+
+        }
 
         public async Task<Repository> GetRepository(string ownerAndName)
         {
@@ -41,8 +44,14 @@ namespace DGP.Genshin.Services
 
         public async Task AddRepository(string ownerAndName)
         {
+            if (this.repoInfos is null)
+            {
+                return;
+            }
+
             string[] ss = ownerAndName.Split('/');
             RepoInfo info = new RepoInfo(ss[0], ss[1]);
+            
             if (!this.repoInfos.Contains(info))
             {
                 this.repoInfos.Add(info);
@@ -52,20 +61,20 @@ namespace DGP.Genshin.Services
 
         #region Observable
         private ObservableCollection<Repository> repositories = new ObservableCollection<Repository>();
-        private Repository selectedRepository;
-        private List<Release> releases;
-        private Release selectedRelease;
+        private Repository? selectedRepository;
+        private List<Release>? releases;
+        private Release? selectedRelease;
         public ObservableCollection<Repository> Repositories { get => this.repositories; set => this.Set(ref this.repositories, value); }
-        public Repository SelectedRepository
+        public Repository? SelectedRepository
         {
             get => this.selectedRepository; set
             {
                 this.Set(ref this.selectedRepository, value);
-                SelectedRepositoryChanged?.Invoke(value.Id);
+                SelectedRepositoryChanged?.Invoke(value?.Id);
             }
         }
-        public List<Release> Releases { get => this.releases; set => this.Set(ref this.releases, value); }
-        public Release SelectedRelease { get => this.selectedRelease; set => this.Set(ref this.selectedRelease, value); }
+        public List<Release>? Releases { get => this.releases; set => this.Set(ref this.releases, value); }
+        public Release? SelectedRelease { get => this.selectedRelease; set => this.Set(ref this.selectedRelease, value); }
         #endregion
 
         #region LifeCycle
@@ -103,9 +112,15 @@ namespace DGP.Genshin.Services
         }
         #endregion
 
-        private event Action<long> SelectedRepositoryChanged;
-        private async void OnSelectedRepositoryChanged(long id) =>
-            this.Releases = new List<Release>(await this.GetRepositoryReleases(id));
+        private event Action<long?> SelectedRepositoryChanged;
+        private async void OnSelectedRepositoryChanged(long? id)
+        {
+            IReadOnlyList<Release>? releases = await this.GetRepositoryReleases(id);
+            if (releases is not null)
+            {
+                this.Releases = new List<Release>(releases);
+            }
+        }
     }
     /// <summary>
     /// 储存库信息
@@ -121,7 +136,13 @@ namespace DGP.Genshin.Services
         public string Owner { get; set; }
         public string Name { get; set; }
 
-        public bool Equals(RepoInfo other) =>
-            other != null && other.Name == this.Name && other.Owner == this.Owner;
+        public bool Equals(RepoInfo? other) =>
+            other is not null && other.Name == this.Name && other.Owner == this.Owner;
+
+        public override bool Equals(object? obj) =>
+            this.Equals(obj as RepoInfo);
+
+        public override int GetHashCode() =>
+            throw new NotImplementedException();
     }
 }

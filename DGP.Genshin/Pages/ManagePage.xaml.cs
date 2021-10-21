@@ -42,12 +42,18 @@ namespace DGP.Genshin.Pages
             switch (((TabItem)this.TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    data.Characters.Remove(data.SelectedCharacter);
-                    data.SelectedCharacter = null;
+                    if(data.SelectedCharacter is not null)
+                    {
+                        data.Characters.Remove(data.SelectedCharacter);
+                        data.SelectedCharacter = null;
+                    }
                     break;
                 case "武器":
-                    data.Weapons.Remove(data.SelectedWeapon);
-                    data.SelectedWeapon = null;
+                    if(data.SelectedWeapon is not null)
+                    {
+                        data.Weapons.Remove(data.SelectedWeapon);
+                        data.SelectedWeapon = null;
+                    }
                     break;
                 default:
                     break;
