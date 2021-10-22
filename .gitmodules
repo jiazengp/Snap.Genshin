@@ -1,0 +1,3 @@
+[submodule "DGP.Genshin.MiHoYoAPI"]
+	path = DGP.Genshin.MiHoYoAPI
+	url = https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI.git
