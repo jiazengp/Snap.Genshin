@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Data.Characters;
+﻿using DGP.Genshin.DataModel.Characters;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.YoungMoe.Recommand

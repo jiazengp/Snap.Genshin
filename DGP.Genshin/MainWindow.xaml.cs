@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Controls;
-using DGP.Genshin.Controls.Markdown;
+using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;

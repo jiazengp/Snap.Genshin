@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Data.Characters;
+﻿using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Extensions.System;
 using System.Linq;
@@ -82,7 +82,7 @@ namespace DGP.Genshin.Pages
                     await this.CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
-                    Data.Weapons.Weapon weapon = new Data.Weapons.Weapon()
+                    DataModel.Weapons.Weapon weapon = new DataModel.Weapons.Weapon()
                     {
                         Ascension = data.DailyWeapons.First(),
                         Elite = data.Elites.First(),

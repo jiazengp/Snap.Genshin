@@ -54,7 +54,6 @@ namespace DGP.Genshin.Services
             }
         }
 
-        [SuppressMessage("", "IDE0037")]
         [SuppressMessage("", "IDE0050")]
         public async Task<Record> GetRecordAsync(string? uid)
         {

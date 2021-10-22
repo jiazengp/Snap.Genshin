@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Data.Helpers;
+﻿using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.Services;
 using DGP.Snap.Framework.Attributes.DataModel;
 using DGP.Snap.Framework.Core.Logging;
@@ -110,13 +110,13 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                             };
                             if (itemType == "武器")
                             {
-                                Data.Weapons.Weapon weapon = MetaDataService.Instance.Weapons.First(w => w.Name == i.Name);
+                                DataModel.Weapons.Weapon weapon = MetaDataService.Instance.Weapons.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon.Source;
                                 counter[i.Name].Badge = weapon.Type;
                             }
                             else//角色
                             {
-                                Data.Characters.Character character = MetaDataService.Instance.Characters.First(c => c.Name == i.Name);
+                                DataModel.Characters.Character character = MetaDataService.Instance.Characters.First(c => c.Name == i.Name);
                                 counter[i.Name].Source = character.Source;
                                 counter[i.Name].Badge = character.Element;
                             }
@@ -255,8 +255,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                     foreach (GachaLogItem item in list)
                     {
                         SpecificBanner? banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
-                        Data.Characters.Character? isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
-                        Data.Weapons.Weapon? isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
+                        DataModel.Characters.Character? isc = MetaDataService.Instance.Characters.FirstOrDefault(c => c.Name == item.Name);
+                        DataModel.Weapons.Weapon? isw = MetaDataService.Instance.Weapons.FirstOrDefault(w => w.Name == item.Name);
                         SpecificItem ni = new SpecificItem
                         {
                             Time = item.Time

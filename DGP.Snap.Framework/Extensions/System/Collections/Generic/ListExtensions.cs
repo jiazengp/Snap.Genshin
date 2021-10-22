@@ -28,13 +28,6 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
             return false;
         }
 
-        private static readonly Random Random = new Random();
-        public static T GetRandom<T>(this IList<T> list) =>
-            list[Random.Next(0, list.Count)];
-
-        public static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable =>
-            listToClone.Select(item => (T)item.Clone()).ToList();
-
         public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable<T> =>
             listToClone.Select(item => item.ClonePartially()).ToList();
     }

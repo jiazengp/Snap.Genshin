@@ -1,9 +1,9 @@
-﻿using DGP.Genshin.Data;
-using DGP.Genshin.Data.Materials.GemStones;
-using DGP.Genshin.Data.Materials.Locals;
-using DGP.Genshin.Data.Materials.Monsters;
-using DGP.Genshin.Data.Materials.Talents;
-using DGP.Genshin.Data.Materials.Weeklys;
+﻿using DGP.Genshin.DataModel;
+using DGP.Genshin.DataModel.Materials.GemStones;
+using DGP.Genshin.DataModel.Materials.Locals;
+using DGP.Genshin.DataModel.Materials.Monsters;
+using DGP.Genshin.DataModel.Materials.Talents;
+using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.Services;
 using System;
 using System.Globalization;
@@ -65,7 +65,7 @@ namespace DGP.Genshin.Controls.Converters
         {
             return value == null
                 ? MetaDataService.Instance.DailyWeapons.First()
-                : MetaDataService.Instance.DailyWeapons.First(i => i.Source == ((Data.Materials.Weapons.Weapon)value).Source);
+                : MetaDataService.Instance.DailyWeapons.First(i => i.Source == ((DataModel.Materials.Weapons.Weapon)value).Source);
         }
     }
     public class ElitesConverter : IValueConverter

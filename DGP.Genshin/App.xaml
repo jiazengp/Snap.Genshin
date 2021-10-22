@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:local="clr-namespace:DGP.Genshin"
-    xmlns:s="clr-namespace:DGP.Genshin.Controls.SmoothScrollViewer"
-    xmlns:c="clr-namespace:DGP.Genshin.Controls.CachedImage"
-    xmlns:controls="clr-namespace:DGP.Genshin.Controls" 
+    xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+    xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+    xmlns:ge="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
     x:Class="DGP.Genshin.App"
@@ -18,7 +18,7 @@
                 <ui:XamlControlsResources/>
                 <ui:IntellisenseResources/>
                 <!-- Other merged dictionaries here -->
-                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Markdown/MarkdownStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Infrastructures/Markdown/MarkdownStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
             <CornerRadius x:Key="CompatCornerRadius" >4</CornerRadius>
@@ -456,7 +456,7 @@
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>
-            <Style TargetType="{x:Type controls:ContentIcon}">
+            <Style TargetType="{x:Type ge:ContentIcon}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>

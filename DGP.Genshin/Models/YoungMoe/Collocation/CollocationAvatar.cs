@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Data.Characters;
-using DGP.Genshin.Data.Helpers;
+﻿using DGP.Genshin.DataModel.Characters;
+using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.Services;
 using Newtonsoft.Json;
 using System.Linq;

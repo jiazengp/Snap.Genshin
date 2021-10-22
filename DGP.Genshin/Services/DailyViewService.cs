@@ -1,7 +1,7 @@
-﻿using DGP.Genshin.Data.Characters;
-using DGP.Genshin.Data.Helpers;
-using DGP.Genshin.Data.Materials.Talents;
-using DGP.Genshin.Data.Weapons;
+﻿using DGP.Genshin.DataModel.Characters;
+using DGP.Genshin.DataModel.Helpers;
+using DGP.Genshin.DataModel.Materials.Talents;
+using DGP.Genshin.DataModel.Weapons;
 using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +30,8 @@ namespace DGP.Genshin.Services
             }
         }
 
-        private IEnumerable<Data.Materials.Weapons.Weapon>? todayMondstadtWeaponAscension;
-        public IEnumerable<Data.Materials.Weapons.Weapon> TodayMondstadtWeaponAscension
+        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayMondstadtWeaponAscension;
+        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayMondstadtWeaponAscension
         {
             get
             {
@@ -116,8 +116,8 @@ namespace DGP.Genshin.Services
             }
         }
 
-        private IEnumerable<Data.Materials.Weapons.Weapon>? todayLiyueWeaponAscension;
-        public IEnumerable<Data.Materials.Weapons.Weapon> TodayLiyueWeaponAscension
+        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayLiyueWeaponAscension;
+        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayLiyueWeaponAscension
         {
             get
             {
@@ -202,8 +202,8 @@ namespace DGP.Genshin.Services
             }
         }
 
-        private IEnumerable<Data.Materials.Weapons.Weapon>? todayInazumaWeaponAscension;
-        public IEnumerable<Data.Materials.Weapons.Weapon> TodayInazumaWeaponAscension
+        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayInazumaWeaponAscension;
+        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayInazumaWeaponAscension
         {
             get
             {

@@ -1,12 +1,12 @@
-﻿using DGP.Genshin.Controls.CachedImage;
-using DGP.Genshin.Data;
-using DGP.Genshin.Data.Characters;
-using DGP.Genshin.Data.Materials.GemStones;
-using DGP.Genshin.Data.Materials.Locals;
-using DGP.Genshin.Data.Materials.Monsters;
-using DGP.Genshin.Data.Materials.Talents;
-using DGP.Genshin.Data.Materials.Weeklys;
-using DGP.Genshin.Data.Weapons;
+﻿using DGP.Genshin.Controls.Infrastructures.CachedImage;
+using DGP.Genshin.DataModel;
+using DGP.Genshin.DataModel.Characters;
+using DGP.Genshin.DataModel.Materials.GemStones;
+using DGP.Genshin.DataModel.Materials.Locals;
+using DGP.Genshin.DataModel.Materials.Monsters;
+using DGP.Genshin.DataModel.Materials.Talents;
+using DGP.Genshin.DataModel.Materials.Weeklys;
+using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Json;
@@ -104,19 +104,19 @@ namespace DGP.Genshin.Services
         }
         private ObservableCollection<Talent>? dailyTalents;
 
-        public ObservableCollection<Data.Materials.Weapons.Weapon> DailyWeapons
+        public ObservableCollection<DataModel.Materials.Weapons.Weapon> DailyWeapons
         {
             get
             {
                 if (this.dailyWeapons == null)
                 {
-                    this.dailyWeapons = Json.ToObject<ObservableCollection<Data.Materials.Weapons.Weapon>>(this.Read(DailyWeaponsJson));
+                    this.dailyWeapons = Json.ToObject<ObservableCollection<DataModel.Materials.Weapons.Weapon>>(this.Read(DailyWeaponsJson));
                 }
                 return this.dailyWeapons;
             }
             set => this.dailyWeapons = value;
         }
-        private ObservableCollection<Data.Materials.Weapons.Weapon>? dailyWeapons;
+        private ObservableCollection<DataModel.Materials.Weapons.Weapon>? dailyWeapons;
 
         public ObservableCollection<KeySource> Elements
         {

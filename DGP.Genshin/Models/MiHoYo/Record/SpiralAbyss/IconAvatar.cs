@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Data.Helpers;
+﻿using DGP.Genshin.DataModel.Helpers;
 using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 

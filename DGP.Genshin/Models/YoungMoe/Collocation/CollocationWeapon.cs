@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Data.Weapons;
+﻿using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Services;
 using Newtonsoft.Json;
 using System.Linq;
