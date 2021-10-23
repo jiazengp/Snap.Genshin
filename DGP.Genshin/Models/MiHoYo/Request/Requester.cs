@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Data.Json;
-using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -19,7 +18,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         }
         public Requester(RequestOptions headers)
         {
-            this.Headers = headers;
+            Headers = headers;
         }
         private Response<T>? Request<T>(Func<WebClient, string> requestMethod)
         {
@@ -28,7 +27,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
                 using (WebClient client = new WebClient())
                 {
                     client.Encoding = Encoding.UTF8;
-                    foreach (KeyValuePair<string, string> entry in this.Headers)
+                    foreach (KeyValuePair<string, string> entry in Headers)
                     {
                         client.Headers[entry.Key] = entry.Value;
                     }
@@ -50,12 +49,12 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         }
         public Response<T>? Get<T>(string? url)
         {
-            if(url is null)
+            if (url is null)
             {
                 return null;
             }
             this.Log($"GET {url.Split('?')[0]}");
-            return this.Request<T>(client => client.DownloadString(url));
+            return Request<T>(client => client.DownloadString(url));
         }
 
         public Response<T>? Post<T>(string url, dynamic data)
@@ -67,27 +66,31 @@ namespace DGP.Genshin.Models.MiHoYo.Request
         public Response<T>? Post<T>(string url, string str)
         {
             this.Log($"POST {url.Split('?')[0]}");
-            return this.Request<T>(client => client.UploadString(url, str));
+            return Request<T>(client => client.UploadString(url, str));
         }
 
 
         /// <summary>
-        /// 对<see cref="Get{T}(String)"/>方法的异步包装
+        /// 对<see cref="Get{T}(string)"/>方法的异步包装
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<Response<T>?> GetAsync<T>(string url) =>
-        await Task.Run(() => this.Get<T>(url));
+        public async Task<Response<T>?> GetAsync<T>(string url)
+        {
+            return await Task.Run(() => Get<T>(url));
+        }
 
         /// <summary>
-        /// 对<see cref="Post{T}(String, Object)"/>方法的异步包装
+        /// 对<see cref="Post{T}(string, object)"/>方法的异步包装
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public async Task<Response<T>?> PostAsync<T>(string url, object data) =>
-            await Task.Run(() => this.Post<T>(url, data));
+        public async Task<Response<T>?> PostAsync<T>(string url, object data)
+        {
+            return await Task.Run(() => Post<T>(url, data));
+        }
     }
 }

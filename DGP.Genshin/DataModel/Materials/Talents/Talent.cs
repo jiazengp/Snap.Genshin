@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataModel.Materials.Talents
 
         public Talent()
         {
-            this.Star = StarHelper.FromRank(4);
+            Star = StarHelper.FromRank(4);
         }
 
         public bool IsTodaysTalent()
@@ -27,14 +27,25 @@ namespace DGP.Genshin.DataModel.Materials.Talents
             return DateTime.Now.DayOfWeek switch
             {
                 DayOfWeek.Sunday => true,
-                DayOfWeek.Monday or DayOfWeek.Thursday => this.Source is (Freedom or Prosperity or Transience),
-                DayOfWeek.Tuesday or DayOfWeek.Friday => this.Source is (Resistance or Diligence or Elegance),
-                DayOfWeek.Wednesday or DayOfWeek.Saturday => this.Source is (Ballad or Gold or Light),
+                DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Freedom or Prosperity or Transience),
+                DayOfWeek.Tuesday or DayOfWeek.Friday => Source is (Resistance or Diligence or Elegance),
+                DayOfWeek.Wednesday or DayOfWeek.Saturday => Source is (Ballad or Gold or Light),
                 _ => false,
             };
         }
-        public bool IsMondstadt() => this.City == "Mondstadt";
-        public bool IsLiyue() => this.City == "Liyue";
-        public bool IsInazuma() => this.City == "Inazuma";
+        public bool IsMondstadt()
+        {
+            return City == "Mondstadt";
+        }
+
+        public bool IsLiyue()
+        {
+            return City == "Liyue";
+        }
+
+        public bool IsInazuma()
+        {
+            return City == "Inazuma";
+        }
     }
 }

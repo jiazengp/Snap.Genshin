@@ -32,7 +32,9 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
         public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue?, TValue> valueFunc) where TKey : notnull
         {
             if (dictionary.TryGetValue(key, out TValue? value))
+            {
                 dictionary.Remove(key);
+            }
 
             dictionary.Add(key, valueFunc.Invoke(value));
         }

@@ -16,7 +16,8 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
 
         public static async Task ParallelForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> asyncAction, int maxThreadCount)
         {
-            SemaphoreSlim throttler = new SemaphoreSlim(initialCount: maxThreadCount);
+            //配置节流器
+            SemaphoreSlim throttler = new(maxThreadCount);
             IEnumerable<Task> tasks = source.Select(async item =>
             {
                 await throttler.WaitAsync();

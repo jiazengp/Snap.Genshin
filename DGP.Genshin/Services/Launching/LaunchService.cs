@@ -11,66 +11,91 @@ using System.Text.RegularExpressions;
 
 namespace DGP.Genshin.Services.Launching
 {
+    /// <summary>
+    /// 游戏启动服务
+    /// </summary>
     public class LaunchService : Observable
     {
-        private List<LaunchScheme> knownSchemes = new List<LaunchScheme>
+        #region Observable
+        private List<LaunchScheme> knownSchemes = new()
         {
-            new LaunchScheme { Name = "官服|天空岛", Channel = "1", CPS = "mihoyo", SubChannel = "1" },
-            new LaunchScheme { Name = "B服|世界树", Channel = "14", CPS = "bilibili", SubChannel = "0" }
+            new LaunchScheme("官服 | 天空岛", "1", "mihoyo", "1"),
+            new LaunchScheme("B服 | 世界树", "14", "bilibili", "0")
         };
         private LaunchScheme currentScheme;
         private bool isBorderless;
 
-        public List<LaunchScheme> KnownSchemes { get => this.knownSchemes; set => this.Set(ref this.knownSchemes, value); }
+        /// <summary>
+        /// 已知的启动方案
+        /// </summary>
+        public List<LaunchScheme> KnownSchemes { get => knownSchemes; set => Set(ref knownSchemes, value); }
+
+        /// <summary>
+        /// 当前启动方案
+        /// </summary>
         public LaunchScheme CurrentScheme
         {
-            get => this.currentScheme; set
+            get => currentScheme; set
             {
-                this.Set(ref this.currentScheme, value);
-                this.OnSchemeChanged();
+                Set(ref currentScheme, value);
+                OnSchemeChanged();
             }
         }
+
+        /// <summary>
+        /// 在此处保存更改后的配置
+        /// 以便游戏启动后能读取到
+        /// </summary>
+        private void OnSchemeChanged()
+        {
+            gameConfig["General"]["channel"] = currentScheme.Channel;
+            gameConfig["General"]["cps"] = currentScheme.CPS;
+            gameConfig["General"]["sub_channel"] = currentScheme.SubChannel;
+
+            string unescapedGameFolder = Regex.Unescape(launcherConfig["launcher"]["game_install_path"].Replace("x", "u"));
+
+            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", gameConfig);
+        }
+        /// <summary>
+        /// 是否启用无边框窗口模式
+        /// </summary>
         public bool IsBorderless
         {
-            get => this.isBorderless; set
+            get => isBorderless; set
             {
-                this.Set(ref this.isBorderless, value);
+                Set(ref isBorderless, value);
                 SettingService.Instance[Setting.IsBorderless] = value;
             }
         }
-
-        private void OnSchemeChanged()
-        {
-            this.gameConfig["General"]["channel"] = this.currentScheme.Channel;
-            this.gameConfig["General"]["cps"] = this.currentScheme.CPS;
-            this.gameConfig["General"]["sub_channel"] = this.currentScheme.SubChannel;
-
-            string unescapedGameFolder = Regex.Unescape(this.launcherConfig["launcher"]["game_install_path"].Replace("x", "u"));
-
-            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", this.gameConfig);
-        }
+        #endregion
 
         private IniData launcherConfig;
         private IniData gameConfig;
+
+        /// <summary>
+        /// 启动游戏
+        /// </summary>
+        /// <param name="scheme">配置方案</param>
+        /// <param name="failAction">启动失败调用</param>
         public void Launch(LaunchScheme scheme, Action<Exception> failAction)
         {
-            string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
-            if (launcherPath != null)
+            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            if (launcherPath is not null)
             {
-                string unescapedGameFolder = this.GetUnescapedGameFolder();
-                string gamePath = $@"{unescapedGameFolder}/{this.launcherConfig["launcher"]["game_start_name"]}";
+                string unescapedGameFolder = GetUnescapedGameFolder();
+                string gamePath = $@"{unescapedGameFolder}/{launcherConfig["launcher"]["game_start_name"]}";
                 gamePath = Regex.Unescape(gamePath);
 
                 try
                 {
                     int fullScreenArg = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false) ? 0 : 1;
 
-                    ProcessStartInfo info = new ProcessStartInfo()
+                    ProcessStartInfo info = new()
                     {
                         FileName = gamePath,
                         Arguments = $"-popupwindow -screen-fullscreen {fullScreenArg}"
                     };
-                    Process p = Process.Start(info);
+                    Process? p = Process.Start(info);
                 }
                 catch (Exception ex)
                 {
@@ -79,35 +104,41 @@ namespace DGP.Genshin.Services.Launching
             }
         }
 
-        public void Initialize()
+        /// <summary>
+        /// 获取转义后的原游戏目录
+        /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
+        /// </summary>
+        /// <returns></returns>
+        private string GetUnescapedGameFolder()
         {
-            this.isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
-            this.OnPropertyChanged(nameof(this.IsBorderless));
-
-            string launcherPath = SettingService.Instance.GetOrDefault<string>(Setting.LauncherPath, null);
-            string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
-
-            FileIniDataParser launcherParser = new FileIniDataParser();
-            this.launcherConfig = launcherParser.ReadFile(configPath);
-
-            string unescapedGameFolder = this.GetUnescapedGameFolder();
-
-            FileIniDataParser gameParser = new FileIniDataParser();
-            this.gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
-
-            this.currentScheme = this.KnownSchemes.First(item => item.Channel == this.gameConfig["General"]["channel"]);
-            //cause we don't wanna trigger the save func
-            this.OnPropertyChanged(nameof(this.CurrentScheme));
+            string gameInstallPath = launcherConfig["launcher"]["game_install_path"];
+            return Regex.Unescape(gameInstallPath.Replace(@"\x", @"\u"));
         }
 
-        private string GetUnescapedGameFolder() => Regex.Unescape(this.launcherConfig["launcher"]["game_install_path"].Replace(@"\x", @"\u"));
-
         #region 单例
-        private static LaunchService instance;
+        private static LaunchService? instance;
         private static readonly object _lock = new();
         private LaunchService()
         {
+            isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
+            OnPropertyChanged(nameof(IsBorderless));
+
+            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
+
+            FileIniDataParser launcherParser = new();
+            launcherConfig = launcherParser.ReadFile(configPath);
+
+            string unescapedGameFolder = GetUnescapedGameFolder();
+
+            FileIniDataParser gameParser = new();
+            gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
+
+            currentScheme = KnownSchemes.First(item => item.Channel == gameConfig["General"]["channel"]);
+            //cause we don't wanna trigger the save func
+            OnPropertyChanged(nameof(CurrentScheme));
         }
+
         public static LaunchService Instance
         {
             get

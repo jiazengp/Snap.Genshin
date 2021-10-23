@@ -2,7 +2,10 @@
 {
     public class ElementHelper
     {
-        public static string FromENGName(string? element) => $@"https://genshin.honeyhunterworld.com/img/icons/element/{element?.ToLower()}.png";
+        public static string FromENGName(string? element)
+        {
+            return $@"https://genshin.honeyhunterworld.com/img/icons/element/{element?.ToLower()}.png";
+        }
 
         public static string? ConvertCHSToENG(string s)
         {

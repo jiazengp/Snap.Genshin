@@ -3,11 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Pages" 
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:w="clr-namespace:DGP.Genshin.Controls.GenshinElements.Weapons" 
       xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
-      xmlns:controls="clr-namespace:DGP.Genshin.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="武器" Loaded="Page_Loaded">
@@ -16,16 +14,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar Grid.Row="0">
-            <ui:AppBarButton Label="排序" Icon="Sort" IsEnabled="False"/>
-        </ui:CommandBar>
         <s:SmoothScrollViewer Grid.Row="1" Padding="8,0,12,0">
-            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Weapons}" Margin="4,0,0,0" Padding="0,12,0,0">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <ItemsControl 
+                HorizontalAlignment="Center" 
+                ItemsSource="{Binding Weapons}" 
+                Margin="4,0,0,0" 
+                Padding="0,12,0,0" 
+                ItemsPanel="{StaticResource WrapPanelItemsPanel}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <w:WeaponItem Margin="0,0,4,4" VerticalAlignment="Top"/>

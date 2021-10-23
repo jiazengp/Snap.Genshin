@@ -12,13 +12,13 @@ namespace DGP.Genshin.Pages
     {
         public WeeklyPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             await Task.Delay(1000);
-            this.DataContext = WeeklyViewService.Instance;
+            DataContext = WeeklyViewService.Instance;
             this.Log("initialized");
         }
     }

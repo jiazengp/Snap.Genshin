@@ -12,8 +12,15 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     /// </summary>
     public class ImageAsyncHelper : DependencyObject
     {
-        public static string GetImageUrl(DependencyObject obj) => (string)obj.GetValue(ImageUrlProperty);
-        public static void SetImageUrl(DependencyObject obj, Uri value) => obj.SetValue(ImageUrlProperty, value);
+        public static string GetImageUrl(DependencyObject obj)
+        {
+            return (string)obj.GetValue(ImageUrlProperty);
+        }
+
+        public static void SetImageUrl(DependencyObject obj, Uri value)
+        {
+            obj.SetValue(ImageUrlProperty, value);
+        }
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
             "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
@@ -22,7 +29,9 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 {
                     MemoryStream? memoryStream = await FileCache.HitAsync((string)e.NewValue);
                     if (memoryStream == null)
+                    {
                         return;
+                    }
 
                     BitmapImage bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
@@ -37,9 +46,16 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 }
             });
 
-        public static Stretch GetStretchMode(DependencyObject obj) => (Stretch)obj.GetValue(StretchModeProperty);
+        public static Stretch GetStretchMode(DependencyObject obj)
+        {
+            return (Stretch)obj.GetValue(StretchModeProperty);
+        }
 
-        public static void SetStretchMode(DependencyObject obj, Stretch value) => obj.SetValue(StretchModeProperty, value);
+        public static void SetStretchMode(DependencyObject obj, Stretch value)
+        {
+            obj.SetValue(StretchModeProperty, value);
+        }
+
         public static readonly DependencyProperty StretchModeProperty =
             DependencyProperty.RegisterAttached("StretchMode", typeof(Stretch), typeof(ImageAsyncHelper), new PropertyMetadata(Stretch.Uniform));
     }

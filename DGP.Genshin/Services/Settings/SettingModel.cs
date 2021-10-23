@@ -19,10 +19,10 @@ namespace DGP.Genshin.Services.Settings
             switch (key)
             {
                 case Setting.ShowFullUID:
-                    this.ShowFullUID = (bool)value;
+                    ShowFullUID = (bool)value;
                     break;
                 case Setting.AutoDailySignInOnLaunch:
-                    this.AutoDailySignInOnLaunch = (bool)value;
+                    AutoDailySignInOnLaunch = (bool)value;
                     break;
                 default:
                     break;
@@ -34,19 +34,19 @@ namespace DGP.Genshin.Services.Settings
 
         public bool ShowFullUID
         {
-            get => this.showFullUID; set
+            get => showFullUID; set
             {
                 SettingService.Instance.SetValueInternal(Setting.ShowFullUID, value);
-                this.Set(ref this.showFullUID, value);
+                Set(ref showFullUID, value);
             }
         }
 
         public bool AutoDailySignInOnLaunch
         {
-            get => this.autoDailySignInOnLaunch; set
+            get => autoDailySignInOnLaunch; set
             {
                 SettingService.Instance.SetValueInternal(Setting.AutoDailySignInOnLaunch, value);
-                this.Set(ref this.autoDailySignInOnLaunch, value);
+                Set(ref autoDailySignInOnLaunch, value);
             }
         }
 
@@ -55,16 +55,16 @@ namespace DGP.Genshin.Services.Settings
         private static readonly object _lock = new();
         private SettingModel()
         {
-            this.Initialize();
-            SettingService.Instance.SettingChanged += this.SettingChanged;
+            Initialize();
+            SettingService.Instance.SettingChanged += SettingChanged;
         }
 
         private void Initialize()
         {
             SettingService service = SettingService.Instance;
 
-            this.showFullUID = service.GetOrDefault(Setting.ShowFullUID, false);
-            this.autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
+            showFullUID = service.GetOrDefault(Setting.ShowFullUID, false);
+            autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
         }
 
         public static SettingModel Instance

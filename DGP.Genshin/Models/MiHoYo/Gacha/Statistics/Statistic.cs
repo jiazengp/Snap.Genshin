@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {

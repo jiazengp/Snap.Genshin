@@ -15,7 +15,7 @@
          d:DesignHeight="600" d:DesignWidth="1200"
          Title="RecordPage" Loaded="Page_Loaded">
     <Page.Resources>
-        <mihoyo:HtmlStringConverter x:Key="HtmlStringConverter"/>
+        <mihoyo:DGP.Genshin.Cookie.HtmlStringConverter x:Key="HtmlStringConverter"/>
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>

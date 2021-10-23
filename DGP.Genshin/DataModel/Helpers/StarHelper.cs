@@ -18,11 +18,11 @@ namespace DGP.Genshin.DataModel.Helpers
 
         public static int ToRank(this string? starurl)
         {
-            if(starurl is null)
+            if (starurl is null)
             {
                 return 1;
             }
-            return Int32.Parse(starurl[51].ToString());
+            return int.Parse(starurl[51].ToString());
         }
 
         public static SolidColorBrush? ToSolid(int rank)
@@ -37,8 +37,10 @@ namespace DGP.Genshin.DataModel.Helpers
                 _ => null,
             };
         }
-        public static SolidColorBrush? ToSolid(string? starurl) =>
-            starurl is not null ? ToSolid(ToRank(starurl)) : null;
+        public static SolidColorBrush? ToSolid(string? starurl)
+        {
+            return starurl is not null ? ToSolid(ToRank(starurl)) : null;
+        }
 
         public static Uri? RankToUri(int rank)
         {

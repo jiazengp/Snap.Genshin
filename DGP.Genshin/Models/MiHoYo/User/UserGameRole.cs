@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.User
 {
@@ -15,6 +14,9 @@ namespace DGP.Genshin.Models.MiHoYo.User
         [JsonProperty("region_name")] public string? RegionName { get; set; }
         [JsonProperty("is_official")] public string? IsOfficial { get; set; }
 
-        public override string ToString() => $"{this.Nickname} | {this.Level}级 | {this.RegionName}";
+        public override string ToString()
+        {
+            return $"{Nickname} | {Level}级 | {RegionName}";
+        }
     }
 }

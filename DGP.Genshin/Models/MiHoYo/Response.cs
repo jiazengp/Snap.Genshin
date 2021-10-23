@@ -13,7 +13,10 @@ namespace DGP.Genshin.Models.MiHoYo
         [JsonProperty("retcode")] public int ReturnCode { get; set; }
         [JsonProperty("message")] public string? Message { get; set; }
 
-        public override string ToString() => $"状态：{this.ReturnCode} | 信息：{this.Message}";
+        public override string ToString()
+        {
+            return $"状态：{ReturnCode} | 信息：{Message}";
+        }
     }
 
     /// <summary>

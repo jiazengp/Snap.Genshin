@@ -1,6 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-
-namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
+﻿namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
 {
     /// <summary>
     /// 单个卡池统计信息

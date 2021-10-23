@@ -1,6 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes;
-using DGP.Snap.Framework.Core.Logging;
-using DGP.Snap.Framework.Data.Json;
+﻿using DGP.Snap.Framework.Core.Logging;
 using System;
 using System.Linq;
 
@@ -35,7 +33,7 @@ namespace DGP.Genshin.Models.MiHoYo.Request
             if (url.Length == 2)
             {
                 string[] queryParams = url[1].Split('&').OrderBy(x => x).ToArray();
-                q = String.Join("&", queryParams);
+                q = string.Join("&", queryParams);
             }
             //check
             string check = GetComputedMd5($"salt={APISalt}&t={t}&r={r}&b={b}&q={q}");
@@ -44,7 +42,9 @@ namespace DGP.Genshin.Models.MiHoYo.Request
             return result;
         }
         private static readonly Random random = new Random();
-        private static string GetRandomString() =>
-            random.Next(100000, 200000).ToString();
+        private static string GetRandomString()
+        {
+            return random.Next(100000, 200000).ToString();
+        }
     }
 }

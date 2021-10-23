@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 
@@ -27,8 +26,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha
         {
             get
             {
-                Debug.Assert(this.Id is not null);
-                return Int64.Parse(this.Id);
+                Debug.Assert(Id is not null);
+                return long.Parse(Id);
             }
         }
     }

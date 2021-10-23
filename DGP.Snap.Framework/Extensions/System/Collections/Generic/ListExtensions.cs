@@ -28,7 +28,9 @@ namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
             return false;
         }
 
-        public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable<T> =>
-            listToClone.Select(item => item.ClonePartially()).ToList();
+        public static List<T> ClonePartially<T>(this List<T> listToClone) where T : IPartiallyCloneable<T>
+        {
+            return listToClone.Select(item => item.ClonePartially()).ToList();
+        }
     }
 }

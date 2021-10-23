@@ -19,11 +19,15 @@ namespace DGP.Snap.Framework.Core.Entry
             if (types is not null)
             {
                 foreach (Type t in types)
+                {
                     yield return t;
+                }
             }
 
             foreach (Type t in FrameworkAssembly.GetTypes())
+            {
                 yield return t;
+            }
         }
     }
 }

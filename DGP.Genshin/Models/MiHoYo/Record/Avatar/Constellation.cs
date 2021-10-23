@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
 {
@@ -13,7 +12,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("name")] public string? Name { get; set; }
         [JsonProperty("icon")] public string? Icon { get; set; }
         [JsonProperty("effect")] public string? Effect { get; set; }
-        public string? ProcessedEffect => this.Effect?.RemoveHtmlFormat();
+        public string? ProcessedEffect => Effect?.RemoveHtmlFormat();
         [JsonProperty("is_actived")] public bool IsActived { get; set; }
         [JsonProperty("pos")] public int Position { get; set; }
     }

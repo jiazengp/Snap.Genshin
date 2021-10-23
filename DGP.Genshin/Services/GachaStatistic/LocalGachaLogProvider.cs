@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Gacha;
 using DGP.Genshin.Models.MiHoYo.Gacha.Compatibility;
 using DGP.Genshin.Services.Settings;
-using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Windows.Threading;
@@ -27,8 +26,8 @@ namespace DGP.Genshin.Services.GachaStatistic
         public LocalGachaLogProvider(GachaStatisticService service)
         {
             Directory.CreateDirectory(localFolderName);
-            this.Service = service;
-            this.LoadAllLogs();
+            Service = service;
+            LoadAllLogs();
             if (service.Uids.Count > 0)
             {
                 service.HasNoData = false;
@@ -41,21 +40,21 @@ namespace DGP.Genshin.Services.GachaStatistic
             foreach (string user in Directory.EnumerateDirectories($@"{localFolderName}"))
             {
                 string uid = new DirectoryInfo(user).Name;
-                this.Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
-                this.LoadLogOf(uid);
+                Service.AddOrIgnore(new PrivateString(uid, PrivateString.DefaultMasker, SettingModel.Instance.ShowFullUID));
+                LoadLogOf(uid);
             }
         }
         private void LoadLogOf(string uid)
         {
-            this.InitializeUser(uid);
+            InitializeUser(uid);
             foreach (string p in Directory.EnumerateFiles($@"{localFolderName}\{uid}"))
             {
                 FileInfo fileInfo = new FileInfo(p);
                 string pool = fileInfo.Name.Replace(".json", "");
-                if(this.Data is not null)
+                if (Data is not null)
                 {
-                    GachaData? one = this.Data[uid];
-                    if(one is not null)
+                    GachaData? one = Data[uid];
+                    if (one is not null)
                     {
                         one[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
                     }
@@ -68,7 +67,10 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// 将uid与对应的抽卡数据准备就绪
         /// </summary>
         /// <param name="uid">uid</param>
-        public void InitializeUser(string uid) => this.Data?.Add(uid, new GachaData());
+        public void InitializeUser(string uid)
+        {
+            Data?.Add(uid, new GachaData());
+        }
 
         /// <summary>
         /// 获取最新的时间戳id
@@ -76,19 +78,19 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <returns>default 0</returns>
         public long GetNewestTimeId(ConfigType type, string? uid)
         {
-            if(uid is not null)
+            if (uid is not null)
             {
                 //有uid有卡池记录就读取最新物品的id,否则返回0
-                if (this.Data is not null && this.Data.ContainsKey(uid))
+                if (Data is not null && Data.ContainsKey(uid))
                 {
                     if (type.Key is not null)
                     {
-                        GachaData? one = this.Data[uid];
-                        if(one is not null)
+                        GachaData? one = Data[uid];
+                        if (one is not null)
                         {
                             if (one.ContainsKey(type.Key))
                             {
-                                var item = one[type.Key];
+                                List<GachaLogItem>? item = one[type.Key];
                                 if (item is not null)
                                 {
                                     return item.First().TimeId;
@@ -104,35 +106,35 @@ namespace DGP.Genshin.Services.GachaStatistic
         #region save
         public void SaveAllLogs()
         {
-            if(this.Data is not null)
+            if (Data is not null)
             {
-                foreach (KeyValuePair<string, GachaData> entry in this.Data)
+                foreach (KeyValuePair<string, GachaData> entry in Data)
                 {
-                    this.SaveLogOf(entry.Key);
+                    SaveLogOf(entry.Key);
                 }
             }
         }
         public void SaveLogOf(string uid)
         {
-            if (this.Data is not null)
+            if (Data is not null)
             {
                 Directory.CreateDirectory($@"{localFolderName}\{uid}");
-                var one = this.Data[uid];
-                if(one is not null)
+                GachaData? one = Data[uid];
+                if (one is not null)
                 {
                     foreach (KeyValuePair<string, List<GachaLogItem>?> entry in one)
                     {
                         Json.ToFile($@"{localFolderName}\{uid}\{entry.Key}.json", entry.Value);
                     }
                 }
-            } 
+            }
         }
         #endregion
 
         #region import
         public bool ImportFromGenshinGachaExport(string filePath)
         {
-            return this.ImportExternalData<GenshinGachaExportFile>(filePath, file =>
+            return ImportExternalData<GenshinGachaExportFile>(filePath, file =>
             {
                 return file is null
                     ? throw new Exception("祈愿记录文件无内容")
@@ -148,48 +150,48 @@ namespace DGP.Genshin.Services.GachaStatistic
         public bool ImportExternalData<T>(string filePath, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
-            this.Service.CanUserSwitchUid = false;
-            lock (this.processing)
+            Service.CanUserSwitchUid = false;
+            lock (processing)
             {
                 try
                 {
                     T? file = Json.FromFile<T>(filePath);
-                    this.ImportCoreInternal(converter.Invoke(file));
+                    ImportCoreInternal(converter.Invoke(file));
                 }
                 catch
                 {
                     successful = false;
                 }
             }
-            this.Service.SyncStatisticWithUidAsync();
-            this.Service.CanUserSwitchUid = true;
-            this.SaveAllLogs();
+            Service.SyncStatisticWithUidAsync();
+            Service.CanUserSwitchUid = true;
+            SaveAllLogs();
             return successful;
         }
 
         private void ImportCoreInternal(ImportableGachaData importable)
         {
             GachaData? data = importable.Data;
-            if(importable.Uid is null)
+            if (importable.Uid is null)
             {
                 return;
             }
             //is new uid
-            if (App.Current.Invoke(() => this.Service.SwitchUidContext(importable.Uid)))
+            if (App.Current.Invoke(() => Service.SwitchUidContext(importable.Uid)))
             {
-                if(this.Data is not null && data is not null)
+                if (Data is not null && data is not null)
                 {
-                    this.Data[importable.Uid] = data;
+                    Data[importable.Uid] = data;
                 }
             }
             else//we need to perform merge operation
             {
-                if(data is not null)
+                if (data is not null)
                 {
                     foreach (KeyValuePair<string, List<GachaLogItem>?> pool in data)
                     {
-                        List<GachaLogItem>? backIncrement = this.PickBackIncrement(importable.Uid, pool.Key, pool.Value);
-                        this.MergeBackIncrement(pool.Key, backIncrement);
+                        List<GachaLogItem>? backIncrement = PickBackIncrement(importable.Uid, pool.Key, pool.Value);
+                        MergeBackIncrement(pool.Key, backIncrement);
                     }
                 }
             }
@@ -197,9 +199,9 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         private List<GachaLogItem>? PickBackIncrement(string uid, string poolType, List<GachaLogItem>? importList)
         {
-            if(this.Data is not null)
+            if (Data is not null)
             {
-                var one = this.Data[uid];
+                GachaData? one = Data[uid];
                 List<GachaLogItem>? currentItems = null;
                 if (one is not null)
                 {
@@ -231,9 +233,9 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// <param name="backIncrement">增量</param>
         private void MergeBackIncrement(string type, List<GachaLogItem>? backIncrement)
         {
-            if(this.Service.SelectedUid is not null && this.Data is not null)
+            if (Service.SelectedUid is not null && Data is not null)
             {
-                GachaData dict = this.Data[this.Service.SelectedUid.UnMaskedValue];
+                GachaData dict = Data[Service.SelectedUid.UnMaskedValue];
 
                 if (dict.ContainsKey(type) && backIncrement is not null)
                 {
@@ -250,14 +252,14 @@ namespace DGP.Genshin.Services.GachaStatistic
         #region export
         public void SaveLocalGachaDataToExcel(string fileName)
         {
-            lock (this.processing)
+            lock (processing)
             {
-                if (this.Service.SelectedUid == null || this.Data is null)
+                if (Service.SelectedUid == null || Data is null)
                 {
                     return;
                 }
 
-                if (this.Data.ContainsKey(this.Service.SelectedUid.UnMaskedValue))
+                if (Data.ContainsKey(Service.SelectedUid.UnMaskedValue))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -265,10 +267,10 @@ namespace DGP.Genshin.Services.GachaStatistic
                     {
                         using (ExcelPackage package = new ExcelPackage(fs))
                         {
-                            foreach (string pool in this.Data[this.Service.SelectedUid.UnMaskedValue].Keys)
+                            foreach (string pool in Data[Service.SelectedUid.UnMaskedValue].Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
-                                IEnumerable<GachaLogItem>? logs = this.Data[this.Service.SelectedUid.UnMaskedValue][pool];
+                                IEnumerable<GachaLogItem>? logs = Data[Service.SelectedUid.UnMaskedValue][pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
                                 //header
@@ -287,15 +289,15 @@ namespace DGP.Genshin.Services.GachaStatistic
                                         sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
                                         sheet.Cells[j, 2].Value = item.Name;
                                         sheet.Cells[j, 3].Value = item.ItemType;
-                                        if(item.Rank is not null)
+                                        if (item.Rank is not null)
                                         {
-                                            sheet.Cells[j, 4].Value = Int32.Parse(item.Rank);
+                                            sheet.Cells[j, 4].Value = int.Parse(item.Rank);
                                         }
                                         using (ExcelRange range = sheet.Cells[j, 1, j, 4])
                                         {
                                             if (item.Rank is not null)
                                             {
-                                                range.Style.Font.Color.SetColor(this.ToDrawingColor(Int32.Parse(item.Rank)));
+                                                range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank)));
                                             }
                                         }
                                     }

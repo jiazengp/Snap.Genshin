@@ -11,13 +11,13 @@ namespace DGP.Genshin.Pages
     {
         public MapPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void WebView_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
             //在此处操作WebView，移除右下角 二维码 Banner
-            string result = await this.WebView.ExecuteScriptAsync(
+            string result = await WebView.ExecuteScriptAsync(
                 "var divs=document.getElementsByClassName(\"bbs-qr\");for(i=0;i<divs.length;i++){if(divs[i]!=null)divs[i].parentNode.removeChild(divs[i])}");
             this.Log(result);
         }

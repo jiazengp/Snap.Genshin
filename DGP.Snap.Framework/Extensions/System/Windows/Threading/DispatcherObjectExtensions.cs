@@ -6,13 +6,13 @@ namespace DGP.Snap.Framework.Extensions.System.Windows.Threading
     public static class DispatcherObjectExtensions
     {
         /// <summary>
-        /// 在与 Func<TResult> 关联的线程上同步执行指定的 Dispatcher。
+        /// 在与 Dispatcher 关联的线程上同步执行指定的 Func<TResult>。
         /// </summary>
         /// <typeparam name="T">指定委托的返回值类型。</typeparam>
         /// <param name="dispatcherObject"></param>
         /// <param name="func">要通过调度程序调用的委托。</param>
         /// <returns></returns>
-        public static T Invoke<T>(this DispatcherObject dispatcherObject, Func<T> func)
+        public static T Invoke<T>(this DispatcherObject? dispatcherObject, Func<T>? func)
         {
             if (dispatcherObject == null)
             {
@@ -24,14 +24,9 @@ namespace DGP.Snap.Framework.Extensions.System.Windows.Threading
                 throw new ArgumentNullException(nameof(func));
             }
 
-            if (dispatcherObject.Dispatcher.CheckAccess())
-            {
-                return func();
-            }
-            else
-            {
-                return dispatcherObject.Dispatcher.Invoke(func);
-            }
+            return dispatcherObject.Dispatcher.CheckAccess() 
+                ? func() 
+                : dispatcherObject.Dispatcher.Invoke(func);
         }
 
         /// <summary>
@@ -62,7 +57,7 @@ namespace DGP.Snap.Framework.Extensions.System.Windows.Threading
         }
 
         /// <summary> 
-        ///   Executes the specified action asynchronously with the DispatcherPriority.Background on the thread that the Dispatcher was created on.
+        /// Executes the specified action asynchronously with the DispatcherPriority.Background on the thread that the Dispatcher was created on.
         /// </summary>
         /// <param name="dispatcherObject">The dispatcher object where the action runs.</param>
         /// <param name="invokeAction">An action that takes no parameters.</param>

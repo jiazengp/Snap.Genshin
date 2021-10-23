@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Record;
 using DGP.Genshin.Models.MiHoYo.Record.Avatar;
 using DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using System;
 using System.Collections.Generic;
@@ -26,30 +26,30 @@ namespace DGP.Genshin.Services
 
         #region Observable
         private Record? currentRecord;
-        public Record? CurrentRecord { get => this.currentRecord; set => this.Set(ref this.currentRecord, value); }
+        public Record? CurrentRecord { get => currentRecord; set => Set(ref currentRecord, value); }
 
         private DetailedAvatar? selectedAvatar;
         public DetailedAvatar? SelectedAvatar
         {
-            get => this.selectedAvatar; set
+            get => selectedAvatar; set
             {
-                this.Set(ref this.selectedAvatar, value);
-                this.SelectedReliquary = this.SelectedAvatar?.Reliquaries?.Count() > 0 ? this.SelectedAvatar.Reliquaries?.First() : null;
+                Set(ref selectedAvatar, value);
+                SelectedReliquary = SelectedAvatar?.Reliquaries?.Count() > 0 ? SelectedAvatar.Reliquaries?.First() : null;
             }
         }
 
         private Reliquary? selectedReliquary;
-        public Reliquary? SelectedReliquary { get => this.selectedReliquary; set => this.Set(ref this.selectedReliquary, value); }
+        public Reliquary? SelectedReliquary { get => selectedReliquary; set => Set(ref selectedReliquary, value); }
         #endregion
 
         public List<string>? QueryHistory { get; set; } = new List<string>();
         internal void AddQueryHistory(string? uid)
         {
-            if(this.QueryHistory is not null && uid is not null)
+            if (QueryHistory is not null && uid is not null)
             {
-                if (!this.QueryHistory.Contains(uid))
+                if (!QueryHistory.Contains(uid))
                 {
-                    this.QueryHistory.Add(uid);
+                    QueryHistory.Add(uid);
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace DGP.Genshin.Services
                 return new Record("请输入Uid");
             }
             this.Log($"querying uid:{uid}");
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return new Record("请提供Cookie");
@@ -78,35 +78,35 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
             //figure out the server
-            if (!this.TryEvaluateUidRegion(uid, out string? server))
+            if (!TryEvaluateUidRegion(uid, out string? server))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record("不支持查询此UID");
             }
 
             Response<PlayerInfo>? playerInfo = null;
-            if (!await Task.Run(() => this.TryGet("正在获取 玩家基础统计信息 (1/5)",
+            if (!await Task.Run(() => TryGet("正在获取 玩家基础统计信息 (1/5)",
                 $@"{BaseUrl}/index?server={server}&role_id={uid}", requester, out playerInfo)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取玩家基本信息失败：\n{playerInfo?.Message}");
             }
             Response<SpiralAbyss>? spiralAbyss = null;
-            if (!await Task.Run(() => this.TryGet("正在获取 本期深境螺旋信息 (2/5)",
+            if (!await Task.Run(() => TryGet("正在获取 本期深境螺旋信息 (2/5)",
                 $@"{BaseUrl}/spiralAbyss?schedule_type=1&server={server}&role_id={uid}", requester, out spiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取本期深境螺旋信息失败：\n{spiralAbyss?.Message}");
             }
             Response<SpiralAbyss>? lastSpiralAbyss = null;
-            if (!await Task.Run(() => this.TryGet("正在获取 上期深境螺旋信息 (3/5)",
+            if (!await Task.Run(() => TryGet("正在获取 上期深境螺旋信息 (3/5)",
                 $@"{BaseUrl}/spiralAbyss?schedule_type=2&server={server}&role_id={uid}", requester, out lastSpiralAbyss)))
             {
                 RecordProgressed?.Invoke(null);
                 return new Record($"获取上期深境螺旋信息失败：\n{lastSpiralAbyss?.Message}");
             }
             Response<dynamic>? activitiesInfo = null;
-            if (!await Task.Run(() => this.TryGet("正在获取 活动挑战信息 (4/5)",
+            if (!await Task.Run(() => TryGet("正在获取 活动挑战信息 (4/5)",
                 $@"{BaseUrl}/activities?server={server}&role_id={uid}", requester, out activitiesInfo)))
             {
                 RecordProgressed?.Invoke(null);
@@ -121,7 +121,7 @@ namespace DGP.Genshin.Services
                 server = server
             };
             Response<DetailedAvatarInfo>? roles = null;
-            if (!await Task.Run(() => this.TryPost("正在获取 详细角色信息 (5/5)",
+            if (!await Task.Run(() => TryPost("正在获取 详细角色信息 (5/5)",
                 $@"{BaseUrl}/character", data, requester, out roles)))
             {
                 RecordProgressed?.Invoke(null);
@@ -145,7 +145,7 @@ namespace DGP.Genshin.Services
 
         private bool TryEvaluateUidRegion(string uid, out string? result)
         {
-            if (String.IsNullOrEmpty(uid))
+            if (string.IsNullOrEmpty(uid))
             {
                 result = null;
                 return false;
@@ -186,7 +186,7 @@ namespace DGP.Genshin.Services
         {
             if (File.Exists(QueryHistoryFile))
             {
-                this.QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile));
+                QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile));
             }
             this.Log("initialized");
         }
@@ -210,7 +210,7 @@ namespace DGP.Genshin.Services
 
         ~RecordService()
         {
-            File.WriteAllText(QueryHistoryFile, Json.Stringify(this.QueryHistory));
+            File.WriteAllText(QueryHistoryFile, Json.Stringify(QueryHistory));
             this.Log("uninitialized");
         }
         #endregion

@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
 
         public Weapon()
         {
-            this.Star = StarHelper.FromRank(5);
+            Star = StarHelper.FromRank(5);
         }
 
         public bool IsTodaysWeapon()
@@ -27,9 +27,9 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
             return DateTime.Now.DayOfWeek switch
             {
                 DayOfWeek.Sunday => true,
-                DayOfWeek.Monday or DayOfWeek.Thursday => this.Source is (Decarabian or Guyun or DistantSea),
-                DayOfWeek.Tuesday or DayOfWeek.Friday => this.Source is (BorealWolf or MistVeiled or Narukami),
-                DayOfWeek.Wednesday or DayOfWeek.Saturday => this.Source is (DandelionGladiator or Aerosiderite or Mask),
+                DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Decarabian or Guyun or DistantSea),
+                DayOfWeek.Tuesday or DayOfWeek.Friday => Source is (BorealWolf or MistVeiled or Narukami),
+                DayOfWeek.Wednesday or DayOfWeek.Saturday => Source is (DandelionGladiator or Aerosiderite or Mask),
                 _ => false,
             };
         }
@@ -37,7 +37,7 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
         public bool IsMondstadt()
         {
             return
-                this.Source is
+                Source is
                 BorealWolf or
                 Decarabian or
                 DandelionGladiator;
@@ -45,7 +45,7 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
         public bool IsLiyue()
         {
             return
-                this.Source is
+                Source is
                 Aerosiderite or
                 Guyun or
                 MistVeiled;
@@ -53,7 +53,7 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
         public bool IsInazuma()
         {
             return
-                this.Source is
+                Source is
                 DistantSea or
                 Narukami or
                 Mask;

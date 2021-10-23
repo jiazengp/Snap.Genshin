@@ -2,7 +2,7 @@
 using ModernWpf.Controls;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Models.MiHoYo
+namespace DGP.Genshin.Cookie
 {
     /// <summary>
     /// CookieDialog.xaml 的交互逻辑
@@ -11,14 +11,14 @@ namespace DGP.Genshin.Models.MiHoYo
     {
         public CookieDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             this.Log("initialized");
         }
 
         public async Task<string> GetInputCookieAsync()
         {
-            await this.ShowAsync();
-            return this.InputText.Text;
+            await ShowAsync();
+            return InputText.Text;
         }
 
         private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
@@ -29,12 +29,14 @@ namespace DGP.Genshin.Models.MiHoYo
                 bool isLoggedIn = cookieWindow.IsLoggedIn;
                 if (isLoggedIn)
                 {
-                    this.InputText.Text = cookieWindow.Cookie;
+                    InputText.Text = cookieWindow.Cookie;
                 }
             }
         }
 
-        private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) =>
-            this.IsPrimaryButtonEnabled = this.InputText.Text.Contains("account_id");
+        private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            IsPrimaryButtonEnabled = InputText.Text.Contains("account_id");
+        }
     }
 }

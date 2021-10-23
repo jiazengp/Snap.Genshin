@@ -31,20 +31,20 @@ namespace DGP.Genshin.Services.Updating
                 {
                     Credentials = new Credentials(TokenHelper.GetToken())
                 };
-                this.Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
+                Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 
-                this.PackageUri = new Uri(this.Release.Assets[0].BrowserDownloadUrl);
-                this.UpdateInfo = new UpdateInfo
+                PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
+                UpdateInfo = new UpdateInfo
                 {
-                    Title = this.Release.Name,
-                    Detail = this.Release.Body
+                    Title = Release.Name,
+                    Detail = Release.Body
                 };
-                string newVersion = this.Release.TagName;
-                this.NewVersion = new Version(this.Release.TagName);
+                string newVersion = Release.TagName;
+                NewVersion = new Version(Release.TagName);
 
-                return new Version(newVersion) > this.CurrentVersion
+                return new Version(newVersion) > CurrentVersion
                     ? UpdateState.NeedUpdate
-                    : new Version(newVersion) == this.CurrentVersion
+                    : new Version(newVersion) == CurrentVersion
                            ? UpdateState.IsNewestRelease
                            : UpdateState.IsInsiderVersion;
             }
@@ -56,25 +56,27 @@ namespace DGP.Genshin.Services.Updating
 
         public void DownloadAndInstallPackage()
         {
-            this.InnerFileDownloader = new FileDownloader();
-            this.InnerFileDownloader.DownloadProgressChanged += this.OnDownloadProgressChanged;
-            this.InnerFileDownloader.DownloadFileCompleted += this.OnDownloadFileCompleted;
+            InnerFileDownloader = new FileDownloader();
+            InnerFileDownloader.DownloadProgressChanged += OnDownloadProgressChanged;
+            InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
-            Debug.Assert(this.PackageUri is not null);
-            this.InnerFileDownloader.DownloadFileAsync(this.PackageUri, destinationPath);
+            Debug.Assert(PackageUri is not null);
+            InnerFileDownloader.DownloadFileAsync(PackageUri, destinationPath);
         }
-        public void CancelUpdate() =>
-            this.InnerFileDownloader?.CancelDownloadAsync();
+        public void CancelUpdate()
+        {
+            InnerFileDownloader?.CancelDownloadAsync();
+        }
 
         internal void OnDownloadProgressChanged(object? sender, DownloadFileProgressChangedArgs args)
         {
             double percent = Math.Round((double)args.BytesReceived / args.TotalBytesToReceive, 2);
             this.Log(percent);
-            if (this.UpdateInfo is not null)
+            if (UpdateInfo is not null)
             {
-                this.UpdateInfo.Progress = percent;
-                this.UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
+                UpdateInfo.Progress = percent;
+                UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
             }
         }
         internal void OnDownloadFileCompleted(object? sender, DownloadFileCompletedArgs eventArgs)

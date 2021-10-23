@@ -28,7 +28,9 @@ namespace DGP.Genshin.Controls.GenshinElements.Records
                 if (path is not null)
                 {
                     if (TemplateDict.ContainsKey(path))
+                    {
                         return element.FindResource(TemplateDict[path]) as DataTemplate;
+                    }
                     else
                     {
                         return element.FindResource("Default") as DataTemplate;

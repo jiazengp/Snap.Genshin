@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Post;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.UserInfo;
@@ -22,7 +23,7 @@ namespace DGP.Genshin.Services
         #region User
         public async Task<UserInfo?> GetUserFullInfoAsync()
         {
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return null;
@@ -47,7 +48,7 @@ namespace DGP.Genshin.Services
         #region Post
         public async Task<List<Post>?> GetOfficialRecommendedPostsAsync()
         {
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return null;
@@ -69,7 +70,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<dynamic?> GetPostFullAsync(string postId)
         {
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return null;

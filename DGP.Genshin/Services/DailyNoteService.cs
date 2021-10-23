@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Record.DailyNote;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.User;
@@ -15,37 +16,37 @@ namespace DGP.Genshin.Services
         private const string Referer = @"https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6";
 
         private List<DailyNote>? dailyNotes;
-        public List<DailyNote>? DailyNotes { get => this.dailyNotes; set => this.Set(ref this.dailyNotes, value); }
+        public List<DailyNote>? DailyNotes { get => dailyNotes; set => Set(ref dailyNotes, value); }
 
         private bool isRefreshing = false;
         public async Task RefreshAsync()
         {
-            if (this.isRefreshing)
+            if (isRefreshing)
             {
                 return;
             }
-            this.isRefreshing = true;
+            isRefreshing = true;
             List<DailyNote> list = new List<DailyNote>();
-            UserGameRoleInfo? roles = await this.GetUserGameRolesAsync();
-            if(roles is not null&& roles.List is not null)
+            UserGameRoleInfo? roles = await GetUserGameRolesAsync();
+            if (roles is not null && roles.List is not null)
             {
                 foreach (UserGameRole role in roles.List)
                 {
-                    DailyNote? note = this.GetDailyNote(role.Region, role.GameUid);
-                    if(note is not null)
+                    DailyNote? note = GetDailyNote(role.Region, role.GameUid);
+                    if (note is not null)
                     {
                         list.Add(note);
                     }
                 }
-                this.DailyNotes = list;
+                DailyNotes = list;
             }
-            this.isRefreshing = false;
+            isRefreshing = false;
         }
 
         public async Task<UserGameRoleInfo?> GetUserGameRolesAsync()
         {
-            string? cookie = CookieManager.Cookie;
-            if(cookie is null)
+            string? cookie = CookieManager.Cookies;
+            if (cookie is null)
             {
                 return null;
             }
@@ -64,7 +65,7 @@ namespace DGP.Genshin.Services
 
         public DailyNote? GetDailyNote(string? server, string? uid)
         {
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null || server is null || uid is null)
             {
                 return null;
@@ -81,7 +82,7 @@ namespace DGP.Genshin.Services
                 {"X-Requested-With", RequestOptions.Hyperion }
             });
 
-            return this.TryGet($"{BaseUrl}/dailyNote?server={server}&role_id={uid}", requester, out Response<DailyNote>? resp)
+            return TryGet($"{BaseUrl}/dailyNote?server={server}&role_id={uid}", requester, out Response<DailyNote>? resp)
                 ? resp?.Data
                 : null;
         }

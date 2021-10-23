@@ -1,9 +1,8 @@
-﻿using DGP.Snap.Framework.Attributes;
+﻿using DGP.Snap.Framework.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,47 +11,48 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 {
-    [Github("https://github.com/floydpink/CachedImage/blob/main/source/FileCache.cs")]
+    /// <summary>
+    /// https://github.com/floydpink/CachedImage/blob/main/source/FileCache.cs
+    /// </summary>
     public static class FileCache
     {
-        public enum CacheMode
-        {
-            Dedicated
-        }
-
         // Record whether a file is being written.
         private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
 
-        static FileCache()
-        {
-            // default cache directory - can be changed if needed from App.xaml
-            AppCacheDirectory = $"{Environment.CurrentDirectory}\\Cache\\";
-        }
+        public static string AppCacheDirectory { get; set; } = $"{Environment.CurrentDirectory}\\Cache\\";
 
-        public static string AppCacheDirectory { get; set; }
-
+        /// <summary>
+        /// Url命中
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>缓存或下载的图片</returns>
         [SuppressMessage("", "CA1835")]
         public static async Task<MemoryStream?> HitAsync(string? url)
         {
             if (url is null)
+            {
                 return null;
+            }
+
             Directory.CreateDirectory(AppCacheDirectory);
 
-            Uri uri = new Uri(url);
+            Uri uri = new(url);
             //build filename
-            StringBuilder fileNameBuilder = new StringBuilder();
+            StringBuilder fileNameBuilder = new();
             using (SHA1Managed sha1 = new())
             {
                 string canonicalUrl = uri.ToString();
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
                 fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower());
                 if (Path.HasExtension(canonicalUrl))
+                {
                     fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
+                }
             }
             string fileName = fileNameBuilder.ToString();
             string localFile = $"{AppCacheDirectory}\\{fileName}";
 
-            MemoryStream memoryStream = new MemoryStream();
+            MemoryStream memoryStream = new();
             FileStream? fileStream = null;
             //未写文件且文件存在
             //读取文件缓存并返回
@@ -66,7 +66,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 return memoryStream;
             }
 
-            HttpClient client = new HttpClient
+            HttpClient client = new()
             {
                 Timeout = Timeout.InfiniteTimeSpan
             };
@@ -74,8 +74,10 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             {
                 HttpResponseMessage? response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
 
-                if (response.IsSuccessStatusCode is false)
+                if (!response.IsSuccessStatusCode)
+                {
                     return null;
+                }
 
                 Stream? responseStream = await response.Content.ReadAsStreamAsync();
 
@@ -92,12 +94,16 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     do
                     {
                         bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
-                        if (fileStream != null)
+                        if (fileStream is not null)
+                        {
                             await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
+                        }
+
                         await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
                     }
                     while (bytesRead > 0);
-                    if (fileStream != null)
+
+                    if (fileStream is not null)
                     {
                         await fileStream.FlushAsync();
                         fileStream.Dispose();
@@ -107,8 +113,9 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
-            catch (Exception ex) when (ex is WebException || ex is IOException || ex is HttpRequestException)
+            catch (Exception ex)
             {
+                Logger.LogStatic(typeof(FileCache), ex);
                 return null;
             }
             finally

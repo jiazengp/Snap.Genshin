@@ -25,9 +25,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record.DailyNote
         {
             get
             {
-                if (this.RemainedTime is not null)
+                if (RemainedTime is not null)
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, Int32.Parse(this.RemainedTime));
+                    TimeSpan ts = new TimeSpan(0, 0, int.Parse(RemainedTime));
                     return ts.Days > 0 ? $"{ts.Days}天{ts.Hours}时{ts.Minutes}分" : $"{ts.Hours}时{ts.Minutes}分";
                 }
                 return null;

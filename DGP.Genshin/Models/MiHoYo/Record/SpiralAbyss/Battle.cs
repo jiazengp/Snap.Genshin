@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -18,9 +17,9 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
         {
             get
             {
-                if (this.Timestamp is not null)
+                if (Timestamp is not null)
                 {
-                    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(Int32.Parse(this.Timestamp));
+                    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(int.Parse(Timestamp));
                     return dto.ToLocalTime().DateTime;
                 }
                 return null;

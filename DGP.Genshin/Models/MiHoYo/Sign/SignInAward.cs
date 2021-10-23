@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using DGP.Snap.Framework.Data.Behavior;
+﻿using DGP.Snap.Framework.Data.Behavior;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Sign
@@ -12,6 +11,6 @@ namespace DGP.Genshin.Models.MiHoYo.Sign
         [JsonProperty("icon")] public string? Icon { get; set; }
         [JsonProperty("name")] public string? Name { get; set; }
         [JsonProperty("cnt")] public string? Count { get; set; }
-        public double Opacity { get => this.opacity; set => this.Set(ref this.opacity, value); }
+        public double Opacity { get => opacity; set => Set(ref opacity, value); }
     }
 }

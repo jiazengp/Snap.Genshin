@@ -9,15 +9,16 @@ using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Data.Json;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
+using DGP.Snap.Framework.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.Services
 {
@@ -47,200 +48,199 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Collections
-        public ObservableCollection<Boss> Bosses
+        public ObservableCollection<Boss>? Bosses
         {
             get
             {
-                if (this.bosses == null)
+                if (bosses == null)
                 {
-                    this.bosses = Json.ToObject<ObservableCollection<Boss>>(this.Read(BossesJson));
+                    bosses = Json.ToObject<ObservableCollection<Boss>>(Read(BossesJson));
                 }
-                return this.bosses;
+                return bosses;
             }
-            set => this.bosses = value;
+            set => bosses = value;
         }
         private ObservableCollection<Boss>? bosses;
 
-        #region Characters
-        public ObservableCollection<Character> Characters
+        public ObservableCollection<Character>? Characters
         {
             get
             {
-                if (this.characters == null)
+                if (characters == null)
                 {
-                    this.characters = Json.ToObject<ObservableCollection<Character>>(this.Read(CharactersJson));
+                    characters = Json.ToObject<ObservableCollection<Character>>(Read(CharactersJson));
                 }
-                return this.characters;
+                return characters;
             }
-            set => this.characters = value;
+            set => characters = value;
         }
         private ObservableCollection<Character>? characters;
-        #endregion
-        public ObservableCollection<KeySource> Cities
+
+        public ObservableCollection<KeySource>? Cities
         {
             get
             {
-                if (this.cities == null)
+                if (cities == null)
                 {
-                    this.cities = Json.ToObject<ObservableCollection<KeySource>>(this.Read(CitiesJson));
+                    cities = Json.ToObject<ObservableCollection<KeySource>>(Read(CitiesJson));
                 }
-                return this.cities;
+                return cities;
             }
-            set => this.cities = value;
+            set => cities = value;
         }
         private ObservableCollection<KeySource>? cities;
 
-        public ObservableCollection<Talent> DailyTalents
+        public ObservableCollection<Talent>? DailyTalents
         {
             get
             {
-                if (this.dailyTalents == null)
+                if (dailyTalents == null)
                 {
-                    this.dailyTalents = Json.ToObject<ObservableCollection<Talent>>(this.Read(DailyTalentsJson));
+                    dailyTalents = Json.ToObject<ObservableCollection<Talent>>(Read(DailyTalentsJson));
                 }
-                return this.dailyTalents;
+                return dailyTalents;
             }
-            set => this.dailyTalents = value;
+            set => dailyTalents = value;
         }
         private ObservableCollection<Talent>? dailyTalents;
 
-        public ObservableCollection<DataModel.Materials.Weapons.Weapon> DailyWeapons
+        public ObservableCollection<MaterialWeapon>? DailyWeapons
         {
             get
             {
-                if (this.dailyWeapons == null)
+                if (dailyWeapons == null)
                 {
-                    this.dailyWeapons = Json.ToObject<ObservableCollection<DataModel.Materials.Weapons.Weapon>>(this.Read(DailyWeaponsJson));
+                    dailyWeapons = Json.ToObject<ObservableCollection<DataModel.Materials.Weapons.Weapon>>(Read(DailyWeaponsJson));
                 }
-                return this.dailyWeapons;
+                return dailyWeapons;
             }
-            set => this.dailyWeapons = value;
+            set => dailyWeapons = value;
         }
-        private ObservableCollection<DataModel.Materials.Weapons.Weapon>? dailyWeapons;
+        private ObservableCollection<MaterialWeapon>? dailyWeapons;
 
-        public ObservableCollection<KeySource> Elements
+        public ObservableCollection<KeySource>? Elements
         {
             get
             {
-                if (this.elements == null)
+                if (elements == null)
                 {
-                    this.elements = Json.ToObject<ObservableCollection<KeySource>>(this.Read(ElementsJson));
+                    elements = Json.ToObject<ObservableCollection<KeySource>>(Read(ElementsJson));
                 }
-                return this.elements;
+                return elements;
             }
-            set => this.elements = value;
+            set => elements = value;
         }
         private ObservableCollection<KeySource>? elements;
 
-        public ObservableCollection<Elite> Elites
+        public ObservableCollection<Elite>? Elites
         {
             get
             {
-                if (this.elites == null)
+                if (elites == null)
                 {
-                    this.elites = Json.ToObject<ObservableCollection<Elite>>(this.Read(ElitesJson));
+                    elites = Json.ToObject<ObservableCollection<Elite>>(Read(ElitesJson));
                 }
-                return this.elites;
+                return elites;
             }
-            set => this.elites = value;
+            set => elites = value;
         }
         private ObservableCollection<Elite>? elites;
 
-        public ObservableCollection<GemStone> GemStones
+        public ObservableCollection<GemStone>? GemStones
         {
             get
             {
-                if (this.gemstones == null)
+                if (gemstones == null)
                 {
-                    this.gemstones = Json.ToObject<ObservableCollection<GemStone>>(this.Read(GemStonesJson));
+                    gemstones = Json.ToObject<ObservableCollection<GemStone>>(Read(GemStonesJson));
                 }
-                return this.gemstones;
+                return gemstones;
             }
-            set => this.gemstones = value;
+            set => gemstones = value;
         }
         private ObservableCollection<GemStone>? gemstones;
 
-        public ObservableCollection<Local> Locals
+        public ObservableCollection<Local>? Locals
         {
             get
             {
-                if (this.locals == null)
+                if (locals == null)
                 {
-                    this.locals = Json.ToObject<ObservableCollection<Local>>(this.Read(LocalsJson));
+                    locals = Json.ToObject<ObservableCollection<Local>>(Read(LocalsJson));
                 }
-                return this.locals;
+                return locals;
             }
-            set => this.locals = value;
+            set => locals = value;
         }
         private ObservableCollection<Local>? locals;
 
-        public ObservableCollection<Monster> Monsters
+        public ObservableCollection<Monster>? Monsters
         {
             get
             {
-                if (this.monsters == null)
+                if (monsters == null)
                 {
-                    this.monsters = Json.ToObject<ObservableCollection<Monster>>(this.Read(MonstersJson));
+                    monsters = Json.ToObject<ObservableCollection<Monster>>(Read(MonstersJson));
                 }
-                return this.monsters;
+                return monsters;
             }
-            set => this.monsters = value;
+            set => monsters = value;
         }
         private ObservableCollection<Monster>? monsters;
 
-        public ObservableCollection<KeySource> Stars
+        public ObservableCollection<KeySource>? Stars
         {
             get
             {
-                if (this.stars == null)
+                if (stars == null)
                 {
-                    this.stars = Json.ToObject<ObservableCollection<KeySource>>(this.Read(StarsJson));
+                    stars = Json.ToObject<ObservableCollection<KeySource>>(Read(StarsJson));
                 }
-                return this.stars;
+                return stars;
             }
-            set => this.stars = value;
+            set => stars = value;
         }
         private ObservableCollection<KeySource>? stars;
 
-        public ObservableCollection<Weapon> Weapons
+        public ObservableCollection<Weapon>? Weapons
         {
             get
             {
-                if (this.weapons == null)
+                if (weapons == null)
                 {
-                    this.weapons = Json.ToObject<ObservableCollection<Weapon>>(this.Read(WeaponsJson));
+                    weapons = Json.ToObject<ObservableCollection<Weapon>>(Read(WeaponsJson));
                 }
-                return this.weapons;
+                return weapons;
             }
-            set => this.weapons = value;
+            set => weapons = value;
         }
         private ObservableCollection<Weapon>? weapons;
 
-        public ObservableCollection<KeySource> WeaponTypes
+        public ObservableCollection<KeySource>? WeaponTypes
         {
             get
             {
-                if (this.weaponTypes == null)
+                if (weaponTypes == null)
                 {
-                    this.weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(this.Read(WeaponTypesJson));
+                    weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(Read(WeaponTypesJson));
                 }
-                return this.weaponTypes;
+                return weaponTypes;
             }
-            set => this.weaponTypes = value;
+            set => weaponTypes = value;
         }
         private ObservableCollection<KeySource>? weaponTypes;
 
-        public ObservableCollection<Weekly> WeeklyTalents
+        public ObservableCollection<Weekly>? WeeklyTalents
         {
             get
             {
-                if (this.weeklyTalents == null)
+                if (weeklyTalents == null)
                 {
-                    this.weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(this.Read(WeeklyTalentsJson));
+                    weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(Read(WeeklyTalentsJson));
                 }
-                return this.weeklyTalents;
+                return weeklyTalents;
             }
-            set => this.weeklyTalents = value;
+            set => weeklyTalents = value;
         }
         private ObservableCollection<Weekly>? weeklyTalents;
 
@@ -248,91 +248,94 @@ namespace DGP.Genshin.Services
 
         #region GachaEvents
         private List<SpecificBanner>? specificBanners;
-        public List<SpecificBanner> SpecificBanners
+        public List<SpecificBanner>? SpecificBanners
         {
             get
             {
-                if (this.specificBanners == null)
+                if (specificBanners == null)
                 {
-                    this.specificBanners = Json.ToObject<List<SpecificBanner>>(this.Read(GachaEventJson));
+                    specificBanners = Json.ToObject<List<SpecificBanner>>(Read(GachaEventJson));
                 }
-                return this.specificBanners;
+                return specificBanners;
             }
-            set => this.specificBanners = value;
+            set => specificBanners = value;
         }
         #endregion
 
         #region Selected Bindable
         private Character? selectedCharacter;
-        public Character? SelectedCharacter { get => this.selectedCharacter; set => this.Set(ref this.selectedCharacter, value); }
+        public Character? SelectedCharacter { get => selectedCharacter; set => Set(ref selectedCharacter, value); }
 
         private Weapon? selectedWeapon;
-        public Weapon? SelectedWeapon { get => this.selectedWeapon; set => this.Set(ref this.selectedWeapon, value); }
+        public Weapon? SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
         #endregion
 
         #region LifeCycle
-        private string? Read(string filename)
+        private string Read(string filename)
         {
             string path = folderPath + filename;
             if (File.Exists(path))
             {
-                FileStream fs = File.OpenRead(path);
                 string json;
-                using (StreamReader sr = new(fs))
+                using (StreamReader sr = new(File.OpenRead(path)))
                 {
                     json = sr.ReadToEnd();
                 }
                 this.Log($"{filename} loaded.");
                 return json;
             }
-            return null;
+            return "";
         }
-        private void Save(List<SpecificBanner> collection, string filename)
+        private void Save(List<SpecificBanner>? collection, string filename)
         {
             string json = Json.Stringify(collection);
-            using (StreamWriter sw = new StreamWriter(File.Create(folderPath + filename)))
+            using (StreamWriter sw = new(File.Create(folderPath + filename)))
             {
                 sw.Write(json);
             }
-            this.Log($"Save composed metadata to {filename}");
+            this.Log($"Save gachaevent metadata to {filename}");
         }
-        private void Save<T>(ObservableCollection<T> collection, string filename) where T : Primitive
+        private void Save<T>(ObservableCollection<T>? collection, string filename) where T : Primitive
         {
-            string json = Json.Stringify(collection.OrderByDescending(i => i.Star));
-            using (StreamWriter sw = new StreamWriter(File.Create(folderPath + filename)))
+            string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
+            using (StreamWriter sw = new(File.Create(folderPath + filename)))
             {
                 sw.Write(json);
             }
-            this.Log($"Save composed metadata to {filename}");
+            this.Log($"Save primitive metadata to {filename}");
         }
-        private void Save(ObservableCollection<KeySource> collection, string filename)
+        private void Save(ObservableCollection<KeySource>? collection, string filename)
         {
             string json = Json.Stringify(collection);
-            using (StreamWriter sw = new StreamWriter(File.Create(folderPath + filename)))
+            using (StreamWriter sw = new(File.Create(folderPath + filename)))
             {
                 sw.Write(json);
             }
             this.Log($"Save metadata to {filename}");
         }
-        public void Initialize() => this.Log("instantiated");
+        public void Initialize()
+        {
+            this.Log("instantiated");
+        }
+
         public void UnInitialize()
         {
-            this.Save(this.Bosses, BossesJson);
-            this.Save(this.Characters, CharactersJson);
-            this.Save(this.Cities, CitiesJson);
-            this.Save(this.DailyTalents, DailyTalentsJson);
-            this.Save(this.DailyWeapons, DailyWeaponsJson);
-            this.Save(this.Elements, ElementsJson);
-            this.Save(this.Elites, ElitesJson);
-            this.Save(this.GemStones, GemStonesJson);
-            this.Save(this.Locals, LocalsJson);
-            this.Save(this.Monsters, MonstersJson);
-            this.Save(this.Stars, StarsJson);
-            this.Save(this.Weapons, WeaponsJson);
-            this.Save(this.WeaponTypes, WeaponTypesJson);
-            this.Save(this.WeeklyTalents, WeeklyTalentsJson);
+            Save(Bosses, BossesJson);
+            Save(Characters, CharactersJson);
+            Save(Cities, CitiesJson);
+            Save(DailyTalents, DailyTalentsJson);
+            Save(DailyWeapons, DailyWeaponsJson);
+            Save(Elements, ElementsJson);
+            Save(Elites, ElitesJson);
+            Save(GemStones, GemStonesJson);
+            Save(Locals, LocalsJson);
+            Save(Monsters, MonstersJson);
+            Save(Stars, StarsJson);
+            Save(Weapons, WeaponsJson);
+            Save(WeaponTypes, WeaponTypesJson);
+            Save(WeeklyTalents, WeeklyTalentsJson);
 
-            this.Save(this.SpecificBanners, GachaEventJson);
+            Save(SpecificBanners, GachaEventJson);
             this.Log("uninitialized");
         }
         #region 单例
@@ -340,7 +343,7 @@ namespace DGP.Genshin.Services
         private static readonly object _lock = new();
         private MetaDataService()
         {
-            this.Initialize();
+            Initialize();
         }
         public static MetaDataService Instance
         {
@@ -363,25 +366,26 @@ namespace DGP.Genshin.Services
 
         #endregion
 
-        #region CheckIntegrity
+        #region Integrity
+
         private int currentCount;
-        public int CurrentCount { get => this.currentCount; set => this.Set(ref this.currentCount, value); }
+        public int CurrentCount { get => currentCount; set => Set(ref currentCount, value); }
 
         private string? currentInfo;
-        public string? CurrentInfo { get => this.currentInfo; set => this.Set(ref this.currentInfo, value); }
+        public string? CurrentInfo { get => currentInfo; set => Set(ref currentInfo, value); }
 
-        private int totalCount;
-        public int TotalCount { get => this.totalCount; set => this.Set(ref this.totalCount, value); }
+        private int? totalCount;
+        public int? TotalCount { get => totalCount; set => Set(ref totalCount, value); }
 
-        private double percent;
-        public double Percent { get => this.percent; set => this.Set(ref this.percent, value); }
+        private double? percent;
+        public double? Percent { get => percent; set => Set(ref percent, value); }
 
         private bool hasCheckCompleted;
         public bool HasCheckCompleted
         {
-            get => this.hasCheckCompleted; set
+            get => hasCheckCompleted; set
             {
-                this.Set(ref this.hasCheckCompleted, value);
+                Set(ref hasCheckCompleted, value);
                 CompleteStateChanged?.Invoke(value);
             }
         }
@@ -390,13 +394,19 @@ namespace DGP.Genshin.Services
 
         public event Action<bool>? CompleteStateChanged;
 
-        public async Task CheckIntegrityAsync<T>(ObservableCollection<T> collection, IProgress<InitializeState> progress) where T : KeySource
+        public async Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, IProgress<InitializeState> progress) where T : KeySource
         {
+            if (collection is null)
+            {
+                this.Log("初始化时遇到了空的集合");
+                return;
+            }
             await collection.ParallelForEachAsync(async (t) =>
             {
-                await FileCache.HitAsync(t.Source);
-                progress.Report(new InitializeState(++this.checkingCount, t.Source?.ToFileName()));
-            }, Environment.ProcessorCount);
+                //及时释放非托管内存
+                (await FileCache.HitAsync(t.Source))?.Dispose();
+                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+            }, 32);
         }
 
         /// <summary>
@@ -404,55 +414,55 @@ namespace DGP.Genshin.Services
         /// </summary>
         public async Task CheckAllIntegrityAsync()
         {
-            this.HasCheckCompleted = false;
-            Progress<InitializeState> progress = new Progress<InitializeState>(i =>
+            HasCheckCompleted = false;
+            Progress<InitializeState> progress = new(i =>
             {
-                this.CurrentCount = i.CurrentCount;
-                this.Percent = i.CurrentCount * 1.0 / this.TotalCount;
-                this.CurrentInfo = i.Info;
+                CurrentCount = i.CurrentCount;
+                Percent = i.CurrentCount * 1.0 / TotalCount;
+                CurrentInfo = i.Info;
             });
-            this.CurrentCount = 0;
-            this.TotalCount =
-                this.Bosses.Count +
-                this.Cities.Count +
-                this.Characters.Count +
-                this.DailyTalents.Count +
-                this.DailyWeapons.Count +
-                this.Elements.Count +
-                this.Elites.Count +
-                this.GemStones.Count +
-                this.Locals.Count +
-                this.Monsters.Count +
-                this.Stars.Count +
-                this.Weapons.Count +
-                this.WeeklyTalents.Count +
-                this.WeaponTypes.Count;
+            CurrentCount = 0;
+            TotalCount =
+                Bosses?.Count +
+                Cities?.Count +
+                Characters?.Count +
+                DailyTalents?.Count +
+                DailyWeapons?.Count +
+                Elements?.Count +
+                Elites?.Count +
+                GemStones?.Count +
+                Locals?.Count +
+                Monsters?.Count +
+                Stars?.Count +
+                Weapons?.Count +
+                WeeklyTalents?.Count +
+                WeaponTypes?.Count;
 
             await Task.WhenAll(
-                this.CheckIntegrityAsync(this.Bosses, progress),
-                this.CheckIntegrityAsync(this.Characters, progress),
-                this.CheckIntegrityAsync(this.Cities, progress),
-                this.CheckIntegrityAsync(this.DailyTalents, progress),
-                this.CheckIntegrityAsync(this.DailyWeapons, progress),
-                this.CheckIntegrityAsync(this.Elements, progress),
-                this.CheckIntegrityAsync(this.Elites, progress),
-                this.CheckIntegrityAsync(this.GemStones, progress),
-                this.CheckIntegrityAsync(this.Locals, progress),
-                this.CheckIntegrityAsync(this.Monsters, progress),
-                this.CheckIntegrityAsync(this.Stars, progress),
-                this.CheckIntegrityAsync(this.Weapons, progress),
-                this.CheckIntegrityAsync(this.WeeklyTalents, progress),
-                this.CheckIntegrityAsync(this.WeaponTypes, progress));
+                CheckIntegrityAsync(Bosses, progress),
+                CheckIntegrityAsync(Characters, progress),
+                CheckIntegrityAsync(Cities, progress),
+                CheckIntegrityAsync(DailyTalents, progress),
+                CheckIntegrityAsync(DailyWeapons, progress),
+                CheckIntegrityAsync(Elements, progress),
+                CheckIntegrityAsync(Elites, progress),
+                CheckIntegrityAsync(GemStones, progress),
+                CheckIntegrityAsync(Locals, progress),
+                CheckIntegrityAsync(Monsters, progress),
+                CheckIntegrityAsync(Stars, progress),
+                CheckIntegrityAsync(Weapons, progress),
+                CheckIntegrityAsync(WeeklyTalents, progress),
+                CheckIntegrityAsync(WeaponTypes, progress));
 
-            this.HasCheckCompleted = true;
+            HasCheckCompleted = true;
         }
 
         public class InitializeState
         {
             public InitializeState(int count, string? info)
             {
-                this.CurrentCount = count;
-                this.Info = info;
+                CurrentCount = count;
+                Info = info;
             }
             public int CurrentCount { get; set; }
             public string? Info { get; set; }

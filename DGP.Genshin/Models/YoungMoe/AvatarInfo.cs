@@ -28,27 +28,27 @@ namespace DGP.Genshin.Models.YoungMoe
         [JsonProperty("useRate")] public double UseRate { get; set; }
 
         #region Injection
-        public string? Source => this.Character?.Source;
-        public string? StarUrl => this.Character?.Star;
-        public SolidColorBrush? StarSolid => StarHelper.ToSolid(this.StarUrl);
-        public string? Element => this.Character?.Element;
+        public string? Source => Character?.Source;
+        public string? StarUrl => Character?.Star;
+        public SolidColorBrush? StarSolid => StarHelper.ToSolid(StarUrl);
+        public string? Element => Character?.Element;
 
         private Character? character;
         private Character Character
         {
             get
             {
-                if (this.character == null)
+                if (character == null)
                 {
-                    this.character = this.Avatar == "旅行者"
+                    character = Avatar == "旅行者"
                         ? new Character()
                         {
                             Star = StarHelper.FromRank(5),
                             Source = @"https://genshin.honeyhunterworld.com/img/char/traveler_boy_anemo_face_70.png"
                         }
-                        : MetaDataService.Instance.Characters.First(c => c.Name == this.Avatar);
+                        : MetaDataService.Instance.Characters.First(c => c.Name == Avatar);
                 }
-                return this.character;
+                return character;
             }
         }
         #endregion

@@ -17,15 +17,15 @@ namespace DGP.Genshin
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
-            this.EnsureWorkingPath();
+            EnsureWorkingPath();
             base.OnStartup(e);
-            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
-            this.EnsureSingleInstance();
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            EnsureSingleInstance();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
-            this.SetAppTheme();
+            SetAppTheme();
             //post app window created
 
         }
@@ -47,7 +47,7 @@ namespace DGP.Genshin
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            if (!this.isExitDueToSingleInstanceRestriction)
+            if (!isExitDueToSingleInstanceRestriction)
             {
                 MetaDataService.Instance.UnInitialize();
                 SettingService.Instance.UnInitialize();
@@ -58,7 +58,7 @@ namespace DGP.Genshin
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (!this.isEnsureingSingleInstance)
+            if (!isEnsureingSingleInstance)
             {
                 using (StreamWriter sw = new(File.Create($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}-crash.log")))
                 {
@@ -80,25 +80,25 @@ namespace DGP.Genshin
             // check if it is already open.
             try
             {
-                this.isEnsureingSingleInstance = true;
+                isEnsureingSingleInstance = true;
                 // try to open it - if another instance is running, it will exist , if not it will throw
-                this.eventWaitHandle = EventWaitHandle.OpenExisting(UniqueEventName);
+                eventWaitHandle = EventWaitHandle.OpenExisting(UniqueEventName);
                 // Notify other instance so it could bring itself to foreground.
-                this.eventWaitHandle.Set();
+                eventWaitHandle.Set();
                 // Terminate this instance.
-                this.isExitDueToSingleInstanceRestriction = true;
-                this.Shutdown();
+                isExitDueToSingleInstanceRestriction = true;
+                Shutdown();
             }
             catch (WaitHandleCannotBeOpenedException)
             {
-                this.isEnsureingSingleInstance = false;
+                isEnsureingSingleInstance = false;
                 // listen to a new event (this app instance will be the new "master")
-                this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
+                eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
             }
             // if this instance gets the signal to show the main window
             new Task(() =>
             {
-                while (this.eventWaitHandle.WaitOne())
+                while (eventWaitHandle.WaitOne())
                 {
                     Current.Dispatcher.BeginInvoke((Action)(() =>
                     {

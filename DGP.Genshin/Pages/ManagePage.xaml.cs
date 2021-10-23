@@ -14,22 +14,22 @@ namespace DGP.Genshin.Pages
     {
         public ManagePage()
         {
-            this.DataContext = MetaDataService.Instance;
-            this.InitializeComponent();
+            DataContext = MetaDataService.Instance;
+            InitializeComponent();
             this.Log("unitialized");
         }
 
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (((TabItem)this.TabHost.SelectedItem).Header)
+            switch (((TabItem)TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    this.CharacterEditDialog.DataContext = MetaDataService.Instance;
-                    await this.CharacterEditDialog.ShowAsync();
+                    CharacterEditDialog.DataContext = MetaDataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
-                    this.WeaponEditDialog.DataContext = MetaDataService.Instance;
-                    await this.WeaponEditDialog.ShowAsync();
+                    WeaponEditDialog.DataContext = MetaDataService.Instance;
+                    await WeaponEditDialog.ShowAsync();
                     break;
                 default:
                     break;
@@ -39,17 +39,17 @@ namespace DGP.Genshin.Pages
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             MetaDataService data = MetaDataService.Instance;
-            switch (((TabItem)this.TabHost.SelectedItem).Header)
+            switch (((TabItem)TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    if(data.SelectedCharacter is not null)
+                    if (data.SelectedCharacter is not null)
                     {
                         data.Characters.Remove(data.SelectedCharacter);
                         data.SelectedCharacter = null;
                     }
                     break;
                 case "武器":
-                    if(data.SelectedWeapon is not null)
+                    if (data.SelectedWeapon is not null)
                     {
                         data.Weapons.Remove(data.SelectedWeapon);
                         data.SelectedWeapon = null;
@@ -63,7 +63,7 @@ namespace DGP.Genshin.Pages
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             MetaDataService data = MetaDataService.Instance;
-            switch (((TabItem)this.TabHost.SelectedItem).Header)
+            switch (((TabItem)TabHost.SelectedItem).Header)
             {
                 case "角色":
                     Character character = new Character()
@@ -78,8 +78,8 @@ namespace DGP.Genshin.Pages
                     };
                     data.Characters.Add(character);
                     data.SelectedCharacter = character;
-                    this.CharacterEditDialog.DataContext = MetaDataService.Instance;
-                    await this.CharacterEditDialog.ShowAsync();
+                    CharacterEditDialog.DataContext = MetaDataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
                     DataModel.Weapons.Weapon weapon = new DataModel.Weapons.Weapon()
@@ -90,8 +90,8 @@ namespace DGP.Genshin.Pages
                     };
                     data.Weapons.Add(weapon);
                     data.SelectedWeapon = weapon;
-                    this.WeaponEditDialog.DataContext = MetaDataService.Instance;
-                    await this.WeaponEditDialog.ShowAsync();
+                    WeaponEditDialog.DataContext = MetaDataService.Instance;
+                    await WeaponEditDialog.ShowAsync();
                     break;
                 default:
                     break;

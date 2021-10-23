@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Attributes.DataModel;
 using DGP.Snap.Framework.Core.Logging;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
@@ -90,7 +89,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                if(list is null)
+                if (list is null)
                 {
                     continue;
                 }
@@ -106,7 +105,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                             {
                                 Count = 0,
                                 Name = i.Name,
-                                StarUrl = StarHelper.FromRank(Int32.Parse(i.Rank))
+                                StarUrl = StarHelper.FromRank(int.Parse(i.Rank))
                             };
                             if (itemType == "武器")
                             {
@@ -278,7 +277,7 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
                         else
                         {
                             ni.Name = item.Name;
-                            ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(Int32.Parse(item.Rank));
+                            ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
                             Logger.LogStatic(typeof(StatisticFactory),
                                 $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
                         }
@@ -302,7 +301,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
             {
                 banner.TotalCount = banner.Items.Count;
                 if (banner.TotalCount == 0)
+                {
                     continue;
+                }
 
                 banner.Star5Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 5);
                 banner.Star4Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 4);

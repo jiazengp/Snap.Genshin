@@ -15,12 +15,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.dvalinsPlume == null)
+                if (dvalinsPlume == null)
                 {
-                    this.dvalinsPlume = this.dataService.Characters
+                    dvalinsPlume = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_461.png").ToList();
                 }
-                return this.dvalinsPlume;
+                return dvalinsPlume;
             }
         }
         private IEnumerable<Character>? dvalinsClaw;
@@ -28,12 +28,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.dvalinsClaw == null)
+                if (dvalinsClaw == null)
                 {
-                    this.dvalinsClaw = this.dataService.Characters
+                    dvalinsClaw = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_462.png").ToList();
                 }
-                return this.dvalinsClaw;
+                return dvalinsClaw;
             }
         }
         private IEnumerable<Character>? dvalinsSigh;
@@ -41,12 +41,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.dvalinsSigh == null)
+                if (dvalinsSigh == null)
                 {
-                    this.dvalinsSigh = this.dataService.Characters
+                    dvalinsSigh = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_463.png").ToList();
                 }
-                return this.dvalinsSigh;
+                return dvalinsSigh;
             }
         }
         #endregion
@@ -57,12 +57,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.tailofBoreas == null)
+                if (tailofBoreas == null)
                 {
-                    this.tailofBoreas = this.dataService.Characters
+                    tailofBoreas = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_464.png").ToList();
                 }
-                return this.tailofBoreas;
+                return tailofBoreas;
             }
         }
         private IEnumerable<Character>? ringofBoreas;
@@ -70,12 +70,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.ringofBoreas == null)
+                if (ringofBoreas == null)
                 {
-                    this.ringofBoreas = this.dataService.Characters
+                    ringofBoreas = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_465.png").ToList();
                 }
-                return this.ringofBoreas;
+                return ringofBoreas;
             }
         }
         private IEnumerable<Character>? spiritLocketofBoreas;
@@ -83,12 +83,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.spiritLocketofBoreas == null)
+                if (spiritLocketofBoreas == null)
                 {
-                    this.spiritLocketofBoreas = this.dataService.Characters
+                    spiritLocketofBoreas = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_466.png").ToList();
                 }
-                return this.spiritLocketofBoreas;
+                return spiritLocketofBoreas;
             }
         }
         #endregion
@@ -99,12 +99,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.tuskofMonocerosCaeli == null)
+                if (tuskofMonocerosCaeli == null)
                 {
-                    this.tuskofMonocerosCaeli = this.dataService.Characters
+                    tuskofMonocerosCaeli = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_467.png").ToList();
                 }
-                return this.tuskofMonocerosCaeli;
+                return tuskofMonocerosCaeli;
             }
         }
         private IEnumerable<Character>? shardofaFoulLegacy;
@@ -112,12 +112,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.shardofaFoulLegacy == null)
+                if (shardofaFoulLegacy == null)
                 {
-                    this.shardofaFoulLegacy = this.dataService.Characters
+                    shardofaFoulLegacy = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_468.png").ToList();
                 }
-                return this.shardofaFoulLegacy;
+                return shardofaFoulLegacy;
             }
         }
         private IEnumerable<Character>? shadowoftheWarrior;
@@ -125,12 +125,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.shadowoftheWarrior == null)
+                if (shadowoftheWarrior == null)
                 {
-                    this.shadowoftheWarrior = this.dataService.Characters
+                    shadowoftheWarrior = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_469.png").ToList();
                 }
-                return this.shadowoftheWarrior;
+                return shadowoftheWarrior;
             }
         }
         #endregion
@@ -141,12 +141,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.dragonLordsCrown == null)
+                if (dragonLordsCrown == null)
                 {
-                    this.dragonLordsCrown = this.dataService.Characters
+                    dragonLordsCrown = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_470.png").ToList();
                 }
-                return this.dragonLordsCrown;
+                return dragonLordsCrown;
             }
         }
         private IEnumerable<Character>? bloodjadeBranch;
@@ -154,12 +154,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.bloodjadeBranch == null)
+                if (bloodjadeBranch == null)
                 {
-                    this.bloodjadeBranch = this.dataService.Characters
+                    bloodjadeBranch = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_471.png").ToList();
                 }
-                return this.bloodjadeBranch;
+                return bloodjadeBranch;
             }
         }
         private IEnumerable<Character>? gildedScale;
@@ -167,12 +167,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.gildedScale == null)
+                if (gildedScale == null)
                 {
-                    this.gildedScale = this.dataService.Characters
+                    gildedScale = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_472.png").ToList();
                 }
-                return this.gildedScale;
+                return gildedScale;
             }
         }
         #endregion
@@ -183,12 +183,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.moltenMoment == null)
+                if (moltenMoment == null)
                 {
-                    this.moltenMoment = this.dataService.Characters
+                    moltenMoment = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_480.png").ToList();
                 }
-                return this.moltenMoment;
+                return moltenMoment;
             }
         }
         private IEnumerable<Character>? hellfireButterfly;
@@ -196,12 +196,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.hellfireButterfly == null)
+                if (hellfireButterfly == null)
                 {
-                    this.hellfireButterfly = this.dataService.Characters
+                    hellfireButterfly = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_481.png").ToList();
                 }
-                return this.hellfireButterfly;
+                return hellfireButterfly;
             }
         }
         private IEnumerable<Character>? ashenHeart;
@@ -209,12 +209,12 @@ namespace DGP.Genshin.Services
         {
             get
             {
-                if (this.ashenHeart == null)
+                if (ashenHeart == null)
                 {
-                    this.ashenHeart = this.dataService.Characters
+                    ashenHeart = dataService.Characters
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482.png").ToList();
                 }
-                return this.ashenHeart;
+                return ashenHeart;
             }
         }
         #endregion

@@ -10,5 +10,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Json.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\DynamicSecret\DynamicSecretProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\DynamicSecret\DynamicSecretProvider2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\DynamicSecret\DynamicSecretProviderMd5Base.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\DynamicSecret\RequesterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\QueryString\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\QueryString\QueryString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\QueryString\QueryStringParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\QueryString\QueryStringSeparator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\Requester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Request\RequestOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Response\KnownReturnCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Response\ListWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Response\Response.cs" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-
-namespace DGP.Genshin.Models.MiHoYo.User
+﻿namespace DGP.Genshin.Models.MiHoYo.User
 {
     /// <summary>
     /// 包装用户角色列表信息

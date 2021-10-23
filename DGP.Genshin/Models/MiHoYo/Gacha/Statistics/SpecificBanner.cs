@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using DGP.Snap.Framework.Core;
+﻿using DGP.Snap.Framework.Core;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -25,16 +24,19 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         {
             return new SpecificBanner
             {
-                Type = this.Type,
-                UpStar5List = this.UpStar5List,
-                UpStar4List = this.UpStar4List,
-                CurrentName = this.CurrentName,
-                StartTime = this.StartTime,
-                EndTime = this.EndTime
+                Type = Type,
+                UpStar5List = UpStar5List,
+                UpStar4List = UpStar4List,
+                CurrentName = CurrentName,
+                StartTime = StartTime,
+                EndTime = EndTime
             };
         }
 
-        public override string ToString() => $"{this.CurrentName} | {this.StartTime:yyyy.MM.dd HH:mm} - {this.EndTime:yyyy.MM.dd HH:mm}";
+        public override string ToString()
+        {
+            return $"{CurrentName} | {StartTime:yyyy.MM.dd HH:mm} - {EndTime:yyyy.MM.dd HH:mm}";
+        }
     }
 
 

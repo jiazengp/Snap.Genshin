@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
@@ -15,12 +14,12 @@ namespace DGP.Genshin.Models.MiHoYo.Record.Avatar
         [JsonProperty("icon")] public string? Icon { get; set; }
         [JsonProperty("type")] public int Type { get; set; }
         [JsonProperty("rarity")] public int Rarity { get; set; }
-        public string StarUrl => StarHelper.FromRank(this.Rarity);
+        public string StarUrl => StarHelper.FromRank(Rarity);
         [JsonProperty("level")] public int Level { get; set; }
         [JsonProperty("promote_level")] public int PromoteLevel { get; set; }
         [JsonProperty("type_name")] public string? TypeName { get; set; }
         [JsonProperty("desc")] public string? Description { get; set; }
-        public string? ProcessedDescription => this.Description?.RemoveHtmlFormat();
+        public string? ProcessedDescription => Description?.RemoveHtmlFormat();
         /// <summary>
         /// Refine Level actually
         /// </summary>

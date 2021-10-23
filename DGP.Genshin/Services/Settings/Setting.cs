@@ -19,7 +19,9 @@ namespace DGP.Genshin.Services.Settings
         public const string IsBorderless = "IsBorderlessLaunch";
         public const string LastAutoSignInTime = "LastAutoSignInTime";
 
-        public static ApplicationTheme? ApplicationThemeConverter(object? n) =>
-            n is null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);
+        public static ApplicationTheme? ApplicationThemeConverter(object? n)
+        {
+            return n is null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);
+        }
     }
 }

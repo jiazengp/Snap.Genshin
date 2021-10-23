@@ -9,8 +9,8 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
     {
         public Markdown Markdown
         {
-            get => (Markdown)this.GetValue(MarkdownProperty);
-            set => this.SetValue(MarkdownProperty, value);
+            get => (Markdown)GetValue(MarkdownProperty);
+            set => SetValue(MarkdownProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Markdown.  This enables animation, styling, binding, etc...
@@ -30,11 +30,13 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo? culture)
         {
             if (value is null)
+            {
                 return null;
+            }
 
             string text = (string)value;
 
-            Markdown engine = this.Markdown ?? this.mMarkdown.Value;
+            Markdown engine = Markdown ?? mMarkdown.Value;
 
             return engine.Transform(text);
         }
@@ -49,7 +51,10 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
         /// <param name="targetType">The type to convert to.</param>
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
 
         private readonly Lazy<Markdown> mMarkdown
             = new Lazy<Markdown>(() => new Markdown());

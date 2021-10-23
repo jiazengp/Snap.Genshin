@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.Models.MiHoYo.Request;
 using DGP.Genshin.Models.MiHoYo.Sign;
 using DGP.Genshin.Models.MiHoYo.User;
@@ -33,7 +33,7 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return null;
@@ -58,8 +58,8 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string? cookie = CookieManager.Cookie;
-            if(cookie is null)
+            string? cookie = CookieManager.Cookies;
+            if (cookie is null)
             {
                 return null;
             }
@@ -84,8 +84,8 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string? cookie = CookieManager.Cookie;
-            if(cookie is null)
+            string? cookie = CookieManager.Cookies;
+            if (cookie is null)
             {
                 return null;
             }
@@ -117,8 +117,8 @@ namespace DGP.Genshin.Services
             {
                 return null;
             }
-            string? cookie = CookieManager.Cookie;
-            if(cookie is null)
+            string? cookie = CookieManager.Cookies;
+            if (cookie is null)
             {
                 return null;
             }
@@ -143,8 +143,8 @@ namespace DGP.Genshin.Services
 
         public async Task<UserGameRoleInfo?> GetUserGameRolesAsync()
         {
-            string? cookie = CookieManager.Cookie;
-            if(cookie is null)
+            string? cookie = CookieManager.Cookies;
+            if (cookie is null)
             {
                 return null;
             }
@@ -163,7 +163,7 @@ namespace DGP.Genshin.Services
         }
         public async Task<SignInReward?> GetSignInRewardAsync()
         {
-            string? cookie = CookieManager.Cookie;
+            string? cookie = CookieManager.Cookies;
             if (cookie is null)
             {
                 return null;

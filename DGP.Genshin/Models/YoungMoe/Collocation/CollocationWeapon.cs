@@ -11,21 +11,21 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
         [JsonProperty("src")] public string? Src { get; set; }
         [JsonProperty("rate")] public double Rate { get; set; }
 
-        public string? Source => this.Weapon?.Source;
-        public string? StarUrl => this.Weapon?.Star;
+        public string? Source => Weapon?.Source;
+        public string? StarUrl => Weapon?.Star;
 
-        public string? Type => this.Weapon.Type;
+        public string? Type => Weapon.Type;
 
         private Weapon? weapon;
         private Weapon Weapon
         {
             get
             {
-                if (this.weapon == null)
+                if (weapon == null)
                 {
-                    this.weapon = MetaDataService.Instance.Weapons.FirstOrDefault(c => c.Name == this.Name);
+                    weapon = MetaDataService.Instance.Weapons.FirstOrDefault(c => c.Name == Name);
                 }
-                return this.weapon ?? new Weapon();
+                return weapon ?? new Weapon();
             }
 
         }

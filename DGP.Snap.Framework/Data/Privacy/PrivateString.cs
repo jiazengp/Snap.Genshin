@@ -21,15 +21,15 @@
         /// <param name="masker">掩码算法</param>
         public PrivateString(string data, StringMasker masker, bool shouldNotMask)
         {
-            this.UnMaskedValue = data;
+            UnMaskedValue = data;
             this.masker = masker;
-            this.ShouldNotMask = shouldNotMask;
+            ShouldNotMask = shouldNotMask;
         }
 
         /// <summary>
         /// 经过隐私设置处理后的字符串
         /// </summary>
-        public string Value => this.ShouldNotMask ? this.UnMaskedValue : this.masker.Invoke(this.UnMaskedValue);
+        public string Value => ShouldNotMask ? UnMaskedValue : masker.Invoke(UnMaskedValue);
 
         public string UnMaskedValue { get; }
 
@@ -38,7 +38,10 @@
         /// </summary>
         public bool ShouldNotMask { get; set; } = false;
 
-        public void SetShouldNotMask(bool s) => this.ShouldNotMask = s;
+        public void SetShouldNotMask(bool s)
+        {
+            ShouldNotMask = s;
+        }
 
         public static StringMasker DefaultMasker = u => u.Substring(0, 2) + "****" + u.Substring(6, 3);
     }

@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Helpers;
-using DGP.Snap.Framework.Attributes;
 using DGP.Snap.Framework.Data.Behavior;
 using System;
 using System.Windows;
@@ -27,8 +26,8 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         /// </summary>
         public Orientation Orientation
         {
-            get => (Orientation)this.GetValue(OrientationProperty);
-            set => this.SetValue(OrientationProperty, value);
+            get => (Orientation)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
         }
 
         /// <summary>
@@ -41,65 +40,75 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         /// </summary>
         public bool CanMouseWheel
         {
-            get => (bool)this.GetValue(CanMouseWheelProperty);
-            set => this.SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
+            get => (bool)GetValue(CanMouseWheelProperty);
+            set => SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             //scroll optimized
-            if (this.ViewportHeight + this.VerticalOffset >= this.ExtentHeight && e.Delta <= 0)
-                return;
-            if (this.VerticalOffset == 0 && e.Delta >= 0)
-                return;
-
-            if (!this.CanMouseWheel) return;
-
-            if (!this.IsInertiaEnabled)
+            if (ViewportHeight + VerticalOffset >= ExtentHeight && e.Delta <= 0)
             {
-                if (this.Orientation == Orientation.Vertical)
+                return;
+            }
+
+            if (VerticalOffset == 0 && e.Delta >= 0)
+            {
+                return;
+            }
+
+            if (!CanMouseWheel)
+            {
+                return;
+            }
+
+            if (!IsInertiaEnabled)
+            {
+                if (Orientation == Orientation.Vertical)
+                {
                     base.OnMouseWheel(e);
+                }
                 else
                 {
-                    this._totalHorizontalOffset = this.HorizontalOffset;
-                    this.CurrentHorizontalOffset = this.HorizontalOffset;
-                    this._totalHorizontalOffset = Math.Min(Math.Max(0, this._totalHorizontalOffset - e.Delta), this.ScrollableWidth);
-                    this.CurrentHorizontalOffset = this._totalHorizontalOffset;
+                    _totalHorizontalOffset = HorizontalOffset;
+                    CurrentHorizontalOffset = HorizontalOffset;
+                    _totalHorizontalOffset = Math.Min(Math.Max(0, _totalHorizontalOffset - e.Delta), ScrollableWidth);
+                    CurrentHorizontalOffset = _totalHorizontalOffset;
                 }
                 return;
             }
             e.Handled = true;
 
-            if (this.Orientation == Orientation.Vertical)
+            if (Orientation == Orientation.Vertical)
             {
-                if (!this._isRunning)
+                if (!_isRunning)
                 {
-                    this._totalVerticalOffset = this.VerticalOffset;
-                    this.CurrentVerticalOffset = this.VerticalOffset;
+                    _totalVerticalOffset = VerticalOffset;
+                    CurrentVerticalOffset = VerticalOffset;
                 }
-                this._totalVerticalOffset = Math.Min(Math.Max(0, this._totalVerticalOffset - e.Delta), this.ScrollableHeight);
-                this.ScrollToVerticalOffsetWithAnimation(this._totalVerticalOffset);
+                _totalVerticalOffset = Math.Min(Math.Max(0, _totalVerticalOffset - e.Delta), ScrollableHeight);
+                ScrollToVerticalOffsetWithAnimation(_totalVerticalOffset);
             }
             else
             {
-                if (!this._isRunning)
+                if (!_isRunning)
                 {
-                    this._totalHorizontalOffset = this.HorizontalOffset;
-                    this.CurrentHorizontalOffset = this.HorizontalOffset;
+                    _totalHorizontalOffset = HorizontalOffset;
+                    CurrentHorizontalOffset = HorizontalOffset;
                 }
-                this._totalHorizontalOffset = Math.Min(Math.Max(0, this._totalHorizontalOffset - e.Delta), this.ScrollableWidth);
-                this.ScrollToHorizontalOffsetWithAnimation(this._totalHorizontalOffset);
+                _totalHorizontalOffset = Math.Min(Math.Max(0, _totalHorizontalOffset - e.Delta), ScrollableWidth);
+                ScrollToHorizontalOffsetWithAnimation(_totalHorizontalOffset);
             }
         }
 
         internal void ScrollToTopInternal(double milliseconds = 500)
         {
-            if (!this._isRunning)
+            if (!_isRunning)
             {
-                this._totalVerticalOffset = this.VerticalOffset;
-                this.CurrentVerticalOffset = this.VerticalOffset;
+                _totalVerticalOffset = VerticalOffset;
+                CurrentVerticalOffset = VerticalOffset;
             }
-            this.ScrollToVerticalOffsetWithAnimation(0, milliseconds);
+            ScrollToVerticalOffsetWithAnimation(0, milliseconds);
         }
 
         public void ScrollToVerticalOffsetWithAnimation(double offset, double milliseconds = 500)
@@ -112,12 +121,12 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
             animation.FillBehavior = FillBehavior.Stop;
             animation.Completed += (s, e1) =>
             {
-                this.CurrentVerticalOffset = offset;
-                this._isRunning = false;
+                CurrentVerticalOffset = offset;
+                _isRunning = false;
             };
-            this._isRunning = true;
+            _isRunning = true;
 
-            this.BeginAnimation(CurrentVerticalOffsetProperty, animation, HandoffBehavior.Compose);
+            BeginAnimation(CurrentVerticalOffsetProperty, animation, HandoffBehavior.Compose);
         }
 
         public void ScrollToHorizontalOffsetWithAnimation(double offset, double milliseconds = 500)
@@ -130,34 +139,41 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
             animation.FillBehavior = FillBehavior.Stop;
             animation.Completed += (s, e1) =>
             {
-                this.CurrentHorizontalOffset = offset;
-                this._isRunning = false;
+                CurrentHorizontalOffset = offset;
+                _isRunning = false;
             };
-            this._isRunning = true;
+            _isRunning = true;
 
-            this.BeginAnimation(CurrentHorizontalOffsetProperty, animation, HandoffBehavior.Compose);
+            BeginAnimation(CurrentHorizontalOffsetProperty, animation, HandoffBehavior.Compose);
         }
 
-        protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters) =>
-            this.IsPenetrating ? null : base.HitTestCore(hitTestParameters);
+        protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
+        {
+            return IsPenetrating ? null : base.HitTestCore(hitTestParameters);
+        }
 
         /// <summary>
         ///     是否支持惯性
         /// </summary>
         public static readonly DependencyProperty IsInertiaEnabledProperty = DependencyProperty.RegisterAttached(
             "IsInertiaEnabled", typeof(bool), typeof(SmoothScrollViewer), new PropertyMetadata(BoxedValue.TrueBox));
-        public static void SetIsInertiaEnabled(DependencyObject element, bool value) =>
+        public static void SetIsInertiaEnabled(DependencyObject element, bool value)
+        {
             element.SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
-        public static bool GetIsInertiaEnabled(DependencyObject element) =>
-            (bool)element.GetValue(IsInertiaEnabledProperty);
+        }
+
+        public static bool GetIsInertiaEnabled(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsInertiaEnabledProperty);
+        }
 
         /// <summary>
         ///     是否支持惯性
         /// </summary>
         public bool IsInertiaEnabled
         {
-            get => (bool)this.GetValue(IsInertiaEnabledProperty);
-            set => this.SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
+            get => (bool)GetValue(IsInertiaEnabledProperty);
+            set => SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
         }
 
         /// <summary>
@@ -171,15 +187,19 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         /// </summary>
         public bool IsPenetrating
         {
-            get => (bool)this.GetValue(IsPenetratingProperty);
-            set => this.SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
+            get => (bool)GetValue(IsPenetratingProperty);
+            set => SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
         }
 
-        public static void SetIsPenetrating(DependencyObject element, bool value) =>
+        public static void SetIsPenetrating(DependencyObject element, bool value)
+        {
             element.SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
+        }
 
-        public static bool GetIsPenetrating(DependencyObject element) =>
-            (bool)element.GetValue(IsPenetratingProperty);
+        public static bool GetIsPenetrating(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsPenetratingProperty);
+        }
 
         /// <summary>
         ///     当前垂直滚动偏移
@@ -190,7 +210,9 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         private static void OnCurrentVerticalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SmoothScrollViewer ctl && e.NewValue is double v)
+            {
                 ctl.ScrollToVerticalOffset(v);
+            }
         }
 
         /// <summary>
@@ -199,8 +221,8 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         internal double CurrentVerticalOffset
         {
             // ReSharper disable once UnusedMember.Local
-            get => (double)this.GetValue(CurrentVerticalOffsetProperty);
-            set => this.SetValue(CurrentVerticalOffsetProperty, value);
+            get => (double)GetValue(CurrentVerticalOffsetProperty);
+            set => SetValue(CurrentVerticalOffsetProperty, value);
         }
 
         /// <summary>
@@ -212,7 +234,9 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         private static void OnCurrentHorizontalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SmoothScrollViewer ctl && e.NewValue is double v)
+            {
                 ctl.ScrollToHorizontalOffset(v);
+            }
         }
 
         /// <summary>
@@ -220,8 +244,8 @@ namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
         /// </summary>
         internal double CurrentHorizontalOffset
         {
-            get => (double)this.GetValue(CurrentHorizontalOffsetProperty);
-            set => this.SetValue(CurrentHorizontalOffsetProperty, value);
+            get => (double)GetValue(CurrentHorizontalOffsetProperty);
+            set => SetValue(CurrentHorizontalOffsetProperty, value);
         }
     }
 }

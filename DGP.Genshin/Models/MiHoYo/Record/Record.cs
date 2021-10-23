@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Models.MiHoYo.Record.Avatar;
-using DGP.Snap.Framework.Attributes.DataModel;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Models.MiHoYo.Record
@@ -19,7 +18,7 @@ namespace DGP.Genshin.Models.MiHoYo.Record
         /// <param name="message"></param>
         public Record(string? message)
         {
-            this.Message = message;
+            Message = message;
         }
 
         public bool Success { get; set; } = false;

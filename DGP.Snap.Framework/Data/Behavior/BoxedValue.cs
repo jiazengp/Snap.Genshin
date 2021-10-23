@@ -28,6 +28,9 @@ namespace DGP.Snap.Framework.Data.Behavior
         public static object Int5Box = 5;
         public static object Int99Box = 99;
 
-        public static object Boolean(bool value) => value ? TrueBox : FalseBox;
+        public static object Boolean(bool value)
+        {
+            return value ? TrueBox : FalseBox;
+        }
     }
 }

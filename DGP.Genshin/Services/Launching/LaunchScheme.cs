@@ -1,6 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes;
-
-namespace DGP.Genshin.Services.Launching
+﻿namespace DGP.Genshin.Services.Launching
 {
     /// <summary>
     /// 启动方案
@@ -9,9 +7,16 @@ namespace DGP.Genshin.Services.Launching
     /// B服
     /// [General] channel = 14 cps = bilibili sub_channel = 0
     /// </summary>
-    [Github("https://github.com/DGP-Studio/Snap.Genshin/issues/28")]
-    public class LaunchScheme
+    public record LaunchScheme
     {
+        public LaunchScheme(string name,string channel,string cps,string subChannel)
+        {
+            Name = name;
+            Channel = channel;
+            CPS = cps;
+            SubChannel = subChannel;
+        }
+
         public string Name { get; set; }
         public string Channel { get; set; }
         public string CPS { get; set; }

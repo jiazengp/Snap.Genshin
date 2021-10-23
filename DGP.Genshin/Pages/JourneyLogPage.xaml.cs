@@ -11,12 +11,14 @@ namespace DGP.Genshin.Pages
         private readonly JourneyService journeyService;
         public JourneyLogPage()
         {
-            this.journeyService = new JourneyService();
-            this.DataContext = this.journeyService;
-            this.InitializeComponent();
+            journeyService = new JourneyService();
+            DataContext = journeyService;
+            InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) =>
-            await this.journeyService.InitializeAsync();
+        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            await journeyService.InitializeAsync();
+        }
     }
 }

@@ -6,10 +6,13 @@ using DGP.Snap.Framework.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
 
+using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
+
 namespace DGP.Genshin.Services
 {
     /// <summary>
     /// no need to update the view,so we don't make it observable
+    /// 如果在0点前初始化并在0点后呈现，需要重新初始化
     /// </summary>
     public class DailyViewService
     {
@@ -17,258 +20,258 @@ namespace DGP.Genshin.Services
 
         #region Mondstadt
         private IEnumerable<Talent>? todayMondstadtTalent;
-        public IEnumerable<Talent> TodayMondstadtTalent
+        public IEnumerable<Talent>? TodayMondstadtTalent
         {
             get
             {
-                if (this.todayMondstadtTalent == null)
+                if (todayMondstadtTalent == null)
                 {
-                    this.todayMondstadtTalent = this.dataService.DailyTalents
+                    todayMondstadtTalent = dataService.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsMondstadt());
                 }
-                return this.todayMondstadtTalent;
+                return todayMondstadtTalent;
             }
         }
 
-        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayMondstadtWeaponAscension;
-        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayMondstadtWeaponAscension
+        private IEnumerable<MaterialWeapon>? todayMondstadtWeaponAscension;
+        public IEnumerable<MaterialWeapon>? TodayMondstadtWeaponAscension
         {
             get
             {
-                if (this.todayMondstadtWeaponAscension == null)
+                if (todayMondstadtWeaponAscension == null)
                 {
-                    this.todayMondstadtWeaponAscension = this.dataService.DailyWeapons
+                    todayMondstadtWeaponAscension = dataService.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsMondstadt());
                 }
-                return this.todayMondstadtWeaponAscension;
+                return todayMondstadtWeaponAscension;
             }
         }
 
         private IEnumerable<Character>? todayMondstadtCharacter5;
-        public IEnumerable<Character> TodayMondstadtCharacter5
+        public IEnumerable<Character>? TodayMondstadtCharacter5
         {
             get
             {
-                if (this.todayMondstadtCharacter5 == null)
+                if (todayMondstadtCharacter5 == null)
                 {
-                    this.todayMondstadtCharacter5 = this.dataService.Characters
+                    todayMondstadtCharacter5 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayMondstadtCharacter5;
+                return todayMondstadtCharacter5;
             }
         }
 
         private IEnumerable<Character>? todayMondstadtCharacter4;
-        public IEnumerable<Character> TodayMondstadtCharacter4
+        public IEnumerable<Character>? TodayMondstadtCharacter4
         {
             get
             {
-                if (this.todayMondstadtCharacter4 == null)
+                if (todayMondstadtCharacter4 == null)
                 {
-                    this.todayMondstadtCharacter4 = this.dataService.Characters
+                    todayMondstadtCharacter4 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayMondstadtCharacter4;
+                return todayMondstadtCharacter4;
             }
         }
 
         private IEnumerable<Weapon>? todayMondstadtWeapon5;
-        public IEnumerable<Weapon> TodayMondstadtWeapon5
+        public IEnumerable<Weapon>? TodayMondstadtWeapon5
         {
             get
             {
-                if (this.todayMondstadtWeapon5 == null)
+                if (todayMondstadtWeapon5 == null)
                 {
-                    this.todayMondstadtWeapon5 = this.dataService.Weapons
+                    todayMondstadtWeapon5 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayMondstadtWeapon5;
+                return todayMondstadtWeapon5;
             }
         }
 
         private IEnumerable<Weapon>? todayMondstadtWeapon4;
-        public IEnumerable<Weapon> TodayMondstadtWeapon4
+        public IEnumerable<Weapon>? TodayMondstadtWeapon4
         {
             get
             {
-                if (this.todayMondstadtWeapon4 == null)
+                if (todayMondstadtWeapon4 == null)
                 {
-                    this.todayMondstadtWeapon4 = this.dataService.Weapons
+                    todayMondstadtWeapon4 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayMondstadtWeapon4;
+                return todayMondstadtWeapon4;
             }
         }
         #endregion
 
         #region Liyue
         private IEnumerable<Talent>? todayLiyueTalent;
-        public IEnumerable<Talent> TodayLiyueTalent
+        public IEnumerable<Talent>? TodayLiyueTalent
         {
             get
             {
-                if (this.todayLiyueTalent == null)
+                if (todayLiyueTalent == null)
                 {
-                    this.todayLiyueTalent = this.dataService.DailyTalents
+                    todayLiyueTalent = dataService.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsLiyue());
                 }
-                return this.todayLiyueTalent;
+                return todayLiyueTalent;
             }
         }
 
-        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayLiyueWeaponAscension;
-        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayLiyueWeaponAscension
+        private IEnumerable<MaterialWeapon>? todayLiyueWeaponAscension;
+        public IEnumerable<MaterialWeapon>? TodayLiyueWeaponAscension
         {
             get
             {
-                if (this.todayLiyueWeaponAscension == null)
+                if (todayLiyueWeaponAscension == null)
                 {
-                    this.todayLiyueWeaponAscension = this.dataService.DailyWeapons
+                    todayLiyueWeaponAscension = dataService.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsLiyue());
                 }
-                return this.todayLiyueWeaponAscension;
+                return todayLiyueWeaponAscension;
             }
         }
 
         private IEnumerable<Character>? todayLiyueCharacter5;
-        public IEnumerable<Character> TodayLiyueCharacter5
+        public IEnumerable<Character>? TodayLiyueCharacter5
         {
             get
             {
-                if (this.todayLiyueCharacter5 == null)
+                if (todayLiyueCharacter5 == null)
                 {
-                    this.todayLiyueCharacter5 = this.dataService.Characters
+                    todayLiyueCharacter5 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayLiyueCharacter5;
+                return todayLiyueCharacter5;
             }
         }
 
         private IEnumerable<Character>? todayLiyueCharacter4;
-        public IEnumerable<Character> TodayLiyueCharacter4
+        public IEnumerable<Character>? TodayLiyueCharacter4
         {
             get
             {
-                if (this.todayLiyueCharacter4 == null)
+                if (todayLiyueCharacter4 == null)
                 {
-                    this.todayLiyueCharacter4 = this.dataService.Characters
+                    todayLiyueCharacter4 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayLiyueCharacter4;
+                return todayLiyueCharacter4;
             }
         }
 
         private IEnumerable<Weapon>? todayLiyueWeapon5;
-        public IEnumerable<Weapon> TodayLiyueWeapon5
+        public IEnumerable<Weapon>? TodayLiyueWeapon5
         {
             get
             {
-                if (this.todayLiyueWeapon5 == null)
+                if (todayLiyueWeapon5 == null)
                 {
-                    this.todayLiyueWeapon5 = this.dataService.Weapons
+                    todayLiyueWeapon5 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayLiyueWeapon5;
+                return todayLiyueWeapon5;
             }
         }
 
         private IEnumerable<Weapon>? todayLiyueWeapon4;
-        public IEnumerable<Weapon> TodayLiyueWeapon4
+        public IEnumerable<Weapon>? TodayLiyueWeapon4
         {
             get
             {
-                if (this.todayLiyueWeapon4 == null)
+                if (todayLiyueWeapon4 == null)
                 {
-                    this.todayLiyueWeapon4 = this.dataService.Weapons
+                    todayLiyueWeapon4 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayLiyueWeapon4;
+                return todayLiyueWeapon4;
             }
         }
         #endregion
 
         #region Inazuma
         private IEnumerable<Talent>? todayInazumaTalent;
-        public IEnumerable<Talent> TodayInazumaTalent
+        public IEnumerable<Talent>? TodayInazumaTalent
         {
             get
             {
-                if (this.todayInazumaTalent == null)
+                if (todayInazumaTalent == null)
                 {
-                    this.todayInazumaTalent = this.dataService.DailyTalents
+                    todayInazumaTalent = dataService.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsInazuma());
                 }
-                return this.todayInazumaTalent;
+                return todayInazumaTalent;
             }
         }
 
-        private IEnumerable<DataModel.Materials.Weapons.Weapon>? todayInazumaWeaponAscension;
-        public IEnumerable<DataModel.Materials.Weapons.Weapon> TodayInazumaWeaponAscension
+        private IEnumerable<MaterialWeapon>? todayInazumaWeaponAscension;
+        public IEnumerable<MaterialWeapon>? TodayInazumaWeaponAscension
         {
             get
             {
-                if (this.todayInazumaWeaponAscension == null)
+                if (todayInazumaWeaponAscension == null)
                 {
-                    this.todayInazumaWeaponAscension = this.dataService.DailyWeapons
+                    todayInazumaWeaponAscension = dataService.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsInazuma());
                 }
-                return this.todayInazumaWeaponAscension;
+                return todayInazumaWeaponAscension;
             }
         }
 
         private IEnumerable<Character>? todayInazumaCharacter5;
-        public IEnumerable<Character> TodayInazumaCharacter5
+        public IEnumerable<Character>? TodayInazumaCharacter5
         {
             get
             {
-                if (this.todayInazumaCharacter5 == null)
+                if (todayInazumaCharacter5 == null)
                 {
-                    this.todayInazumaCharacter5 = this.dataService.Characters
+                    todayInazumaCharacter5 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayInazumaCharacter5;
+                return todayInazumaCharacter5;
             }
         }
 
         private IEnumerable<Character>? todayInazumaCharacter4;
-        public IEnumerable<Character> TodayInazumaCharacter4
+        public IEnumerable<Character>? TodayInazumaCharacter4
         {
             get
             {
-                if (this.todayInazumaCharacter4 == null)
+                if (todayInazumaCharacter4 == null)
                 {
-                    this.todayInazumaCharacter4 = this.dataService.Characters
+                    todayInazumaCharacter4 = dataService.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent());
                 }
-                return this.todayInazumaCharacter4;
+                return todayInazumaCharacter4;
             }
         }
 
         private IEnumerable<Weapon>? todayInazumaWeapon5;
-        public IEnumerable<Weapon> TodayInazumaWeapon5
+        public IEnumerable<Weapon>? TodayInazumaWeapon5
         {
             get
             {
-                if (this.todayInazumaWeapon5 == null)
+                if (todayInazumaWeapon5 == null)
                 {
-                    this.todayInazumaWeapon5 = this.dataService.Weapons
+                    todayInazumaWeapon5 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayInazumaWeapon5;
+                return todayInazumaWeapon5;
             }
         }
 
         private IEnumerable<Weapon>? todayInazumaWeapon4;
-        public IEnumerable<Weapon> TodayInazumaWeapon4
+        public IEnumerable<Weapon>? TodayInazumaWeapon4
         {
             get
             {
-                if (this.todayInazumaWeapon4 == null)
+                if (todayInazumaWeapon4 == null)
                 {
-                    this.todayInazumaWeapon4 = this.dataService.Weapons
+                    todayInazumaWeapon4 = dataService.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
-                return this.todayInazumaWeapon4;
+                return todayInazumaWeapon4;
             }
         }
         #endregion

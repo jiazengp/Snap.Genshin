@@ -41,11 +41,14 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         /// <returns>The Uri of the bitmap to use as the icon content. The default is **null**.</returns>
         public Uri UriSource
         {
-            get => (Uri)this.GetValue(UriSourceProperty);
-            set => this.SetValue(UriSourceProperty, value);
+            get => (Uri)GetValue(UriSourceProperty);
+            set => SetValue(UriSourceProperty, value);
         }
 
-        private static void OnUriSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((CachedBitmapIcon)d).ApplyUriSource();
+        private static void OnUriSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CachedBitmapIcon)d).ApplyUriSource();
+        }
 
         #endregion
 
@@ -70,56 +73,69 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         /// </returns>
         public bool ShowAsMonochrome
         {
-            get => (bool)this.GetValue(ShowAsMonochromeProperty);
-            set => this.SetValue(ShowAsMonochromeProperty, value);
+            get => (bool)GetValue(ShowAsMonochromeProperty);
+            set => SetValue(ShowAsMonochromeProperty, value);
         }
 
-        private static void OnShowAsMonochromeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((CachedBitmapIcon)d).ApplyShowAsMonochrome();
+        private static void OnShowAsMonochromeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CachedBitmapIcon)d).ApplyShowAsMonochrome();
+        }
 
         #endregion
 
         private protected override void InitializeChildren()
         {
-            this._image = new CachedImage
+            _image = new CachedImage
             {
                 Visibility = Visibility.Hidden
             };
 
-            this._opacityMask = new ImageBrush();
-            this._foreground = new Rectangle
+            _opacityMask = new ImageBrush();
+            _foreground = new Rectangle
             {
                 OpacityMask = _opacityMask
             };
 
-            this.ApplyForeground();
-            this.ApplyUriSource();
+            ApplyForeground();
+            ApplyUriSource();
 
-            this.Children.Add(this._image);
+            Children.Add(_image);
 
-            this.ApplyShowAsMonochrome();
+            ApplyShowAsMonochrome();
         }
 
-        private protected override void OnShouldInheritForegroundFromVisualParentChanged() => this.ApplyForeground();
+        private protected override void OnShouldInheritForegroundFromVisualParentChanged()
+        {
+            ApplyForeground();
+        }
 
         private protected override void OnVisualParentForegroundPropertyChanged(DependencyPropertyChangedEventArgs args)
         {
-            if (this.ShouldInheritForegroundFromVisualParent)
-                this.ApplyForeground();
+            if (ShouldInheritForegroundFromVisualParent)
+            {
+                ApplyForeground();
+            }
         }
 
-        private static void OnForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((CachedBitmapIcon)d).ApplyForeground();
+        private static void OnForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CachedBitmapIcon)d).ApplyForeground();
+        }
 
         private void ApplyForeground()
         {
-            if (this._foreground != null)
-                this._foreground.Fill = this.ShouldInheritForegroundFromVisualParent ? this.VisualParentForeground : this.Foreground;
+            if (_foreground != null)
+            {
+                _foreground.Fill = ShouldInheritForegroundFromVisualParent ? VisualParentForeground : Foreground;
+            }
         }
 
         private async void ApplyUriSource()
         {
-            if (this._image != null && this._opacityMask != null)
+            if (_image != null && _opacityMask != null)
             {
-                Uri uriSource = this.UriSource;
+                Uri uriSource = UriSource;
                 if (uriSource != null)
                 {
                     BitmapImage imageSource = new BitmapImage();
@@ -133,34 +149,38 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     {
                         imageSource.EndInit();
                     }
-                    this._image.Source = imageSource;
-                    this._opacityMask.ImageSource = imageSource;
+                    _image.Source = imageSource;
+                    _opacityMask.ImageSource = imageSource;
                 }
                 else
                 {
-                    this._image.ClearValue(Image.SourceProperty);
-                    this._opacityMask.ClearValue(ImageBrush.ImageSourceProperty);
+                    _image.ClearValue(Image.SourceProperty);
+                    _opacityMask.ClearValue(ImageBrush.ImageSourceProperty);
                 }
             }
         }
 
         private void ApplyShowAsMonochrome()
         {
-            bool showAsMonochrome = this.ShowAsMonochrome;
+            bool showAsMonochrome = ShowAsMonochrome;
 
-            if (this._image != null)
-                this._image.Visibility = showAsMonochrome ? Visibility.Hidden : Visibility.Visible;
+            if (_image != null)
+            {
+                _image.Visibility = showAsMonochrome ? Visibility.Hidden : Visibility.Visible;
+            }
 
-            if (this._foreground != null)
+            if (_foreground != null)
             {
                 if (showAsMonochrome)
                 {
-                    if (!this.Children.Contains(this._foreground))
-                        this.Children.Add(this._foreground);
+                    if (!Children.Contains(_foreground))
+                    {
+                        Children.Add(_foreground);
+                    }
                 }
                 else
                 {
-                    this.Children.Remove(this._foreground);
+                    Children.Remove(_foreground);
                 }
             }
         }

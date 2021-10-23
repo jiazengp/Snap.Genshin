@@ -15,22 +15,22 @@ namespace DGP.Genshin.Pages
     {
         public RecordPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            this.DataContext = RecordService.Instance;
+            DataContext = RecordService.Instance;
             if (RecordService.Instance.QueryHistory?.Count > 0)
             {
                 RecordService s = RecordService.Instance;
                 if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
                 {
-                    this.QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
+                    QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
                 }
                 else if (s.QueryHistory.Count > 0)
                 {
-                    this.QueryAutoSuggestBox.Text = s.QueryHistory.First();
+                    QueryAutoSuggestBox.Text = s.QueryHistory.First();
                 }
             }
             this.Log("initialized");
@@ -42,25 +42,27 @@ namespace DGP.Genshin.Pages
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 IEnumerable<string>? result =
-                    RecordService.Instance.QueryHistory?.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                    RecordService.Instance.QueryHistory?.Where(i => string.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result?.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
             sender.Text = (string)args.SelectedItem;
+        }
 
         private bool isQuerying = false;
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!this.isQuerying)
+            if (!isQuerying)
             {
-                this.isQuerying = true;
-                this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressed += this.RecordService_RecordProgressed;
+                isQuerying = true;
+                RequestingProgressRing.IsActive = true;
+                RecordService.RecordProgressed += RecordService_RecordProgressed;
                 string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressed -= this.RecordService_RecordProgressed;
-                this.RequestingProgressRing.IsActive = false;
+                RecordService.RecordProgressed -= RecordService_RecordProgressed;
+                RequestingProgressRing.IsActive = false;
 
                 if (record.Success)
                 {
@@ -98,11 +100,13 @@ namespace DGP.Genshin.Pages
                         }.ShowAsync();
                     }
                 }
-                this.isQuerying = false;
+                isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string? info) =>
-            this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
+        private void RecordService_RecordProgressed(string? info)
+        {
+            Dispatcher.Invoke(() => RequestingProgressText.Text = info);
+        }
         #endregion
     }
 }

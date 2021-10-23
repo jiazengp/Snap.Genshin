@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Helpers;
-using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Extensions.System;
@@ -21,8 +21,8 @@ namespace DGP.Genshin.Pages
 
         public SettingsPage()
         {
-            this.DataContext = this;
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -31,52 +31,52 @@ namespace DGP.Genshin.Pages
             Version? v = Assembly.GetExecutingAssembly().GetName().Version;
             if (v is not null)
             {
-                this.VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+                VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             }
             //theme
 
-            this.ThemeComboBox.SelectedIndex =
+            ThemeComboBox.SelectedIndex =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter) switch
                 {
                     ApplicationTheme.Light => 0,
                     ApplicationTheme.Dark => 1,
                     _ => 2,
                 };
-            this.IsDevMode = SettingService.Instance.GetOrDefault(Setting.IsDevMode, false);
+            IsDevMode = SettingService.Instance.GetOrDefault(Setting.IsDevMode, false);
             this.Log("initialized");
         }
 
         #region propdp
         public string VersionString
         {
-            get => (string)this.GetValue(VersionStringProperty);
-            set => this.SetValue(VersionStringProperty, value);
+            get => (string)GetValue(VersionStringProperty);
+            set => SetValue(VersionStringProperty, value);
         }
         public static readonly DependencyProperty VersionStringProperty =
             DependencyProperty.Register("VersionString", typeof(string), typeof(SettingsPage), new PropertyMetadata(""));
 
         public ApplicationTheme CurrentTheme
         {
-            get => (ApplicationTheme)this.GetValue(CurrentThemeProperty);
-            set => this.SetValue(CurrentThemeProperty, value);
+            get => (ApplicationTheme)GetValue(CurrentThemeProperty);
+            set => SetValue(CurrentThemeProperty, value);
         }
         public static readonly DependencyProperty CurrentThemeProperty =
             DependencyProperty.Register("CurrentTheme", typeof(ApplicationTheme), typeof(SettingsPage), new PropertyMetadata(null));
 
         public bool IsDevMode
         {
-            get => (bool)this.GetValue(IsDevModeProperty);
+            get => (bool)GetValue(IsDevModeProperty);
             set
             {
                 SettingService.Instance[Setting.IsDevMode] = value;
-                this.SetValue(IsDevModeProperty, value);
+                SetValue(IsDevModeProperty, value);
             }
         }
         public static readonly DependencyProperty IsDevModeProperty =
             DependencyProperty.Register("IsDevMode", typeof(bool), typeof(DailyPage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
         #endregion
 
-        public AutoRunHelper AutoRunHelper { get => this.autoRunHelper; set => this.autoRunHelper = value; }
+        public AutoRunHelper AutoRunHelper { get => autoRunHelper; set => autoRunHelper = value; }
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)
         {
@@ -111,7 +111,7 @@ namespace DGP.Genshin.Pages
                 1 => ApplicationTheme.Dark,
                 _ => null,
             };
-            this.SetAppTheme();
+            SetAppTheme();
         }
         internal void SetAppTheme()
         {
@@ -119,7 +119,9 @@ namespace DGP.Genshin.Pages
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
 
-        private async void ResetCookieButtonClick(object sender, RoutedEventArgs e) =>
-            await CookieManager.SetCookieAsync();
+        private async void ResetCookieButtonClick(object sender, RoutedEventArgs e)
+        {
+            await CookieManager.AddCookieAsync();
+        }
     }
 }

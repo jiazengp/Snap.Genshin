@@ -67,6 +67,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
     <ProjectReference Include="..\DGP.Genshin.Updater\DGP.Genshin.Updater.csproj" />
+    <ProjectReference Include="..\DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj" />
     <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj" />
   </ItemGroup>
 
@@ -82,5 +83,7 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="$(SolutionDir)Build\net5.0\DGP.Snap.AutoVersion.exe &quot;$(ProjectDir)&quot;" />
   </Target>
+
+  <Import Project="..\DGP.Genshin.Common\DGP.Genshin.Common.projitems" Label="Shared" />
 
 </Project>

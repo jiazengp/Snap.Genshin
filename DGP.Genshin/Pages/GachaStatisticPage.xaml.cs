@@ -18,16 +18,21 @@ namespace DGP.Genshin.Pages
 
         public GachaStatisticPage()
         {
-            this.Service = new GachaStatisticService();
-            this.DataContext = this.Service;
-            this.InitializeComponent();
+            Service = new GachaStatisticService();
+            DataContext = Service;
+            InitializeComponent();
             this.Log("initialized");
         }
 
-        private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e) =>
-            await this.Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
-        private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e) =>
-            await this.Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+        private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            await Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
+        }
+
+        private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            await Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+        }
 
         private async void ImportFromGenshinGachaExportAppBarButtonClick(object sender, RoutedEventArgs e)
         {
@@ -41,7 +46,7 @@ namespace DGP.Genshin.Pages
             if (openFileDialog.ShowDialog() == true)
             {
                 this.Log("try to import from genshin gacha export");
-                await this.Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
+                await Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
             }
         }
 
@@ -53,12 +58,12 @@ namespace DGP.Genshin.Pages
                 Title = "保存到表格",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{this.Service.SelectedUid.UnMaskedValue}.xlsx"
+                FileName = $"{Service.SelectedUid.UnMaskedValue}.xlsx"
             };
             if (dialog.ShowDialog() == true)
             {
                 this.Log("try to export to excel");
-                await this.Service.ExportDataToExcelAsync(dialog.FileName);
+                await Service.ExportDataToExcelAsync(dialog.FileName);
                 await new ContentDialog
                 {
                     Title = "导出祈愿记录完成",
@@ -71,14 +76,14 @@ namespace DGP.Genshin.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            this.UnInitialize();
+            UnInitialize();
             base.OnNavigatingFrom(e);
         }
         private void UnInitialize()
         {
             this.Log("uninitialized");
-            this.Service?.UnInitialize();
-            this.Service = null;
+            Service?.UnInitialize();
+            Service = null;
         }
     }
 }

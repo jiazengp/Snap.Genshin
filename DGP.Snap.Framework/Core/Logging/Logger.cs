@@ -10,20 +10,24 @@ namespace DGP.Snap.Framework.Core.Logging
 
         private readonly StreamWriter loggerWriter = new StreamWriter(File.Create("latest.log"));
 
-        internal void LogInternal<T>(object info, Func<object, string>? formatter = null) =>
-            this.LogInternal(typeof(T), info, formatter);
+        internal void LogInternal<T>(object info, Func<object, string>? formatter = null)
+        {
+            LogInternal(typeof(T), info, formatter);
+        }
 
         private void LogInternal(Type t, object info, Func<object, string>? formatter = null)
         {
             if (formatter != null)
+            {
                 info = formatter.Invoke(info);
+            }
 
             Type type = t;
             string typename = $"{type.Namespace}.{type.Name}";
-            typename = this.ToSimplifiedName(typename);
-            if (this.isLoggingtoFile)
+            typename = ToSimplifiedName(typename);
+            if (isLoggingtoFile)
             {
-                TextWriter syncWirtter = TextWriter.Synchronized(this.loggerWriter);
+                TextWriter syncWirtter = TextWriter.Synchronized(loggerWriter);
                 try
                 {
                     syncWirtter.WriteLine($"{typename}:\n{info}");
@@ -33,8 +37,10 @@ namespace DGP.Snap.Framework.Core.Logging
             Debug.WriteLine($"{typename}:{info}");
         }
 
-        public static void LogStatic(Type t, object info, Func<object, string>? formatter = null) =>
+        public static void LogStatic(Type t, object info, Func<object, string>? formatter = null)
+        {
             Instance.LogInternal(t, info, formatter);
+        }
 
         private string ToSimplifiedName(string typename)
         {
@@ -43,7 +49,7 @@ namespace DGP.Snap.Framework.Core.Logging
             {
                 names[i] = names[i][0].ToString();
             }
-            typename = String.Join(".", names);
+            typename = string.Join(".", names);
             return typename;
         }
 
@@ -74,8 +80,8 @@ namespace DGP.Snap.Framework.Core.Logging
         public void UnInitialize()
         {
             //make sure all logs are written in the log file
-            this.loggerWriter.Flush();
-            this.loggerWriter.Dispose();
+            loggerWriter.Flush();
+            loggerWriter.Dispose();
         }
     }
 }

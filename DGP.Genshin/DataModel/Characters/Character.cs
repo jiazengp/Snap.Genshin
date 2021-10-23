@@ -14,9 +14,21 @@ namespace DGP.Genshin.DataModel.Characters
         public string? GachaCard { get; set; }
         public string? GachaSplash { get; set; }
         public string? City { get; set; }
-        public bool IsMondstdat() => this.City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
-        public bool IsLiyue() => this.City == @"https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png";
-        public bool IsInazuma() => this.City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
+        public bool IsMondstdat()
+        {
+            return City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
+        }
+
+        public bool IsLiyue()
+        {
+            return City == @"https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png";
+        }
+
+        public bool IsInazuma()
+        {
+            return City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
+        }
+
         public string? AscensionStat { get; set; }
         public string? AscensionStatValue { get; set; }
         public Talent? Talent { get; set; }

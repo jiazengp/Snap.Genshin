@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DGP.Snap.Framework.Exceptions;
+using Microsoft.Win32;
 using System.Diagnostics;
 
 namespace DGP.Genshin.Helpers
@@ -14,33 +15,27 @@ namespace DGP.Genshin.Helpers
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 RegistryKey? run = currentUser.OpenSubKey(RunPath);
-                return run != null && run.GetValue(AppName) != null;
+                return run is not null && run.GetValue(AppName) is not null;
             }
             set
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                RegistryKey? run = currentUser.OpenSubKey(RunPath, true);
-                if (run == null)
+                RegistryKey? run = currentUser.CreateSubKey(RunPath);
+
+                if (run is null)
                 {
-                    currentUser.CreateSubKey(RunPath);
-                    run = currentUser.OpenSubKey(RunPath, true);
+                    throw new ExtremelyUnlikelyException("创建注册表项失败");
                 }
-                if (run != null)
+
+                if (value)
                 {
-                    if (value)
-                    {
-                        string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
-                        Debug.Assert(appFileName is not null);
-                        run.SetValue(AppName, appFileName);
-                    }
-                    else
-                    {
-                        run.DeleteValue(AppName);
-                    }
+                    string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
+                    Debug.Assert(appFileName is not null);
+                    run.SetValue(AppName, appFileName);
                 }
                 else
                 {
-                    throw new System.Exception("无法创建自启动注册表项");
+                    run.DeleteValue(AppName);
                 }
 
             }

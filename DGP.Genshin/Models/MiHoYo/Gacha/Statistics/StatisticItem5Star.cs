@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
@@ -22,8 +21,8 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         {
             get
             {
-                Debug.Assert(this.Name is not null);
-                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(this.Name));
+                Debug.Assert(Name is not null);
+                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name));
                 Color color = Color.FromRgb((byte)((codes[0] / 2) + 64), (byte)((codes[1] / 2) + 64), (byte)((codes[2] / 2) + 64));
                 return new SolidColorBrush(color);
             }

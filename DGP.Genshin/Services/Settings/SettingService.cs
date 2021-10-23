@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Data.Json;
-using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -19,9 +18,9 @@ namespace DGP.Genshin.Services.Settings
 
         public T? GetOrDefault<T>(string key, T defaultValue)
         {
-            if (!this.settingDictionary.TryGetValue(key, out object? value))
+            if (!settingDictionary.TryGetValue(key, out object? value))
             {
-                this.settingDictionary.AddOrSet(key, defaultValue);
+                settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
             }
             else
@@ -31,9 +30,9 @@ namespace DGP.Genshin.Services.Settings
         }
         public T GetOrDefault<T>(string key, T defaultValue, Func<object?, T> converter)
         {
-            if (!this.settingDictionary.TryGetValue(key, out object? value))
+            if (!settingDictionary.TryGetValue(key, out object? value))
             {
-                this.settingDictionary.AddOrSet(key, defaultValue);
+                settingDictionary.AddOrSet(key, defaultValue);
                 return defaultValue;
             }
             else
@@ -41,15 +40,21 @@ namespace DGP.Genshin.Services.Settings
                 return converter.Invoke(value);
             }
         }
-        public bool? Equals<T>(string key, T? defaultValue, T? value) where T : IEquatable<T> =>
-            this.GetOrDefault(key, defaultValue)?.Equals(value);
+        public bool? Equals<T>(string key, T? defaultValue, T? value) where T : IEquatable<T>
+        {
+            return GetOrDefault(key, defaultValue)?.Equals(value);
+        }
 
-        public bool Has(string key) => this.settingDictionary.ContainsKey(key);
+        public bool Has(string key)
+        {
+            return settingDictionary.ContainsKey(key);
+        }
+
         public object? this[string key]
         {
             set
             {
-                this.settingDictionary.AddOrSet(key, value);
+                settingDictionary.AddOrSet(key, value);
                 SettingChanged?.Invoke(key, value);
             }
         }
@@ -62,7 +67,7 @@ namespace DGP.Genshin.Services.Settings
         internal void SetValueInternal(string key, object value)
         {
             this.Log($"setting {key} to {value} internally without notify");
-            this.settingDictionary.AddOrSet(key, value);
+            settingDictionary.AddOrSet(key, value);
         }
 
         /// <summary>
@@ -72,20 +77,20 @@ namespace DGP.Genshin.Services.Settings
 
         public void Initialize()
         {
-            if (File.Exists(this.settingFile))
+            if (File.Exists(settingFile))
             {
                 string json;
-                using (StreamReader sr = new(this.settingFile))
+                using (StreamReader sr = new(settingFile))
                 {
                     json = sr.ReadToEnd();
                 }
-                this.settingDictionary = Json.ToObject<Dictionary<string, object?>>(json) ?? new Dictionary<string, object?>();
+                settingDictionary = Json.ToObject<Dictionary<string, object?>>(json) ?? new Dictionary<string, object?>();
             }
         }
         public void UnInitialize()
         {
-            string json = Json.Stringify(this.settingDictionary);
-            using StreamWriter sw = new StreamWriter(File.Create(this.settingFile));
+            string json = Json.Stringify(settingDictionary);
+            using StreamWriter sw = new StreamWriter(File.Create(settingFile));
             sw.Write(json);
         }
 

@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Snap.Framework.Attributes.DataModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
@@ -14,6 +13,6 @@ namespace DGP.Genshin.Models.MiHoYo.Record.SpiralAbyss
         [JsonProperty("avatar_icon")] public string? AvatarIcon { get; set; }
         [JsonProperty("value")] public int Value { get; set; }
         [JsonProperty("rarity")] public int Rarity { get; set; }
-        public string StarUrl => StarHelper.FromRank(this.Rarity);
+        public string StarUrl => StarHelper.FromRank(Rarity);
     }
 }

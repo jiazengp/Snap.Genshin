@@ -15,7 +15,9 @@ namespace DGP.Genshin.Models.MiHoYo.Request
 
             StringBuilder builder = new StringBuilder();
             foreach (byte b in result)
+            {
                 builder.Append(b.ToString("x2"));
+            }
 
             return builder.ToString();
         }

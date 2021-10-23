@@ -18,12 +18,12 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
         {
             get
             {
-                if (this.processedRelics == null)
+                if (processedRelics == null)
                 {
-                    this.processedRelics = new List<ProcessedRelic>();
-                    if (this.Relics is not null)
+                    processedRelics = new List<ProcessedRelic>();
+                    if (Relics is not null)
                     {
-                        foreach (List<CollocationRelic> relic in this.Relics)
+                        foreach (List<CollocationRelic> relic in Relics)
                         {
                             ProcessedRelic p = new ProcessedRelic();
                             foreach (CollocationRelic item in relic)
@@ -37,11 +37,11 @@ namespace DGP.Genshin.Models.YoungMoe.Collocation
                                     p.Relics.Add(item);
                                 }
                             }
-                            this.processedRelics.Add(p);
+                            processedRelics.Add(p);
                         }
                     }
                 }
-                return this.processedRelics;
+                return processedRelics;
             }
         }
     }

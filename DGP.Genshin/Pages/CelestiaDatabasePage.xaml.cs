@@ -19,23 +19,23 @@ namespace DGP.Genshin.Pages
         public RecordService RecordServiceView { get; set; } = RecordService.Instance;
         public CelestiaDatabasePage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.DataContext = CelestiaDatabaseService.Instance;
+            DataContext = CelestiaDatabaseService.Instance;
 
             if (RecordService.Instance.QueryHistory?.Count > 0)
             {
                 RecordService s = RecordService.Instance;
                 if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
                 {
-                    this.QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
+                    QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
                 }
                 else if (s.QueryHistory.Count > 0)
                 {
-                    this.QueryAutoSuggestBox.Text = s.QueryHistory.First();
+                    QueryAutoSuggestBox.Text = s.QueryHistory.First();
                 }
             }
 
@@ -48,27 +48,29 @@ namespace DGP.Genshin.Pages
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 IEnumerable<string>? result =
-                    RecordService.Instance.QueryHistory?.Where(i => System.String.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                    RecordService.Instance.QueryHistory?.Where(i => string.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result?.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) =>
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
             sender.Text = (string)args.SelectedItem;
+        }
 
         private bool isQuerying = false;
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!this.isQuerying)
+            if (!isQuerying)
             {
-                this.isQuerying = true;
-                this.RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressed += this.RecordService_RecordProgressed;
+                isQuerying = true;
+                RequestingProgressRing.IsActive = true;
+                RecordService.RecordProgressed += RecordService_RecordProgressed;
                 string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 if (uid is not null)
                 {
                     Record record = await RecordService.Instance.GetRecordAsync(uid);
-                    RecordService.RecordProgressed -= this.RecordService_RecordProgressed;
-                    this.RequestingProgressRing.IsActive = false;
+                    RecordService.RecordProgressed -= RecordService_RecordProgressed;
+                    RequestingProgressRing.IsActive = false;
 
                     if (record.Success)
                     {
@@ -110,11 +112,13 @@ namespace DGP.Genshin.Pages
                         }
                     }
                 }
-                this.isQuerying = false;
+                isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string? info) =>
-            this.Dispatcher.Invoke(() => this.RequestingProgressText.Text = info);
+        private void RecordService_RecordProgressed(string? info)
+        {
+            Dispatcher.Invoke(() => RequestingProgressText.Text = info);
+        }
         #endregion
 
         private async void PostUidAppBarButtonClick(object sender, RoutedEventArgs e)
@@ -150,23 +154,26 @@ namespace DGP.Genshin.Pages
                 flag = flag2.HasValue && flag2.Value;
             }
 
-            return (!flag) ? this.FalseStyle : this.TrueStyle;
+            return (!flag) ? FalseStyle : TrueStyle;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
 
         public Style TrueStyle
         {
-            get => (Style)this.GetValue(TrueStyleProperty);
-            set => this.SetValue(TrueStyleProperty, value);
+            get => (Style)GetValue(TrueStyleProperty);
+            set => SetValue(TrueStyleProperty, value);
         }
         public static readonly DependencyProperty TrueStyleProperty =
             DependencyProperty.Register("TrueStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));
 
         public Style FalseStyle
         {
-            get => (Style)this.GetValue(FalseStyleProperty);
-            set => this.SetValue(FalseStyleProperty, value);
+            get => (Style)GetValue(FalseStyleProperty);
+            set => SetValue(FalseStyleProperty, value);
         }
         public static readonly DependencyProperty FalseStyleProperty =
             DependencyProperty.Register("FalseStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));

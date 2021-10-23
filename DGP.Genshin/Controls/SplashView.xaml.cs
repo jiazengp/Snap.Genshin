@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Models.MiHoYo;
+﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Win32;
@@ -25,41 +25,44 @@ namespace DGP.Genshin.Controls
 
         public bool IsCookieVisible
         {
-            get => this.isCookieVisible; set
+            get => isCookieVisible; set
             {
-                this.Set(ref this.isCookieVisible, value);
-                this.OnInitializeStateChanged();
+                Set(ref isCookieVisible, value);
+                OnInitializeStateChanged();
             }
         }
         public bool IsLauncherPathVisible
         {
-            get => this.isLauncherPathVisible; set
+            get => isLauncherPathVisible; set
             {
-                this.Set(ref this.isLauncherPathVisible, value);
-                this.OnInitializeStateChanged();
+                Set(ref isLauncherPathVisible, value);
+                OnInitializeStateChanged();
             }
         }
 
-        public bool HasCheckCompleted { get => this.hasCheckCompleted; set => this.Set(ref this.hasCheckCompleted, value); }
-        public string CurrentStateDescription { get => this.currentStateDescription; set => this.Set(ref this.currentStateDescription, value); }
+        public bool HasCheckCompleted { get => hasCheckCompleted; set => Set(ref hasCheckCompleted, value); }
+        public string CurrentStateDescription { get => currentStateDescription; set => Set(ref currentStateDescription, value); }
         public SplashView()
         {
-            this.DataContext = this;
+            DataContext = this;
             MetaDataService.Instance.CompleteStateChanged += isCompleted =>
             {
                 if (isCompleted)
                 {
-                    this.integrityCheckCompleted = true;
-                    this.OnInitializeStateChanged();
+                    integrityCheckCompleted = true;
+                    OnInitializeStateChanged();
                 }
             };
-            this.IsCookieVisible = !CookieManager.IsCookieAvailable;
-            this.IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
-            this.InitializeComponent();
+            IsCookieVisible = !CookieManager.IsCookieAvailable;
+            IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
+            InitializeComponent();
         }
 
-        private async void UserControlLoaded(object sender, RoutedEventArgs e) =>
+        private async void UserControlLoaded(object sender, RoutedEventArgs e)
+        {
             await MetaDataService.Instance.CheckAllIntegrityAsync();
+        }
+
         /// <summary>
         /// you need to set <see cref="HasCheckCompleted"/> to true to collaspe the view
         /// </summary>
@@ -76,16 +79,19 @@ namespace DGP.Genshin.Controls
             }
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
 
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
 
         private async void CookieButtonClick(object sender, RoutedEventArgs e)
         {
-            await CookieManager.SetCookieAsync();
-            this.IsCookieVisible = !CookieManager.IsCookieAvailable;
+            await CookieManager.AddCookieAsync();
+            IsCookieVisible = !CookieManager.IsCookieAvailable;
         }
 
         private void LauncherPathButtonClick(object sender, RoutedEventArgs e)
@@ -104,14 +110,14 @@ namespace DGP.Genshin.Controls
                 {
                     launcherPath = openFileDialog.FileName;
                     SettingService.Instance[Setting.LauncherPath] = launcherPath;
-                    this.IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
+                    IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
                 }
             }
         }
 
         private void OnInitializeStateChanged()
         {
-            if (this.IsCookieVisible == false && this.IsLauncherPathVisible == false && this.integrityCheckCompleted)
+            if (IsCookieVisible == false && IsLauncherPathVisible == false && integrityCheckCompleted)
             {
                 InitializationPostAction?.Invoke(this);
             }

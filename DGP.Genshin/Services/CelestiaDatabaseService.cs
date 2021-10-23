@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.Characters;
+﻿using DGP.Genshin.Common;
+using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.Models.MiHoYo;
 using DGP.Genshin.Models.MiHoYo.Request;
@@ -6,7 +7,6 @@ using DGP.Genshin.Models.YoungMoe;
 using DGP.Genshin.Models.YoungMoe.Collocation;
 using DGP.Genshin.Models.YoungMoe.Recommand;
 using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Data.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,43 +32,43 @@ namespace DGP.Genshin.Services
         private int totalSubmitted;
         private int abyssPassed;
 
-        public List<AvatarSimple>? AvatarDictionary { get => this.allAvatarMap; set => this.Set(ref this.allAvatarMap, value); }
-        public List<DetailedAvatarInfo>? CollocationAll { get => this.collocationAll; set => this.Set(ref this.collocationAll, value); }
-        public List<AvatarInfo>? Collocation11 { get => this.collocation11; set => this.Set(ref this.collocation11, value); }
-        public int TotalSubmitted { get => this.totalSubmitted; set => this.Set(ref this.totalSubmitted, value); }
-        public int AbyssPassed { get => this.abyssPassed; set => this.Set(ref this.abyssPassed, value); }
+        public List<AvatarSimple>? AvatarDictionary { get => allAvatarMap; set => Set(ref allAvatarMap, value); }
+        public List<DetailedAvatarInfo>? CollocationAll { get => collocationAll; set => Set(ref collocationAll, value); }
+        public List<AvatarInfo>? Collocation11 { get => collocation11; set => Set(ref collocation11, value); }
+        public int TotalSubmitted { get => totalSubmitted; set => Set(ref totalSubmitted, value); }
+        public int AbyssPassed { get => abyssPassed; set => Set(ref abyssPassed, value); }
         #endregion
 
-        public bool IsInitialized => this.isInitialized;
+        public bool IsInitialized => isInitialized;
 
         private bool isInitialized = false;
         public async Task InitializeAsync()
         {
-            if (this.isInitialized)
+            if (isInitialized)
             {
                 return;
             }
-            this.isInitialized = true;
+            isInitialized = true;
 
-            this.selectedFloor = this.Floors.First();
+            selectedFloor = Floors.First();
 
-            this.AvatarDictionary = await this.GetAllAvatarAsync();
-            this.CollocationAll = await this.GetCollocationRankFinalAsync();
-            this.Collocation11 = await this.GetCollocationRankOf11FloorAsync();
+            AvatarDictionary = await GetAllAvatarAsync();
+            CollocationAll = await GetCollocationRankFinalAsync();
+            Collocation11 = await GetCollocationRankOf11FloorAsync();
 
-            Gamers? totalSubmitted = await this.GetTotalSubmittedGamerAsync();
-            Gamers? sprialAbyssPassed = await this.GetSprialAbyssPassedGamerAsync();
+            Gamers? totalSubmitted = await GetTotalSubmittedGamerAsync();
+            Gamers? sprialAbyssPassed = await GetSprialAbyssPassedGamerAsync();
 
-            if(totalSubmitted is not null && sprialAbyssPassed is not null)
+            if (totalSubmitted is not null && sprialAbyssPassed is not null)
             {
-                if(totalSubmitted.Count is not null && sprialAbyssPassed.Count is not null)
+                if (totalSubmitted.Count is not null && sprialAbyssPassed.Count is not null)
                 {
-                    this.TotalSubmitted = Int32.Parse(totalSubmitted.Count);
-                    this.AbyssPassed = Int32.Parse(sprialAbyssPassed.Count);
+                    TotalSubmitted = int.Parse(totalSubmitted.Count);
+                    AbyssPassed = int.Parse(sprialAbyssPassed.Count);
                 }
             }
 
-            await this.RefershRecommandsAsync();
+            await RefershRecommandsAsync();
         }
 
         #region API
@@ -153,36 +153,39 @@ namespace DGP.Genshin.Services
 
         #region Recommand
         private List<Recommand>? recommands;
-        public List<Recommand>? Recommands { get => this.recommands; set => this.Set(ref this.recommands, value); }
+        public List<Recommand>? Recommands { get => recommands; set => Set(ref recommands, value); }
 
         private List<int> floors = new List<int> { 12, 11, 10, 9 };
-        public List<int> Floors { get => this.floors; set => this.Set(ref this.floors, value); }
+        public List<int> Floors { get => floors; set => Set(ref floors, value); }
 
         private int selectedFloor;
         public int SelectedFloor
         {
-            get => this.selectedFloor; set
+            get => selectedFloor; set
             {
-                this.selectedFloor = value;
-                this.OnFloorChanged();
+                selectedFloor = value;
+                OnFloorChanged();
             }
         }
 
-        private async void OnFloorChanged() => await this.RefershRecommandsAsync();
+        private async void OnFloorChanged()
+        {
+            await RefershRecommandsAsync();
+        }
 
         public async Task RefershRecommandsAsync()
         {
-            if (RecordService.Instance.CurrentRecord is null || this.allAvatarMap is null)
+            if (RecordService.Instance.CurrentRecord is null || allAvatarMap is null)
             {
                 return;
             }
 
-            this.Recommands = null;
+            Recommands = null;
 
-            List<int[]>? teamDataRaw = await this.GetTeamRankRawDataAsync(this.SelectedFloor);
+            List<int[]>? teamDataRaw = await GetTeamRankRawDataAsync(SelectedFloor);
             List<int>? ownedAvatarRaw = RecordService.Instance.CurrentRecord.DetailedAvatars?
-                .Where(i => this.allAvatarMap.Exists(a => a.CnName == i.Name))
-                .Select(i => this.allAvatarMap.First(a => a.CnName == i.Name).Id)
+                .Where(i => allAvatarMap.Exists(a => a.CnName == i.Name))
+                .Select(i => allAvatarMap.First(a => a.CnName == i.Name).Id)
                 .ToList();
 
             if (ownedAvatarRaw is null || teamDataRaw is null)
@@ -190,7 +193,7 @@ namespace DGP.Genshin.Services
                 return;
             }
 
-            List<int> notOwnedAvatarRaw = this.allAvatarMap
+            List<int> notOwnedAvatarRaw = allAvatarMap
                 .Select(i => i.Id)
                 .Where(i => !ownedAvatarRaw.Exists(j => j == i))
                 .ToList();
@@ -205,24 +208,24 @@ namespace DGP.Genshin.Services
             teamDataRaw.RemoveAll(raw => notOwnedAvatarRaw.Contains(raw[6]));
             teamDataRaw.RemoveAll(raw => notOwnedAvatarRaw.Contains(raw[7]));
 
-            this.Recommands = teamDataRaw.Select(raw => new Recommand
+            Recommands = teamDataRaw.Select(raw => new Recommand
             {
                 UpHalf = new List<Character?>
                 {
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[0])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[1])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[2])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[3]))
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[0])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[1])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[2])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[3]))
                 },
                 DownHalf = new List<Character?>
                 {
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[4])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[5])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[6])),
-                    this.ToCharacter(this.allAvatarMap.Find(a => a.Id == raw[7]))
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[4])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[5])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[6])),
+                    ToCharacter(allAvatarMap.Find(a => a.Id == raw[7]))
                 },
                 Count = raw[8]
-            }).TakeWhileAndPreserve(i => i.Count > this.TotalSubmitted * 0.0005, 10).AsParallel().ToList();
+            }).TakeWhileAndPreserve(i => i.Count > TotalSubmitted * 0.0005, 10).AsParallel().ToList();
         }
 
         private Character? ToCharacter(AvatarSimple? avatar)

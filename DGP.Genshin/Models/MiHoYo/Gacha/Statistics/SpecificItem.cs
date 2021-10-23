@@ -1,5 +1,4 @@
-﻿using DGP.Snap.Framework.Attributes.DataModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 
 namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
@@ -16,6 +15,9 @@ namespace DGP.Genshin.Models.MiHoYo.Gacha.Statistics
         public string? Badge { get; set; }
 
         [JsonIgnore] public DateTime Time { get; set; }
-        public override string ToString() => $"{this.Time}-{this.Name}";
+        public override string ToString()
+        {
+            return $"{Time}-{Name}";
+        }
     }
 }
