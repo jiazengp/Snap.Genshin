@@ -290,12 +290,6 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="管理" Icon="Manage" helpers:NavHelper.NavigateTo="{x:Type pages:ManagePage}" 
                                        Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}"/>
-                <ui:NavigationViewItem Content="储存库信息" helpers:NavHelper.NavigateTo="{x:Type pages:GithubPage}" 
-                                       Visibility="{Binding Converter={StaticResource DevModeVisibilityConverter}}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Glyph="&#xE8F1;"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:Frame Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}" x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>

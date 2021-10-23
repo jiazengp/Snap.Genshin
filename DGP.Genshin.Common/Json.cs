@@ -1,11 +1,10 @@
-﻿using DGP.Snap.Framework.Core.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
 
-namespace DGP.Snap.Framework.Data.Json
+namespace DGP.Genshin.Common
 {
     public static class Json
     {
@@ -77,7 +76,6 @@ namespace DGP.Snap.Framework.Data.Json
 
         public static T? FromWebsite<T>(string url)
         {
-            Logger.LogStatic(typeof(Json), $"GET {url}");
             try
             {
                 using (WebClient client = new WebClient())
@@ -89,7 +87,6 @@ namespace DGP.Snap.Framework.Data.Json
             }
             catch (Exception ex)
             {
-                Logger.LogStatic(typeof(Json), $"web request failed. reason:{ex.Message}");
                 return default;
             }
         }
