@@ -2,7 +2,6 @@
 using DGP.Snap.Framework.Extensions.System;
 using Microsoft.Win32;
 using ModernWpf.Controls;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -13,30 +12,33 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class GachaStatisticPage : Page
     {
-        [NotNull]
         private GachaStatisticService? Service { get; set; }
 
         public GachaStatisticPage()
         {
-            Service = new GachaStatisticService();
-            DataContext = Service;
             InitializeComponent();
             this.Log("initialized");
         }
 
         private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            await Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
+            if(Service is not null)
+            {
+                await Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
+            }
         }
 
         private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            await Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+            if(Service is not null)
+            {
+                await Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+            }
         }
 
         private async void ImportFromGenshinGachaExportAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new()
             {
                 Filter = "JS对象简谱文件|*.json",
                 Title = "从 Genshin Gacha Export 记录文件导入",
@@ -46,31 +48,38 @@ namespace DGP.Genshin.Pages
             if (openFileDialog.ShowDialog() == true)
             {
                 this.Log("try to import from genshin gacha export");
-                await Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
+
+                if (Service is not null)
+                {
+                    await Service.ImportFromGenshinGachaExportAsync(openFileDialog.FileName);
+                }
             }
         }
 
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog
+            SaveFileDialog dialog = new()
             {
                 Filter = "Excel 工作簿|*.xlsx",
                 Title = "保存到表格",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{Service.SelectedUid.UnMaskedValue}.xlsx"
+                FileName = $"{Service?.SelectedUid?.UnMaskedValue}.xlsx"
             };
             if (dialog.ShowDialog() == true)
             {
                 this.Log("try to export to excel");
-                await Service.ExportDataToExcelAsync(dialog.FileName);
-                await new ContentDialog
+                if(Service is not null)
                 {
-                    Title = "导出祈愿记录完成",
-                    Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
+                    await Service.ExportDataToExcelAsync(dialog.FileName);
+                    await new ContentDialog
+                    {
+                        Title = "导出祈愿记录完成",
+                        Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                }
             }
         }
 
@@ -82,8 +91,13 @@ namespace DGP.Genshin.Pages
         private void UnInitialize()
         {
             this.Log("uninitialized");
-            Service?.UnInitialize();
             Service = null;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Service = new GachaStatisticService();
+            DataContext = Service;
         }
     }
 }

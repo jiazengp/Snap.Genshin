@@ -7,7 +7,7 @@ using DGP.Genshin.DataModel.Materials.Monsters;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.DataModel.Weapons;
-using DGP.Genshin.Models.MiHoYo.Gacha.Statistics;
+using DGP.Genshin.Services.GachaStatistics.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;

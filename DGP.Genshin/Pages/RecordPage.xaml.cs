@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Models.MiHoYo.Record;
-using DGP.Genshin.Services;
+﻿using DGP.Genshin.Services.CelestiaDatabase;
+using DGP.Genshin.Services.GameRecord;
 using DGP.Snap.Framework.Extensions.System;
 using ModernWpf.Controls;
 using System.Collections.Generic;
@@ -71,9 +71,8 @@ namespace DGP.Genshin.Pages
                     service.CurrentRecord = record;
                     if (CelestiaDatabaseService.Instance.IsInitialized)
                     {
-                        await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
+                        CelestiaDatabaseService.Instance.RefershRecommands();
                     }
-                    service.SelectedAvatar = record.DetailedAvatars?.First();
                     service.AddQueryHistory(uid);
                 }
                 else

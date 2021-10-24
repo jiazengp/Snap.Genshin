@@ -9,7 +9,8 @@
          xmlns:controls="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
          mc:Ignorable="d" 
          d:DesignHeight="1000" d:DesignWidth="800"
-         Title="GachaStatisticPage">
+         Title="GachaStatisticPage"
+         Loaded="Page_Loaded">
     <Page.Resources>
         <!--<SolidColorBrush x:Key="Star1Brush" Color="#FF72778B"/>
         <SolidColorBrush x:Key="Star2Brush" Color="#FF2A8F72"/>-->

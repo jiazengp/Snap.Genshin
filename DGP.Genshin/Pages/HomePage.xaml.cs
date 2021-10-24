@@ -58,7 +58,6 @@ namespace DGP.Genshin.Pages
             .GetOfficialRecommendedPosts()?
             .OrderBy(p => p.OfficialType).ToList());
         }
-
         private void LaunchButtonClick(object sender, RoutedEventArgs e)
         {
             Launcher.Launch(Launcher.CurrentScheme, async ex =>

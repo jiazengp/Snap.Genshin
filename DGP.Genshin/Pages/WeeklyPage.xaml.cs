@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Services;
 using DGP.Snap.Framework.Extensions.System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -15,9 +16,9 @@ namespace DGP.Genshin.Pages
             InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(1000);
+            await Task.Delay(300);
             DataContext = WeeklyViewService.Instance;
             this.Log("initialized");
         }

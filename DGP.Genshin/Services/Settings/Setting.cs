@@ -5,12 +5,6 @@ namespace DGP.Genshin.Services.Settings
 {
     public static class Setting
     {
-        #region Obsolete
-        [Obsolete] public const string ShowUnreleasedData = "ShowUnreleasedCharacter";
-        [Obsolete] public const string PresentTravelerElementType = "PresentTravelerElementType";
-        [Obsolete] public const string Uid = "Uid";
-        #endregion
-
         public const string AppTheme = "AppTheme";
         public const string IsDevMode = "IsDevMode";
         public const string ShowFullUID = "ShowFullUID";

@@ -44,14 +44,14 @@ namespace DGP.Genshin.Pages
                 case "角色":
                     if (data.SelectedCharacter is not null)
                     {
-                        data.Characters.Remove(data.SelectedCharacter);
+                        data.Characters?.Remove(data.SelectedCharacter);
                         data.SelectedCharacter = null;
                     }
                     break;
                 case "武器":
                     if (data.SelectedWeapon is not null)
                     {
-                        data.Weapons.Remove(data.SelectedWeapon);
+                        data.Weapons?.Remove(data.SelectedWeapon);
                         data.SelectedWeapon = null;
                     }
                     break;
@@ -66,29 +66,29 @@ namespace DGP.Genshin.Pages
             switch (((TabItem)TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    Character character = new Character()
+                    Character character = new()
                     {
-                        Talent = data.DailyTalents.First(),
-                        Boss = data.Bosses.First(),
-                        GemStone = data.GemStones.First(),
-                        Local = data.Locals.First(),
-                        Monster = data.Monsters.First(),
-                        Weekly = data.WeeklyTalents.First(),
-                        Element = data.Elements.First().Source
+                        Talent = data.DailyTalents?.First(),
+                        Boss = data.Bosses?.First(),
+                        GemStone = data.GemStones?.First(),
+                        Local = data.Locals?.First(),
+                        Monster = data.Monsters?.First(),
+                        Weekly = data.WeeklyTalents?.First(),
+                        Element = data.Elements?.First().Source
                     };
-                    data.Characters.Add(character);
+                    data.Characters?.Add(character);
                     data.SelectedCharacter = character;
                     CharacterEditDialog.DataContext = MetaDataService.Instance;
                     await CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
-                    DataModel.Weapons.Weapon weapon = new DataModel.Weapons.Weapon()
+                    DataModel.Weapons.Weapon weapon = new()
                     {
-                        Ascension = data.DailyWeapons.First(),
-                        Elite = data.Elites.First(),
-                        Monster = data.Monsters.First()
+                        Ascension = data.DailyWeapons?.First(),
+                        Elite = data.Elites?.First(),
+                        Monster = data.Monsters?.First()
                     };
-                    data.Weapons.Add(weapon);
+                    data.Weapons?.Add(weapon);
                     data.SelectedWeapon = weapon;
                     WeaponEditDialog.DataContext = MetaDataService.Instance;
                     await WeaponEditDialog.ShowAsync();
@@ -96,6 +96,19 @@ namespace DGP.Genshin.Pages
                 default:
                     break;
             }
+        }
+
+        ~ManagePage()
+        {
+            UnInitialize();
+        }
+
+        private void UnInitialize()
+        {
+            //detatch datacontext
+            DataContext = null;
+            CharacterEditDialog.DataContext = null;
+            WeaponEditDialog.DataContext = null;
         }
     }
 }

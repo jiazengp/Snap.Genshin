@@ -24,16 +24,17 @@
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
+        <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="TabHost" Style="{StaticResource TabControlPivotStyle}" Padding="-12,0">
+        <TabControl x:Name="TabHost" Style="{StaticResource TabControlPivotStyle}">
             <TabItem Header="角色">
                 <Grid>
-                    <dialogs:CharacterDialog x:Name="CharacterEditDialog"/>
+                    <dialogs:CharacterDialog d:IsHidden="True"  x:Name="CharacterEditDialog"/>
                     <s:SmoothScrollViewer>
                         <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
                             <ui:GridView.ItemTemplate>
@@ -55,7 +56,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <dialogs:WeaponDialog x:Name="WeaponEditDialog"/>
+                    <dialogs:WeaponDialog d:IsHidden="True" x:Name="WeaponEditDialog"/>
                     <s:SmoothScrollViewer>
                         <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
                             <ui:GridView.ItemTemplate>

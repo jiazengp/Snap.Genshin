@@ -10,7 +10,7 @@
         xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
         xmlns:m="clr-namespace:DGP.Genshin.Controls.Infrastructures.Markdown" 
         xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
-        xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+        xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" xmlns:titlebarbuttons="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
@@ -34,210 +34,6 @@
                         SeparatorStyle="{StaticResource SeparatorStyle}"
                         TableStyle="{StaticResource TableStyle}"
                         TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
-        <ui:Flyout x:Key="UserFlyout" Placement="Bottom">
-            <Grid RenderOptions.BitmapScalingMode="Fant">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Width="48" Height="48" Margin="0,4,12,4">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Width="64" Height="64" Margin="0,4,12,4">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        <TextBlock Text="{Binding UserInfo.Uid,StringFormat={}通行证ID：{0}}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <TextBlock Margin="8" Text="{Binding UserInfo.Introduce}" MaxWidth="272" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
-                </Grid>
-            </Grid>
-        </ui:Flyout>
-        <ui:Flyout x:Key="SignInFlyout" Placement="Bottom">
-            <Grid RenderOptions.BitmapScalingMode="Fant">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Margin="0,0,0,12" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}月已累积签到 {1} 天">
-                            <Binding Path="SignInReward.Month"/>
-                            <Binding Path="SignInInfo.TotalSignDay"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="540" ItemsSource="{Binding SignInReward.Awards}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="0,0,4,4" 
-                                    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
-                                    Opacity="{Binding Opacity,IsAsync=True}">
-                                <StackPanel Width="70">
-                                    <Grid Width="70" Height="70">
-                                        <Border>
-                                            <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                        </Border>
-                                        <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="#00000000"/>
-                                                    <GradientStop Offset="1" Color="#CC000000"/>
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="White" FontSize="10" Text="{Binding Name}"/>
-                                        </Border>
-                                    </Grid>
-                                    <TextBlock Margin="0,2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Count,StringFormat={}X{0}}" FontSize="10" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <Grid Grid.Row="2" Margin="0,12,0,0">
-                    <!--Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding SignInInfo.IsNotSign}"-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ComboBox ItemsSource="{Binding RoleInfo.List}" SelectedItem="{Binding SelectedRole}"/>
-                        <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" Grid.Column="1" Content="签到"  Click="SignInButtonClick" IsEnabled="{Binding SignInInfo.IsNotSign}"/>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </ui:Flyout>
-        <ui:Flyout x:Key="DailyNoteFlyout" Placement="Bottom">
-            <Grid Width="272">
-                <ItemsControl ItemsSource="{Binding DailyNotes}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="8">
-                                            <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecoveryTimeFormatted,StringFormat={}将于{0}后全部恢复}" 
-                                                       Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0}/{1}">
-                                                    <Binding Path="CurrentResin"/>
-                                                    <Binding Path="MaxResin"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
-                                </Border>
-                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="8">
-                                            <TextBlock Text="每日委托任务" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="{Binding ExtraTaskRewardDescription}" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0}/{1}">
-                                                    <Binding Path="FinishedTaskNum"/>
-                                                    <Binding Path="TotalTaskNum"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
-                                </Border>
-                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="8">
-                                            <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="本周剩余消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0}/{1}">
-                                                    <Binding Path="RemainResinDiscountNum"/>
-                                                    <Binding Path="ResinDiscountNumLimit"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
-                                </Border>
-                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="8">
-                                            <TextBlock Text="探索派遣" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}">
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}限制：{0}/{1}">
-                                                        <Binding Path="CurrentExpeditionNum"/>
-                                                        <Binding Path="MaxExpeditionNum"/>
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <ItemsControl Grid.Row="1" Margin="8,0,8,16" ItemsSource="{Binding Expeditions}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid Margin="0,8,0,0">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <c:CachedImage Width="32" Height="32" ImageUrl="{Binding AvatarSideIcon}"/>
-                                                        <TextBlock Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                                                                   Text="{Binding RemainedTimeFormatted,StringFormat={}剩余探索时间：{0}}"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </ui:Flyout>
     </Window.Resources>
     <Grid>
         <ui:NavigationView 
@@ -827,26 +623,10 @@
                RenderOptions.BitmapScalingMode="HighQuality"/>
         <!--TitleBarAddition-->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,140,0">
-            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
-                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
-                               Click="UserTitleButtonClick" 
-                               Content="{Binding UserInfo.Nickname,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"
-                               ui:FlyoutBase.AttachedFlyout="{StaticResource UserFlyout}"
-                               />
-            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
-                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
-                               Content="每日签到"
-                               Click="SignInTitleBarButtonClick"
-                               ui:FlyoutBase.AttachedFlyout="{StaticResource SignInFlyout}"/>
-            <ui:TitleBarButton IsActive="{Binding IsActive,ElementName=Window}" 
-                               Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
-                               Content="实时便笺"
-                               Click="DailyNoteTitleBarButtonClick"
-                               ui:FlyoutBase.AttachedFlyout="{StaticResource DailyNoteFlyout}"/>
-            <Rectangle
-                    Fill="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                    Width="1"
-                    Margin="12,8"/>
+            <titlebarbuttons:UserInfoTitleBarButton x:Name="UserInfoTitleButton"/>
+            <titlebarbuttons:SignInTitleBarButton x:Name="SignInTitleButton"/>
+            <titlebarbuttons:DailyNoteTitleBarButton x:Name="DailyNoteTitleButton"/>
+            <Rectangle Fill="{DynamicResource SystemControlForegroundBaseHighBrush}" Width="1" Margin="12,8"/>
         </StackPanel>
          
         <cf:SplashView x:Name="MainSplashView" d:IsHidden="True"/>

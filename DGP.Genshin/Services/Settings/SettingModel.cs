@@ -4,7 +4,7 @@ using DGP.Snap.Framework.Extensions.System;
 namespace DGP.Genshin.Services.Settings
 {
     /// <summary>
-    /// 为需要及时响应的设置项提供模型支持
+    /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
     /// </summary>
     public class SettingModel : Observable
     {
@@ -19,10 +19,10 @@ namespace DGP.Genshin.Services.Settings
             switch (key)
             {
                 case Setting.ShowFullUID:
-                    ShowFullUID = (bool)value;
+                    ShowFullUID = value is not null && (bool)value;
                     break;
                 case Setting.AutoDailySignInOnLaunch:
-                    AutoDailySignInOnLaunch = (bool)value;
+                    AutoDailySignInOnLaunch = value is not null && (bool)value;
                     break;
                 default:
                     break;

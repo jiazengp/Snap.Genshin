@@ -20,5 +20,9 @@ namespace DGP.Genshin.Pages
         {
             await journeyService.InitializeAsync();
         }
+        ~JourneyLogPage()
+        {
+            DataContext = null;
+        }
     }
 }

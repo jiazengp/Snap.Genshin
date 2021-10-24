@@ -17,7 +17,7 @@ namespace DGP.Genshin.Pages
     public partial class SettingsPage : Page
     {
         public SettingModel SettingModel => SettingModel.Instance;
-        private AutoRunHelper autoRunHelper = new AutoRunHelper();
+        private AutoRunHelper autoRunHelper = new();
 
         public SettingsPage()
         {
@@ -33,8 +33,8 @@ namespace DGP.Genshin.Pages
             {
                 VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             }
-            //theme
 
+            //theme
             ThemeComboBox.SelectedIndex =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter) switch
                 {
@@ -42,11 +42,10 @@ namespace DGP.Genshin.Pages
                     ApplicationTheme.Dark => 1,
                     _ => 2,
                 };
-            IsDevMode = SettingService.Instance.GetOrDefault(Setting.IsDevMode, false);
             this.Log("initialized");
         }
 
-        #region propdp
+        #region observable
         public string VersionString
         {
             get => (string)GetValue(VersionStringProperty);
@@ -54,26 +53,6 @@ namespace DGP.Genshin.Pages
         }
         public static readonly DependencyProperty VersionStringProperty =
             DependencyProperty.Register("VersionString", typeof(string), typeof(SettingsPage), new PropertyMetadata(""));
-
-        public ApplicationTheme CurrentTheme
-        {
-            get => (ApplicationTheme)GetValue(CurrentThemeProperty);
-            set => SetValue(CurrentThemeProperty, value);
-        }
-        public static readonly DependencyProperty CurrentThemeProperty =
-            DependencyProperty.Register("CurrentTheme", typeof(ApplicationTheme), typeof(SettingsPage), new PropertyMetadata(null));
-
-        public bool IsDevMode
-        {
-            get => (bool)GetValue(IsDevModeProperty);
-            set
-            {
-                SettingService.Instance[Setting.IsDevMode] = value;
-                SetValue(IsDevModeProperty, value);
-            }
-        }
-        public static readonly DependencyProperty IsDevModeProperty =
-            DependencyProperty.Register("IsDevMode", typeof(bool), typeof(DailyPage), new PropertyMetadata(SettingService.Instance.GetOrDefault(Setting.IsDevMode, false)));
         #endregion
 
         public AutoRunHelper AutoRunHelper { get => autoRunHelper; set => autoRunHelper = value; }
@@ -82,24 +61,21 @@ namespace DGP.Genshin.Pages
         {
             UpdateState u = await UpdateService.Instance.CheckUpdateStateAsync();
 
-            switch (u)
+            Button button = ((Button)sender);
+            if(u is UpdateState.NeedUpdate)
             {
-                case UpdateState.NeedUpdate:
-                    UpdateService.Instance.DownloadAndInstallPackage();
-                    await new UpdateDialog().ShowAsync();
-                    break;
-                case UpdateState.IsNewestRelease:
-                    ((Button)sender).Content = "已是最新版";
-                    ((Button)sender).IsEnabled = false;
-                    break;
-                case UpdateState.IsInsiderVersion:
-                    ((Button)sender).Content = "内部测试版";
-                    ((Button)sender).IsEnabled = false;
-                    break;
-                case UpdateState.NotAvailable:
-                    ((Button)sender).Content = "获取更新失败";
-                    ((Button)sender).IsEnabled = false;
-                    break;
+                UpdateService.Instance.DownloadAndInstallPackage();
+                await new UpdateDialog().ShowAsync();
+            }
+            else
+            {
+                button.Content = u switch
+                {
+                    UpdateState.IsNewestRelease => "已是最新版",
+                    UpdateState.IsInsiderVersion => "内部测试版",
+                    UpdateState.NotAvailable => "获取更新失败",
+                    _ => throw new InvalidOperationException("检查更新期间发生未知错误")
+                };
             }
         }
 
@@ -121,7 +97,7 @@ namespace DGP.Genshin.Pages
 
         private async void ResetCookieButtonClick(object sender, RoutedEventArgs e)
         {
-            await CookieManager.AddCookieAsync();
+            await CookieManager.SetCookieAsync();
         }
     }
 }

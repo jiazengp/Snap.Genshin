@@ -1,11 +1,13 @@
-﻿using DGP.Genshin.Models.MiHoYo.Record;
-using DGP.Genshin.Services;
+﻿using DGP.Genshin.Services.CelestiaDatabase;
+using DGP.Genshin.Services.GameRecord;
+using DGP.Genshin.YoungMoeAPI;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
@@ -22,7 +24,7 @@ namespace DGP.Genshin.Pages
             InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = CelestiaDatabaseService.Instance;
 
@@ -39,7 +41,7 @@ namespace DGP.Genshin.Pages
                 }
             }
 
-            await CelestiaDatabaseService.Instance.InitializeAsync();
+            CelestiaDatabaseService.Instance.Initialize();
         }
 
         #region AutoSuggest
@@ -79,11 +81,7 @@ namespace DGP.Genshin.Pages
                         service.CurrentRecord = record;
                         if (CelestiaDatabaseService.Instance.IsInitialized)
                         {
-                            await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
-                        }
-                        if (record.DetailedAvatars is not null)
-                        {
-                            service.SelectedAvatar = record.DetailedAvatars.First();
+                            CelestiaDatabaseService.Instance.RefershRecommands();
                         }
                         service.AddQueryHistory(uid);
                     }
@@ -124,9 +122,9 @@ namespace DGP.Genshin.Pages
         private async void PostUidAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             string? result = "当前无可用玩家信息";
-            if (RecordService.Instance.CurrentRecord != null)
+            if (RecordService.Instance.CurrentRecord?.UserId is not null)
             {
-                result = await CelestiaDatabaseService.Instance.PostUid(RecordService.Instance.CurrentRecord.UserId);
+                result = await Task.Run(() => new CelestiaDatabase().PostUid(RecordService.Instance.CurrentRecord.UserId));
             }
 
             await new ContentDialog()
