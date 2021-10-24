@@ -1,6 +1,6 @@
 ﻿using DGP.Snap.Framework.Extensions.System;
 using DGP.Snap.Framework.Extensions.System.Collections.Generic;
-using DGP.Snap.Framework.Json;
+using DGP.Genshin.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;

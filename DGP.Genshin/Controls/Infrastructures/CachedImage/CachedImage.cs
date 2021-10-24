@@ -10,7 +10,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     /// <see cref="System.Windows.Controls.Image"/> 的带缓存包装
     /// 实现本地图像缓存
     /// </summary>
-    [Github("https://github.com/floydpink/CachedImage/blob/main/source/Image.cs")]
+    /// https://github.com/floydpink/CachedImage/blob/main/source/Image.cs
     public class CachedImage : System.Windows.Controls.Image
     {
         static CachedImage()

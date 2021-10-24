@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Common;
+using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -57,6 +57,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record("不支持查询此UID");
                 }
 
+                RecordProgressed?.Invoke("正在获取 玩家基础统计信息 (1/5)");
                 PlayerInfo? playerInfo = recordProvider.GetPlayerInfo(uid, server);
                 if (playerInfo is null)
                 {
@@ -64,6 +65,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取玩家基本信息失败");
                 }
 
+                RecordProgressed?.Invoke("正在获取 本期深境螺旋信息 (2/5)");
                 SpiralAbyss? spiralAbyss = recordProvider.GetSpiralAbyss(uid, server, 1);
                 if (spiralAbyss is null)
                 {
@@ -71,6 +73,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取本期深境螺旋信息失败");
                 }
 
+                RecordProgressed?.Invoke("正在获取 上期深境螺旋信息 (3/5)");
                 SpiralAbyss? lastSpiralAbyss = recordProvider.GetSpiralAbyss(uid, server, 2);
                 if (lastSpiralAbyss is null)
                 {
@@ -78,6 +81,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取上期深境螺旋信息失败");
                 }
 
+                RecordProgressed?.Invoke("正在获取 活动挑战信息 (4/5)");
                 dynamic? activitiesInfo = recordProvider.GetActivities(uid, server);
                 if (activitiesInfo is null)
                 {
@@ -85,13 +89,13 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取活动信息失败");
                 }
 
+                RecordProgressed?.Invoke("正在获取 详细角色信息 (5/5)");
                 DetailedAvatarInfo? detailedAvatarInfo = recordProvider.GetDetailAvaterInfo(uid, server, playerInfo);
                 if (detailedAvatarInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
                     return new Record($"获取详细角色信息失败");
                 }
-
                 RecordProgressed?.Invoke(null);
                 //return
                 return new Record

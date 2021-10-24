@@ -9,7 +9,9 @@ using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer
 {
-    [Github("https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Controls/Other/ScrollViewer.cs")]
+    /// <summary>
+    /// https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Controls/Other/ScrollViewer.cs
+    /// </summary>
     public class SmoothScrollViewer : ScrollViewer
     {
         private double _totalVerticalOffset;

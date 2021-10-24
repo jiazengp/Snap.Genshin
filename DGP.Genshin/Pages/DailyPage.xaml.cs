@@ -17,7 +17,7 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            await Task.Delay(300);
+            await Task.Delay(1000);
             DataContext = DailyViewService.Instance;
             this.Log("initialized");
         }

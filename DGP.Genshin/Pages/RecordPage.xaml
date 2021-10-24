@@ -9,13 +9,12 @@
          xmlns:r="clr-namespace:DGP.Genshin.Controls.GenshinElements.Records" 
          xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
-         xmlns:mihoyo="clr-namespace:DGP.Genshin.Models.MiHoYo" 
          xmlns:controls="clr-namespace:DGP.Genshin.Controls"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="1200"
          Title="RecordPage" Loaded="Page_Loaded">
     <Page.Resources>
-        <mihoyo:DGP.Genshin.Cookie.HtmlStringConverter x:Key="HtmlStringConverter"/>
+        <converters:HtmlStringConverter x:Key="HtmlStringConverter"/>
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>

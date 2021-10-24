@@ -38,7 +38,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         public bool IsInitialized => isInitialized;
 
         private bool isInitialized = false;
-        public async void Initialize()
+        public void Initialize()
         {
             if (isInitialized)
             {

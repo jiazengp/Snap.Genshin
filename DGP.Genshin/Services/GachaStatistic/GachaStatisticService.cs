@@ -3,7 +3,6 @@ using DGP.Genshin.Services.GachaStatistics.Statistics;
 using DGP.Snap.Framework.Data.Behavior;
 using DGP.Snap.Framework.Data.Privacy;
 using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -17,9 +16,7 @@ namespace DGP.Genshin.Services.GachaStatistic
     /// </summary>
     public class GachaStatisticService : Observable
     {
-        private readonly object providerLocker = new();
-
-        private LocalGachaLogWorker localGachaLogWorker;
+        private readonly LocalGachaLogWorker localGachaLogWorker;
 
         /// <summary>
         /// 核心数据
@@ -29,23 +26,37 @@ namespace DGP.Genshin.Services.GachaStatistic
         #region LifeCycle
         public GachaStatisticService()
         {
+            gachaDataCollection.UidAdded += GachaDataCollectionUidAdded;
             localGachaLogWorker = new(gachaDataCollection);
             this.Log("initialized");
-            OnSelectedUidChanged += SyncStatisticWithUid;
+        }
+
+        private void GachaDataCollectionUidAdded(string uid)
+        {
+            bool showFullUid = Settings.SettingService.Instance.GetOrDefault(Settings.Setting.ShowFullUID, false);
+            Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid));
+        }
+
+        public void Initialize()
+        {
+            SelectedUid = Uids.First();
+            SyncStatisticWithUid();
         }
         #endregion
 
         #region observables
         private Statistic? statistic;
         private PrivateString? selectedUid;
-        private bool hasData = true;
         private FetchProgress? fetchProgress;
         private SpecificBanner? selectedSpecificBanner;
         private bool canUserSwitchUid = true;
+        private ObservableCollection<PrivateString> uids = new();
+
         /// <summary>
         /// 当前的统计信息
         /// </summary>
         public Statistic? Statistic { get => statistic; set => Set(ref statistic, value); }
+
         /// <summary>
         /// 当前选择的UID
         /// </summary>
@@ -61,24 +72,22 @@ namespace DGP.Genshin.Services.GachaStatistic
             }
         }
 
-        public event Action OnSelectedUidChanged;
-        public void SetSelectedUidSuppressSyncStatistic(PrivateString uid)
-        {
-            selectedUid = uid;
-        }
         /// <summary>
         /// 所有UID
         /// </summary>
-        public ObservableCollection<PrivateString> Uids { get; set; } = new ObservableCollection<PrivateString>();
+        public ObservableCollection<PrivateString> Uids { get => uids; set => Set(ref uids, value); }
+
         /// <summary>
         /// UID切换状态锁
         /// 用来保证切换UID时无法再次切换
         /// </summary>
         public bool CanUserSwitchUid { get => canUserSwitchUid; set => Set(ref canUserSwitchUid, value); }
+
         /// <summary>
         /// 用于前台判断是否存在可展示的数据
         /// </summary>
-        public bool HasNoData { get => hasData; set => Set(ref hasData, value); }
+        public bool HasNoData => gachaDataCollection.Count <= 0;
+
         /// <summary>
         /// 当前的获取进度
         /// </summary>
@@ -93,6 +102,11 @@ namespace DGP.Genshin.Services.GachaStatistic
         public SpecificBanner? SelectedSpecificBanner { get => selectedSpecificBanner; set => Set(ref selectedSpecificBanner, value); }
 
         #endregion
+
+        public void PrepareDefaultStatistic()
+        {
+
+        }
 
         /// <summary>
         /// 获得当前的祈愿记录工作器
@@ -122,7 +136,6 @@ namespace DGP.Genshin.Services.GachaStatistic
                 {
                     SelectedSpecificBanner = Statistic.SpecificBanners.First();
                 }
-                HasNoData = false;
             });
         }
 
@@ -174,7 +187,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         private async Task<bool> RefreshInternalAsync(GachaLogUrlMode mode)
         {
             GachaLogWorker? worker = await GetGachaLogWorkerAsync(mode);
-            if(worker is null)
+            if (worker is null)
             {
                 //TODO 提示用户获取失败
                 return false;
@@ -217,7 +230,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             {
                 throw new InvalidOperationException("无UID");
             }
-            await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(selectedUid.UnMaskedValue,path));
+            await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(selectedUid.UnMaskedValue, path));
         }
 
         public async Task ImportFromGenshinGachaExportAsync(string path)

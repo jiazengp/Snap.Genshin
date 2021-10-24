@@ -90,7 +90,7 @@ namespace DGP.Genshin.Controls
 
         private async void CookieButtonClick(object sender, RoutedEventArgs e)
         {
-            await CookieManager.AddCookieAsync();
+            await CookieManager.SetCookieAsync();
             IsCookieVisible = !CookieManager.IsCookieAvailable;
         }
 

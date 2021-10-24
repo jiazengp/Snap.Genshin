@@ -97,7 +97,7 @@
             <ui:CommandBar.Content>
                 <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
                     <TextBlock Margin="0,12,12,0" Text="UID"/>
-                    <ComboBox IsEnabled="{Binding CanUserSwitchUid}" Focusable="False" Margin="0,4" ItemsSource="{Binding Uids,IsAsync=True}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedUid}"/>
+                    <ComboBox IsEnabled="{Binding CanUserSwitchUid}" Focusable="False" Margin="0,4" ItemsSource="{Binding Uids,Mode=OneWay}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedUid}"/>
                     <TextBlock Margin="12,12,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}"/>
                 </StackPanel>
             </ui:CommandBar.Content>

@@ -1,7 +1,7 @@
-﻿using DGP.Genshin.MiHoYoAPI.Gacha;
+﻿using DGP.Genshin.Common;
+using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Compatibility;
 using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -197,50 +197,53 @@ namespace DGP.Genshin.Services.GachaStatistic
                 if (Data.ContainsKey(uid))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-                    using (ExcelPackage package = new(File.Create(fileName)))
+                    //fs cant be disposed by excelpackage,so we need to dispose ourselves
+                    using(FileStream fs = File.Create(fileName))
                     {
-                        foreach (string pool in Data[uid].Keys)
+                        using (ExcelPackage package = new(fs))
                         {
-                            ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
-                            IEnumerable<GachaLogItem>? logs = Data[uid][pool];
-                            //fix issue with compatibility
-                            logs = logs?.Reverse();
-                            //header
-                            sheet.Cells[1, 1].Value = "时间";
-                            sheet.Cells[1, 2].Value = "名称";
-                            sheet.Cells[1, 3].Value = "类别";
-                            sheet.Cells[1, 4].Value = "星级";
-                            //content
-                            int? count = logs?.Count();
-                            int j = 1;
-                            if (count > 0 && logs is not null)
+                            foreach (string pool in Data[uid].Keys)
                             {
-                                foreach (GachaLogItem item in logs)
+                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
+                                IEnumerable<GachaLogItem>? logs = Data[uid][pool];
+                                //fix issue with compatibility
+                                logs = logs?.Reverse();
+                                //header
+                                sheet.Cells[1, 1].Value = "时间";
+                                sheet.Cells[1, 2].Value = "名称";
+                                sheet.Cells[1, 3].Value = "类别";
+                                sheet.Cells[1, 4].Value = "星级";
+                                //content
+                                int? count = logs?.Count();
+                                int j = 1;
+                                if (count > 0 && logs is not null)
                                 {
-                                    j++;
-                                    sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
-                                    sheet.Cells[j, 2].Value = item.Name;
-                                    sheet.Cells[j, 3].Value = item.ItemType;
-                                    if (item.Rank is not null)
+                                    foreach (GachaLogItem item in logs)
                                     {
-                                        sheet.Cells[j, 4].Value = int.Parse(item.Rank);
-                                    }
-                                    using (ExcelRange range = sheet.Cells[j, 1, j, 4])
-                                    {
+                                        j++;
+                                        sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                                        sheet.Cells[j, 2].Value = item.Name;
+                                        sheet.Cells[j, 3].Value = item.ItemType;
                                         if (item.Rank is not null)
                                         {
-                                            range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank)));
+                                            sheet.Cells[j, 4].Value = int.Parse(item.Rank);
+                                        }
+                                        using (ExcelRange range = sheet.Cells[j, 1, j, 4])
+                                        {
+                                            if (item.Rank is not null)
+                                            {
+                                                range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank)));
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            sheet.Cells[1, 1, j, 4].AutoFitColumns(0);
+                                sheet.Cells[1, 1, j, 4].AutoFitColumns(0);
 
-                            package.Workbook.Properties.Title = "祈愿记录";
-                            package.Workbook.Properties.Author = "Snap Genshin";
+                                package.Workbook.Properties.Title = "祈愿记录";
+                                package.Workbook.Properties.Author = "Snap Genshin";
+                            }
+                            package.Save();
                         }
-                        package.Save();
                     }
                 }
             }

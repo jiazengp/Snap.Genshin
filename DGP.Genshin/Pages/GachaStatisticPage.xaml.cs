@@ -2,6 +2,7 @@
 using DGP.Snap.Framework.Extensions.System;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -94,10 +95,12 @@ namespace DGP.Genshin.Pages
             Service = null;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(1000);
             Service = new GachaStatisticService();
             DataContext = Service;
+            Service.Initialize();
         }
     }
 }

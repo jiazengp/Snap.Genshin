@@ -10,10 +10,8 @@ using DGP.Genshin.Services.Updating;
 using DGP.Snap.Framework.Extensions.System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
-using ModernWpf.Controls.Primitives;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +25,6 @@ namespace DGP.Genshin
     public partial class MainWindow : Window
     {
         private readonly NavigationService navigationService;
-        private readonly DailySignInService dailySignInService;
 
         public MainWindow()
         {
@@ -36,7 +33,6 @@ namespace DGP.Genshin
             MainSplashView.InitializationPostAction += SplashInitializeCompleted;
 
             navigationService = new NavigationService(this, NavView, ContentFrame);
-            dailySignInService = new DailySignInService();
 
             this.Log("initialized");
         }

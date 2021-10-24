@@ -30,7 +30,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(UserInfoProperty, value);
         }
         public static readonly DependencyProperty UserInfoProperty =
-            DependencyProperty.Register("UserInfo", typeof(UserInfoTitleBarButton), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("UserInfo", typeof(UserInfo), typeof(UserInfoTitleBarButton), new PropertyMetadata(null));
 
         public UserInfoTitleBarButton()
         {

@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
+using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -33,7 +34,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(SignInRewardProperty, value);
         }
         public static readonly DependencyProperty SignInRewardProperty =
-            DependencyProperty.Register("SignInReward", typeof(SignInReward), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("SignInReward", typeof(SignInReward), typeof(SignInTitleBarButton), new PropertyMetadata(null));
         /// <summary>
         /// 当前签到状态信息
         /// </summary>
@@ -43,7 +44,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(SignInInfoProperty, value);
         }
         public static readonly DependencyProperty SignInInfoProperty =
-            DependencyProperty.Register("SignInInfo", typeof(SignInInfo), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("SignInInfo", typeof(SignInInfo), typeof(SignInTitleBarButton), new PropertyMetadata(null));
         /// <summary>
         /// 绑定的角色信息
         /// </summary>
@@ -53,7 +54,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(RoleInfoProperty, value);
         }
         public static readonly DependencyProperty RoleInfoProperty =
-            DependencyProperty.Register("RoleInfo", typeof(UserGameRoleInfo), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("RoleInfo", typeof(UserGameRoleInfo), typeof(SignInTitleBarButton), new PropertyMetadata(null));
         /// <summary>
         /// 选择的角色
         /// </summary>
@@ -63,16 +64,18 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(SelectedRoleProperty, value);
         }
         public static readonly DependencyProperty SelectedRoleProperty =
-            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(MainWindow), new PropertyMetadata(null, OnSelectedRoleChanged));
+            DependencyProperty.Register("SelectedRole", typeof(UserGameRole), typeof(SignInTitleBarButton), new PropertyMetadata(null, OnSelectedRoleChanged));
 
         private static async void OnSelectedRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SignInTitleBarButton button = (SignInTitleBarButton)d;
-            if (button.SelectedRole is not null)
+            
+            if (e.NewValue is UserGameRole role)
             {
-                button.SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.Cookie).GetSignInInfo(button.SelectedRole));
+                button.SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.Cookie).GetSignInInfo(role));
                 SignInReward? reward = await Task.Run(new SignInProvider(CookieManager.Cookie).GetSignInReward);
                 button.ApplyItemOpacity(reward);
+                button.SignInReward = reward;
             }
         }
         #endregion
