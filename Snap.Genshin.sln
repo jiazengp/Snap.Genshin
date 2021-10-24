@@ -20,13 +20,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.MiHoYoAPI", "DG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.YoungMoeAPI", "DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj", "{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DGP.Genshin.Common", "DGP.Genshin.Common\DGP.Genshin.Common.shproj", "{D702F632-9B4A-4E4D-A7C5-4E044C1BC080}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.Common", "DGP.Genshin.Common\DGP.Genshin.Common.csproj", "{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DGP.Genshin.Common\DGP.Genshin.Common.projitems*{15cb87a6-83d4-48c8-b64f-af9885f9c54a}*SharedItemsImports = 5
 		DGP.Genshin.Common\DGP.Genshin.Common.projitems*{c0d8d525-7664-4075-a17a-346dbe114008}*SharedItemsImports = 5
-		DGP.Genshin.Common\DGP.Genshin.Common.projitems*{d702f632-9b4a-4e4d-a7c5-4e044c1bc080}*SharedItemsImports = 13
 		DGP.Genshin.Common\DGP.Genshin.Common.projitems*{e4fac04f-49b9-42aa-b31e-6c7a0dbeb1fd}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +57,10 @@ Global
 		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

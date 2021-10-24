@@ -4,3 +4,6 @@
 [submodule "DGP.Genshin.YoungMoeAPI"]
 	path = DGP.Genshin.YoungMoeAPI
 	url = https://github.com/DGP-Studio/DGP.Genshin.YoungMoeAPI.git
+[submodule "DGP.Genshin.Common"]
+	path = DGP.Genshin.Common
+	url = https://github.com/DGP-Studio/DGP.Genshin.Common.git
