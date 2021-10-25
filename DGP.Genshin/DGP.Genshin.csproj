@@ -69,7 +69,6 @@
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
     <ProjectReference Include="..\DGP.Genshin.Updater\DGP.Genshin.Updater.csproj" />
     <ProjectReference Include="..\DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj" />
-    <ProjectReference Include="..\DGP.Snap.Framework\DGP.Snap.Framework.csproj" />
   </ItemGroup>
 
   <ItemGroup>

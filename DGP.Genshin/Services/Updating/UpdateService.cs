@@ -93,8 +93,12 @@ namespace DGP.Genshin.Services.Updating
             {
                 File.Delete("OldUpdater.exe");
             }
-            File.Move("DGP.Genshin.Updater.exe", "OldUpdater.exe");
+
             File.Move("DGP.Genshin.Updater.dll", "OldUpdater.dll");
+            File.Move("DGP.Genshin.Updater.exe", "OldUpdater.exe");
+            File.Move("DGP.Genshin.Updater.deps.json", "OldUpdater.deps.json");
+            File.Move("DGP.Genshin.Updater.runtimeconfig.json", "OldUpdater.runtimeconfig.json");
+
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "OldUpdater.exe",

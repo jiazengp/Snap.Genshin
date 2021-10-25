@@ -2,14 +2,21 @@
 
 [![Snap.Genshin](https://socialify.git.ci/DGP-Studio/Snap.Genshin/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fgithub.com%2FDGP-Studio%2FSnap.Genshin%2Fblob%2Fmain%2FDesign%2FSGLogo.png%3Fraw%3Dtrue&pattern=Signal&stargazers=1&theme=Dark)](https://github.com/DGP-Studio/Snap.Genshin/stargazers)
 
+### 状态
+![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)
+
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/DGP-Studio/Snap.Genshin/latest?style=flat-square)
 ### 前往下载
 
-[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases)
-[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=for-the-badge)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
+[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)
 
 ### 友情链接
 
-[![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=for-the-badge)](https://github.com/Scighost/KeqingNiuza) [![Genshin Gacha Export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-red/total?style=for-the-badge)](https://github.com/sunfkny/genshin-gacha-export)
+[![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza) [![Genshin Gacha Export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-red/total?style=flat-square)](https://github.com/sunfkny/genshin-gacha-export)
 
 ### 说明
 
@@ -56,7 +63,6 @@
 > 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 的 json 文件导入
 
 ![祈愿记录](https://i.loli.net/2021/10/10/Y2JUDdTpSGlhOme.png)
-![祈愿历史记录](https://i.loli.net/2021/10/10/8VPfkl4KaoCSZeY.png)
 
 # 玩家信息
 
@@ -64,7 +70,6 @@
 > 展示全角色等级武器圣遗物命座信息  
 > 展示玩家基础信息、世界探索、尘歌壶、深境螺旋、活动信息  
 
-![record1.png](https://i.loli.net/2021/10/10/vVgPOADeiwptocz.png)
 ![record.png](https://i.loli.net/2021/10/10/L7naeUitXCp3Ggf.png)
 
 # 天空岛数据库
@@ -74,18 +79,38 @@
 > 直接访问玩家角色信息，提供最佳推荐方案
 
 ![database1.png](https://i.loli.net/2021/10/10/j48U3Av2n9ftOQD.png)
-![database.png](https://i.loli.net/2021/10/10/pKqHmZnMBYD4ayF.png)
 
 </div>
 
-# 贡献
+---
+
+# 开发人员
+
+如果你是一位正在编写原神相关的程序的开发者  
+我们欢迎你查看、使用、或借鉴我们在下方提供的现成解决方案
+
+* [DGP.Genshin.Common](https://github.com/DGP-Studio/DGP.Genshin.Common)  
+公共API支持库，包含了所有与其他API交互需要的公共组件
+
+* [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
+米哈游原神API交互
+
+* [DGP.Genshin.YoungMoeAPI](https://github.com/DGP-Studio/DGP.Genshin.YoungMoeAPI)  
+天空岛数据库API交互
+
+上面的项目都独立于本项目进行维护
+
 
 发起 pull request 以向我们提交代码
 
+
 # 反馈须知
 
-提交Bug/程序崩溃：程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交
+如果你在低于我们要求的最低Windows版本上运行程序并出现了问题，我们不会修复  
+程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交
 
 
-如果你需要反馈的信息包含大量的图片：可以加入我们的QQ群
+如果你需要反馈的信息包含大量的图片  
+或任何不便于在issue中提供的信息  
+可以加入我们的QQ群
 > 我们的反馈QQ群：910780153
