@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Threading;
 
-namespace DGP.Snap.Framework.Extensions.System.Windows.Threading
+namespace DGP.Genshin.Common.Extensions.System.Windows.Threading
 {
     public static class DispatcherObjectExtensions
     {
@@ -24,8 +24,8 @@ namespace DGP.Snap.Framework.Extensions.System.Windows.Threading
                 throw new ArgumentNullException(nameof(func));
             }
 
-            return dispatcherObject.Dispatcher.CheckAccess() 
-                ? func() 
+            return dispatcherObject.Dispatcher.CheckAccess()
+                ? func()
                 : dispatcherObject.Dispatcher.Invoke(func);
         }
 

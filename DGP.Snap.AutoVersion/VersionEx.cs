@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace DGP.Snap.AutoVersion
+namespace DGP.Genshin.AutoVersion
 {
     /// <summary>
     /// 可修改的<see cref="Version"/>类型增强类型

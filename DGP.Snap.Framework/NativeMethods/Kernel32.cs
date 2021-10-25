@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace DGP.Snap.Framework.NativeMethods
+namespace DGP.Genshin.Common.NativeMethods
 {
     public class Kernel32
     {

@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -69,7 +68,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         private static async void OnSelectedRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SignInTitleBarButton button = (SignInTitleBarButton)d;
-            
+
             if (e.NewValue is UserGameRole role)
             {
                 button.SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.Cookie).GetSignInInfo(role));

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace DGP.Snap.Framework.Core.Logging
+namespace DGP.Genshin.Common.Core.Logging
 {
     public class Logger
     {

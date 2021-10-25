@@ -1,6 +1,6 @@
-﻿using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Extensions.System.Collections.Generic;
-using DGP.Genshin.Common;
+﻿using DGP.Genshin.Common;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Threading.Tasks;

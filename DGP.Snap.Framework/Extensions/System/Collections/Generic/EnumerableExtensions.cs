@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
+namespace DGP.Genshin.Common.Extensions.System.Collections.Generic
 {
     public static class EnumerableExtensions
     {

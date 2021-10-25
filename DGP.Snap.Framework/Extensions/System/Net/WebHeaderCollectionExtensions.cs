@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mime;
 
-namespace DGP.Snap.Framework.Extensions.System.Net
+namespace DGP.Genshin.Common.Extensions.System.Net
 {
     public static class WebHeaderCollectionExtensions
     {

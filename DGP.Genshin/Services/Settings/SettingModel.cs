@@ -1,5 +1,5 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Extensions.System;
 
 namespace DGP.Genshin.Services.Settings
 {

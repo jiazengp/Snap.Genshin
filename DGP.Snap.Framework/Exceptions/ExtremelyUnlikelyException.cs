@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Snap.Framework.Exceptions
+namespace DGP.Genshin.Common.Exceptions
 {
     public class ExtremelyUnlikelyException : Exception
     {

@@ -1,5 +1,5 @@
-﻿using DGP.Snap.Framework.Core.Logging;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
+﻿using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Common.Extensions.System.Windows.Threading;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -29,10 +29,7 @@ namespace DGP.Genshin.Cookie
 
         public static string Cookie
         {
-            get
-            {
-                return cookie ?? throw new InvalidOperationException("Cookie 不应为 null");
-            }
+            get => cookie ?? throw new InvalidOperationException("Cookie 不应为 null");
             private set
             {
                 cookie = value;
@@ -44,7 +41,7 @@ namespace DGP.Genshin.Cookie
         /// 用于在初始化时判断Cookie是否可用
         /// </summary>
         public static bool IsCookieAvailable =>
-            !string.IsNullOrEmpty(Cookie);
+            !string.IsNullOrEmpty(cookie);
 
         /// <summary>
         /// 设置新的Cookie
@@ -52,7 +49,7 @@ namespace DGP.Genshin.Cookie
         /// <returns></returns>
         public static async Task SetCookieAsync()
         {
-            Cookie = await System.Windows.Application.Current.Invoke(new CookieDialog().GetInputCookieAsync);
+            Cookie = await App.Current.Invoke(new CookieDialog().GetInputCookieAsync);
             File.WriteAllText(CookieFile, Cookie);
         }
 

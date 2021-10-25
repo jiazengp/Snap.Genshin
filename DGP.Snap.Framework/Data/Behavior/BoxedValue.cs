@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DGP.Snap.Framework.Data.Behavior
+namespace DGP.Genshin.Common.Data.Behavior
 {
     /// <summary>
     /// increase a slightly performances

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
+namespace DGP.Genshin.Common.Extensions.System.Collections.Generic
 {
     public static class DictionaryExtensions
     {

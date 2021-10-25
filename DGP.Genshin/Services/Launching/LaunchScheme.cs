@@ -9,7 +9,7 @@
     /// </summary>
     public record LaunchScheme
     {
-        public LaunchScheme(string name,string channel,string cps,string subChannel)
+        public LaunchScheme(string name, string channel, string cps, string subChannel)
         {
             Name = name;
             Channel = channel;

@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Services;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
+using DGP.Genshin.Common.Extensions.System.Windows.Threading;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages

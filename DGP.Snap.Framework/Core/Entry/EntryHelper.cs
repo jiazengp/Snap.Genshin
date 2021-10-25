@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DGP.Snap.Framework.Core.Entry
+namespace DGP.Genshin.Common.Core.Entry
 {
     /// <summary>
     /// entry point assembly manager

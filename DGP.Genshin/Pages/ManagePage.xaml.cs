@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.Services;
-using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Extensions.System.Windows.Threading;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Extensions.System.Windows.Threading;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -107,8 +107,8 @@ namespace DGP.Genshin.Pages
         private void UnInitialize()
         {
             //detatch datacontext
-            App.Current.Invoke(() => 
-            { 
+            App.Current.Invoke(() =>
+            {
                 DataContext = null;
                 CharacterEditDialog.DataContext = null;
                 WeaponEditDialog.DataContext = null;

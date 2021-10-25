@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Net.Download
+﻿namespace DGP.Genshin.Common.Net.Download
 {
     /// <summary>
     /// Downloaded completed states

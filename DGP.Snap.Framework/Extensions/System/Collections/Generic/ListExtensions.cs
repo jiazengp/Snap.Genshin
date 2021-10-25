@@ -1,9 +1,9 @@
-﻿using DGP.Snap.Framework.Core;
+﻿using DGP.Genshin.Common.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DGP.Snap.Framework.Extensions.System.Collections.Generic
+namespace DGP.Genshin.Common.Extensions.System.Collections.Generic
 {
     public static class ListExtensions
     {

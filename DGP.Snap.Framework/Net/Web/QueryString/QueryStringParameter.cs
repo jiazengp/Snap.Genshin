@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Snap.Framework.Net.Web.QueryString
+namespace DGP.Genshin.Common.Net.Web.QueryString
 {
     /// <summary>
     /// A single query string parameter (name and value pair).

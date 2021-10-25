@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
 

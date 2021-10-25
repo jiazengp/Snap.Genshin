@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Journey;
 using DGP.Genshin.MiHoYoAPI.User;
-using DGP.Snap.Framework.Data.Behavior;
+using DGP.Genshin.Common.Data.Behavior;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

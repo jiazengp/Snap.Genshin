@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Data.Regex
+﻿namespace DGP.Genshin.Common.Data.Regex
 {
     public sealed class RegexPatterns
     {

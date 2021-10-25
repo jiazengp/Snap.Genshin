@@ -1,10 +1,10 @@
-using DGP.Snap.Framework.Extensions.System.Net;
+using DGP.Genshin.Common.Extensions.System.Net;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     [DesignerCategory("Code")]
     internal class DownloadWebClient : WebClient

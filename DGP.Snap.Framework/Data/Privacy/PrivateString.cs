@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Data.Privacy
+﻿namespace DGP.Genshin.Common.Data.Privacy
 {
     /// <summary>
     /// 字符串掩码设置函数

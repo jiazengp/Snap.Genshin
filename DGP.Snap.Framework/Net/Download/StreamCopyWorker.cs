@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     internal class StreamCopyWorker : IStreamCopyWorker, IDisposable
     {

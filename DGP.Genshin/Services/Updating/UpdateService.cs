@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Helpers;
-using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Net.Download;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Net.Download;
 using Octokit;
 using System;
 using System.Diagnostics;
@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services.Updating
             try
             {
                 //use token to increase github rate limit
-                GitHubClient client = new GitHubClient(new ProductHeaderValue("SnapGenshin"))
+                GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
                 {
                     Credentials = new Credentials(TokenHelper.GetToken())
                 };
@@ -93,7 +93,8 @@ namespace DGP.Genshin.Services.Updating
             {
                 File.Delete("OldUpdater.exe");
             }
-            File.Move("DGP.Snap.Updater.exe", "OldUpdater.exe");
+            File.Move("DGP.Genshin.Updater.exe", "OldUpdater.exe");
+            File.Move("DGP.Genshin.Updater.dll", "OldUpdater.dll");
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "OldUpdater.exe",

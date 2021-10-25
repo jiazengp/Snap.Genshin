@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     internal static class FileUtils
     {

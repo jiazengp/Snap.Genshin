@@ -1,10 +1,10 @@
-﻿using DGP.Snap.Framework.Extensions.System.Collections.Generic;
+﻿using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DGP.Snap.Framework.Net.Web.QueryString
+namespace DGP.Genshin.Common.Net.Web.QueryString
 {
     /// <summary>
     /// querystring serializer/deserializer

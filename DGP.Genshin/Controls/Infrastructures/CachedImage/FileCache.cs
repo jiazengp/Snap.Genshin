@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Core.Logging;
+﻿using DGP.Genshin.Common.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DGP.Snap.AutoVersion
+namespace DGP.Genshin.AutoVersion
 {
     /// <summary>
     /// 编译时，项目版本号自动更新的工具

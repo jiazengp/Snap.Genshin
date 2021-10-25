@@ -1,7 +1,7 @@
-﻿using DGP.Snap.Framework.Core.Logging;
+﻿using DGP.Genshin.Common.Core.Logging;
 using System;
 
-namespace DGP.Snap.Framework.Extensions.System
+namespace DGP.Genshin.Common.Extensions.System
 {
     public static class ObjectExtensions
     {

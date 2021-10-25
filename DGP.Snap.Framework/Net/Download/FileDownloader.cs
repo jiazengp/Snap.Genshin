@@ -1,12 +1,12 @@
-﻿using DGP.Snap.Framework.Extensions.System;
-using DGP.Snap.Framework.Extensions.System.Net;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Extensions.System.Net;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
 #nullable disable
     /// <summary>

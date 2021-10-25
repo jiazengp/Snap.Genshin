@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DGP.Snap.Framework.Extensions.System.Windows
+namespace DGP.Genshin.Common.Extensions.System.Windows
 {
     public static class UIElementExtensions
     {

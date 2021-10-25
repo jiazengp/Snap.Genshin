@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Services.GachaStatistic;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Extensions.System;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace DGP.Genshin.Pages
 
         private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if(Service is not null)
+            if (Service is not null)
             {
                 await Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
             }
@@ -31,7 +31,7 @@ namespace DGP.Genshin.Pages
 
         private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if(Service is not null)
+            if (Service is not null)
             {
                 await Service.RefreshAsync(GachaLogUrlMode.ManualInput);
             }
@@ -70,7 +70,7 @@ namespace DGP.Genshin.Pages
             if (dialog.ShowDialog() == true)
             {
                 this.Log("try to export to excel");
-                if(Service is not null)
+                if (Service is not null)
                 {
                     await Service.ExportDataToExcelAsync(dialog.FileName);
                     await new ContentDialog

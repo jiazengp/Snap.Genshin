@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Services.Settings;
-using DGP.Snap.Framework.Data.Behavior;
+using DGP.Genshin.Common.Data.Behavior;
 using IniParser;
 using IniParser.Model;
 using System;
@@ -69,8 +69,8 @@ namespace DGP.Genshin.Services.Launching
         }
         #endregion
 
-        private IniData launcherConfig;
-        private IniData gameConfig;
+        private readonly IniData launcherConfig;
+        private readonly IniData gameConfig;
 
         /// <summary>
         /// 启动游戏

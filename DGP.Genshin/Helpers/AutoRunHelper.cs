@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Exceptions;
+﻿using DGP.Genshin.Common.Exceptions;
 using Microsoft.Win32;
 using System.Diagnostics;
 

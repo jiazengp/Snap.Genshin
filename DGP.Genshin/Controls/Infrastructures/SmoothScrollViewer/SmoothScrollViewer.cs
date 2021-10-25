@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Helpers;
-using DGP.Snap.Framework.Data.Behavior;
+using DGP.Genshin.Common.Data.Behavior;
 using System;
 using System.Windows;
 using System.Windows.Controls;

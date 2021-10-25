@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
-using DGP.Snap.Framework.Core.Logging;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Common.Extensions.System;
 using ModernWpf;
 using System;
 using System.IO;

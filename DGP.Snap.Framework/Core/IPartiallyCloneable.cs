@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Core
+﻿namespace DGP.Genshin.Common.Core
 {
     public interface IPartiallyCloneable<T>
     {

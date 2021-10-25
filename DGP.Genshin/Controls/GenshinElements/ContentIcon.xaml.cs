@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;

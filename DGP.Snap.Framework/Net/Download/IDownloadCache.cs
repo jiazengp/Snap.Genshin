@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     /// <summary>
     /// IDownloadCache interface

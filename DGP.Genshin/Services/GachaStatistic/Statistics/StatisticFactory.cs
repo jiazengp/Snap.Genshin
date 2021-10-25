@@ -1,8 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Services;
-using DGP.Snap.Framework.Core.Logging;
-using DGP.Snap.Framework.Extensions.System.Collections.Generic;
+using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -236,7 +235,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         {
             List<SpecificBanner>? results = MetaDataService.Instance.SpecificBanners?.ClonePartially();
 
-            if(results is null)
+            if (results is null)
             {
                 throw new InvalidOperationException("无可用的卡池信息");
             }

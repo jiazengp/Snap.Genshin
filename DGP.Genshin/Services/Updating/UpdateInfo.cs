@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
 
 namespace DGP.Genshin.Services.Updating
 {

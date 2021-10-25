@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Characters;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
 

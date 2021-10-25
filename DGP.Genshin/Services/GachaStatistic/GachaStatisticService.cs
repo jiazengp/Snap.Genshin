@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
-using DGP.Snap.Framework.Data.Behavior;
-using DGP.Snap.Framework.Data.Privacy;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Data.Privacy;
+using DGP.Genshin.Common.Extensions.System;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -130,7 +130,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 {
                     return;
                 }
-                var uid = SelectedUid.UnMaskedValue;
+                string? uid = SelectedUid.UnMaskedValue;
                 Statistic = StatisticFactory.ToStatistic(gachaDataCollection[uid], uid);
                 if (Statistic.SpecificBanners?.Count > 0)
                 {

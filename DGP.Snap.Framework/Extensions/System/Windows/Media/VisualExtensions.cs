@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace DGP.Snap.Framework.Extensions.System.Windows.Media
+namespace DGP.Genshin.Common.Extensions.System.Windows.Media
 {
     public static class VisualExtensions
     {

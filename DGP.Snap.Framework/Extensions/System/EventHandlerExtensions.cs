@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Snap.Framework.Extensions.System
+namespace DGP.Genshin.Common.Extensions.System
 {
     public static class EventHandlerExtensions
     {

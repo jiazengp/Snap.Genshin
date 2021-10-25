@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     /// <summary>
     /// DownloadFileCompleted event args

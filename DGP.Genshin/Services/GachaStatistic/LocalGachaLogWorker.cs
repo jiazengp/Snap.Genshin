@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Common;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Compatibility;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Extensions.System;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -98,7 +98,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                     T? file = Json.FromFile<T>(filePath);
                     ImportImportableGachaData(converter.Invoke(file));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     this.Log(ex);
                     successful = false;
@@ -151,7 +151,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         {
             GachaData one = Data[uid];
             List<GachaLogItem>? currentItems = one[poolType];
-            
+
             if (currentItems?.Count > 0)
             {
                 //首个比当前最后的物品id早的物品
@@ -198,7 +198,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                     //fs cant be disposed by excelpackage,so we need to dispose ourselves
-                    using(FileStream fs = File.Create(fileName))
+                    using (FileStream fs = File.Create(fileName))
                     {
                         using (ExcelPackage package = new(fs))
                         {

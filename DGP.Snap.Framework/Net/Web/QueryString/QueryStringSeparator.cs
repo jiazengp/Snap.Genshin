@@ -1,4 +1,4 @@
-﻿namespace DGP.Snap.Framework.Net.Web.QueryString
+﻿namespace DGP.Genshin.Common.Net.Web.QueryString
 {
     /// <summary>
     /// Specifies the separator to be used between query string parameters.

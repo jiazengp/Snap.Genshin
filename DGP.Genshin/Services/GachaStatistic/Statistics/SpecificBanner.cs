@@ -1,4 +1,4 @@
-﻿using DGP.Snap.Framework.Core;
+﻿using DGP.Genshin.Common.Core;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DGP.Snap.Framework.Data.Behavior
+namespace DGP.Genshin.Common.Data.Behavior
 {
     /// <summary>
     /// 实现 <see cref="INotifyPropertyChanged"/> 接口

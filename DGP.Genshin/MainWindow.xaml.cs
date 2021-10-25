@@ -7,7 +7,7 @@ using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Extensions.System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using System;
@@ -57,20 +57,20 @@ namespace DGP.Genshin
                 {
                     splashView.CurrentStateDescription = "签到中...";
                     UserGameRoleInfo? roleInfo = new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles();
-                    var list = roleInfo?.List;
+                    System.Collections.Generic.List<UserGameRole>? list = roleInfo?.List;
                     if (list is not null)
                     {
-                        foreach(UserGameRole role in list)
+                        foreach (UserGameRole role in list)
                         {
                             SignInResult? result = await Task.Run(() => new SignInProvider(CookieManager.Cookie).SignIn(role));
                             new ToastContentBuilder()
-                                .AddText( result is null ? "签到失败" : "签到成功")
+                                .AddText(result is null ? "签到失败" : "签到成功")
                                 .AddText(role.ToString())
                                 .AddAttributionText("米游社每日签到")
                                 .Show();
                         }
                     }
-                    
+
                 }
             }
 

@@ -2,7 +2,7 @@
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
-using DGP.Snap.Framework.Extensions.System;
+using DGP.Genshin.Common.Extensions.System;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -62,7 +62,7 @@ namespace DGP.Genshin.Pages
             UpdateState u = await UpdateService.Instance.CheckUpdateStateAsync();
 
             Button button = ((Button)sender);
-            if(u is UpdateState.NeedUpdate)
+            if (u is UpdateState.NeedUpdate)
             {
                 UpdateService.Instance.DownloadAndInstallPackage();
                 await new UpdateDialog().ShowAsync();

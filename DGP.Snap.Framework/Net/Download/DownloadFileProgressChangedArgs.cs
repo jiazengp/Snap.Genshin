@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DGP.Snap.Framework.Net.Download
+namespace DGP.Genshin.Common.Net.Download
 {
     /// <summary>
     /// DownloadFileProgressChanged event args

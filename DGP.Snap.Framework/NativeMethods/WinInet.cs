@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DGP.Snap.Framework.NativeMethods
+namespace DGP.Genshin.Common.NativeMethods
 {
     public class WinInet
     {
