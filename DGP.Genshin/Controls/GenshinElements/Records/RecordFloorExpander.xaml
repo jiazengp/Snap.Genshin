@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DGP.Genshin.Controls.GenshinElements.Records" 
           xmlns:ui="http://schemas.modernwpf.com/2019" 
           xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
           mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
           Margin="0,8,0,0" 
@@ -334,6 +335,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <converters:RarityConverter x:Key="RarityConverter"/>
     </Expander.Resources>
     <Expander.Header>
         <TextBlock>
@@ -374,7 +376,7 @@
                                         <StackPanel Margin="2">
                                             <Grid>
                                                 <Border Width="42" Height="42">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Rarity,Converter={StaticResource RarityConverter}}"/>
                                                 </Border>
                                                 <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>
@@ -400,7 +402,7 @@
                                         <StackPanel Margin="2">
                                             <Grid>
                                                 <Border Width="42" Height="42">
-                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding StarUrl}"/>
+                                                    <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Rarity,Converter={StaticResource RarityConverter}}"/>
                                                 </Border>
                                                 <Border Width="42" Height="42">
                                                     <c:CachedImage RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" ImageUrl="{Binding Icon}"/>

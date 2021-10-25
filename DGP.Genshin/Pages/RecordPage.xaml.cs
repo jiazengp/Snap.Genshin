@@ -5,6 +5,7 @@ using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Navigation;
 
 namespace DGP.Genshin.Pages
 {
@@ -58,10 +59,8 @@ namespace DGP.Genshin.Pages
             {
                 isQuerying = true;
                 RequestingProgressRing.IsActive = true;
-                RecordService.RecordProgressed += RecordService_RecordProgressed;
                 string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
                 Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RecordService.RecordProgressed -= RecordService_RecordProgressed;
                 RequestingProgressRing.IsActive = false;
 
                 if (record.Success)
@@ -102,10 +101,11 @@ namespace DGP.Genshin.Pages
                 isQuerying = false;
             }
         }
-        private void RecordService_RecordProgressed(string? info)
-        {
-            Dispatcher.Invoke(() => RequestingProgressText.Text = info);
-        }
         #endregion
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            RecordService.Instance.UnInitialize();
+        }
     }
 }

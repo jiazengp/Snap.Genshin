@@ -20,7 +20,8 @@
         Height="680" 
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
-        ui:TitleBar.ExtendViewIntoTitleBar="True">
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        >
     <Window.Resources>
         <converters:DevModeVisibilityConverter x:Key="DevModeVisibilityConverter"/>
         <m:Markdown x:Key="Markdown"

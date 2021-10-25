@@ -8,8 +8,9 @@
       xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:sys="clr-namespace:System;assembly=mscorlib" 
-      xmlns:controls="clr-namespace:DGP.Genshin.Controls.GenshinElements" xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
-         mc:Ignorable="d" 
+      xmlns:controls="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
+      xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+      mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CelestiaDatabasePage"
       Loaded="Page_Loaded">

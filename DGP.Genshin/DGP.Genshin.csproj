@@ -81,6 +81,10 @@
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataModel\MiHoYo2\" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="..\Build\net5.0\DGP.Snap.AutoVersion.exe &quot;$(ProjectDir)&quot;" />
   </Target>

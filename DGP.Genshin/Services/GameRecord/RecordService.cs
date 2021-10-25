@@ -145,7 +145,7 @@ namespace DGP.Genshin.Services.GameRecord
             }
         }
 
-        ~RecordService()
+        public void UnInitialize()
         {
             File.WriteAllText(QueryHistoryFile, Json.Stringify(QueryHistory));
             this.Log("uninitialized");

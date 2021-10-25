@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Cookie
 {
     /// <summary>
-    /// Cookie管理器
+    /// 全局Cookie管理器
     /// </summary>
     public class CookieManager
     {

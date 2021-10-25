@@ -1,12 +1,10 @@
-﻿using DGP.Genshin.Controls.GenshinElements;
-using DGP.Genshin.DataModel.Characters;
+﻿using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.YoungMoe2;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
 using DGP.Genshin.YoungMoeAPI.Collocation;
 using DGP.Snap.Framework.Data.Behavior;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
