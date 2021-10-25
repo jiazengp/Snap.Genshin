@@ -24,8 +24,9 @@ namespace DGP.Genshin.Pages
             InitializeComponent();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(1000);
             DataContext = CelestiaDatabaseService.Instance;
 
             if (RecordService.Instance.QueryHistory?.Count > 0)

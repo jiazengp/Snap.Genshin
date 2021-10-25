@@ -36,7 +36,7 @@
                 <Grid>
                     <dialogs:CharacterDialog d:IsHidden="True"  x:Name="CharacterEditDialog"/>
                     <s:SmoothScrollViewer>
-                        <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
+                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Center" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="200" ContextMenu="{StaticResource ItemMenu}">
@@ -58,7 +58,7 @@
                     </Grid.RowDefinitions>
                     <dialogs:WeaponDialog d:IsHidden="True" x:Name="WeaponEditDialog"/>
                     <s:SmoothScrollViewer>
-                        <ui:GridView HorizontalAlignment="Center" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
+                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Center" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="200" ContextMenu="{StaticResource ItemMenu}">

@@ -1,5 +1,7 @@
-﻿using DGP.Genshin.DataModel.Characters;
+﻿using DGP.Genshin.Controls.GenshinElements;
+using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
+using DGP.Genshin.DataModel.YoungMoe2;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
 using DGP.Genshin.YoungMoeAPI.Collocation;
@@ -23,13 +25,13 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         /// 全角色映射
         /// </summary>
         private List<AvatarSimple>? allAvatarMap;
-        private List<DetailedAvatarInfo>? collocationAll;
+        private IEnumerable<DetailedAvatarInfo2>? collocationAll;
         private List<AvatarInfo>? collocation11;
         private int totalSubmitted;
         private int abyssPassed;
 
         public List<AvatarSimple>? AvatarDictionary { get => allAvatarMap; set => Set(ref allAvatarMap, value); }
-        public List<DetailedAvatarInfo>? CollocationAll { get => collocationAll; set => Set(ref collocationAll, value); }
+        public IEnumerable<DetailedAvatarInfo2>? CollocationAll { get => collocationAll; set => Set(ref collocationAll, value); }
         public List<AvatarInfo>? Collocation11 { get => collocation11; set => Set(ref collocation11, value); }
         public int TotalSubmitted { get => totalSubmitted; set => Set(ref totalSubmitted, value); }
         public int AbyssPassed { get => abyssPassed; set => Set(ref abyssPassed, value); }
@@ -47,7 +49,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             isInitialized = true;
 
             AvatarDictionary = database.GetAllAvatar();
-            CollocationAll = database.GetCollocationRankOfFinal();
+            CollocationAll = database.GetCollocationRankOfFinal()?.Select(col => new DetailedAvatarInfo2(col));
             Collocation11 = database.GetCollocationRankOf11Floor();
 
             Gamers? totalSubmitted = database.GetTotalSubmittedGamer();
@@ -144,10 +146,10 @@ namespace DGP.Genshin.Services.CelestiaDatabase
 
         private Character? ToCharacter(AvatarSimple? avatar)
         {
-            return avatar == null 
-                ? null 
-                : avatar.CnName == "旅行者" 
-                ? new Character { Name = "旅行者", Star = StarHelper.FromRank(5) } 
+            return avatar == null
+                ? null
+                : avatar.CnName == "旅行者"
+                ? new Character { Name = "旅行者", Star = StarHelper.FromRank(5) }
                 : (MetaDataService.Instance.Characters?.First(c => c.Name == avatar.CnName));
         }
 
@@ -190,5 +192,30 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         public List<Character?>? DownHalf { get; set; }
 
         public int Count { get; set; }
+    }
+
+    public static class ProcessedRelicHelper
+    {
+        public static List<ProcessedRelic>? ToProcessedRelics(this List<List<CollocationRelic>> relics)
+        {
+            List<ProcessedRelic>? processedRelics = new();
+            foreach (List<CollocationRelic> relic in relics)
+            {
+                ProcessedRelic p = new();
+                foreach (CollocationRelic item in relic)
+                {
+                    if (item.Rate != 0)
+                    {
+                        p.Rate = item.Rate;
+                    }
+                    else
+                    {
+                        p.Relics.Add(item);
+                    }
+                }
+                processedRelics.Add(p);
+            }
+            return processedRelics;
+        }
     }
 }

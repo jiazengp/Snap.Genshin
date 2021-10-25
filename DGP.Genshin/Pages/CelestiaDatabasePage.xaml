@@ -19,7 +19,6 @@
             TrueStyle="{StaticResource BaseTextBlockStyle}"
             FalseStyle="{StaticResource BodyTextBlockStyle}"/>
         <converters:RankToStarSolidConverter x:Key="RankToStarSolidConverter"/>
-        <converters:CollocationWeaponConverter x:Key="CollocationWeaponConverter"/>
         <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
         <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
     </ui:Page.Resources>
@@ -138,7 +137,7 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
                                             <TextBlock Text="武器使用" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <ItemsControl Grid.Column="0" Margin="0,8,0,0" ItemsSource="{Binding CollocationWeapon,Converter={StaticResource CollocationWeaponConverter}}">
+                                            <ItemsControl Grid.Column="0" Margin="0,8,0,0" ItemsSource="{Binding CollocationWeapon}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Horizontal"/>
@@ -148,13 +147,13 @@
                                                     <DataTemplate>
                                                         <Grid Grid.Column="0" Width="70" Height="70" Margin="0,0,8,0">
                                                             <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Weapon.StarUrl}"/>
+                                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
                                                             </Border>
                                                             <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Weapon.Source}"/>
+                                                                <c:CachedImage ImageUrl="{Binding Source}"/>
                                                             </Border>
                                                             <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                                <c:CachedImage ImageUrl="{Binding Weapon.Type}"/>
+                                                                <c:CachedImage ImageUrl="{Binding Type}"/>
                                                             </Border>
                                                             <Border Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                                 <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Rate,StringFormat={}{0:p}}" FontSize="10"/>
@@ -166,7 +165,7 @@
                                                                         <GradientStop Offset="1" Color="#CC000000"/>
                                                                     </LinearGradientBrush>
                                                                 </Border.Background>
-                                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.Name}" FontSize="10"/>
+                                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
                                                             </Border>
                                                         </Grid>
                                                     </DataTemplate>
@@ -213,7 +212,6 @@
                                     </Grid>
                                 </Grid>
                             </Expander>
-
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

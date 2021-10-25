@@ -42,7 +42,6 @@
 
     </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlBackgroundAltHighBrush}">
-        
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,12">
             <StackPanel Margin="12" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Image Width="80" Height="80" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
@@ -72,7 +71,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding MetaDataService.Percent}"/>
+            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding MetaDataService.Percent,TargetNullValue=1}"/>
         </StackPanel>
     </Grid>
 </UserControl>

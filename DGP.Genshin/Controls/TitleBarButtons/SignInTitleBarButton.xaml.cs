@@ -129,19 +129,23 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             if (!isSigningIn)
             {
                 isSigningIn = true;
-                if (SelectedRole is null)
+                await App.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    isSigningIn = false;
-                    throw new InvalidOperationException("无角色信息时不能签到");
-                }
+                    if (SelectedRole is null)
+                    {
+                        isSigningIn = false;
+                        throw new InvalidOperationException("无角色信息时不能签到");
+                    }
 
-                SignInResult? result = await Task.Run(() => new SignInProvider(CookieManager.Cookie).SignIn(SelectedRole));
-                new ToastContentBuilder().AddText(result is not null ? "签到成功" : "签到失败").Show();
-                SignInReward? reward = await Task.Run(new SignInProvider(CookieManager.Cookie).GetSignInReward);
-                ApplyItemOpacity(reward);
-                SignInReward = reward;
-                //refresh info
-                SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.Cookie).GetSignInInfo(SelectedRole));
+                    SignInResult? result = new SignInProvider(CookieManager.Cookie).SignIn(SelectedRole);
+                    new ToastContentBuilder().AddText(result is not null ? "签到成功" : "签到失败").Show();
+                    SignInReward? reward = new SignInProvider(CookieManager.Cookie).GetSignInReward();
+                    ApplyItemOpacity(reward);
+                    SignInReward = reward;
+                    //refresh info
+                    SignInInfo = new SignInProvider(CookieManager.Cookie).GetSignInInfo(SelectedRole);
+
+                });
                 isSigningIn = false;
             }
         }
