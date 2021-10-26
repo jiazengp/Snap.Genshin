@@ -138,12 +138,16 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 Uri uriSource = UriSource;
                 if (uriSource != null)
                 {
-                    BitmapImage imageSource = new BitmapImage();
+                    BitmapImage imageSource = new();
                     imageSource.BeginInit();
                     imageSource.CreateOptions = BitmapCreateOptions.None;
                     try
                     {
                         imageSource.StreamSource = await FileCache.HitAsync(uriSource.ToString());
+                    }
+                    catch
+                    {
+                        imageSource.StreamSource = null;
                     }
                     finally
                     {

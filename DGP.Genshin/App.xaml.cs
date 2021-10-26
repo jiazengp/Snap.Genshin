@@ -9,36 +9,42 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.Foundation.Collections;
 
 namespace DGP.Genshin
 {
     public partial class App : Application
     {
+        ToastNotificationHandler toastNotificationHandler = new();
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
             EnsureWorkingPath();
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            //handle notification activation
+            ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
+
             EnsureSingleInstance();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
             SetAppTheme();
-            //post app window created
-
         }
+
+        /// <summary>
+        /// set working dir while launch by windows autorun
+        /// </summary>
         private void EnsureWorkingPath()
         {
-            //set working dir while launch by windows autorun
             string? path = Assembly.GetEntryAssembly()?.Location;
             string? workingPath = Path.GetDirectoryName(path);
             if (workingPath is not null)
             {
                 Environment.CurrentDirectory = workingPath;
             }
-
         }
         private void SetAppTheme()
         {

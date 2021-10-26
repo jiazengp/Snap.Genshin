@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace DGP.Genshin
 {
@@ -48,30 +49,7 @@ namespace DGP.Genshin
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
-                DateTime? time = SettingService.Instance.GetOrDefault(
-                    Setting.LastAutoSignInTime,
-                    DateTime.Today.AddDays(-1),
-                    str => str is not null ? DateTime.Parse((string)str) : (DateTime?)null);
-
-                if (time <= DateTime.Today)
-                {
-                    splashView.CurrentStateDescription = "签到中...";
-                    UserGameRoleInfo? roleInfo = new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles();
-                    System.Collections.Generic.List<UserGameRole>? list = roleInfo?.List;
-                    if (list is not null)
-                    {
-                        foreach (UserGameRole role in list)
-                        {
-                            SignInResult? result = await Task.Run(() => new SignInProvider(CookieManager.Cookie).SignIn(role));
-                            new ToastContentBuilder()
-                                .AddText(result is null ? "签到失败" : "签到成功")
-                                .AddText(role.ToString())
-                                .AddAttributionText("米游社每日签到")
-                                .Show();
-                        }
-                    }
-
-                }
+                await SignInOnStartUp(splashView);
             }
 
             splashView.CurrentStateDescription = "完成";
@@ -83,16 +61,58 @@ namespace DGP.Genshin
             splashView.HasCheckCompleted = true;
         }
 
+        private static async Task SignInOnStartUp(SplashView splashView)
+        {
+            DateTime? converter(object? str) => str is not null ? DateTime.Parse((string)str) : null;
+            DateTime? latsSignInTime = SettingService.Instance.GetOrDefault(Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), converter);
+
+            if (latsSignInTime < DateTime.Today)
+            {
+                splashView.CurrentStateDescription = "签到中...";
+                UserGameRoleInfo? roleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles);
+                List<UserGameRole>? list = roleInfo?.List;
+                if (list is not null)
+                {
+                    foreach (UserGameRole role in list)
+                    {
+                        SignInResult? result = await Task.Run(() => new SignInProvider(CookieManager.Cookie).SignIn(role));
+                        new ToastContentBuilder()
+                            .AddText(result is null ? "签到失败" : "签到成功")
+                            .AddText(role.ToString())
+                            .AddAttributionText("米游社每日签到")
+                            .Show();
+                    }
+                }
+            }
+        }
+
         #region Update
+        //TODO:make update to display in toast
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
+
+            string hint = result switch
+            {
+                UpdateState.NeedUpdate => "检测到更新",
+                UpdateState.IsNewestRelease => "",
+                UpdateState.IsInsiderVersion => "",
+                UpdateState.NotAvailable => "",
+                _ => throw new NotImplementedException(),
+            };
+
             switch (result)
             {
                 case UpdateState.NeedUpdate:
                     {
                         if (await ShowConfirmUpdateDialogAsync() == ContentDialogResult.Primary)
                         {
+                            new ToastContentBuilder()
+                            .AddText("有新的更新可用")
+                            .AddText(UpdateService.Instance.NewVersion?.ToString())
+                            .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
+                            .AddButton(new ToastButtonDismiss("忽略"))
+                            .Show();
                             UpdateService.Instance.DownloadAndInstallPackage();
                             await new UpdateDialog().ShowAsync();
                         }

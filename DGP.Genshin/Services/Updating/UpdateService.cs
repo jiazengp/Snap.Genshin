@@ -20,8 +20,6 @@ namespace DGP.Genshin.Services.Updating
 
         private IFileDownloader? InnerFileDownloader { get; set; }
 
-        private const string GithubUrl = @"https://api.github.com/repos/DGP-Studio/Snap.Genshin/releases/latest";
-
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try
@@ -29,7 +27,7 @@ namespace DGP.Genshin.Services.Updating
                 //use token to increase github rate limit
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
                 {
-                    Credentials = new Credentials(TokenHelper.GetToken())
+                    Credentials = new Credentials(TokenHelper.GetToken()),
                 };
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 
@@ -42,13 +40,13 @@ namespace DGP.Genshin.Services.Updating
                 string newVersion = Release.TagName;
                 NewVersion = new Version(Release.TagName);
 
-                return new Version(newVersion) > CurrentVersion
+                return NewVersion > CurrentVersion
                     ? UpdateState.NeedUpdate
-                    : new Version(newVersion) == CurrentVersion
+                    : NewVersion == CurrentVersion
                            ? UpdateState.IsNewestRelease
                            : UpdateState.IsInsiderVersion;
             }
-            catch (Exception)
+            catch
             {
                 return UpdateState.NotAvailable;
             }
@@ -61,7 +59,10 @@ namespace DGP.Genshin.Services.Updating
             InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
 
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
-            Debug.Assert(PackageUri is not null);
+            if (PackageUri is null)
+            {
+                throw new InvalidOperationException("未找到更新包的下载地址");
+            }
             InnerFileDownloader.DownloadFileAsync(PackageUri, destinationPath);
         }
         public void CancelUpdate()
@@ -93,7 +94,7 @@ namespace DGP.Genshin.Services.Updating
             {
                 File.Delete("OldUpdater.exe");
             }
-
+            //those files are needed to start process successufully
             File.Move("DGP.Genshin.Updater.dll", "OldUpdater.dll");
             File.Move("DGP.Genshin.Updater.exe", "OldUpdater.exe");
             File.Move("DGP.Genshin.Updater.deps.json", "OldUpdater.deps.json");
