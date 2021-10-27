@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.Services;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Windows.Threading;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -97,22 +96,6 @@ namespace DGP.Genshin.Pages
                 default:
                     break;
             }
-        }
-
-        ~ManagePage()
-        {
-            UnInitialize();
-        }
-
-        private void UnInitialize()
-        {
-            //detatch datacontext
-            App.Current.Invoke(() =>
-            {
-                DataContext = null;
-                CharacterEditDialog.DataContext = null;
-                WeaponEditDialog.DataContext = null;
-            });
         }
     }
 }

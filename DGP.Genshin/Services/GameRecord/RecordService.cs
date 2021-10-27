@@ -8,6 +8,7 @@ using DGP.Genshin.Common.Extensions.System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System;
 
 namespace DGP.Genshin.Services.GameRecord
 {
@@ -40,14 +41,14 @@ namespace DGP.Genshin.Services.GameRecord
         /// <returns></returns>
         public async Task<Record> GetRecordAsync(string? uid)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
                 if (uid is null)
                 {
                     return new Record("请输入Uid");
                 }
 
-                RecordProvider recordProvider = new(CookieManager.Cookie);
+                RecordProvider recordProvider = new(CookieManager.CurrentCookie);
 
                 //figure out the server
                 string? server = recordProvider.EvaluateUidRegion(uid);
@@ -58,7 +59,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 玩家基础统计信息 (1/5)");
-                PlayerInfo? playerInfo = recordProvider.GetPlayerInfo(uid, server);
+                PlayerInfo? playerInfo = await recordProvider.GetPlayerInfoAsync(uid, server);
                 if (playerInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -66,7 +67,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 本期深境螺旋信息 (2/5)");
-                SpiralAbyss? spiralAbyss = recordProvider.GetSpiralAbyss(uid, server, 1);
+                SpiralAbyss? spiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 1);
                 if (spiralAbyss is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -74,7 +75,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 上期深境螺旋信息 (3/5)");
-                SpiralAbyss? lastSpiralAbyss = recordProvider.GetSpiralAbyss(uid, server, 2);
+                SpiralAbyss? lastSpiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 2);
                 if (lastSpiralAbyss is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -82,7 +83,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 活动挑战信息 (4/5)");
-                dynamic? activitiesInfo = recordProvider.GetActivities(uid, server);
+                dynamic? activitiesInfo = recordProvider.GetActivitiesAsync(uid, server);
                 if (activitiesInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -90,7 +91,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 详细角色信息 (5/5)");
-                DetailedAvatarInfo? detailedAvatarInfo = recordProvider.GetDetailAvaterInfo(uid, server, playerInfo);
+                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
                 if (detailedAvatarInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -112,7 +113,7 @@ namespace DGP.Genshin.Services.GameRecord
             });
         }
 
-        public static event RecordProgressedHandler? RecordProgressed;
+        public static event Action<string?>? RecordProgressed;
 
         #region 单例
         private const string QueryHistoryFile = "history.dat";
@@ -152,6 +153,4 @@ namespace DGP.Genshin.Services.GameRecord
         }
         #endregion
     }
-
-    public delegate void RecordProgressedHandler(string? info);
 }

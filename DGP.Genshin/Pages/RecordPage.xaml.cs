@@ -70,7 +70,7 @@ namespace DGP.Genshin.Pages
                     service.CurrentRecord = record;
                     if (CelestiaDatabaseService.Instance.IsInitialized)
                     {
-                        CelestiaDatabaseService.Instance.RefershRecommands();
+                        await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
                     }
                     service.AddQueryHistory(uid);
                 }

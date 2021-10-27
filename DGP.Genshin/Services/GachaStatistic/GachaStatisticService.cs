@@ -115,11 +115,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaLogUrlMode mode)
         {
             string? url = await GachaLogUrlProvider.GetUrlAsync(mode);
-            if (url is null)
-            {
-                return null;
-            }
-            return new(url, gachaDataCollection);
+            return url is null ? null : (new(url, gachaDataCollection));
         }
 
         public async void SyncStatisticWithUid()
@@ -192,31 +188,33 @@ namespace DGP.Genshin.Services.GachaStatistic
                 //TODO 提示用户获取失败
                 return false;
             }
-            bool isGachaConfigAvailable = await Task.Run(() =>
-            {
-                //gacha config can be null while authkey timeout
-                if (worker.GachaConfig != null && worker.GachaConfig.Types != null)
-                {
-                    worker.OnFetchProgressed += OnFetchProgressed;
-                    foreach (ConfigType pool in worker.GachaConfig.Types)
-                    {
-                        worker.FetchGachaLogIncrement(pool);
-                    }
-                    worker.OnFetchProgressed -= OnFetchProgressed;
-                    localGachaLogWorker.SaveAllLogs();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
+            bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker);
             if (Statistic != null)
             {
                 SyncStatisticWithUid();
             }
             FetchProgress = null;
             return isGachaConfigAvailable;
+        }
+
+        private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker)
+        {
+            //gacha config can be null while authkey timeout
+            if (worker.GachaConfig != null && worker.GachaConfig.Types != null)
+            {
+                worker.OnFetchProgressed += OnFetchProgressed;
+                foreach (ConfigType pool in worker.GachaConfig.Types)
+                {
+                    await worker.FetchGachaLogIncrementAsync(pool);
+                }
+                worker.OnFetchProgressed -= OnFetchProgressed;
+                localGachaLogWorker.SaveAllLogs();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

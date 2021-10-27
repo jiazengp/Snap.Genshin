@@ -42,7 +42,7 @@ namespace DGP.Genshin.Pages
                 }
             }
 
-            CelestiaDatabaseService.Instance.Initialize();
+            await CelestiaDatabaseService.Instance.InitializeAsync();
         }
 
         #region AutoSuggest
@@ -82,7 +82,7 @@ namespace DGP.Genshin.Pages
                         service.CurrentRecord = record;
                         if (CelestiaDatabaseService.Instance.IsInitialized)
                         {
-                            CelestiaDatabaseService.Instance.RefershRecommands();
+                            await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
                         }
                         service.AddQueryHistory(uid);
                     }
@@ -125,7 +125,7 @@ namespace DGP.Genshin.Pages
             string? result = "当前无可用玩家信息";
             if (RecordService.Instance.CurrentRecord?.UserId is not null)
             {
-                result = await Task.Run(() => new CelestiaDatabase().PostUid(RecordService.Instance.CurrentRecord.UserId));
+                result = await Task.Run(() => new CelestiaDatabase().PostUidAsync(RecordService.Instance.CurrentRecord.UserId));
             }
 
             await new ContentDialog()

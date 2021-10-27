@@ -13,36 +13,60 @@
                    >
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
-            <Grid RenderOptions.BitmapScalingMode="Fant">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Width="48" Height="48" Margin="0,4,12,4">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Width="64" Height="64" Margin="0,4,12,4">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        <TextBlock Text="{Binding UserInfo.Uid,StringFormat={}通行证ID：{0}}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <TextBlock Margin="8" Text="{Binding UserInfo.Introduce}" MaxWidth="272" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
-                </Grid>
+                <ui:CommandBar Grid.Row="0">
+                    <ui:AppBarButton Label="添加用户" Click="AddCookieAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE8FA;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE74D;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                </ui:CommandBar>
+                <ui:ListView Grid.Row="1" Padding="0" 
+                         ItemsSource="{Binding UserInfos}" 
+                         SelectedItem="{Binding UserInfo}" 
+                         SelectionMode="Single">
+                    <ui:ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RenderOptions.BitmapScalingMode="Fant">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="48" Height="48" Margin="0,4,12,4">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding AvatarUrl}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="64" Height="64" Margin="0,4,12,4">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding Pendant}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Uid,StringFormat={}通行证ID：{0}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ui:ListView.ItemTemplate>
+                </ui:ListView>
             </Grid>
         </ui:Flyout>
     </ui:FlyoutBase.AttachedFlyout>

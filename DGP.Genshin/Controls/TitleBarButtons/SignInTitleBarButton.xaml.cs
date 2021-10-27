@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
+using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -71,8 +72,8 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
             if (e.NewValue is UserGameRole role)
             {
-                button.SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.Cookie).GetSignInInfo(role));
-                SignInReward? reward = await Task.Run(new SignInProvider(CookieManager.Cookie).GetSignInReward);
+                button.SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(role));
+                SignInReward? reward = await Task.Run(new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync);
                 button.ApplyItemOpacity(reward);
                 button.SignInReward = reward;
             }
@@ -81,15 +82,19 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
-            {
-                if (flyout.Content is Grid grid)
-                {
-                    grid.DataContext = this;
-                    FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
+            //if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
+            //{
+            //    if (flyout.Content is Grid grid)
+            //    {
+            //        grid.DataContext = this;
+            //        FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
 
-                    await InitializeSignInPanelDataAsync();
-                }
+            //        await InitializeSignInPanelDataAsync();
+            //    }
+            //}
+            if(sender.ShowAttachedFlyout<Grid>(this))
+            {
+                await InitializeSignInPanelDataAsync();
             }
         }
 
@@ -113,11 +118,11 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         {
             if (SignInReward is null)
             {
-                SignInReward = await Task.Run(new SignInProvider(CookieManager.Cookie).GetSignInReward);
+                SignInReward = await Task.Run(new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync);
             }
             if (SignInInfo is null)
             {
-                RoleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles);
+                RoleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync);
                 SelectedRole = RoleInfo?.List?.First();
             }
         }
@@ -128,7 +133,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             if (!isSigningIn)
             {
                 isSigningIn = true;
-                await App.Current.Dispatcher.InvokeAsync(() =>
+                await App.Current.Dispatcher.InvokeAsync(async () =>
                 {
                     if (SelectedRole is null)
                     {
@@ -136,13 +141,21 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                         throw new InvalidOperationException("无角色信息时不能签到");
                     }
 
-                    SignInResult? result = new SignInProvider(CookieManager.Cookie).SignIn(SelectedRole);
-                    new ToastContentBuilder().AddText(result is not null ? "签到成功" : "签到失败").Show();
-                    SignInReward? reward = new SignInProvider(CookieManager.Cookie).GetSignInReward();
+                    SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(SelectedRole);
+                    if (result is not null)
+                    {
+                        SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
+                    }
+                    new ToastContentBuilder()
+                            .AddText(result is null ? "签到失败" : "签到成功")
+                            .AddText(SelectedRole.ToString())
+                            .AddAttributionText("米游社每日签到")
+                            .Show();
+                    SignInReward? reward = await new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync();
                     ApplyItemOpacity(reward);
                     SignInReward = reward;
                     //refresh info
-                    SignInInfo = new SignInProvider(CookieManager.Cookie).GetSignInInfo(SelectedRole);
+                    SignInInfo = await new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(SelectedRole);
 
                 });
                 isSigningIn = false;

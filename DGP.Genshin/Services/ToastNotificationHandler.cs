@@ -12,9 +12,7 @@ namespace DGP.Genshin.Services
         /// <param name="toastArgs"></param>
         internal async void OnActivatedByNotification(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
-            // Obtain the arguments from the notification
             //ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
-
             //if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
 
             ValueSet userInput = toastArgs.UserInput;

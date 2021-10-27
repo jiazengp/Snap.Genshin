@@ -68,6 +68,7 @@ namespace DGP.Genshin.Services.Updating
         public void CancelUpdate()
         {
             InnerFileDownloader?.CancelDownloadAsync();
+            InnerFileDownloader?.Dispose();
         }
 
         internal void OnDownloadProgressChanged(object? sender, DownloadFileProgressChangedArgs args)

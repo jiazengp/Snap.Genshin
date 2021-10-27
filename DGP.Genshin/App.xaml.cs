@@ -10,13 +10,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.Foundation.Collections;
 
 namespace DGP.Genshin
 {
     public partial class App : Application
     {
-        ToastNotificationHandler toastNotificationHandler = new();
+        private readonly ToastNotificationHandler toastNotificationHandler = new();
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -79,8 +78,8 @@ namespace DGP.Genshin
         #region SingleInstance
         private const string UniqueEventName = "Snap.Genshin";
         private EventWaitHandle? eventWaitHandle;
-        private bool isExitDueToSingleInstanceRestriction = false;
-        private bool isEnsureingSingleInstance = false;
+        private bool isExitDueToSingleInstanceRestriction;
+        private bool isEnsureingSingleInstance;
         private void EnsureSingleInstance()
         {
             // check if it is already open.

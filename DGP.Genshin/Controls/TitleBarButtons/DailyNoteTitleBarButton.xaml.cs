@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.MiHoYoAPI.User;
-using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,15 +29,19 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void DailyNoteTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
+
+            //if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
+            //{
+            //    if (flyout.Content is Grid grid)
+            //    {
+            //        grid.DataContext = this;
+            //        FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
+            //    }
+            //}
+            if (sender.ShowAttachedFlyout<Grid>(this))
             {
-                if (flyout.Content is Grid grid)
-                {
-                    grid.DataContext = this;
-                    FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
-                }
+                await RefreshAsync();
             }
-            await RefreshAsync();
         }
 
         private bool isRefreshing;
@@ -50,7 +53,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             }
             isRefreshing = true;
             List<DailyNote> list = new();
-            UserGameRoleInfo? roles = await Task.Run(new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles);
+            UserGameRoleInfo? roles = await new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync();
 
             if (roles?.List is not null)
             {
@@ -58,7 +61,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                 {
                     if (role.Region is not null && role.GameUid is not null)
                     {
-                        DailyNote? note = new DailyNoteProvider(CookieManager.Cookie).GetDailyNote(role.Region, role.GameUid);
+                        DailyNote? note = await new DailyNoteProvider(CookieManager.CurrentCookie).GetDailyNoteAsync(role.Region, role.GameUid);
                         if (note is not null)
                         {
                             list.Add(note);

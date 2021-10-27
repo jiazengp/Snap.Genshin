@@ -3,7 +3,6 @@ using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.YoungMoe2;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
-using DGP.Genshin.YoungMoeAPI.Collocation;
 using DGP.Genshin.Common.Data.Behavior;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         public bool IsInitialized => isInitialized;
 
         private bool isInitialized = false;
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             if (isInitialized)
             {
@@ -46,12 +45,12 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             }
             isInitialized = true;
 
-            AvatarDictionary = database.GetAllAvatar();
-            CollocationAll = database.GetCollocationRankOfFinal()?.Select(col => new DetailedAvatarInfo2(col));
-            Collocation11 = database.GetCollocationRankOf11Floor();
+            AvatarDictionary = await database.GetAllAvatarAsync();
+            CollocationAll = (await database.GetCollocationRankOfFinalAsync())?.Select(col => new DetailedAvatarInfo2(col));
+            Collocation11 = await database.GetCollocationRankOf11FloorAsync();
 
-            Gamers? totalSubmitted = database.GetTotalSubmittedGamer();
-            Gamers? sprialAbyssPassed = database.GetSprialAbyssPassedGamer();
+            Gamers? totalSubmitted = await database.GetTotalSubmittedGamerAsync();
+            Gamers? sprialAbyssPassed = await database.GetSprialAbyssPassedGamerAsync();
 
             if (totalSubmitted is not null && sprialAbyssPassed is not null)
             {
@@ -84,10 +83,10 @@ namespace DGP.Genshin.Services.CelestiaDatabase
 
         private async void OnFloorChanged()
         {
-            await Task.Run(RefershRecommands);
+            await Task.Run(RefershRecommandsAsync);
         }
 
-        public void RefershRecommands()
+        public async Task RefershRecommandsAsync()
         {
             if (RecordService.Instance.CurrentRecord is null || allAvatarMap is null)
             {
@@ -96,7 +95,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             //clear recommands
             Recommands = null;
 
-            List<int[]>? teamDataRaw = database.GetTeamRankRawData(SelectedFloor);
+            List<int[]>? teamDataRaw = await database.GetTeamRankRawDataAsync(SelectedFloor);
             List<int>? ownedAvatarRaw = RecordService.Instance.CurrentRecord.DetailedAvatars?
                 .Where(i => allAvatarMap.Exists(a => a.CnName == i.Name))
                 .Select(i => allAvatarMap.First(a => a.CnName == i.Name).Id)
@@ -160,6 +159,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         private CelestiaDatabaseService()
         {
             database = new();
+            selectedFloor = floors[0];
         }
         public static CelestiaDatabaseService Instance
         {
@@ -179,41 +179,5 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             }
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 推荐的配队
-    /// </summary>
-    public class Recommand
-    {
-        public List<Character?>? UpHalf { get; set; }
-        public List<Character?>? DownHalf { get; set; }
-
-        public int Count { get; set; }
-    }
-
-    public static class ProcessedRelicHelper
-    {
-        public static List<ProcessedRelic>? ToProcessedRelics(this List<List<CollocationRelic>> relics)
-        {
-            List<ProcessedRelic>? processedRelics = new();
-            foreach (List<CollocationRelic> relic in relics)
-            {
-                ProcessedRelic p = new();
-                foreach (CollocationRelic item in relic)
-                {
-                    if (item.Rate != 0)
-                    {
-                        p.Rate = item.Rate;
-                    }
-                    else
-                    {
-                        p.Relics.Add(item);
-                    }
-                }
-                processedRelics.Add(p);
-            }
-            return processedRelics;
-        }
     }
 }

@@ -93,6 +93,7 @@ namespace DGP.Genshin.Services.Launching
                     ProcessStartInfo info = new()
                     {
                         FileName = gamePath,
+                        Verb = "runas",
                         Arguments = $"-popupwindow -screen-fullscreen {fullScreenArg}"
                     };
                     Process? p = Process.Start(info);

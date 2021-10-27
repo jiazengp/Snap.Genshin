@@ -53,10 +53,8 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Posts = await Task.Run(() =>
-            new PostProvider(CookieManager.Cookie)
-            .GetOfficialRecommendedPosts()?
-            .OrderBy(p => p.OfficialType).ToList());
+            Posts = (await new PostProvider(CookieManager.CurrentCookie).GetOfficialRecommendedPostsAsync())?
+            .OrderBy(p => p.OfficialType).ToList();
         }
         private void LaunchButtonClick(object sender, RoutedEventArgs e)
         {

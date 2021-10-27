@@ -37,14 +37,17 @@ namespace DGP.Genshin
 
             this.Log("initialized");
         }
-
+        /// <summary>
+        /// 前初始化工作已经完成
+        /// </summary>
+        /// <param name="splashView"></param>
         private async void SplashInitializeCompleted(SplashView splashView)
         {
             splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
 
             splashView.CurrentStateDescription = "初始化用户信息...";
-            await UserInfoTitleButton.RefreshAsync();
+            await UserInfoTitleButton.RefreshUserInfosAsync();
 
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
@@ -69,13 +72,14 @@ namespace DGP.Genshin
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                UserGameRoleInfo? roleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.Cookie).GetUserGameRoles);
+                UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync();
                 List<UserGameRole>? list = roleInfo?.List;
                 if (list is not null)
                 {
                     foreach (UserGameRole role in list)
                     {
-                        SignInResult? result = await Task.Run(() => new SignInProvider(CookieManager.Cookie).SignIn(role));
+                        SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(role);
+                        SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
                         new ToastContentBuilder()
                             .AddText(result is null ? "签到失败" : "签到成功")
                             .AddText(role.ToString())

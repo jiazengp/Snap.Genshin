@@ -17,8 +17,8 @@ namespace DGP.Genshin.Services
         private readonly UserGameRoleProvider userGameRoleProvider;
         public JourneyService()
         {
-            journeyProvider = new JourneyProvider(CookieManager.Cookie);
-            userGameRoleProvider = new UserGameRoleProvider(CookieManager.Cookie);
+            journeyProvider = new JourneyProvider(CookieManager.CurrentCookie);
+            userGameRoleProvider = new UserGameRoleProvider(CookieManager.CurrentCookie);
             UserGameRoleChanged += UpdateJourneyInfo;
         }
 
@@ -40,16 +40,15 @@ namespace DGP.Genshin.Services
         #endregion
 
         public async Task InitializeAsync()
-        {
-            UserGameRoleInfo = await Task.Run(() =>
-            userGameRoleProvider.GetUserGameRoles());
+        { 
+            UserGameRoleInfo = await userGameRoleProvider.GetUserGameRolesAsync();
             SelectedRole = UserGameRoleInfo?.List?.First();
         }
 
         private event Action<UserGameRole?> UserGameRoleChanged;
         private async void UpdateJourneyInfo(UserGameRole? role)
         {
-            JourneyInfo = await Task.Run(() => journeyProvider.GetMonthInfo(role?.GameUid, role?.Region));
+            JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
         }
     }
 }
