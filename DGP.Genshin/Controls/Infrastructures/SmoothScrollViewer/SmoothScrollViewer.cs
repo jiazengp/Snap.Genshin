@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Helpers;
-using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Helpers;
 using System;
 using System.Windows;
 using System.Windows.Controls;

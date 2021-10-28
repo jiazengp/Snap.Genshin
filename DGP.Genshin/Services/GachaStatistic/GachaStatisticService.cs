@@ -1,8 +1,8 @@
-﻿using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Services.GachaStatistics.Statistics;
-using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.Services.GachaStatistics.Statistics;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -39,7 +39,8 @@ namespace DGP.Genshin.Services.GachaStatistic
 
         public void Initialize()
         {
-            SelectedUid = Uids.First();
+            //fix #44
+            SelectedUid = Uids.FirstOrDefault();
             SyncStatisticWithUid();
         }
         #endregion
@@ -102,11 +103,6 @@ namespace DGP.Genshin.Services.GachaStatistic
         public SpecificBanner? SelectedSpecificBanner { get => selectedSpecificBanner; set => Set(ref selectedSpecificBanner, value); }
 
         #endregion
-
-        public void PrepareDefaultStatistic()
-        {
-
-        }
 
         /// <summary>
         /// 获得当前的祈愿记录工作器

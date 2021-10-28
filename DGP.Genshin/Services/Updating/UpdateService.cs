@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Helpers;
-using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
+using DGP.Genshin.Helpers;
 using Octokit;
 using System;
 using System.Diagnostics;

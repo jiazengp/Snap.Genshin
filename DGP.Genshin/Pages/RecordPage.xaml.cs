@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Services.CelestiaDatabase;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Services.CelestiaDatabase;
 using DGP.Genshin.Services.GameRecord;
-using DGP.Genshin.Common.Extensions.System;
 using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Diagnostics;

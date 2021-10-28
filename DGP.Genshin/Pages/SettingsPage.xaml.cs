@@ -1,8 +1,8 @@
-﻿using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Cookie;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
-using DGP.Genshin.Common.Extensions.System;
 using ModernWpf;
 using System;
 using System.Reflection;

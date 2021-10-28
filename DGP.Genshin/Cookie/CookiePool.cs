@@ -8,6 +8,9 @@ namespace DGP.Genshin.Cookie
     /// </summary>
     public class CookiePool : List<string>
     {
+        public CookiePool() : base() { }
+        public CookiePool(IEnumerable<string> collection) : base(collection) { }
+
         /// <summary>
         /// 添加
         /// </summary>
@@ -16,7 +19,9 @@ namespace DGP.Genshin.Cookie
         {
             base.Add(cookie);
             CookieAdded?.Invoke(cookie);
+            CookieManager.SaveCookies();
         }
+
         /// <summary>
         /// 添加或忽略
         /// </summary>
@@ -38,6 +43,7 @@ namespace DGP.Genshin.Cookie
         {
             bool result = base.Remove(cookie);
             CookieRemoved?.Invoke(cookie);
+            CookieManager.SaveCookies();
             return result;
         }
 

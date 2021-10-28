@@ -3,7 +3,6 @@ using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
-using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System;
 using System.Linq;
@@ -20,8 +19,16 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     {
         public SignInTitleBarButton()
         {
+            CookieManager.CookieChanged += CookieManagerCookieChanged;
             InitializeComponent();
             DataContext = this;
+        }
+
+        private void CookieManagerCookieChanged()
+        {
+            //reset sign in panel
+            SignInReward = null;
+            SignInInfo = null;
         }
 
         #region Observable
@@ -82,17 +89,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void SignInTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
-            //if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
-            //{
-            //    if (flyout.Content is Grid grid)
-            //    {
-            //        grid.DataContext = this;
-            //        FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
-
-            //        await InitializeSignInPanelDataAsync();
-            //    }
-            //}
-            if(sender.ShowAttachedFlyout<Grid>(this))
+            if (sender.ShowAttachedFlyout<Grid>(this))
             {
                 await InitializeSignInPanelDataAsync();
             }

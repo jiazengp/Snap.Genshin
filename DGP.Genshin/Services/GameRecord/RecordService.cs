@@ -1,14 +1,14 @@
 ﻿using DGP.Genshin.Common;
+using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
-using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Extensions.System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System;
 
 namespace DGP.Genshin.Services.GameRecord
 {

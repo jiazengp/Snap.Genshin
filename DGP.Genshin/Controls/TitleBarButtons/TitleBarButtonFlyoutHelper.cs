@@ -12,7 +12,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         /// <typeparam name="TContentType"></typeparam>
         /// <param name="button">我们假定你传入了正确的类型</param>
         /// <param name="dataContext"></param>
-        public static bool ShowAttachedFlyout<TContentType>(this object button,object dataContext) where TContentType : FrameworkElement
+        public static bool ShowAttachedFlyout<TContentType>(this object button, object dataContext) where TContentType : FrameworkElement
         {
             if (FlyoutBase.GetAttachedFlyout((TitleBarButton)button) is Flyout flyout)
             {

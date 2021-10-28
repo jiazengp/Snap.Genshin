@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Services;
-using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;

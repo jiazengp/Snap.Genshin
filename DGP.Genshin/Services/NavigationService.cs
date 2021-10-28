@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
-using DGP.Genshin.Common.Extensions.System;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;

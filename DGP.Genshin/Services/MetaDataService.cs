@@ -1,4 +1,7 @@
 ﻿using DGP.Genshin.Common;
+using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.Infrastructures.CachedImage;
 using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.Characters;
@@ -9,9 +12,6 @@ using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
-using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -3,7 +3,6 @@ using DGP.Genshin.MiHoYoAPI.UserInfo;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -18,62 +17,61 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     /// </summary>
     public partial class UserInfoTitleBarButton : TitleBarButton, INotifyPropertyChanged
     {
-        private readonly Dictionary<string, UserInfo> userInfoCookieMap = new();
-        private UserInfo userInfo;
-        private ObservableCollection<UserInfo> userInfos;
+        private CookieUserInfo? selectedCookieUserInfo;
+        private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
 
-        public UserInfo UserInfo { get => userInfo; set => Set(ref userInfo, value); }
+        public CookieUserInfo? SelectedCookieUserInfo
+        {
+            get => selectedCookieUserInfo; set
+            {
+                Set(ref selectedCookieUserInfo, value);
+                CookieManager.ChangeOrIgnoreCurrentCookie(value?.Cookie);
+            }
+        }
 
-        public ObservableCollection<UserInfo> UserInfos { get => userInfos; set => Set(ref userInfos, value); }
+        public ObservableCollection<CookieUserInfo> CookieUserInfos { get => cookieUserInfos; set => Set(ref cookieUserInfos, value); }
 
         public UserInfoTitleBarButton()
         {
             InitializeComponent();
             DataContext = this;
-            CookieManager.CookieChanged += RefreshOnCurrentCookieChange;
+
             CookieManager.Cookies.CookieAdded += OnCookiesAdded;
             CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
-            RefreshOnCurrentCookieChange();
         }
 
-        private async void OnCookiesAdded(string cookie)
+        internal async Task InitializeAsync()
         {
-            string? prevUid = UserInfo?.Uid;
-            UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
-            if (info is not null)
-            {
-                UserInfos.Add(info);
-                userInfoCookieMap.Add(cookie, info);
-            }
-        }
-
-        public async void OnCookieRemoved(string cookie)
-        {
-            UserInfos.Remove(userInfoCookieMap[cookie]);
-            await RefreshUserInfosAsync(cookie);
-        }
-
-        public async void RefreshOnCurrentCookieChange()
-        {
-            await RefreshUserInfosAsync();
-        }
-
-        public async Task RefreshUserInfosAsync(string? newCookie = null)
-        {
-            string? prevUid = UserInfo?.Uid;
-            UserInfos.Clear();
-            userInfoCookieMap.Clear();
+            CookieUserInfos.Clear();
             foreach (string cookie in CookieManager.Cookies)
             {
                 UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
                 if (info is not null)
                 {
-                    UserInfos.Add(info);
-                    userInfoCookieMap.Add(cookie, info);
+                    CookieUserInfos.Add(new CookieUserInfo(cookie, info));
                 }
             }
-            UserInfo = UserInfos.FirstOrDefault(u => u.Uid == prevUid) ?? UserInfos.First();
-            CookieManager.ChangeCurrentCookie(userInfoCookieMap[UserInfo]);
+            SelectedCookieUserInfo = CookieUserInfos.First();
+        }
+
+        private async void OnCookiesAdded(string newCookie)
+        {
+            UserInfo? newInfo = await new UserInfoProvider(newCookie).GetUserInfoAsync();
+            if (newInfo is not null)
+            {
+                CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
+            }
+        }
+
+        public void OnCookieRemoved(string cookie)
+        {
+            CookieUserInfo? prevSelected = SelectedCookieUserInfo;
+            CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == cookie);
+            CookieUserInfos.Remove(currentRemoved);
+            if (prevSelected == currentRemoved)
+            {
+                SelectedCookieUserInfo = CookieUserInfos.First();
+            }
         }
 
         private void TitleBarButton_Click(object sender, RoutedEventArgs e)
@@ -91,9 +89,9 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     Content = "我们需要至少一个用户的信息才能使程序正常运转"
                 }.ShowAsync();
             }
-            if (UserInfo is not null)
+            if (SelectedCookieUserInfo is not null)
             {
-                CookieManager.Cookies.Remove(userInfoCookieMap[UserInfo]);
+                CookieManager.Cookies.Remove(SelectedCookieUserInfo.Cookie);
             }
         }
 

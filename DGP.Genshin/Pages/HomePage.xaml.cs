@@ -1,13 +1,12 @@
-﻿using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Post;
 using DGP.Genshin.Services.Launching;
-using DGP.Genshin.Common.Extensions.System;
 using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin.Pages

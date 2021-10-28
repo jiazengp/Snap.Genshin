@@ -14,19 +14,16 @@ namespace DGP.Genshin.Helpers
             return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
         }
 
-        private static string Base64Decode(Encoding encodeType, string result)
+        internal static string Base64Decode(Encoding encoding, string input)
         {
-            string decode;
-            byte[] bytes = Convert.FromBase64String(result);
-            try
-            {
-                decode = encodeType.GetString(bytes);
-            }
-            catch
-            {
-                decode = result;
-            }
-            return decode;
+            byte[] bytes = Convert.FromBase64String(input);
+            return encoding.GetString(bytes);
+        }
+
+        internal static string Base64Encode(Encoding encoding, string base64)
+        {
+            byte[] bytes = encoding.GetBytes(base64);
+            return Convert.ToBase64String(bytes);
         }
     }
 }

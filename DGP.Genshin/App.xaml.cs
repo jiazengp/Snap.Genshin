@@ -1,7 +1,8 @@
-﻿using DGP.Genshin.Services;
-using DGP.Genshin.Services.Settings;
-using DGP.Genshin.Common.Core.Logging;
+﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Services;
+using DGP.Genshin.Services.Settings;
+using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
 using System.IO;
@@ -9,7 +10,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace DGP.Genshin
 {

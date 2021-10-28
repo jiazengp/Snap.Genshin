@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Controls;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
@@ -7,16 +8,15 @@ using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
-using DGP.Genshin.Common.Extensions.System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Collections.Generic;
 
 namespace DGP.Genshin
 {
@@ -32,11 +32,10 @@ namespace DGP.Genshin
             //do not set datacontext for mainwindow
             InitializeComponent();
             MainSplashView.InitializationPostAction += SplashInitializeCompleted;
-
             navigationService = new NavigationService(this, NavView, ContentFrame);
-
             this.Log("initialized");
         }
+
         /// <summary>
         /// 前初始化工作已经完成
         /// </summary>
@@ -47,7 +46,7 @@ namespace DGP.Genshin
             await CheckUpdateAsync();
 
             splashView.CurrentStateDescription = "初始化用户信息...";
-            await UserInfoTitleButton.RefreshUserInfosAsync();
+            await UserInfoTitleButton.InitializeAsync();
 
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
@@ -64,6 +63,11 @@ namespace DGP.Genshin
             splashView.HasCheckCompleted = true;
         }
 
+        /// <summary>
+        /// 现在会对Cookie列表内的所有角色签到
+        /// </summary>
+        /// <param name="splashView"></param>
+        /// <returns></returns>
         private static async Task SignInOnStartUp(SplashView splashView)
         {
             DateTime? converter(object? str) => str is not null ? DateTime.Parse((string)str) : null;
@@ -72,21 +76,25 @@ namespace DGP.Genshin
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync();
-                List<UserGameRole>? list = roleInfo?.List;
-                if (list is not null)
+                foreach (string cookie in CookieManager.Cookies)
                 {
-                    foreach (UserGameRole role in list)
+                    UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                    List<UserGameRole>? list = roleInfo?.List;
+                    if (list is not null)
                     {
-                        SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(role);
-                        SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
-                        new ToastContentBuilder()
-                            .AddText(result is null ? "签到失败" : "签到成功")
-                            .AddText(role.ToString())
-                            .AddAttributionText("米游社每日签到")
-                            .Show();
+                        foreach (UserGameRole role in list)
+                        {
+                            SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
+                            SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
+                            new ToastContentBuilder()
+                                .AddText(result is null ? "签到失败" : "签到成功")
+                                .AddText(role.ToString())
+                                .AddAttributionText("米游社每日签到")
+                                .Show();
+                        }
                     }
                 }
+
             }
         }
 

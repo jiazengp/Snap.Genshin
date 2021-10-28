@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Services.Settings;
-using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Services.Settings;
 using IniParser;
 using IniParser.Model;
 using System;

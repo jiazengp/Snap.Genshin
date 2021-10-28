@@ -1,7 +1,10 @@
 ﻿using DGP.Genshin.Common;
 using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Helpers;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Cookie
@@ -26,7 +29,8 @@ namespace DGP.Genshin.Cookie
             //load cookies
             if (File.Exists(CookieListFile))
             {
-                Cookies = Json.FromFile<CookiePool>(CookieListFile) ?? new();
+                CookiePool base64Cookies = Json.FromFile<CookiePool>(CookieListFile) ?? new();
+                Cookies = new CookiePool(base64Cookies.Select(b => TokenHelper.Base64Decode(Encoding.UTF8, b)));
             }
             else
             {
@@ -83,15 +87,27 @@ namespace DGP.Genshin.Cookie
             File.WriteAllText(CookieFile, CurrentCookie);
         }
 
-        internal static void ChangeCurrentCookie(string cookie)
+        internal static void ChangeOrIgnoreCurrentCookie(string? cookie)
         {
-            CurrentCookie = cookie;
+            if (cookie is null)
+            {
+                return;
+            }
+            if (CurrentCookie != cookie)
+            {
+                CurrentCookie = cookie;
+            }
         }
 
         public static async Task AddNewCookieToPoolAsync()
         {
-            var newCookie = await App.Current.Dispatcher.Invoke(new CookieDialog().GetInputCookieAsync);
+            string? newCookie = await App.Current.Dispatcher.Invoke(new CookieDialog().GetInputCookieAsync);
             Cookies.AddOrIgnore(newCookie);
+        }
+
+        public static void SaveCookies()
+        {
+            Json.ToFile(CookieListFile, Cookies.Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c)));
         }
 
         /// <summary>

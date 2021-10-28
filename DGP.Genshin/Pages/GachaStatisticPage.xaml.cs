@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Services.GachaStatistic;
-using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Services.GachaStatistic;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System.Threading.Tasks;

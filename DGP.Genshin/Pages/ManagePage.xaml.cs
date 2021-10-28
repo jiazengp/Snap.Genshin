@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.DataModel.Characters;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.Services;
-using DGP.Genshin.Common.Extensions.System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;

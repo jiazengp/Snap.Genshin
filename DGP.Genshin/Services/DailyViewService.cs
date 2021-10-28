@@ -1,11 +1,10 @@
-﻿using DGP.Genshin.DataModel.Characters;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Weapons;
-using DGP.Genshin.Common.Extensions.System;
 using System.Collections.Generic;
 using System.Linq;
-
 using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.Services
