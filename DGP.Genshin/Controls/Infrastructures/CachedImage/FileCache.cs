@@ -18,7 +18,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     public static class FileCache
     {
         // Record whether a file is being written.
-        private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, bool> IsWritingFile = new();
 
         public static string AppCacheDirectory { get; set; } = $"{Environment.CurrentDirectory}\\Cache\\";
 
@@ -30,8 +30,6 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         /// </summary>
         /// <param name="url"></param>
         /// <returns>缓存或下载的图片</returns>
-        [SuppressMessage("", "CA1835",Justification ="在此处使用byte的效率更高")]
-        [SuppressMessage("", "CA5350")]
         public static async Task<MemoryStream?> HitAsync(string? url)
         {
             if (url is null)
@@ -42,19 +40,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             Directory.CreateDirectory(AppCacheDirectory);
 
             Uri uri = new(url);
-            //build filename
-            StringBuilder fileNameBuilder = new();
-            using (SHA1Managed sha1 = new())
-            {
-                string canonicalUrl = uri.ToString();
-                byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
-                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfoHelper.Default));
-                if (Path.HasExtension(canonicalUrl))
-                {
-                    fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
-                }
-            }
-            string fileName = fileNameBuilder.ToString();
+            string fileName = BuildFileName(uri);
             string localFile = $"{AppCacheDirectory}\\{fileName}";
 
             MemoryStream memoryStream = new();
@@ -74,7 +60,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             HttpClient client = LazyHttpClient.Value;
             try
             {
-                HttpResponseMessage? response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+                HttpResponseMessage response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -89,42 +75,63 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
                 }
 
-                using (responseStream)
-                {
-                    
-                    byte[] bytebuffer = new byte[100];
-                    int bytesRead;
-                    do
-                    {
-                        bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
-                        if (fileStream is not null)
-                        {
-                            await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
-                        }
-
-                        await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
-                    }
-                    while (bytesRead > 0);
-
-                    if (fileStream is not null)
-                    {
-                        await fileStream.FlushAsync();
-                        fileStream.Dispose();
-                        IsWritingFile.Remove(fileName);
-                    }
-                }
+                await CopyToCacheAndMemoryAsync(fileName, responseStream, memoryStream, fileStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
             catch (Exception ex)
             {
-
+                memoryStream?.Dispose();
                 fileStream?.Dispose();
-
                 File.Delete(localFile);
-
+                Logger.LogStatic($"Caching {url} To {fileName} failed.File has deleted.");
                 Logger.LogStatic(ex);
                 return null;
+            }
+        }
+
+        [SuppressMessage("", "CA5350")]
+        private static string BuildFileName(Uri uri)
+        {
+            StringBuilder fileNameBuilder = new();
+            using (SHA1Managed sha1 = new())
+            {
+                string canonicalUrl = uri.ToString();
+                byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
+                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfoHelper.Default));
+                if (Path.HasExtension(canonicalUrl))
+                {
+                    fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
+                }
+            }
+            string fileName = fileNameBuilder.ToString();
+            return fileName;
+        }
+
+        [SuppressMessage("", "CA1835")]
+        private static async Task CopyToCacheAndMemoryAsync(string fileName, Stream response, MemoryStream memory, FileStream? file)
+        {
+            using (response)
+            {
+                byte[] bytebuffer = new byte[100];
+                int bytesRead;
+                do
+                {
+                    bytesRead = await response.ReadAsync(bytebuffer, 0, 100);
+                    if (file is not null)
+                    {
+                        await file.WriteAsync(bytebuffer, 0, bytesRead);
+                    }
+                    await memory.WriteAsync(bytebuffer, 0, bytesRead);
+                }
+                while (bytesRead > 0);
+
+                if (file is not null)
+                {
+                    await file.FlushAsync();
+                    file.Dispose();
+                    IsWritingFile.Remove(fileName);
+                }
             }
         }
     }
