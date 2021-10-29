@@ -15,6 +15,7 @@ using DGP.Genshin.Services.GachaStatistics.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -338,25 +339,21 @@ namespace DGP.Genshin.Services
             Save(SpecificBanners, GachaEventJson);
             this.Log("uninitialized");
         }
+
         #region 单例
-        private static MetaDataService? instance;
-        private static readonly object _lock = new();
-        private MetaDataService()
-        {
-            Initialize();
-        }
+        private static volatile MetaDataService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private MetaDataService() { Initialize(); }
         public static MetaDataService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new MetaDataService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

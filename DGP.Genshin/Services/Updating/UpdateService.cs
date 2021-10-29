@@ -4,6 +4,7 @@ using DGP.Genshin.Helpers;
 using Octokit;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -109,24 +110,19 @@ namespace DGP.Genshin.Services.Updating
         }
 
         #region 单例
-        private static UpdateService? instance;
-        private static readonly object _lock = new object();
-        private UpdateService()
-        {
-            this.Log("initialized");
-        }
+        private static volatile UpdateService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private UpdateService() { }
         public static UpdateService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new UpdateService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

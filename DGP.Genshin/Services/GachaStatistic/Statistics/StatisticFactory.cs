@@ -16,7 +16,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
     {
         public static Statistic ToStatistic(GachaData data, string uid)
         {
-            Logger.LogStatic(typeof(StatisticFactory), $"convert data of {uid} to statistic view");
+            Logger.LogStatic($"convert data of {uid} to statistic view");
             List<StatisticItem> characters = ToTotalCountList(data, "角色");
             List<StatisticItem> weapons = ToTotalCountList(data, "武器");
             return new Statistic()
@@ -40,7 +40,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             int index5 = list.FindIndex(i => i.Rank == "5");
             int index4 = list.FindIndex(i => i.Rank == "4");
 
-            StatisticBanner banner = new StatisticBanner()
+            StatisticBanner banner = new()
             {
                 TotalCount = list.Count,
                 CurrentName = name,
@@ -127,7 +127,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         }
         private static List<StatisticItem> ToTotalCountList(List<SpecificItem> list)
         {
-            Dictionary<string, StatisticItem> counter = new Dictionary<string, StatisticItem>();
+            Dictionary<string, StatisticItem> counter = new();
             foreach (SpecificItem i in list)
             {
                 if (i.Name is null)
@@ -282,8 +282,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                         {
                             ni.Name = item.Name;
                             ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
-                            Logger.LogStatic(typeof(StatisticFactory),
-                                $"a unsupported item:{item.Name} is found while converting {nameof(SpecificBanner)}");
+                            Logger.LogStatic($"a unsupported item:{item.Name} is found while converting to {nameof(SpecificBanner)}");
                         }
                         //fix issue where crashes when no banner exists
                         banner?.Items.Add(ni);

@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Common.Extensions.System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DGP.Genshin.Services.Settings
 {
@@ -50,15 +51,6 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
-        #region 单例
-        private static SettingModel? instance;
-        private static readonly object _lock = new();
-        private SettingModel()
-        {
-            Initialize();
-            SettingService.Instance.SettingChanged += SettingChanged;
-        }
-
         private void Initialize()
         {
             SettingService service = SettingService.Instance;
@@ -67,18 +59,24 @@ namespace DGP.Genshin.Services.Settings
             autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
         }
 
+        #region 单例
+        private static volatile SettingModel? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private SettingModel() 
+        {
+            Initialize();
+            SettingService.Instance.SettingChanged += SettingChanged;
+        }
         public static SettingModel Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new SettingModel();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

@@ -5,6 +5,7 @@ using IniParser.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -117,9 +118,10 @@ namespace DGP.Genshin.Services.Launching
         }
 
         #region 单例
-        private static LaunchService? instance;
-        private static readonly object _lock = new();
-        private LaunchService()
+        private static volatile LaunchService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private LaunchService() 
         {
             isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
             OnPropertyChanged(nameof(IsBorderless));
@@ -139,19 +141,15 @@ namespace DGP.Genshin.Services.Launching
             //cause we don't wanna trigger the save func
             OnPropertyChanged(nameof(CurrentScheme));
         }
-
         public static LaunchService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new LaunchService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

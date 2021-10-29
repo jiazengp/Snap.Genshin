@@ -44,7 +44,7 @@ namespace DGP.Genshin.Cookie
             }
             else
             {
-                Logger.LogStatic(typeof(CookieManager), "无可用的Cookie");
+                Logger.LogStatic("无可用的Cookie");
                 File.Create(CookieFile).Dispose();
             }
             if (cookie is not null)
@@ -70,7 +70,7 @@ namespace DGP.Genshin.Cookie
                 {
                     Cookies.Add(cookie);
                 }
-                Logger.LogStatic(typeof(CookieManager), "current cookie has changed");
+                Logger.LogStatic("current cookie has changed");
                 CookieChanged?.Invoke();
             }
         }

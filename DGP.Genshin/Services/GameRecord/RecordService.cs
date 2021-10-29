@@ -7,6 +7,7 @@ using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -115,12 +116,19 @@ namespace DGP.Genshin.Services.GameRecord
 
         public static event Action<string?>? RecordProgressed;
 
-        #region 单例
         private const string QueryHistoryFile = "history.dat";
 
-        private static RecordService? instance;
-        private static readonly object _lock = new();
-        private RecordService()
+        public void UnInitialize()
+        {
+            File.WriteAllText(QueryHistoryFile, Json.Stringify(QueryHistory));
+            this.Log("uninitialized");
+        }
+
+        #region 单例
+        private static volatile RecordService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private RecordService() 
         {
             if (File.Exists(QueryHistoryFile))
             {
@@ -132,24 +140,15 @@ namespace DGP.Genshin.Services.GameRecord
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new RecordService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;
             }
-        }
-
-        public void UnInitialize()
-        {
-            File.WriteAllText(QueryHistoryFile, Json.Stringify(QueryHistory));
-            this.Log("uninitialized");
         }
         #endregion
     }

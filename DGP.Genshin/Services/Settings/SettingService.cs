@@ -3,6 +3,7 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace DGP.Genshin.Services.Settings
@@ -87,33 +88,29 @@ namespace DGP.Genshin.Services.Settings
                 }
                 settingDictionary = Json.ToObject<Dictionary<string, object?>>(json) ?? new Dictionary<string, object?>();
             }
+            this.Log("initialized");
         }
         public void UnInitialize()
         {
             string json = Json.Stringify(settingDictionary);
-            using StreamWriter sw = new StreamWriter(File.Create(settingFile));
+            using StreamWriter sw = new(File.Create(settingFile));
             sw.Write(json);
         }
 
         #region 单例
-        private static SettingService? instance;
-        private static readonly object _lock = new();
-        private SettingService()
-        {
-            this.Log("initialized");
-        }
+        private static volatile SettingService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private SettingService() { }
         public static SettingService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new SettingService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

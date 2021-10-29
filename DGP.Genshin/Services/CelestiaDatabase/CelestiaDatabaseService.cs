@@ -5,6 +5,7 @@ using DGP.Genshin.DataModel.YoungMoe2;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -153,10 +154,10 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         #endregion
 
         #region 单例
-        private static CelestiaDatabaseService? instance;
-
-        private static readonly object _lock = new();
-        private CelestiaDatabaseService()
+        private static volatile CelestiaDatabaseService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private CelestiaDatabaseService() 
         {
             database = new();
             selectedFloor = floors[0];
@@ -165,14 +166,11 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new CelestiaDatabaseService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

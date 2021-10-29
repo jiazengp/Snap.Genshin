@@ -4,6 +4,7 @@ using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Weapons;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
@@ -276,24 +277,19 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region 单例
-        private static DailyViewService? instance;
-        private static readonly object _lock = new();
-        private DailyViewService()
-        {
-            this.Log("initialized");
-        }
+        private static volatile DailyViewService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private DailyViewService() { this.Log("initialized"); }
         public static DailyViewService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new DailyViewService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

@@ -123,7 +123,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 
                 File.Delete(localFile);
 
-                Logger.LogStatic(typeof(FileCache), ex);
+                Logger.LogStatic(ex);
                 return null;
             }
         }

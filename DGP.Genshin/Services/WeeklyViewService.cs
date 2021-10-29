@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.DataModel.Characters;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DGP.Genshin.Services
@@ -230,24 +231,19 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region 单例
-        private static WeeklyViewService? instance;
-        private static readonly object _lock = new();
-        private WeeklyViewService()
-        {
-            this.Log("initialized");
-        }
+        private static volatile WeeklyViewService? instance;
+        [SuppressMessage("", "IDE0044")]
+        private static object _locker = new();
+        private WeeklyViewService() { this.Log("initialized"); }
         public static WeeklyViewService Instance
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
-                    lock (_lock)
+                    lock (_locker)
                     {
-                        if (instance == null)
-                        {
-                            instance = new WeeklyViewService();
-                        }
+                        instance ??= new();
                     }
                 }
                 return instance;

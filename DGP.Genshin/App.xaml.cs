@@ -73,6 +73,7 @@ namespace DGP.Genshin
                     sw.WriteLine($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
                     sw.Write(e.ExceptionObject);
                 }
+                //while exit with error OnExit will somehow not triggered
                 Logger.Instance.UnInitialize();
             }
         }
