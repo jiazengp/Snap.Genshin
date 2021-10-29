@@ -53,6 +53,9 @@ namespace DGP.Genshin.Cookie
             }
         }
 
+        /// <summary>
+        /// 当前使用的Cookie，由<see cref="CookieManager"/> 保证不为 <see cref="null"/>
+        /// </summary>
         public static string CurrentCookie
         {
             get => cookie ?? throw new InvalidOperationException("Cookie 不应为 null");
@@ -83,7 +86,7 @@ namespace DGP.Genshin.Cookie
         /// </summary>
         public static async Task SetCookieAsync()
         {
-            CurrentCookie = await App.Current.Dispatcher.Invoke(new CookieDialog().GetInputCookieAsync);
+            CurrentCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
             File.WriteAllText(CookieFile, CurrentCookie);
         }
 
@@ -101,8 +104,11 @@ namespace DGP.Genshin.Cookie
 
         public static async Task AddNewCookieToPoolAsync()
         {
-            string? newCookie = await App.Current.Dispatcher.Invoke(new CookieDialog().GetInputCookieAsync);
-            Cookies.AddOrIgnore(newCookie);
+            string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            if (!string.IsNullOrEmpty(newCookie))
+            {
+                Cookies.AddOrIgnore(newCookie);
+            }
         }
 
         public static void SaveCookies()

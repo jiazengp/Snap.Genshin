@@ -130,33 +130,34 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             if (!isSigningIn)
             {
                 isSigningIn = true;
-                await App.Current.Dispatcher.InvokeAsync(async () =>
-                {
-                    if (SelectedRole is null)
-                    {
-                        isSigningIn = false;
-                        throw new InvalidOperationException("无角色信息时不能签到");
-                    }
-
-                    SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(SelectedRole);
-                    if (result is not null)
-                    {
-                        SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
-                    }
-                    new ToastContentBuilder()
-                            .AddText(result is null ? "签到失败" : "签到成功")
-                            .AddText(SelectedRole.ToString())
-                            .AddAttributionText("米游社每日签到")
-                            .Show();
-                    SignInReward? reward = await new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync();
-                    ApplyItemOpacity(reward);
-                    SignInReward = reward;
-                    //refresh info
-                    SignInInfo = await new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(SelectedRole);
-
-                });
+                await Application.Current.Dispatcher.InvokeAsync(SignInInternalAsync).Task.Unwrap();
                 isSigningIn = false;
             }
+        }
+
+        private async Task SignInInternalAsync()
+        {
+            if (SelectedRole is null)
+            {
+                isSigningIn = false;
+                throw new InvalidOperationException("无角色信息时不能签到");
+            }
+
+            SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(SelectedRole);
+            if (result is not null)
+            {
+                SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
+            }
+            new ToastContentBuilder()
+                    .AddText(result is null ? "签到失败" : "签到成功")
+                    .AddText(SelectedRole.ToString())
+                    .AddAttributionText("米游社每日签到")
+                    .Show();
+            SignInReward? reward = await new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync();
+            ApplyItemOpacity(reward);
+            SignInReward = reward;
+            //refresh info
+            SignInInfo = await new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(SelectedRole);
         }
     }
 }

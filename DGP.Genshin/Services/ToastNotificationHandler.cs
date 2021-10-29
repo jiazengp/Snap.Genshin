@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Services.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace DGP.Genshin.Services
@@ -24,7 +25,7 @@ namespace DGP.Genshin.Services
                     {
                         UpdateService.Instance.DownloadAndInstallPackage();
                         await new UpdateDialog().ShowAsync();
-                    });
+                    }).Task.Unwrap();
                 }
             }
         }

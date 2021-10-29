@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,12 +22,16 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 
         public static string AppCacheDirectory { get; set; } = $"{Environment.CurrentDirectory}\\Cache\\";
 
+        // HttpClient is intended to be instantiated once per application, rather than per-use.
+        private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });
+
         /// <summary>
         /// Url命中
         /// </summary>
         /// <param name="url"></param>
         /// <returns>缓存或下载的图片</returns>
-        [SuppressMessage("", "CA1835")]
+        [SuppressMessage("", "CA1835",Justification ="在此处使用byte的效率更高")]
+        [SuppressMessage("", "CA5350")]
         public static async Task<MemoryStream?> HitAsync(string? url)
         {
             if (url is null)
@@ -43,7 +48,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             {
                 string canonicalUrl = uri.ToString();
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
-                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower());
+                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfoHelper.Default));
                 if (Path.HasExtension(canonicalUrl))
                 {
                     fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
@@ -66,10 +71,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 return memoryStream;
             }
 
-            HttpClient client = new()
-            {
-                Timeout = Timeout.InfiniteTimeSpan
-            };
+            HttpClient client = LazyHttpClient.Value;
             try
             {
                 HttpResponseMessage? response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
@@ -89,7 +91,8 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 
                 using (responseStream)
                 {
-                    byte[]? bytebuffer = new byte[100];
+                    
+                    byte[] bytebuffer = new byte[100];
                     int bytesRead;
                     do
                     {
@@ -115,12 +118,13 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             }
             catch (Exception ex)
             {
+
+                fileStream?.Dispose();
+
+                File.Delete(localFile);
+
                 Logger.LogStatic(typeof(FileCache), ex);
                 return null;
-            }
-            finally
-            {
-                client.Dispose();
             }
         }
     }

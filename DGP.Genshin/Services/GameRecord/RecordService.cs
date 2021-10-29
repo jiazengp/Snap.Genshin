@@ -83,7 +83,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 活动挑战信息 (4/5)");
-                dynamic? activitiesInfo = recordProvider.GetActivitiesAsync(uid, server);
+                dynamic? activitiesInfo = await recordProvider.GetActivitiesAsync(uid, server);
                 if (activitiesInfo is null)
                 {
                     RecordProgressed?.Invoke(null);

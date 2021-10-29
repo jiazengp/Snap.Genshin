@@ -51,7 +51,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     CookieUserInfos.Add(new CookieUserInfo(cookie, info));
                 }
             }
-            SelectedCookieUserInfo = CookieUserInfos.First();
+            SelectedCookieUserInfo = CookieUserInfos.First(c => c.Cookie == CookieManager.CurrentCookie);
         }
 
         private async void OnCookiesAdded(string newCookie)
@@ -83,15 +83,27 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         {
             if (CookieManager.Cookies.Count <= 1)
             {
-                await new ContentDialog()
+                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "删除用户失败",
-                    Content = "我们需要至少一个用户的信息才能使程序正常运转"
-                }.ShowAsync();
+                    Content = "我们需要至少一个用户的信息才能使程序正常运转。",
+                    PrimaryButtonText = "确定"
+                }.ShowAsync).Task.Unwrap();
             }
+
             if (SelectedCookieUserInfo is not null)
             {
-                CookieManager.Cookies.Remove(SelectedCookieUserInfo.Cookie);
+                ContentDialogResult result = await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                {
+                    Title = "确定要删除该用户吗?",
+                    Content = "删除用户操作不可撤销。",
+                    PrimaryButtonText = "确定",
+                    SecondaryButtonText = "取消"
+                }.ShowAsync).Task.Unwrap();
+                if (result is ContentDialogResult.Primary)
+                {
+                    CookieManager.Cookies.Remove(SelectedCookieUserInfo.Cookie);
+                }
             }
         }
 

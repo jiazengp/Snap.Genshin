@@ -196,10 +196,11 @@ namespace DGP.Genshin.Services.GachaStatistic
         private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker)
         {
             //gacha config can be null while authkey timeout
-            if (worker.GachaConfig != null && worker.GachaConfig.Types != null)
+            Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
+            if (gachaConfigTypes?.Types != null)
             {
                 worker.OnFetchProgressed += OnFetchProgressed;
-                foreach (ConfigType pool in worker.GachaConfig.Types)
+                foreach (ConfigType pool in gachaConfigTypes.Types)
                 {
                     await worker.FetchGachaLogIncrementAsync(pool);
                 }

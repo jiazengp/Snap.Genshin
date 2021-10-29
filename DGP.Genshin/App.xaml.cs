@@ -5,6 +5,7 @@ using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -13,9 +14,11 @@ using System.Windows;
 
 namespace DGP.Genshin
 {
+    [SuppressMessage("", "CA1001")]
     public partial class App : Application
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
+
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -67,7 +70,7 @@ namespace DGP.Genshin
             {
                 using (StreamWriter sw = new(File.Create($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}-crash.log")))
                 {
-                    sw.Write($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
+                    sw.WriteLine($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
                     sw.Write(e.ExceptionObject);
                 }
                 Logger.Instance.UnInitialize();
