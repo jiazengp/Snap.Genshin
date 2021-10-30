@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common;
-using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.Infrastructures.CachedImage;

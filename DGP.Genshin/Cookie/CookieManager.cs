@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common;
-using DGP.Genshin.Common.Core.Logging;
+﻿using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Helpers;
 using System;
 using System.IO;
