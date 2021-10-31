@@ -1,13 +1,16 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.UI.Notifications;
 
 namespace DGP.Genshin.Services.Updating
 {
@@ -16,16 +19,14 @@ namespace DGP.Genshin.Services.Updating
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
         public Release? Release { get; set; }
-        public UpdateInfo? UpdateInfo { get; set; }
         public Version? CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
 
-        private IFileDownloader? InnerFileDownloader { get; set; }
+        private Downloader? InnerDownloader { get; set; }
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try
             {
-                //use token to increase github rate limit
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
                 {
                     Credentials = new Credentials(TokenHelper.GetToken()),
@@ -33,11 +34,6 @@ namespace DGP.Genshin.Services.Updating
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
 
                 PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
-                UpdateInfo = new UpdateInfo
-                {
-                    Title = Release.Name,
-                    Detail = Release.Body
-                };
                 string newVersion = Release.TagName;
                 NewVersion = new Version(Release.TagName);
 
@@ -53,58 +49,105 @@ namespace DGP.Genshin.Services.Updating
             }
         }
 
-        public void DownloadAndInstallPackage()
+        public async Task DownloadAndInstallPackageAsync()
         {
-            InnerFileDownloader = new FileDownloader();
-            InnerFileDownloader.DownloadProgressChanged += OnDownloadProgressChanged;
-            InnerFileDownloader.DownloadFileCompleted += OnDownloadFileCompleted;
-
+            
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
+
             if (PackageUri is null)
             {
+                //unlikely to happen,unless a new release with no package is published
                 throw new InvalidOperationException("未找到更新包的下载地址");
             }
-            InnerFileDownloader.DownloadFileAsync(PackageUri, destinationPath);
-        }
-        public void CancelUpdate()
-        {
-            InnerFileDownloader?.CancelDownloadAsync();
-            InnerFileDownloader?.Dispose();
+
+            InnerDownloader = new(PackageUri, destinationPath);
+            InnerDownloader.ProgressChanged += OnProgressChanged;
+            App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
+            await InnerDownloader.DownloadAsync();
+            StartInstallUpdate();
         }
 
-        internal void OnDownloadProgressChanged(object? sender, DownloadFileProgressChangedArgs args)
+        private const string UpdateNotificationTag = "snap_genshin_update";
+
+        private void ShowDownloadToastNotification()
         {
-            double percent = Math.Round((double)args.BytesReceived / args.TotalBytesToReceive, 2);
+            LastUpdateResult = NotificationUpdateResult.Succeeded;
+
+            new ToastContentBuilder()
+                .AddText("下载更新中...")
+                .AddVisualChild(new AdaptiveProgressBar()
+                {
+                    Title = Release?.Name,
+                    Value = new BindableProgressBarValue("progressValue"),
+                    //ValueStringOverride = new BindableString("progressValueString"),
+                    Status = new BindableString("progressStatus")
+                })
+                .Show(toast=>
+                {
+                    toast.Tag = UpdateNotificationTag;
+                    toast.Data = new NotificationData(new Dictionary<string, string>()
+                    {
+                        {"progressValue", "0" },
+                        //{"progressValueString", "0% - 0KB / 0KB" },
+                        {"progressStatus", "下载中..." }
+                    })
+                    {
+                        //always update when it's 0
+                        SequenceNumber = 0
+                    };
+                });
+        }
+
+        private NotificationUpdateResult LastUpdateResult = NotificationUpdateResult.Succeeded;
+
+
+        private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
+        {
             this.Log(percent);
-            if (UpdateInfo is not null)
+            this.Log(LastUpdateResult);
+            //user has dismissed the notification so we don't update it anymore
+            if (LastUpdateResult is not NotificationUpdateResult.Succeeded)
             {
-                UpdateInfo.Progress = percent;
-                UpdateInfo.ProgressText = $@"{percent * 100}% - {args.BytesReceived / 1024}KB / {args.TotalBytesToReceive / 1024}KB";
+                return;
+            }
+            if (percent is not null)
+            {
+                this.Log("execute UpdateNotificationValue on app thread");
+                App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
             }
         }
-        internal void OnDownloadFileCompleted(object? sender, DownloadFileCompletedArgs eventArgs)
+
+        private void UpdateNotificationValue(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
-            if (eventArgs.State == CompletedState.Succeeded)
+            NotificationData data = new() { SequenceNumber = 0 };
+
+            data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
+            //data.Values["progressValueString"] = $@"{percent * 100}% - {bytesReceived / 1024}KB / {totalBytesToReceive / 1024}KB";
+            if (percent >= 1)
             {
-                StartInstallUpdate();
+                data.Values["progressStatus"] = "下载完成";
             }
+
+            // Update the existing notification's data
+            LastUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
+            this.Log("UpdateNotificationValue called");
         }
+
+        /// <summary>
+        /// invoke updater launch and do it's work
+        /// </summary>
         public static void StartInstallUpdate()
         {
-            //rename to oldupdater to avoid package extraction error
-            if (File.Exists("OldUpdater.exe"))
-            {
-                File.Delete("OldUpdater.exe");
-            }
+            Directory.CreateDirectory("Updater");
             //those files are needed to start process successufully
-            File.Move("DGP.Genshin.Updater.dll", "OldUpdater.dll");
-            File.Move("DGP.Genshin.Updater.exe", "OldUpdater.exe");
-            File.Move("DGP.Genshin.Updater.deps.json", "OldUpdater.deps.json");
-            File.Move("DGP.Genshin.Updater.runtimeconfig.json", "OldUpdater.runtimeconfig.json");
+            File.Move("DGP.Genshin.Updater.dll", @"Updater/DGP.Genshin.Updater.dll", true);
+            File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
+            File.Move("DGP.Genshin.Updater.deps.json", @"Updater/DGP.Genshin.Updater.deps.json", true);
+            File.Move("DGP.Genshin.Updater.runtimeconfig.json", @"Updater/DGP.Genshin.Updater.runtimeconfig.json", true);
 
             Process.Start(new ProcessStartInfo()
             {
-                FileName = "OldUpdater.exe",
+                FileName = @"Updater/DGP.Genshin.Updater.exe",
                 Arguments = "UpdateInstall"
             });
         }

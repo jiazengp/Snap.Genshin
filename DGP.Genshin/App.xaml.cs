@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
@@ -26,14 +27,23 @@ namespace DGP.Genshin
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             //handle notification activation
-            ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
-
+            SetupToastNotificationHandling();
             EnsureSingleInstance();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
             SetAppTheme();
+        }
+
+        private void SetupToastNotificationHandling()
+        {
+            if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+            {
+                //remove toast last time not cleared if it's manually launched
+                ToastNotificationManagerCompat.History.Clear();
+            }
+            ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 
 namespace DGP.Genshin.Updater
 {
@@ -9,8 +10,9 @@ namespace DGP.Genshin.Updater
     {
         private static void Main(string[] args)
         {
+            EnsureWorkingPath();
             bool hasArgs = args.Length > 0 && args[0] == "UpdateInstall";
-            bool hasPackage = File.Exists("Package.zip");
+            bool hasPackage = File.Exists("../Package.zip");
 
             switch ((hasArgs, hasPackage))
             {
@@ -21,7 +23,8 @@ namespace DGP.Genshin.Updater
                     ManualUpdate();
                     break;
                 case (_, false):
-                    Console.WriteLine("未找到更新文件，请打开主程序重新下载更新");
+                    Console.WriteLine("未找到更新文件");
+                    Console.ReadKey();
                     break;
             };
         }
@@ -48,7 +51,7 @@ namespace DGP.Genshin.Updater
                 Console.WriteLine("等待Snap Genshin退出中...");
                 p.WaitForExit();
             }
-            using (ZipArchive archive = ZipFile.OpenRead("Package.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("../Package.zip"))
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
@@ -58,12 +61,12 @@ namespace DGP.Genshin.Updater
                         {
                             string directoryName = entry.FullName.Substring(0, entry.FullName.Length - 1);
                             Console.WriteLine($"创建目录:{directoryName}");
-                            Directory.CreateDirectory(directoryName);
+                            Directory.CreateDirectory($"../{directoryName}");
                         }
                         else
                         {
                             Console.WriteLine($"提取文件:{entry.FullName}");
-                            entry.ExtractToFile(entry.FullName, true);
+                            entry.ExtractToFile($"../{entry.FullName}", true);
                         }
                     }
                     catch (IOException e)
@@ -73,7 +76,19 @@ namespace DGP.Genshin.Updater
                 }
             }
             Console.WriteLine("正在启动Snap Genshin");
-            Process.Start("DGP.Genshin.exe");
+            Process.Start("../DGP.Genshin.exe");
+        }
+        /// <summary>
+        /// set working dir while launch by windows autorun
+        /// </summary>
+        private static void EnsureWorkingPath()
+        {
+            string? path = Assembly.GetEntryAssembly()?.Location;
+            string? workingPath = Path.GetDirectoryName(path);
+            if (workingPath is not null)
+            {
+                Environment.CurrentDirectory = workingPath;
+            }
         }
     }
 }

@@ -1,22 +1,18 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls;
-using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
-using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace DGP.Genshin
 {
@@ -87,9 +83,9 @@ namespace DGP.Genshin
                             SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
                             SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
                             new ToastContentBuilder()
-                                .AddText(result is null ? "签到失败" : "签到成功")
+                                .AddSignInHeader("米游社每日签到")
                                 .AddText(role.ToString())
-                                .AddAttributionText("米游社每日签到")
+                                .AddText(result is null ? "签到失败" : "签到成功")
                                 .Show();
                         }
                     }
@@ -99,35 +95,20 @@ namespace DGP.Genshin
         }
 
         #region Update
-        //TODO:make update to display in toast
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
-
-            string hint = result switch
-            {
-                UpdateState.NeedUpdate => "检测到更新",
-                UpdateState.IsNewestRelease => "",
-                UpdateState.IsInsiderVersion => "",
-                UpdateState.NotAvailable => "",
-                _ => throw new NotImplementedException(),
-            };
 
             switch (result)
             {
                 case UpdateState.NeedUpdate:
                     {
-                        if (await ShowConfirmUpdateDialogAsync() == ContentDialogResult.Primary)
-                        {
-                            new ToastContentBuilder()
+                        new ToastContentBuilder()
                             .AddText("有新的更新可用")
                             .AddText(UpdateService.Instance.NewVersion?.ToString())
                             .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
                             .Show();
-                            UpdateService.Instance.DownloadAndInstallPackage();
-                            await new UpdateDialog().ShowAsync();
-                        }
                         break;
                     }
                 case UpdateState.NotAvailable:
@@ -142,26 +123,6 @@ namespace DGP.Genshin
                 default:
                     break;
             }
-        }
-
-        private async Task<ContentDialogResult> ShowConfirmUpdateDialogAsync()
-        {
-            Markdown? m = FindResource("Markdown") as Markdown;
-            Debug.Assert(m is not null);
-            return await new ContentDialog
-            {
-                Title = UpdateService.Instance.Release?.Name,
-                Content = new FlowDocumentScrollViewer
-                {
-                    Document = new TextToFlowDocumentConverter
-                    {
-                        Markdown = m
-                    }.Convert(UpdateService.Instance.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
-                },
-                PrimaryButtonText = "更新",
-                CloseButtonText = "忽略",
-                DefaultButton = ContentDialogButton.Primary
-            }.ShowAsync();
         }
         #endregion
     }
