@@ -51,7 +51,6 @@ namespace DGP.Genshin.Services.Updating
 
         public async Task DownloadAndInstallPackageAsync()
         {
-            
             string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
 
             if (PackageUri is null)
@@ -63,8 +62,19 @@ namespace DGP.Genshin.Services.Updating
             InnerDownloader = new(PackageUri, destinationPath);
             InnerDownloader.ProgressChanged += OnProgressChanged;
             App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
-            await InnerDownloader.DownloadAsync();
-            StartInstallUpdate();
+            bool caught = false;
+            try
+            {
+                await InnerDownloader.DownloadAsync();
+            }
+            catch
+            {
+                caught = true;
+            }
+            if(!caught)
+            {
+                StartInstallUpdate();
+            }
         }
 
         private const string UpdateNotificationTag = "snap_genshin_update";
@@ -79,7 +89,7 @@ namespace DGP.Genshin.Services.Updating
                 {
                     Title = Release?.Name,
                     Value = new BindableProgressBarValue("progressValue"),
-                    //ValueStringOverride = new BindableString("progressValueString"),
+                    ValueStringOverride = new BindableString("progressValueString"),
                     Status = new BindableString("progressStatus")
                 })
                 .Show(toast=>
@@ -88,7 +98,7 @@ namespace DGP.Genshin.Services.Updating
                     toast.Data = new NotificationData(new Dictionary<string, string>()
                     {
                         {"progressValue", "0" },
-                        //{"progressValueString", "0% - 0KB / 0KB" },
+                        {"progressValueString", "0% - 0KB / 0KB" },
                         {"progressStatus", "下载中..." }
                     })
                     {
@@ -100,10 +110,9 @@ namespace DGP.Genshin.Services.Updating
 
         private NotificationUpdateResult LastUpdateResult = NotificationUpdateResult.Succeeded;
 
-
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
-            this.Log(percent);
+            this.Log(percent ?? 0);
             this.Log(LastUpdateResult);
             //user has dismissed the notification so we don't update it anymore
             if (LastUpdateResult is not NotificationUpdateResult.Succeeded)
@@ -112,7 +121,7 @@ namespace DGP.Genshin.Services.Updating
             }
             if (percent is not null)
             {
-                this.Log("execute UpdateNotificationValue on app thread");
+                //notification could only be updated by same thread.
                 App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
             }
         }
@@ -122,7 +131,7 @@ namespace DGP.Genshin.Services.Updating
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            //data.Values["progressValueString"] = $@"{percent * 100}% - {bytesReceived / 1024}KB / {totalBytesToReceive / 1024}KB";
+            data.Values["progressValueString"] = $@"{percent * 100}% - {bytesReceived / 1024}KB / {totalBytesToReceive / 1024}KB";
             if (percent >= 1)
             {
                 data.Values["progressStatus"] = "下载完成";
