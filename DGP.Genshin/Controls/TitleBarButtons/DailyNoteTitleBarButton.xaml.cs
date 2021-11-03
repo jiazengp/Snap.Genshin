@@ -29,15 +29,6 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void DailyNoteTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
-
-            //if (FlyoutBase.GetAttachedFlyout((TitleBarButton)sender) is Flyout flyout)
-            //{
-            //    if (flyout.Content is Grid grid)
-            //    {
-            //        grid.DataContext = this;
-            //        FlyoutBase.ShowAttachedFlyout((TitleBarButton)sender);
-            //    }
-            //}
             if (sender.ShowAttachedFlyout<Grid>(this))
             {
                 await RefreshAsync();

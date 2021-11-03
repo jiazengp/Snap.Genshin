@@ -13,13 +13,20 @@ namespace DGP.Genshin.Services
     /// </summary>
     public class JourneyService : Observable
     {
-        private readonly JourneyProvider journeyProvider;
-        private readonly UserGameRoleProvider userGameRoleProvider;
+        private JourneyProvider journeyProvider;
+        private UserGameRoleProvider userGameRoleProvider;
         public JourneyService()
         {
+            CookieManager.CookieChanged += OnCookieChanged;
             journeyProvider = new JourneyProvider(CookieManager.CurrentCookie);
             userGameRoleProvider = new UserGameRoleProvider(CookieManager.CurrentCookie);
             UserGameRoleChanged += UpdateJourneyInfo;
+        }
+
+        private void OnCookieChanged()
+        {
+            journeyProvider = new JourneyProvider(CookieManager.CurrentCookie);
+            userGameRoleProvider = new UserGameRoleProvider(CookieManager.CurrentCookie);
         }
 
         #region Observable
