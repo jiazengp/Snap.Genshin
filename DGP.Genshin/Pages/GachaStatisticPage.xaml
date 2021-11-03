@@ -133,6 +133,10 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.CharacterEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
                                 <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <Border BorderThickness="1" Padding="4,0" CornerRadius="{StaticResource SmallCompatCornerRadius}" 
+                                            BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Statistic.CharacterEvent.Appraise}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </Border>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.CharacterEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
                                         <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
@@ -231,6 +235,10 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.WeaponEvent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
                                 <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <Border BorderThickness="1" Padding="4,0" CornerRadius="{StaticResource SmallCompatCornerRadius}" 
+                                            BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Statistic.WeaponEvent.Appraise}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </Border>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.WeaponEvent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
                                         <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>
@@ -323,6 +331,10 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="{Binding Statistic.Permanent.CurrentName}" Style="{StaticResource BaseTextBlockStyle}"/>
                                 <StackPanel Grid.Column="0" Grid.Row="1" Margin="8">
+                                    <Border BorderThickness="1" Padding="4,0" CornerRadius="{StaticResource SmallCompatCornerRadius}" 
+                                            BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Statistic.Permanent.Appraise}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </Border>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontFamily="Consolas,MicroSoft YaHei UI" Text="{Binding Statistic.Permanent.TotalCount,StringFormat={}{0}}" FontSize="48"/>
                                         <TextBlock Margin="8,0,0,8" Text="抽" VerticalAlignment="Bottom"/>

@@ -17,9 +17,12 @@ namespace DGP.Genshin.Cookie
         /// <param name="cookie"></param>
         public new void Add(string cookie)
         {
-            base.Add(cookie);
-            CookieAdded?.Invoke(cookie);
-            CookieManager.SaveCookies();
+            if (!string.IsNullOrEmpty(cookie))
+            {
+                base.Add(cookie);
+                CookieAdded?.Invoke(cookie);
+                CookieManager.SaveCookies();
+            }
         }
 
         /// <summary>

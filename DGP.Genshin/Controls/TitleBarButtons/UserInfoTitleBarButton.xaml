@@ -18,19 +18,8 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ui:CommandBar Grid.Row="0">
-                    <ui:AppBarButton Label="添加一个新用户" Click="AddCookieAppBarButtonClick">
-                        <ui:AppBarButton.Icon>
-                            <ui:FontIcon Glyph="&#xE8FA;"/>
-                        </ui:AppBarButton.Icon>
-                    </ui:AppBarButton>
-                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick">
-                        <ui:AppBarButton.Icon>
-                            <ui:FontIcon Glyph="&#xE74D;"/>
-                        </ui:AppBarButton.Icon>
-                    </ui:AppBarButton>
-                </ui:CommandBar>
-                <ui:ListView Grid.Row="1" Padding="0" 
+                
+                <ui:ListView Grid.Row="0" Padding="0" 
                          ItemsSource="{Binding CookieUserInfos}" 
                          SelectedItem="{Binding SelectedCookieUserInfo}" 
                          SelectionMode="Single"
@@ -68,6 +57,18 @@
                         </DataTemplate>
                     </ui:ListView.ItemTemplate>
                 </ui:ListView>
+                <ui:CommandBar Grid.Row="1">
+                    <ui:AppBarButton Label="添加一个新用户" Click="AddCookieAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE8FA;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE74D;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                </ui:CommandBar>
             </Grid>
         </ui:Flyout>
     </ui:FlyoutBase.AttachedFlyout>

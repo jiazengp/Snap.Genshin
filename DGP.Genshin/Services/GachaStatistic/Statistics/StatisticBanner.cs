@@ -13,5 +13,6 @@
         public int MaxGetStar5Count { get; set; }
         public int MinGetStar5Count { get; set; }
         public string? NextGuaranteeType { get; set; }
+        public string? Appraise { get; set; }
     }
 }

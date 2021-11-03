@@ -157,7 +157,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             //prevent modify the items and simplify the algorithm
             //search from the earliest time
             List<GachaLogItem> reversedItems = items.Reverse().ToList();
-            List<StatisticItem5Star> counter = new List<StatisticItem5Star>();
+            List<StatisticItem5Star> counter = new();
             for (int i = 0; i < star5Count; i++)
             {
                 GachaLogItem currentStar5 = reversedItems.First(i => i.Rank == "5");
@@ -203,15 +203,18 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         {
             if (predicatedCount < 1)
             {
+                banner.Appraise = "非";
                 return 1;
             }
             int predicatedSum = predicatedCount + banner.CountSinceLastStar5;
             if (predicatedSum > granteeCount)
             {
-                if (predicatedSum > granteeCount)
-                {
-                    predicatedCount = granteeCount - banner.CountSinceLastStar5;
-                }
+                banner.Appraise = "欧";
+                predicatedCount = granteeCount - banner.CountSinceLastStar5;
+            }
+            else
+            {
+                banner.Appraise = "正";
             }
             return predicatedCount;
         }
@@ -224,10 +227,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             int predicatedSum = predicatedCount + banner.CountSinceLastStar4;
             if (predicatedSum > 10)
             {
-                if (predicatedSum > 10)
-                {
-                    predicatedCount = 10 - banner.CountSinceLastStar4;
-                }
+                predicatedCount = 10 - banner.CountSinceLastStar4;
             }
             return predicatedCount;
         }

@@ -27,7 +27,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="540" ItemsSource="{Binding SignInReward.Awards}">
+                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="310" ItemsSource="{Binding SignInReward.Awards}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -38,29 +38,17 @@
                             <Border Margin="0,0,4,4" 
                                     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
                                     Opacity="{Binding Opacity,IsAsync=True}">
-                                <StackPanel Width="70">
-                                    <Grid Width="70" Height="70">
-                                        <Border>
-                                            <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                        </Border>
-                                        <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="#00000000"/>
-                                                    <GradientStop Offset="1" Color="#CC000000"/>
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="White" FontSize="10" Text="{Binding Name}"/>
-                                        </Border>
-                                    </Grid>
+                                <StackPanel Width="40">
+                                    <Border Width="40" Height="40">
+                                        <c:CachedImage ImageUrl="{Binding Icon}"/>
+                                    </Border>
                                     <TextBlock Margin="0,2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Count,StringFormat={}X{0}}" FontSize="10" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Grid.Row="2" Margin="0,12,0,0">
-                    <!--Visibility="{Binding SignInInfo.IsNotSign,Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding SignInInfo.IsNotSign}"-->
+                <Grid Grid.Row="2" Margin="0,8,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>

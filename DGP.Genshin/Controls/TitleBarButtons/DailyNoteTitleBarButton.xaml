@@ -25,6 +25,9 @@
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
+                                                        Background="Transparent"
+                                                        Value="{Binding CurrentResin}" Minimum="0" Maximum="{Binding MaxResin}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
                                             <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecoveryTimeFormatted,StringFormat={}将于{0}后全部恢复}" 
@@ -47,6 +50,9 @@
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
+                                                        Background="Transparent"
+                                                        Value="{Binding FinishedTaskNum}" Minimum="0" Maximum="{Binding TotalTaskNum}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="每日委托任务" Style="{StaticResource BaseTextBlockStyle}"/>
                                             <TextBlock Margin="0,4,0,0" Text="{Binding ExtraTaskRewardDescription}" Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -68,6 +74,9 @@
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
+                                                        Background="Transparent"
+                                                        Value="{Binding RemainResinDiscountNum}" Minimum="0" Maximum="{Binding ResinDiscountNumLimit}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
                                             <TextBlock Margin="0,4,0,0" Text="本周剩余消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>

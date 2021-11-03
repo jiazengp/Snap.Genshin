@@ -113,7 +113,8 @@ namespace DGP.Genshin.Cookie
 
         public static void SaveCookies()
         {
-            Json.ToFile(CookieListFile, Cookies.Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c)));
+            //.ToList() fix json parse error
+            Json.ToFile(CookieListFile, Cookies.Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c).ToList()));
         }
 
         /// <summary>
