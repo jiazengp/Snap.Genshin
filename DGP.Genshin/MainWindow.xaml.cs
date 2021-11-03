@@ -11,7 +11,6 @@ using DGP.Genshin.Services.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -99,9 +98,7 @@ namespace DGP.Genshin
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
-
-            if (Debugger.IsAttached) result = UpdateState.NeedUpdate;
-
+            //if (Debugger.IsAttached) result = UpdateState.NeedUpdate;
             switch (result)
             {
                 case UpdateState.NeedUpdate:
