@@ -33,10 +33,14 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                         return;
                     }
 
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = memoryStream;
-                    bitmapImage.EndInit();
+                    BitmapImage bitmapImage = new();
+                    try
+                    {
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = memoryStream;
+                        bitmapImage.EndInit();
+                    }
+                    catch { }
 
                     ((Border)obj).Background = new ImageBrush()
                     {

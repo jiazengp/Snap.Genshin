@@ -374,8 +374,8 @@ namespace DGP.Genshin.Services
         private int? totalCount;
         public int? TotalCount { get => totalCount; set => Set(ref totalCount, value); }
 
-        private double? percent;
-        public double? Percent { get => percent; set => Set(ref percent, value); }
+        private double percent;
+        public double Percent { get => percent; set => Set(ref percent, value); }
 
         private bool hasCheckCompleted;
         public bool HasCheckCompleted
@@ -400,10 +400,10 @@ namespace DGP.Genshin.Services
             }
             await collection.ParallelForEachAsync(async (t) =>
             {
-                //及时释放非托管内存
-                (await FileCache.HitAsync(t.Source))?.Dispose();
+                //及时释放内存
+                using (MemoryStream? memoryStream = await FileCache.HitAsync(t.Source)) { }
                 progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
-            }, 32);
+            }, Environment.ProcessorCount * 2);
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace DGP.Genshin.Services
             Progress<InitializeState> progress = new(i =>
             {
                 CurrentCount = i.CurrentCount;
-                Percent = i.CurrentCount * 1.0 / TotalCount;
+                Percent = (i.CurrentCount * 1.0 / TotalCount) ?? 0D;
                 CurrentInfo = i.Info;
             });
             CurrentCount = 0;

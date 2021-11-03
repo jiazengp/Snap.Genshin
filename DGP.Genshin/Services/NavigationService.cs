@@ -31,7 +31,7 @@ namespace DGP.Genshin.Services
         }
 
 
-        public static NavigationService? Current;
+        public static NavigationService? Current { get; private set; }
         public bool HasEverNavigated { get; set; } = false;
 
         public void SyncTabWith(Type pageType)
@@ -89,7 +89,7 @@ namespace DGP.Genshin.Services
             selected = navigationView.SelectedItem as NavigationViewItem;
             if (args.IsSettingsInvoked)
             {
-                Navigate<SettingsPage>(false);
+                Navigate<SettingsPage>();
             }
             else
             {
