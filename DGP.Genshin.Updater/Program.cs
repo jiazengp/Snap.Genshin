@@ -46,11 +46,11 @@ namespace DGP.Genshin.Updater
             if (ps.Length > 0)
             {
                 Process p = ps[0];
-                Console.WriteLine("正在退出Snap Genshin");
                 p.CloseMainWindow();
-                Console.WriteLine("等待Snap Genshin退出中...");
+                Console.WriteLine("等待 Snap Genshin 退出中...(可能需要手动退出)");
                 p.WaitForExit();
             }
+            Console.Clear();
             using (ZipArchive archive = ZipFile.OpenRead("../Package.zip"))
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
