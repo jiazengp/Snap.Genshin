@@ -4,7 +4,6 @@ using DGP.Genshin.Pages;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -17,26 +16,22 @@ namespace DGP.Genshin.Services
     {
         private readonly Frame frame;
         private readonly NavigationView navigationView;
-        private readonly Stack<NavigationViewItem> backItemStack = new Stack<NavigationViewItem>();
 
         private NavigationViewItem? selected;
 
         public NavigationService(Window window, NavigationView navigationView, Frame frame)
         {
-            Current = Current == null ? this : throw new InvalidOperationException($"{nameof(NavigationService)}的实例在运行期间仅允许创建一次");
             this.navigationView = navigationView;
             this.frame = frame;
 
             this.navigationView.ItemInvoked += OnItemInvoked;
         }
 
-
-        public static NavigationService? Current { get; private set; }
-        public bool HasEverNavigated { get; set; } = false;
+        public bool HasEverNavigated { get; set; }
 
         public void SyncTabWith(Type pageType)
         {
-            if (pageType == typeof(SettingsPage) || pageType == null)
+            if (pageType == typeof(SettingsPage)/* || pageType == null*/)
             {
                 navigationView.SelectedItem = navigationView.SettingsItem;
             }
@@ -66,10 +61,6 @@ namespace DGP.Genshin.Services
             if (isSyncTabRequested)
             {
                 SyncTabWith(pageType);
-            }
-            if (selected is not null)
-            {
-                backItemStack.Push(selected);
             }
             //bool result = this.frame.Navigate(pageType, data, info);
             bool result = frame.Navigate(pageType, data, new DrillInNavigationTransitionInfo());

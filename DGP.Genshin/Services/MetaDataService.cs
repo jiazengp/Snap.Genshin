@@ -398,19 +398,29 @@ namespace DGP.Genshin.Services
                 this.Log("初始化时遇到了空的集合");
                 return;
             }
+            //restrict thread count.
             await collection.ParallelForEachAsync(async (t) =>
             {
                 //及时释放内存
-                using (MemoryStream? memoryStream = await FileCache.HitAsync(t.Source)) { }
+                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
                 progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
-            }, Environment.ProcessorCount * 2);
+            });
         }
+
+        private bool hasEverChecked;
 
         /// <summary>
         /// 检查基础缓存图片完整性，不完整的自动下载补全
+        /// 此次启动后若进行过检查则直接跳过
         /// </summary>
         public async Task CheckAllIntegrityAsync()
         {
+            if (hasEverChecked)
+            {
+                return;
+            }
+            this.Log("Integrity Check Start");
+            hasEverChecked = true;
             HasCheckCompleted = false;
             Progress<InitializeState> progress = new(i =>
             {
@@ -451,6 +461,7 @@ namespace DGP.Genshin.Services
                 CheckIntegrityAsync(WeeklyTalents, progress),
                 CheckIntegrityAsync(WeaponTypes, progress));
 
+            this.Log("Integrity Check Stop");
             HasCheckCompleted = true;
         }
 
