@@ -22,7 +22,7 @@
 
 > **最低：Windows 10 1903 - 10.0.18362.x**  
 > 推荐：Windows 11 21H1 - 10.0.22000.x  
-> 运行时：.NET 5  
+> 运行时：.NET 5 [下载 .NET 5 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.11-windows-x64-installer)  
 > 运行时内存需求：300MB  
 > 储存空间需求：300MB
 
