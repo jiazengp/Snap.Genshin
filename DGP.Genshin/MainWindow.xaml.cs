@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls;
+using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.User;
@@ -13,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DGP.Genshin
 {
@@ -38,18 +41,15 @@ namespace DGP.Genshin
         /// <param name="splashView"></param>
         private async void SplashInitializeCompleted(SplashView splashView)
         {
+            splashView.CurrentStateDescription = "初始化标题栏...";
+            await PrepareTitleBarArea(splashView);
             splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
-
-            splashView.CurrentStateDescription = "初始化用户信息...";
-            await UserInfoTitleButton.InitializeAsync();
-
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
                 await SignInOnStartUp(splashView);
             }
-
             splashView.CurrentStateDescription = "完成";
             //post actions
             if (!navigationService.HasEverNavigated)
@@ -57,6 +57,23 @@ namespace DGP.Genshin
                 navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             }
             splashView.HasCheckCompleted = true;
+        }
+        
+        private async Task PrepareTitleBarArea(SplashView splashView)
+        {
+            UserInfoTitleBarButton UserInfoTitleButton = new();
+            TitleBarStackPanel.Children.Add(UserInfoTitleButton);
+            splashView.CurrentStateDescription = "初始化用户信息...";
+            await UserInfoTitleButton.InitializeAsync();
+            TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
+            TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
+            TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
+            TitleBarStackPanel.Children.Add(new Rectangle
+            {
+                Fill = App.Current.Resources.FindName("SystemControlForegroundBaseHighBrush") as Brush,
+                Width = 1,
+                Margin = new Thickness(12, 8, 12, 8)
+            });
         }
 
         /// <summary>

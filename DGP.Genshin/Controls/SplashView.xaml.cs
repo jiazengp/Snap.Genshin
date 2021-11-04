@@ -17,7 +17,7 @@ namespace DGP.Genshin.Controls
     public partial class SplashView : UserControl, INotifyPropertyChanged
     {
         public MetaDataService MetaDataService { get; set; } = MetaDataService.Instance;
-        private bool integrityCheckCompleted = false;
+        private bool integrityCheckCompleted;
         private bool isCookieVisible = true;
         private bool isLauncherPathVisible = true;
         private bool hasCheckCompleted;

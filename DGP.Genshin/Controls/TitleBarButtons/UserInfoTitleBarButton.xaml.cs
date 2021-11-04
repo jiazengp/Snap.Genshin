@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -35,7 +36,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         {
             InitializeComponent();
             DataContext = this;
-
+            this.Log("UserInfoTitleBarButton ctor called");
             CookieManager.Cookies.CookieAdded += OnCookiesAdded;
             CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
         }

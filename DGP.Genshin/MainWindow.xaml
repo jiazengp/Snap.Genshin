@@ -618,14 +618,7 @@
                SnapsToDevicePixels="True"
                RenderOptions.BitmapScalingMode="HighQuality"/>
         <!--TitleBarAddition-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,140,0">
-            <titlebarbuttons:UserInfoTitleBarButton x:Name="UserInfoTitleButton"/>
-            <titlebarbuttons:SignInTitleBarButton x:Name="SignInTitleButton"/>
-            <titlebarbuttons:JourneyLogTitleBarButton x:Name="JourneyLogTitleButton"/>
-            <titlebarbuttons:DailyNoteTitleBarButton x:Name="DailyNoteTitleButton"/>
-            <Rectangle Fill="{DynamicResource SystemControlForegroundBaseHighBrush}" Width="1" Margin="12,8"/>
-        </StackPanel>
-         
+        <StackPanel x:Name="TitleBarStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,140,0"/>
         <cf:SplashView x:Name="MainSplashView" d:IsHidden="True"/>
     </Grid>
 </Window>
