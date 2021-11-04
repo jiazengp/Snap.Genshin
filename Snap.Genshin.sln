@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.YoungMoeAPI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Common", "DGP.Genshin.Common\DGP.Genshin.Common.csproj", "{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.DataViewer", "DGP.Genshin.DataViewer\DGP.Genshin.DataViewer.csproj", "{BF5C9943-4E48-4680-BA17-980B7E9B99D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF5C9943-4E48-4680-BA17-980B7E9B99D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5C9943-4E48-4680-BA17-980B7E9B99D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5C9943-4E48-4680-BA17-980B7E9B99D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5C9943-4E48-4680-BA17-980B7E9B99D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

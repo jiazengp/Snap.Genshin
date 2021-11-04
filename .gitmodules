@@ -7,3 +7,6 @@
 [submodule "DGP.Genshin.Common"]
 	path = DGP.Genshin.Common
 	url = https://github.com/DGP-Studio/DGP.Genshin.Common.git
+[submodule "DGP.Genshin.DataViewer"]
+	path = DGP.Genshin.DataViewer
+	url = https://github.com/DGP-Studio/DGP.Genshin.DataViewer
