@@ -30,14 +30,10 @@
 
 > 显示当前用户相关信息，支持快速多账号切换  
 > 简化米游社每日签到流程，一键签到领取奖励  
+> 显示当日当月摩拉原石收入情况   
 > 显示米游社实时便笺，树脂余量、探索派遣，了如指掌
 
-# 首页
-
-> 显示最新官方公告  
-> 官服，B服无缝切换，一键启动，支持窗口化全屏
-
-![首页](https://i.loli.net/2021/10/10/5pQdSKxrEDAzg7t.png)
+![标题栏按钮.png](Design\ImgAssets\titlebarbuttons.png)
 
 # 祈愿记录
 
@@ -52,7 +48,7 @@
 
 > 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 导入
 
-![祈愿记录](https://i.loli.net/2021/10/10/Y2JUDdTpSGlhOme.png)
+![祈愿记录](Design\ImgAssets\gacha.png)
 
 # 玩家信息
 
@@ -60,7 +56,7 @@
 > 展示全角色等级武器圣遗物命座信息  
 > 展示玩家基础信息、世界探索、尘歌壶、深境螺旋、活动信息  
 
-![record.png](https://i.loli.net/2021/10/10/L7naeUitXCp3Ggf.png)
+![record.png](Design\ImgAssets\record.png)
 
 # [![logo](https://youngmoe.com/static/img/png/logo.c2ceb873.png)](https://youngmoe.com/)
 
@@ -68,15 +64,14 @@
 > 优化的队伍推荐功能  
 > 直接访问玩家角色信息，提供最佳推荐方案
 
-![database1.png](https://i.loli.net/2021/10/10/j48U3Av2n9ftOQD.png)
+![天空岛.png](Design\ImgAssets\celestia.png)
 
 </div>
 
 # 反馈须知
 
-如果你在低于我们要求的最低Windows版本上运行程序并出现了问题，我们不会修复  
+**如果你在低于我们要求的最低Windows版本上运行程序并出现了问题，我们不会修复**  
 程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交
-
 
 如果你需要反馈的信息包含大量的图片  
 或任何不便于在issue中提供的信息  
@@ -88,12 +83,15 @@
 # 开发人员
 
 如果你是一位正在编写原神相关程序的开发者  
-可以加入上方的QQ群，群内有很多拥有相关开发经验的大佬，可以一起探讨学习  
+可以加入上方的QQ群，~~群内有很多拥有相关开发经验的大佬，可以一起探讨学习~~  
 
 ## 我们的方案
 
 * [DGP.Genshin.Common](https://github.com/DGP-Studio/DGP.Genshin.Common)  
 公共组件支持库
+
+* [DGP.Genshin.DataViewer](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
+解包数据可视化
 
 * [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
 米哈游原神API交互

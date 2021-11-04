@@ -21,6 +21,11 @@ UI层 基本架构如下
 * 包含了核心日志功能
 * 包含了简单的下载器实现
 
+## [DGP.Genshin.DataViewer](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)
+解包数据可视化呈现
+
+* 不再积极维护
+
 ## [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)
 
 米哈游原神API交互
