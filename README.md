@@ -33,7 +33,7 @@
 > 显示当日当月摩拉原石收入情况   
 > 显示米游社实时便笺，树脂余量、探索派遣，了如指掌
 
-![标题栏按钮.png](Design\ImgAssets\titlebarbuttons.png)
+![标题栏按钮.png](/Design/ImgAssets/titlebarbuttons.png)
 
 # 祈愿记录
 
@@ -48,7 +48,7 @@
 
 > 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 导入
 
-![祈愿记录](Design\ImgAssets\gacha.png)
+![祈愿记录](/Design/ImgAssets/gacha.png)
 
 # 玩家信息
 
@@ -56,7 +56,7 @@
 > 展示全角色等级武器圣遗物命座信息  
 > 展示玩家基础信息、世界探索、尘歌壶、深境螺旋、活动信息  
 
-![record.png](Design\ImgAssets\record.png)
+![record.png](/Design/ImgAssets/record.png)
 
 # [![logo](https://youngmoe.com/static/img/png/logo.c2ceb873.png)](https://youngmoe.com/)
 
@@ -64,7 +64,7 @@
 > 优化的队伍推荐功能  
 > 直接访问玩家角色信息，提供最佳推荐方案
 
-![天空岛.png](Design\ImgAssets\celestia.png)
+![天空岛.png](/Design/ImgAssets/celestia.png)
 
 </div>
 
