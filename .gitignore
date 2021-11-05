@@ -8,27 +8,13 @@
 /Build/net5.0
 
 /Build/Debug/net5.0-windows10.0.18362.0
-
-
-/Build/DGP.Snap.AutoVersion.exe.config
-/Build/DGP.Snap.AutoVersion.pdb
-
-
+/Build/Publish
 
 /DGP.Genshin/bin
 /DGP.Genshin/obj
 
-/DGP.Genshin.Data/bin
-/DGP.Genshin.Data/obj
-
 /DGP.Snap.AutoVersion/bin
 /DGP.Snap.AutoVersion/obj
-
-/DGP.Snap.Framework/bin
-/DGP.Snap.Framework/obj
-
-/DGP.Snap.Test/bin
-/DGP.Snap.Test/obj
 
 /DGP.Genshin.Updater/bin
 /DGP.Genshin.Updater/obj

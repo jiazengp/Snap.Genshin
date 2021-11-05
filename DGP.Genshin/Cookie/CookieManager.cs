@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -113,8 +114,11 @@ namespace DGP.Genshin.Cookie
 
         public static void SaveCookies()
         {
-            //.ToList() fix json parse error
-            Json.ToFile(CookieListFile, Cookies.Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c).ToList()));
+            List<string> cookielist = Cookies
+                .Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c))
+                //.ToList() fix json parse error
+                .ToList();
+            Json.ToFile(CookieListFile, cookielist);
         }
 
         /// <summary>
