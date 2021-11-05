@@ -63,7 +63,7 @@ namespace DGP.Genshin.Services.Settings
         private static volatile SettingModel? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private SettingModel() 
+        private SettingModel()
         {
             Initialize();
             SettingService.Instance.SettingChanged += SettingChanged;

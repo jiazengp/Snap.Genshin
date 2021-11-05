@@ -71,7 +71,7 @@ namespace DGP.Genshin.Services.Updating
             {
                 caught = true;
             }
-            if(!caught)
+            if (!caught)
             {
                 StartInstallUpdate();
             }
@@ -92,7 +92,7 @@ namespace DGP.Genshin.Services.Updating
                     ValueStringOverride = new BindableString("progressValueString"),
                     Status = new BindableString("progressStatus")
                 })
-                .Show(toast=>
+                .Show(toast =>
                 {
                     toast.Tag = UpdateNotificationTag;
                     toast.Data = new NotificationData(new Dictionary<string, string>()

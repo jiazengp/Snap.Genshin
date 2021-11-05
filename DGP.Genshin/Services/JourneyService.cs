@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Cookie;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Journey;
-using DGP.Genshin.MiHoYoAPI.User;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

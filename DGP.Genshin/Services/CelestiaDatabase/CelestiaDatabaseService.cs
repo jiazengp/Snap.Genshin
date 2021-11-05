@@ -157,7 +157,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         private static volatile CelestiaDatabaseService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private CelestiaDatabaseService() 
+        private CelestiaDatabaseService()
         {
             database = new();
             selectedFloor = floors[0];

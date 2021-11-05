@@ -2,8 +2,8 @@
 using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Cookie;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
-using DGP.Genshin.MiHoYoAPI.User;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Notifications;
@@ -58,7 +58,7 @@ namespace DGP.Genshin
             }
             splashView.HasCheckCompleted = true;
         }
-        
+
         private async Task PrepareTitleBarArea(SplashView splashView)
         {
             UserInfoTitleBarButton UserInfoTitleButton = new();

@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
-using DGP.Genshin.MiHoYoAPI.User;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls.Primitives;

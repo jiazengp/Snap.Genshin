@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Cookie;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
-using DGP.Genshin.MiHoYoAPI.User;
 using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
 using System.Threading.Tasks;

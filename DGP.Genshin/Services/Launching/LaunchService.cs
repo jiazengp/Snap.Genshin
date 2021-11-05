@@ -122,7 +122,7 @@ namespace DGP.Genshin.Services.Launching
         private static volatile LaunchService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private LaunchService() 
+        private LaunchService()
         {
             isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
             OnPropertyChanged(nameof(IsBorderless));

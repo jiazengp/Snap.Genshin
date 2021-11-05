@@ -21,23 +21,18 @@ namespace DGP.Genshin.Helpers
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 RegistryKey? run = currentUser.CreateSubKey(RunPath);
-
-                if (run is null)
-                {
-                    throw new ExtremelyUnlikelyException("创建注册表项失败");
-                }
+                _ = run ?? throw new SnapGenshinInternalException("创建注册表项失败");
 
                 if (value)
                 {
                     string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
-                    Debug.Assert(appFileName is not null);
+                    _ = appFileName ?? throw new SnapGenshinInternalException("无法找到主程序集");
                     run.SetValue(AppName, appFileName);
                 }
                 else
                 {
                     run.DeleteValue(AppName);
                 }
-
             }
         }
     }

@@ -64,7 +64,7 @@ namespace DGP.Genshin.Pages
             Button button = (Button)sender;
             if (u is UpdateState.NeedUpdate)
             {
-                await UpdateService.Instance.DownloadAndInstallPackageAsync(); 
+                await UpdateService.Instance.DownloadAndInstallPackageAsync();
             }
             else
             {

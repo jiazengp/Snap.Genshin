@@ -128,7 +128,7 @@ namespace DGP.Genshin.Services.GameRecord
         private static volatile RecordService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private RecordService() 
+        private RecordService()
         {
             if (File.Exists(QueryHistoryFile))
             {
