@@ -18,7 +18,6 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
                 <ui:ListView Grid.Row="0" Padding="0" 
                          ItemsSource="{Binding CookieUserInfos}" 
                          SelectedItem="{Binding SelectedCookieUserInfo}" 

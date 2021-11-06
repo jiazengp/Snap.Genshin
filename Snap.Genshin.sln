@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin", "DGP.Genshin\DGP.Genshin.csproj", "{E4FAC04F-49B9-42AA-B31E-6C7A0DBEB1FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{75CA6B97-2045-4CCD-8DF1-8865BC6C7ECA} = {75CA6B97-2045-4CCD-8DF1-8865BC6C7ECA}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Snap.AutoVersion", "DGP.Snap.AutoVersion\DGP.Snap.AutoVersion.csproj", "{715290F0-82FE-414D-9024-00EDA1A8FC28}"
 EndProject
@@ -20,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.YoungMoeAPI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Common", "DGP.Genshin.Common\DGP.Genshin.Common.csproj", "{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.DataViewer", "DGP.Genshin.DataViewer\DGP.Genshin.DataViewer.csproj", "{BF5C9943-4E48-4680-BA17-980B7E9B99D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.DataViewer", "DGP.Genshin.DataViewer\DGP.Genshin.DataViewer.csproj", "{BF5C9943-4E48-4680-BA17-980B7E9B99D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

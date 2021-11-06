@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.GachaStatistic
+namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
     /// 联机抽卡Url提供器

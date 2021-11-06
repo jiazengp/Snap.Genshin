@@ -2,7 +2,7 @@
 using ModernWpf.Controls;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.GachaStatistic
+namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
     /// GachaLogUrlDialog.xaml 的交互逻辑

@@ -51,7 +51,7 @@ namespace DGP.Genshin
         /// </summary>
         private void EnsureWorkingPath()
         {
-            string? path = Assembly.GetEntryAssembly()?.Location;
+            string path = AppContext.BaseDirectory;
             string? workingPath = Path.GetDirectoryName(path);
             if (workingPath is not null)
             {

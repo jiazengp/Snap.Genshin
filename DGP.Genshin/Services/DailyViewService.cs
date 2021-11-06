@@ -1,22 +1,72 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// no need to update the view,so we don't make it observable
-    /// 如果在0点前初始化并在0点后呈现，需要重新初始化
+    /// 日常材料服务
     /// </summary>
-    public class DailyViewService
+    public class DailyViewService : Observable
     {
         private readonly MetaDataService dataService = MetaDataService.Instance;
+
+        private NamedValue<DayOfWeek> selectedDayOfWeek;
+
+        public NamedValue<DayOfWeek> SelectedDayOfWeek
+        {
+            get => selectedDayOfWeek; set
+            {
+                Set(ref selectedDayOfWeek, value);
+
+                RaisePropertyChanged("Mondstadt");
+                RaisePropertyChanged("Liyue");
+                RaisePropertyChanged("Inazuma");
+            }
+        }
+
+        private void RaisePropertyChanged(string city)
+        {
+            ClearFieldValue($"today{city}Talent");
+            ClearFieldValue($"today{city}WeaponAscension");
+            ClearFieldValue($"today{city}Character5");
+            ClearFieldValue($"today{city}Character4");
+            ClearFieldValue($"today{city}Weapon5");
+            ClearFieldValue($"today{city}Weapon4");
+
+            OnPropertyChanged($"Today{city}Talent");
+            OnPropertyChanged($"Today{city}WeaponAscension");
+            OnPropertyChanged($"Today{city}Character5");
+            OnPropertyChanged($"Today{city}Character4");
+            OnPropertyChanged($"Today{city}Weapon5");
+            OnPropertyChanged($"Today{city}Weapon4");
+        }
+
+        public void ClearFieldValue(string name)
+        {
+            FieldInfo? fieldInfo = typeof(DailyViewService).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+            fieldInfo?.SetValue(this, null);
+        }
+
+        public List<NamedValue<DayOfWeek>> DayOfWeeks { get; set; } = new()
+        {
+            new("星期一", DayOfWeek.Monday),
+            new("星期二", DayOfWeek.Tuesday),
+            new("星期三", DayOfWeek.Wednesday),
+            new("星期四", DayOfWeek.Thursday),
+            new("星期五", DayOfWeek.Friday),
+            new("星期六", DayOfWeek.Saturday),
+            new("星期日", DayOfWeek.Sunday)
+        };
 
         #region Mondstadt
         private IEnumerable<Talent>? todayMondstadtTalent;
@@ -280,7 +330,11 @@ namespace DGP.Genshin.Services
         private static volatile DailyViewService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private DailyViewService() { this.Log("initialized"); }
+        private DailyViewService()
+        {
+            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
+            this.Log("initialized");
+        }
         public static DailyViewService Instance
         {
             get

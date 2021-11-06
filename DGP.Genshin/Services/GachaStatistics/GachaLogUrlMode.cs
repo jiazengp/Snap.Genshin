@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.Services.GachaStatistic
+﻿namespace DGP.Genshin.Services.GachaStatistics
 {
     public enum GachaLogUrlMode
     {

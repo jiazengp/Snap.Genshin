@@ -12,11 +12,9 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         public string? Type { get; set; }
         public List<SpecificItem>? UpStar5List { get; set; }
         public List<SpecificItem>? UpStar4List { get; set; }
-        [JsonIgnore] public List<StatisticItem>? StatisticList { get; set; }
         [JsonIgnore] public List<StatisticItem>? StatisticList5 { get; set; }
         [JsonIgnore] public List<StatisticItem>? StatisticList4 { get; set; }
         [JsonIgnore] public List<StatisticItem>? StatisticList3 { get; set; }
-        [JsonIgnore] public bool IsWeaponBanner { get; set; }
         [JsonIgnore] public List<SpecificItem> Items { get; set; } = new List<SpecificItem>();
 
         public SpecificBanner ClonePartially()
@@ -32,11 +30,17 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             };
         }
 
+        public void ClearItemAndStar5List()
+        {
+            Items?.Clear();
+            Star5List?.Clear();
+        }
+
         public override string ToString()
         {
-            return $"{CurrentName} | {StartTime:yyyy.MM.dd HH:mm} - {EndTime:yyyy.MM.dd HH:mm}";
+            return CurrentName is "奔行世间" 
+                ? CurrentName 
+                : $"{CurrentName} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
         }
     }
-
-
 }

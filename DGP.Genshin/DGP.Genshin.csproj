@@ -5,11 +5,14 @@
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationIcon>SG_Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>..\Build\Debug</OutputPath>
@@ -49,7 +52,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DGP.Genshin.Common\DGP.Genshin.Common.csproj" />
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
-    <ProjectReference Include="..\DGP.Genshin.Updater\DGP.Genshin.Updater.csproj" />
     <ProjectReference Include="..\DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj" />
   </ItemGroup>
 
@@ -61,11 +63,7 @@
     <Resource Include="Resources\WishIcon.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataModel\MiHoYo2\" />
-  </ItemGroup>
-
+  
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="..\Build\net5.0\DGP.Snap.AutoVersion.exe &quot;$(ProjectDir)&quot;" />
   </Target>

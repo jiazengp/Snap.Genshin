@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services.GachaStatistic;
+using DGP.Genshin.Services.GachaStatistics;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ namespace DGP.Genshin.Pages
         {
             if (Service is not null)
             {
-                await Service.RefreshAsync(GachaLogUrlMode.GameLogFile);
+                await Service.RefreshAsync(GachaLogUrlMode.GameLogFile, FullSwitch.IsOn);
             }
         }
 
@@ -33,7 +33,7 @@ namespace DGP.Genshin.Pages
         {
             if (Service is not null)
             {
-                await Service.RefreshAsync(GachaLogUrlMode.ManualInput);
+                await Service.RefreshAsync(GachaLogUrlMode.ManualInput, FullSwitch.IsOn);
             }
         }
 

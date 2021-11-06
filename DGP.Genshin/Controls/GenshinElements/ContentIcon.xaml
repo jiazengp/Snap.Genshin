@@ -16,17 +16,12 @@
         >
     <Button.Resources>
         <ui:CubicBezierEase x:Key="CubicBezierEase"/>
+
+        <Storyboard x:Key="FadeInAnimation" Storyboard.TargetName="ContentButton">
+            <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="70" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
+        </Storyboard>
     </Button.Resources>
-    <Button.Triggers>
-        <EventTrigger RoutedEvent="Loaded">
-            <BeginStoryboard>
-                <Storyboard Storyboard.TargetName="ContentButton">
-                    <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="70" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
-                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </Button.Triggers>
     <Border Width="70" Height="70"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">

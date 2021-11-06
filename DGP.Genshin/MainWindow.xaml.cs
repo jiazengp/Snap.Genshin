@@ -14,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace DGP.Genshin
 {
@@ -41,7 +39,6 @@ namespace DGP.Genshin
         /// <param name="splashView"></param>
         private async void SplashInitializeCompleted(SplashView splashView)
         {
-            splashView.CurrentStateDescription = "初始化标题栏...";
             await PrepareTitleBarArea(splashView);
             splashView.CurrentStateDescription = "检查程序更新...";
             await CheckUpdateAsync();
@@ -59,21 +56,20 @@ namespace DGP.Genshin
             splashView.HasCheckCompleted = true;
         }
 
+        /// <summary>
+        /// 准备标题栏按钮
+        /// </summary>
+        /// <param name="splashView"></param>
+        /// <returns></returns>
         private async Task PrepareTitleBarArea(SplashView splashView)
         {
             UserInfoTitleBarButton UserInfoTitleButton = new();
             TitleBarStackPanel.Children.Add(UserInfoTitleButton);
-            splashView.CurrentStateDescription = "初始化用户信息...";
-            await UserInfoTitleButton.InitializeAsync();
             TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
             TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
             TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
-            TitleBarStackPanel.Children.Add(new Rectangle
-            {
-                Fill = App.Current.Resources.FindName("SystemControlForegroundBaseHighBrush") as Brush,
-                Width = 1,
-                Margin = new Thickness(12, 8, 12, 8)
-            });
+            splashView.CurrentStateDescription = "初始化用户信息...";
+            await UserInfoTitleButton.InitializeAsync();
         }
 
         /// <summary>
@@ -107,7 +103,6 @@ namespace DGP.Genshin
                         }
                     }
                 }
-
             }
         }
 

@@ -52,7 +52,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     CookieUserInfos.Add(new CookieUserInfo(cookie, info));
                 }
             }
-            SelectedCookieUserInfo = CookieUserInfos.First(c => c.Cookie == CookieManager.CurrentCookie);
+            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == CookieManager.CurrentCookie);
         }
 
         private async void OnCookiesAdded(string newCookie)

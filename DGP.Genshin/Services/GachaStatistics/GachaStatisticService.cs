@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.GachaStatistic
+namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
     /// 抽卡记录服务
@@ -131,9 +131,9 @@ namespace DGP.Genshin.Services.GachaStatistic
             });
         }
 
-        public async Task RefreshAsync(GachaLogUrlMode mode)
+        public async Task RefreshAsync(GachaLogUrlMode mode, bool full = false)
         {
-            string GetFailHintByMode(GachaLogUrlMode mode)
+            string GetUrlFailHintByMode(GachaLogUrlMode mode)
             {
                 return mode switch
                 {
@@ -150,14 +150,14 @@ namespace DGP.Genshin.Services.GachaStatistic
                 await new ContentDialog()
                 {
                     Title = "获取祈愿记录失败",
-                    Content = GetFailHintByMode(mode),
+                    Content = GetUrlFailHintByMode(mode),
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
             }
             else
             {
-                if (!await RefreshInternalAsync(mode))
+                if (!await RefreshInternalAsync(mode, full))
                 {
                     await new ContentDialog()
                     {
@@ -176,7 +176,7 @@ namespace DGP.Genshin.Services.GachaStatistic
         /// </summary>
         /// <param name="mode"></param>
         /// <returns>卡池配置是否可用</returns>
-        private async Task<bool> RefreshInternalAsync(GachaLogUrlMode mode)
+        private async Task<bool> RefreshInternalAsync(GachaLogUrlMode mode, bool full = false)
         {
             GachaLogWorker? worker = await GetGachaLogWorkerAsync(mode);
             if (worker is null)
@@ -184,7 +184,7 @@ namespace DGP.Genshin.Services.GachaStatistic
                 //TODO 提示用户获取失败
                 return false;
             }
-            bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker);
+            bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker, full);
             if (Statistic != null)
             {
                 SyncStatisticWithUid();
@@ -193,7 +193,7 @@ namespace DGP.Genshin.Services.GachaStatistic
             return isGachaConfigAvailable;
         }
 
-        private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker)
+        private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker, bool full = false)
         {
             //gacha config can be null while authkey timeout
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
@@ -202,7 +202,14 @@ namespace DGP.Genshin.Services.GachaStatistic
                 worker.OnFetchProgressed += OnFetchProgressed;
                 foreach (ConfigType pool in gachaConfigTypes.Types)
                 {
-                    await worker.FetchGachaLogIncrementAsync(pool);
+                    if (full)
+                    {
+                        await worker.FetchGachaLogAggressivelyAsync(pool);
+                    }
+                    else
+                    {
+                        await worker.FetchGachaLogIncrementAsync(pool);
+                    }
                 }
                 worker.OnFetchProgressed -= OnFetchProgressed;
                 localGachaLogWorker.SaveAllLogs();

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DGP.Genshin.Services.GachaStatistic
+namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
     /// 本地抽卡记录提供器

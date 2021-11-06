@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Controls.GenshinElements
 {
@@ -12,7 +12,22 @@ namespace DGP.Genshin.Controls.GenshinElements
         {
             //suppress the databinding warning
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
+            Loaded += ContentIcon_Loaded;
             InitializeComponent();
+        }
+
+        private bool isFirstLoaded = true;
+        private void ContentIcon_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (isFirstLoaded)
+            {
+                isFirstLoaded = false;
+                Storyboard? storyBoard = FindResource("FadeInAnimation") as Storyboard;
+                if(storyBoard is not null)
+                {
+                    storyBoard.Begin();
+                }
+            }
         }
 
         public string BackgroundUrl
@@ -52,7 +67,6 @@ namespace DGP.Genshin.Controls.GenshinElements
             get => (bool)GetValue(IsCountVisibleProperty);
             set => SetValue(IsCountVisibleProperty, value);
         }
-        [SuppressMessage("", "CA1416")]
         public static readonly DependencyProperty IsCountVisibleProperty =
             DependencyProperty.Register("IsCountVisible", typeof(bool), typeof(ContentIcon), new PropertyMetadata(BoxedValue.FalseBox));
     }

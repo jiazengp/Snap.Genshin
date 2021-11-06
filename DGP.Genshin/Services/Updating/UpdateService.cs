@@ -148,11 +148,7 @@ namespace DGP.Genshin.Services.Updating
         public static void StartInstallUpdate()
         {
             Directory.CreateDirectory("Updater");
-            //those files are needed to start process successufully
-            File.Move("DGP.Genshin.Updater.dll", @"Updater/DGP.Genshin.Updater.dll", true);
             File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
-            File.Move("DGP.Genshin.Updater.deps.json", @"Updater/DGP.Genshin.Updater.deps.json", true);
-            File.Move("DGP.Genshin.Updater.runtimeconfig.json", @"Updater/DGP.Genshin.Updater.runtimeconfig.json", true);
 
             Process.Start(new ProcessStartInfo()
             {

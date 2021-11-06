@@ -1,10 +1,10 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistics.Statistics
@@ -14,11 +14,17 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
     /// </summary>
     public static class StatisticFactory
     {
+        /// <summary>
+        /// 转换到统计
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public static Statistic ToStatistic(GachaData data, string uid)
         {
             Logger.LogStatic($"convert data of {uid} to statistic view");
-            List<StatisticItem> characters = ToTotalCountList(data, "角色");
-            List<StatisticItem> weapons = ToTotalCountList(data, "武器");
+            List<StatisticItem> characters = ToStatisticTotalCountList(data, "角色");
+            List<StatisticItem> weapons = ToStatisticTotalCountList(data, "武器");
             return new Statistic()
             {
                 Uid = uid,
@@ -33,10 +39,22 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 SpecificBanners = ToSpecificBanners(data)
             };
         }
+
+        /// <summary>
+        /// 转换到统计卡池
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <param name="prob5"></param>
+        /// <param name="prob4"></param>
+        /// <param name="granteeCount"></param>
+        /// <returns></returns>
         private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, double prob5, double prob4, int granteeCount)
         {
             List<GachaLogItem>? list = data[type];
-            Debug.Assert(list is not null);
+            _ = list ?? throw new SnapGenshinInternalException($"卡池{type}:对应的卡池信息不应为 null");
+            //上次出货抽数
             int index5 = list.FindIndex(i => i.Rank == "5");
             int index4 = list.FindIndex(i => i.Rank == "4");
 
@@ -56,8 +74,8 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 banner.StartTime = list.Last().Time;
                 banner.EndTime = list.First().Time;
             }
-            banner.Star5List = ListOutStar5(list, banner.Star5Count);
-
+            banner.Star5List = ListOutStatisticStar5(list, banner.Star5Count);
+            //确保至少有一个五星才进入
             if (banner.Star5List.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
@@ -73,33 +91,37 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 banner.NextGuaranteeType = "小保底";
             }
 
-            banner.NextStar5PredictCount = RestrictPredicatedCount5(
-                (int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount), banner, granteeCount);
-            banner.NextStar4PredictCount = RestrictPredicatedCount4(
-                (int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount), banner);
+            int predicatedCount5 = (int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount);
+            banner.NextStar5PredictCount = RestrictPredicatedCount5(predicatedCount5, banner, granteeCount);
+            int predicatedCount4 = (int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount);
+            banner.NextStar4PredictCount = RestrictPredicatedCount4(predicatedCount4, banner);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
             return banner;
         }
-        private static List<StatisticItem> ToTotalCountList(GachaData data, string itemType)
+
+        /// <summary>
+        /// 总体出货数量统计
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="itemType"></param>
+        /// <returns></returns>
+        private static List<StatisticItem> ToStatisticTotalCountList(GachaData data, string itemType)
         {
-            Dictionary<string, StatisticItem> counter = new();
+            CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                if (list is null)
-                {
-                    continue;
-                }
+                _ = list ?? throw new SnapGenshinInternalException("卡池列表不应为 null");
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
-                        Debug.Assert(i.Name is not null);
+                        _ = i.Name ?? throw new SnapGenshinInternalException("卡池物品名称不应为 null");
                         if (!counter.ContainsKey(i.Name))
                         {
-                            Debug.Assert(i.Rank is not null);
+                            _ = i.Rank ?? throw new SnapGenshinInternalException("卡池物品稀有度不应为 null");
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,
@@ -112,11 +134,15 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                                 counter[i.Name].Source = weapon?.Source;
                                 counter[i.Name].Badge = weapon?.Type;
                             }
-                            else//角色
+                            else if (itemType == "角色")
                             {
                                 DataModel.Characters.Character? character = MetaDataService.Instance.Characters?.First(c => c.Name == i.Name);
                                 counter[i.Name].Source = character?.Source;
                                 counter[i.Name].Badge = character?.Element;
+                            }
+                            else
+                            {
+                                throw new SnapGenshinInternalException("不支持的物品类型");
                             }
                         }
                         counter[i.Name].Count += 1;
@@ -125,9 +151,9 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             }
             return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
-        private static List<StatisticItem> ToTotalCountList(List<SpecificItem> list)
+        private static List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
         {
-            Dictionary<string, StatisticItem> counter = new();
+            CounterOf<StatisticItem> counter = new();
             foreach (SpecificItem i in list)
             {
                 if (i.Name is null)
@@ -152,7 +178,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 .OrderByDescending(i => i.StarUrl?.ToRank())
                 .ThenByDescending(i => i.Count).ToList();
         }
-        private static List<StatisticItem5Star> ListOutStar5(IEnumerable<GachaLogItem> items, int star5Count)
+        private static List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
             //search from the earliest time
@@ -164,26 +190,26 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
-                SpecificBanner? banner = MetaDataService.Instance.SpecificBanners?.Find(b =>
+                SpecificBanner? matchedBanner = MetaDataService.Instance.SpecificBanners?.Find(b =>
                     b.Type == currentStar5.GachaType &&
                     currentStar5.Time >= b.StartTime &&
                     currentStar5.Time <= b.EndTime);
 
-                if (banner is not null && banner.UpStar5List is not null && banner.UpStar4List is not null)
+                if (matchedBanner is not null && matchedBanner.UpStar5List is not null && matchedBanner.UpStar4List is not null)
                 {
                     counter.Add(new StatisticItem5Star()
                     {
                         Name = currentStar5.Name,
                         Count = count,
                         Time = currentStar5.Time,
-                        IsUp = banner.UpStar5List.Exists(i =>
-                        i.Name == currentStar5.Name) || banner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
+                        IsUp = matchedBanner.UpStar5List.Exists(i =>
+                        i.Name == currentStar5.Name) || matchedBanner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
                         IsBigGuarantee = isBigGuarantee
                     });
                 }
                 else
                 {
-                    //no banner info
+                    //no matched banner info
                     counter.Add(new StatisticItem5Star()
                     {
                         Name = currentStar5.Name,
@@ -194,7 +220,6 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                     });
                 }
                 reversedItems.RemoveRange(0, count);
-
             }
             counter.Reverse();
             return counter;
@@ -218,89 +243,101 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             }
             return predicatedCount;
         }
-        private static int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner)
+        private static int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner, int granteeCount = 10)
         {
             if (predicatedCount < 1)
             {
                 return 1;
             }
             int predicatedSum = predicatedCount + banner.CountSinceLastStar4;
-            if (predicatedSum > 10)
+            if (predicatedSum > granteeCount)
             {
-                predicatedCount = 10 - banner.CountSinceLastStar4;
+                predicatedCount = granteeCount - banner.CountSinceLastStar4;
             }
             return predicatedCount;
         }
         private static List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
-            List<SpecificBanner>? results = MetaDataService.Instance.SpecificBanners?.ClonePartially();
+            //clone from metadata
+            List<SpecificBanner>? clonedBanners = MetaDataService.Instance.SpecificBanners?.ClonePartially();
+            _ = clonedBanners ?? throw new SnapGenshinInternalException("无可用的卡池信息");
 
-            if (results is null)
-            {
-                throw new InvalidOperationException("无可用的卡池信息");
-            }
-
-            foreach (SpecificBanner result in results)
-            {
-                result.Items?.Clear();
-                result.Star5List?.Clear();
-            }
+            clonedBanners.ForEach(b => b.ClearItemAndStar5List());
+            SpecificBanner permanent = new() { CurrentName = "奔行世间" };
+            clonedBanners.Add(permanent);
 
             foreach (string type in data.Keys)
             {
-                if (type is ConfigType.NoviceWishes or ConfigType.PermanentWish)
+                if (type is ConfigType.NoviceWishes)
                 {
+                    //skip these banner
                     continue;
                 }
-                List<GachaLogItem>? list = data[type];
-                if (list is not null)
+                if (type is ConfigType.PermanentWish)
+                {
+                    if (data[type] is List<GachaLogItem> plist)
+                    {
+                        foreach (GachaLogItem item in plist)
+                        {
+                            AddItemToSpecificBanner(item, permanent);
+                        }
+                    }
+                }
+                if (data[type] is List<GachaLogItem> list)
                 {
                     foreach (GachaLogItem item in list)
                     {
-                        SpecificBanner? banner = results.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
-                        DataModel.Characters.Character? isc = MetaDataService.Instance.Characters?.FirstOrDefault(c => c.Name == item.Name);
-                        DataModel.Weapons.Weapon? isw = MetaDataService.Instance.Weapons?.FirstOrDefault(w => w.Name == item.Name);
-                        SpecificItem ni = new SpecificItem
-                        {
-                            Time = item.Time
-                        };
-                        if (isc != null)
-                        {
-                            ni.StarUrl = isc.Star;
-                            ni.Source = isc.Source;
-                            ni.Name = isc.Name;
-                            ni.Badge = isc.Element;
-                        }
-                        else if (isw != null)
-                        {
-                            ni.StarUrl = isw.Star;
-                            ni.Source = isw.Source;
-                            ni.Name = isw.Name;
-                            ni.Badge = isw.Type;
-                        }
-                        else
-                        {
-                            ni.Name = item.Name;
-                            ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
-                            Logger.LogStatic($"a unsupported item:{item.Name} is found while converting to {nameof(SpecificBanner)}");
-                        }
-                        //fix issue where crashes when no banner exists
-                        banner?.Items.Add(ni);
+                        SpecificBanner? banner = clonedBanners.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                        AddItemToSpecificBanner(item, banner);
                     }
                 }
             }
 
-            CalculateDetails(results);
+            CalculateSpecificBannerDetails(clonedBanners);
 
-            return results
+            return clonedBanners
                 .Where(b => b.TotalCount > 0)
                 .OrderByDescending(b => b.StartTime)
                 .ThenBy(b => b.Type)
                 .ToList();
         }
-        private static void CalculateDetails(List<SpecificBanner> results)
+
+        private static void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            foreach (SpecificBanner banner in results)
+            DataModel.Characters.Character? isc = MetaDataService.Instance.Characters?.FirstOrDefault(c => c.Name == item.Name);
+            DataModel.Weapons.Weapon? isw = MetaDataService.Instance.Weapons?.FirstOrDefault(w => w.Name == item.Name);
+            SpecificItem ni = new()
+            {
+                Time = item.Time
+            };
+
+            if (isc is not null)
+            {
+                ni.StarUrl = isc.Star;
+                ni.Source = isc.Source;
+                ni.Name = isc.Name;
+                ni.Badge = isc.Element;
+            }
+            else if (isw is not null)
+            {
+                ni.StarUrl = isw.Star;
+                ni.Source = isw.Source;
+                ni.Name = isw.Name;
+                ni.Badge = isw.Type;
+            }
+            else//both null
+            {
+                ni.Name = item.Name;
+                ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
+                Logger.LogStatic($"an unsupported item:{item.Name} is found while converting to {nameof(SpecificBanner)}");
+            }
+            //? fix issue where crashes when no banner exists
+            banner?.Items.Add(ni);
+        }
+
+        private static void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
+        {
+            foreach (SpecificBanner banner in specificBanners)
             {
                 banner.TotalCount = banner.Items.Count;
                 if (banner.TotalCount == 0)
@@ -308,14 +345,14 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                     continue;
                 }
 
-                banner.Star5Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 5);
-                banner.Star4Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 4);
-                banner.Star3Count = banner.Items.Count(i => i.StarUrl?.ToRank() == 3);
+                banner.Star5Count = banner.Items.Count(i => i.StarUrl.IsOfRank(5));
+                banner.Star4Count = banner.Items.Count(i => i.StarUrl.IsOfRank(4));
+                banner.Star3Count = banner.Items.Count(i => i.StarUrl.IsOfRank(3));
 
-                List<StatisticItem> statisticList = ToTotalCountList(banner.Items);
-                banner.StatisticList5 = statisticList.Where(i => i.StarUrl?.ToRank() == 5).ToList();
-                banner.StatisticList4 = statisticList.Where(i => i.StarUrl?.ToRank() == 4).ToList();
-                banner.StatisticList3 = statisticList.Where(i => i.StarUrl?.ToRank() == 3).ToList();
+                List<StatisticItem> statisticList = ToSpecificTotalCountList(banner.Items);
+                banner.StatisticList5 = statisticList.Where(i => i.StarUrl.IsOfRank(5)).ToList();
+                banner.StatisticList4 = statisticList.Where(i => i.StarUrl.IsOfRank(4)).ToList();
+                banner.StatisticList3 = statisticList.Where(i => i.StarUrl.IsOfRank(3)).ToList();
             }
         }
     }

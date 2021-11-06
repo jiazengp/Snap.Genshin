@@ -93,10 +93,5 @@ namespace DGP.Genshin.Pages
             ThemeManager.Current.ApplicationTheme =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
-
-        private async void ResetCookieButtonClick(object sender, RoutedEventArgs e)
-        {
-            await CookieManager.SetCookieAsync();
-        }
     }
 }

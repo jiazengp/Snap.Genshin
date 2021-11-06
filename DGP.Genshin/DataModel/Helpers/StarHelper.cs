@@ -18,11 +18,12 @@ namespace DGP.Genshin.DataModel.Helpers
 
         public static int ToRank(this string? starurl)
         {
-            if (starurl is null)
-            {
-                return 1;
-            }
-            return int.Parse(starurl[51].ToString());
+            return starurl is null ? 1 : int.Parse(starurl[51].ToString());
+        }
+
+        public static bool IsOfRank(this string? starurl, int rank)
+        {
+            return starurl.ToRank() == rank;
         }
 
         public static SolidColorBrush? ToSolid(int rank)
