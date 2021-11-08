@@ -8,6 +8,7 @@
 /Build/net5.0
 
 /Build/Debug/net5.0-windows10.0.18362.0
+/Build/Debug-Mate
 /Build/Publish
 
 /DGP.Genshin/bin
@@ -15,6 +16,9 @@
 
 /DGP.Snap.AutoVersion/bin
 /DGP.Snap.AutoVersion/obj
+
+/DGP.Genshin.Mate/bin
+/DGP.Genshin.Mate/obj
 
 /DGP.Genshin.Updater/bin
 /DGP.Genshin.Updater/obj
