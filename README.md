@@ -16,7 +16,7 @@
 
 ### 友情链接
 
-[![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza) [![Genshin Gacha Export](https://img.shields.io/badge/sunfkny-genshin_gacha_export-red/total?style=flat-square)](https://github.com/sunfkny/genshin-gacha-export)
+[![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza)
 
 ### 最低系统要求
 
@@ -25,6 +25,14 @@
 > 运行时：.NET 5 [下载 .NET 5 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.11-windows-x64-installer)  
 > 运行时内存需求：300MB  
 > 储存空间需求：300MB
+
+# DGP.Genshin.Mate
+
+> 你最好的树脂伴侣，无需复杂设置，即点即用，方便快捷  
+> 独立程序，点击系统托盘图标显示实时树脂  
+> 暂时不随主程序发布，需要额外 **进群(910780153)** 领取，或自行 Build
+
+![mate.png](/Design/ImgAssets/mate.png)
 
 # 标题栏
 

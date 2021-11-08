@@ -2,14 +2,14 @@
 using Microsoft.Win32;
 using System.Diagnostics;
 
-namespace DGP.Genshin.Mate.Shell
+namespace DGP.Genshin.Helpers
 {
-    public class AutoRunHelper
+    public static class AutoRunHelper
     {
         private const string AppName = "SnapGenshinMate";
         private const string RunPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
-        public bool IsAutoRun
+        public static bool IsAutoRun
         {
             get
             {
