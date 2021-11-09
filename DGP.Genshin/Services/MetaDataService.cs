@@ -271,6 +271,19 @@ namespace DGP.Genshin.Services
         public Weapon? SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
         #endregion
 
+        #region Helper
+        public string? FindSourceByName(string? name)
+        {
+            if (name is null)
+            {
+                return null;
+            }
+            Primitive? p = (Primitive?)characters?.FirstOrDefault(c => c.Name == name) ??
+                weapons?.FirstOrDefault(w => w.Name == name) ?? null;
+            return p?.Source;
+        }
+        #endregion
+
         #region LifeCycle
         private string Read(string filename)
         {

@@ -31,7 +31,7 @@
             </ItemsPanelTemplate>
             <!--#endregion-->
             
-            <!--#region OverridedConst-->
+            <!--#region OverrideConst-->
             <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
             <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
             <!--#endregion-->

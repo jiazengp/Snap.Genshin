@@ -6,6 +6,7 @@ using ModernWpf.Controls.Primitives;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         public UserInfoTitleBarButton()
         {
+            //suppress the databinding warning
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             InitializeComponent();
             DataContext = this;
             this.Log("UserInfoTitleBarButton ctor called");

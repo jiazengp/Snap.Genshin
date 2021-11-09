@@ -7,11 +7,13 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace DGP.Genshin
 {
@@ -29,11 +31,25 @@ namespace DGP.Genshin
             //handle notification activation
             SetupToastNotificationHandling();
             EnsureSingleInstance();
+            EnsureCulture();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
             SetAppTheme();
+        }
+
+        private static void EnsureCulture()
+        {
+            CultureInfo zhCnCulture = new("zh-CN");
+            Thread.CurrentThread.CurrentUICulture = zhCnCulture;
+            Thread.CurrentThread.CurrentCulture = zhCnCulture;
+            CultureInfo.DefaultThreadCurrentCulture = zhCnCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = zhCnCulture;
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
 
         private void SetupToastNotificationHandling()

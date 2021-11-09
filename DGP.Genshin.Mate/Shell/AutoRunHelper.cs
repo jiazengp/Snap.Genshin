@@ -2,7 +2,7 @@
 using Microsoft.Win32;
 using System.Diagnostics;
 
-namespace DGP.Genshin.Helpers
+namespace DGP.Genshin.Mate.Shell
 {
     public static class AutoRunHelper
     {

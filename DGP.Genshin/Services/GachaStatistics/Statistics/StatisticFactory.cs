@@ -199,6 +199,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 {
                     counter.Add(new StatisticItem5Star()
                     {
+                        Source = MetaDataService.Instance.FindSourceByName(currentStar5.Name),
                         Name = currentStar5.Name,
                         Count = count,
                         Time = currentStar5.Time,
@@ -212,6 +213,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                     //no matched banner info
                     counter.Add(new StatisticItem5Star()
                     {
+                        Source = MetaDataService.Instance.FindSourceByName(currentStar5.Name),
                         Name = currentStar5.Name,
                         Count = count,
                         Time = currentStar5.Time,
@@ -301,7 +303,6 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 .ThenBy(b => b.Type)
                 .ToList();
         }
-
         private static void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
             DataModel.Characters.Character? isc = MetaDataService.Instance.Characters?.FirstOrDefault(c => c.Name == item.Name);
@@ -334,7 +335,6 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             //? fix issue where crashes when no banner exists
             banner?.Items.Add(ni);
         }
-
         private static void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
         {
             foreach (SpecificBanner banner in specificBanners)

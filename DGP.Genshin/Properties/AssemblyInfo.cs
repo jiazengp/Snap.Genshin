@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
+using System.Resources;
 using System.Windows;
 
 [assembly: AssemblyDescription("原神信息速查App")]
 [assembly: AssemblyCopyright("Copyright © DGP Studio 2021")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("2021.11.6.35")]
+[assembly: AssemblyVersion("2021.11.9.3")]

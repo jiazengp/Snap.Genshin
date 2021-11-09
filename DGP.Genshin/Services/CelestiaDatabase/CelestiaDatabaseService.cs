@@ -24,13 +24,13 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         /// </summary>
         private List<AvatarSimple>? allAvatarMap;
         private IEnumerable<DetailedAvatarInfo2>? collocationAll;
-        private List<AvatarInfo>? collocation11;
+        private IEnumerable<AvatarInfo>? collocation11;
         private int totalSubmitted;
         private int abyssPassed;
 
         public List<AvatarSimple>? AvatarDictionary { get => allAvatarMap; set => Set(ref allAvatarMap, value); }
         public IEnumerable<DetailedAvatarInfo2>? CollocationAll { get => collocationAll; set => Set(ref collocationAll, value); }
-        public List<AvatarInfo>? Collocation11 { get => collocation11; set => Set(ref collocation11, value); }
+        public IEnumerable<AvatarInfo>? Collocation11 { get => collocation11; set => Set(ref collocation11, value); }
         public int TotalSubmitted { get => totalSubmitted; set => Set(ref totalSubmitted, value); }
         public int AbyssPassed { get => abyssPassed; set => Set(ref abyssPassed, value); }
         #endregion
@@ -47,8 +47,11 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             isInitialized = true;
 
             AvatarDictionary = await database.GetAllAvatarAsync();
-            CollocationAll = (await database.GetCollocationRankOfFinalAsync())?.Select(col => new DetailedAvatarInfo2(col));
-            Collocation11 = await database.GetCollocationRankOf11FloorAsync();
+            CollocationAll = (await database.GetCollocationRankOfFinalAsync())?
+                .Select(col => new DetailedAvatarInfo2(col))
+                .OrderByDescending(col => col.UpRate);
+            Collocation11 = (await database.GetCollocationRankOf11FloorAsync())?
+                .OrderByDescending(col => col.UpRate); ;
 
             Gamers? totalSubmitted = await database.GetTotalSubmittedGamerAsync();
             Gamers? sprialAbyssPassed = await database.GetSprialAbyssPassedGamerAsync();
