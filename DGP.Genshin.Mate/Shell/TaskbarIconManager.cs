@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helpers;
-using DGP.Genshin.Mate.Views;
+﻿using DGP.Genshin.Mate.Views;
 using Hardcodet.Wpf.TaskbarNotification;
 using ModernWpf.Controls;
 using System;

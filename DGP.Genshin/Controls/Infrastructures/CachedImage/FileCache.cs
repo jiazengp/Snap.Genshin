@@ -117,6 +117,8 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 int bytesRead;
                 do
                 {
+                    //ATTENTION:https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/partial-byte-reads-in-streams
+                    //response stream may not be affected
                     bytesRead = await response.ReadAsync(bytebuffer, 0, 100);
                     if (file is not null)
                     {
