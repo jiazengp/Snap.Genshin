@@ -22,15 +22,15 @@
 
 > **最低：Windows 10 1903 - 10.0.18362.x**  
 > 推荐：Windows 11 21H1 - 10.0.22000.x  
-> 运行时：.NET 5 [下载 .NET 5 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-5.0.11-windows-x64-installer)  
-> 运行时内存需求：300MB  
-> 储存空间需求：300MB
+> 运行时：.NET 6 [下载 .NET 6 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-6.0.0-windows-x64-installer)  
+> 运行时内存需求：150MB  
+> 储存空间需求：500MB
 
 # DGP.Genshin.Mate
 
 > 你最好的树脂伴侣，无需复杂设置，即点即用，方便快捷  
 > 独立程序，点击系统托盘图标显示实时树脂  
-> 暂时不随主程序发布，需要额外 **进群(910780153)** 领取，或自行 Build
+> 暂时不随主程序发布，需要额外 **进群 [![qq](https://img.shields.io/badge/chat-on_qq-green?style=flat-square)](https://jq.qq.com/?_wv=1027&k=tdKQiXyl)** 领取，或自行 Build
 
 ![mate.png](/Design/ImgAssets/mate.png)
 

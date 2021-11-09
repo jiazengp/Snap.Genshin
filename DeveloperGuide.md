@@ -1,10 +1,10 @@
 # 开发人员文档
 
 我们正在采用下述的准则  
-[框架设计准则[en-us]](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/) [框架设计准则[zh-cn]](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/)  
+[框架设计准则[en-us]](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/) [框架设计准则[zh-cn]](https://docs.microsoft.com/zh-cn/dotnet/standard/design-guidelines/)  
 尽管部分模块尚未遵循，但我们力求新的提交遵循上述准则
  
-本项目及所有子项目使用 .NET 5 C# 编写  
+本项目及所有子项目已经迁移至使用 .NET 6 × C# 10 + VS2022 编写环境下  
 主程序使用了 WPF 作为基础 UI 框架  
 *由于 Win UI 3 目前阶段存在大量  BUG  故暂时不予使用*
 
@@ -26,6 +26,12 @@ UI层 基本架构如下
 
 * 不再积极维护
 
+## DGP.Genshin.Mate
+树脂便捷显示
+
+* 独立程序，点击系统托盘图标显示实时树脂
+
+
 ## [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)
 
 米哈游原神API交互
@@ -37,6 +43,8 @@ UI层 基本架构如下
 * 用户信息与角色信息
 * 米游社帖子
 * 旅行日志信息
+* 玩家信息对外展示开关
+* 米游社每日任务
 
 ## DGP.Genshin.Updater
 
@@ -59,11 +67,12 @@ UI层 基本架构如下
 
 ## 生成与调试
 
-要求：`VS2019` 或以上，工作负荷：`.NET 桌面开发（未来需要：使用C++的桌面开发，通用Windows平台开发）`
+要求：`VS2022` ，工作负荷：`.NET 桌面开发（未来需要：使用C++的桌面开发，通用Windows平台开发）`
 1. 生成 `DGP.Snap.AutoVersion` 项目
 1. 生成 `DGP.Genshin` 项目
-1. 将 根目录的 `Metadata` 文件夹复制到 `Build\Debug\net5.0-windows10.0.18362.0`
-1. 现在就可以正常调试主程序了
+1. 将 根目录的 `Metadata` 文件夹复制到 `Build\Debug\net6.0-windows10.0.18362.0`
+1. *注：`MetaData` 文件夹有时不会即时随仓库更新，可以从最新的发行版中提取*
+1. 现在就可以正常测试程序了
 
 如无必要，请勿随意更改`生成事件`与`生成后事件`
 

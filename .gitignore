@@ -1,13 +1,11 @@
-﻿################################################################################
-# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
-################################################################################
-
-/.vs
+﻿/.vs
 /.vscode/.ropeproject
 
 /Build/net5.0
+/Build/net6.0
 
 /Build/Debug/net5.0-windows10.0.18362.0
+/Build/Debug/net6.0-windows10.0.18362.0
 /Build/Debug-Mate
 /Build/Publish
 

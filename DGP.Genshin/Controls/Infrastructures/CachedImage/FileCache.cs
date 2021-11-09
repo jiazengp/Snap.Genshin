@@ -94,7 +94,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         private static string BuildFileName(Uri uri)
         {
             StringBuilder fileNameBuilder = new();
-            using (SHA1Managed sha1 = new())
+            using (SHA1 sha1 = SHA1.Create())
             {
                 string canonicalUrl = uri.ToString();
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
