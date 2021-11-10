@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Data.Json;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Compatibility;
@@ -82,9 +83,35 @@ namespace DGP.Genshin.Services.GachaStatistics
         {
             return ImportFromExternalData<GenshinGachaExportFile>(filePath, file =>
             {
-                return file is null
-                    ? throw new InvalidOperationException("不正确的祈愿记录文件格式")
-                    : new ImportableGachaData { Uid = file.Uid, Data = file.Data, Types = file.Types };
+                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
+                return new ImportableGachaData { Uid = file.Uid, Data = file.Data };
+            });
+        }
+
+        public bool ImportFromKeqingNiuza(string filePath)
+        {
+            return ImportFromExternalData<KeqingNiuzaFile>(filePath, file =>
+            {
+                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
+                ImportableGachaData importData = new();
+                importData.Data = new();
+                foreach(GachaLogItem item in file)
+                {
+                    if (importData.Uid is null)
+                    {
+                        importData.Uid = item.Uid;
+                    }
+
+                    string? type = item.GachaType;
+                    _ = type ?? throw new SnapGenshinInternalException("卡池类型不应为 null");
+                    if (!importData.Data.ContainsKey(type))
+                    {
+                        importData.Data.Add(type, new());
+                    }
+
+                    importData.Data[type]!.Insert(0,item);
+                }
+                return importData;
             });
         }
 
@@ -97,6 +124,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 {
                     T? file = Json.FromFile<T>(filePath);
                     ImportImportableGachaData(converter.Invoke(file));
+                    SaveAllLogs();
                 }
                 catch (Exception ex)
                 {
@@ -104,7 +132,6 @@ namespace DGP.Genshin.Services.GachaStatistics
                     successful = false;
                 }
             }
-            SaveAllLogs();
             return successful;
         }
 
@@ -117,7 +144,6 @@ namespace DGP.Genshin.Services.GachaStatistics
 
             if (importable.Data is GachaData data)
             {
-                //is new uid
                 if (Data.ContainsKey(importable.Uid))
                 {
                     //we need to perform merge operation
@@ -129,6 +155,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }
                 else
                 {
+                    //is new uid
                     Data[importable.Uid] = data;
                 }
             }
@@ -136,7 +163,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             {
                 throw new InvalidOperationException("提供的数据不包含抽卡记录");
             }
-
         }
 
         /// <summary>

@@ -248,5 +248,19 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }.ShowAsync();
             }
         }
+
+        public async Task ImportFromKeqingNiuzaAsync(string path)
+        {
+            if (!await Task.Run(() => localGachaLogWorker.ImportFromKeqingNiuza(path)))
+            {
+                await new ContentDialog()
+                {
+                    Title = "导入祈愿记录失败",
+                    Content = "选择的文件内部格式不正确",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            }
+        }
     }
 }

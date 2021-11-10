@@ -23,7 +23,6 @@ namespace DGP.Genshin.Services
         {
             this.navigationView = navigationView;
             this.frame = frame;
-
             this.navigationView.ItemInvoked += OnItemInvoked;
         }
 
@@ -64,7 +63,7 @@ namespace DGP.Genshin.Services
             }
             //bool result = this.frame.Navigate(pageType, data, info);
             bool result = frame.Navigate(pageType, data, new DrillInNavigationTransitionInfo());
-            this.Log($"navigate to {pageType}:{result}");
+            this.Log($"navigate to {pageType}:{(result ? "succeed" : "failed")}");
             //fix memory leak issue
             frame.RemoveBackEntry();
             return result;

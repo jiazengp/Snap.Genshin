@@ -57,6 +57,26 @@ namespace DGP.Genshin.Pages
             }
         }
 
+        private async void ImportFromKeqingNiuzaAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "JS对象简谱文件|*.json",
+                Title = "从 刻记牛杂店 记录文件导入",
+                Multiselect = false,
+                CheckFileExists = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                this.Log("try to import from keqing niuza");
+
+                if (Service is not null)
+                {
+                    await Service.ImportFromKeqingNiuzaAsync(openFileDialog.FileName);
+                }
+            }
+        }
+
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new()

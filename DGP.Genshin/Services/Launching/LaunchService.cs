@@ -109,6 +109,7 @@ namespace DGP.Genshin.Services.Launching
 
         /// <summary>
         /// 获取转义后的原游戏目录
+        /// 目录符号应为/
         /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
         /// </summary>
         /// <returns></returns>
@@ -139,7 +140,6 @@ namespace DGP.Genshin.Services.Launching
             gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
 
             currentScheme = KnownSchemes.First(item => item.Channel == gameConfig["General"]["channel"]);
-            //cause we don't wanna trigger the save func
             OnPropertyChanged(nameof(CurrentScheme));
         }
         public static LaunchService Instance

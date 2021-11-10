@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.Services.GachaStatistics.Compatibility
 {
-    public class ImportableGachaData
+    /// <summary>
+    /// 牛杂的数据是按时间升序排列的列表
+    /// </summary>
+    public class KeqingNiuzaFile : List<GachaLogItem>
     {
-        public GachaData? Data { get; set; }
-        public string? Uid { get; set; }
+
     }
 }
