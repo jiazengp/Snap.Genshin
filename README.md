@@ -30,15 +30,15 @@
 
 > 你最好的树脂伴侣，无需复杂设置，即点即用，方便快捷  
 > 独立程序，点击系统托盘图标显示实时树脂  
-> 暂时不随主程序发布，需要额外 **进群 [![qq](https://img.shields.io/badge/chat-on_qq-green?style=flat-square)](https://jq.qq.com/?_wv=1027&k=tdKQiXyl)** 领取，或自行 Build
 
 ![mate.png](/Design/ImgAssets/mate.png)
 
 # 标题栏
 
 > 显示当前用户相关信息，支持快速多账号切换  
+> 启动游戏，支持多账户切换，支持无边框窗口化  
 > 简化米游社每日签到流程，一键签到领取奖励  
-> 显示当日当月摩拉原石收入情况   
+> 旅行日志显示当日当月摩拉原石收入情况   
 > 显示米游社实时便笺，树脂余量、探索派遣，了如指掌
 
 ![标题栏按钮.png](/Design/ImgAssets/titlebarbuttons.png)
@@ -52,9 +52,10 @@
 > 分祈愿展示累积获得的角色与武器  
 
 > 支持导出到 Excel  
-> 祈愿记录导出的 Excel 可以导入到 [voderl/genshin-gacha-analyzer](https://github.com/voderl/genshin-gacha-analyzer)进行分析
+> 支持导出文件在 [voderl/genshin-gacha-analyzer](https://github.com/voderl/genshin-gacha-analyzer)进行分析
 
-> 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 导入
+> 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 导入  
+> 支持从 [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza) 导入
 
 ![祈愿记录](/Design/ImgAssets/gacha.png)
 
@@ -70,7 +71,8 @@
 
 > 从 [天空岛数据库](https://youngmoe.com/) 获取数据，重新呈现  
 > 优化的队伍推荐功能  
-> 直接访问玩家角色信息，提供最佳推荐方案
+> 直接访问玩家角色信息，提供最佳推荐方案  
+> 排行数据仅供参考
 
 ![天空岛.png](/Design/ImgAssets/celestia.png)
 

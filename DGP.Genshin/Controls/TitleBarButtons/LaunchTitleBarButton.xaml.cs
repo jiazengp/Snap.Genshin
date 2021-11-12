@@ -39,6 +39,21 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         private void LaunchTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
             string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            launcherPath = SelectLaunchDirectory(launcherPath);
+            if (launcherPath is not null)
+            {
+                Launcher ??= LaunchService.Instance;
+                //acquire list here
+                Launcher.MatchAccount();
+                if (sender.ShowAttachedFlyout<Grid>(Launcher))
+                {
+
+                }
+            }
+        }
+
+        private static string? SelectLaunchDirectory(string? launcherPath)
+        {
             if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
             {
                 OpenFileDialog openFileDialog = new()
@@ -54,16 +69,8 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     SettingService.Instance[Setting.LauncherPath] = launcherPath;
                 }
             }
-            if (launcherPath is not null)
-            {
-                Launcher ??= LaunchService.Instance;
-                //acquire list here
-                Launcher.MatchAccount();
-                if (sender.ShowAttachedFlyout<Grid>(Launcher))
-                {
-                    
-                }
-            }
+
+            return launcherPath;
         }
 
         private void Flyout_Closed(object sender, object e)
