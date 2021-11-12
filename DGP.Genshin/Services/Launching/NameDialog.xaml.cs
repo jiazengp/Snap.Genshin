@@ -1,30 +1,32 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Cookie;
-using DGP.Genshin.MiHoYoAPI.Post;
-using System.Collections.Generic;
+﻿using ModernWpf.Controls;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
+using System.Threading.Tasks;
 
-namespace DGP.Genshin.Pages
+namespace DGP.Genshin.Services.Launching
 {
     /// <summary>
-    /// TO-DO:
-    /// 实现Post的刷新
+    /// NameDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class HomePage : System.Windows.Controls.Page, INotifyPropertyChanged
+    public partial class NameDialog : ContentDialog, INotifyPropertyChanged
     {
-        private List<Post>? posts;
+        private string? input;
+        private GenshinAccount? targetAccount;
 
-        public HomePage()
+        public string? Input { get => input; set => Set(ref input, value); }
+        public GenshinAccount? TargetAccount { get => targetAccount; set => Set(ref targetAccount, value); }
+
+        public NameDialog()
         {
             DataContext = this;
             InitializeComponent();
-            this.Log("initialized");
         }
 
-        public List<Post>? Posts { get => posts; set => Set(ref posts, value); }
+        public async Task<string?> GetInputAsync()
+        {
+            await ShowAsync();
+            return Input;
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -45,11 +47,5 @@ namespace DGP.Genshin.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Posts = (await new PostProvider(CookieManager.CurrentCookie).GetOfficialRecommendedPostsAsync())?
-            .OrderBy(p => p.OfficialType).ToList();
-        }
     }
 }

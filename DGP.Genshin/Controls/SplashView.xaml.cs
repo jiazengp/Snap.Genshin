@@ -1,10 +1,7 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.Services;
-using DGP.Genshin.Services.Settings;
-using Microsoft.Win32;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +16,6 @@ namespace DGP.Genshin.Controls
         public MetaDataService MetaDataService { get; set; } = MetaDataService.Instance;
         private bool integrityCheckCompleted;
         private bool isCookieVisible = true;
-        private bool isLauncherPathVisible = true;
         private bool hasCheckCompleted;
         private string currentStateDescription = "校验图片资源完整性...";
 
@@ -28,14 +24,6 @@ namespace DGP.Genshin.Controls
             get => isCookieVisible; set
             {
                 Set(ref isCookieVisible, value);
-                OnInitializeStateChanged();
-            }
-        }
-        public bool IsLauncherPathVisible
-        {
-            get => isLauncherPathVisible; set
-            {
-                Set(ref isLauncherPathVisible, value);
                 OnInitializeStateChanged();
             }
         }
@@ -54,7 +42,6 @@ namespace DGP.Genshin.Controls
                 }
             };
             IsCookieVisible = !CookieManager.IsCookieAvailable;
-            IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
             InitializeComponent();
         }
 
@@ -66,7 +53,7 @@ namespace DGP.Genshin.Controls
         /// <summary>
         /// you need to set <see cref="HasCheckCompleted"/> to true to collaspe the view
         /// </summary>
-        public event Action<SplashView>? InitializationPostAction;
+        public event Action<SplashView>? PostInitializationAction;
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -94,32 +81,11 @@ namespace DGP.Genshin.Controls
             IsCookieVisible = !CookieManager.IsCookieAvailable;
         }
 
-        private void LauncherPathButtonClick(object sender, RoutedEventArgs e)
-        {
-            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
-            if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog()
-                {
-                    Filter = "启动器|launcher.exe",
-                    Title = "选择启动器文件",
-                    CheckPathExists = true,
-                    FileName = $"launcher.exe"
-                };
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    launcherPath = openFileDialog.FileName;
-                    SettingService.Instance[Setting.LauncherPath] = launcherPath;
-                    IsLauncherPathVisible = SettingService.Instance.Equals<string>(Setting.LauncherPath, null, null) ?? true;
-                }
-            }
-        }
-
         private void OnInitializeStateChanged()
         {
-            if (IsCookieVisible == false && IsLauncherPathVisible == false && integrityCheckCompleted)
+            if (IsCookieVisible == false && integrityCheckCompleted)
             {
-                InitializationPostAction?.Invoke(this);
+                PostInitializationAction?.Invoke(this);
             }
         }
     }

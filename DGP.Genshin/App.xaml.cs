@@ -86,7 +86,6 @@ namespace DGP.Genshin
                 MetaDataService.Instance.UnInitialize();
                 SettingService.Instance.UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
-                Logger.Instance.UnInitialize();
             }
             base.OnExit(e);
         }
@@ -100,7 +99,6 @@ namespace DGP.Genshin
                     sw.Write(e.ExceptionObject);
                 }
                 //while exit with error OnExit will somehow not triggered
-                Logger.Instance.UnInitialize();
             }
         }
         #endregion

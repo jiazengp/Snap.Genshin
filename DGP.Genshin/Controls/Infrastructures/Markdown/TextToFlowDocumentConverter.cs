@@ -7,7 +7,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
 {
     public class TextToFlowDocumentConverter : DependencyObject, IValueConverter
     {
-        public Markdown Markdown
+        public Markdown? Markdown
         {
             get => (Markdown)GetValue(MarkdownProperty);
             set => SetValue(MarkdownProperty, value);

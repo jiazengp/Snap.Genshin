@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls;
+using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -10,10 +11,13 @@ using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
+using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace DGP.Genshin
 {
@@ -28,7 +32,7 @@ namespace DGP.Genshin
         {
             //do not set datacontext for mainwindow
             InitializeComponent();
-            MainSplashView.InitializationPostAction += SplashInitializeCompleted;
+            MainSplashView.PostInitializationAction += SplashInitializeCompleted;
             navigationService = new NavigationService(this, NavView, ContentFrame);
             this.Log("initialized");
         }
@@ -40,8 +44,7 @@ namespace DGP.Genshin
         private async void SplashInitializeCompleted(SplashView splashView)
         {
             await PrepareTitleBarArea(splashView);
-            splashView.CurrentStateDescription = "检查程序更新...";
-            await CheckUpdateAsync();
+            DoUpdatePipeline();
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
@@ -49,11 +52,18 @@ namespace DGP.Genshin
             }
             splashView.CurrentStateDescription = "完成";
             //post actions
-            if (!navigationService.HasEverNavigated)
-            {
-                navigationService.Navigate<HomePage>(isSyncTabRequested: true);
-            }
+            navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             splashView.HasCheckCompleted = true;
+        }
+
+        private async void DoUpdatePipeline()
+        {
+            await CheckUpdateAsync();
+            Version? lastLaunchAppVersion = SettingService.Instance.GetOrDefault(Setting.AppVersion, UpdateService.Instance.CurrentVersion, Setting.VersionConverter);
+            if (lastLaunchAppVersion < UpdateService.Instance.CurrentVersion)
+            {
+                await ShowWhatsNewDialogAsync();
+            }
         }
 
         /// <summary>
@@ -65,6 +75,7 @@ namespace DGP.Genshin
         {
             UserInfoTitleBarButton UserInfoTitleButton = new();
             TitleBarStackPanel.Children.Add(UserInfoTitleButton);
+            TitleBarStackPanel.Children.Add(new LaunchTitleBarButton());
             TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
             TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
             TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
@@ -135,6 +146,23 @@ namespace DGP.Genshin
                 default:
                     break;
             }
+        }
+
+        private async Task ShowWhatsNewDialogAsync()
+        {
+            await new ContentDialog
+            {
+                Title = $"版本 {UpdateService.Instance.Release?.Name} 更新日志",
+                Content = new FlowDocumentScrollViewer
+                {
+                    Document = new TextToFlowDocumentConverter
+                    {
+                        Markdown = FindResource("Markdown") as Markdown
+                    }.Convert(UpdateService.Instance.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
+                },
+                PrimaryButtonText = "了解",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
         }
         #endregion
     }

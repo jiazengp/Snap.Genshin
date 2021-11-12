@@ -31,17 +31,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,32,24">
-            <StackPanel>
-                <ComboBox ui:ControlHelper.PlaceholderText="选择启动方案"
-                          HorizontalAlignment="Stretch" 
-                          ItemsSource="{Binding Launcher.KnownSchemes}"
-                          SelectedItem="{Binding Launcher.CurrentScheme}"
-                          DisplayMemberPath="Name"/>
-                <Button IsDefault="True" Height="32" Margin="0,12,0,0" HorizontalAlignment="Stretch"
-                        Content="启动游戏" Click="LaunchButtonClick"/>
-                <ui:ToggleSwitch OffContent="独占全屏" OnContent="窗口化" Margin="0,8,0,0" IsOn="{Binding Launcher.IsBorderless}"/>
-            </StackPanel>
-        </Grid>
+        
     </Grid>
 </Page>
