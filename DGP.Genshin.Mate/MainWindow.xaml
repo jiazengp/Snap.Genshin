@@ -4,12 +4,64 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DGP.Genshin.Mate"
-        xmlns:ui="http://schemas.modernwpf.com/2019" 
-        xmlns:tb="http://www.hardcodet.net/taskbar"
-        ui:WindowHelper.UseModernWindowStyle="True"
+        xmlns:views="clr-namespace:DGP.Genshin.Mate.Views"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="Snap Genshin Mate" Height="450" Width="800">
-    <Grid>
-
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Title="Snap Genshin Mate"
+        SizeToContent="WidthAndHeight"
+        ShowInTaskbar="False"
+        Loaded="Window_Loaded"
+        Background="Transparent">
+    <Grid x:Name="DragGrid" Background="Transparent"
+          MouseDown="DragGrid_MouseDown" MouseEnter="DragGrid_MouseEnter">
+        <Border x:Name="BackgroundBorder" Background="#99000000" Opacity="0.01">
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard Storyboard.TargetName="BackgroundBorder">
+                        <Storyboard Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimation To="1" Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard Storyboard.TargetName="BackgroundBorder">
+                        <Storyboard Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimation To="0.01" Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+        </Border>
+        <StackPanel IsHitTestVisible="False">
+            <ItemsControl Margin="12,12,12,0" ItemsSource="{Binding DailyNotes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,12">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Margin="0,0,0,4" Text="{Binding UserGameRole.Nickname}" FontWeight="Bold"
+                                               Style="{StaticResource CaptionTextBlockStyle}"
+                                               Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="200"/>
+                                            <ColumnDefinition MinWidth="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Bottom" MinHeight="2"
+                                                    Value="{Binding DailyNote.CurrentResin}" Minimum="0" Maximum="{Binding DailyNote.MaxResin}"/>
+                                        <TextBlock Grid.Column="0" Margin="0,0,16,6" Text="{Binding DailyNote.ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                               Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding DailyNote.CurrentResin}" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                               Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </Window>

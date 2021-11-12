@@ -12,7 +12,7 @@ namespace DGP.Genshin.Mate.Shell
     public class TaskbarIconManager : IDisposable
     {
         private readonly TaskbarIcon taskbarIcon;
-
+        private bool isDesktopWindowVisable;
         /// <summary>
         /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
@@ -46,14 +46,30 @@ namespace DGP.Genshin.Mate.Shell
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/DGP.Genshin.Mate;component/SGM_Logo.ico"))
             };
             TaskbarIconContextMenu menu = new();
-            var autorunMenu = new MenuItem { Header = "开机启动" };
+            MenuItem desktopMenu = new() { Header="在桌面上显示" };
+            desktopMenu.Click += (s, e) =>
+            {
+                var window = GetOrAddWindow<MainWindow>();
+                if (isDesktopWindowVisable)
+                {
+                    window.Hide();
+                    isDesktopWindowVisable=false;
+                }
+                else
+                {
+                    window.Show();
+                    isDesktopWindowVisable = true;
+                }
+                desktopMenu.Icon = isDesktopWindowVisable ? new FontIcon { Glyph = "\xE73E" } : null;
+            };
+            menu.Items.Add(desktopMenu);
+            MenuItem autorunMenu = new() { Header = "开机启动" };
             autorunMenu.Icon = AutoRunHelper.IsAutoRun ? new FontIcon { Glyph = "\xE73E" } : null;
             autorunMenu.Click += (s, e) => 
             {
                 AutoRunHelper.IsAutoRun = !AutoRunHelper.IsAutoRun;
                 autorunMenu.Icon = AutoRunHelper.IsAutoRun ? new FontIcon { Glyph = "\xE73E" } : null;
             };
-
             menu.Items.Add(autorunMenu);
             menu.AddItem(new MenuItem { Header = "退出", Icon = new FontIcon { Glyph = "\xE7E8" } }, (s, e) => App.Current.Shutdown());
             taskbarIcon.ContextMenu = menu;
