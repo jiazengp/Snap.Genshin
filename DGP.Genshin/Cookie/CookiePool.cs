@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DGP.Genshin.Cookie
 {
@@ -8,8 +9,12 @@ namespace DGP.Genshin.Cookie
     /// </summary>
     public class CookiePool : List<string>
     {
+        private readonly List<string> AccountIds = new();
         public CookiePool() : base() { }
-        public CookiePool(IEnumerable<string> collection) : base(collection) { }
+        public CookiePool(IEnumerable<string> collection) : base(collection) 
+        {
+            AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
+        }
 
         /// <summary>
         /// 添加
@@ -31,8 +36,10 @@ namespace DGP.Genshin.Cookie
         /// <param name="cookie"></param>
         public void AddOrIgnore(string cookie)
         {
-            if (!Contains(cookie))
+            string id = GetCookiePairs(cookie)["account_id"];
+            if (!AccountIds.Contains(id))
             {
+                AccountIds.Add(id);
                 Add(cookie);
             }
         }
@@ -44,6 +51,8 @@ namespace DGP.Genshin.Cookie
         /// <returns></returns>
         public new bool Remove(string cookie)
         {
+            string id = GetCookiePairs(cookie)["account_id"];
+            AccountIds.Remove(id);
             bool result = base.Remove(cookie);
             CookieRemoved?.Invoke(cookie);
             CookieManager.SaveCookies();
@@ -59,5 +68,36 @@ namespace DGP.Genshin.Cookie
         /// 当Cookie删除时触发
         /// </summary>
         public event Action<string>? CookieRemoved;
+
+        /// <summary>
+        /// 获取Cookie的键值对
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        private IDictionary<string, string> GetCookiePairs(string cookie)
+        {
+            Dictionary<string, string> cookieDictionary = new();
+
+            string[] values = cookie.TrimEnd(';').Split(';');
+            foreach (string[] parts in values.Select(c => c.Split(new[] { '=' }, 2)))
+            {
+                string cookieName = parts[0].Trim();
+                string cookieValue;
+
+                if (parts.Length == 1)
+                {
+                    //Cookie attribute
+                    cookieValue = string.Empty;
+                }
+                else
+                {
+                    cookieValue = parts[1];
+                }
+
+                cookieDictionary[cookieName] = cookieValue;
+            }
+
+            return cookieDictionary;
+        }
     }
 }
