@@ -23,6 +23,6 @@ namespace DGP.Genshin.Services.Settings
         {
             return obj is string str ? Version.Parse(str) : null;
         }
-        
+
     }
 }

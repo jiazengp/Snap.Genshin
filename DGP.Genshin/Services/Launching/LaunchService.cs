@@ -140,7 +140,7 @@ namespace DGP.Genshin.Services.Launching
         public async void MatchAccount()
         {
             //注册表内有账号信息
-            if(RegistryInterop.Get() is GenshinAccount current)
+            if (RegistryInterop.Get() is GenshinAccount current)
             {
                 GenshinAccount? matched = Accounts.FirstOrDefault(a => a.GeneralData == current.GeneralData && a.MihoyoSDK == current.MihoyoSDK);
                 //账号列表内无匹配项

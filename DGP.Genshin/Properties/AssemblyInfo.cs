@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Windows;
 
 [assembly: AssemblyDescription("原神信息速查App")]

@@ -23,7 +23,7 @@ namespace DGP.Genshin.Controls.GenshinElements
             {
                 isFirstLoaded = false;
                 Storyboard? storyBoard = FindResource("FadeInAnimation") as Storyboard;
-                if(storyBoard is not null)
+                if (storyBoard is not null)
                 {
                     storyBoard.Begin();
                 }

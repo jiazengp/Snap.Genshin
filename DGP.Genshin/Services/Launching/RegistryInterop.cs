@@ -33,7 +33,7 @@ namespace DGP.Genshin.Services.Launching
             object? sdk = Registry.GetValue(GenshinKey, SdkKey, "");
             object? data = Registry.GetValue(GenshinKey, DataKey, "");
 
-            if(sdk is null || data is null)
+            if (sdk is null || data is null)
             {
                 return null;
             }

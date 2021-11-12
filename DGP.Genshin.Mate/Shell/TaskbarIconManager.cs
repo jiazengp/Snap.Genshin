@@ -46,14 +46,14 @@ namespace DGP.Genshin.Mate.Shell
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/DGP.Genshin.Mate;component/SGM_Logo.ico"))
             };
             TaskbarIconContextMenu menu = new();
-            MenuItem desktopMenu = new() { Header="在桌面上显示" };
+            MenuItem desktopMenu = new() { Header = "在桌面上显示" };
             desktopMenu.Click += (s, e) =>
             {
                 var window = GetOrAddWindow<MainWindow>();
                 if (isDesktopWindowVisable)
                 {
                     window.Hide();
-                    isDesktopWindowVisable=false;
+                    isDesktopWindowVisable = false;
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace DGP.Genshin.Mate.Shell
             menu.Items.Add(desktopMenu);
             MenuItem autorunMenu = new() { Header = "开机启动" };
             autorunMenu.Icon = AutoRunHelper.IsAutoRun ? new FontIcon { Glyph = "\xE73E" } : null;
-            autorunMenu.Click += (s, e) => 
+            autorunMenu.Click += (s, e) =>
             {
                 AutoRunHelper.IsAutoRun = !AutoRunHelper.IsAutoRun;
                 autorunMenu.Icon = AutoRunHelper.IsAutoRun ? new FontIcon { Glyph = "\xE73E" } : null;

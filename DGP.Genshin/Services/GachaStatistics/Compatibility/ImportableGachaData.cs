@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Gacha;
-using System.Collections.Generic;
 
 namespace DGP.Genshin.Services.GachaStatistics.Compatibility
 {

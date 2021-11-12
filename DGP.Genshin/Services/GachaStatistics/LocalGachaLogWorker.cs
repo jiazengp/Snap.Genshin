@@ -95,7 +95,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
                 ImportableGachaData importData = new();
                 importData.Data = new();
-                foreach(GachaLogItem item in file)
+                foreach (GachaLogItem item in file)
                 {
                     if (importData.Uid is null)
                     {
@@ -109,7 +109,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                         importData.Data.Add(type, new());
                     }
 
-                    importData.Data[type]!.Insert(0,item);
+                    importData.Data[type]!.Insert(0, item);
                 }
                 return importData;
             });

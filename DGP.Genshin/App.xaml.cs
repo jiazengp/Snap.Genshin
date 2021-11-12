@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Core.Logging;
-using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;

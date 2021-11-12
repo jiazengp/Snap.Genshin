@@ -11,7 +11,7 @@ namespace DGP.Genshin.Cookie
     {
         private readonly List<string> AccountIds = new();
         public CookiePool() : base() { }
-        public CookiePool(IEnumerable<string> collection) : base(collection) 
+        public CookiePool(IEnumerable<string> collection) : base(collection)
         {
             AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
         }
