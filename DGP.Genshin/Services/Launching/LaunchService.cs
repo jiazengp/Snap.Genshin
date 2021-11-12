@@ -25,8 +25,8 @@ namespace DGP.Genshin.Services.Launching
         #region Observable
         private List<LaunchScheme> knownSchemes = new()
         {
-            new LaunchScheme("官服 | 天空岛", "1", "mihoyo", "1"),
-            new LaunchScheme("B服 | 世界树", "14", "bilibili", "0")
+            new LaunchScheme(name: "官服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
+            new LaunchScheme(name: "B 服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0")
         };
         private LaunchScheme currentScheme;
         private bool isBorderless;
@@ -185,11 +185,13 @@ namespace DGP.Genshin.Services.Launching
             string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
 
             FileIniDataParser launcherParser = new();
+            launcherParser.Parser.Configuration.AssigmentSpacer = "";
             launcherConfig = launcherParser.ReadFile(configPath);
 
             string unescapedGameFolder = GetUnescapedGameFolder();
 
             FileIniDataParser gameParser = new();
+            gameParser.Parser.Configuration.AssigmentSpacer = "";
             gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
 
             currentScheme = KnownSchemes.First(item => item.Channel == gameConfig["General"]["channel"]);
