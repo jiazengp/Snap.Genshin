@@ -272,6 +272,11 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Helper
+        /// <summary>
+        /// 根据名称查找合适的url
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public string? FindSourceByName(string? name)
         {
             if (name is null)

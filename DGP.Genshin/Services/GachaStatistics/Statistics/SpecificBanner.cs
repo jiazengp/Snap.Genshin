@@ -7,7 +7,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
     /// <summary>
     /// 20或14天一轮的up卡池信息
     /// </summary>
-    public class SpecificBanner : Banner, IPartiallyCloneable<SpecificBanner>
+    public class SpecificBanner : BannerBase, IPartiallyCloneable<SpecificBanner>
     {
         public string? Type { get; set; }
         public List<SpecificItem>? UpStar5List { get; set; }

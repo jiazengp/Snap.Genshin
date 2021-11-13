@@ -5,6 +5,7 @@ using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistics.Statistics
@@ -14,6 +15,18 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
     /// </summary>
     public static class StatisticFactory
     {
+        private const double NonWeaponProb5 = 1.6 / 100.0;
+        private const double NonWeaponProb4 = 13 / 100.0;
+        private const int NonWeaponGranteeCount5 = 90;
+        private const double WeaponProb5 = 1.85 / 100.0;
+        private const double WeaponProb4 = 14.5 / 100.0;
+        private const int WeaponGranteeCount5 = 80;
+
+        private static readonly BannerConfigration NonWeaponConfig =
+            new() { Prob5 = NonWeaponProb5, Prob4 = NonWeaponProb4, GranteeCount = NonWeaponGranteeCount5 };
+        private static readonly BannerConfigration WeaponConfig =
+            new() { Prob5 = WeaponProb5, Prob4 = WeaponProb4, GranteeCount = WeaponGranteeCount5 };
+
         /// <summary>
         /// 转换到统计
         /// </summary>
@@ -25,12 +38,9 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             Logger.LogStatic($"convert data of {uid} to statistic view");
             List<StatisticItem> characters = ToStatisticTotalCountList(data, "角色");
             List<StatisticItem> weapons = ToStatisticTotalCountList(data, "武器");
-            return new Statistic()
+            Statistic statistic = new()
             {
                 Uid = uid,
-                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", 1.6 / 100.0, 13 / 100.0, 90),
-                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", 1.85 / 100.0, 14.5 / 100.0, 80),
-                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", 1.6 / 100.0, 13 / 100.0, 90),
                 Characters5 = characters.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
                 Characters4 = characters.Where(i => i.StarUrl?.ToRank() == 4).ToList(),
                 Weapons5 = weapons.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
@@ -38,6 +48,11 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 Weapons3 = weapons.Where(i => i.StarUrl?.ToRank() == 3).ToList(),
                 SpecificBanners = ToSpecificBanners(data)
             };
+            statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponConfig);
+            statistic.WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponConfig);
+            statistic.CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponConfig);
+            //statistic.CharacterEvent = ToCombinedStatisticBanner(data, ConfigType.CharacterEventWish, ConfigType.CharacterEventWish2, "角色活动", NonWeaponConfig);
+            return statistic;
         }
 
         /// <summary>
@@ -50,10 +65,26 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         /// <param name="prob4"></param>
         /// <param name="granteeCount"></param>
         /// <returns></returns>
-        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, double prob5, double prob4, int granteeCount)
+        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name,BannerConfigration config)
         {
             List<GachaLogItem>? list = data[type];
             _ = list ?? throw new SnapGenshinInternalException($"卡池{type}:对应的卡池信息不应为 null");
+            return BuildStatisticBanner(name, config, list);
+        }
+
+        private static StatisticBanner ToCombinedStatisticBanner(GachaData data, string type1, string type2, string name, BannerConfigration config)
+        {
+            List<GachaLogItem>? list1 = data[type1];
+            _ = list1 ?? throw new SnapGenshinInternalException($"卡池{type1}:对应的卡池信息不应为 null");
+            List<GachaLogItem>? list2 = data[type2];
+            _ = list2 ?? throw new SnapGenshinInternalException($"卡池{type2}:对应的卡池信息不应为 null");
+
+            List<GachaLogItem> list = Enumerable.Union(list1, list2).OrderByDescending(x => x.TimeId).ToList();
+            return BuildStatisticBanner(name, config, list);
+        }
+
+        private static StatisticBanner BuildStatisticBanner(string name, BannerConfigration config, List<GachaLogItem> list)
+        {
             //上次出货抽数
             int index5 = list.FindIndex(i => i.Rank == "5");
             int index4 = list.FindIndex(i => i.Rank == "4");
@@ -91,9 +122,9 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 banner.NextGuaranteeType = "小保底";
             }
 
-            int predicatedCount5 = (int)(Math.Round((banner.Star5Count + 1) / prob5) - banner.TotalCount);
-            banner.NextStar5PredictCount = RestrictPredicatedCount5(predicatedCount5, banner, granteeCount);
-            int predicatedCount4 = (int)(Math.Round((banner.Star4Count + 1) / prob4) - banner.TotalCount);
+            int predicatedCount5 = (int)(Math.Round((banner.Star5Count + 1) / config.Prob5) - banner.TotalCount);
+            banner.NextStar5PredictCount = RestrictPredicatedCount5(predicatedCount5, banner, config.GranteeCount);
+            int predicatedCount4 = (int)(Math.Round((banner.Star4Count + 1) / config.Prob4) - banner.TotalCount);
             banner.NextStar4PredictCount = RestrictPredicatedCount4(predicatedCount4, banner);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
@@ -191,36 +222,22 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
                 SpecificBanner? matchedBanner = MetaDataService.Instance.SpecificBanners?.Find(b =>
+                    //match type first
                     b.Type == currentStar5.GachaType &&
                     currentStar5.Time >= b.StartTime &&
                     currentStar5.Time <= b.EndTime);
 
-                if (matchedBanner is not null && matchedBanner.UpStar5List is not null && matchedBanner.UpStar4List is not null)
+                string? gType = currentStar5.GachaType;
+                counter.Add(new StatisticItem5Star()
                 {
-                    counter.Add(new StatisticItem5Star()
-                    {
-                        Source = MetaDataService.Instance.FindSourceByName(currentStar5.Name),
-                        Name = currentStar5.Name,
-                        Count = count,
-                        Time = currentStar5.Time,
-                        IsUp = matchedBanner.UpStar5List.Exists(i =>
-                        i.Name == currentStar5.Name) || matchedBanner.UpStar4List.Exists(i => i.Name == currentStar5.Name),
-                        IsBigGuarantee = isBigGuarantee
-                    });
-                }
-                else
-                {
-                    //no matched banner info
-                    counter.Add(new StatisticItem5Star()
-                    {
-                        Source = MetaDataService.Instance.FindSourceByName(currentStar5.Name),
-                        Name = currentStar5.Name,
-                        Count = count,
-                        Time = currentStar5.Time,
-                        IsUp = false,
-                        IsBigGuarantee = false
-                    });
-                }
+                    GachaTypeName = gType is null ? gType : ConfigType.Known[gType],
+                    Source = MetaDataService.Instance.FindSourceByName(currentStar5.Name),
+                    Name = currentStar5.Name,
+                    Count = count,
+                    Time = currentStar5.Time,
+                    IsUp = matchedBanner?.UpStar5List is not null && matchedBanner.UpStar5List.Exists(i => i.Name == currentStar5.Name),
+                    IsBigGuarantee = matchedBanner is not null && isBigGuarantee
+                });
                 reversedItems.RemoveRange(0, count);
             }
             counter.Reverse();

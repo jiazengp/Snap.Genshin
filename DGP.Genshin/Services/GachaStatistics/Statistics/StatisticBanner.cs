@@ -3,7 +3,7 @@
     /// <summary>
     /// 单个卡池统计信息
     /// </summary>
-    public class StatisticBanner : Banner
+    public class StatisticBanner : ProbabilityBanner
     {
         public int CountSinceLastStar5 { get; set; }
         public int CountSinceLastStar4 { get; set; }

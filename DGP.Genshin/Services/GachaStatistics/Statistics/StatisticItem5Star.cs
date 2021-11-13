@@ -13,10 +13,14 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
     {
         public string? Source { get; set; }
         public string? Name { get; set; }
+        /// <summary>
+        /// 计数器或用于记录垫抽数
+        /// </summary>
         public int Count { get; set; }
         public DateTime Time { get; set; }
         public bool IsBigGuarantee { get; set; }
         public bool IsUp { get; set; }
+        public string? GachaTypeName { get; set; }
         public SolidColorBrush Background
         {
             get
