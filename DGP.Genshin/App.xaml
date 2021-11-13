@@ -34,6 +34,7 @@
             <!--#region OverrideConst-->
             <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
             <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
+            <sys:Double x:Key="ContentDialogMaxHeight">600</sys:Double>
             <!--#endregion-->
             
             <!--#region Texts-->

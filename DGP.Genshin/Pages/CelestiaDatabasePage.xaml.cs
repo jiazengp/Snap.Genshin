@@ -125,9 +125,8 @@ namespace DGP.Genshin.Pages
             string? result = "当前无可用玩家信息";
             if (RecordService.Instance.CurrentRecord?.UserId is not null)
             {
-                result = await Task.Run(() => new CelestiaDatabase().PostUidAsync(RecordService.Instance.CurrentRecord.UserId));
+                result = await new CelestiaDatabase().PostUidAsync(RecordService.Instance.CurrentRecord.UserId);
             }
-
             await new ContentDialog()
             {
                 Title = "提交数据",

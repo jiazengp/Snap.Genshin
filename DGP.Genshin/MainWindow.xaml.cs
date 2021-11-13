@@ -60,8 +60,10 @@ namespace DGP.Genshin
         {
             await CheckUpdateAsync();
             Version? lastLaunchAppVersion = SettingService.Instance.GetOrDefault(Setting.AppVersion, UpdateService.Instance.CurrentVersion, Setting.VersionConverter);
+            //first launch after update
             if (lastLaunchAppVersion < UpdateService.Instance.CurrentVersion)
             {
+                SettingService.Instance[Setting.AppVersion] = UpdateService.Instance.CurrentVersion;
                 await ShowWhatsNewDialogAsync();
             }
         }

@@ -25,30 +25,17 @@ namespace DGP.Genshin
         protected override void OnStartup(StartupEventArgs e)
         {
             EnsureWorkingPath();
+            //open main window
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             //handle notification activation
             SetupToastNotificationHandling();
             EnsureSingleInstance();
-            EnsureCulture();
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             SettingService.Instance.Initialize();
             //app theme
             SetAppTheme();
-        }
-
-        private static void EnsureCulture()
-        {
-            CultureInfo zhCnCulture = new("zh-CN");
-            Thread.CurrentThread.CurrentUICulture = zhCnCulture;
-            Thread.CurrentThread.CurrentCulture = zhCnCulture;
-            CultureInfo.DefaultThreadCurrentCulture = zhCnCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = zhCnCulture;
-            FrameworkElement.LanguageProperty.OverrideMetadata(
-                typeof(FrameworkElement),
-                new FrameworkPropertyMetadata(
-                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
 
         private void SetupToastNotificationHandling()
