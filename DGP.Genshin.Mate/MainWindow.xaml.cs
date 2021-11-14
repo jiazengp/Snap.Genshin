@@ -32,7 +32,10 @@ namespace DGP.Genshin.Mate
 
         private void DragGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            DragMove();
+            if(e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
         private async void DragGrid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
