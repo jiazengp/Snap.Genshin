@@ -8,12 +8,19 @@
 主程序使用了 WPF 作为基础 UI 框架  
 *由于 Win UI 3 目前阶段存在大量  BUG  故暂时不予使用*
 
-## DGP.Genshin
+## Snap Genshin Foundation
+
+<details>
+<summary>DGP.Genshin</summary>
 
 UI层 基本架构如下
 ![架构图](https://i.loli.net/2021/10/30/tDQqhNPIOae1Ui6.png)
 
-## [DGP.Genshin.Common](https://github.com/DGP-Studio/DGP.Genshin.Common)
+</details>
+
+<details>
+<summary>DGP.Genshin.Common</summary>
+
 公共组件支持库
 
 * 包含**请求与响应模式**的基本类型
@@ -21,18 +28,27 @@ UI层 基本架构如下
 * 包含了核心日志功能
 * 包含了简单的下载器实现
 
-## [DGP.Genshin.DataViewer](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)
+</details>
+
+<details>
+<summary>DGP.Genshin.DataViewer</summary>
+
 解包数据可视化呈现
 
 * 不再积极维护
 
-## DGP.Genshin.Mate
+</details>
+<details>
+<summary>DGP.Genshin.Mate</summary>
+
 树脂便捷显示
 
 * 独立程序，点击系统托盘图标显示实时树脂
 
+</details>
 
-## [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)
+<details>
+<summary>DGP.Genshin.MiHoYoAPI</summary>
 
 米哈游原神API交互
 
@@ -46,13 +62,18 @@ UI层 基本架构如下
 * 玩家信息对外展示开关
 * 米游社每日任务
 
-## DGP.Genshin.Updater
+</details>
+
+<details>
+<summary>DGP.Genshin.Updater</summary>
 
 更新器
 
 * 支持自动与手动安装
+</details>
 
-## [DGP.Genshin.YoungMoeAPI](https://github.com/DGP-Studio/DGP.Genshin.YoungMoeAPI)
+<details>
+<summary>DGP.Genshin.YoungMoeAPI</summary>
 
 天空岛数据库API交互
 
@@ -61,25 +82,47 @@ UI层 基本架构如下
 * 数据库记录信息
 * 队伍上场次数信息（用于推荐配队）
 
-## DGP.Snap.AutoVersion
+</details>
+
+<details>
+<summary>DGP.Snap.AutoVersion</summary>
 
 用于生成主项目时自动更改版本号
+
+</details>
+
 
 ## 生成与调试
 
 要求：`VS2022` ，工作负荷：`.NET 桌面开发（未来需要：使用C++的桌面开发，通用Windows平台开发）`
+如果未在下方说明，正常的项目均可按常见的调试方法调试
+
+<details>
+<summary>调试 DGP.Genshin</summary>
+
 1. 生成 `DGP.Snap.AutoVersion` 项目
 1. 生成 `DGP.Genshin` 项目
 1. 将 根目录的 `Metadata` 文件夹复制到 `Build\Debug\net6.0-windows10.0.18362.0`
 1. *注：`MetaData` 文件夹有时不会即时随仓库更新，可以从最新的发行版中提取*
-1. 现在就可以正常测试程序了
+1. 现在就可以正常调试程序了
 
 如无必要，请勿随意更改`生成事件`与`生成后事件`
+</details>
+
+<details>
+<summary>调试 DGP.Genshin.Mate</summary>
+
+1. 生成 `DGP.Genshin.Mate` 项目
+1. 将 `Build\Debug\net6.0-windows10.0.18362.0` 文件夹下的 `cookielist.dat` 复制到 `Build\Debug-Mate\net6.0-windows10.0.18362.0` 文件夹下
+1. 我们假定你在做上一步前已经完成了一次主程序的调试并输入了有效的cookie并正常退出程序
+1. 现在就可以正常调试程序了
+
+</details>
 
 ## 开发者模式
 
 开发者模式相对于用户模式增加了一些导航入口点，其中包含了正在制作尚未完成的内容
-1. 在程序关闭的情况下打开生成文件根目录下的settings.json
+1. 在程序关闭的情况下打开生成文件根目录下的 `settings.json`
 1. 找到 `"IsDevMode": false` 片段，修改为 `"IsDevMode": true`
 1. 再次启动程序后即时生效
 

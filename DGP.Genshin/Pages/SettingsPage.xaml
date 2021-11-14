@@ -62,7 +62,7 @@
                     </Expander.Header>
                     <StackPanel>
                         <TextBlock Text="如果你在使用软件的过程中遇到问题，可以" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new" 
+                        <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                             Content="前往 Github 提交 Issue"/>
                         <ui:HyperlinkButton NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" 
                                             Content="前往 QQ群[910780153] 反馈"/>

@@ -118,7 +118,7 @@
                         <ui:CommandBar.SecondaryCommands>
                             <ui:AppBarButton Icon="Rename" Label="从输入的 Url 刷新" Click="ManualInputUrlAppBarButtonClick"/>
                             <ui:AppBarElementContainer Margin="12,12,0,0">
-                                <ui:ToggleSwitch x:Name="FullSwitch" IsOn="False" Header="启用全量刷新数据" OnContent="全量(实验性)" OffContent="仅增量(稳定)"/>
+                                <ui:ToggleSwitch x:Name="FullSwitch" IsOn="False" Header="启用全量刷新数据" OnContent="全量" OffContent="仅增量"/>
                             </ui:AppBarElementContainer>
                             <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="从 Genshin Gacha Export 导入" Click="ImportFromGenshinGachaExportAppBarButtonClick" Icon="Import"/>
