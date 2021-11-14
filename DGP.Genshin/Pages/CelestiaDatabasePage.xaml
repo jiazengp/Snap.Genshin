@@ -20,8 +20,6 @@
             TrueStyle="{StaticResource BaseTextBlockStyle}"
             FalseStyle="{StaticResource BodyTextBlockStyle}"/>
         <converters:RankToStarSolidConverter x:Key="RankToStarSolidConverter"/>
-        <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
-        <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
     </ui:Page.Resources>
     <TabControl Style="{StaticResource TabControlPivotStyle}">
         <ui:PivotHelper.RightHeader>

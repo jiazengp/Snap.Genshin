@@ -20,8 +20,6 @@
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>
         <r:ActivityTemplateSelector x:Key="ActivityTemplateSelector"/>
-        <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
-        <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
     </Page.Resources>
     <Grid>
         <TabControl Style="{StaticResource TabControlPivotStyle}">

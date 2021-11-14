@@ -20,9 +20,6 @@
                                   ForegroundUrl="{Binding Source}" 
                                   Text="{Binding Name}"/>
         </DataTemplate>
-        <ItemsPanelTemplate x:Key="GridViewPanelTemplate">
-            <WrapPanel/>
-        </ItemsPanelTemplate>
     </Page.Resources>
     <s:SmoothScrollViewer Padding="12,0">
         <StackPanel Margin="0,0,0,12">
@@ -43,21 +40,21 @@
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DvalinsPlume[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding DvalinsPlume}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding DvalinsClaw[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DvalinsClaw[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding DvalinsClaw}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding DvalinsSigh[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DvalinsSigh[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding DvalinsSigh}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
 
             <TextBlock Text="北风的王狼" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
@@ -77,21 +74,21 @@
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding TailofBoreas[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TailofBoreas}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding RingofBoreas[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding RingofBoreas[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding RingofBoreas}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding SpiritLocketofBoreas[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding SpiritLocketofBoreas[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding SpiritLocketofBoreas}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
 
             <TextBlock Text="公子" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
@@ -111,21 +108,21 @@
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding TuskofMonocerosCaeli[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TuskofMonocerosCaeli}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding ShardofaFoulLegacy[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding ShardofaFoulLegacy[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding ShardofaFoulLegacy}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding ShadowoftheWarrior[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding ShadowoftheWarrior[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding ShadowoftheWarrior}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
 
             <TextBlock Text="若陀龙王" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
@@ -145,21 +142,21 @@
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DragonLordsCrown[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding DragonLordsCrown}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding BloodjadeBranch[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding BloodjadeBranch[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding BloodjadeBranch}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding GildedScale[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding GildedScale[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding GildedScale}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
 
             <TextBlock Text="女士" Margin="4,12,4,0" Style="{StaticResource TitleTextBlockStyle}"/>
@@ -179,21 +176,21 @@
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding MoltenMoment[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding MoltenMoment}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding HellfireButterfly[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding HellfireButterfly[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding HellfireButterfly}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
                     <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding AshenHeart[0].Weekly.Source}"/>
                     <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding AshenHeart[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
                 <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding AshenHeart}" 
-                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource GridViewPanelTemplate}"/>
+                              ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
         </StackPanel>
     </s:SmoothScrollViewer>

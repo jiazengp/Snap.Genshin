@@ -29,12 +29,17 @@
             <ItemsPanelTemplate x:Key="WrapPanelItemsPanel">
                 <WrapPanel/>
             </ItemsPanelTemplate>
+            <ItemsPanelTemplate x:Key="HorizontalStackPanelItemsPanel">
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
             <!--#endregion-->
             
             <!--#region OverrideConst-->
             <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
             <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
             <sys:Double x:Key="ContentDialogMaxHeight">600</sys:Double>
+            <Thickness x:Key="PivotItemMargin">0</Thickness>
+            <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
             <!--#endregion-->
             
             <!--#region Texts-->

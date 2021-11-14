@@ -24,7 +24,7 @@
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
-        <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
+
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
