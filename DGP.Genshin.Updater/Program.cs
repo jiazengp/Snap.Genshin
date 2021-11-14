@@ -42,14 +42,8 @@ namespace DGP.Genshin.Updater
         private static void ExtractPackage()
         {
             Console.WriteLine("准备开始安装...");
-            Process[] ps = Process.GetProcessesByName("DGP.Genshin");
-            if (ps.Length > 0)
-            {
-                Process p = ps[0];
-                p.CloseMainWindow();
-                Console.WriteLine("等待 Snap Genshin 退出中...(可能需要手动退出)");
-                p.WaitForExit();
-            }
+            WaitForProcessExit("DGP.Genshin");
+            WaitForProcessExit("DGP.Genshin.Mate");
             Console.Clear();
             using (ZipArchive archive = ZipFile.OpenRead("../Package.zip"))
             {
@@ -78,12 +72,26 @@ namespace DGP.Genshin.Updater
             Console.WriteLine("正在启动Snap Genshin");
             Process.Start("../DGP.Genshin.exe");
         }
+
+        private static void WaitForProcessExit(string processName)
+        {
+            Process[] ps = Process.GetProcessesByName(processName);
+            if (ps.Length > 0)
+            {
+                Process p = ps[0];
+                p.CloseMainWindow();
+                Console.WriteLine($"等待 {processName} 退出中...(可能需要手动退出)");
+                p.WaitForExit();
+            }
+        }
+
         /// <summary>
-        /// set working dir while launch by windows autorun
+        /// set working dir while launch by other app
         /// </summary>
         private static void EnsureWorkingPath()
         {
-            string? path = Assembly.GetEntryAssembly()?.Location;
+            //fix unable to find file issue
+            string? path = AppContext.BaseDirectory;
             string? workingPath = Path.GetDirectoryName(path);
             if (workingPath is not null)
             {

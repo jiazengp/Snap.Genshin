@@ -23,8 +23,9 @@
 > **最低：Windows 10 1903 - 10.0.18362.x**  
 > 推荐：Windows 11 21H1 - 10.0.22000.x  
 > 运行时：.NET 6 [下载 .NET 6 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-6.0.0-windows-x64-installer)  
-> 运行时内存需求：150MB  
-> 储存空间需求：500MB
+> 运行时内存需求：300MB  
+> 储存空间需求：500MB  
+> [用户手册 常见问题Q&A](UserGuide.md)
 
 # DGP.Genshin.Mate
 
