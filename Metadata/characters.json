@@ -735,7 +735,7 @@
     "GachaSplash": null,
     "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png",
     "AscensionStat": "暴击伤害",
-    "AscensionStatValue": "88.4%",
+    "AscensionStatValue": "38.4%",
     "Talent": {
       "City": "Liyue",
       "Name": "繁荣",
@@ -1015,7 +1015,7 @@
     "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/shougun_gacha_splash.png",
     "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
     "AscensionStat": "元素充能效率",
-    "AscensionStatValue": "32%",
+    "AscensionStatValue": "31.5%",
     "Talent": {
       "City": "Inazuma",
       "Name": "天光",
@@ -1127,7 +1127,7 @@
     "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/itto_gacha_splash.png",
     "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
     "AscensionStat": "暴击率",
-    "AscensionStatValue": "24.2%",
+    "AscensionStatValue": "19.2%",
     "Talent": {
       "City": "Inazuma",
       "Name": "风雅",
