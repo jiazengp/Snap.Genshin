@@ -17,6 +17,7 @@
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
         <converters:ElementConverter x:Key="ElementConverter"/>
         <converters:RarityConverter x:Key="RarityConverter"/>
+        <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>
         <r:ActivityTemplateSelector x:Key="ActivityTemplateSelector"/>
@@ -25,8 +26,8 @@
         <TabControl Style="{StaticResource TabControlPivotStyle}">
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <ui:ProgressRing x:Name="RequestingProgressRing" Margin="12,0,12,0"/>
-                    <ui:AutoSuggestBox x:Name="QueryAutoSuggestBox" 
+                    <ui:ProgressRing x:Name="RequestingProgressRing" Margin="12,0,12,0" IsActive="{Binding IsQuerying}"/>
+                    <ui:AutoSuggestBox 
                                        Margin="0,0,16,0"
                                        MinWidth="160" 
                                        PlaceholderText="键入UID以查询" 
@@ -37,9 +38,9 @@
                 </StackPanel>
             </ui:PivotHelper.RightHeader>
             <TabItem Header="基本信息">
-                <s:SmoothScrollViewer>
+                <s:SmoothScrollViewer Padding="12,0,16,0">
                     <StackPanel>
-                        <Border Margin="12,8,16,0" Padding="0,8" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                        <Border Margin="0,8,0,0" Padding="0,8" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -118,102 +119,102 @@
 
                             </Grid>
                         </Border>
-                        <StackPanel Margin="0,12,16,0">
-                            <TextBlock Text="尘歌壶信息" Margin="12,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
-                                    <TextBlock HorizontalAlignment="Center" Text="信任等阶" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].Level}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
-                                    <TextBlock HorizontalAlignment="Center" Text="最高洞天仙力" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ComfortNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
-                                    <TextBlock HorizontalAlignment="Center" Text="获得摆设数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ItemNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
-                                    <TextBlock HorizontalAlignment="Center" Text="历史访客数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                                    <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock HorizontalAlignment="Center" Text="已解锁的洞天" Style="{StaticResource CaptionTextBlockStyle}"/>
-                            <ItemsControl ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" HorizontalAlignment="Center" Padding="0" Margin="0,0,-4,0">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="4">
-                                            <TextBlock Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                        <StackPanel Margin="0,12,16,0">
-                            <TextBlock Text="世界探索" Margin="12,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                            <ItemsControl Margin="12,0,0,12" ItemsSource="{Binding CurrentRecord.PlayerInfo.WorldExplorations}" Padding="0">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Border Width="64" Height="64">
-                                                <c:CachedBitmapIcon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" UriSource="{Binding Icon}" />
-                                            </Border>
-                                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="8,0,0,0">
-                                                <Grid>
-                                                    <TextBlock HorizontalAlignment="Left" Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                                    <TextBlock HorizontalAlignment="Right" Text="{Binding ExplorationPercentageBy10,StringFormat={}探索度 - {0}%}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,12,6,0" Grid.Column="0">
+                                <TextBlock Text="世界探索" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <ItemsControl Margin="0,0,0,12" ItemsSource="{Binding CurrentRecord.PlayerInfo.WorldExplorations}" Padding="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" Margin="0,6" Value="{Binding ExplorationPercentage}" Minimum="0" Maximum="1000"/>
+                                                <Border Width="64" Height="64" Padding="12">
+                                                    <c:CachedBitmapIcon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" UriSource="{Binding Icon}" />
+                                                </Border>
+                                                <Grid VerticalAlignment="Stretch" Grid.Column="1" Margin="8,0,0,0">
+                                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Visibility="{Binding IsReputation,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,8,0">
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding StringFormat="{}{0} - {1}级">
+                                                                        <Binding Path="ConvertedType"/>
+                                                                        <Binding Path="Level"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                            <ItemsControl ItemsSource="{Binding Offerings}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock>
+                                                                            <TextBlock.Text>
+                                                                                <MultiBinding StringFormat="{}{0} - {1}级">
+                                                                                    <Binding Path="Name"/>
+                                                                                    <Binding Path="Level"/>
+                                                                                </MultiBinding>
+                                                                            </TextBlock.Text>
+                                                                        </TextBlock>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12"
+                                                               Text="{Binding ExplorationPercentageBy10,StringFormat={}探索度 - {0}%}"/>
                                                 </Grid>
-                                                <ui:ProgressBar Margin="0,4" Value="{Binding ExplorationPercentage}" Minimum="0" Maximum="1000"/>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Margin="0,0,12,0" Visibility="{Binding IsReputation,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="{}{0} - {1}级">
-                                                                <Binding Path="ConvertedType"/>
-                                                                <Binding Path="Level"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                    <ItemsControl ItemsSource="{Binding Offerings}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <StackPanel Orientation="Horizontal"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock>
-                                                                    <TextBlock.Text>
-                                                                        <MultiBinding StringFormat="{}{0} - {1}级">
-                                                                            <Binding Path="Name"/>
-                                                                            <Binding Path="Level"/>
-                                                                        </MultiBinding>
-                                                                    </TextBlock.Text>
-                                                                </TextBlock>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                            <StackPanel Margin="6,12,0,8" Grid.Column="1">
+                                <TextBlock Text="尘歌壶信息" Margin="0,0,0,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                        <TextBlock HorizontalAlignment="Center" Text="信任等阶" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].Level}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                        <TextBlock HorizontalAlignment="Center" Text="最高洞天仙力" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ComfortNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                        <TextBlock HorizontalAlignment="Center" Text="获得摆设数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].ItemNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="8">
+                                        <TextBlock HorizontalAlignment="Center" Text="历史访客数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentRecord.PlayerInfo.Homes[0].VisitNum}" FontSize="20" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock HorizontalAlignment="Center" Text="已解锁的洞天" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <ItemsControl ItemsSource="{Binding CurrentRecord.PlayerInfo.Homes}" HorizontalAlignment="Stretch" Padding="0" Margin="0,0,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,6" Height="120" CornerRadius="{StaticResource CompatCornerRadius}">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding Icon}" Stretch="UniformToFill"/>
+                                                </Border.Background>
+                                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </s:SmoothScrollViewer>
             </TabItem>
@@ -1480,5 +1481,20 @@
                 </s:SmoothScrollViewer>
             </TabItem>
         </TabControl>
+
+        <Border Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" 
+                Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ui:AutoSuggestBox
+                                       Margin="0,0,0,0"
+                                       MinWidth="240" 
+                                       PlaceholderText="键入UID以查询" 
+                                       QueryIcon="Find"
+                                       TextChanged="AutoSuggestBox_TextChanged" 
+                                       SuggestionChosen="AutoSuggestBox_SuggestionChosen" 
+                                       QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+                <ui:ProgressBar Margin="0,12,0,0" Background="Transparent" IsIndeterminate="{Binding IsQuerying}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </ui:Page>

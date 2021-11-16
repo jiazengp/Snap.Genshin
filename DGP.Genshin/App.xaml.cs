@@ -69,8 +69,8 @@ namespace DGP.Genshin
         {
             if (!isExitDueToSingleInstanceRestriction)
             {
-                MetaDataService.Instance.UnInitialize();
                 SettingService.Instance.UnInitialize();
+                MetaDataService.Instance.UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
             }
             base.OnExit(e);

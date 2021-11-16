@@ -12,10 +12,13 @@ using System.Linq;
 namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
-    /// 本地抽卡记录提供器
+    /// 本地抽卡记录工作器
     /// </summary>
     public class LocalGachaLogWorker
     {
+        /// <summary>
+        /// 导出操作锁
+        /// </summary>
         private readonly object exporting = new();
         private const string localFolder = "GachaStatistic";
         public GachaDataCollection Data { get; set; } = new();
@@ -48,13 +51,9 @@ namespace DGP.Genshin.Services.GachaStatistics
             {
                 FileInfo fileInfo = new(p);
                 string pool = fileInfo.Name.Replace(".json", "");
-                if (Data is not null)
+                if (Data[uid] is GachaData user)
                 {
-                    GachaData? one = Data[uid];
-                    if (one is not null)
-                    {
-                        one[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
-                    }
+                    user[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
                 }
             }
         }

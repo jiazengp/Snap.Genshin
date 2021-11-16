@@ -7,7 +7,6 @@
       xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
       xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
       xmlns:ui="http://schemas.modernwpf.com/2019"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib" 
       xmlns:controls="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
       xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
       mc:Ignorable="d" 
@@ -41,45 +40,35 @@
                 </ui:CommandBar>
             </StackPanel>
         </ui:PivotHelper.RightHeader>
-        <TabItem Header="12层" Height="40">
-            <smoothscrollviewer:SmoothScrollViewer>
-                <ItemsControl ItemsSource="{Binding CollocationAll}" Padding="12,12,16,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Expander Margin="0,0,0,12">
-                                <Expander.Header>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding Avatar}" Foreground="{Binding Star,Converter={StaticResource RankToStarSolidConverter}}" 
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding AvgLevel,StringFormat={}平均等级：{0:0.00}}"
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding AvgConstellation,StringFormat={}平均命座：{0:0.00}}"
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                        <TextBlock Grid.Column="3" Text="{Binding HaveRate,StringFormat={}持有率：{0:p}}"
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                        <TextBlock Grid.Column="4" Text="{Binding UseRate,StringFormat={}使用率：{0:p}}"
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                        <TextBlock Grid.Column="5" Text="{Binding UpRate,StringFormat={}上场率：{0:p}}"
-                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
-                                    </Grid>
-                                </Expander.Header>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel VerticalAlignment="Top" Grid.Row="0">
-                                        <TextBlock Text="命之座持有率" Style="{StaticResource BaseTextBlockStyle}"/>
-                                        <Grid Margin="0,6,0,0">
+        <TabItem Header="12层">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="20,4,48,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="角色" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="1" Text="平均等级" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="2" Text="平均命座" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="3" Text="持有率" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="4" Text="使用率" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="5" Text="上场率" Style="{StaticResource BaseTextBlockStyle}"/>
+                </Grid>
+                <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding CollocationAll}" Padding="12,12,16,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Margin="0,0,0,12">
+                                    <Expander.Header>
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition/>
@@ -87,162 +76,212 @@
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Avatar}" Foreground="{Binding Star,Converter={StaticResource RankToStarSolidConverter}}" 
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding AvgLevel,StringFormat={}{0:0.00}}"
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding AvgConstellation,StringFormat={}{0:0.00}}"
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding HaveRate,StringFormat={}{0:p2}}"
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding UseRate,StringFormat={}{0:p2}}"
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding UpRate,StringFormat={}{0:p2}}"
+                                               Style="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource BooleanToStyleConverter}}"/>
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel VerticalAlignment="Top" Grid.Row="0">
+                                            <TextBlock Text="命之座持有率" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <Grid Margin="0,6,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Constellation[0],StringFormat={}0命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Constellation[1],StringFormat={}1命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding Constellation[2],StringFormat={}2命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="3" Text="{Binding Constellation[3],StringFormat={}3命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="4" Text="{Binding Constellation[4],StringFormat={}4命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="5" Text="{Binding Constellation[5],StringFormat={}5命：{0:p2}}"/>
+                                                <TextBlock Grid.Column="6" Text="{Binding Constellation[6],StringFormat={}6命：{0:p2}}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                                            <TextBlock Text="圣遗物" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <ItemsControl Margin="0,6,0,0" ItemsSource="{Binding ProcessedRelics}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Margin="0,0,12,0">
+                                                            <TextBlock Text="{Binding Rate,StringFormat={}{0:p2}}"/>
+                                                            <ItemsControl Margin="0,4,0,0" ItemsSource="{Binding Relics}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock>
+                                                                            <TextBlock.Text>
+                                                                                <MultiBinding StringFormat="{}{1}×{0}">
+                                                                                    <Binding Path="Name"/>
+                                                                                    <Binding Path="Count"/>
+                                                                                </MultiBinding>
+                                                                            </TextBlock.Text>
+                                                                        </TextBlock>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                        <Grid Grid.Row="2" Margin="0,12,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Constellation[0],StringFormat={}0命：{0:p}}"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Constellation[1],StringFormat={}1命：{0:p}}"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Constellation[2],StringFormat={}2命：{0:p}}"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding Constellation[3],StringFormat={}3命：{0:p}}"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding Constellation[4],StringFormat={}4命：{0:p}}"/>
-                                            <TextBlock Grid.Column="5" Text="{Binding Constellation[5],StringFormat={}5命：{0:p}}"/>
-                                            <TextBlock Grid.Column="6" Text="{Binding Constellation[6],StringFormat={}6命：{0:p}}"/>
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="武器使用" Style="{StaticResource BaseTextBlockStyle}"/>
+                                                <ItemsControl Grid.Column="0" Margin="0,8,0,0" ItemsSource="{Binding CollocationWeapon}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Grid.Column="0" Width="70" Height="70" Margin="0,0,8,0">
+                                                                <Border>
+                                                                    <c:CachedImage ImageUrl="{Binding StarUrl}"/>
+                                                                </Border>
+                                                                <Border>
+                                                                    <c:CachedImage ImageUrl="{Binding Source}"/>
+                                                                </Border>
+                                                                <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                    <c:CachedImage ImageUrl="{Binding Type}"/>
+                                                                </Border>
+                                                                <Border Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                                    <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                               Text="{Binding Rate,StringFormat={}{0:p2}}" FontSize="10"/>
+                                                                </Border>
+                                                                <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                                                    <Border.Background>
+                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                            <GradientStop Color="#00000000"/>
+                                                                            <GradientStop Offset="1" Color="#CC000000"/>
+                                                                        </LinearGradientBrush>
+                                                                    </Border.Background>
+                                                                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
+                                                                </Border>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="角色搭配" Style="{StaticResource BaseTextBlockStyle}"/>
+                                                <ItemsControl Grid.Column="1" Margin="0,8,0,0" ItemsSource="{Binding CollocationAvatar}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Grid.Column="0" Width="70" Height="70" Margin="0,0,8,0">
+                                                                <Border>
+                                                                    <c:CachedImage ImageUrl="{Binding StarUrl}"/>
+                                                                </Border>
+                                                                <Border>
+                                                                    <c:CachedImage ImageUrl="{Binding Source}"/>
+                                                                </Border>
+                                                                <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                    <c:CachedImage ImageUrl="{Binding Element}"/>
+                                                                </Border>
+                                                                <Border Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                                    <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                               Text="{Binding Rate,StringFormat={}{0:p2}}" FontSize="10"/>
+                                                                </Border>
+                                                                <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                                                    <Border.Background>
+                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                            <GradientStop Color="#00000000"/>
+                                                                            <GradientStop Offset="1" Color="#CC000000"/>
+                                                                        </LinearGradientBrush>
+                                                                    </Border.Background>
+                                                                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
+                                                                </Border>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
                                         </Grid>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Margin="0,12,0,0">
-                                        <TextBlock Text="圣遗物" Style="{StaticResource BaseTextBlockStyle}"/>
-                                        <ItemsControl Margin="0,6,0,0" ItemsSource="{Binding ProcessedRelics}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Margin="0,0,12,0">
-                                                        <TextBlock Text="{Binding Rate,StringFormat={}{0:p}}"/>
-                                                        <ItemsControl Margin="0,4,0,0" ItemsSource="{Binding Relics}">
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock>
-                                                                        <TextBlock.Text>
-                                                                            <MultiBinding StringFormat="{}{1}×{0}">
-                                                                                <Binding Path="Name"/>
-                                                                                <Binding Path="Count"/>
-                                                                            </MultiBinding>
-                                                                        </TextBlock.Text>
-                                                                    </TextBlock>
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
-                                    <Grid Grid.Row="2" Margin="0,12,0,0">
+                                    </Grid>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </smoothscrollviewer:SmoothScrollViewer>
+            </Grid>
+        </TabItem>
+        <TabItem Header="11层">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="20,4,26,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="角色" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="1" Text="持有率" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="2" Text="使用率" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Grid.Column="3" Text="上场率" Style="{StaticResource BaseTextBlockStyle}"/>
+                </Grid>
+                <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Collocation11}" Padding="12,12,16,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="9" Margin="0,0,0,12"
+                                        Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
+                                        CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <TextBlock Text="武器使用" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <ItemsControl Grid.Column="0" Margin="0,8,0,0" ItemsSource="{Binding CollocationWeapon}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Grid.Column="0" Width="70" Height="70" Margin="0,0,8,0">
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                            </Border>
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Source}"/>
-                                                            </Border>
-                                                            <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                                <c:CachedImage ImageUrl="{Binding Type}"/>
-                                                            </Border>
-                                                            <Border Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                                <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Rate,StringFormat={}{0:p}}" FontSize="10"/>
-                                                            </Border>
-                                                            <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                        <GradientStop Color="#00000000"/>
-                                                                        <GradientStop Offset="1" Color="#CC000000"/>
-                                                                    </LinearGradientBrush>
-                                                                </Border.Background>
-                                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
-                                                            </Border>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock Text="角色搭配" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <ItemsControl Grid.Column="1" Margin="0,8,0,0" ItemsSource="{Binding CollocationAvatar}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Grid.Column="0" Width="70" Height="70" Margin="0,0,8,0">
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding StarUrl}"/>
-                                                            </Border>
-                                                            <Border>
-                                                                <c:CachedImage ImageUrl="{Binding Source}"/>
-                                                            </Border>
-                                                            <Border Width="16" Height="16" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                                <c:CachedImage ImageUrl="{Binding Element}"/>
-                                                            </Border>
-                                                            <Border Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                                <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Rate,StringFormat={}{0:p}}" FontSize="10"/>
-                                                            </Border>
-                                                            <Border Padding="4,0" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                        <GradientStop Color="#00000000"/>
-                                                                        <GradientStop Offset="1" Color="#CC000000"/>
-                                                                    </LinearGradientBrush>
-                                                                </Border.Background>
-                                                                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10"/>
-                                                            </Border>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
+                                        <TextBlock Grid.Column="0" Text="{Binding Avatar}" Foreground="{Binding Star,Converter={StaticResource RankToStarSolidConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding HaveRate,StringFormat={}{0:p2}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding UseRate,StringFormat={}{0:p2}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding UpRate,StringFormat={}{0:p2}}" Style="{StaticResource BodyTextBlockStyle}"/>
                                     </Grid>
-                                </Grid>
-                            </Expander>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </smoothscrollviewer:SmoothScrollViewer>
-        </TabItem>
-        <TabItem Header="11层" Height="40">
-            <smoothscrollviewer:SmoothScrollViewer>
-                <ItemsControl ItemsSource="{Binding Collocation11}" Padding="12,12,16,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Padding="9" Margin="0,0,0,12"
-                                        Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
-                                        CornerRadius="{StaticResource CompatCornerRadius}">
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding Avatar}" Foreground="{Binding Star,Converter={StaticResource RankToStarSolidConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding HaveRate,StringFormat={}持有率：{0:p}}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Grid.Column="2" Text="{Binding UseRate,StringFormat={}使用率：{0:p}}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                    <TextBlock Grid.Column="3" Text="{Binding UpRate,StringFormat={}上场率：{0:p}}" Style="{StaticResource BodyTextBlockStyle}"/>
-                                </Grid>
-                            </Border>
-
-
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </smoothscrollviewer:SmoothScrollViewer>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </smoothscrollviewer:SmoothScrollViewer>
+            </Grid>
         </TabItem>
         <TabItem Header="队伍推荐" Height="40">
             <Grid>

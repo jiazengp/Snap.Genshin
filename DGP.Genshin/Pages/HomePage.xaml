@@ -4,33 +4,55 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DGP.Genshin.Pages"
-      xmlns:ui="http://schemas.modernwpf.com/2019" 
-      xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+      xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage" Loaded="Page_Loaded">
-    <Page.Resources>
-        <Style TargetType="{x:Type ui:ListViewItem}">
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="0,0,0,12"/>
-        </Style>
-        <converters:IdToPostConverter x:Key="IdToPostConverter"/>
-    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel VerticalAlignment="Top">
-            <TextBlock Text="公告" Margin="12,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Posts}" Padding="0" Margin="12,0,0,6" SnapsToDevicePixels="True">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ui:HyperlinkButton Content="{Binding Subject}" NavigateUri="{Binding PostId,Converter={StaticResource IdToPostConverter}}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
-        
+        <smoothscrollviewer:SmoothScrollViewer Padding="12,0,16,0">
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="公告" Margin="0,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Posts}" Padding="0" Margin="0,6,0,0" SnapsToDevicePixels="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,12">
+                                <Image Source="{Binding Banner}" Height="160" HorizontalAlignment="Stretch" Stretch="UniformToFill"/>
+                                <Grid VerticalAlignment="Bottom" Height="32" Background="{StaticResource SystemControlBackgroundAltMediumBrush}">
+                                    <TextBlock VerticalAlignment="Center" Margin="12,0" Text="{Binding Subject}" TextTrimming="CharacterEllipsis"/>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </smoothscrollviewer:SmoothScrollViewer>
+        <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" Padding="0,0,16,0">
+            <StackPanel>
+                <TextBlock Text="活动" Margin="12,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding BlackboardEvents}" Padding="0" Margin="12,6,0,6" SnapsToDevicePixels="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,0,0,12" Padding="12" CornerRadius="{StaticResource CompatCornerRadius}" Background="{Binding PaddingColor}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" Style="{StaticResource BaseTextBlockStyle}" Foreground="{Binding FontColor}"/>
+                                    <TextBlock Foreground="{Binding FontColor}" Style="{StaticResource CaptionTextBlockStyle}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:yyyy.MM.dd HH:mm} - {1:yyyy.MM.dd HH:mm}">
+                                                <Binding Path="StartDateTime"/>
+                                                <Binding Path="EndDateTime"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </smoothscrollviewer:SmoothScrollViewer>
     </Grid>
 </Page>

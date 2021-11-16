@@ -14,13 +14,16 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Services.GameRecord
 {
     /// <summary>
-    /// 
+    /// 玩家记录服务
     /// </summary>
     public class RecordService : Observable
     {
         #region Observable
         private Record? currentRecord;
         public Record? CurrentRecord { get => currentRecord; set => Set(ref currentRecord, value); }
+
+        private bool isQuerying = false;
+        public bool IsQuerying { get => isQuerying; set => Set(ref isQuerying, value); }
         #endregion
 
         public List<string> QueryHistory { get; set; } = new();
@@ -42,7 +45,8 @@ namespace DGP.Genshin.Services.GameRecord
         /// <returns></returns>
         public async Task<Record> GetRecordAsync(string? uid)
         {
-            return await Task.Run(async () =>
+            IsQuerying = true;
+            var result = await Task.Run(async () =>
             {
                 if (uid is null)
                 {
@@ -112,6 +116,8 @@ namespace DGP.Genshin.Services.GameRecord
                     Activities = activitiesInfo
                 };
             });
+            IsQuerying = false;
+            return result;
         }
 
         public static event Action<string?>? RecordProgressed;

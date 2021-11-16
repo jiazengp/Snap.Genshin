@@ -3,8 +3,10 @@ using DGP.Genshin.Services.CelestiaDatabase;
 using DGP.Genshin.Services.GameRecord;
 using ModernWpf.Controls;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Navigation;
 
 namespace DGP.Genshin.Pages
@@ -12,7 +14,7 @@ namespace DGP.Genshin.Pages
     /// <summary>
     /// RecordPage.xaml 的交互逻辑
     /// </summary>
-    public partial class RecordPage : Page
+    public partial class RecordPage : Page,INotifyPropertyChanged
     {
         public RecordPage()
         {
@@ -25,14 +27,6 @@ namespace DGP.Genshin.Pages
             if (RecordService.Instance.QueryHistory?.Count > 0)
             {
                 RecordService s = RecordService.Instance;
-                if (s.CurrentRecord != null && s.CurrentRecord?.UserId != null)
-                {
-                    QueryAutoSuggestBox.Text = s.CurrentRecord?.UserId;
-                }
-                else if (s.QueryHistory.Count > 0)
-                {
-                    QueryAutoSuggestBox.Text = s.QueryHistory.First();
-                }
             }
             this.Log("initialized");
         }
@@ -52,54 +46,74 @@ namespace DGP.Genshin.Pages
             sender.Text = (string)args.SelectedItem;
         }
 
-        private bool isQuerying = false;
+        private bool opLocker=false;
+
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!isQuerying)
+            if (opLocker)
             {
-                isQuerying = true;
-                RequestingProgressRing.IsActive = true;
-                string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-                Record record = await RecordService.Instance.GetRecordAsync(uid);
-                RequestingProgressRing.IsActive = false;
+                return;
+            }
+            opLocker = true;
+            string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
+            Record record = await RecordService.Instance.GetRecordAsync(uid);
 
-                if (record.Success)
+            if (record.Success)
+            {
+                RecordService service = RecordService.Instance;
+                //so that current record is always has data
+                service.CurrentRecord = record;
+                if (CelestiaDatabaseService.Instance.IsInitialized)
                 {
-                    RecordService service = RecordService.Instance;
-                    //so that current record is always has data
-                    service.CurrentRecord = record;
-                    if (CelestiaDatabaseService.Instance.IsInitialized)
+                    await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
+                }
+                service.AddQueryHistory(uid);
+            }
+            else
+            {
+                if (record.Message?.Length == 0)
+                {
+                    await new ContentDialog()
                     {
-                        await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
-                    }
-                    service.AddQueryHistory(uid);
+                        Title = "查询失败",
+                        Content = "米游社用户信息不完整，请在米游社完善个人信息。",
+                        PrimaryButtonText = "确认",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                    Process.Start("https://bbs.mihoyo.com/ys/");
                 }
                 else
                 {
-                    if (record.Message?.Length == 0)
+                    await new ContentDialog()
                     {
-                        await new ContentDialog()
-                        {
-                            Title = "查询失败",
-                            Content = "你的米游社用户信息可能不完整，请在米游社完善个人信息。",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
-                        Process.Start("https://bbs.mihoyo.com/ys/");
-                    }
-                    else
-                    {
-                        await new ContentDialog()
-                        {
-                            Title = "查询失败",
-                            Content = $"UID:{uid}\n{record.Message}",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
-                    }
+                        Title = "查询失败",
+                        Content = $"UID:{uid}\n{record.Message}\n更多信息请联系开发人员确认。",
+                        PrimaryButtonText = "确认",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
                 }
-                isQuerying = false;
             }
+            opLocker = false;
+        }
+        #endregion
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 

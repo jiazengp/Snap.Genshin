@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Cookie;
+using DGP.Genshin.MiHoYoAPI.Blackboard;
 using DGP.Genshin.MiHoYoAPI.Post;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +16,6 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class HomePage : System.Windows.Controls.Page, INotifyPropertyChanged
     {
-        private List<Post>? posts;
-
         public HomePage()
         {
             DataContext = this;
@@ -24,7 +23,11 @@ namespace DGP.Genshin.Pages
             this.Log("initialized");
         }
 
-        public List<Post>? Posts { get => posts; set => Set(ref posts, value); }
+        private IEnumerable<Post>? posts;
+        private IEnumerable<BlackboardEvent>? blackboardEvents;
+
+        public IEnumerable<Post>? Posts { get => posts; set => Set(ref posts, value); }
+        public IEnumerable<BlackboardEvent>? BlackboardEvents { get => blackboardEvents; set => Set(ref blackboardEvents, value); }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -49,7 +52,10 @@ namespace DGP.Genshin.Pages
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Posts = (await new PostProvider(CookieManager.CurrentCookie).GetOfficialRecommendedPostsAsync())?
-            .OrderBy(p => p.OfficialType).ToList();
+                .OrderBy(p => p.OfficialType);
+            BlackboardEvents = (await new BlackboardProvider().GetBlackboardEventsAsync())?
+                .Where(b => b.Kind == "1");
         }
     }
+
 }

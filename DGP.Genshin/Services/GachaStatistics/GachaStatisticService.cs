@@ -181,18 +181,23 @@ namespace DGP.Genshin.Services.GachaStatistics
             GachaLogWorker? worker = await GetGachaLogWorkerAsync(mode);
             if (worker is null)
             {
-                //TODO 提示用户获取失败
                 return false;
             }
             bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker, full);
+            FetchProgress = null;
             if (Statistic != null)
             {
                 SyncStatisticWithUid();
             }
-            FetchProgress = null;
             return isGachaConfigAvailable;
         }
 
+        /// <summary>
+        /// 获取祈愿记录
+        /// </summary>
+        /// <param name="worker">工作器对象</param>
+        /// <param name="full">是否增量获取</param>
+        /// <returns>是否获取成功</returns>
         private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker, bool full = false)
         {
             //gacha config can be null while authkey timeout
@@ -221,6 +226,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
+        #region Im/Export
         /// <summary>
         /// 导出数据到Excel
         /// </summary>
@@ -262,5 +268,6 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }.ShowAsync();
             }
         }
+        #endregion
     }
 }
