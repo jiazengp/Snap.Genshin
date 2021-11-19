@@ -13,10 +13,10 @@
         BorderThickness="0"
         RenderOptions.BitmapScalingMode="HighQuality" 
         x:Name="ContentButton"
+        Focusable="False"
         >
     <Button.Resources>
         <ui:CubicBezierEase x:Key="CubicBezierEase"/>
-
         <Storyboard x:Key="FadeInAnimation" Storyboard.TargetName="ContentButton">
             <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="70" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
@@ -25,26 +25,33 @@
     <Border Width="70" Height="70"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
-        <Border Width="70" Height="70" HorizontalAlignment="Center"
+        <Border Width="70" Height="70" 
+                CornerRadius="{StaticResource CompatCornerRadius}">
+            <Border.Background>
+                <ImageBrush Stretch="UniformToFill"
+                    ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_ImgSign_ItemIcon.png"/>
+            </Border.Background>
+            <Border Width="70" Height="70" HorizontalAlignment="Center"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
-            <Grid>
-                <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
-                    <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
-                </Border>
-                <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" Visibility="{Binding IsCountVisible,RelativeSource={RelativeSource FindAncestor,AncestorType=Button},Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <TextBlock x:Name="CountText" Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Count,FallbackValue=0}" FontSize="10"/>
-                </Border>
-                <Border CornerRadius="0,0,4,4" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#00000000"/>
-                            <GradientStop Offset="1" Color="#CC000000"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
-                </Border>
-            </Grid>
+                <Grid>
+                    <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+                        <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
+                    </Border>
+                    <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" Visibility="{Binding IsCountVisible,RelativeSource={RelativeSource FindAncestor,AncestorType=Button},Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <TextBlock x:Name="CountText" Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Count,FallbackValue=0}" FontSize="10"/>
+                    </Border>
+                    <Border CornerRadius="0,0,4,4" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000"/>
+                                <GradientStop Offset="1" Color="#CC000000"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
+                    </Border>
+                </Grid>
+            </Border>
         </Border>
     </Border>
 </Button>

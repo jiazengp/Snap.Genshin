@@ -26,7 +26,7 @@ namespace DGP.Genshin.DataModel.YoungMoe2
             {
                 if (weapon == null)
                 {
-                    weapon = MetaDataService.Instance.Weapons?.FirstOrDefault(c => c.Name == Name) ?? new();
+                    weapon = MetadataService.Instance.Weapons?.FirstOrDefault(c => c.Name == Name) ?? new();
                 }
                 return weapon;
             }

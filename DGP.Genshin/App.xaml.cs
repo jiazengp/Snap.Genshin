@@ -70,7 +70,7 @@ namespace DGP.Genshin
             if (!isExitDueToSingleInstanceRestriction)
             {
                 SettingService.Instance.UnInitialize();
-                MetaDataService.Instance.UnInitialize();
+                MetadataService.Instance.UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
             }
             base.OnExit(e);

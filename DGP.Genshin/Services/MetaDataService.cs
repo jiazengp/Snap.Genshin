@@ -26,7 +26,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 元数据服务
     /// </summary>
-    public class MetaDataService : Observable
+    public class MetadataService : Observable
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -336,7 +336,6 @@ namespace DGP.Genshin.Services
         {
             this.Log("instantiated");
         }
-
         public void UnInitialize()
         {
             Save(Bosses, BossesJson);
@@ -359,11 +358,11 @@ namespace DGP.Genshin.Services
         }
 
         #region 单例
-        private static volatile MetaDataService? instance;
+        private static volatile MetadataService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
-        private MetaDataService() { Initialize(); }
-        public static MetaDataService Instance
+        private MetadataService() { Initialize(); }
+        public static MetadataService Instance
         {
             get
             {
@@ -396,14 +395,7 @@ namespace DGP.Genshin.Services
         public double Percent { get => percent; set => Set(ref percent, value); }
 
         private bool hasCheckCompleted;
-        public bool HasCheckCompleted
-        {
-            get => hasCheckCompleted; set
-            {
-                Set(ref hasCheckCompleted, value);
-                CompleteStateChanged?.Invoke(value);
-            }
-        }
+        public bool HasCheckCompleted { get => hasCheckCompleted; set { Set(ref hasCheckCompleted, value); CompleteStateChanged?.Invoke(value); } }
 
         private int checkingCount;
 
@@ -425,6 +417,32 @@ namespace DGP.Genshin.Services
             });
         }
 
+        public async Task CheckCharacterIntegrityAsync(ObservableCollection<Character>? collection, IProgress<InitializeState> progress)
+        {
+            if (collection is null)
+            {
+                this.Log("初始化时遇到了空的集合");
+                return;
+            }
+            //restrict thread count.
+            Task sourceTask = collection.ParallelForEachAsync(async (t) =>
+            {
+                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+            });
+            Task profileTask = collection.ParallelForEachAsync(async (t) =>
+            {
+                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Profile);
+                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+            });
+            Task gachasplashTask = collection.ParallelForEachAsync(async (t) =>
+            {
+                using MemoryStream? memoryStream = await FileCache.HitAsync(t.GachaSplash);
+                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+            });
+            await Task.WhenAll(sourceTask, profileTask, gachasplashTask);
+        }
+
         private bool hasEverChecked;
 
         /// <summary>
@@ -443,14 +461,14 @@ namespace DGP.Genshin.Services
             Progress<InitializeState> progress = new(i =>
             {
                 CurrentCount = i.CurrentCount;
-                Percent = (i.CurrentCount * 1.0 / TotalCount) ?? 0D;
+                Percent = (i.CurrentCount * 1D / TotalCount) ?? 0D;
                 CurrentInfo = i.Info;
             });
             CurrentCount = 0;
             TotalCount =
                 Bosses?.Count +
                 Cities?.Count +
-                Characters?.Count +
+                (Characters?.Count * 3) +
                 DailyTalents?.Count +
                 DailyWeapons?.Count +
                 Elements?.Count +
@@ -463,9 +481,10 @@ namespace DGP.Genshin.Services
                 WeeklyTalents?.Count +
                 WeaponTypes?.Count;
 
-            await Task.WhenAll(
+            Task[] integrityTasks =
+            {
                 CheckIntegrityAsync(Bosses, progress),
-                CheckIntegrityAsync(Characters, progress),
+                CheckCharacterIntegrityAsync(Characters, progress),
                 CheckIntegrityAsync(Cities, progress),
                 CheckIntegrityAsync(DailyTalents, progress),
                 CheckIntegrityAsync(DailyWeapons, progress),
@@ -477,7 +496,10 @@ namespace DGP.Genshin.Services
                 CheckIntegrityAsync(Stars, progress),
                 CheckIntegrityAsync(Weapons, progress),
                 CheckIntegrityAsync(WeeklyTalents, progress),
-                CheckIntegrityAsync(WeaponTypes, progress));
+                CheckIntegrityAsync(WeaponTypes, progress)
+            };
+
+            await Task.WhenAll(integrityTasks);
 
             this.Log("Integrity Check Stop");
             HasCheckCompleted = true;

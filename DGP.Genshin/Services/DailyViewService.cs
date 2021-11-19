@@ -18,7 +18,7 @@ namespace DGP.Genshin.Services
     /// </summary>
     public class DailyViewService : Observable
     {
-        private readonly MetaDataService dataService = MetaDataService.Instance;
+        private readonly MetadataService dataService = MetadataService.Instance;
 
         private NamedValue<DayOfWeek> selectedDayOfWeek;
 

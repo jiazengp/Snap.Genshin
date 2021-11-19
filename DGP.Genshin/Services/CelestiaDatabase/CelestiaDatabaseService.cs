@@ -151,7 +151,7 @@ namespace DGP.Genshin.Services.CelestiaDatabase
                 ? null
                 : avatar.CnName == "旅行者"
                 ? new Character { Name = "旅行者", Star = StarHelper.FromRank(5) }
-                : (MetaDataService.Instance.Characters?.First(c => c.Name == avatar.CnName));
+                : (MetadataService.Instance.Characters?.First(c => c.Name == avatar.CnName));
         }
 
         #endregion

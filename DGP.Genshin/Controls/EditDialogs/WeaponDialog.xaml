@@ -29,8 +29,8 @@
         </DataTemplate>
     </ui:ContentDialog.Resources>
     <s:SmoothScrollViewer>
-        <StackPanel Margin="0,0,20,0">
-            <TextBox ui:ControlHelper.Header="标识符[Key]" Text="{Binding SelectedWeapon.Key,Mode=TwoWay}"/>
+        <StackPanel Margin="0,0,16,0">
+            <TextBox ui:ControlHelper.Header="Key" Text="{Binding SelectedWeapon.Key,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="名称" Text="{Binding SelectedWeapon.Name,Mode=TwoWay}"/>
             <ComboBox ui:ControlHelper.Header="武器类型" HorizontalAlignment="Stretch" ItemsSource="{Binding WeaponTypes}" 
                       SelectedItem="{Binding SelectedWeapon.Type,Mode=TwoWay,Converter={StaticResource WeaponTypeStringConverter}}" 
@@ -38,10 +38,12 @@
             <ComboBox ui:ControlHelper.Header="星级" HorizontalAlignment="Stretch" ItemsSource="{Binding Stars}" 
                       SelectedItem="{Binding SelectedWeapon.Star,Mode=TwoWay,Converter={StaticResource StarStringConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>
-            <TextBox ui:ControlHelper.Header="图片Url [70]" Text="{Binding SelectedWeapon.Source,Mode=TwoWay}"/>
+            <TextBox ui:ControlHelper.Header="图片Url [*]" Text="{Binding SelectedWeapon.Source,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="基础攻击力" Text="{Binding SelectedWeapon.ATK,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="副属性" Text="{Binding SelectedWeapon.SubStat,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="副属性值" Text="{Binding SelectedWeapon.SubStatValue,Mode=TwoWay}"/>
+            <TextBox ui:ControlHelper.Header="被动" Text="{Binding SelectedWeapon.Passive,Mode=TwoWay}"/>
+            <TextBox ui:ControlHelper.Header="被动描述" Text="{Binding SelectedWeapon.PassiveDescription,Mode=TwoWay}" Height="200"/>
             <ComboBox ui:ControlHelper.Header="武器突破材料" HorizontalAlignment="Stretch" ItemsSource="{Binding DailyWeapons}" 
                       SelectedItem="{Binding SelectedWeapon.Ascension,Mode=TwoWay,Converter={StaticResource DailyWeaponsConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>

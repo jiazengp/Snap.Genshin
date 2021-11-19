@@ -14,6 +14,8 @@ namespace DGP.Genshin.DataModel.Characters
         public string? GachaCard { get; set; }
         public string? GachaSplash { get; set; }
         public string? City { get; set; }
+
+        #region City Helper
         public bool IsMondstdat()
         {
             return City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
@@ -28,7 +30,11 @@ namespace DGP.Genshin.DataModel.Characters
         {
             return City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
         }
+        #endregion
 
+        public string? BaseHP { get; set; }
+        public string? BaseATK { get; set; }
+        public string? BaseDEF { get; set; }
         public string? AscensionStat { get; set; }
         public string? AscensionStatValue { get; set; }
         public Talent? Talent { get; set; }

@@ -22,7 +22,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.Cities?.First(i => i.Source == (string)value);
+            return MetadataService.Instance.Cities?.First(i => i.Source == (string)value);
         }
     }
     public class ElementStringConverter : IValueConverter
@@ -35,7 +35,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.Elements?.First(i => i.Source == (string)value);
+            return MetadataService.Instance.Elements?.First(i => i.Source == (string)value);
         }
     }
     public class StarStringConverter : IValueConverter
@@ -48,7 +48,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.Stars?.First(i => i.Source == (string)value);
+            return MetadataService.Instance.Stars?.First(i => i.Source == (string)value);
         }
     }
     public class WeaponTypeStringConverter : IValueConverter
@@ -61,7 +61,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.WeaponTypes?.FirstOrDefault(i => i.Source == (string)value);
+            return MetadataService.Instance.WeaponTypes?.FirstOrDefault(i => i.Source == (string)value);
         }
     }
 
@@ -75,8 +75,8 @@ namespace DGP.Genshin.Controls.Converters
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value == null
-                ? MetaDataService.Instance.DailyWeapons?.First()
-                : MetaDataService.Instance.DailyWeapons?.First(i => i.Source == ((DataModel.Materials.Weapons.Weapon)value).Source);
+                ? MetadataService.Instance.DailyWeapons?.First()
+                : MetadataService.Instance.DailyWeapons?.First(i => i.Source == ((DataModel.Materials.Weapons.Weapon)value).Source);
         }
     }
     public class ElitesConverter : IValueConverter
@@ -89,8 +89,8 @@ namespace DGP.Genshin.Controls.Converters
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value == null
-                ? MetaDataService.Instance.Elites?.First()
-                : MetaDataService.Instance.Elites?.First(i => i.Source == ((Elite)value).Source);
+                ? MetadataService.Instance.Elites?.First()
+                : MetadataService.Instance.Elites?.First(i => i.Source == ((Elite)value).Source);
         }
     }
     public class MonstersConverter : IValueConverter
@@ -103,8 +103,8 @@ namespace DGP.Genshin.Controls.Converters
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value == null
-                ? MetaDataService.Instance.Monsters?.First()
-                : MetaDataService.Instance.Monsters?.First(i => i.Source == ((Monster)value).Source);
+                ? MetadataService.Instance.Monsters?.First()
+                : MetadataService.Instance.Monsters?.First(i => i.Source == ((Monster)value).Source);
         }
     }
     public class DailyTalentsConverter : IValueConverter
@@ -116,7 +116,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.DailyTalents?.First(i => i.Source == ((Talent)value).Source);
+            return MetadataService.Instance.DailyTalents?.First(i => i.Source == ((Talent)value).Source);
         }
     }
     public class WeeklyTalentsConverter : IValueConverter
@@ -128,7 +128,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.WeeklyTalents?.First(i => i.Source == ((Weekly)value).Source);
+            return MetadataService.Instance.WeeklyTalents?.First(i => i.Source == ((Weekly)value).Source);
         }
     }
     public class BossesConverter : IValueConverter
@@ -140,7 +140,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.Bosses?.First(i => i.Source == ((Boss)value).Source);
+            return MetadataService.Instance.Bosses?.First(i => i.Source == ((Boss)value).Source);
         }
     }
     public class GemStonesConverter : IValueConverter
@@ -152,7 +152,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.GemStones?.First(i => i.Source == ((GemStone)value).Source);
+            return MetadataService.Instance.GemStones?.First(i => i.Source == ((GemStone)value).Source);
         }
     }
     public class LocalsConverter : IValueConverter
@@ -164,7 +164,7 @@ namespace DGP.Genshin.Controls.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MetaDataService.Instance.Locals?.First(i => i.Source == ((Local)value).Source);
+            return MetadataService.Instance.Locals?.First(i => i.Source == ((Local)value).Source);
         }
     }
 }

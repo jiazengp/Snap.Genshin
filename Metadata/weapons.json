@@ -4,6 +4,8 @@
     "ATK": "674",
     "SubStat": "暴击伤害",
     "SubStatValue": "44.1%",
+    "Passive": "雾切御腰物",
+    "PassiveDescription": "获得12%/15%/18%/21%/24%所有元素伤害加成，并能获得「雾切之巴印」的威势。雾切之巴印：持有1/2/3层雾切之巴印时，获得(8%/16/28%)/‌(10%/20%/35%)/‌(12%/24%/42%)/‌(14%/28%/49%)/‌(16%/32%/56%)自己的元素类型的元素伤害加成。在下列情况下，角色将各获得1层雾切之巴印：普通攻击造成元素伤害时，持续5秒；施放元素爆发时，持续10秒；此外，角色元素能量低于100%时，将获得1层雾切之巴印，此雾切之巴印会在角色的元素能量充满时消失。每层雾切之巴印的持续时间独立计算。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "远海夷地",
@@ -35,6 +37,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6%",
+    "Passive": "如狼般狩猎者",
+    "PassiveDescription": "攻击力提高20%/25%/30%/35%/40%；攻击命中生命值低于30%的敌人时，队伍中所有成员的攻击力提高40%/50%/60%/70%/80%，持续12秒。该效果30秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -66,6 +70,8 @@
     "ATK": "674",
     "SubStat": "暴击率",
     "SubStatValue": "22.1%",
+    "Passive": "昭理的鸢之枪",
+    "PassiveDescription": "命中敌人时自身攻击力提高3.2%/3.9%/4.6%/5.3%/6%，持续6秒，最高可以叠加7层。该效果每0.3秒最多触发一次。满层状态时伤害提升12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -97,6 +103,8 @@
     "ATK": "608",
     "SubStat": "暴击伤害",
     "SubStatValue": "66.2%",
+    "Passive": "无羁的朱赤之蝶",
+    "PassiveDescription": "生命值提升20%/25%/30%/35%/40%。此外，提供基于装备该武器的角色生命值上限的0.8%/1%/1.2%/1.4%/1.6%，获得攻击力加成。当装备该武器的角色生命值低于50%时，进一步获得1%/1.2%/1.4%/1.6%/1.8%最大生命值上限的攻击力提升。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -128,6 +136,8 @@
     "ATK": "608",
     "SubStat": "元素精通",
     "SubStatValue": "198",
+    "Passive": "抗争的践行之歌",
+    "PassiveDescription": "飘游风中的「千年的大乐章」的一部分。伤害提升10%/12.5%/15%/17.5%/20%；触发元素反应时，角色获得一枚奋起之符，每0.5秒内至多触发一次，角色处于队伍后台也能触发。拥有2枚奋起之符时，将消耗所有奋起之符，使附近队伍中所有角色获得持续12秒的「千年的大乐章·抗争之歌」效果：普通攻击、重击、下落攻击造成的伤害提升16%/20%/24%/28%/32%，攻击力提升20%/25%/30%/35%/40%。触发后20秒内，无法再次获得奋起之符。「千年的大乐章」触发的多种数值效果中，同类数值效果不可叠加。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -159,6 +169,8 @@
     "ATK": "608",
     "SubStat": "生命值",
     "SubStatValue": "49.6%",
+    "Passive": "白夜皓月",
+    "PassiveDescription": "治疗加成提升10%/12.5%/15%/17.5%/20%；普通攻击造成的伤害增加，增加值为装备该武器的角色生命值上限的1%/1.5%/2%/2.5%/3%。在施放元素爆发后的12秒内，普通攻击命中敌人时恢复0.6点元素能量，每0.1秒至多通过这种方式恢复一次元素能量。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "远海夷地",
@@ -190,6 +202,8 @@
     "ATK": "608",
     "SubStat": "暴击率",
     "SubStatValue": "33.1%",
+    "Passive": "无边际的眷顾",
+    "PassiveDescription": "移动速度提高10%；在场上每4秒获得8%/10%/12%/14%/16%元素伤害加成。该效果最多叠加4层，角色倒下或离场后清空。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -221,6 +235,8 @@
     "ATK": "674",
     "SubStat": "元素充能效率",
     "SubStatValue": "36.8%",
+    "Passive": "斩裂晴空的龙脊",
+    "PassiveDescription": "造成的伤害提高8%/10%/12%/14%/16%;施放元素爆发后，普通攻击和重击命中时会发出真空刃，对路径上的敌人造成80%/100%/120%/140%/160%攻击力的伤害，持续20秒或直至发出8次真空刃。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -252,6 +268,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6%",
+    "Passive": "金璋皇极",
+    "PassiveDescription": "护盾强效提升20%/25%/30%/35%/40%。攻击命中后的8秒内，攻击力提升4%/5%/6%/7%/8%。该效果至多可叠加5层，每0.3秒只能触发一次。此外，处于护盾庇护下时，该效果的攻击力提升效果提高100%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -283,6 +301,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6%",
+    "Passive": "金璋皇极",
+    "PassiveDescription": "护盾强效提升20%/25%/30%/35%/40%。攻击命中后的8秒内，攻击力提升4%/5%/6%/7%/8%。该效果至多可叠加5层，每0.3秒只能触发一次。此外，处于护盾庇护下时，该效果的攻击力提升效果提高100%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -314,6 +334,8 @@
     "ATK": "608",
     "SubStat": "元素充能效率",
     "SubStatValue": "55.1%",
+    "Passive": "离别的思念之歌",
+    "PassiveDescription": "飘游风中的「千年的大乐章」的一部分。元素精通提高60/75/90/105/120点；元素战技或元素爆发命中敌人时，角色获得一枚追思之符，每0.2秒内至多触发一次，角色处于队伍后台也能触发。拥有4枚追思之符时，将消耗所有追思之符，使附近的队伍中所有角色获得持续12秒的「千年的大乐章·别离之歌」效果：元素精通提高100/125/150/175/200点，攻击力提升20%/25%/30%/35%/40%。触发后20秒内，无法再次获得追思之符。「千年的大乐章」触发的多种数值效果中，同类数值效果不可叠加。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -345,6 +367,8 @@
     "ATK": "741",
     "SubStat": "物理伤害加成",
     "SubStatValue": "20.7%",
+    "Passive": "揭旗的叛逆之歌",
+    "PassiveDescription": "飘游风中的「千年的大乐章」的一部分。攻击力提升16%/20%/24%/28%/32%；普通攻击或重击命中敌人时，角色获得一枚低语之符，每0.3秒内至多触发一次。拥有4枚低语之符时，将消耗所有低语之符，使附近队伍中所有角色获得持续12秒的「千年的大乐章·揭旗之歌」效果：普通攻击速度提升12%/15%/18%/21%/24%，攻击力提升20%/25%/30%/35%/40%。触发后20秒内，无法再次获得低语之符。「千年的大乐章」触发的多种数值效果中，同类数值效果不可叠加。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -376,6 +400,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6%",
+    "Passive": "金璋皇极",
+    "PassiveDescription": "护盾强效提升20%/25%/30%/35%/40%。攻击命中后的8秒内，攻击力提升4%/5%/6%/7%/8%。该效果至多可叠加5层，每0.3秒只能触发一次。此外，处于护盾庇护下时，该效果的攻击力提升效果提高100%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -407,6 +433,8 @@
     "ATK": "674",
     "SubStat": "物理伤害加成%",
     "SubStatValue": "41.3%",
+    "Passive": "西风之鹰的抗争",
+    "PassiveDescription": "攻击力提高20%/25%/30%/35%/40%；受到伤害时触发：高扬抗争旗号的西风鹰之魂苏醒，恢复同等与攻击力的100%/115%/130%/145%/160%生命值，并对周围的敌人造成200%/230%/260%/290%/320%攻击力的伤害。该效果每15秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -438,6 +466,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6",
+    "Passive": "金璋皇极",
+    "PassiveDescription": "护盾强效提升20%/25%/30%/35%/40%。攻击命中后的8秒内，攻击力提升4%/5%/6%/7%/8%。该效果至多可叠加5层，每0.3秒只能触发一次。此外，处于护盾庇护下时，该效果的攻击力提升效果提高100%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -469,6 +499,8 @@
     "ATK": "608",
     "SubStat": "攻击力",
     "SubStatValue": "49.6%",
+    "Passive": "矢志不忘",
+    "PassiveDescription": "普通攻击和重击造成的伤害提升12%/15%/18%/21%/24%;箭矢发射后每经过0.1秒，伤害还会提升8%/10%/12%/14%/16%。至多提升5次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -500,6 +532,8 @@
     "ATK": "674",
     "SubStat": "攻击力",
     "SubStatValue": "33.1%",
+    "Passive": "浮游四方的灵云",
+    "PassiveDescription": "元素伤害加成提升12%/15%/18%/21%/24%；普通攻击命中时，有50%的概率获得高天流云的青睐，在15秒内主动攻击附近的敌人，造成等同于160%/200%/240%/280%/320%攻击力的伤害。该效果每30秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -531,6 +565,8 @@
     "ATK": "542",
     "SubStat": "暴击率",
     "SubStatValue": "44.1%",
+    "Passive": "护国的无垢之心",
+    "PassiveDescription": "生命值提升20%/25%/30%/35%/40%。此外，基于装备该武器的角色生命值上限的1.2%/1.5%/1.8%/2.1%/2.4%,获得攻击力加成。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -562,6 +598,8 @@
     "ATK": "674",
     "SubStat": "元素充能效率",
     "SubStatValue": "36.8%",
+    "Passive": "斫断黑翼的利齿",
+    "PassiveDescription": "暴击率提升8%/10%/12%/14%/16%， 普通攻击速度提升12%, 此外，普通攻击与重击命中敌人时，有50%概率触发真空刃，在小范围内造成额外40%/55%/70%/85%/100%攻击力的伤害。该效果每2秒至多触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -593,6 +631,8 @@
     "ATK": "608",
     "SubStat": "元素充能效率",
     "SubStatValue": "55.1%",
+    "Passive": "穿刺高天的利齿",
+    "PassiveDescription": "暴击率提升4%/5%/6%/7%/8%；施放元素爆发时，获得破空之势：移动速度提升10%，攻击速度提升10%，普通攻击与重击命中时，额外造成20%/25%/30%/35%/40%攻击力的伤害，持续12秒。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -624,6 +664,8 @@
     "ATK": "674",
     "SubStat": "暴击率",
     "SubStatValue": "22.1%",
+    "Passive": "回响长天的诗歌",
+    "PassiveDescription": "暴击伤害提高20%/25%/30%/35%/40%；攻击命中时有60%/70%/80%/90%/100%概率造成125%攻击力的小范围物理伤害，该效果每4秒/3.5秒/3秒/2.5秒/2秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -655,6 +697,8 @@
     "ATK": "608",
     "SubStat": "暴击伤害",
     "SubStatValue": "66.2%",
+    "Passive": "飞雷御执",
+    "PassiveDescription": "攻击力提高20%/25%/30%/35%/40%，并能获得「飞雷之巴印」的威势。飞雷之巴印：持有1/2/3层飞雷之巴印时，普通攻击造成的伤害提高(12/24/40%)/‌(15/30/50%)/‌(18/36/60%)/‌(21/42/70%)/‌(24/48/80%)。在下列情况下，角色将各获得1层飞雷之巴印：普通攻击造成伤害时，持续5秒；施放元素战技时，持续10秒；此外，角色元素能量低于100%时，将获得1层飞雷之巴印，此飞雷之巴印会在角色的元素能量充满时消失。每层飞雷之巴印的持续时间独立计算。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -686,6 +730,8 @@
     "ATK": "608",
     "SubStat": "元素充能效率",
     "SubStatValue": "55.1%",
+    "Passive": "非时之梦·常世灶食",
+    "PassiveDescription": "攻击力获得提升(基础攻击力x百分比+人物面板攻击)，提升程度相当于元素充能效率超出100%部分的28%/35%/42%/49%/56%，至多通过这种方式提升80%/90%/100%/110%/120%。施放元素爆发后的12秒内，元素充能效率提升30%/35%/40%/45%/50%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "今昔剧画",
@@ -717,6 +763,8 @@
     "ATK": "608",
     "SubStat": "暴击率",
     "SubStatValue": "33.1%",
+    "Passive": "极昼的先兆者",
+    "PassiveDescription": "元素战技和元素爆发造成的伤害提高12%/15%/18%/21%/24%；普通攻击、重击、元素战技或元素爆发命中敌人后，将产生1层持续12秒的「白夜极星」效果。处于1/2/3/4层「白夜极星」效果下时，攻击力将提高(10/20/30/48%)/‌(12.5/25/37.5/60%)/‌(15/30/45/72%)/‌(17.5/35/52.5/84%)/‌(20/40/60/96%)。由普通攻击、重击、元素战技或元素爆发产生的「白夜极星」将分别独立存在。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "今昔剧画",
@@ -747,7 +795,9 @@
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
     "ATK": "608",
     "SubStat": "暴击伤害",
-    "SubStatValue": "66.2%",
+    "SubStatValue": "88.2%",
+    "Passive": "御迦大王御迦话",
+    "PassiveDescription": "防御力提高28%/35%/42%/49%/56%；普通攻击与重击造成的伤害值提高，数值相当于防御力的40%/50%/60%/70%/80%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -779,6 +829,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "专注",
+    "PassiveDescription": "攻击造成伤害时，暴击率提升8%/10%/12%/14%/16%，最多堆叠5次。攻击造成暴击后，移除已有的专注效果。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -810,6 +862,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "和弦",
+    "PassiveDescription": "普通攻击或重击命中时，会获得一个和音。积攒了5个和音后，释放音律的力量，对周围的敌人造成100%/125%/150%/175%/200%攻击力的伤害。和音最多存在30秒，每0.5秒至多获得1个和音。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -841,6 +895,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "霜葬",
+    "PassiveDescription": "普通攻击与重击命中敌人时，有60%/70%/80%/90/100%概率在敌人上方生成恒冰晶核并坠落，造成80%/95%/110%/125%/140%攻击力的范围伤害。若敌人处于冰元素影响下，则造成200%/240%/280%/320%/360%攻击力的伤害。该效果每10秒至多触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -872,6 +928,8 @@
     "ATK": "510",
     "SubStat": "暴击率",
     "SubStatValue": "27.6%",
+    "Passive": "日月辉",
+    "PassiveDescription": "普通攻击命中后的6秒内，元素战技与元素爆发的伤害提高20%/25%/30%/35%/40%；元素战技与元素爆发命中后的6秒内，普通攻击的伤害提高20%/25%/30%/35%/40%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -903,6 +961,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "千岩诀·同心",
+    "PassiveDescription": "队伍中每有一位璃月角色，装备该武器的角色便获得7%/8%/9%/10%/11%攻击力提升与3%/4%/5%/6%/7%暴击率提升。至多获得4层提升效果。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -934,6 +994,8 @@
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
+    "Passive": "岩藏之胤",
+    "PassiveDescription": "施放元素战技后，获得1个胤种，该效果每5秒至多触发一次。胤种持续30秒，至多同时存在3个。施放元素爆发后，会清除持有的所有胤种，并在2秒之后，基于消耗的胤种数量，每个为该角色恢复6/7.5/9/10.5/12点元素能量。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "远海夷地",
@@ -965,6 +1027,8 @@
     "ATK": "454",
     "SubStat": "元素充能效率",
     "SubStatValue": "61.3%",
+    "Passive": "顺风而行",
+    "PassiveDescription": "攻击造成暴击时，有60%/70%/80%/90%/100%的几率产生少量元素微粒，能为角色恢复6点元素能量。该效果每12/10.5/9/7.5/6秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -996,6 +1060,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "速射弓斗",
+    "PassiveDescription": "普通攻击伤害提升40%/50%/60%/70%/80%，重击伤害下降10%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -1027,6 +1093,8 @@
     "ATK": "510",
     "SubStat": "生命值",
     "SubStatValue": "41.3%",
+    "Passive": "炊金",
+    "PassiveDescription": "施放元素爆发后6秒内，每2秒恢复4/4.5/5/5.5/6点元素能量，队伍中的所有角色每2秒恢复4%/4.5%/5%/5.5%/6%生命值。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1058,6 +1126,8 @@
     "ATK": "565",
     "SubStat": "物理伤害加成",
     "SubStatValue": "34.5%",
+    "Passive": "注能之针",
+    "PassiveDescription": "获得元素微粒或元素晶球后的5秒内，普通攻击和重击额外造成20%/25%/30%/35%/40%攻击力伤害。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -1089,6 +1159,8 @@
     "ATK": "454",
     "SubStat": "元素精通",
     "SubStatValue": "221",
+    "Passive": "气定神闲",
+    "PassiveDescription": "元素战技造成伤害时，有40%/50%/60%/70%/80%的概率重置该技能的冷却时间，该效果每30/26/22/19/16秒只能触发1次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -1120,6 +1192,8 @@
     "ATK": "510",
     "SubStat": "暴击伤害",
     "SubStatValue": "55.1%",
+    "Passive": "乘胜追击",
+    "PassiveDescription": "击败敌人后，攻击力提升12%/15%/18%/21%/24%，持续30秒。该效果至多叠加3层，每层持续时间独立。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1151,6 +1225,8 @@
     "ATK": "565",
     "SubStat": "元素充能效率",
     "SubStatValue": "30.6%",
+    "Passive": "顺风而行",
+    "PassiveDescription": "攻击造成暴击时，有60%/70%/80%/90%/100%的几率产生少量元素微粒，能为角色恢复6点元素能量。该效果每12/10.5/9/7.5/6秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -1182,6 +1258,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "粉碎",
+    "PassiveDescription": "普通攻击和重击命中时，有50%的概率对小范围内的敌人造成240%/300%/360%/420%/480%攻击力的额外伤害。该效果每15秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1213,6 +1291,8 @@
     "ATK": "510",
     "SubStat": "暴击伤害",
     "SubStatValue": "55.1%",
+    "Passive": "乘胜追击",
+    "PassiveDescription": "击败敌人后，攻击力提升12%/15%/18%/21%/24%，持续30秒。该效果至多叠加3层，每层持续时间独立。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -1244,6 +1324,8 @@
     "ATK": "565",
     "SubStat": "元素充能效率",
     "SubStatValue": "30.6%",
+    "Passive": "气定神闲",
+    "PassiveDescription": "元素战技造成伤害时，有40%/50%/60%/70%/80%概率重置该技能的冷却时间，该效果每30/26/22/19/16秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -1275,6 +1357,8 @@
     "ATK": "565",
     "SubStat": "物理伤害加成",
     "SubStatValue": "34.5%",
+    "Passive": "霜葬",
+    "PassiveDescription": "普通攻击与重击命中敌人时，有60%/70%/80%/90%/100%概率在敌人上方生成恒冰晶核并坠落，造成80%/95%/110%/125%/140%攻击力的范围伤害。若敌人处于冰元素影响下，则造成200%/240%/280%/320%/360%攻击力的伤害。该效果每10秒至多触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -1304,8 +1388,10 @@
   {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
     "ATK": "510",
-    "SubStat": "暴击率",
+    "SubStat": "暴击伤害",
     "SubStatValue": "55.1%",
+    "Passive": "登场乐",
+    "PassiveDescription": "角色登场时，随机获得一个主题曲，持续10秒。每30秒只能触发一次。宣叙调：攻击力提升60%/75%/90%/105%/120%；咏叹调：全元素伤害提升48%/60％/72%/84%/96%；间奏曲：元素精通提升240/300/360/420/480。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -1337,6 +1423,8 @@
     "ATK": "510",
     "SubStat": "元素精通",
     "SubStatValue": "165",
+    "Passive": "止水息雷",
+    "PassiveDescription": "对处于水元素或雷元素影响下的敌人，造成的伤害提高20％/24%/28%/32%/36%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1368,6 +1456,8 @@
     "ATK": "510",
     "SubStat": "元素充能效率",
     "SubStatValue": "45.9%",
+    "Passive": "嗜魔",
+    "PassiveDescription": "施放元素战技后，普通攻击和重击造成的伤害提高8%/10%/12%/14%/16%。该效果持续12秒，最多叠加2层。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1399,6 +1489,8 @@
     "ATK": "510",
     "SubStat": "元素充能效率",
     "SubStatValue": "45.9%",
+    "Passive": "无尽的渴慕",
+    "PassiveDescription": "元素战技造成的伤害增加16/20/24/28/32%，元素战技的暴击率提升6/7.5/9/10.5/12%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -1430,6 +1522,8 @@
     "ATK": "565",
     "SubStat": "暴击伤害",
     "SubStatValue": "36.8%",
+    "Passive": "乘胜追击",
+    "PassiveDescription": "击败敌人后,攻击力提升12%/15%/18%/21%/24%,持续30秒。该效果至多叠加3层,每层持续时间独立。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -1461,6 +1555,8 @@
     "ATK": "510",
     "SubStat": "元素充能效率",
     "SubStatValue": "45.9%",
+    "Passive": "顺风而行",
+    "PassiveDescription": "攻击造成暴击时，有60％/70％/80％/90％/100％的几率产生少量元素微粒，能为角色恢复6点元素能量。该效果每12/10.5/9/7.5/6秒只能触发一次",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -1492,6 +1588,8 @@
     "ATK": "454",
     "SubStat": "物理伤害加成",
     "SubStatValue": "69%",
+    "Passive": "注能之矢",
+    "PassiveDescription": "普通攻击和瞄准攻击命中时，提升4%/5%/6%/7%/8%攻击力与1.2%/1.5%/1.8%/2.1%/2.4%普通攻击速度。该效果持续6秒，最多可以叠加4层，每0.3秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1523,6 +1621,8 @@
     "ATK": "510",
     "SubStat": "暴击率",
     "SubStatValue": "27.6%",
+    "Passive": "苍翠之风",
+    "PassiveDescription": "普通攻击与重击命中时，有50%几率生成一个风之眼，持续吸引周围敌人，并对其中的敌人每0.5秒造成40%/50%/60%/70%/80%攻击力的伤害。该效果持续4秒，每14/13/12/11/10秒至多触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -1554,6 +1654,8 @@
     "ATK": "510",
     "SubStat": "元素精通",
     "SubStatValue": "165",
+    "Passive": "注能之刺",
+    "PassiveDescription": "造成元素伤害后的6秒内，角色造成的伤害提高6%/7.5%/9%/10.5%/12%，该效果最多叠加2层。该效果每1秒可以触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1585,6 +1687,8 @@
     "ATK": "454",
     "SubStat": "元素充能效率",
     "SubStatValue": "61.3%",
+    "Passive": "顺风而行",
+    "PassiveDescription": "攻击造成暴击时，有60%/70%/80%/90%/100%的几率产生少量元素微粒，能为角色恢复6点元素能量。该效果每12/10.5/9/7.5/6秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -1616,6 +1720,8 @@
     "ATK": "510",
     "SubStat": "暴击伤害",
     "SubStatValue": "55.1%",
+    "Passive": "乘胜追击",
+    "PassiveDescription": "击败敌人后,攻击力提升12%/15%/18%/21%/24%,持续30秒。该效果至多叠加3层，每层持续时间独立。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1647,6 +1753,8 @@
     "ATK": "565",
     "SubStat": "元素充能效率",
     "SubStatValue": "30.6%",
+    "Passive": "变化万端",
+    "PassiveDescription": "普通攻击命中敌人后，冲刺或替代冲刺的能力消耗的体力降低14%/16%/18%/20%/22%，持续5秒。此外，使用冲刺或替代冲刺的能力后，攻击力提升20%/25%/30%/35%/40%，持续5秒。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -1678,6 +1786,8 @@
     "ATK": "454",
     "SubStat": "元素充能效率",
     "SubStatValue": "61.3%",
+    "Passive": "顺风而行",
+    "PassiveDescription": "攻击造成暴击时，有60%/70%/80%/90%/100%的几率产生少量元素微粒，能为角色恢复6点元素能量。该效果每12/10.5/9/7.5/6秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -1709,6 +1819,8 @@
     "ATK": "510",
     "SubStat": "暴击率",
     "SubStatValue": "27.6%",
+    "Passive": "「正义」",
+    "PassiveDescription": "普通攻击与重击造成的伤害提升20%/25%/30%/35%/40%；此外普通攻击和重击暴击时，恢复等同于攻击力60/70/80/90/100%的生命值。该效果每5秒至多发动一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -1740,6 +1852,8 @@
     "ATK": "510",
     "SubStat": "暴击率",
     "SubStatValue": "27.6%",
+    "Passive": "破浪",
+    "PassiveDescription": "角色在场上时，每4秒提升6%/7%/8%/9%/10%造成的伤害，3%/2.7%/2.4%/2.2%/2%受到的伤害。该效果最多叠加5层，不随角色退场重置，受到伤害后会减少1层效果。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1771,6 +1885,8 @@
     "ATK": "565",
     "SubStat": "元素精通",
     "SubStatValue": "110",
+    "Passive": "注能之卷",
+    "PassiveDescription": "触发元素反应后的10秒内，获得8%/10%/12%/14%/16%元素伤害加成，该效果最多可叠加2层",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -1802,6 +1918,8 @@
     "ATK": "454",
     "SubStat": "元素精通",
     "SubStatValue": "221",
+    "Passive": "踏火止水",
+    "PassiveDescription": "对于处于水元素或火元素影响下的敌人，造成的伤害提高20%/24%/28%/32%/36%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1833,6 +1951,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "街巷伏击",
+    "PassiveDescription": "装备该武器的角色处于队伍后台时，每1秒角色造成的伤害提升2%/2.5%/3%/3.5%/4%,最多通过这种方式获得20%/25%/30%/35%/40%的伤害提升；在场上超过4秒后，上述伤害提升效果每1秒会流失4%/5%/6%/7%/8%，直到降低至0%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -1864,6 +1984,8 @@
     "ATK": "565",
     "SubStat": "物理伤害加成%",
     "SubStatValue": "34.5%",
+    "Passive": "碎石",
+    "PassiveDescription": "普通攻击或重击命中时，攻击力（原为基础攻击力）和防御力提高4%/5%/6%/7%/8%，持续6秒，最多叠加4层。该效果每0.3秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1895,6 +2017,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "专注",
+    "PassiveDescription": "攻击造成伤害时，暴击率提升8%/10%/12%/14%/16%,最多堆叠5次。攻击造成暴击后，移除已有的专注效果。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -1926,6 +2050,8 @@
     "ATK": "510",
     "SubStat": "元素精通",
     "SubStatValue": "165",
+    "Passive": "无矢之歌",
+    "PassiveDescription": "元素战技与元素爆发的伤害提高24％/30%/36%/42%/48%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -1957,6 +2083,8 @@
     "ATK": "565",
     "SubStat": "元素充能效率",
     "SubStatValue": "30.6%",
+    "Passive": "气定神闲",
+    "PassiveDescription": "元素战技造成伤害时，有40％/50%/60%/70%/80%的概率重置该技能的冷却时间，该效果每30/26/22/19/16秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -1988,6 +2116,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "专注",
+    "PassiveDescription": "攻击造成伤害时，暴击率提升8%/10%/12%/14%/16%，最多堆叠5次。攻击造成暴击后，移除已有的专注效果。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2019,6 +2149,8 @@
     "ATK": "454",
     "SubStat": "物理伤害加成",
     "SubStatValue": "69%",
+    "Passive": "霜葬",
+    "PassiveDescription": "普通攻击与重击命中敌人时，有60%/70%/80%/90%/100%概率在敌人上方生成恒冰晶核并坠落，造成80%/95%/110%/125%/140%攻击力的范围伤害。若敌人处于冰元素影响下，则造成200%/240%/280%/320%/360%攻击力的伤害。该效果每10秒至多触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2050,6 +2182,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "离簇不归",
+    "PassiveDescription": "瞄准射击时，若命中要害，则提升10%移动速度与36%/45%/54%/63%/72%攻击力，持续10秒。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -2081,6 +2215,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "专注",
+    "PassiveDescription": "攻击造成伤害时，暴击率提升8%/10%/12%/14%/16%，最多堆叠5次。攻击造成暴击后，移除已有的专注效果。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2112,6 +2248,8 @@
     "ATK": "454",
     "SubStat": "元素充能效率",
     "SubStatValue": "61.3%",
+    "Passive": "气定神闲",
+    "PassiveDescription": "元素战技造成伤害时，有40%/50%/60%/70%/80%概率重置该技能的冷却时间，该效果每30/26/22/19/16秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -2143,6 +2281,8 @@
     "ATK": "440",
     "SubStat": "攻击力",
     "SubStatValue": "35.2%",
+    "Passive": "降世",
+    "PassiveDescription": "仅在\"PlayStation Network\"游玩时生效。普通攻击与重击命中敌人后有50%概率在小范围内造成200%攻击力的伤害。该效果每10秒只能触发一次;此外，旅行者装备降临之剑时，攻击力提升66点。 该武器技能效果初始即满级，无法精炼。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2174,6 +2314,8 @@
     "ATK": "565",
     "SubStat": "暴击伤害",
     "SubStatValue": "36.8%",
+    "Passive": "乘胜追击",
+    "PassiveDescription": "击败敌人后，攻击力提升12%/15%/18%/21%/24%，持续30秒。该效果至多叠加三层，每层持续时间独立。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -2205,6 +2347,8 @@
     "ATK": "620",
     "SubStat": "元素精通",
     "SubStatValue": "55",
+    "Passive": "元素精通55",
+    "PassiveDescription": "街巷游侠：造成的伤害提升12%/15%/18%/21%/24%，受到伤害后的5秒内失效。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2236,6 +2380,8 @@
     "ATK": "454",
     "SubStat": "暴击率",
     "SubStatValue": "36.8%",
+    "Passive": "角斗士",
+    "PassiveDescription": "身边至少有2个敌人时，获得16%/20%/24%/28%/32%攻击力提升与16%/20%/24%/28%/32%防御力提升；身边的敌人少于2个时，获得24%/30%/36%/42%/48%攻击力提升。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2267,6 +2413,8 @@
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
+    "Passive": "回响",
+    "PassiveDescription": "普通攻击与重击命中时，有50%几率发射一枚昭心法球，造成240%/270%/300%/330%/360%攻击力伤害，至多在敌人之间弹射4次。该效果每12/11/10/9/8秒至多触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -2298,6 +2446,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "踏火息雷",
+    "PassiveDescription": "对处于火元素或雷元素影响下的敌人，造成的伤害提高20%/24%/28%/32%/36%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -2329,6 +2479,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "专注",
+    "PassiveDescription": "攻击造成伤害时，暴击率提升8%/10%/12%/14%/16%，最多堆叠5次。攻击造成暴击后，移除已有的专注效果。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -2360,6 +2512,8 @@
     "ATK": "510",
     "SubStat": "防御力",
     "SubStatValue": "51.7%",
+    "Passive": "注能之锋",
+    "PassiveDescription": "普通攻击和重击命中后，攻击力和防御力提高6%/7.5%/9%/10.5%/12%。该效果持续6秒，最多叠加4层，每0.5秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -2391,6 +2545,8 @@
     "ATK": "510",
     "SubStat": "生命值",
     "SubStatValue": "41.3%",
+    "Passive": "叛逆的守护者",
+    "PassiveDescription": "受到伤害时，生成一个伤害吸收等同于生命上限20%/23%/26%/29%/32%的护盾，持续10秒或者直到护盾失效，每45秒只能触发一次。角色处于护盾庇护下时，造成的伤害提升12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2422,6 +2578,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "千岩诀·同心",
+    "PassiveDescription": "队伍中每有一位璃月角色，装备该武器的角色便获得7%/8%/9%/10%/11%攻击力提升与3%/4%/5%/6%/7%暴击率提升。至多获得4层提升效果。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -2453,6 +2611,8 @@
     "ATK": "510",
     "SubStat": "元素充能效率",
     "SubStatValue": "45.9%",
+    "Passive": "名士振舞",
+    "PassiveDescription": "元素战技造成的伤害提升6%/7.5%/9%/10.5%/12%。元素战技命中后，角色流失3点元素能量，并在此后的6秒内，每2秒恢复3/3.5/4/4.5/5点元素能量。该效果每10秒至多触发一次，角色处于队伍后台也能触发。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -2484,6 +2644,8 @@
     "ATK": "565",
     "SubStat": "元素精通",
     "SubStatValue": "110",
+    "Passive": "名士振舞",
+    "PassiveDescription": "元素战技造成的伤害提升6%/7.5%/9%/10.5%/12%。元素战技命中后，角色流失3点元素能量，并在此后的6秒内，每2秒恢复3/3.5/4/4.5/5点元素能量。该效果每10秒至多触发一次，角色处于队伍后台也能触发。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "今昔剧画",
@@ -2515,6 +2677,8 @@
     "ATK": "510",
     "SubStat": "元素精通",
     "SubStatValue": "165",
+    "Passive": "风花之愿",
+    "PassiveDescription": "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升16%/20%/24%/28%/32%，持续6秒。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -2546,6 +2710,8 @@
     "ATK": "510",
     "SubStat": "物理伤害加成",
     "SubStatValue": "51.7%",
+    "Passive": "极夜二重奏",
+    "PassiveDescription": "普通攻击命中敌人后的5秒内，元素战技造成的伤害提升20%/25%/30%/35%/40%；元素战技命中敌人后的5秒内，普通攻击造成的伤害提升20%/25%/30%/35%/40%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2577,6 +2743,8 @@
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
+    "Passive": "浅濑之弭",
+    "PassiveDescription": "普通攻击造成的伤害提升16%/20%/24%/28%/32%，重击造成的伤害提升12%/15%/18%/21%/24%。当装备该武器的角色元素能量等于100%时，这个效果提升100%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -2608,6 +2776,8 @@
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
+    "Passive": "嘟嘟！大冒险",
+    "PassiveDescription": "普通攻击命中敌人后的6秒内，重击造成的伤害提升16/20/24/28/32%;",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2639,6 +2809,8 @@
     "ATK": "565",
     "SubStat": "元素充能效率",
     "SubStatValue": "30.6%",
+    "Passive": "樱之斋宫",
+    "PassiveDescription": "装备该武器的角色触发雷元素相关反应后，队伍中附近的与该元素反应相关的元素类型的角色，获得10%/12.5%/15%/17.5%/20%对应元素的元素伤害加成，持续6秒。通过这种方式，角色获得的元素伤害加成无法叠加。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "远海夷地",
@@ -2670,6 +2842,8 @@
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
+    "Passive": "海洋的胜利",
+    "PassiveDescription": "元素爆发造成的伤害提升12%/15%/18%/21%/24%。元素爆发命中敌人时，有100%概率召唤大鲔冲击，造成100%/125%/150%/175%/200%攻击力的范围伤害。该效果每15秒至多触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -2701,6 +2875,8 @@
     "ATK": "510",
     "SubStat": "元素充能效率",
     "SubStatValue": "45.9%",
+    "Passive": "船歌",
+    "PassiveDescription": "元素爆发造成的伤害提升16%/20%/24%/28%/32%，元素爆发的暴击率提升6%/7.5%/9%/10.5%/12%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "今昔剧画",
@@ -2732,6 +2908,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "强力攻击",
+    "PassiveDescription": "仅在“PlayStation NetWork”游玩时生效。对敌人造成冰元素伤害后，普通攻击与重击造成的伤害提高10%，效果持续6秒，至多叠加2次；此外，埃洛伊装备掠食者时，攻击力提升66点。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -2763,6 +2941,8 @@
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
+    "Passive": "驭浪的海祇民",
+    "PassiveDescription": "队伍中所有角色的元素能量上限的总和，每1点能使装备此武器的角色的元素爆发造成的伤害提高0.12%/0.15%/0.18%/0.21%/0.24%，通过这种方式，元素爆发造成的伤害至多提高40%/50%/60%/70%/80%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "远海夷地",
@@ -2794,6 +2974,8 @@
     "ATK": "620",
     "SubStat": "攻击力",
     "SubStatValue": "13.8%",
+    "Passive": "驭浪的海祇民",
+    "PassiveDescription": "队伍中所有角色的元素能量上限的总和，每1点能使装备此武器的角色的元素爆发造成的伤害提高0.12%/0.15%/0.18%/0.21%/0.24%，通过这种方式，元素爆发造成的伤害至多提高40%/50%/60%/70%/80%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "今昔剧画",
@@ -2825,6 +3007,8 @@
     "ATK": "565",
     "SubStat": "攻击力",
     "SubStatValue": "27.6%",
+    "Passive": "驭浪的海祇民",
+    "PassiveDescription": "队伍中所有角色的元素能量上限的总和，每1点能使装备此武器的角色的元素爆发造成的伤害提高0.12%/0.15%/0.18%/0.21%/0.24%，通过这种方式，元素爆发造成的伤害至多提高40%/50%/60%/70%/80%。",
     "Ascension": {
       "City": "Inazuma",
       "Name": "鸣神御灵",
@@ -2856,6 +3040,8 @@
     "ATK": "454",
     "SubStat": "防御力",
     "SubStatValue": "69%",
+    "Passive": "无垢之心",
+    "PassiveDescription": "元素战技造成的伤害提高，提高数值相当于防御力的40%/50%/60%/70%/80%。该效果每1.5秒最多触发一次，并将在元素战技造成伤害后的0.1秒后清除效果。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -2887,6 +3073,8 @@
     "ATK": "354",
     "SubStat": "元素精通",
     "SubStatValue": "187",
+    "Passive": "踏火息雷",
+    "PassiveDescription": "对处于火元素或雷元素影响下的敌人，造成的伤害提高12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2918,6 +3106,8 @@
     "ATK": "401",
     "SubStat": "暴击伤害",
     "SubStatValue": "46.9%",
+    "Passive": "精准",
+    "PassiveDescription": "针对要害造成的伤害提升24%/30%/36%/42%/48%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -2949,6 +3139,8 @@
     "ATK": "448",
     "SubStat": "暴击率",
     "SubStatValue": "15.6%",
+    "Passive": "奔袭战术",
+    "PassiveDescription": "击败敌人后的15秒内，移动速度和攻击力提升12%/14%/16%/18%/20%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -2980,6 +3172,8 @@
     "ATK": "401",
     "SubStat": "物理伤害加成",
     "SubStatValue": "43.9%",
+    "Passive": "勇气",
+    "PassiveDescription": "普通攻击和重击命中时，攻击力提高6%/7%/8%/9%/10%，持续6秒，最多叠加4层，该效果每0.5秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -3011,6 +3205,8 @@
     "ATK": "354",
     "SubStat": "元素精通",
     "SubStatValue": "187",
+    "Passive": "止水息雷",
+    "PassiveDescription": "对处于水元素或雷元素影响下的敌人，造成的伤害提高12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -3042,6 +3238,8 @@
     "ATK": "401",
     "SubStat": "暴击伤害",
     "SubStatValue": "46.9%",
+    "Passive": "激励",
+    "PassiveDescription": "生命值高于90%时，暴击率提升14%/17.5%/21%/24.5%/28%",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -3073,6 +3271,8 @@
     "ATK": "448",
     "SubStat": "元素精通",
     "SubStatValue": "94",
+    "Passive": "踏火止水",
+    "PassiveDescription": "对处于火元素或水元素影响下的敌人，造成的伤害提高12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -3104,6 +3304,8 @@
     "ATK": "401",
     "SubStat": "攻击力",
     "SubStatValue": "35.2%",
+    "Passive": "有话直说",
+    "PassiveDescription": "施放元素战技后，普通攻击和重击命中时会在小范围内额外造成60%/75%/90%/105%/120%攻击力的伤害。该效果持续15秒，伤害每3秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -3135,6 +3337,8 @@
     "ATK": "401",
     "SubStat": "生命值",
     "SubStatValue": "35.2%",
+    "Passive": "不屈",
+    "PassiveDescription": "生命值低于70%/75%/80%/85%/90%时，重击不会轻易被打断，并提高30%/35%/40%/45%/50%重击伤害。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -3166,6 +3370,8 @@
     "ATK": "354",
     "SubStat": "元素充能效率",
     "SubStatValue": "52.1%",
+    "Passive": "决心",
+    "PassiveDescription": "施放元素爆发后，提高12%/15%/18%/21%/24%攻击力和移动速度，持续15秒。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -3197,6 +3403,8 @@
     "ATK": "354",
     "SubStat": "暴击率",
     "SubStatValue": "31.2%",
+    "Passive": "弹弓",
+    "PassiveDescription": "普通攻击和瞄准射击时，箭矢若在发射后的0.3秒内击中敌人，则造成的伤害增加36%/42%/48%/54%/60%；否则，造成的伤害下降10%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -3228,6 +3436,8 @@
     "ATK": "448",
     "SubStat": "元素精通",
     "SubStatValue": "94",
+    "Passive": "激流",
+    "PassiveDescription": "触发蒸发、感电、冰冻、或水元素扩散反应后的12秒内，攻击力提高20%/25%/30%/35%/40%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -3259,6 +3469,8 @@
     "ATK": "448",
     "SubStat": "防御力%",
     "SubStatValue": "29.3%",
+    "Passive": "旅程",
+    "PassiveDescription": "获得元素晶球或元素微粒时，恢复1%/1.25%/1.5%/1.75%/2%生命值。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -3290,6 +3502,8 @@
     "ATK": "354",
     "SubStat": "生命值",
     "SubStatValue": "46.9%",
+    "Passive": "收割",
+    "PassiveDescription": "击败敌人时，恢复8%/10%/12%/14%/16%生命值。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -3321,6 +3535,8 @@
     "ATK": "401",
     "SubStat": "攻击力",
     "SubStatValue": "35.2%",
+    "Passive": "决",
+    "PassiveDescription": "攻击命中时，有50%的概率对单个敌人造成240%/280%/320%/360%/400%攻击力的伤害。该效果每15/14/13/12/11秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -3352,6 +3568,8 @@
     "ATK": "401",
     "SubStat": "生命值",
     "SubStatValue": "46.9%",
+    "Passive": "克柔",
+    "PassiveDescription": "对史莱姆类敌人造成的伤害增加40%/50%/60%/70%/80%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "漆黑陨铁",
@@ -3383,6 +3601,8 @@
     "ATK": "401",
     "SubStat": "元素精通",
     "SubStatValue": "141",
+    "Passive": "过载",
+    "PassiveDescription": "触发超载、超导、感电或雷元素扩散反应后的12秒内，攻击力提高20%/25%/30%/35%/40%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -3414,6 +3634,8 @@
     "ATK": "448",
     "SubStat": "暴击伤害",
     "SubStatValue": "31.2%",
+    "Passive": "飞矢传书",
+    "PassiveDescription": "瞄准射击时，若命中要害，则额外造成100%/125%/150%/175%/200%攻击力的伤害，该伤害必定暴击。此效果每10秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -3445,6 +3667,8 @@
     "ATK": "448",
     "SubStat": "攻击力",
     "SubStatValue": "23.5%",
+    "Passive": "沉重",
+    "PassiveDescription": "对普通攻击命中的敌人造成160%/200%/240%/280%/320%攻击力的额外伤害。该效果每10秒只能触发一次。",
     "Ascension": {
       "City": "Liyue",
       "Name": "雾海云间",
@@ -3476,6 +3700,8 @@
     "ATK": "401",
     "SubStat": "攻击力",
     "SubStatValue": "35.2%",
+    "Passive": "止水融冰",
+    "PassiveDescription": "对处于水元素或冰元素影响下的敌人，造成的伤害提高12%/15%/18%/21%/24%。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "高塔孤王",
@@ -3507,6 +3733,8 @@
     "ATK": "401",
     "SubStat": "生命值",
     "SubStatValue": "35.2%",
+    "Passive": "传承",
+    "PassiveDescription": "主动切换角色时，新登场的角色攻击力提升24%/30%/36%/42%/48%，持续10秒。该效果每20秒只能触发一次。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "凛风奔狼",
@@ -3538,6 +3766,8 @@
     "ATK": "401",
     "SubStat": "暴击率",
     "SubStatValue": "23.4%",
+    "Passive": "锐利",
+    "PassiveDescription": "普通攻击造成的伤害提升24%/30%/36%/42%/48%。",
     "Ascension": {
       "City": "Liyue",
       "Name": "孤云寒林",
@@ -3569,6 +3799,8 @@
     "ATK": "401",
     "SubStat": "元素充能效率",
     "SubStatValue": "39%",
+    "Passive": "能量沐浴",
+    "PassiveDescription": "获得元素微粒或元素晶球时，恢复1%/1.25%/1.5%/1.75%/2%生命值。",
     "Ascension": {
       "City": "Mondstadt",
       "Name": "狮牙斗士",
@@ -3594,5 +3826,38 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "OtherworldlyStory",
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5204.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
+    "ATK": "401",
+    "SubStat": "防御力",
+    "SubStatValue": "43.9",
+    "Passive": "收割",
+    "PassiveDescription": "击败敌人时，恢复8%/10%/12%/14%/16%生命值。",
+    "Ascension": {
+      "City": "Mondstadt",
+      "Name": "狮牙斗士",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DandelionGladiator",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "混沌",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Chaos",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "史莱姆",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Slime",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
+    },
+    "Name": "白铁大剑",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+    "Key": "White Iron Greatsword",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2206.png"
   }
 ]

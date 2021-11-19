@@ -30,40 +30,38 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
             set => SetValue(CreateOptionsProperty, value);
         }
-        private static readonly AsyncLock _mutex = new AsyncLock();
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            using (await _mutex.LockAsync())
+            string? url = e.NewValue as string;
+
+            if (string.IsNullOrEmpty(url))
             {
-                string? url = e.NewValue as string;
+                return;
+            }
 
-                if (string.IsNullOrEmpty(url))
+            CachedImage cachedImage = (CachedImage)obj;
+            BitmapImage bitmapImage = new();
+
+            try
+            {
+                using (MemoryStream? memoryStream = await FileCache.HitAsync(url))
                 {
-                    return;
-                }
-
-                CachedImage cachedImage = (CachedImage)obj;
-                BitmapImage bitmapImage = new BitmapImage();
-
-                try
-                {
-                    MemoryStream? memoryStream = await FileCache.HitAsync(url);
                     if (memoryStream == null)
                     {
                         cachedImage.Source = null;
                         return;
                     }
                     bitmapImage.BeginInit();
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                     bitmapImage.CreateOptions = cachedImage.CreateOptions;
                     bitmapImage.StreamSource = memoryStream;
                     bitmapImage.EndInit();
+                    bitmapImage.Freeze();
                     cachedImage.Source = bitmapImage;
                 }
-                catch (Exception)
-                {
-                    // ignored, in case the downloaded file is a broken or not an image.
-                }
             }
+            catch { }
+            cachedImage.Unloaded += (s, e) => cachedImage.Source = null;
         }
 
         public static readonly DependencyProperty ImageUrlProperty =

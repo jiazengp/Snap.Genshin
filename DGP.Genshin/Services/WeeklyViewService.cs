@@ -8,7 +8,7 @@ namespace DGP.Genshin.Services
 {
     public class WeeklyViewService
     {
-        private readonly MetaDataService dataService = MetaDataService.Instance;
+        private readonly MetadataService dataService = MetadataService.Instance;
 
         #region 风魔龙
         private IEnumerable<Character>? dvalinsPlume;
