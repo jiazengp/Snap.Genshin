@@ -111,29 +111,70 @@
                     <Grid>
                         <ci:CachedImage Grid.Row="1" MaxWidth="228" MaxHeight="120" HorizontalAlignment="Center"
                                     ImageUrl="{Binding SelectedCharacter.GachaSplash}"/>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" ToolTipService.ToolTip="查看大图" Click="GachaSplashButton_Click">
+                            <ui:FontIcon Glyph="&#xE78B;"/>
+                        </Button>
                     </Grid>
                 </Border>
             </StackPanel>
         </s:SmoothScrollViewer>
-        <s:SmoothScrollViewer Grid.Column="1" Padding="12,0">
-            <ui:GridView 
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Margin="12,0,12,12" CornerRadius="{StaticResource CompatCornerRadius}" 
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ItemsControl
+                        Margin="6,0,0,0"
+                        ItemsSource="{Binding Elements}"
+                        ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton Margin="0,0,6,0" IsChecked="{Binding IsSelected}" Click="FilterToggleButton_Click">
+                                    <ci:CachedImage ImageUrl="{Binding Source}" Width="16" Height="16"/>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ui:AppBarSeparator Margin="-12,0" Height="38"/>
+                    <ItemsControl
+                        Margin="6,0,0,0"
+                        ItemsSource="{Binding WeaponTypes}"
+                        ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton Margin="0,0,6,0" IsChecked="{Binding IsSelected}" Click="FilterToggleButton_Click">
+                                    <ci:CachedImage ImageUrl="{Binding Source}" Width="16" Height="16"/>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl/>
+                </StackPanel>
+            </Border>
+            <s:SmoothScrollViewer Padding="12,0" Grid.Row="1">
+                <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
                 SelectedItem="{Binding SelectedCharacter}"
                 SelectionMode="Single"
-                Margin="0,0,0,8">
-                <ui:GridView.ItemTemplate>
-                    <DataTemplate>
-                        <genshinelements:ContentIcon
+                Margin="0,0,0,8"
+                    IsSynchronizedWithCurrentItem="True">
+                    <ui:GridView.ItemTemplate>
+                        <DataTemplate>
+                            <genshinelements:ContentIcon
                             IsHitTestVisible="False"
                             IsCountVisible="False"
                             BackgroundUrl="{Binding Star}"
                             ForegroundUrl="{Binding Source}"
                             BadgeUrl="{Binding Element}"
                             VerticalAlignment="Top"/>
-                    </DataTemplate>
-                </ui:GridView.ItemTemplate>
-            </ui:GridView>
-        </s:SmoothScrollViewer>
+                        </DataTemplate>
+                    </ui:GridView.ItemTemplate>
+                </ui:GridView>
+            </s:SmoothScrollViewer>
+        </Grid>
     </Grid>
 </ui:Page>

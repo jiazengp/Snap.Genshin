@@ -15,10 +15,13 @@ using DGP.Genshin.Services.GachaStatistics.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.Services
@@ -287,6 +290,31 @@ namespace DGP.Genshin.Services
                 weapons?.FirstOrDefault(w => w.Name == name) ?? null;
             return p?.Source;
         }
+
+        /// <summary>
+        /// 对角色与武器的视图应用当前筛选条件
+        /// </summary>
+        public void FilterCharacterAndWeapon()
+        {
+            ICollectionView? cview = CollectionViewSource.GetDefaultView(Characters);
+            cview.Filter = c =>
+            {
+                Character? ch = c as Character;
+                return WeaponTypes!.Any(w => w.IsSelected && ch?.Weapon == w.Source) && Elements!.Any(e => e.IsSelected && ch?.Element == e.Source);
+            };
+            cview.MoveCurrentToFirst();
+            cview.Refresh();
+
+            ICollectionView? wview = CollectionViewSource.GetDefaultView(Weapons);
+            wview.Filter = w =>
+            {
+                Weapon? we = w as Weapon;
+                return WeaponTypes!.Any(w => w.IsSelected && we?.Type == w.Source);
+            };
+            wview.MoveCurrentToFirst();
+            wview.Refresh();
+        }
+
         #endregion
 
         #region LifeCycle
@@ -413,7 +441,7 @@ namespace DGP.Genshin.Services
             {
                 //及时释放内存
                 using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
         }
 
@@ -428,17 +456,17 @@ namespace DGP.Genshin.Services
             Task sourceTask = collection.ParallelForEachAsync(async (t) =>
             {
                 using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             Task profileTask = collection.ParallelForEachAsync(async (t) =>
             {
                 using MemoryStream? memoryStream = await FileCache.HitAsync(t.Profile);
-                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             Task gachasplashTask = collection.ParallelForEachAsync(async (t) =>
             {
                 using MemoryStream? memoryStream = await FileCache.HitAsync(t.GachaSplash);
-                progress.Report(new InitializeState(++checkingCount, t.Source?.ToFileName()));
+                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             await Task.WhenAll(sourceTask, profileTask, gachasplashTask);
         }

@@ -19,8 +19,8 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            await Task.Delay(300);
             MetadataService service = MetadataService.Instance;
+            await Task.Delay(300);
             DataContext = service;
             service.SelectedWeapon ??= service.Weapons?.First();
             this.Log("initialized");
@@ -32,6 +32,11 @@ namespace DGP.Genshin.Pages
             this.Log("uninitialized");
             GC.Collect(GC.MaxGeneration);
             base.OnNavigatedFrom(e);
+        }
+
+        private void FilterToggleButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MetadataService.Instance.FilterCharacterAndWeapon();
         }
     }
 }

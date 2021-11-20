@@ -24,6 +24,9 @@
     <Compile Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\CharacterGachaSplashWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Services\Launching\NameDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -45,6 +48,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CharacterGachaSplashWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Services\Launching\NameDialog.xaml">

@@ -30,6 +30,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
             set => SetValue(CreateOptionsProperty, value);
         }
+
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             string? url = e.NewValue as string;
@@ -56,12 +57,11 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     bitmapImage.CreateOptions = cachedImage.CreateOptions;
                     bitmapImage.StreamSource = memoryStream;
                     bitmapImage.EndInit();
-                    bitmapImage.Freeze();
+                    bitmapImage.Freeze();//this will cause black image display
                     cachedImage.Source = bitmapImage;
                 }
             }
             catch { }
-            cachedImage.Unloaded += (s, e) => cachedImage.Source = null;
         }
 
         public static readonly DependencyProperty ImageUrlProperty =
