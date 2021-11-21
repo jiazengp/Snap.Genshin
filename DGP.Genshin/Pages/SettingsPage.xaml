@@ -75,6 +75,14 @@
                         <Button Tag="Github" Content="检查更新并安装" Margin="0,0,0,6" Click="UpdateRequestedAsync"/>
                     </StackPanel>
                 </Expander>
+                <Expander Margin="12,12,16,0">
+                    <Expander.Header>
+                        <TextBlock Text="开发测试" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    </Expander.Header>
+                    <StackPanel>
+                        <Button Tag="Github" Content="测试Switch接口" Margin="0,0,0,6" Click="Button_Click"/>
+                    </StackPanel>
+                </Expander>
             </StackPanel>
         </s:SmoothScrollViewer>
     </Grid>

@@ -1,5 +1,7 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Cookie;
 using DGP.Genshin.Helpers;
+using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using ModernWpf;
@@ -91,6 +93,12 @@ namespace DGP.Genshin.Pages
         {
             ThemeManager.Current.ApplicationTheme =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await new DailyNoteProvider(CookieManager.CurrentCookie).ChangeDailyNoteDataSwitch(false);
+            await new DailyNoteProvider(CookieManager.CurrentCookie).ChangeDailyNoteDataSwitch(true);
         }
     }
 }
