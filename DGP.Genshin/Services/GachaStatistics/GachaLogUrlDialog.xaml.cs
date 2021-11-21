@@ -14,9 +14,10 @@ namespace DGP.Genshin.Services.GachaStatistics
             InitializeComponent();
             this.Log("initialized");
         }
-        public async Task<string> GetInputUrlAsync()
+        public async Task<(bool isOk,string url)> GetInputUrlAsync()
         {
-            return await ShowAsync() == ContentDialogResult.Primary ? InputText.Text : string.Empty;
+            bool isOk = await ShowAsync() == ContentDialogResult.Primary;
+            return (isOk, isOk ? InputText.Text : string.Empty);
         }
     }
 }

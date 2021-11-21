@@ -50,6 +50,10 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
                 }
             }
+            else
+            {
+                //TODO remind user to select correct exe.
+            }
         }
 
         private static string? SelectLaunchDirectory(string? launcherPath)
@@ -58,15 +62,20 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             {
                 OpenFileDialog openFileDialog = new()
                 {
-                    Filter = "启动器|launcher.exe",
+                    Filter = "启动器|launcher.exe|快捷方式|*.lnk",
                     Title = "选择启动器文件",
                     CheckPathExists = true,
+                    DereferenceLinks = true,
                     FileName = "launcher.exe"
                 };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    launcherPath = openFileDialog.FileName;
-                    SettingService.Instance[Setting.LauncherPath] = launcherPath;
+                    string fileName = openFileDialog.FileName;
+                    if (Path.GetFileNameWithoutExtension(fileName) == "launcher")
+                    {
+                        launcherPath = openFileDialog.FileName;
+                        SettingService.Instance[Setting.LauncherPath] = launcherPath;
+                    }
                 }
             }
 

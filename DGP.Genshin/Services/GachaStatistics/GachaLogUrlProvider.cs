@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGP.Genshin.Common.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
@@ -24,14 +25,17 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="mode">模式</param>
         /// <returns>若获取失败返回null</returns>
-        public static async Task<string?> GetUrlAsync(GachaLogUrlMode mode)
+        public static async Task<(bool isOk,string? url)> GetUrlAsync(GachaLogUrlMode mode)
         {
-            return mode switch
-            {
-                GachaLogUrlMode.GameLogFile => File.Exists(logFilePath) ? await GetUrlFromLogFileAsync() : null,
-                GachaLogUrlMode.ManualInput => await GetUrlFromManualInputAsync(),
-                _ => null,
-            };
+            switch (mode){
+                case GachaLogUrlMode.GameLogFile:
+                    bool filePresent = File.Exists(logFilePath);
+                    return (filePresent, filePresent ? await GetUrlFromLogFileAsync() : null);
+                case GachaLogUrlMode.ManualInput:
+                    return await GetUrlFromManualInputAsync();
+                default:
+                    throw new SnapGenshinInternalException("switch 分支不应命中 default");
+            }
         }
 
         /// <summary>
@@ -67,19 +71,19 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <returns>用户输入的Url，若不可用则为 null</returns>
         [SuppressMessage("", "CA1310")]
-        private static async Task<string?> GetUrlFromManualInputAsync()
+        private static async Task<(bool isOk,string? url)> GetUrlFromManualInputAsync()
         {
-            string str = await new GachaLogUrlDialog().GetInputUrlAsync();
-            str = str.Trim();
+            (bool isOk,string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
+            url = url.Trim();
             string? result = null;
-            if (str.StartsWith(@"https://webstatic.mihoyo.com") && str.EndsWith("#/log"))
+            if (url.StartsWith(@"https://webstatic.mihoyo.com") && url.EndsWith("#/log"))
             {
-                str = str.Replace("#/log", "");
-                string[] splitedUrl = str.Split('?');
+                url = url.Replace("#/log", "");
+                string[] splitedUrl = url.Split('?');
                 splitedUrl[0] = gachaLogBaseUrl;
                 result = string.Join("?", splitedUrl);
             }
-            return result;
+            return (isOk, result);
         }
     }
 }

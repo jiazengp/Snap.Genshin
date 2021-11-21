@@ -17,7 +17,7 @@ namespace DGP.Genshin.Controls
         private bool integrityCheckCompleted;
         private bool isCookieVisible = true;
         private bool hasCheckCompleted;
-        private string currentStateDescription = "校验图片资源完整性...";
+        private string currentStateDescription = "校验缓存完整性...";
 
         public bool IsCookieVisible
         {

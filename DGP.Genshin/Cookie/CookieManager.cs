@@ -87,7 +87,12 @@ namespace DGP.Genshin.Cookie
         /// </summary>
         public static async Task SetCookieAsync()
         {
-            CurrentCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            string cookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            //prevent user input unexpected invalid cookie
+            if (cookie != string.Empty)
+            {
+                CurrentCookie = cookie;
+            }    
             File.WriteAllText(CookieFile, CurrentCookie);
         }
 
@@ -106,6 +111,7 @@ namespace DGP.Genshin.Cookie
         public static async Task AddNewCookieToPoolAsync()
         {
             string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+
             if (!string.IsNullOrEmpty(newCookie))
             {
                 Cookies.AddOrIgnore(newCookie);

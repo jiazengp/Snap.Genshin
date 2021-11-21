@@ -6,6 +6,7 @@ namespace DGP.Genshin.Services.Settings
 {
     /// <summary>
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
+    /// 仅供 <see cref="Pages.SettingsPage"/> 使用
     /// </summary>
     public class SettingModel : Observable
     {
@@ -16,7 +17,7 @@ namespace DGP.Genshin.Services.Settings
         /// <param name="value"></param>
         private void SettingChanged(string key, object? value)
         {
-            this.Log($"receive setting changed event {key}:{value}");
+            this.Log($"setting {key} changed: {value}");
             switch (key)
             {
                 case Setting.ShowFullUID:
@@ -25,6 +26,12 @@ namespace DGP.Genshin.Services.Settings
                 case Setting.AutoDailySignInOnLaunch:
                     AutoDailySignInOnLaunch = value is not null && (bool)value;
                     break;
+                case Setting.SkipCacheCheck:
+                    SkipCacheCheck = value is not null && (bool)value;
+                    break;
+                case Setting.SignInSilently:
+                    SignInSilently = value is not null && (bool) value;
+                    break;
                 default:
                     break;
             }
@@ -32,6 +39,8 @@ namespace DGP.Genshin.Services.Settings
 
         private bool showFullUID;
         private bool autoDailySignInOnLaunch;
+        private bool skipCacheCheck;
+        private bool signInSilently;
 
         public bool ShowFullUID
         {
@@ -51,12 +60,32 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
+        public bool SkipCacheCheck
+        {
+            get => skipCacheCheck; set
+            {
+                SettingService.Instance.SetValueInternal(Setting.SkipCacheCheck, value);
+                Set(ref skipCacheCheck, value);
+            }
+        }
+
+        public bool SignInSilently
+        {
+            get => signInSilently; set
+            {
+                SettingService.Instance.SetValueInternal(Setting.SignInSilently, value);
+                Set(ref signInSilently, value);
+            }
+        }
+
         private void Initialize()
         {
             SettingService service = SettingService.Instance;
 
             showFullUID = service.GetOrDefault(Setting.ShowFullUID, false);
             autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
+            skipCacheCheck = service.GetOrDefault(Setting.SkipCacheCheck, false);
+            signInSilently= service.GetOrDefault(Setting.SignInSilently, false);
         }
 
         #region 单例

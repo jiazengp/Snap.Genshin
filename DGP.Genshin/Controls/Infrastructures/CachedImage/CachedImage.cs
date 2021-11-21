@@ -57,7 +57,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     bitmapImage.CreateOptions = cachedImage.CreateOptions;
                     bitmapImage.StreamSource = memoryStream;
                     bitmapImage.EndInit();
-                    bitmapImage.Freeze();//this will cause black image display
+                    bitmapImage.Freeze();
                     cachedImage.Source = bitmapImage;
                 }
             }

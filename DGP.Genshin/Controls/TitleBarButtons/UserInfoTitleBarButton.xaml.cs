@@ -93,6 +93,8 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     Content = "我们需要至少一个用户的信息才能使程序正常运转。",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
+                //fix remove cookie crash.
+                return;
             }
 
             if (SelectedCookieUserInfo is not null)

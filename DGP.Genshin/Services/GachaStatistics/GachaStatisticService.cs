@@ -110,7 +110,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <returns>如果无可用的Url则返回null</returns>
         public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaLogUrlMode mode)
         {
-            string? url = await GachaLogUrlProvider.GetUrlAsync(mode);
+            (_, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
             return url is null ? null : (new(url, gachaDataCollection));
         }
 
@@ -144,7 +144,11 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
 
             CanUserSwitchUid = false;
-            string? url = await GachaLogUrlProvider.GetUrlAsync(mode);
+            (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
+            if (!isOk)
+            {
+                return;
+            }
             if (url is null)
             {
                 await new ContentDialog()

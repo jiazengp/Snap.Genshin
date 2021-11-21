@@ -75,7 +75,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
                 }
 
-                await CopyToCacheAndMemoryAsync(fileName, responseStream, memoryStream, fileStream);
+                await CopyToCacheAndMemoryAsync(responseStream, memoryStream, fileStream, fileName);
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
@@ -109,20 +109,20 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         }
 
         [SuppressMessage("", "CA1835")]
-        private static async Task CopyToCacheAndMemoryAsync(string fileName, Stream response, MemoryStream memory, FileStream? file)
+        private static async Task CopyToCacheAndMemoryAsync(Stream response, MemoryStream memory, FileStream? file, string fileName)
         {
             using (response)
             {
-                byte[] bytebuffer = new byte[100];
+                byte[] buffer = new byte[100];
                 int bytesRead;
                 do
                 {
-                    bytesRead = await response.ReadAsync(bytebuffer, 0, 100);
+                    bytesRead = await response.ReadAsync(buffer, 0, 100);
                     if (file is not null)
                     {
-                        await file.WriteAsync(bytebuffer, 0, bytesRead);
+                        await file.WriteAsync(buffer, 0, bytesRead);
                     }
-                    await memory.WriteAsync(bytebuffer, 0, bytesRead);
+                    await memory.WriteAsync(buffer, 0, bytesRead);
                 }
                 while (bytesRead > 0);
 

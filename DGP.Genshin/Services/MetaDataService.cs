@@ -483,6 +483,12 @@ namespace DGP.Genshin.Services
             {
                 return;
             }
+            if (Settings.SettingService.Instance.GetOrDefault(Settings.Setting.SkipCacheCheck, false))
+            {
+                this.Log("Integrity Check Suppressed by User Settings");
+                HasCheckCompleted = true;
+                return;
+            }
             this.Log("Integrity Check Start");
             hasEverChecked = true;
             HasCheckCompleted = false;

@@ -86,7 +86,7 @@ namespace DGP.Genshin
         }
 
         /// <summary>
-        /// 现在会对Cookie列表内的所有角色签到
+        /// 对Cookie列表内的所有角色签到
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
@@ -112,7 +112,7 @@ namespace DGP.Genshin
                                 .AddSignInHeader("米游社每日签到")
                                 .AddText(role.ToString())
                                 .AddText(result is null ? "签到失败" : "签到成功")
-                                .Show();
+                                .Show(toast => { toast.SuppressPopup = SettingService.Instance.GetOrDefault(Setting.SignInSilently, false); });
                         }
                     }
                 }
@@ -154,7 +154,7 @@ namespace DGP.Genshin
         {
             await new ContentDialog
             {
-                Title = $"版本 {UpdateService.Instance.Release?.Name} 更新日志",
+                Title = $"版本 {UpdateService.Instance.Release?.TagName} 更新日志",
                 Content = new FlowDocumentScrollViewer
                 {
                     Document = new TextToFlowDocumentConverter

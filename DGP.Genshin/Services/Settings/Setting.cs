@@ -9,10 +9,12 @@ namespace DGP.Genshin.Services.Settings
         public const string IsDevMode = "IsDevMode";
         public const string ShowFullUID = "ShowFullUID";
         public const string AutoDailySignInOnLaunch = "AutoDailySignInOnLaunch";
+        public const string SignInSilently = "SignInSilently";
         public const string LauncherPath = "LauncherPath";
         public const string IsBorderless = "IsBorderlessLaunch";
         public const string LastAutoSignInTime = "LastAutoSignInTime";
         public const string AppVersion = "AppVersion";
+        public const string SkipCacheCheck = "SkipCacheCheck";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

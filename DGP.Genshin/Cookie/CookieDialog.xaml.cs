@@ -15,15 +15,19 @@ namespace DGP.Genshin.Cookie
             this.Log("initialized");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>string.Empty if user force return</returns>
         public async Task<string> GetInputCookieAsync()
         {
             await ShowAsync();
-            return InputText.Text;
+            return InputText.Text.Contains("account_id") ? InputText.Text : string.Empty;
         }
 
         private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            using (CookieWindow cookieWindow = new CookieWindow())
+            using (CookieWindow cookieWindow = new())
             {
                 cookieWindow.ShowDialog();
                 bool isLoggedIn = cookieWindow.IsLoggedIn;
