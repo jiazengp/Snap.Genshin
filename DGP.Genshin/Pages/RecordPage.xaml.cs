@@ -14,7 +14,7 @@ namespace DGP.Genshin.Pages
     /// <summary>
     /// RecordPage.xaml 的交互逻辑
     /// </summary>
-    public partial class RecordPage : Page,INotifyPropertyChanged
+    public partial class RecordPage : Page, INotifyPropertyChanged
     {
         public RecordPage()
         {
@@ -46,7 +46,7 @@ namespace DGP.Genshin.Pages
             sender.Text = (string)args.SelectedItem;
         }
 
-        private bool opLocker=false;
+        private bool opLocker = false;
 
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {

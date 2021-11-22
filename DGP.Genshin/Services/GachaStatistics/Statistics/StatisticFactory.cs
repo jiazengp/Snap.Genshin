@@ -5,7 +5,6 @@ using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistics.Statistics
@@ -65,19 +64,19 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         /// <param name="prob4"></param>
         /// <param name="granteeCount"></param>
         /// <returns></returns>
-        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name,BannerConfigration config)
+        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerConfigration config)
         {
             List<GachaLogItem>? list = data[type];
-            _ = list ?? throw new SnapGenshinInternalException($"卡池{type}:对应的卡池信息不应为 null");
+            _ = list ?? throw new UnexceptedNullException($"卡池{type}:对应的卡池信息不应为 null");
             return BuildStatisticBanner(name, config, list);
         }
 
         private static StatisticBanner ToCombinedStatisticBanner(GachaData data, string type1, string type2, string name, BannerConfigration config)
         {
             List<GachaLogItem>? list1 = data[type1];
-            _ = list1 ?? throw new SnapGenshinInternalException($"卡池{type1}:对应的卡池信息不应为 null");
+            _ = list1 ?? throw new UnexceptedNullException($"卡池{type1}:对应的卡池信息不应为 null");
             List<GachaLogItem>? list2 = data[type2];
-            _ = list2 ?? throw new SnapGenshinInternalException($"卡池{type2}:对应的卡池信息不应为 null");
+            _ = list2 ?? throw new UnexceptedNullException($"卡池{type2}:对应的卡池信息不应为 null");
 
             List<GachaLogItem> list = Enumerable.Union(list1, list2).OrderByDescending(x => x.TimeId).ToList();
             return BuildStatisticBanner(name, config, list);
@@ -144,15 +143,15 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                _ = list ?? throw new SnapGenshinInternalException("卡池列表不应为 null");
+                _ = list ?? throw new UnexceptedNullException("卡池列表不应为 null");
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
-                        _ = i.Name ?? throw new SnapGenshinInternalException("卡池物品名称不应为 null");
+                        _ = i.Name ?? throw new UnexceptedNullException("卡池物品名称不应为 null");
                         if (!counter.ContainsKey(i.Name))
                         {
-                            _ = i.Rank ?? throw new SnapGenshinInternalException("卡池物品稀有度不应为 null");
+                            _ = i.Rank ?? throw new UnexceptedNullException("卡池物品稀有度不应为 null");
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,

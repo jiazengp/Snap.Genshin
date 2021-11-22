@@ -46,7 +46,7 @@ namespace DGP.Genshin.Services.GameRecord
         public async Task<Record> GetRecordAsync(string? uid)
         {
             IsQuerying = true;
-            var result = await Task.Run(async () =>
+            Record? result = await Task.Run(async () =>
             {
                 if (uid is null)
                 {

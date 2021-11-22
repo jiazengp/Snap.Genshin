@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Data.Json;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Helpers;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace DGP.Genshin.Cookie
         /// </summary>
         public static string CurrentCookie
         {
-            get => cookie ?? throw new InvalidOperationException("Cookie 不应为 null");
+            get => cookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
             private set
             {
                 if (cookie == value)
@@ -92,7 +93,7 @@ namespace DGP.Genshin.Cookie
             if (cookie != string.Empty)
             {
                 CurrentCookie = cookie;
-            }    
+            }
             File.WriteAllText(CookieFile, CurrentCookie);
         }
 

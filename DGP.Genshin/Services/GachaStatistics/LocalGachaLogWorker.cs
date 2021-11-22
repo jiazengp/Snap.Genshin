@@ -102,7 +102,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                     }
 
                     string? type = item.GachaType;
-                    _ = type ?? throw new SnapGenshinInternalException("卡池类型不应为 null");
+                    _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
                     if (!importData.Data.ContainsKey(type))
                     {
                         importData.Data.Add(type, new());

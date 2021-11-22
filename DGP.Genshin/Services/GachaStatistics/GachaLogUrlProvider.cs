@@ -25,9 +25,10 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="mode">模式</param>
         /// <returns>若获取失败返回null</returns>
-        public static async Task<(bool isOk,string? url)> GetUrlAsync(GachaLogUrlMode mode)
+        public static async Task<(bool isOk, string? url)> GetUrlAsync(GachaLogUrlMode mode)
         {
-            switch (mode){
+            switch (mode)
+            {
                 case GachaLogUrlMode.GameLogFile:
                     bool filePresent = File.Exists(logFilePath);
                     return (filePresent, filePresent ? await GetUrlFromLogFileAsync() : null);
@@ -71,9 +72,9 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <returns>用户输入的Url，若不可用则为 null</returns>
         [SuppressMessage("", "CA1310")]
-        private static async Task<(bool isOk,string? url)> GetUrlFromManualInputAsync()
+        private static async Task<(bool isOk, string? url)> GetUrlFromManualInputAsync()
         {
-            (bool isOk,string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
+            (bool isOk, string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
             url = url.Trim();
             string? result = null;
             if (url.StartsWith(@"https://webstatic.mihoyo.com") && url.EndsWith("#/log"))

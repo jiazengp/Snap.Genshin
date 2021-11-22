@@ -49,7 +49,7 @@ namespace DGP.Genshin.Mate.Shell
             MenuItem desktopMenu = new() { Header = "在桌面上显示" };
             desktopMenu.Click += (s, e) =>
             {
-                var window = GetOrAddWindow<MainWindow>();
+                Window? window = GetOrAddWindow<MainWindow>();
                 if (isDesktopWindowVisable)
                 {
                     window.Hide();

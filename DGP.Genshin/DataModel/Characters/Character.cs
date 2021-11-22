@@ -3,7 +3,6 @@ using DGP.Genshin.DataModel.Materials.Locals;
 using DGP.Genshin.DataModel.Materials.Monsters;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Materials.Weeklys;
-using Newtonsoft.Json;
 
 namespace DGP.Genshin.DataModel.Characters
 {

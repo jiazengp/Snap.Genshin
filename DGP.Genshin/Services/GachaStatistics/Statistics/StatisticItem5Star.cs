@@ -25,7 +25,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         {
             get
             {
-                _ = Name ?? throw new SnapGenshinInternalException("Name 不应为 null");
+                _ = Name ?? throw new UnexceptedNullException("Name 不应为 null");
                 byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name));
                 Color color = Color.FromRgb((byte)(codes[0] / 2 + 64), (byte)(codes[1] / 2 + 64), (byte)(codes[2] / 2 + 64));
                 return new SolidColorBrush(color);

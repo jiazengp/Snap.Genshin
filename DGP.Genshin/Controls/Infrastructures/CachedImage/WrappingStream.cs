@@ -209,6 +209,6 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             if (m_streamBase == null)
                 throw new ObjectDisposedException(GetType().Name);
         }
-        [AllowNull] Stream m_streamBase;
+        [AllowNull] private Stream m_streamBase;
     }
 }

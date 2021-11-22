@@ -30,7 +30,7 @@ namespace DGP.Genshin.Services.Settings
                     SkipCacheCheck = value is not null && (bool)value;
                     break;
                 case Setting.SignInSilently:
-                    SignInSilently = value is not null && (bool) value;
+                    SignInSilently = value is not null && (bool)value;
                     break;
                 default:
                     break;
@@ -85,7 +85,7 @@ namespace DGP.Genshin.Services.Settings
             showFullUID = service.GetOrDefault(Setting.ShowFullUID, false);
             autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
             skipCacheCheck = service.GetOrDefault(Setting.SkipCacheCheck, false);
-            signInSilently= service.GetOrDefault(Setting.SignInSilently, false);
+            signInSilently = service.GetOrDefault(Setting.SignInSilently, false);
         }
 
         #region 单例
