@@ -30,6 +30,7 @@ namespace DGP.Genshin.Services.Launching
         };
         private LaunchScheme currentScheme;
         private bool isBorderless;
+        private bool isFullScreen;
         private ObservableCollection<GenshinAccount> accounts;
         private GenshinAccount? selectedAccount;
 
@@ -57,6 +58,8 @@ namespace DGP.Genshin.Services.Launching
 
             new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", gameConfig);
         }
+
+        public bool IsFullScreen { get => isFullScreen; set { Set(ref isFullScreen, value); SettingService.Instance[Setting.IsFullScreen] = value; } }
 
         /// <summary>
         /// 是否启用无边框窗口模式
@@ -88,14 +91,12 @@ namespace DGP.Genshin.Services.Launching
 
                 try
                 {
-                    int fullScreenArg = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false) ? 0 : 1;
-
                     ProcessStartInfo info = new()
                     {
                         FileName = gamePath,
                         Verb = "runas",
                         UseShellExecute = true,
-                        Arguments = $"-popupwindow -screen-fullscreen {fullScreenArg}"
+                        Arguments = $"{(IsBorderless? "-popupwindow ":"")}-screen-fullscreen {(IsFullScreen?1:0)}"
                     };
                     Process? p = Process.Start(info);
                 }
@@ -103,6 +104,25 @@ namespace DGP.Genshin.Services.Launching
                 {
                     failAction?.Invoke(ex);
                 }
+            }
+        }
+
+        public void OpenOfficialLauncher(Action<Exception>? failAction)
+        {
+            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            try
+            {
+                ProcessStartInfo info = new()
+                {
+                    FileName = launcherPath,
+                    Verb = "runas",
+                    UseShellExecute = true,
+                };
+                Process? p = Process.Start(info);
+            }
+            catch (Exception ex)
+            {
+                failAction?.Invoke(ex);
             }
         }
 
@@ -158,9 +178,13 @@ namespace DGP.Genshin.Services.Launching
                 OnPropertyChanged(nameof(SelectedAccount));
             }
         }
+        public object _savingFile = new();
         public void SaveAllAccounts()
         {
-            Json.ToFile(AccountsFile, Accounts);
+            lock (_savingFile)
+            {
+                Json.ToFile(AccountsFile, Accounts);
+            }
         }
         #endregion
 
@@ -168,6 +192,8 @@ namespace DGP.Genshin.Services.Launching
         private static volatile LaunchService? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
+
+
         private LaunchService()
         {
             //prepare accounts

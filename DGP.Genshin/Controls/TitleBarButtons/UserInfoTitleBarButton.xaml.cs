@@ -20,6 +20,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     {
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
+        private FlyoutBase? flyout;
 
         public CookieUserInfo? SelectedCookieUserInfo
         {
@@ -84,6 +85,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void RemoveCookieAppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            this.HideAttachedFlyout();
             if (CookieManager.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
@@ -114,6 +116,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void AddCookieAppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            this.HideAttachedFlyout();
             await CookieManager.AddNewCookieToPoolAsync();
         }
 

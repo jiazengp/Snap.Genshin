@@ -120,9 +120,10 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             if (SignInInfo is null)
             {
                 RoleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync);
-                SelectedRole = RoleInfo?.List?.First();
+                SelectedRole = RoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
             }
         }
+
         //prevent multiple signin task
         private bool isSigningIn;
         private async void SignInButtonClick(object sender, RoutedEventArgs e)

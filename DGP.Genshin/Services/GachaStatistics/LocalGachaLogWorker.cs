@@ -67,12 +67,18 @@ namespace DGP.Genshin.Services.GachaStatistics
                 SaveLogOf(entry.Key);
             }
         }
+
+
+        private object savingGachaLog = new();
         private void SaveLogOf(string uid)
         {
             Directory.CreateDirectory($@"{localFolder}\{uid}");
             foreach (KeyValuePair<string, List<GachaLogItem>?> entry in Data[uid])
             {
-                Json.ToFile($@"{localFolder}\{uid}\{entry.Key}.json", entry.Value);
+                lock (savingGachaLog)
+                {
+                    Json.ToFile($@"{localFolder}\{uid}\{entry.Key}.json", entry.Value);
+                }
             }
         }
         #endregion
@@ -96,10 +102,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 importData.Data = new();
                 foreach (GachaLogItem item in file)
                 {
-                    if (importData.Uid is null)
-                    {
-                        importData.Uid = item.Uid;
-                    }
+                    importData.Uid ??= item.Uid;
 
                     string? type = item.GachaType;
                     _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");

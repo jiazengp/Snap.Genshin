@@ -11,6 +11,7 @@
         AllowsTransparency="True"
         Title="Snap Genshin Mate"
         SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
         ShowInTaskbar="False"
         Loaded="Window_Loaded"
         Background="Transparent">

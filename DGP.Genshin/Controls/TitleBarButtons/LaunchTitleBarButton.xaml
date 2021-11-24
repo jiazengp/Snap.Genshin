@@ -5,6 +5,9 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
+                   xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
+                   xmlns:launching="clr-namespace:DGP.Genshin.Services.Launching" 
+                   d:DataContext="{d:DesignInstance Type=launching:LaunchService}"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
@@ -15,18 +18,33 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ui:ListView Grid.Row="0" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}" DisplayMemberPath="Name"/>
-                <StackPanel Grid.Row="1">
+                <s:SmoothScrollViewer Grid.Row="0" MaxHeight="120">
+                    <ui:ListView 
+                        ItemsSource="{Binding Accounts}" 
+                        SelectedItem="{Binding SelectedAccount}"
+                        SelectionMode="Single"
+                        DisplayMemberPath="Name"/>
+                </s:SmoothScrollViewer>
+                <Button Grid.Row="1" Content="删除选中的账号" HorizontalAlignment="Stretch" Click="DeleteAccountButton_Click"/>
+                <StackPanel Grid.Row="2" Margin="0,12,0,0">
                     <ComboBox ui:ControlHelper.PlaceholderText="选择启动方案"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding KnownSchemes}"
                           SelectedItem="{Binding CurrentScheme}"
                           DisplayMemberPath="Name"/>
-                    <Button IsDefault="True" Height="32" Margin="0,12,0,0" HorizontalAlignment="Stretch"
-                        Content="启动游戏" Click="LaunchButtonClick"/>
-                    <ui:ToggleSwitch OffContent="独占全屏" OnContent="窗口化" Margin="0,8,0,0" IsOn="{Binding IsBorderless}"/>
+                    <ui:DropDownButton Content="启动" HorizontalAlignment="Stretch" Margin="0,12,0,0">
+                        <ui:DropDownButton.Flyout>
+                            <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                <MenuItem Header="游戏本体" Tag="Game" Click="LaunchButtonClick"/>
+                                <MenuItem Header="打开启动器" Tag="Launcher" Click="LaunchButtonClick"/>
+                            </ui:MenuFlyout>
+                        </ui:DropDownButton.Flyout>
+                    </ui:DropDownButton>
+                    <ui:ToggleSwitch Header="无边框" Margin="0,8,0,0" IsOn="{Binding IsBorderless}"/>
+                    <ui:ToggleSwitch Header="全屏" Margin="0,8,0,0" IsOn="{Binding IsFullScreen}"/>
                 </StackPanel>
             </Grid>
         </ui:Flyout>

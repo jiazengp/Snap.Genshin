@@ -11,6 +11,7 @@ namespace DGP.Genshin.Services.Settings
         public const string AutoDailySignInOnLaunch = "AutoDailySignInOnLaunch";
         public const string SignInSilently = "SignInSilently";
         public const string LauncherPath = "LauncherPath";
+        public const string IsFullScreen = "IsFullScreenLaunch";
         public const string IsBorderless = "IsBorderlessLaunch";
         public const string LastAutoSignInTime = "LastAutoSignInTime";
         public const string AppVersion = "AppVersion";

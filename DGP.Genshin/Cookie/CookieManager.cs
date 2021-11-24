@@ -20,6 +20,9 @@ namespace DGP.Genshin.Cookie
         private const string CookieFile = "cookie.dat";
         private const string CookieListFile = "cookielist.dat";
 
+        public static object _savingCookie = new();
+        public static object _savingCookies = new();
+
         private static string? cookie;
 
         /// <summary>
@@ -97,7 +100,10 @@ namespace DGP.Genshin.Cookie
             {
                 CurrentCookie = cookie;
             }
-            File.WriteAllText(CookieFile, CurrentCookie);
+            lock (_savingCookie)
+            {
+                File.WriteAllText(CookieFile, CurrentCookie);
+            }
         }
 
         internal static void ChangeOrIgnoreCurrentCookie(string? cookie)
@@ -124,11 +130,14 @@ namespace DGP.Genshin.Cookie
 
         public static void SaveCookies()
         {
-            List<string> encodedCookies = (Cookies as List<string>)
+            lock (_savingCookies)
+            {
+                List<string> encodedCookies = (Cookies as List<string>)
                 .Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c))
                 //.ToList() fix json parse error
                 .ToList();
-            Json.ToFile(CookieListFile, encodedCookies);
+                Json.ToFile(CookieListFile, encodedCookies);
+            }
         }
 
         /// <summary>

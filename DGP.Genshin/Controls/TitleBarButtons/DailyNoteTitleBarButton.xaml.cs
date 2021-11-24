@@ -25,7 +25,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             set => SetValue(DailyNotesProperty, value);
         }
         public static readonly DependencyProperty DailyNotesProperty =
-            DependencyProperty.Register("DailyNotes", typeof(List<DailyNote>), typeof(DailyNoteTitleBarButton), new PropertyMetadata(null));
+            DependencyProperty.Register("DailyNotes", typeof(List<DailyNote>), typeof(DailyNoteTitleBarButton));
 
         private async void DailyNoteTitleBarButtonClick(object sender, RoutedEventArgs e)
         {

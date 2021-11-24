@@ -49,7 +49,7 @@ namespace DGP.Genshin.Services
         public async Task InitializeAsync()
         {
             UserGameRoleInfo = await userGameRoleProvider.GetUserGameRolesAsync();
-            SelectedRole = UserGameRoleInfo?.List?.First();
+            SelectedRole = UserGameRoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
         }
 
         private event Action<UserGameRole?> UserGameRoleChanged;
