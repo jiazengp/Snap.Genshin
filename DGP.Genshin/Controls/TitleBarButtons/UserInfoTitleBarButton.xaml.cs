@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -39,13 +38,13 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             InitializeComponent();
             DataContext = this;
-            this.Log("UserInfoTitleBarButton ctor called");
             CookieManager.Cookies.CookieAdded += OnCookiesAdded;
             CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
         }
 
         internal async Task InitializeAsync()
         {
+            //every time open menu will retrive data from api
             CookieUserInfos.Clear();
             foreach (string cookie in CookieManager.Cookies)
             {

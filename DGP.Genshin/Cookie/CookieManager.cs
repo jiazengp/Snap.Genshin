@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers;
 using System;
 using System.Collections.Generic;
@@ -29,13 +30,14 @@ namespace DGP.Genshin.Cookie
         static CookieManager()
         {
             //load cookies
-            if (File.Exists(CookieListFile))
+            try
             {
                 CookiePool base64Cookies = Json.FromFile<CookiePool>(CookieListFile) ?? new();
                 Cookies = new CookiePool(base64Cookies.Select(b => TokenHelper.Base64Decode(Encoding.UTF8, b)));
             }
-            else
+            catch (Exception ex)
             {
+                ex.Log($"{ex.Message}");
                 Cookies = new();
                 File.Create(CookieListFile).Dispose();
             }
@@ -49,6 +51,7 @@ namespace DGP.Genshin.Cookie
                 Logger.LogStatic("无可用的Cookie");
                 File.Create(CookieFile).Dispose();
             }
+
             if (cookie is not null)
             {
                 Cookies.AddOrIgnore(cookie);

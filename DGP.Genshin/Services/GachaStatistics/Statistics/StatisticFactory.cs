@@ -50,7 +50,6 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponConfig);
             statistic.WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponConfig);
             statistic.CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponConfig);
-            //statistic.CharacterEvent = ToCombinedStatisticBanner(data, ConfigType.CharacterEventWish, ConfigType.CharacterEventWish2, "角色活动", NonWeaponConfig);
             return statistic;
         }
 
@@ -68,17 +67,6 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         {
             List<GachaLogItem>? list = data[type];
             _ = list ?? throw new UnexceptedNullException($"卡池{type}:对应的卡池信息不应为 null");
-            return BuildStatisticBanner(name, config, list);
-        }
-
-        private static StatisticBanner ToCombinedStatisticBanner(GachaData data, string type1, string type2, string name, BannerConfigration config)
-        {
-            List<GachaLogItem>? list1 = data[type1];
-            _ = list1 ?? throw new UnexceptedNullException($"卡池{type1}:对应的卡池信息不应为 null");
-            List<GachaLogItem>? list2 = data[type2];
-            _ = list2 ?? throw new UnexceptedNullException($"卡池{type2}:对应的卡池信息不应为 null");
-
-            List<GachaLogItem> list = Enumerable.Union(list1, list2).OrderByDescending(x => x.TimeId).ToList();
             return BuildStatisticBanner(name, config, list);
         }
 
@@ -305,7 +293,8 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 {
                     foreach (GachaLogItem item in list)
                     {
-                        SpecificBanner? banner = clonedBanners.Find(b => b.Type == type && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                        //item.GachaType compat 2.3 gacha
+                        SpecificBanner? banner = clonedBanners.Find(b => b.Type == item.GachaType && item.Time >= b.StartTime && item.Time <= b.EndTime);
                         AddItemToSpecificBanner(item, banner);
                     }
                 }

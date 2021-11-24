@@ -1752,5 +1752,125 @@
     "StartTime": "2021-11-02 18:00:00",
     "EndTime": "2021-11-23 14:59:59",
     "CurrentName": "神铸赋型"
+  },
+  {
+    "Type": "301",
+    "UpStar5List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/albedo_face.png",
+        "Name": "阿贝多",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png"
+      }
+    ],
+    "UpStar4List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/bennett_face.png",
+        "Name": "班尼特",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/noelle_face.png",
+        "Name": "诺艾尔",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/rosaria_face.png",
+        "Name": "罗莎莉亚",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"
+      }
+    ],
+    "StartTime": "2021-11-24 06:00:00",
+    "EndTime": "2021-12-14 17:59:59",
+    "CurrentName": "深秘之息"
+  },
+  {
+    "Type": "400",
+    "UpStar5List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/eula_face.png",
+        "Name": "优菈",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"
+      }
+    ],
+    "UpStar4List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/bennett_face.png",
+        "Name": "班尼特",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/noelle_face.png",
+        "Name": "诺艾尔",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/rosaria_face.png",
+        "Name": "罗莎莉亚",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"
+      }
+    ],
+    "StartTime": "2021-11-24 06:00:00",
+    "EndTime": "2021-12-14 17:59:59",
+    "CurrentName": "浪涌之瞬"
+  },
+  {
+    "Type": "302",
+    "UpStar5List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1405.png",
+        "Name": "苍古自由之誓",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2405.png",
+        "Name": "松籁响起之时",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png"
+      }
+    ],
+    "UpStar4List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1304.png",
+        "Name": "匣里龙吟",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2310.png",
+        "Name": "祭礼大剑",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5309.png",
+        "Name": "暗巷的酒与诗",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4302.png",
+        "Name": "暗巷猎手",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_213101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3304.png",
+        "Name": "匣里灭辰",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_233101.png"
+      }
+    ],
+    "StartTime": "2021-11-24 06:00:00",
+    "EndTime": "2021-12-14 17:59:59",
+    "CurrentName": "神铸赋型"
   }
 ]

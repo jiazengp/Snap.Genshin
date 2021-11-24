@@ -30,7 +30,7 @@
                                                         Value="{Binding CurrentResin}" Minimum="0" Maximum="{Binding MaxResin}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecoveryTimeFormatted,StringFormat={}将于{0}后全部恢复}" 
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
                                         </StackPanel>
                                         <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -76,15 +76,15 @@
                                         </Grid.ColumnDefinitions>
                                         <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
                                                         Background="Transparent"
-                                                        Value="{Binding RemainResinDiscountNum}" Minimum="0" Maximum="{Binding ResinDiscountNumLimit}"/>
+                                                        Value="{Binding ResinDiscountUsedNum,Mode=OneWay}" Minimum="0" Maximum="{Binding ResinDiscountNumLimit}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="本周剩余消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="本周已使用消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
                                         </StackPanel>
                                         <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0}/{1}">
-                                                    <Binding Path="RemainResinDiscountNum"/>
+                                                    <Binding Path="ResinDiscountUsedNum"/>
                                                     <Binding Path="ResinDiscountNumLimit"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>

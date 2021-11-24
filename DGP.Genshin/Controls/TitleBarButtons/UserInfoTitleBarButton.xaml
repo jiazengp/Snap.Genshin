@@ -4,45 +4,47 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
-                   xmlns:ui="http://schemas.modernwpf.com/2019"
+                   xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
                    Click="TitleBarButton_Click"
                    Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay}"
                    >
+    <ui:TitleBarButton.Resources>
+        <Style TargetType="ui:ListViewItem">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </ui:TitleBarButton.Resources>
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ui:ListView Grid.Row="0" Padding="0" 
+                <s:SmoothScrollViewer Grid.Row="0" MaxHeight="272">
+                    <ui:ListView Padding="0" 
                          ItemsSource="{Binding CookieUserInfos}" 
                          SelectedItem="{Binding SelectedCookieUserInfo}" 
                          SelectionMode="Single"
                              HorizontalContentAlignment="Left">
-                    <ui:ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid RenderOptions.BitmapScalingMode="Fant">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid>
+                        <ui:ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid RenderOptions.BitmapScalingMode="Fant">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                        Width="50" Height="50" Margin="0,4,12,4">
+                                        Width="50" Height="50" Margin="6,6,12,6">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
                                         </Ellipse.Fill>
                                     </Ellipse>
                                     <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                        Width="64" Height="64" Margin="0,4,12,4">
+                                        Width="64" Height="64" Margin="6,6,12,6">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
                                         </Ellipse.Fill>
@@ -52,10 +54,10 @@
                                         <TextBlock Text="{Binding UserInfo.Uid}"/>
                                     </StackPanel>
                                 </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ui:ListView.ItemTemplate>
-                </ui:ListView>
+                            </DataTemplate>
+                        </ui:ListView.ItemTemplate>
+                    </ui:ListView>
+                </s:SmoothScrollViewer>
                 <ui:CommandBar Grid.Row="1">
                     <ui:AppBarButton Label="添加一个新用户" Click="AddCookieAppBarButtonClick">
                         <ui:AppBarButton.Icon>
@@ -68,6 +70,9 @@
                         </ui:AppBarButton.Icon>
                     </ui:AppBarButton>
                 </ui:CommandBar>
+                <ItemsControl Grid.Row="2" ItemsSource="{Binding SelectedCookieCard.DataSwitches}">
+                    
+                </ItemsControl>
             </Grid>
         </ui:Flyout>
     </ui:FlyoutBase.AttachedFlyout>

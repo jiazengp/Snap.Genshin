@@ -172,7 +172,6 @@ namespace DGP.Genshin.Services.GachaStatistics
                     }.ShowAsync();
                 }
             }
-            CanUserSwitchUid = true;
         }
 
         /// <summary>
@@ -189,9 +188,12 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
             bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker, full);
             FetchProgress = null;
-            if (Statistic != null)
+            //unlock here to make uid switchable
+            CanUserSwitchUid = true;
+
+            if (Statistic != null&& isGachaConfigAvailable)
             {
-                SyncStatisticWithUid();
+                SelectedUid = Uids.FirstOrDefault(uid => uid.UnMaskedValue == worker.WorkingUid);
             }
             return isGachaConfigAvailable;
         }
