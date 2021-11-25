@@ -120,17 +120,13 @@
                                         </StackPanel>
                                         <StackPanel Grid.Row="1" Margin="0,12,0,0">
                                             <TextBlock Text="圣遗物" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <ItemsControl Margin="0,6,0,0" ItemsSource="{Binding ProcessedRelics}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
+                                            <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Relics}" 
+                                                          ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="0,0,12,0">
-                                                            <TextBlock Text="{Binding Rate,StringFormat={}{0:p2}}"/>
-                                                            <ItemsControl Margin="0,4,0,0" ItemsSource="{Binding Relics}">
+                                                            <TextBlock Text="{Binding Rate,StringFormat={}{0:p2}}" Margin="0,0,0,4"/>
+                                                            <ItemsControl ItemsSource="{Binding List}">
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock>

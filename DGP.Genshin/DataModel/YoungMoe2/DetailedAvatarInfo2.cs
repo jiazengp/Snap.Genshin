@@ -23,37 +23,5 @@ namespace DGP.Genshin.DataModel.YoungMoe2
 
         public new IEnumerable<CollocationWeapon2>? CollocationWeapon { get; set; }
         public new IEnumerable<CollocationAvatar2>? CollocationAvatar { get; set; }
-
-        private List<ProcessedRelic>? processedRelics;
-        public List<ProcessedRelic> ProcessedRelics
-        {
-            get
-            {
-                if (processedRelics == null)
-                {
-                    processedRelics = new();
-                    if (Relics is not null)
-                    {
-                        foreach (List<CollocationRelic> relic in Relics)
-                        {
-                            ProcessedRelic p = new();
-                            foreach (CollocationRelic item in relic)
-                            {
-                                if (item.Rate != 0)
-                                {
-                                    p.Rate = item.Rate;
-                                }
-                                else
-                                {
-                                    p.Relics.Add(item);
-                                }
-                            }
-                            processedRelics.Add(p);
-                        }
-                    }
-                }
-                return processedRelics;
-            }
-        }
     }
 }

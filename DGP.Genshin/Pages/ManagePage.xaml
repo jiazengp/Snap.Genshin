@@ -9,8 +9,7 @@
       xmlns:dialogs="clr-namespace:DGP.Genshin.Controls.EditDialogs" 
       xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="管理">
+      d:DesignHeight="450" d:DesignWidth="800">
     <Page.Resources>
         <ContextMenu x:Key="ItemMenu">
             <MenuItem Header="修改" Click="ModifyButton_Click">
@@ -24,7 +23,6 @@
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
-
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -36,13 +34,12 @@
                 <Grid>
                     <dialogs:CharacterDialog d:IsHidden="True"  x:Name="CharacterEditDialog"/>
                     <s:SmoothScrollViewer>
-                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Center" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
+                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Left" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Characters}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="200" ContextMenu="{StaticResource ItemMenu}">
-                                        <c:CachedImage Margin="8" Width="70" Height="70" ImageUrl="{Binding Source}"/>
-                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Name}"/>
-                                        <TextBlock Margin="4" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Key}"/>
+                                    <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="103" ContextMenu="{StaticResource ItemMenu}">
+                                        <c:CachedImage Margin="6" Width="70" Height="70" ImageUrl="{Binding Source}"/>
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Name}" Margin="0,0,0,6"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ui:GridView.ItemTemplate>
@@ -58,13 +55,12 @@
                     </Grid.RowDefinitions>
                     <dialogs:WeaponDialog d:IsHidden="True" x:Name="WeaponEditDialog"/>
                     <s:SmoothScrollViewer>
-                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Center" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
+                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Left" SelectedItem="{Binding SelectedWeapon,Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding Weapons}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="200" ContextMenu="{StaticResource ItemMenu}">
-                                        <c:CachedImage Margin="8" Width="70" Height="70" ImageUrl="{Binding Source}"/>
-                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Name}"/>
-                                        <TextBlock Margin="4" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Key}"/>
+                                    <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="103" ContextMenu="{StaticResource ItemMenu}">
+                                        <c:CachedImage Margin="6" Width="70" Height="70" ImageUrl="{Binding Source}"/>
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Name}" Margin="0,0,0,6"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ui:GridView.ItemTemplate>

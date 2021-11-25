@@ -13,11 +13,11 @@
                    Click="DailyNoteTitleBarButtonClick">
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
-            <Grid Width="272">
-                <ItemsControl ItemsSource="{Binding DailyNotes}">
+            <Grid >
+                <ItemsControl ItemsSource="{Binding DailyNotes}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Width="272">
                                 <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
                                         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
                                     <Grid>

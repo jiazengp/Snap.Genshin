@@ -96,5 +96,12 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
     "Key": "Boss_RiftbornRegalia",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_215.png"
+  },
+  {
+    "City": null,
+    "Name": "龙嗣伪鳍",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Boss_DragonheirsFalseFin",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_216.png"
   }
 ]

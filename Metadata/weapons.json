@@ -825,6 +825,39 @@
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2408.png"
   },
   {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_233101.png",
+    "ATK": "741",
+    "SubStat": "攻击力",
+    "SubStatValue": "16.5%",
+    "Passive": "灭却之戒法",
+    "PassiveDescription": "获得12%/15%/18%/21%/24%所有元素伤害加成；施放元素战技后，获得持续20秒的「圆顿」，攻击力每1秒提升3.2%/4%/4.8%/5.6%/6.4%，该攻击力提升效果至多叠加6次。当装备此武器的角色处于队伍后台时，「圆顿」的攻击力提升效果翻倍。",
+    "Ascension": {
+      "City": "Liyue",
+      "Name": "雾海云间",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_MistVeiled",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
+    },
+    "Elite": {
+      "City": null,
+      "Name": "雾虚",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_MistGrass",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Nectar",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
+    },
+    "Name": "息灾",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "CalamityQueller",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3407.png"
+  },
+  {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101.png",
     "ATK": "510",
     "SubStat": "攻击力",

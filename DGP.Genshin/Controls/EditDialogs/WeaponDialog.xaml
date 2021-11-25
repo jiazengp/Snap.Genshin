@@ -43,7 +43,7 @@
             <TextBox ui:ControlHelper.Header="副属性" Text="{Binding SelectedWeapon.SubStat,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="副属性值" Text="{Binding SelectedWeapon.SubStatValue,Mode=TwoWay}"/>
             <TextBox ui:ControlHelper.Header="被动" Text="{Binding SelectedWeapon.Passive,Mode=TwoWay}"/>
-            <TextBox ui:ControlHelper.Header="被动描述" Text="{Binding SelectedWeapon.PassiveDescription,Mode=TwoWay}" Height="200"/>
+            <TextBox ui:ControlHelper.Header="被动描述" Text="{Binding SelectedWeapon.PassiveDescription,Mode=TwoWay}" TextWrapping="Wrap"/>
             <ComboBox ui:ControlHelper.Header="武器突破材料" HorizontalAlignment="Stretch" ItemsSource="{Binding DailyWeapons}" 
                       SelectedItem="{Binding SelectedWeapon.Ascension,Mode=TwoWay,Converter={StaticResource DailyWeaponsConverter}}" 
                       ItemTemplate="{StaticResource KeySourceDataTemplate}"/>

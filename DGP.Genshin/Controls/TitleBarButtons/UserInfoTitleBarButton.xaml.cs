@@ -20,7 +20,6 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     {
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
-        private FlyoutBase? flyout;
 
         public CookieUserInfo? SelectedCookieUserInfo
         {

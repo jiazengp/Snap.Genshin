@@ -1239,6 +1239,65 @@
     "Source": "https://genshin.honeyhunterworld.com/img/char/itto_face.png"
   },
   {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7103_profile_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/shenhe_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/shenhe_gacha_splash.png",
+    "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png",
+    "BaseHP": "12993",
+    "BaseATK": "304",
+    "BaseDEF": "830",
+    "AscensionStat": "攻击力",
+    "AscensionStatValue": "28.8%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "繁荣",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Prosperity",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_443.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "龙嗣伪鳍",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_DragonheirsFalseFin",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_216.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "哀叙冰玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_ShivadaJade",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_344.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "清心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_Qingxin",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_614.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "花蜜",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Nectar",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+      "Name": "狱火之蝶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_HellfireButterfly",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_481.png"
+    },
+    "Name": "申鹤",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "ShenHe",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/shenhe_face.png"
+  },
+  {
     "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
     "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
     "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7011_profile_135.png",
@@ -2535,5 +2594,64 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
     "Key": "Gorou",
     "Source": "https://genshin.honeyhunterworld.com/img/char/gorou_face.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_233101.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/yunjin_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/yunjin_gacha_splash.png",
+    "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png",
+    "BaseHP": "10657",
+    "BaseATK": "191",
+    "BaseDEF": "734",
+    "AscensionStat": "元素充能效率",
+    "AscensionStatValue": "26.7%",
+    "Talent": {
+      "City": "Liyue",
+      "Name": "勤劳",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Diligence",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_413.png"
+    },
+    "Boss": {
+      "City": null,
+      "Name": "兽境王器",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_RiftbornRegalia",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_215.png"
+    },
+    "GemStone": {
+      "City": null,
+      "Name": "坚牢黄玉",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_PrithivaTopaz",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_364.png"
+    },
+    "Local": {
+      "City": null,
+      "Name": "琉璃百合",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Key": "Local_GlazeLily",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_604.png"
+    },
+    "Monster": {
+      "City": null,
+      "Name": "面具",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+      "Name": "灰烬之心",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_AshenHeart",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482.png"
+    },
+    "Name": "云堇",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "YunJin",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/yunjin_face.png"
   }
 ]
