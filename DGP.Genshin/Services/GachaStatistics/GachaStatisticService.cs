@@ -131,6 +131,8 @@ namespace DGP.Genshin.Services.GachaStatistics
             });
         }
 
+        
+
         public async Task RefreshAsync(GachaLogUrlMode mode, bool full = false)
         {
             string GetUrlFailHintByMode(GachaLogUrlMode mode)

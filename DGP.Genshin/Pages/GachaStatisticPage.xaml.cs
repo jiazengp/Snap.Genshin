@@ -21,19 +21,31 @@ namespace DGP.Genshin.Pages
             this.Log("initialized");
         }
 
+        private bool isRefreshing = false;
+
         private async void AutoFindAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if (Service is not null)
+            if (!isRefreshing)
             {
-                await Service.RefreshAsync(GachaLogUrlMode.GameLogFile, FullSwitch.IsOn);
+                if (Service is not null)
+                {
+                    isRefreshing = true;
+                    await Service.RefreshAsync(GachaLogUrlMode.GameLogFile, FullSwitch.IsOn);
+                    isRefreshing = false;
+                }
             }
         }
 
         private async void ManualInputUrlAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            if (Service is not null)
+            if (!isRefreshing)
             {
-                await Service.RefreshAsync(GachaLogUrlMode.ManualInput, FullSwitch.IsOn);
+                if (Service is not null)
+                {
+                    isRefreshing = true;
+                    await Service.RefreshAsync(GachaLogUrlMode.ManualInput, FullSwitch.IsOn);
+                    isRefreshing = false;
+                }
             }
         }
 

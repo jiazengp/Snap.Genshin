@@ -236,40 +236,17 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 IEnumerable<GachaLogItem>? logs = Data[uid][pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
-                                //header
-                                sheet.Cells[1, 1].Value = "时间";
-                                sheet.Cells[1, 2].Value = "名称";
-                                sheet.Cells[1, 3].Value = "类别";
-                                sheet.Cells[1, 4].Value = "星级";
-                                //content
-                                int? count = logs?.Count();
-                                int j = 1;
-                                if (count > 0 && logs is not null)
-                                {
-                                    foreach (GachaLogItem item in logs)
-                                    {
-                                        j++;
-                                        sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
-                                        sheet.Cells[j, 2].Value = item.Name;
-                                        sheet.Cells[j, 3].Value = item.ItemType;
-                                        if (item.Rank is not null)
-                                        {
-                                            sheet.Cells[j, 4].Value = int.Parse(item.Rank);
-                                        }
-                                        using (ExcelRange range = sheet.Cells[j, 1, j, 4])
-                                        {
-                                            if (item.Rank is not null)
-                                            {
-                                                range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank)));
-                                            }
-                                        }
-                                    }
-                                }
-                                sheet.Cells[1, 1, j, 4].AutoFitColumns(0);
-
-                                package.Workbook.Properties.Title = "祈愿记录";
-                                package.Workbook.Properties.Author = "Snap Genshin";
+                                InitializeSheetHeader(sheet);
+                                FillSheetWithGachaData(sheet, logs);
+                                //freeze the title
+                                sheet.View.FreezePanes(2, 1);
                             }
+
+                            AddInterchangeableSheet(package,Data[uid]);
+
+                            package.Workbook.Properties.Title = "祈愿记录";
+                            package.Workbook.Properties.Author = "Snap Genshin";
+
                             package.Save();
                         }
                     }
@@ -277,6 +254,110 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
+        private void AddInterchangeableSheet(ExcelPackage package,GachaData data)
+        {
+            ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add("Interchange");
+            //header
+            InitializeInterchangeSheetHeader(interchangeSheet);
+            interchangeSheet.Cells[1, 1].Value = "time";
+            IOrderedEnumerable<GachaLogItem> combinedLogs = data.SelectMany(x => x.Value ?? new()).OrderBy(x => x.Id);
+            FillInterChangeSheet(interchangeSheet, combinedLogs);
+            interchangeSheet.Hidden = eWorkSheetHidden.VeryHidden;
+            interchangeSheet.Hidden = eWorkSheetHidden.Hidden;
+        }
+
+        private void InitializeInterchangeSheetHeader(ExcelWorksheet sheet)
+        {
+            sheet.Cells[1, 1].Value = "uid";
+            sheet.Cells[1, 2].Value = "gacha_type";
+            sheet.Cells[1, 3].Value = "item_id";
+            sheet.Cells[1, 4].Value = "count";
+            sheet.Cells[1, 5].Value = "time";
+            sheet.Cells[1, 6].Value = "name";
+            sheet.Cells[1, 7].Value = "lang";
+            sheet.Cells[1, 8].Value = "item_type";
+            sheet.Cells[1, 9].Value = "rank_type";
+            sheet.Cells[1, 10].Value = "id";
+        }
+
+        private void InitializeSheetHeader(ExcelWorksheet sheet)
+        {
+            //header
+            sheet.Cells[1, 1].Value = "时间";
+            sheet.Cells[1, 2].Value = "名称";
+            sheet.Cells[1, 3].Value = "物品类型";
+            sheet.Cells[1, 4].Value = "星级";
+            sheet.Cells[1, 5].Value = "祈愿类型";
+            sheet.Cells[1, 6].Value = "祈愿ID";
+        }
+
+        /// <summary>
+        /// 填充单个sheet
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="logs">包含单个 概率共享卡池 的物品的列表</param>
+        private void FillSheetWithGachaData(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)
+        {
+            //content
+            int? count = logs?.Count();
+            int j = 1;
+            if (count > 0 && logs is not null)
+            {
+                foreach (GachaLogItem item in logs)
+                {
+                    j++;
+                    sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                    sheet.Cells[j, 2].Value = item.Name;
+                    sheet.Cells[j, 3].Value = item.ItemType;
+                    sheet.Cells[j, 4].Value = int.Parse(item.Rank!);
+                    sheet.Cells[j, 5].Value = item.GachaType?.ToString();
+                    sheet.Cells[j, 6].Value = item.TimeId.ToString();
+
+                    using (ExcelRange range = sheet.Cells[j, 1, j, 6])
+                    {
+                        range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
+                    }
+                }
+            }
+            //自适应
+            sheet.Cells[1, 1, j, 6].AutoFitColumns(0);
+            sheet.IgnoredErrors.Add(sheet.Cells[1, 5, j, 6]);
+        }
+        /// <summary>
+        /// 填充单个sheet
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="logs">包含单个 概率共享卡池 的物品的列表</param>
+        private void FillInterChangeSheet(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)
+        {
+            //content
+            int? count = logs?.Count();
+            int j = 1;
+            if (count > 0 && logs is not null)
+            {
+                foreach (GachaLogItem item in logs)
+                {
+                    j++;
+                    sheet.Cells[j, 1].Value = item.Uid;
+                    sheet.Cells[j, 2].Value = item.GachaType;
+                    sheet.Cells[j, 3].Value = "";
+                    sheet.Cells[j, 4].Value = item.Count;
+                    sheet.Cells[j, 5].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                    sheet.Cells[j, 6].Value = item.Name;
+                    sheet.Cells[j, 7].Value = item.Language;
+                    sheet.Cells[j, 8].Value = item.ItemType;
+                    sheet.Cells[j, 9].Value = int.Parse(item.Rank!);
+                    sheet.Cells[j, 10].Value = item.TimeId.ToString();
+
+                    using (ExcelRange range = sheet.Cells[j, 1, j, 10])
+                    {
+                        range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
+                    }
+                }
+            }
+            //自适应
+            sheet.Cells[1, 1, j, 10].AutoFitColumns(0);
+        }
         public System.Drawing.Color ToDrawingColor(int rank)
         {
             return rank switch
