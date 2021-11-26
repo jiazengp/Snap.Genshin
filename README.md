@@ -116,4 +116,4 @@
 
 ## 参阅
 
-* [Snap Genshin 开发人员指南](DeveloperGuide.md)
+* [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)
