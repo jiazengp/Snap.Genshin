@@ -1,4 +1,4 @@
-# 可交换统一格式祈愿记录工作簿标准
+# 可交换统一格式祈愿记录工作簿标准 v 1.1
 
 > Uniformed Interchangeable GachaLog Workbook Format Standard
 
@@ -7,6 +7,7 @@
 由于原神的祈愿卡池与记录越来越多，越来越复杂，各个App间进行数据交换的代价越来越大，于是我们在此，与
 
 * [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza)
+* [voderl/genshin gacha analyzer](https://github.com/voderl/genshin-gacha-analyzer)
 
 一起，制定了此项标准，旨在加强各个原神相关的App间的数据可交换性
 
@@ -35,8 +36,7 @@
 |新手祈愿|`gacha_type` : `100` 的祈愿数据|否，但是应该导出|
 |原始数据|全部祈愿数据|是|
 
-> App间可以依据 原始数据表来互通数据
-
+> App间可以依据 `原始数据表` 来互通数据
 
 ## 祈愿表结构
 
@@ -54,7 +54,8 @@
 |祈愿Id|`id`|否|
 |...|...|否|
 
-> 如果你认为有必要的话，可以额外增加其他表头，但请确保表头的前几列为上表规范的内容
+> 如果你认为有必要的话，可以额外增加其他表头，但请确保表头的前几列为上表规范的内容  
+> 表内的数据通常按祈愿Id排序
 
 ### 示例
 
