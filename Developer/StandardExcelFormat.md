@@ -1,6 +1,6 @@
-# 可交换统一格式祈愿记录工作簿标准 v 1.2
+# 可交换统一格式祈愿记录工作簿标准 v 1.3
 
-> Uniformed Interchangeable GachaLog Workbook Format Standard
+> Uniformed Interchangeable GachaLog workbook Format standard (UIGF)
 
 ## 前言
 
@@ -10,6 +10,7 @@
 * [biuuu/genshin wish export](https://github.com/biuuu/genshin-wish-export)
 * [DGP Studio/SNap.Genshin](https://github.com/DGP-Studio/Snap.Genshin)
 * [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza)
+* [sunfkny/genshin gacha export](https://github.com/sunfkny/genshin-gacha-export)
 * [voderl/genshin gacha analyzer](https://github.com/voderl/genshin-gacha-analyzer)
 
 
@@ -28,14 +29,15 @@
 
 ## Excel表名及内容
 
-* 如果有新的卡池种类，就新增祈愿表
+* 如果有新的卡池种类，就需要新增祈愿表
 * 表的顺序可以是任意的，甚至可以隐藏部分表
+* Sheet 的名称应与游戏内祈愿记录页面显示的名称保持一致
 
 |表名 SheetName|内容 Content|是否必要|
 |-|-|-|
 |统计分析|统计分析内容|否|
-|角色活动|`gacha_type` : `301\|400` 的祈愿数据|否，但是应该导出|
-|武器活动|`gacha_type` : `302` 的祈愿数据|否，但是应该导出|
+|角色活动祈愿|`gacha_type` : `301\|400` 的祈愿数据|否，但是应该导出|
+|武器活动祈愿|`gacha_type` : `302` 的祈愿数据|否，但是应该导出|
 |常驻祈愿|`gacha_type` : `200` 的祈愿数据|否，但是应该导出|
 |新手祈愿|`gacha_type` : `100` 的祈愿数据|否，但是应该导出|
 |原始数据|全部祈愿数据|**详见下方原始数据表结构说明**|
@@ -52,28 +54,30 @@
 |-|-|-|
 |时间|`yyyy-MM-dd HH:mm:ss` 格式的 `time` 时间|是|
 |名称|`name`物品名称|是|
-|物品类型|`gacha_type`|是|
+|物品类型|`item_type`|是|
 |星级|`rank_type`|是|
-|祈愿类型|`gacha_type`|是，尽管部分工具不会分析此项|
+|祈愿类型|`gacha_type` 的转义名称|是，尽管部分工具不会分析此项|
 |...|...|否|
 
+> 额外的表头不应成为受App分析的值  
 > 如果你认为有必要的话，可以额外增加其他表头，但请确保表头的前几列为上表规范的内容  
-> 表内的数据通常按祈愿Id排序
+> 表内的数据通常按祈愿Id升序或降序排列，分析App不应假设表内的顺序为特定的升序与降序  
 
+### `gacha_type` 转义名称
 |gacha_type|名称|
 |-|-|
 |100|新手祈愿|
-|200|奔行世间|
-|301|角色活动|
-|302|神铸赋形|
-|400|角色活动-2|
+|200|常驻祈愿|
+|301|角色活动祈愿|
+|400|角色活动祈愿-2|
+|302|武器活动祈愿|
 
 ### 示例
 
-|时间|名称|类别|星级|祈愿类型|祈愿 Id|总次数|保底内|
-|-|-|-|-|-|-|-|-|
-|2021-02-17 18:45:09|以理服人|武器|3|301|1613556360008291100|233|77|
-|...|...|...|...|...|...|...|
+|时间|名称|类别|星级|祈愿类型|...|
+|-|-|-|-|-|-|
+|2021-02-17 18:45:09|以理服人|武器|3|角色活动祈愿-2|...|
+|...|...|...|...|...|...|
 
 ## 原始数据表结构
 
@@ -81,9 +85,10 @@
 > 因为用户可以选择不到处原始数据，App应当在导入时检测是否含有此名称的Sheet表
 
 * 以米哈游官方服务器返回的json结构为依据
-* 表头的顺序无需严格按照下表设置
-* 各个表头的名称需要严格按照下表
-* 保持高度的向前与向后兼容性
+* 表头的**顺序无需严格按照下表设置**
+* App 不应假定表格内的表头以特定的顺序排列
+* 各个表头的名称需要严格按照下表设置
+* 以此来保持高度的兼容性
 
 |表头|是否必要|
 |-|-|
