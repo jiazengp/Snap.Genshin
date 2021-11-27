@@ -1,15 +1,19 @@
-# 可交换统一格式祈愿记录工作簿标准 v 1.1
+# 可交换统一格式祈愿记录工作簿标准 v 1.2
 
 > Uniformed Interchangeable GachaLog Workbook Format Standard
 
 ## 前言
 
-由于原神的祈愿卡池与记录越来越多，越来越复杂，各个App间进行数据交换的代价越来越大，于是我们在此，与
+由于原神的祈愿卡池与记录越来越多，越来越复杂，各个App间进行数据交换的代价越来越大，于是
+我们
 
+* [biuuu/genshin wish export](https://github.com/biuuu/genshin-wish-export)
+* [DGP Studio/SNap.Genshin](https://github.com/DGP-Studio/Snap.Genshin)
 * [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza)
 * [voderl/genshin gacha analyzer](https://github.com/voderl/genshin-gacha-analyzer)
 
-一起，制定了此项标准，旨在加强各个原神相关的App间的数据可交换性
+
+在此一起，制定了此项标准，旨在加强各个原神相关的App间的数据可交换性
 
 ## 注意
 
@@ -34,7 +38,7 @@
 |武器活动|`gacha_type` : `302` 的祈愿数据|否，但是应该导出|
 |常驻祈愿|`gacha_type` : `200` 的祈愿数据|否，但是应该导出|
 |新手祈愿|`gacha_type` : `100` 的祈愿数据|否，但是应该导出|
-|原始数据|全部祈愿数据|是|
+|原始数据|全部祈愿数据|**详见下方原始数据表结构说明**|
 
 > App间可以依据 `原始数据表` 来互通数据
 
@@ -51,11 +55,18 @@
 |物品类型|`gacha_type`|是|
 |星级|`rank_type`|是|
 |祈愿类型|`gacha_type`|是，尽管部分工具不会分析此项|
-|祈愿Id|`id`|否|
 |...|...|否|
 
 > 如果你认为有必要的话，可以额外增加其他表头，但请确保表头的前几列为上表规范的内容  
 > 表内的数据通常按祈愿Id排序
+
+|gacha_type|名称|
+|-|-|
+|100|新手祈愿|
+|200|奔行世间|
+|301|角色活动|
+|302|神铸赋形|
+|400|角色活动-2|
 
 ### 示例
 
@@ -65,6 +76,9 @@
 |...|...|...|...|...|...|...|
 
 ## 原始数据表结构
+
+> App 在导出时应询问用户是否应导出完整的原始数据以便导入到其他 App  
+> 因为用户可以选择不到处原始数据，App应当在导入时检测是否含有此名称的Sheet表
 
 * 以米哈游官方服务器返回的json结构为依据
 * 表头的顺序无需严格按照下表设置
