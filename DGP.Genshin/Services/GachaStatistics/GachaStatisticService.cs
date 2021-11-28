@@ -174,6 +174,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                     }.ShowAsync();
                 }
             }
+            CanUserSwitchUid = true;
         }
 
         /// <summary>
@@ -222,6 +223,10 @@ namespace DGP.Genshin.Services.GachaStatistics
                     else
                     {
                         await worker.FetchGachaLogIncrementAsync(pool);
+                    }
+                    if (worker.IsFetchDelayEnabled)
+                    {
+                        await Task.Delay(worker.GetRandomDelay());
                     }
                 }
                 worker.OnFetchProgressed -= OnFetchProgressed;

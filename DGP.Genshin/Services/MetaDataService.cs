@@ -267,11 +267,35 @@ namespace DGP.Genshin.Services
         #endregion
 
         #region Selected Bindable
+        private Boss? selectedBoss;
+        public Boss? SelectedBoss { get => selectedBoss; set => Set(ref selectedBoss, value); }
+
+        private KeySource? selectedCity;
+        public KeySource? SelectedCity { get => selectedCity; set => Set(ref selectedCity, value); }
+
         private Character? selectedCharacter;
         public Character? SelectedCharacter { get => selectedCharacter; set => Set(ref selectedCharacter, value); }
 
+        private Talent? selectedDailyTalent;
+        public Talent? SelectedDailyTalent { get => selectedDailyTalent; set => Set(ref selectedDailyTalent, value); }
+
+        private MaterialWeapon? selectedDailyWeapon;
+        public MaterialWeapon? SelectedDailyWeapon { get => selectedDailyWeapon; set => Set(ref selectedDailyWeapon, value); }
+
+        private Elite? selectedElite;
+        public Elite? SelectedElite { get => selectedElite; set => Set(ref selectedElite, value); }
+
+        private Local? selectedLocal;
+        public Local? SelectedLocal { get => selectedLocal; set => Set(ref selectedLocal, value); }
+
+        private Monster? selectedMonster;
+        public Monster? SelectedMonster { get => selectedMonster; set => Set(ref selectedMonster, value); }
+
         private Weapon? selectedWeapon;
         public Weapon? SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
+
+        private Weekly? selectedWeeklyTalent;
+        public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => Set(ref selectedWeeklyTalent, value); }
         #endregion
 
         #region Helper
@@ -439,8 +463,10 @@ namespace DGP.Genshin.Services
             //restrict thread count.
             await collection.ParallelForEachAsync(async (t) =>
             {
-                //及时释放内存
-                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                if (!FileCache.Exists(t.Source))
+                {
+                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                }
                 progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
         }
@@ -455,17 +481,26 @@ namespace DGP.Genshin.Services
             //restrict thread count.
             Task sourceTask = collection.ParallelForEachAsync(async (t) =>
             {
-                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                if (!FileCache.Exists(t.Source))
+                {
+                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                }
                 progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             Task profileTask = collection.ParallelForEachAsync(async (t) =>
             {
-                using MemoryStream? memoryStream = await FileCache.HitAsync(t.Profile);
+                if (!FileCache.Exists(t.Source))
+                {
+                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                }
                 progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             Task gachasplashTask = collection.ParallelForEachAsync(async (t) =>
             {
-                using MemoryStream? memoryStream = await FileCache.HitAsync(t.GachaSplash);
+                if (!FileCache.Exists(t.Source))
+                {
+                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                }
                 progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
             });
             await Task.WhenAll(sourceTask, profileTask, gachasplashTask);

@@ -90,6 +90,21 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             }
         }
 
+        public static bool Exists(string? url)
+        {
+            if (url is null)
+            {
+                return true;
+            }
+
+            Directory.CreateDirectory(AppCacheDirectory);
+
+            Uri uri = new(url);
+            string fileName = BuildFileName(uri);
+            string localFile = $"{AppCacheDirectory}\\{fileName}";
+            return File.Exists(localFile);
+        }
+
         [SuppressMessage("", "CA5350")]
         private static string BuildFileName(Uri uri)
         {

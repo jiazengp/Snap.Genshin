@@ -8,7 +8,7 @@
 我们
 
 * [biuuu/genshin wish export](https://github.com/biuuu/genshin-wish-export)
-* [DGP Studio/SNap.Genshin](https://github.com/DGP-Studio/Snap.Genshin)
+* [DGP Studio/Snap.Genshin](https://github.com/DGP-Studio/Snap.Genshin)
 * [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza)
 * [sunfkny/genshin gacha export](https://github.com/sunfkny/genshin-gacha-export)
 * [voderl/genshin gacha analyzer](https://github.com/voderl/genshin-gacha-analyzer)

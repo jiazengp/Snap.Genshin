@@ -68,6 +68,23 @@
                     </s:SmoothScrollViewer>
                 </Grid>
             </TabItem>
+            <TabItem Header="Boss" Visibility="Collapsed">
+                <Grid>
+                    <!--<dialogs:CharacterDialog d:IsHidden="True"/>-->
+                    <s:SmoothScrollViewer>
+                        <ui:GridView Margin="12,0,16,0" HorizontalAlignment="Left" SelectionMode="Single" ItemsSource="{Binding Bosses}">
+                            <ui:GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Background="{StaticResource SystemControlBackgroundChromeMediumBrush}" Width="103" ContextMenu="{StaticResource ItemMenu}">
+                                        <c:CachedImage Margin="6" Width="70" Height="70" ImageUrl="{Binding Source}"/>
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Text="{Binding Name}" Margin="0,0,0,6"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ui:GridView.ItemTemplate>
+                        </ui:GridView>
+                    </s:SmoothScrollViewer>
+                </Grid>
+            </TabItem>
         </TabControl>
         <ui:CommandBar Grid.Row="1" VerticalAlignment="Bottom">
             <ui:AppBarButton Label="添加" Icon="Add" Click="AddButton_Click"/>

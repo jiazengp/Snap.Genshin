@@ -8,7 +8,7 @@ using System.Windows.Controls;
 namespace DGP.Genshin.Pages
 {
     /// <summary>
-    /// ManagePage.xaml 的交互逻辑
+    /// we didn't use ICommand for some historic reason
     /// </summary>
     public partial class ManagePage : Page
     {
@@ -23,13 +23,45 @@ namespace DGP.Genshin.Pages
         {
             switch (((TabItem)TabHost.SelectedItem).Header)
             {
+                case "Boss材料":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "城市":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
                 case "角色":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "日常天赋":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "武器材料":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "精英怪物":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "区域材料":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
+                    break;
+                case "普通怪物":
                     CharacterEditDialog.DataContext = MetadataService.Instance;
                     await CharacterEditDialog.ShowAsync();
                     break;
                 case "武器":
                     WeaponEditDialog.DataContext = MetadataService.Instance;
                     await WeaponEditDialog.ShowAsync();
+                    break;
+                case "周常材料":
+                    CharacterEditDialog.DataContext = MetadataService.Instance;
+                    await CharacterEditDialog.ShowAsync();
                     break;
                 default:
                     break;
@@ -42,18 +74,12 @@ namespace DGP.Genshin.Pages
             switch (((TabItem)TabHost.SelectedItem).Header)
             {
                 case "角色":
-                    if (data.SelectedCharacter is not null)
-                    {
-                        data.Characters?.Remove(data.SelectedCharacter);
-                        data.SelectedCharacter = null;
-                    }
+                    data.Characters?.Remove(data.SelectedCharacter!);
+                    data.SelectedCharacter = null;
                     break;
                 case "武器":
-                    if (data.SelectedWeapon is not null)
-                    {
-                        data.Weapons?.Remove(data.SelectedWeapon);
-                        data.SelectedWeapon = null;
-                    }
+                    data.Weapons?.Remove(data.SelectedWeapon!);
+                    data.SelectedWeapon = null;
                     break;
                 default:
                     break;
