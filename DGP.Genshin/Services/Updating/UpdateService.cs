@@ -131,7 +131,7 @@ namespace DGP.Genshin.Services.Updating
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            data.Values["progressValueString"] = $@"{percent * 100}% - {bytesReceived / 1024}KB / {totalBytesToReceive / 1024}KB";
+            data.Values["progressValueString"] = $@"{percent:p2}% - {bytesReceived * 1.0 / 1024:p2}KB / {totalBytesToReceive * 1.0 / 1024:p2}KB";
             if (percent >= 1)
             {
                 data.Values["progressStatus"] = "下载完成";

@@ -40,7 +40,14 @@ namespace DGP.Genshin.Cookie
 
         private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            IsPrimaryButtonEnabled = InputText.Text.Contains("account_id");
+            bool inputEmpty = string.IsNullOrEmpty(InputText.Text);
+            bool inputHasAccountId = InputText.Text.Contains("account_id");
+            (PrimaryButtonText, IsPrimaryButtonEnabled) = (inputEmpty, inputHasAccountId) switch
+            {
+                (true, _) => ("请输入Cookie", false),
+                (false, true) => ("该Cookie无效", false),
+                (false, false) => ("确认", true)
+            };
         }
     }
 }

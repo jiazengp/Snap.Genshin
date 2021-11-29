@@ -281,6 +281,20 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }.ShowAsync();
             }
         }
+
+        public async Task ImportFromUIGFAsync(string path)
+        {
+            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGF(path)))
+            {
+                await new ContentDialog()
+                {
+                    Title = "导入祈愿记录失败",
+                    Content = "选择的Excel文件不是标准的可交换格式",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            }
+        }
         #endregion
     }
 }

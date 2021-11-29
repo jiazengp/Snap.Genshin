@@ -112,6 +112,7 @@
                             <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="从 Genshin Gacha Export 导入" Click="ImportFromGenshinGachaExportAppBarButtonClick" Icon="Import"/>
                             <ui:AppBarButton Label="从 刻记牛杂店 导入" Click="ImportFromKeqingNiuzaAppBarButtonClick" Icon="Import"/>
+                            <ui:AppBarButton Label="从 Excel 表格 导入 (实验性)" Click="ImportFromUIGFAppBarButtonClick" Icon="Import"/>
                             <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="导出到 Excel 表格" Click="ExportExcelAppBarButtonClick">
                                 <ui:AppBarButton.Icon>

@@ -89,6 +89,26 @@ namespace DGP.Genshin.Pages
             }
         }
 
+        private async void ImportFromUIGFAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Excel 工作簿|*.xlsx",
+                Title = "从 可交换统一格式祈愿记录工作簿 文件导入",
+                Multiselect = false,
+                CheckFileExists = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                this.Log("try to import from UIGF");
+
+                if (Service is not null)
+                {
+                    await Service.ImportFromUIGFAsync(openFileDialog.FileName);
+                }
+            }
+        }
+
         private async void ExportExcelAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new()

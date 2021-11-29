@@ -3,11 +3,13 @@ using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Compatibility;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace DGP.Genshin.Services.GachaStatistics
 {
@@ -21,6 +23,8 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         private readonly object exporting = new();
         private const string localFolder = "GachaStatistic";
+        private const string metadataSheetName = "原始数据";
+
         public GachaDataCollection Data { get; set; } = new();
 
         #region Initialization
@@ -84,6 +88,121 @@ namespace DGP.Genshin.Services.GachaStatistics
         #endregion
 
         #region import
+        public bool ImportFromUIGF(string filePath)
+        {
+            bool successful = true;
+            lock (exporting)
+            {
+                try
+                {
+                    using (FileStream fs = File.OpenRead(filePath))
+                    {
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (ExcelPackage package = new(fs))
+                        {
+                            ExcelWorksheets? sheets = package.Workbook.Worksheets;
+                            if (sheets.Any(s => s.Name == metadataSheetName))
+                            {
+                                ExcelWorksheet metadataSheet = sheets[metadataSheetName]!;
+                                
+                                int columnIndex = 1;
+                                Dictionary<string, int> PropertyColumn = new()
+                                {
+                                    { "uid", 0 },
+                                    { "gacha_type", 0 },
+                                    { "item_id", 0 },
+                                    { "count", 0 },
+                                    { "time", 0 },
+                                    { "name", 0 },
+                                    { "lang", 0 },
+                                    { "item_type", 0 },
+                                    { "rank_type", 0 },
+                                    { "id", 0 }
+                                };
+                                //detect column property name
+                                while (true)
+                                {
+                                    string header = metadataSheet.Cells[1,columnIndex].GetValue<string>();
+                                    if (header is null)
+                                    {
+                                        break;
+                                    }
+                                    PropertyColumn[header] = columnIndex;
+                                    columnIndex++;
+                                }
+                                int row = 2;
+                                List<GachaLogItem> gachaLogs = new();
+                                //read data
+                                while (true)
+                                {
+                                    this.Log(row);
+                                    if (metadataSheet.Cells[row, 1].Value == null)
+                                    {
+                                        break;
+                                    }
+                                    GachaLogItem item = new();
+                                    //reflection magic here.
+                                    foreach (var itemProperty in item.GetType().GetProperties())
+                                    {
+                                        if (itemProperty.GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName is string jsonPropertyName)
+                                        {
+                                            var targetColumn = PropertyColumn[jsonPropertyName];
+                                            if (columnIndex != 0)
+                                            {
+                                                if (itemProperty.Name == nameof(item.Time))
+                                                {
+                                                    DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, PropertyColumn[jsonPropertyName]].GetValue<string>());
+                                                    itemProperty.SetValue(item, value);
+                                                }
+                                                else
+                                                {
+                                                    itemProperty.SetValue(item, metadataSheet.Cells[row, PropertyColumn[jsonPropertyName]].Value);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    gachaLogs.Add(item);
+                                    row++;
+                                }
+
+                                ImportableGachaData importData = new();
+                                importData.Data = new();
+                                foreach (GachaLogItem item in gachaLogs)
+                                {
+                                    importData.Uid ??= item.Uid;
+                                    string? type = item.GachaType;
+                                    //refactor 400 type here to redirect list addition
+                                    type = type == "400" ? "301" : type;
+                                    _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
+                                    if (!importData.Data.ContainsKey(type))
+                                    {
+                                        importData.Data.Add(type, new());
+                                    }
+                                    importData.Data[type]!.Add(item);
+                                }
+                                foreach(var pair in importData.Data)
+                                {
+                                    importData.Data[pair.Key] = pair.Value?.OrderByDescending(x => x.Id).ToList();
+                                }
+                                ImportImportableGachaData(importData);
+                            }
+                            else
+                            {
+                                successful = false;
+                            }
+                        }
+                    } 
+                    SaveAllLogs();
+                }
+                catch (Exception ex)
+                {
+                    this.Log(ex);
+                    successful = false;
+                }
+            }
+            return successful;
+        }
+
         public bool ImportFromGenshinGachaExport(string filePath)
         {
             return ImportFromExternalData<GenshinGachaExportFile>(filePath, file =>
@@ -103,14 +222,14 @@ namespace DGP.Genshin.Services.GachaStatistics
                 foreach (GachaLogItem item in file)
                 {
                     importData.Uid ??= item.Uid;
-
                     string? type = item.GachaType;
+                    //refactor 400 type here to prevent 400 list creation
+                    type = type == "400" ? "301" : type;
                     _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
                     if (!importData.Data.ContainsKey(type))
                     {
                         importData.Data.Add(type, new());
                     }
-
                     importData.Data[type]!.Insert(0, item);
                 }
                 return importData;
@@ -158,7 +277,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 else
                 {
                     //is new uid
-                    Data[importable.Uid] = data;
+                    Data.Add(importable.Uid, data);
                 }
             }
             else
@@ -225,18 +344,18 @@ namespace DGP.Genshin.Services.GachaStatistics
                 if (Data.ContainsKey(uid))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                    //fs cant be disposed by excelpackage,so we need to dispose ourselves
+                    //FileStream can't be disposed by ExcelPackage,so we need to dispose it ourselves
                     using (FileStream fs = File.Create(fileName))
                     {
                         using (ExcelPackage package = new(fs))
                         {
                             foreach (string pool in Data[uid].Keys)
                             {
-                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(pool);
+                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
                                 IEnumerable<GachaLogItem>? logs = Data[uid][pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
-                                InitializeSheetHeader(sheet);
+                                InitializeGachaLogSheetHeader(sheet);
                                 FillSheetWithGachaData(sheet, logs);
                                 //freeze the title
                                 sheet.View.FreezePanes(2, 1);
@@ -246,24 +365,19 @@ namespace DGP.Genshin.Services.GachaStatistics
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";
-
                             package.Save();
                         }
                     }
                 }
             }
         }
-
         private void AddInterchangeableSheet(ExcelPackage package,GachaData data)
         {
-            ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add("Interchange");
+            ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add(metadataSheetName);
             //header
             InitializeInterchangeSheetHeader(interchangeSheet);
-            interchangeSheet.Cells[1, 1].Value = "time";
             IOrderedEnumerable<GachaLogItem> combinedLogs = data.SelectMany(x => x.Value ?? new()).OrderBy(x => x.Id);
             FillInterChangeSheet(interchangeSheet, combinedLogs);
-            interchangeSheet.Hidden = eWorkSheetHidden.VeryHidden;
-            interchangeSheet.Hidden = eWorkSheetHidden.Hidden;
         }
 
         private void InitializeInterchangeSheetHeader(ExcelWorksheet sheet)
@@ -280,7 +394,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             sheet.Cells[1, 10].Value = "id";
         }
 
-        private void InitializeSheetHeader(ExcelWorksheet sheet)
+        private void InitializeGachaLogSheetHeader(ExcelWorksheet sheet)
         {
             //header
             sheet.Cells[1, 1].Value = "时间";
@@ -288,7 +402,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             sheet.Cells[1, 3].Value = "物品类型";
             sheet.Cells[1, 4].Value = "星级";
             sheet.Cells[1, 5].Value = "祈愿类型";
-            sheet.Cells[1, 6].Value = "祈愿ID";
         }
 
         /// <summary>
@@ -311,9 +424,8 @@ namespace DGP.Genshin.Services.GachaStatistics
                     sheet.Cells[j, 3].Value = item.ItemType;
                     sheet.Cells[j, 4].Value = int.Parse(item.Rank!);
                     sheet.Cells[j, 5].Value = item.GachaType?.ToString();
-                    sheet.Cells[j, 6].Value = item.TimeId.ToString();
 
-                    using (ExcelRange range = sheet.Cells[j, 1, j, 6])
+                    using (ExcelRange range = sheet.Cells[j, 1, j, 5])
                     {
                         range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
                     }
@@ -321,8 +433,8 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
             //自适应
             sheet.Cells[1, 1, j, 6].AutoFitColumns(0);
-            sheet.IgnoredErrors.Add(sheet.Cells[1, 5, j, 6]);
         }
+
         /// <summary>
         /// 填充单个sheet
         /// </summary>
@@ -340,14 +452,14 @@ namespace DGP.Genshin.Services.GachaStatistics
                     j++;
                     sheet.Cells[j, 1].Value = item.Uid;
                     sheet.Cells[j, 2].Value = item.GachaType;
-                    sheet.Cells[j, 3].Value = "";
+                    sheet.Cells[j, 3].Value = string.Empty;
                     sheet.Cells[j, 4].Value = item.Count;
                     sheet.Cells[j, 5].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
                     sheet.Cells[j, 6].Value = item.Name;
                     sheet.Cells[j, 7].Value = item.Language;
                     sheet.Cells[j, 8].Value = item.ItemType;
-                    sheet.Cells[j, 9].Value = int.Parse(item.Rank!);
-                    sheet.Cells[j, 10].Value = item.TimeId.ToString();
+                    sheet.Cells[j, 9].Value = item.Rank;
+                    sheet.Cells[j, 10].Value = item.Id;
 
                     using (ExcelRange range = sheet.Cells[j, 1, j, 10])
                     {
@@ -358,6 +470,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             //自适应
             sheet.Cells[1, 1, j, 10].AutoFitColumns(0);
         }
+
         public System.Drawing.Color ToDrawingColor(int rank)
         {
             return rank switch

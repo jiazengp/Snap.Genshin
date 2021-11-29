@@ -274,7 +274,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
 
             foreach (string type in data.Keys)
             {
-                if (type is ConfigType.NoviceWishes)
+                if (type is ConfigType.NoviceWish)
                 {
                     //skip these banner
                     continue;

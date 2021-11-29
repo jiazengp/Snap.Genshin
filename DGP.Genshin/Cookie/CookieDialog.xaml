@@ -9,7 +9,7 @@
                   IsPrimaryButtonEnabled="False"
                   Title="设置米游社Cookie" 
                   DefaultButton="Primary" 
-                  PrimaryButtonText="确认" 
+                  PrimaryButtonText="请输入Cookie" 
                   CloseButtonText="取消">
     <StackPanel>
         <TextBox Margin="0,0,0,0" x:Name="InputText" TextChanged="InputText_TextChanged" 
@@ -24,8 +24,8 @@
         <TextBlock Text="5. 在左侧的列表中找到 ys/ 并单击" Style="{StaticResource BodyTextBlockStyle}"/>
         <TextBlock Text="6. 在右侧的信息中找到 Request Header(请求标头) 下的 Cookie" Style="{StaticResource BodyTextBlockStyle}"/>
         <TextBlock Text="7. 选择后右键复制值并粘贴至上方的文本框中" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Margin="0,8,0,0" Text="注意事项" VerticalAlignment="Center"  Style="{StaticResource BaseTextBlockStyle}"/>
-        <TextBlock Text="若在签到时发生了程序崩溃的问题" Margin="0,8,0,0" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="可以先尝试重新登录米游社及米哈游通行证以刷新 Cookie" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock Margin="0,8,0,8" Text="注意事项" VerticalAlignment="Center"  Style="{StaticResource BaseTextBlockStyle}"/>
+        <TextBlock Text="如果确认按钮未灰色，不可点击状态" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock Text="可以尝试重新登录米游社及米哈游通行证刷新 Cookie" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
     </StackPanel>
 </ui:ContentDialog>

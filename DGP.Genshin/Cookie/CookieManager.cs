@@ -20,10 +20,10 @@ namespace DGP.Genshin.Cookie
         private const string CookieFile = "cookie.dat";
         private const string CookieListFile = "cookielist.dat";
 
-        public static object _savingCookie = new();
-        public static object _savingCookies = new();
+        private readonly static object _savingCookie = new();
+        private readonly static object _savingCookies = new();
 
-        private static string? cookie;
+        private static string? currentCookie;
 
         /// <summary>
         /// 备选Cookie池
@@ -55,9 +55,9 @@ namespace DGP.Genshin.Cookie
                 File.Create(CookieFile).Dispose();
             }
 
-            if (cookie is not null)
+            if (currentCookie is not null)
             {
-                Cookies.AddOrIgnore(cookie);
+                Cookies.AddOrIgnore(currentCookie);
             }
         }
 
@@ -66,17 +66,17 @@ namespace DGP.Genshin.Cookie
         /// </summary>
         public static string CurrentCookie
         {
-            get => cookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
+            get => currentCookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
             private set
             {
-                if (cookie == value)
+                if (currentCookie == value)
                 {
                     return;
                 }
-                cookie = value;
-                if (!Cookies.Contains(cookie))
+                currentCookie = value;
+                if (!Cookies.Contains(currentCookie))
                 {
-                    Cookies.Add(cookie);
+                    Cookies.Add(currentCookie);
                 }
                 Logger.LogStatic("current cookie has changed");
                 CookieChanged?.Invoke();
@@ -87,7 +87,7 @@ namespace DGP.Genshin.Cookie
         /// 用于在初始化时判断Cookie是否可用
         /// </summary>
         public static bool IsCookieAvailable =>
-            !string.IsNullOrEmpty(cookie);
+            !string.IsNullOrEmpty(currentCookie);
 
         /// <summary>
         /// 设置新的Cookie
