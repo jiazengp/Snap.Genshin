@@ -45,8 +45,8 @@ namespace DGP.Genshin.Cookie
             (PrimaryButtonText, IsPrimaryButtonEnabled) = (inputEmpty, inputHasAccountId) switch
             {
                 (true, _) => ("请输入Cookie", false),
-                (false, true) => ("该Cookie无效", false),
-                (false, false) => ("确认", true)
+                (false, true) => ("确认", true),
+                (false, false) => ("该Cookie无效", false)
             };
         }
     }

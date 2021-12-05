@@ -112,9 +112,15 @@
                             <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="从 Genshin Gacha Export 导入" Click="ImportFromGenshinGachaExportAppBarButtonClick" Icon="Import"/>
                             <ui:AppBarButton Label="从 刻记牛杂店 导入" Click="ImportFromKeqingNiuzaAppBarButtonClick" Icon="Import"/>
-                            <ui:AppBarButton Label="从 Excel 表格 导入 (实验性)" Click="ImportFromUIGFAppBarButtonClick" Icon="Import"/>
+                            <ui:AppBarButton Label="从 UIGF 2.0 Json 文件导入 (实验性)" Click="ImportFromUIGFJAppBarButtonClick" Icon="Import"/>
+                            <ui:AppBarButton Label="从 UIGF 2.0 Excel 表格 导入 (实验性)" Click="ImportFromUIGFWAppBarButtonClick" Icon="Import"/>
                             <ui:AppBarSeparator/>
-                            <ui:AppBarButton Label="导出到 Excel 表格" Click="ExportExcelAppBarButtonClick">
+                            <ui:AppBarButton Label="导出到 UIGF 2.0 Excel 表格" Click="ExportExcelAppBarButtonClick">
+                                <ui:AppBarButton.Icon>
+                                    <ui:FontIcon Glyph="&#xEDE1;"/>
+                                </ui:AppBarButton.Icon>
+                            </ui:AppBarButton>
+                            <ui:AppBarButton Label="导出到 UIGF 2.0 Json 文件" Click="AppBarButton_Click">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>

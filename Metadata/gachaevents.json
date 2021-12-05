@@ -83,7 +83,7 @@
     ],
     "StartTime": "2020-09-28 06:00:00",
     "EndTime": "2020-10-18 17:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -169,7 +169,7 @@
     ],
     "StartTime": "2020-10-20 18:00:00",
     "EndTime": "2020-11-10 14:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -255,7 +255,7 @@
     ],
     "StartTime": "2020-11-11 06:00:00",
     "EndTime": "2020-12-01 15:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -341,7 +341,7 @@
     ],
     "StartTime": "2020-12-01 18:00:00",
     "EndTime": "2020-12-22 14:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -427,7 +427,7 @@
     ],
     "StartTime": "2020-12-23 06:00:00",
     "EndTime": "2021-01-12 15:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -513,7 +513,7 @@
     ],
     "StartTime": "2021-01-12 18:00:00",
     "EndTime": "2021-02-02 15:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -599,36 +599,36 @@
     ],
     "StartTime": "2021-02-03 06:00:00",
     "EndTime": "2021-02-23 15:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
     "UpStar5List": [
       {
         "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-        "Source": "https://genshin.honeyhunterworld.com/img/char/xiao_face.png",
-        "Name": "魈",
-        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png"
+        "Source": "https://genshin.honeyhunterworld.com/img/char/keqing_face.png",
+        "Name": "刻晴",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png"
       }
     ],
     "UpStar4List": [
       {
         "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-        "Source": "https://genshin.honeyhunterworld.com/img/char/diona_face.png",
-        "Name": "迪奥娜",
-        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"
+        "Source": "https://genshin.honeyhunterworld.com/img/char/ningguang_face.png",
+        "Name": "凝光",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/geo.png"
       },
       {
         "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-        "Source": "https://genshin.honeyhunterworld.com/img/char/beidou_face.png",
-        "Name": "北斗",
-        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png"
-      },
-      {
-        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-        "Source": "https://genshin.honeyhunterworld.com/img/char/xinyan_face.png",
-        "Name": "辛焱",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/bennett_face.png",
+        "Name": "班尼特",
         "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/barbara_face.png",
+        "Name": "芭芭拉",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png"
       }
     ],
     "StartTime": "2021-02-17 18:00:00",
@@ -685,7 +685,7 @@
     ],
     "StartTime": "2021-02-23 18:00:00",
     "EndTime": "2021-03-16 14:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -805,7 +805,7 @@
     ],
     "StartTime": "2021-03-17 06:00:00",
     "EndTime": "2021-04-06 15:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -1751,7 +1751,7 @@
     ],
     "StartTime": "2021-11-02 18:00:00",
     "EndTime": "2021-11-23 14:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   },
   {
     "Type": "301",
@@ -1871,6 +1871,6 @@
     ],
     "StartTime": "2021-11-24 06:00:00",
     "EndTime": "2021-12-14 17:59:59",
-    "CurrentName": "神铸赋型"
+    "CurrentName": "神铸赋形"
   }
 ]

@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace DGP.Genshin.Services.GachaStatistics
 {
@@ -27,14 +28,20 @@ namespace DGP.Genshin.Services.GachaStatistics
         public GachaStatisticService()
         {
             gachaDataCollection.UidAdded += GachaDataCollectionUidAdded;
+            gachaDataCollection.UidSyncRequested += GachaDataCollectionUidSyncRequested;
             localGachaLogWorker = new(gachaDataCollection);
             this.Log("initialized");
+        }
+
+        private void GachaDataCollectionUidSyncRequested(string uid)
+        {
+            SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
         }
 
         private void GachaDataCollectionUidAdded(string uid)
         {
             bool showFullUid = Settings.SettingService.Instance.GetOrDefault(Settings.Setting.ShowFullUID, false);
-            Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid));
+            App.Current.Dispatcher.Invoke(() => Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid)));
         }
 
         public void Initialize()
@@ -114,8 +121,15 @@ namespace DGP.Genshin.Services.GachaStatistics
             return url is null ? null : (new(url, gachaDataCollection));
         }
 
+        private bool isSyncingUid = false;
+
         public async void SyncStatisticWithUid()
         {
+            if (isSyncingUid)
+            {
+                return;
+            }
+            isSyncingUid = true;
             await Task.Run(() =>
             {
                 if (SelectedUid is null)
@@ -129,6 +143,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                     SelectedSpecificBanner = Statistic.SpecificBanners.First();
                 }
             });
+            isSyncingUid = false;
         }
 
         
@@ -198,6 +213,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             {
                 SelectedUid = Uids.FirstOrDefault(uid => uid.UnMaskedValue == worker.WorkingUid);
             }
+            CanUserSwitchUid = false;
             return isGachaConfigAvailable;
         }
 
@@ -254,6 +270,15 @@ namespace DGP.Genshin.Services.GachaStatistics
             await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(selectedUid.UnMaskedValue, path));
         }
 
+        public async Task ExportDataToJsonAsync(string path)
+        {
+            if (selectedUid is null)
+            {
+                throw new InvalidOperationException("无UID");
+            }
+            await Task.Run(() => localGachaLogWorker.ExportToUIGFJ(selectedUid.UnMaskedValue, path));
+        }
+
         public async Task ImportFromGenshinGachaExportAsync(string path)
         {
             if (!await Task.Run(() => localGachaLogWorker.ImportFromGenshinGachaExport(path)))
@@ -282,14 +307,28 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
-        public async Task ImportFromUIGFAsync(string path)
+        public async Task ImportFromUIGFWAsync(string path)
         {
-            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGF(path)))
+            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGFW(path)))
             {
                 await new ContentDialog()
                 {
                     Title = "导入祈愿记录失败",
                     Content = "选择的Excel文件不是标准的可交换格式",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            }
+        }
+
+        public async Task ImportFromUIGFJAsync(string path)
+        {
+            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGFJ(path)))
+            {
+                await new ContentDialog()
+                {
+                    Title = "导入祈愿记录失败",
+                    Content = "选择的Json文件不是标准的可交换格式",
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
