@@ -35,6 +35,5 @@ namespace DGP.Genshin.Services.GameRecord
         public SpiralAbyss? SpiralAbyss { get; set; }
         public SpiralAbyss? LastSpiralAbyss { get; set; }
         public List<DetailedAvatar>? DetailedAvatars { get; set; }
-        public dynamic? Activities { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
+using DGP.Genshin.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -63,7 +64,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record("不支持查询此UID");
                 }
 
-                RecordProgressed?.Invoke("正在获取 玩家基础统计信息 (1/5)");
+                RecordProgressed?.Invoke("正在获取 玩家基础统计信息 (1/4)");
                 PlayerInfo? playerInfo = await recordProvider.GetPlayerInfoAsync(uid, server);
                 if (playerInfo is null)
                 {
@@ -71,7 +72,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取玩家基本信息失败");
                 }
 
-                RecordProgressed?.Invoke("正在获取 本期深境螺旋信息 (2/5)");
+                RecordProgressed?.Invoke("正在获取 本期深境螺旋信息 (2/4)");
                 SpiralAbyss? spiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 1);
                 if (spiralAbyss is null)
                 {
@@ -79,7 +80,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取本期深境螺旋信息失败");
                 }
 
-                RecordProgressed?.Invoke("正在获取 上期深境螺旋信息 (3/5)");
+                RecordProgressed?.Invoke("正在获取 上期深境螺旋信息 (3/4)");
                 SpiralAbyss? lastSpiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 2);
                 if (lastSpiralAbyss is null)
                 {
@@ -87,16 +88,9 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record($"获取上期深境螺旋信息失败");
                 }
 
-                RecordProgressed?.Invoke("正在获取 活动挑战信息 (4/5)");
-                dynamic? activitiesInfo = await recordProvider.GetActivitiesAsync(uid, server);
-                if (activitiesInfo is null)
-                {
-                    RecordProgressed?.Invoke(null);
-                    return new Record($"获取活动信息失败");
-                }
-
-                RecordProgressed?.Invoke("正在获取 详细角色信息 (5/5)");
-                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
+                RecordProgressed?.Invoke("正在获取 详细角色信息 (4/4)");
+                bool bypass = SettingService.Instance.GetOrDefault(Setting.BypassCharactersLimit, false);
+                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo, bypass);
                 if (detailedAvatarInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -112,8 +106,7 @@ namespace DGP.Genshin.Services.GameRecord
                     PlayerInfo = playerInfo,
                     SpiralAbyss = spiralAbyss,
                     LastSpiralAbyss = lastSpiralAbyss,
-                    DetailedAvatars = detailedAvatarInfo.Avatars,
-                    Activities = activitiesInfo
+                    DetailedAvatars = detailedAvatarInfo.Avatars
                 };
             });
             IsQuerying = false;

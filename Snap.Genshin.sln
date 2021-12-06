@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin", "DGP.Genshin\DGP.Genshin.csproj", "{E4FAC04F-49B9-42AA-B31E-6C7A0DBEB1FD}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Common", "DGP.G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.DataViewer", "DGP.Genshin.DataViewer\DGP.Genshin.DataViewer.csproj", "{BF5C9943-4E48-4680-BA17-980B7E9B99D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.Mate", "DGP.Genshin.Mate\DGP.Genshin.Mate.csproj", "{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Mate", "DGP.Genshin.Mate\DGP.Genshin.Mate.csproj", "{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

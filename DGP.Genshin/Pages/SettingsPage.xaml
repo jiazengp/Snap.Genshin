@@ -67,9 +67,15 @@
                     <Expander.Header>
                         <TextBlock Text="数据与隐私" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
-                    <StackPanel>
-                        <ui:ToggleSwitch Margin="0,0,0,0" Header="祈愿记录显示完整的UID" IsOn="{Binding SettingModel.ShowFullUID}"/>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ui:ToggleSwitch Grid.Column="0" Header="祈愿记录显示完整的UID" IsOn="{Binding SettingModel.ShowFullUID}"/>
+                        <ui:ToggleSwitch Grid.Column="1" Header="绕过玩家查询角色数量限制(实验性)" IsOn="{Binding SettingModel.BypassCharactersLimit}"/>
+                    </Grid>
                 </Expander>
                 <Expander Margin="12,12,16,0">
                     <Expander.Header>

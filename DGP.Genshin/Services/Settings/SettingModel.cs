@@ -32,6 +32,9 @@ namespace DGP.Genshin.Services.Settings
                 case Setting.SignInSilently:
                     SignInSilently = value is not null && (bool)value;
                     break;
+                case Setting.BypassCharactersLimit:
+                    BypassCharactersLimit = value is not null && (bool)value;
+                    break;
                 default:
                     break;
             }
@@ -41,6 +44,7 @@ namespace DGP.Genshin.Services.Settings
         private bool autoDailySignInOnLaunch;
         private bool skipCacheCheck;
         private bool signInSilently;
+        private bool bypassCharactersLimit;
 
         public bool ShowFullUID
         {
@@ -78,6 +82,15 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
+        public bool BypassCharactersLimit
+        {
+            get => bypassCharactersLimit; set
+            {
+                SettingService.Instance.SetValueInternal(Setting.BypassCharactersLimit, value);
+                Set(ref bypassCharactersLimit, value);
+            }
+        }
+
         private void Initialize()
         {
             SettingService service = SettingService.Instance;
@@ -86,12 +99,14 @@ namespace DGP.Genshin.Services.Settings
             autoDailySignInOnLaunch = service.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
             skipCacheCheck = service.GetOrDefault(Setting.SkipCacheCheck, false);
             signInSilently = service.GetOrDefault(Setting.SignInSilently, false);
+            bypassCharactersLimit = service.GetOrDefault(Setting.BypassCharactersLimit, false);
         }
 
         #region 单例
         private static volatile SettingModel? instance;
         [SuppressMessage("", "IDE0044")]
         private static object _locker = new();
+
         private SettingModel()
         {
             Initialize();
