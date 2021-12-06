@@ -51,11 +51,7 @@
 > 展示角色/武器/常驻祈愿的统计信息  
 > 展示累计获得的物品 分祈愿展示累积获得的物品
 
-> 支持导出到 Excel  
-> 支持导出文件在 [voderl/genshin-gacha-analyzer](https://github.com/voderl/genshin-gacha-analyzer)进行分析
-
-> 支持从 [sunfkny/genshin-gacha-export](https://github.com/sunfkny/genshin-gacha-export) 导入  
-> 支持从 [Scighost/KeqingNiuza](https://github.com/Scighost/KeqingNiuza) 导入
+> [UIGF v2.0 格式](https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat) 支持
 
 ![祈愿记录](/Design/ImgAssets/gacha.png)
 
@@ -63,7 +59,7 @@
 
 > 按UID查询玩家信息  
 > 展示全角色等级武器圣遗物命座信息  
-> 展示玩家基础信息、世界探索、尘歌壶、深境螺旋、活动信息  
+> 展示玩家基础信息、世界探索、尘歌壶、深境螺旋信息
 
 ![record.png](/Design/ImgAssets/record.png)
 
