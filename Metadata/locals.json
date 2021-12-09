@@ -1,174 +1,149 @@
 [
   {
-    "City": null,
     "Name": "清心",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Qingxin",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_614.png"
   },
   {
-    "City": null,
     "Name": "石珀",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_CorLapis",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_602.png"
   },
   {
-    "City": null,
     "Name": "绝云椒椒",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_JueyunChili",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_605.png"
   },
   {
-    "City": null,
     "Name": "慕风蘑菇",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_PhilanemoMushroom",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_607.png"
   },
   {
-    "City": null,
     "Name": "霓裳花",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_SilkFlower",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_608.png"
   },
   {
-    "City": null,
     "Name": "嘟嘟莲",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_CallaLily",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_600.png"
   },
   {
-    "City": null,
     "Name": "星螺",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Starconch",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_663.png"
   },
   {
-    "City": null,
     "Name": "蒲公英种子",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_DandelionSeed",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_603.png"
   },
   {
-    "City": null,
     "Name": "琉璃百合",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_GlazeLily",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_604.png"
   },
   {
-    "City": null,
     "Name": "海灵芝",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_SeaGanoderma",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_675.png"
   },
   {
-    "City": null,
     "Name": "夜泊石",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_NoctilucousJade",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_606.png"
   },
   {
-    "City": null,
     "Name": "小灯草",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_SmallLampGrass",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_609.png"
   },
   {
-    "City": null,
     "Name": "琉璃袋",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Violetgrass",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_611.png"
   },
   {
-    "City": null,
     "Name": "钩钩果",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Wolfhook",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_613.png"
   },
   {
-    "City": null,
     "Name": "绯樱绣球",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_SakuraBloom",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_678.png"
   },
   {
-    "City": null,
     "Name": "塞西莉亚花",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Cecilia",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_601.png"
   },
   {
-    "City": null,
     "Name": "鸣草",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_NakuWeed",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_681.png"
   },
   {
-    "City": null,
     "Name": "风车菊",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_WindwheelAster",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_612.png"
   },
   {
-    "City": null,
     "Name": "落落莓",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Valberry",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_610.png"
   },
   {
-    "City": null,
     "Name": "晶化骨髓",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_CrystalMarrow",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_679.png"
   },
   {
-    "City": null,
     "Name": "血斛",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Dendrobium",
     "Source": "https://genshin.honeyhunterworld.com/img/ingredient/i_680.png"
   },
   {
-    "City": null,
     "Name": "天云草实",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_TenkumoFruit",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_686.png"
   },
   {
-    "City": null,
     "Name": "珊瑚真珠",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_SangoPearl",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_685.png"
   },
   {
-    "City": null,
     "Name": "幽灯蕈",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_FluorescentFungus",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_688.png"
   },
   {
-    "City": null,
     "Name": "鬼兜虫",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
     "Key": "Local_Onikabuto",

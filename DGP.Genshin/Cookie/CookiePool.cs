@@ -36,7 +36,7 @@ namespace DGP.Genshin.Cookie
         /// <param name="cookie"></param>
         public void AddOrIgnore(string cookie)
         {
-            if (GetCookiePairs(cookie).TryGetValue("account_id",out string? id))
+            if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
             {
                 if (!AccountIds.Contains(id))
                 {

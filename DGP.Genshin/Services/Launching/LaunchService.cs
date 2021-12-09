@@ -96,7 +96,7 @@ namespace DGP.Genshin.Services.Launching
                         FileName = gamePath,
                         Verb = "runas",
                         UseShellExecute = true,
-                        Arguments = $"{(IsBorderless? "-popupwindow ":"")}-screen-fullscreen {(IsFullScreen?1:0)}"
+                        Arguments = $"{(IsBorderless ? "-popupwindow " : "")}-screen-fullscreen {(IsFullScreen ? 1 : 0)}"
                     };
                     Process? p = Process.Start(info);
                 }

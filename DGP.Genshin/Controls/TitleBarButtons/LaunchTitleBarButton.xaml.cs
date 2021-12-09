@@ -3,6 +3,7 @@ using DGP.Genshin.Services.Settings;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             }
         }
 
-        private void LaunchTitleBarButtonClick(object sender, RoutedEventArgs e)
+        private async void LaunchTitleBarButtonClick(object sender, RoutedEventArgs e)
         {
             string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
             launcherPath = SelectLaunchDirectory(launcherPath);
@@ -76,7 +77,12 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             }
             else
             {
-                //TODO remind user to select correct exe.
+                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                {
+                    Title = "打开面板失败",
+                    Content = "我们需要启动器的路径才能正常启动游戏。",
+                    PrimaryButtonText = "确定"
+                }.ShowAsync).Task.Unwrap();
             }
         }
 
@@ -86,6 +92,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             {
                 OpenFileDialog openFileDialog = new()
                 {
+                    InitialDirectory= Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                     Filter = "启动器|launcher.exe|快捷方式|*.lnk",
                     Title = "选择启动器文件",
                     CheckPathExists = true,
@@ -113,7 +120,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private async void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Launcher is not null && Launcher.SelectedAccount is not null)
+            if (Launcher is not null && Launcher.SelectedAccount is not null)
             {
                 if (Launcher.Accounts.Count <= 1)
                 {
@@ -121,7 +128,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                     {
                         Title = "删除账户失败",
-                        Content = "我们需要至少一组信息才能使程序正常启动游戏。",
+                        Content = "我们需要至少一组信息才能正常启动游戏。",
                         PrimaryButtonText = "确定"
                     }.ShowAsync).Task.Unwrap();
                     return;

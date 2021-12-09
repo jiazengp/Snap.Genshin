@@ -20,8 +20,8 @@ namespace DGP.Genshin.Mate
         public void SetOnDesktop()
         {
             IntPtr hWnd = new WindowInteropHelper(this).Handle;
-            IntPtr hWndProgMan = User32.FindWindow("Progman", "Program Manager");
-            User32.SetParent(hWnd, hWndProgMan);
+            IntPtr hWndWorkerW = User32.FindWindow("WorkerW", "");
+            User32.SetParent(hWnd, hWndWorkerW);
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)

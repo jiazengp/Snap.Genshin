@@ -74,6 +74,9 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
 
+                <ui:NavigationViewItemHeader Content="计算"/>
+                <ui:NavigationViewItem Content="养成计算器" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
+
                 <ui:NavigationViewItemHeader Content="高级"/>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 <ui:NavigationViewItem Content="天空岛数据库" helpers:NavHelper.NavigateTo="{x:Type pages:CelestiaDatabasePage}">

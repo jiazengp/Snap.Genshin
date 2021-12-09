@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        Height="576" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Height="576" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        LostFocus="Window_LostFocus">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"/>

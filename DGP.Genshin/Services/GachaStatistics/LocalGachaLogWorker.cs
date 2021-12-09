@@ -131,7 +131,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 successful = false;
                             }
                         }
-                    } 
+                    }
                     SaveAllLogs();
                 }
                 catch (Exception ex)
@@ -160,7 +160,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }
                 importData.Data[type]!.Add(item);
             }
-            foreach (var pair in importData.Data)
+            foreach (KeyValuePair<string, List<GachaLogItem>?> pair in importData.Data)
             {
                 importData.Data[pair.Key] = pair.Value?.OrderByDescending(x => x.Id).ToList();
             }
@@ -182,7 +182,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }
                 GachaLogItem item = new();
                 //reflection magic here.
-                foreach (var itemProperty in item.GetType().GetProperties())
+                foreach (PropertyInfo? itemProperty in item.GetType().GetProperties())
                 {
                     //match json property name
                     if (itemProperty.GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName is string jsonPropertyName)
@@ -235,7 +235,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
                 ImportableGachaData importData = new();
                 importData.Data = new();
-                if(file.List is not null)
+                if (file.List is not null)
                 {
                     foreach (GachaLogItem? item in file.List)
                     {
@@ -333,8 +333,11 @@ namespace DGP.Genshin.Services.GachaStatistics
                     //we need to perform merge operation
                     foreach (KeyValuePair<string, List<GachaLogItem>?> pool in data)
                     {
+                        this.Log(importable);
                         TrimToBackIncrement(importable.Uid, pool.Key, pool.Value);
+                        this.Log(importable);
                         MergeBackIncrement(importable.Uid, pool.Key, pool.Value ?? new());
+                        this.Log(importable);
                     }
                 }
                 else
@@ -360,16 +363,24 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <returns>经过修改的原列表</returns>
         private void TrimToBackIncrement(string uid, string poolType, List<GachaLogItem>? importList)
         {
-            GachaData one = Data[uid];
-            List<GachaLogItem>? currentItems = one[poolType];
+            GachaData source = Data[uid];
+            List<GachaLogItem>? sourceItems = source[poolType];
 
-            if (currentItems?.Count > 0)
+            if (sourceItems?.Count > 0)
             {
+                long sourceLastTimeId = sourceItems.Last().TimeId;
                 //首个比当前最后的物品id早的物品
-                long lastTimeId = currentItems.Last().TimeId;
-                int? index = importList?.FindIndex(i => i.TimeId < lastTimeId);
+                int? index = importList?.FindIndex(i => i.TimeId < sourceLastTimeId);
+                //fix repeat item issues
                 if (index < 0)
                 {
+                    //查找相等
+                    index = importList?.FindIndex(i => i.TimeId == sourceLastTimeId);
+                    if (index < 0)
+                    {
+                        return;
+                    }
+                    importList?.RemoveRange(0, index!.Value + 1);
                     return;
                 }
                 //修改了原先的列表
@@ -446,7 +457,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 sheet.View.FreezePanes(2, 1);
                             }
 
-                            AddInterchangeableSheet(package,Data[uid]);
+                            AddInterchangeableSheet(package, Data[uid]);
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";
@@ -456,7 +467,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                 }
             }
         }
-        private void AddInterchangeableSheet(ExcelPackage package,GachaData data)
+        private void AddInterchangeableSheet(ExcelPackage package, GachaData data)
         {
             ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add(metadataSheetName);
             //header

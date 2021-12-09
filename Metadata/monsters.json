@@ -1,62 +1,53 @@
 [
   {
-    "City": null,
     "Name": "史莱姆",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Slime",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
   },
   {
-    "City": null,
     "Name": "刀镡",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Handguard",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
   },
   {
-    "City": null,
     "Name": "鸦印",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_RavenInsignia",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
   },
   {
-    "City": null,
     "Name": "花蜜",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Nectar",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
   },
   {
-    "City": null,
     "Name": "箭簇",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Arrowhead",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
   },
   {
-    "City": null,
     "Name": "徽记",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Insignia",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
   },
   {
-    "City": null,
     "Name": "面具",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Mask",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
   },
   {
-    "City": null,
     "Name": "绘卷",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Scroll",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
   },
   {
-    "City": null,
     "Name": "浮游",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
     "Key": "Monster_Spectral",

@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Services;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
@@ -30,7 +29,6 @@ namespace DGP.Genshin.Pages
         {
             DataContext = null;
             this.Log("uninitialized");
-            GC.Collect(GC.MaxGeneration);
             base.OnNavigatedFrom(e);
         }
 

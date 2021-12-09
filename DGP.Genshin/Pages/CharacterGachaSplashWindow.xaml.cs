@@ -19,5 +19,10 @@ namespace DGP.Genshin.Pages
         }
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(string), typeof(CharacterGachaSplashWindow));
+
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

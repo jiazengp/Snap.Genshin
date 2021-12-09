@@ -14,14 +14,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos2",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -43,21 +41,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "狼的末路",
@@ -76,21 +69,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "和璞鸢",
@@ -109,21 +97,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "护摩之杖",
@@ -142,21 +125,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "苍古自由之誓",
@@ -179,14 +157,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "浮游",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Spectral",
@@ -208,21 +184,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "四风原典",
@@ -241,21 +212,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "天空之傲",
@@ -274,21 +240,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "无工之剑",
@@ -307,21 +268,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "贯虹之槊",
@@ -340,21 +296,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "终末嗟叹之诗",
@@ -373,21 +324,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "松籁响起之时",
@@ -406,21 +352,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "斫峰之刃",
@@ -439,21 +380,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "风鹰剑",
@@ -472,21 +408,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "尘世之锁",
@@ -505,21 +436,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "阿莫斯之弓",
@@ -538,21 +464,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "天空之卷",
@@ -571,21 +492,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "磐岩结绿",
@@ -604,21 +520,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "天空之脊",
@@ -637,21 +548,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "天空之刃",
@@ -670,21 +576,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "天空之翼",
@@ -707,14 +608,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Arrowhead",
@@ -740,14 +639,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos2",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -773,14 +670,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
     },
     "Elite": {
-      "City": null,
       "Name": "隐兽",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Concealed",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
     },
     "Monster": {
-      "City": null,
       "Name": "浮游",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Spectral",
@@ -806,14 +701,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "隐兽",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Concealed",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -839,14 +732,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_MistGrass",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Nectar",
@@ -868,21 +759,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "宗室长弓",
@@ -901,21 +787,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "笛剑",
@@ -934,21 +815,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "忍冬之果",
@@ -967,21 +843,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "匣里日月",
@@ -1000,21 +871,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "千岩长枪",
@@ -1033,21 +899,16 @@
       "City": "Inazuma",
       "Name": "远海夷地",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
     },
     "Name": "天目影打刀",
@@ -1066,21 +927,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "西风猎弓",
@@ -1099,21 +955,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "弓藏",
@@ -1132,21 +983,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "试作金珀",
@@ -1165,21 +1011,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "流月针",
@@ -1202,17 +1043,13 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "祭礼残章",
@@ -1231,21 +1068,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "黑岩刺枪",
@@ -1264,21 +1096,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "西风长枪",
@@ -1297,21 +1124,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "试作古华",
@@ -1330,21 +1152,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "黑岩绯玉",
@@ -1363,21 +1180,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "祭礼大剑",
@@ -1396,21 +1208,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "雪葬的星银",
@@ -1429,21 +1236,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "流浪乐章",
@@ -1462,21 +1264,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "雨裁",
@@ -1495,21 +1292,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "试作星镰",
@@ -1528,21 +1320,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "腐殖之剑",
@@ -1561,21 +1348,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "黑岩战弓",
@@ -1594,21 +1376,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "西风秘典",
@@ -1627,21 +1404,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "钢轮弓",
@@ -1660,21 +1432,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "苍翠猎弓",
@@ -1693,21 +1460,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "铁蜂刺",
@@ -1726,21 +1488,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "西风剑",
@@ -1759,21 +1516,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "黑岩斩刀",
@@ -1792,21 +1544,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "暗巷的酒与诗",
@@ -1825,21 +1572,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "西风大剑",
@@ -1858,21 +1600,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "黑剑",
@@ -1891,21 +1628,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "螭骨剑",
@@ -1924,21 +1656,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "万国诸海图谱",
@@ -1957,21 +1684,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "匣里灭辰",
@@ -1994,14 +1716,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Slime",
@@ -2023,21 +1743,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "试作斩岩",
@@ -2056,21 +1771,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "宗室猎枪",
@@ -2089,21 +1799,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "绝弦",
@@ -2122,21 +1827,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "祭礼弓",
@@ -2155,21 +1855,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "宗室秘法录",
@@ -2188,21 +1883,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "龙脊长枪",
@@ -2221,21 +1911,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "试作澹月",
@@ -2254,21 +1939,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "宗室长剑",
@@ -2287,21 +1967,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "祭礼剑",
@@ -2320,21 +1995,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "降临之剑",
@@ -2353,21 +2023,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "黑岩长剑",
@@ -2390,14 +2055,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Horn",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Scroll",
@@ -2419,21 +2082,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "决斗之枪",
@@ -2452,21 +2110,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "昭心",
@@ -2485,21 +2138,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "匣里龙吟",
@@ -2518,21 +2166,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "宗室大剑",
@@ -2551,21 +2194,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "白影剑",
@@ -2584,21 +2222,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "钟剑",
@@ -2617,21 +2250,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "千岩古剑",
@@ -2654,14 +2282,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos2",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -2687,14 +2313,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos2",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_RavenInsignia",
@@ -2720,14 +2344,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_LeyLine",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Nectar",
@@ -2753,14 +2375,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Horn",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_RavenInsignia",
@@ -2786,14 +2406,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Arrowhead",
@@ -2819,14 +2437,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_LeyLine",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Mask",
@@ -2852,14 +2468,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Scroll",
@@ -2885,14 +2499,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_BoneShard",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Slime",
@@ -2918,14 +2530,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌2",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos2",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_173.png"
     },
     "Monster": {
-      "City": null,
       "Name": "浮游",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Spectral",
@@ -2951,14 +2561,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Arrowhead",
@@ -2984,14 +2592,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
     },
     "Elite": {
-      "City": null,
       "Name": "隐兽",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Concealed",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -3017,14 +2623,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
     },
     "Elite": {
-      "City": null,
       "Name": "隐兽",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Concealed",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
     },
     "Monster": {
-      "City": null,
       "Name": "刀镡",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Handguard",
@@ -3050,14 +2654,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
     },
     "Elite": {
-      "City": null,
       "Name": "棱镜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Prism",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_183.png"
     },
     "Monster": {
-      "City": null,
       "Name": "浮游",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Spectral",
@@ -3083,14 +2685,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Mask",
@@ -3112,21 +2712,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "沐浴龙血的剑",
@@ -3145,21 +2740,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "神射手之誓",
@@ -3178,21 +2768,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "甲级宝钰",
@@ -3211,21 +2796,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "飞天大御剑",
@@ -3244,21 +2824,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "魔导绪论",
@@ -3277,21 +2852,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_23.png"
     },
     "Name": "黎明神剑",
@@ -3310,21 +2880,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "鸦羽弓",
@@ -3343,21 +2908,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "以理服人",
@@ -3376,21 +2936,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "铁影阔剑",
@@ -3409,21 +2964,16 @@
       "City": "Liyue",
       "Name": "漆黑陨铁",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "飞天御剑",
@@ -3442,21 +2992,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "弹弓",
@@ -3475,21 +3020,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "翡玉法球",
@@ -3508,21 +3048,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "旅行剑",
@@ -3541,21 +3076,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "反曲弓",
@@ -3574,21 +3104,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "吃虎鱼刀",
@@ -3611,14 +3136,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_554.png"
     },
     "Elite": {
-      "City": null,
       "Name": "骨片",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_BoneShard",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_143.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Arrowhead",
@@ -3640,21 +3163,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "暗铁剑",
@@ -3673,21 +3191,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "鸦印",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_123.png"
     },
     "Name": "信使",
@@ -3706,21 +3219,16 @@
       "City": "Liyue",
       "Name": "雾海云间",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_534.png"
     },
     "Elite": {
-      "City": null,
       "Name": "雾虚",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_93.png"
     },
     "Monster": {
-      "City": null,
       "Name": "花蜜",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_133.png"
     },
     "Name": "钺矛",
@@ -3739,21 +3247,16 @@
       "City": "Mondstadt",
       "Name": "高塔孤王",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_504.png"
     },
     "Elite": {
-      "City": null,
       "Name": "号角",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_63.png"
     },
     "Monster": {
-      "City": null,
       "Name": "箭簇",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_53.png"
     },
     "Name": "冷刃",
@@ -3772,21 +3275,16 @@
       "City": "Mondstadt",
       "Name": "凛风奔狼",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_524.png"
     },
     "Elite": {
-      "City": null,
       "Name": "地脉",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_73.png"
     },
     "Monster": {
-      "City": null,
       "Name": "绘卷",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_43.png"
     },
     "Name": "讨龙英杰谭",
@@ -3805,21 +3303,16 @@
       "City": "Liyue",
       "Name": "孤云寒林",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_514.png"
     },
     "Elite": {
-      "City": null,
       "Name": "祭刀",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_103.png"
     },
     "Monster": {
-      "City": null,
       "Name": "徽记",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_113.png"
     },
     "Name": "白缨枪",
@@ -3838,21 +3331,16 @@
       "City": "Mondstadt",
       "Name": "狮牙斗士",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "面具",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
-      "Key": null,
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_33.png"
     },
     "Name": "异世界行记",
@@ -3875,14 +3363,12 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_544.png"
     },
     "Elite": {
-      "City": null,
       "Name": "混沌",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
       "Key": "Elite_Chaos",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_83.png"
     },
     "Monster": {
-      "City": null,
       "Name": "史莱姆",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
       "Key": "Monster_Slime",

@@ -8,7 +8,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace DGP.Genshin.Services.GachaStatistics
 {
@@ -146,7 +145,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             isSyncingUid = false;
         }
 
-        
+
 
         public async Task RefreshAsync(GachaLogUrlMode mode, bool full = false)
         {
@@ -209,7 +208,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             //unlock here to make uid switchable
             CanUserSwitchUid = true;
 
-            if (Statistic != null&& isGachaConfigAvailable)
+            if (Statistic != null && isGachaConfigAvailable)
             {
                 SelectedUid = Uids.FirstOrDefault(uid => uid.UnMaskedValue == worker.WorkingUid);
             }
