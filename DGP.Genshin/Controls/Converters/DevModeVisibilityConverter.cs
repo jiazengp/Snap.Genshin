@@ -6,6 +6,9 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Controls.Converters
 {
+    /// <summary>
+    /// 开发模式专用可见性转换器
+    /// </summary>
     public class DevModeVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

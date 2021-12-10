@@ -9,15 +9,16 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 {
     /// <summary>
     /// 用来在 <see cref="Border"/> 上设置异步设置 <see cref="Border.Background"/>
+    /// 实现了图片缓存，因为只有Border可以较为便捷的设置角落弧度
     /// </summary>
     public class ImageAsyncHelper : DependencyObject
     {
-        public static string GetImageUrl(DependencyObject obj)
+        public static string GetImageUrl(Border obj)
         {
             return (string)obj.GetValue(ImageUrlProperty);
         }
 
-        public static void SetImageUrl(DependencyObject obj, Uri value)
+        public static void SetImageUrl(Border obj, Uri value)
         {
             obj.SetValue(ImageUrlProperty, value);
         }
@@ -45,22 +46,22 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     ((Border)obj).Background = new ImageBrush()
                     {
                         ImageSource = bitmapImage,
-                        Stretch = GetStretchMode(obj)
+                        Stretch = GetStretchMode((Border)obj)
                     };
                 }
             });
 
-        public static Stretch GetStretchMode(DependencyObject obj)
+        public static Stretch GetStretchMode(Border obj)
         {
             return (Stretch)obj.GetValue(StretchModeProperty);
         }
 
-        public static void SetStretchMode(DependencyObject obj, Stretch value)
+        public static void SetStretchMode(Border obj, Stretch value)
         {
             obj.SetValue(StretchModeProperty, value);
         }
 
-        public static readonly DependencyProperty StretchModeProperty =
-            DependencyProperty.RegisterAttached("StretchMode", typeof(Stretch), typeof(ImageAsyncHelper), new PropertyMetadata(Stretch.Uniform));
+        public static readonly DependencyProperty StretchModeProperty = DependencyProperty.RegisterAttached(
+            "StretchMode", typeof(Stretch), typeof(ImageAsyncHelper), new PropertyMetadata(Stretch.Uniform));
     }
 }

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -55,8 +56,8 @@ namespace DGP.Genshin.Services.Launching
             gameConfig["General"]["sub_channel"] = currentScheme.SubChannel;
 
             string unescapedGameFolder = Regex.Unescape(launcherConfig["launcher"]["game_install_path"].Replace("x", "u"));
-
-            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", gameConfig);
+            //compat with https://github.com/DawnFz/GenShin-LauncherDIY
+            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", gameConfig, new UTF8Encoding(false));
         }
 
         public bool IsFullScreen { get => isFullScreen; set { Set(ref isFullScreen, value); SettingService.Instance[Setting.IsFullScreen] = value; } }

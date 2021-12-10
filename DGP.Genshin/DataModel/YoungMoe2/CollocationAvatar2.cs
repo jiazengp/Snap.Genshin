@@ -8,13 +8,6 @@ namespace DGP.Genshin.DataModel.YoungMoe2
 {
     public class CollocationAvatar2 : CollocationAvatar
     {
-        public CollocationAvatar2(CollocationAvatar c)
-        {
-            Name = c.Name;
-            Icon = c.Icon;
-            Rate = c.Rate;
-        }
-
         public string? Source => Character.Source;
         public string? StarUrl => Character.Star;
         public string? Element => Character.Element;

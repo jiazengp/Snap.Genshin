@@ -1,9 +1,12 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.YoungMoe2;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
+using DGP.Genshin.YoungMoeAPI.Collocation;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -48,7 +51,10 @@ namespace DGP.Genshin.Services.CelestiaDatabase
 
             AvatarDictionary = await database.GetAllAvatarAsync();
             CollocationAll = (await database.GetCollocationRankOfFinalAsync())?
-                .Select(col => new DetailedAvatarInfo2(col))
+                .Select(col => col.ToChild<DetailedAvatarInfo, DetailedAvatarInfo2>(d => {
+                    d.CollocationWeapon = col.CollocationWeapon?.Select(w => w.ToChild<CollocationWeapon, CollocationWeapon2>());
+                    d.CollocationAvatar = col.CollocationAvatar?.Select(a => a.ToChild<CollocationAvatar, CollocationAvatar2>());
+                }))
                 .OrderByDescending(col => col.UpRate);
             Collocation11 = (await database.GetCollocationRankOf11FloorAsync())?
                 .OrderByDescending(col => col.UpRate); ;

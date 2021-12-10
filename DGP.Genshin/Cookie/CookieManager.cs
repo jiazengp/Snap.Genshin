@@ -36,7 +36,7 @@ namespace DGP.Genshin.Cookie
             try
             {
                 CookiePool base64Cookies = Json.FromFile<CookiePool>(CookieListFile) ?? new();
-                Cookies = new CookiePool(base64Cookies.Select(b => TokenHelper.Base64Decode(Encoding.UTF8, b)));
+                Cookies = new CookiePool(base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace DGP.Genshin.Cookie
             lock (_savingCookies)
             {
                 List<string> encodedCookies = (Cookies as List<string>)
-                .Select(c => TokenHelper.Base64Encode(Encoding.UTF8, c))
+                .Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c))
                 //.ToList() fix json parse error
                 .ToList();
                 Json.ToFile(CookieListFile, encodedCookies);

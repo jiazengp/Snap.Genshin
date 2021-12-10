@@ -16,6 +16,8 @@ namespace DGP.Genshin.Services.GameRecord
 {
     /// <summary>
     /// 玩家记录服务
+    /// 由于直接在方法内创建了提供器实列
+    /// 所以不需要监听 <see cref="CookieManager.CookieChanged"/> 事件
     /// </summary>
     public class RecordService : Observable
     {

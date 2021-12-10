@@ -89,7 +89,11 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 return null;
             }
         }
-
+        /// <summary>
+        /// 用于图片缓存资源验证
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static bool Exists(string? url)
         {
             if (url is null)
@@ -105,6 +109,11 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             return File.Exists(localFile);
         }
 
+        /// <summary>
+        /// 构造缓存文件名称
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         [SuppressMessage("", "CA5350")]
         private static string BuildFileName(Uri uri)
         {
@@ -123,16 +132,25 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             return fileName;
         }
 
+        /// <summary>
+        /// 复制到缓存与文件
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="memory"></param>
+        /// <param name="file"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         [SuppressMessage("", "CA1835")]
         private static async Task CopyToCacheAndMemoryAsync(Stream response, MemoryStream memory, FileStream? file, string fileName)
         {
             using (response)
             {
-                byte[] buffer = new byte[100];
+                const int bufferSize = 128;
+                byte[] buffer = new byte[bufferSize];
                 int bytesRead;
                 do
                 {
-                    bytesRead = await response.ReadAsync(buffer, 0, 100);
+                    bytesRead = await response.ReadAsync(buffer, 0, bufferSize);
                     if (file is not null)
                     {
                         await file.WriteAsync(buffer, 0, bytesRead);

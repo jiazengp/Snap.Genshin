@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace DGP.Genshin.Controls.Converters
 {
+    /// <summary>
+    /// 将字符形式的稀有度数字转换到 <see cref="SolidColorBrush"/>
+    /// </summary>
     public class RankToStarSolidConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)

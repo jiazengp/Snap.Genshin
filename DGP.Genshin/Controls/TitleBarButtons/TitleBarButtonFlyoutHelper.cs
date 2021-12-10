@@ -7,7 +7,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     public static class TitleBarButtonFlyoutHelper
     {
         /// <summary>
-        /// 
+        /// 显示关联的 <see cref="Flyout"/> 控件
         /// </summary>
         /// <typeparam name="TContentType"></typeparam>
         /// <param name="button">我们假定你传入了正确的类型</param>

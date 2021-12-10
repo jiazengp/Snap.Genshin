@@ -8,7 +8,6 @@
          xmlns:r="clr-namespace:DGP.Genshin.Controls.GenshinElements.Records"
          xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
-         xmlns:sys="clr-namespace:System;assembly=mscorlib" 
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="1200"
          Title="RecordPage" Loaded="Page_Loaded">
@@ -20,7 +19,6 @@
         <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>
-        <r:ActivityTemplateSelector x:Key="ActivityTemplateSelector"/>
     </Page.Resources>
     <Grid>
         <TabControl Style="{StaticResource TabControlPivotStyle}">

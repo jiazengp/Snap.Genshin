@@ -5,25 +5,14 @@ namespace DGP.Genshin.Helpers
 {
     /// <summary>
     /// because repo cant cantain original token string
+    /// so we store base64 encoded value here
     /// https://github.com/settings/tokens
     /// </summary>
-    public class TokenHelper
+    public class TokenHelper : Base64Converter
     {
         public static string GetToken()
         {
             return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
-        }
-
-        internal static string Base64Decode(Encoding encoding, string input)
-        {
-            byte[] bytes = Convert.FromBase64String(input);
-            return encoding.GetString(bytes);
-        }
-
-        internal static string Base64Encode(Encoding encoding, string base64)
-        {
-            byte[] bytes = encoding.GetBytes(base64);
-            return Convert.ToBase64String(bytes);
         }
     }
 }
