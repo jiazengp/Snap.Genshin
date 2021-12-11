@@ -37,9 +37,9 @@ namespace DGP.Genshin.AutoVersion
                 return;
             }
 
-            using (StreamReader sr = new StreamReader(sAssem))
+            using (StreamReader sr = new(sAssem))
             {
-                using StreamWriter sw = new StreamWriter(sAssemNew, false, sr.CurrentEncoding);
+                using StreamWriter sw = new(sAssemNew, false, sr.CurrentEncoding);
                 string line;
                 string newLine;
                 while ((line = sr.ReadLine()) != null)
@@ -91,10 +91,10 @@ namespace DGP.Genshin.AutoVersion
             }
 
             string sVer = sLine.Substring(posStart + 2, posEnd - posStart - 2);
-            VersionEx currentVersion = new VersionEx(sVer);
+            VersionEx currentVersion = new(sVer);
 
             DateTime now = DateTime.Now;
-            VersionEx newVersion = new VersionEx(now.Year, now.Month, now.Day, currentVersion.Revision);
+            VersionEx newVersion = new(now.Year, now.Month, now.Day, currentVersion.Revision);
             if (newVersion > currentVersion)
             {
                 newVersion.Revision = 1;

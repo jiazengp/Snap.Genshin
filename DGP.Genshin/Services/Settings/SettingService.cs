@@ -22,7 +22,7 @@ namespace DGP.Genshin.Services.Settings
         {
             if (!settingDictionary.TryGetValue(key, out object? value))
             {
-                settingDictionary.AddOrSet(key, defaultValue);
+                settingDictionary[key] = defaultValue;
                 return defaultValue;
             }
             else
@@ -34,7 +34,7 @@ namespace DGP.Genshin.Services.Settings
         {
             if (!settingDictionary.TryGetValue(key, out object? value))
             {
-                settingDictionary.AddOrSet(key, defaultValue);
+                settingDictionary[key] = defaultValue;
                 return defaultValue;
             }
             else
@@ -56,7 +56,7 @@ namespace DGP.Genshin.Services.Settings
         {
             set
             {
-                settingDictionary.AddOrSet(key, value);
+                settingDictionary[key] = value;
                 SettingChanged?.Invoke(key, value);
             }
         }
@@ -69,7 +69,7 @@ namespace DGP.Genshin.Services.Settings
         internal void SetValueInternal(string key, object value)
         {
             this.Log($"setting {key} to {value} internally without notify");
-            settingDictionary.AddOrSet(key, value);
+            settingDictionary[key] = value;
         }
 
         /// <summary>

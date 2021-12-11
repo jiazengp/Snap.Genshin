@@ -303,7 +303,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             CalculateSpecificBannerDetails(clonedBanners);
 
             return clonedBanners
-                .Where(b => b.TotalCount > 0)
+                //.Where(b => b.TotalCount > 0)
                 .OrderByDescending(b => b.StartTime)
                 .ThenBy(b => b.Type)
                 .ToList();
