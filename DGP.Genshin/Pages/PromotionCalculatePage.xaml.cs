@@ -42,7 +42,7 @@ namespace DGP.Genshin.Pages
                 string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
                 int avatarId = SelectedAvatar.Id;
 
-                AvatarDetailData = await calculator.GetAvatarDetailDataAsync(avatarId, uid, region);
+                AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region);
             }
             if (SelectedAvatar is not null)
             {
@@ -66,7 +66,7 @@ namespace DGP.Genshin.Pages
             {
                 string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
                 string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
-                Avatars = await calculator.GetAvatarListAsync(uid, region, true);
+                Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
                 SelectedAvatar = Avatars?.FirstOrDefault();
             }
         }
@@ -143,6 +143,7 @@ namespace DGP.Genshin.Pages
         }
         #endregion
 
+        #region NumberBoxDeleteButtonRemover
         private void NumberBoxValueChanged(ModernWpf.Controls.NumberBox sender, ModernWpf.Controls.NumberBoxValueChangedEventArgs args)
         {
             List<Button> buttons = new();
@@ -177,5 +178,6 @@ namespace DGP.Genshin.Pages
                 FindChildren<T>(current, results);
             }
         }
+        #endregion
     }
 }

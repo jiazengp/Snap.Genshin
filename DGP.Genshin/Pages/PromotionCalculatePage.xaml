@@ -45,8 +45,8 @@
                 <ColumnDefinition MaxWidth="480"/>
                 <ColumnDefinition Width="0"/>
             </Grid.ColumnDefinitions>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" Margin="0,12,0,0">
-                <ui:GridView Margin="12,0,0,0" SelectionMode="Single" ItemsSource="{Binding Avatars}" SelectedItem="{Binding SelectedAvatar}">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+                <ui:GridView Margin="12,12,0,0" SelectionMode="Single" ItemsSource="{Binding Avatars}" SelectedItem="{Binding SelectedAvatar}">
                     <ui:GridView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -58,8 +58,8 @@
                     </ui:GridView.ItemTemplate>
                 </ui:GridView>
             </smoothscrollviewer:SmoothScrollViewer>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" Margin="0,12,0,0">
-                <StackPanel Margin="0,0,4,0">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="-12,12,4,12">
                     <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,0" Background="{Binding SelectedAvatar.AvatarLevel,Converter = {StaticResource StarSolidConverter}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -150,8 +150,8 @@
                     </ItemsControl>
                 </StackPanel>
             </smoothscrollviewer:SmoothScrollViewer>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" Margin="0,12,0,0">
-                <StackPanel Margin="0,0,4,12">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="-12,12,0,12">
                     <TextBlock Text="角色消耗" Margin="12,0,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
                                Visibility="{Binding Consumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>
                     <ItemsControl ItemsSource="{Binding Consumption.AvatarConsume}" Margin="0,8,0,0"
