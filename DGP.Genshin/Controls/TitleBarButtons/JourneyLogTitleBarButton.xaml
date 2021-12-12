@@ -5,14 +5,13 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
                    xmlns:ui="http://schemas.modernwpf.com/2019"
-                   xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
                    xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
                    mc:Ignorable="d" 
                    d:DesignHeight="450" d:DesignWidth="800"
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="旅行札记"
-                   Click="JourneyLogTitleBarButtonClick">
+                   Command="{Binding InitializeCommand}">
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
             <Grid>
@@ -20,7 +19,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ComboBox HorizontalAlignment="Stretch" Grid.Row="0" ItemsSource="{Binding UserGameRoleInfo.List}" SelectedItem="{Binding SelectedRole}"/>
+                <ComboBox HorizontalAlignment="Stretch" Grid.Row="0" 
+                          ItemsSource="{Binding UserGameRoleInfo.List}" 
+                          SelectedItem="{Binding SelectedRole}"/>
 
                 <StackPanel Grid.Row="1">
                     <StackPanel Orientation="Horizontal">

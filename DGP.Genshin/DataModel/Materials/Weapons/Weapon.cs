@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Genshin.Services;
+using DGP.Genshin.ViewModels;
 using System;
 
 namespace DGP.Genshin.DataModel.Materials.Weapons
@@ -25,7 +25,7 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
 
         public bool IsTodaysWeapon()
         {
-            return DailyViewService.Instance.SelectedDayOfWeek.Value switch
+            return DailyViewModel.Instance.SelectedDayOfWeek.Value switch
             {
                 DayOfWeek.Sunday => true,
                 DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Decarabian or Guyun or DistantSea),

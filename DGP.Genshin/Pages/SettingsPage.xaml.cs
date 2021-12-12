@@ -4,6 +4,7 @@ using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
+using DGP.Genshin.ViewModels;
 using ModernWpf;
 using System;
 using System.Reflection;
@@ -17,24 +18,16 @@ namespace DGP.Genshin.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
-        public SettingModel SettingModel => SettingModel.Instance;
-        private AutoRunHelper autoRunHelper = new();
+        private AutoRun autoRunHelper = new();
 
         public SettingsPage()
         {
-            DataContext = this;
+            DataContext = App.GetViewModel<SettingViewModel>();
             InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //version
-            Version? v = Assembly.GetExecutingAssembly().GetName().Version;
-            if (v is not null)
-            {
-                VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
-            }
-
             //theme
             ThemeComboBox.SelectedIndex =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter) switch
@@ -56,7 +49,7 @@ namespace DGP.Genshin.Pages
             DependencyProperty.Register("VersionString", typeof(string), typeof(SettingsPage), new PropertyMetadata(""));
         #endregion
 
-        public AutoRunHelper AutoRunHelper { get => autoRunHelper; set => autoRunHelper = value; }
+        public AutoRun AutoRunHelper { get => autoRunHelper; set => autoRunHelper = value; }
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)
         {
@@ -93,12 +86,6 @@ namespace DGP.Genshin.Pages
         {
             ThemeManager.Current.ApplicationTheme =
                 SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            await new DailyNoteProvider(CookieManager.CurrentCookie).ChangeDailyNoteDataSwitch(false);
-            await new DailyNoteProvider(CookieManager.CurrentCookie).ChangeDailyNoteDataSwitch(true);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Characters;
 using System.Collections.Generic;
 
-namespace DGP.Genshin.Services.CelestiaDatabase
+namespace DGP.Genshin.DataModel.YoungMoe2
 {
     /// <summary>
     /// 推荐的配队

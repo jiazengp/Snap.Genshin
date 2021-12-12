@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DGP.Genshin.Controls.GenshinElements.Weapons.WeaponItem"
+﻿<UserControl x:Class="DGP.Genshin.DGP.Genshin.Helpers.Controls.GenshinElements.Weapons.WeaponItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ci="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+             xmlns:ci="clr-namespace:DGP.Genshin.DGP.Genshin.Helpers.Controls.Infrastructures.CachedImage"
              mc:Ignorable="d" 
              Width="240"
              d:DesignHeight="150" d:DesignWidth="200">

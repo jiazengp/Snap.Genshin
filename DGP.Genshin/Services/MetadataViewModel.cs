@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
@@ -12,11 +12,12 @@ using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
+using DGP.Genshin.Services.Settings;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -29,7 +30,8 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 元数据服务
     /// </summary>
-    public class MetadataService : Observable
+    [ViewModel(ViewModelType.Singleton)]
+    public class MetadataViewModel:ObservableObject
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -268,34 +270,34 @@ namespace DGP.Genshin.Services
 
         #region Selected Bindable
         private Boss? selectedBoss;
-        public Boss? SelectedBoss { get => selectedBoss; set => Set(ref selectedBoss, value); }
+        public Boss? SelectedBoss { get => selectedBoss; set => SetProperty(ref selectedBoss, value); }
 
         private KeySource? selectedCity;
-        public KeySource? SelectedCity { get => selectedCity; set => Set(ref selectedCity, value); }
+        public KeySource? SelectedCity { get => selectedCity; set => SetProperty(ref selectedCity, value); }
 
         private Character? selectedCharacter;
-        public Character? SelectedCharacter { get => selectedCharacter; set => Set(ref selectedCharacter, value); }
+        public Character? SelectedCharacter { get => selectedCharacter; set => SetProperty(ref selectedCharacter, value); }
 
         private Talent? selectedDailyTalent;
-        public Talent? SelectedDailyTalent { get => selectedDailyTalent; set => Set(ref selectedDailyTalent, value); }
+        public Talent? SelectedDailyTalent { get => selectedDailyTalent; set => SetProperty(ref selectedDailyTalent, value); }
 
         private MaterialWeapon? selectedDailyWeapon;
-        public MaterialWeapon? SelectedDailyWeapon { get => selectedDailyWeapon; set => Set(ref selectedDailyWeapon, value); }
+        public MaterialWeapon? SelectedDailyWeapon { get => selectedDailyWeapon; set => SetProperty(ref selectedDailyWeapon, value); }
 
         private Elite? selectedElite;
-        public Elite? SelectedElite { get => selectedElite; set => Set(ref selectedElite, value); }
+        public Elite? SelectedElite { get => selectedElite; set => SetProperty(ref selectedElite, value); }
 
         private Local? selectedLocal;
-        public Local? SelectedLocal { get => selectedLocal; set => Set(ref selectedLocal, value); }
+        public Local? SelectedLocal { get => selectedLocal; set => SetProperty(ref selectedLocal, value); }
 
         private Monster? selectedMonster;
-        public Monster? SelectedMonster { get => selectedMonster; set => Set(ref selectedMonster, value); }
+        public Monster? SelectedMonster { get => selectedMonster; set => SetProperty(ref selectedMonster, value); }
 
         private Weapon? selectedWeapon;
-        public Weapon? SelectedWeapon { get => selectedWeapon; set => Set(ref selectedWeapon, value); }
+        public Weapon? SelectedWeapon { get => selectedWeapon; set => SetProperty(ref selectedWeapon, value); }
 
         private Weekly? selectedWeeklyTalent;
-        public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => Set(ref selectedWeeklyTalent, value); }
+        public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => SetProperty(ref selectedWeeklyTalent, value); }
         #endregion
 
         #region Helper
@@ -366,7 +368,7 @@ namespace DGP.Genshin.Services
             }
             this.Log($"Save gachaevent metadata to {filename}");
         }
-        private void Save<T>(ObservableCollection<T>? collection, string filename) where T : Primitive
+        private void Save<T>(ObservableCollection<T>? collection, string filename)where T : Primitive
         {
             string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
             using (StreamWriter sw = new(File.Create(folderPath + filename)))
@@ -408,46 +410,26 @@ namespace DGP.Genshin.Services
             Save(SpecificBanners, GachaEventJson);
             this.Log("uninitialized");
         }
-
-        #region 单例
-        private static volatile MetadataService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private MetadataService() { Initialize(); }
-        public static MetadataService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
-            }
-        }
-        #endregion
+        private MetadataViewModel() { Initialize(); }
 
         #endregion
 
         #region Integrity
 
         private int currentCount;
-        public int CurrentCount { get => currentCount; set => Set(ref currentCount, value); }
+        public int CurrentCount { get => currentCount; set => SetProperty(ref currentCount, value); }
 
         private string? currentInfo;
-        public string? CurrentInfo { get => currentInfo; set => Set(ref currentInfo, value); }
+        public string? CurrentInfo { get => currentInfo; set => SetProperty(ref currentInfo, value); }
 
         private int? totalCount;
-        public int? TotalCount { get => totalCount; set => Set(ref totalCount, value); }
+        public int? TotalCount { get => totalCount; set => SetProperty(ref totalCount, value); }
 
         private double percent;
-        public double Percent { get => percent; set => Set(ref percent, value); }
+        public double Percent { get => percent; set => SetProperty(ref percent, value); }
 
         private bool hasCheckCompleted;
-        public bool HasCheckCompleted { get => hasCheckCompleted; set { Set(ref hasCheckCompleted, value); CompleteStateChanged?.Invoke(value); } }
+        public bool HasCheckCompleted { get => hasCheckCompleted; set { SetProperty(ref hasCheckCompleted, value); CompleteStateChanged?.Invoke(value); } }
 
         private int checkingCount;
 
@@ -518,9 +500,9 @@ namespace DGP.Genshin.Services
             {
                 return;
             }
-            if (Settings.SettingService.Instance.GetOrDefault(Settings.Setting.SkipCacheCheck, false))
+            if (App.GetService<SettingService>().GetOrDefault(Setting.SkipCacheCheck, false))
             {
-                this.Log("Integrity Check Suppressed by User Settings");
+                this.Log("Integrity Check Suppressed by User SetPropertytings");
                 HasCheckCompleted = true;
                 return;
             }

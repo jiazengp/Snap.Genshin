@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataModel.YoungMoe2
             {
                 if (weapon == null)
                 {
-                    weapon = MetadataService.Instance.Weapons?.FirstOrDefault(c => c.Name == Name) ?? new();
+                    weapon = MetadataViewModel.Instance.Weapons?.FirstOrDefault(c => c.Name == Name) ?? new();
                 }
                 return weapon;
             }

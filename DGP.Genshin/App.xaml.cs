@@ -1,39 +1,100 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services;
-using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin
 {
-    [SuppressMessage("", "CA1001")]
     public partial class App : Application
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
+        private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
+        //private IHost host;
+        public App()
+        {
+            Services = ConfigureServices();
+        }
+
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        #region Dependency Injection
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            ServiceCollection services = new();
+            ScanServices(services, typeof(App));
+            ScanServices(services, typeof(MiHoYoAPI.ScanEntry));
+            ScanServices(services, typeof(YoungMoeAPI.ScanEntry));
+            return services.BuildServiceProvider();
+        }
+        public static TService GetService<TService>()
+        {
+            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException("无法找到对应的服务");
+        }
+        public static TViewModel GetViewModel<TViewModel>()
+        {
+            return GetService<TViewModel>();
+        }
+        private static void ScanServices(ServiceCollection services, Type entryType)
+        {
+            foreach (Type type in entryType.Assembly.GetTypes())
+            {
+                if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
+                {
+                    _ = serviceAttr.ServiceType switch
+                    {
+                        ServiceType.Singleton => services.AddSingleton(type, serviceAttr.ImplmentationInterfaceType),
+                        ServiceType.Transient => services.AddTransient(type, serviceAttr.ImplmentationInterfaceType),
+                        _ => throw new SnapGenshinInternalException($"未知的服务类型{type}"),
+                    };
+                }
+                if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
+                {
+                    _ = viewModelAttr.ViewModelType switch
+                    {
+                        ViewModelType.Singleton => services.AddSingleton(type),
+                        ViewModelType.Transient => services.AddTransient(type),
+                        _ => throw new SnapGenshinInternalException($"未知的视图模型类型{type}"),
+                    };
+                }
+            }
+        }
+        #endregion
 
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
             EnsureWorkingPath();
-            //open main window
-            base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             //handle notification activation
             SetupToastNotificationHandling();
-            EnsureSingleInstance();
+            singleInstanceChecker.Ensure(Current);
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
-            SettingService.Instance.Initialize();
+            GetService<SettingService>().Initialize();
             //app theme
             SetAppTheme();
+            //open main window
+            base.OnStartup(e);
         }
 
         private void SetupToastNotificationHandling()
@@ -61,21 +122,21 @@ namespace DGP.Genshin
         private void SetAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =
-                SettingService.Instance.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+                GetService<SettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            if (!isExitDueToSingleInstanceRestriction)
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
-                SettingService.Instance.UnInitialize();
-                MetadataService.Instance.UnInitialize();
+                GetService<SettingService>().UnInitialize();
+                GetService<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
             }
             base.OnExit(e);
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (!isEnsureingSingleInstance)
+            if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
                 using (StreamWriter sw = new(File.Create($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}-crash.log")))
                 {
@@ -84,59 +145,6 @@ namespace DGP.Genshin
                 }
                 //while exit with error OnExit will somehow not triggered
             }
-        }
-        #endregion
-
-        #region SingleInstance
-        private const string UniqueEventName = "Snap.Genshin";
-        private EventWaitHandle? eventWaitHandle;
-        private bool isExitDueToSingleInstanceRestriction;
-        private bool isEnsureingSingleInstance;
-        private void EnsureSingleInstance()
-        {
-            // check if it is already open.
-            try
-            {
-                isEnsureingSingleInstance = true;
-                // try to open it - if another instance is running, it will exist , if not it will throw
-                eventWaitHandle = EventWaitHandle.OpenExisting(UniqueEventName);
-                // Notify other instance so it could bring itself to foreground.
-                eventWaitHandle.Set();
-                // Terminate this instance.
-                isExitDueToSingleInstanceRestriction = true;
-                Shutdown();
-            }
-            catch (WaitHandleCannotBeOpenedException)
-            {
-                isEnsureingSingleInstance = false;
-                // listen to a new event (this app instance will be the new "master")
-                eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
-            }
-            // if this instance gets the signal to show the main window
-            new Task(() =>
-            {
-                while (eventWaitHandle.WaitOne())
-                {
-                    Current.Dispatcher.BeginInvoke((Action)(() =>
-                    {
-                        // could be set or removed anytime
-                        if (!Current.MainWindow.Equals(null))
-                        {
-                            Window mainWindow = Current.MainWindow;
-                            if (mainWindow.WindowState == WindowState.Minimized || mainWindow.Visibility != Visibility.Visible)
-                            {
-                                mainWindow.Show();
-                                mainWindow.WindowState = WindowState.Normal;
-                            }
-                            mainWindow.Activate();
-                            mainWindow.Topmost = true;
-                            mainWindow.Topmost = false;
-                            mainWindow.Focus();
-                        }
-                    }));
-                }
-            })
-            .Start();
         }
         #endregion
     }

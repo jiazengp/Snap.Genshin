@@ -4,10 +4,10 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
     xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
-    xmlns:ge="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
+    xmlns:ge="clr-namespace:DGP.Genshin.DGP.Genshin.Helpers.Controls.GenshinElements" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
-    x:Class="DGP.Genshin.App"
+    x:Class="DGP.Genshin.DGP.Genshin.Helpers.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnMainWindowClose">
     <Application.Resources>

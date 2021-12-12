@@ -6,15 +6,22 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
                    xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
-                   xmlns:launching="clr-namespace:DGP.Genshin.Services.Launching" 
-                   d:DataContext="{d:DesignInstance Type=launching:LaunchService}"
+                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                   xmlns:launching="clr-namespace:DGP.Genshin.Services.Launching"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="启动游戏"
+                   Command="{Binding InitializeCommand}"
+                   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                    Click="LaunchTitleBarButtonClick">
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom" Closed="Flyout_Closed">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Closed">
+                    <i:InvokeCommandAction Command="{Binding UnInitializeCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -28,7 +35,7 @@
                         SelectionMode="Single"
                         DisplayMemberPath="Name"/>
                 </s:SmoothScrollViewer>
-                <Button Grid.Row="1" Content="删除选中的账号" HorizontalAlignment="Stretch" Click="DeleteAccountButton_Click"/>
+                <Button Grid.Row="1" Content="删除选中的账号" HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}"/>
                 <StackPanel Grid.Row="2" Margin="0,12,0,0">
                     <ComboBox ui:ControlHelper.PlaceholderText="选择启动方案"
                           HorizontalAlignment="Stretch" 
@@ -37,9 +44,9 @@
                           DisplayMemberPath="Name"/>
                     <ui:DropDownButton Content="启动" HorizontalAlignment="Stretch" Margin="0,12,0,0">
                         <ui:DropDownButton.Flyout>
-                            <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                <MenuItem Header="游戏本体" Tag="Game" Click="LaunchButtonClick"/>
-                                <MenuItem Header="打开启动器" Tag="Launcher" Click="LaunchButtonClick"/>
+                            <ui:MenuFlyout Placement="Bottom">
+                                <MenuItem Header="游戏本体" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
+                                <MenuItem Header="打开启动器" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
                             </ui:MenuFlyout>
                         </ui:DropDownButton.Flyout>
                     </ui:DropDownButton>

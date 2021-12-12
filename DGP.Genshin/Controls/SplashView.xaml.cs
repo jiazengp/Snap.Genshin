@@ -13,7 +13,7 @@ namespace DGP.Genshin.Controls
     /// </summary>
     public partial class SplashView : UserControl, INotifyPropertyChanged
     {
-        public MetadataService MetaDataService { get; set; } = MetadataService.Instance;
+        public MetadataViewModel MetaDataService { get; set; } = MetadataViewModel.Instance;
         private bool integrityCheckCompleted;
         private bool isCookieVisible = true;
         private bool hasCheckCompleted;
@@ -33,7 +33,7 @@ namespace DGP.Genshin.Controls
         public SplashView()
         {
             DataContext = this;
-            MetadataService.Instance.CompleteStateChanged += isCompleted =>
+            MetadataViewModel.Instance.CompleteStateChanged += isCompleted =>
             {
                 if (isCompleted)
                 {
@@ -47,7 +47,7 @@ namespace DGP.Genshin.Controls
 
         private async void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            await MetadataService.Instance.CheckAllIntegrityAsync();
+            await MetadataViewModel.Instance.CheckAllIntegrityAsync();
         }
 
         /// <summary>

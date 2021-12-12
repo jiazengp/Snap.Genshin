@@ -7,6 +7,7 @@ using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
@@ -26,14 +27,19 @@ namespace DGP.Genshin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly NavigationService navigationService;
+        private readonly INavigationService navigationService;
 
         public MainWindow()
         {
             //do not set datacontext for mainwindow
             InitializeComponent();
+
             MainSplashView.PostInitializationAction += SplashInitializeCompleted;
-            navigationService = new NavigationService(this, NavView, ContentFrame);
+
+            navigationService = App.GetService<NavigationService>();
+            navigationService.NavigationView = NavView;
+            navigationService.Frame = ContentFrame;
+
             this.Log("initialized");
         }
 
@@ -44,7 +50,7 @@ namespace DGP.Genshin
         private async void SplashInitializeCompleted(SplashView splashView)
         {
             await PrepareTitleBarArea(splashView);
-            DoUpdatePipeline();
+            DoUpdateFlow();
             //签到
             if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
@@ -54,18 +60,6 @@ namespace DGP.Genshin
             //post actions
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             splashView.HasCheckCompleted = true;
-        }
-
-        private async void DoUpdatePipeline()
-        {
-            await CheckUpdateAsync();
-            Version? lastLaunchAppVersion = SettingService.Instance.GetOrDefault(Setting.AppVersion, UpdateService.Instance.CurrentVersion, Setting.VersionConverter);
-            //first launch after update
-            if (lastLaunchAppVersion < UpdateService.Instance.CurrentVersion)
-            {
-                SettingService.Instance[Setting.AppVersion] = UpdateService.Instance.CurrentVersion;
-                await ShowWhatsNewDialogAsync();
-            }
         }
 
         /// <summary>
@@ -120,6 +114,17 @@ namespace DGP.Genshin
         }
 
         #region Update
+        private async void DoUpdateFlow()
+        {
+            await CheckUpdateAsync();
+            Version? lastLaunchAppVersion = SettingService.Instance.GetOrDefault(Setting.AppVersion, UpdateService.Instance.CurrentVersion, Setting.VersionConverter);
+            //first launch after update
+            if (lastLaunchAppVersion < UpdateService.Instance.CurrentVersion)
+            {
+                SettingService.Instance[Setting.AppVersion] = UpdateService.Instance.CurrentVersion;
+                await ShowWhatsNewDialogAsync();
+            }
+        }
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
@@ -149,7 +154,6 @@ namespace DGP.Genshin
                     break;
             }
         }
-
         private async Task ShowWhatsNewDialogAsync()
         {
             await new ContentDialog

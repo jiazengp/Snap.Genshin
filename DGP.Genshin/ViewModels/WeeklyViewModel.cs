@@ -1,14 +1,20 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.DataModel.Characters;
+using DGP.Genshin.Services;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.ViewModels
 {
-    public class WeeklyViewService
+    [ViewModel]
+    public class WeeklyViewModel
     {
-        private readonly MetadataService dataService = MetadataService.Instance;
+        private readonly MetadataViewModel dataService;
+
+        public WeeklyViewModel(MetadataViewModel dataService)
+        {
+            this.dataService = dataService;
+        }
 
         #region 风魔龙
         private IEnumerable<Character>? dvalinsPlume;
@@ -226,27 +232,6 @@ namespace DGP.Genshin.Services
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482.png").ToList();
                 }
                 return ashenHeart;
-            }
-        }
-        #endregion
-
-        #region 单例
-        private static volatile WeeklyViewService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private WeeklyViewService() { this.Log("initialized"); }
-        public static WeeklyViewService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
             }
         }
         #endregion

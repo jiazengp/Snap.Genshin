@@ -18,7 +18,7 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            MetadataService service = MetadataService.Instance;
+            MetadataViewModel service = MetadataViewModel.Instance;
             await Task.Delay(300);
             DataContext = service;
             service.SelectedCharacter ??= service.Characters?.First();
@@ -34,14 +34,14 @@ namespace DGP.Genshin.Pages
 
         private void FilterToggleButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            MetadataService.Instance.FilterCharacterAndWeapon();
+            MetadataViewModel.Instance.FilterCharacterAndWeapon();
         }
 
         private void GachaSplashButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             new CharacterGachaSplashWindow()
             {
-                Source = MetadataService.Instance.SelectedCharacter?.GachaSplash,
+                Source = MetadataViewModel.Instance.SelectedCharacter?.GachaSplash,
                 Owner = App.Current.MainWindow
             }.ShowDialog();
         }

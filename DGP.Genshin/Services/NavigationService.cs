@@ -1,50 +1,63 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
+using DGP.Genshin.Services.Abstratcions;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Linq;
-using System.Windows;
 
 namespace DGP.Genshin.Services
 {
+
     /// <summary>
     /// 导航服务
     /// </summary>
-    public class NavigationService
+    [Service(typeof(INavigationService), ServiceType.Singleton)]
+    public class NavigationService : INavigationService
     {
-        private readonly Frame frame;
-        private readonly NavigationView navigationView;
-
-        private NavigationViewItem? selected;
-
-        public NavigationService(Window window, NavigationView navigationView, Frame frame)
+        private NavigationView? navigationView;
+        public Frame? Frame { get; set; }
+        public NavigationView? NavigationView
         {
-            this.navigationView = navigationView;
-            this.frame = frame;
-            this.navigationView.ItemInvoked += OnItemInvoked;
+            get => navigationView; set
+            {
+                //remove old listener
+                if(navigationView != null)
+                {
+                    navigationView.ItemInvoked -= OnItemInvoked;
+                }
+                navigationView = value;
+                //add new listener
+                if (navigationView != null)
+                {
+                    navigationView.ItemInvoked += OnItemInvoked;
+                }
+            }
         }
-
+        public NavigationViewItem? Selected { get; set; }
         public bool HasEverNavigated { get; set; }
-
         public void SyncTabWith(Type pageType)
         {
-            if (pageType == typeof(SettingsPage)/* || pageType == null*/)
+            if(NavigationView is null)
             {
-                navigationView.SelectedItem = navigationView.SettingsItem;
+                return;
+            }
+
+            if (pageType == typeof(SettingsPage))
+            {
+                NavigationView.SelectedItem = NavigationView.SettingsItem;
             }
             else
             {
-                NavigationViewItem target = navigationView.MenuItems
-                    .OfType<NavigationViewItem>()
-                    .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
-                navigationView.SelectedItem = target;
+                NavigationViewItem? target = NavigationView.MenuItems.OfType<NavigationViewItem>()
+                .First(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
+                NavigationView.SelectedItem = target;
             }
 
-            selected = navigationView.SelectedItem as NavigationViewItem;
+            Selected = NavigationView.SelectedItem as NavigationViewItem;
         }
-
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
             if (pageType is null)
@@ -53,7 +66,7 @@ namespace DGP.Genshin.Services
             }
 
             HasEverNavigated = true;
-            if (frame.Content?.GetType() == pageType)
+            if (Frame?.Content?.GetType() == pageType)
             {
                 return false;
             }
@@ -62,10 +75,10 @@ namespace DGP.Genshin.Services
                 SyncTabWith(pageType);
             }
             //bool result = this.frame.Navigate(pageType, data, info);
-            bool result = frame.Navigate(pageType, data, new DrillInNavigationTransitionInfo());
+            bool result = Frame?.Navigate(pageType, data, new DrillInNavigationTransitionInfo()) ?? false;
             this.Log($"navigate to {pageType}:{(result ? "succeed" : "failed")}");
             //fix memory leak issue
-            frame.RemoveBackEntry();
+            Frame?.RemoveBackEntry();
             return result;
         }
         public bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
@@ -73,17 +86,16 @@ namespace DGP.Genshin.Services
         {
             return Navigate(typeof(T), isSyncTabRequested, data, info);
         }
-
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            selected = navigationView.SelectedItem as NavigationViewItem;
+            Selected = NavigationView?.SelectedItem as NavigationViewItem;
             if (args.IsSettingsInvoked)
             {
                 Navigate<SettingsPage>();
             }
             else
             {
-                Navigate(selected?.GetValue(NavHelper.NavigateToProperty) as Type);
+                Navigate(Selected?.GetValue(NavHelper.NavigateToProperty) as Type);
             }
         }
     }

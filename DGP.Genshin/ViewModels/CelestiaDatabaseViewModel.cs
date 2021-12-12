@@ -1,27 +1,35 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+﻿using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.YoungMoe2;
+using DGP.Genshin.Services;
 using DGP.Genshin.Services.GameRecord;
 using DGP.Genshin.YoungMoeAPI;
 using DGP.Genshin.YoungMoeAPI.Collocation;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using DGP.Genshin.Common.Extensions.System;
+using System;
+using Microsoft.Toolkit.Mvvm.Input;
 
-namespace DGP.Genshin.Services.CelestiaDatabase
+namespace DGP.Genshin.ViewModels
 {
-    /// <summary>
-    /// 天空岛数据库服务
-    /// </summary>
-    public class CelestiaDatabaseService : Observable
+    [ViewModel]
+    public class CelestiaDatabaseViewModel : ObservableObject
     {
-        private readonly YoungMoeAPI.CelestiaDatabase database;
+        private readonly CelestiaDatabaseService database;
 
-        #region Observable
+        public CelestiaDatabaseViewModel(CelestiaDatabaseService database)
+        {
+            this.database = database;
+            PageLoadadCommand = new AsyncRelayCommand(InitializeAsync);
+        }
+
+        public IAsyncRelayCommand PageLoadadCommand { get; set; }
+
         /// <summary>
         /// 全角色映射
         /// </summary>
@@ -31,15 +39,13 @@ namespace DGP.Genshin.Services.CelestiaDatabase
         private int totalSubmitted;
         private int abyssPassed;
 
-        public List<AvatarSimple>? AvatarDictionary { get => allAvatarMap; set => Set(ref allAvatarMap, value); }
-        public IEnumerable<DetailedAvatarInfo2>? CollocationAll { get => collocationAll; set => Set(ref collocationAll, value); }
-        public IEnumerable<AvatarInfo>? Collocation11 { get => collocation11; set => Set(ref collocation11, value); }
-        public int TotalSubmitted { get => totalSubmitted; set => Set(ref totalSubmitted, value); }
-        public int AbyssPassed { get => abyssPassed; set => Set(ref abyssPassed, value); }
-        #endregion
+        public List<AvatarSimple>? AvatarDictionary { get => allAvatarMap; set => SetProperty(ref allAvatarMap, value); }
+        public IEnumerable<DetailedAvatarInfo2>? CollocationAll { get => collocationAll; set => SetProperty(ref collocationAll, value); }
+        public IEnumerable<AvatarInfo>? Collocation11 { get => collocation11; set => SetProperty(ref collocation11, value); }
+        public int TotalSubmitted { get => totalSubmitted; set => SetProperty(ref totalSubmitted, value); }
+        public int AbyssPassed { get => abyssPassed; set => SetProperty(ref abyssPassed, value); }
 
         public bool IsInitialized => isInitialized;
-
         private bool isInitialized = false;
         public async Task InitializeAsync()
         {
@@ -48,6 +54,8 @@ namespace DGP.Genshin.Services.CelestiaDatabase
                 return;
             }
             isInitialized = true;
+
+            await Task.Delay(1000);
 
             AvatarDictionary = await database.GetAllAvatarAsync();
             CollocationAll = (await database.GetCollocationRankOfFinalAsync())?
@@ -74,26 +82,46 @@ namespace DGP.Genshin.Services.CelestiaDatabase
             SelectedFloor = Floors.First();
         }
 
+        private void PageLoaded()
+        {
+            
+            
+            //var recordService = App.GetService<RecordService>();
+            //if (recordService.QueryHistory?.Count > 0)
+            //{
+            //    //if (recordService.CurrentRecord != null && recordService.CurrentRecord?.UserId != null)
+            //    //{
+            //    //    QueryAutoSuggestBox.Text = recordService.CurrentRecord?.UserId;
+            //    //}
+            //    //else if (recordService.QueryHistory.Count > 0)
+            //    //{
+            //    //    QueryAutoSuggestBox.Text = recordService.QueryHistory.First();
+            //    //}
+            //}
+
+            //await InitializeAsync();
+        }
+
         #region Recommand
         private List<Recommand>? recommands;
-        public List<Recommand>? Recommands { get => recommands; set => Set(ref recommands, value); }
+        public List<Recommand>? Recommands { get => recommands; set => SetProperty(ref recommands, value); }
 
         private List<int> floors = new() { 12, 11, 10, 9 };
-        public List<int> Floors { get => floors; set => Set(ref floors, value); }
+        public List<int> Floors { get => floors; set => SetProperty(ref floors, value); }
 
         private int selectedFloor;
         public int SelectedFloor
         {
             get => selectedFloor; set
             {
-                selectedFloor = value;
+                SetProperty(ref selectedFloor, value);
                 OnFloorChanged();
             }
         }
 
         private async void OnFloorChanged()
         {
-            await Task.Run(RefershRecommandsAsync);
+            await RefershRecommandsAsync();
         }
 
         public async Task RefershRecommandsAsync()
@@ -157,34 +185,9 @@ namespace DGP.Genshin.Services.CelestiaDatabase
                 ? null
                 : avatar.CnName == "旅行者"
                 ? new Character { Name = "旅行者", Star = StarHelper.FromRank(5) }
-                : (MetadataService.Instance.Characters?.First(c => c.Name == avatar.CnName));
+                : (MetadataViewModel.Instance.Characters?.First(c => c.Name == avatar.CnName));
         }
 
-        #endregion
-
-        #region 单例
-        private static volatile CelestiaDatabaseService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private CelestiaDatabaseService()
-        {
-            database = new();
-            selectedFloor = floors[0];
-        }
-        public static CelestiaDatabaseService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
-            }
-        }
         #endregion
     }
 }

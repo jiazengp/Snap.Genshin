@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -6,7 +7,6 @@ using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -14,7 +14,8 @@ using Windows.UI.Notifications;
 
 namespace DGP.Genshin.Services.Updating
 {
-    internal class UpdateService
+    [Service(typeof(IUpdateService),ServiceType.Singleton)]
+    internal class UpdateService : IUpdateService
     {
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
@@ -81,7 +82,7 @@ namespace DGP.Genshin.Services.Updating
 
         private void ShowDownloadToastNotification()
         {
-            LastUpdateResult = NotificationUpdateResult.Succeeded;
+            LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
             new ToastContentBuilder()
                 .AddText("下载更新中...")
@@ -108,14 +109,14 @@ namespace DGP.Genshin.Services.Updating
                 });
         }
 
-        private NotificationUpdateResult LastUpdateResult = NotificationUpdateResult.Succeeded;
+        private NotificationUpdateResult LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
             this.Log(percent ?? 0);
-            this.Log(LastUpdateResult);
+            this.Log(LastNotificationUpdateResult);
             //user has dismissed the notification so we don't update it anymore
-            if (LastUpdateResult is not NotificationUpdateResult.Succeeded)
+            if (LastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
             {
                 return;
             }
@@ -138,7 +139,7 @@ namespace DGP.Genshin.Services.Updating
             }
 
             // Update the existing notification's data
-            LastUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
+            LastNotificationUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
             this.Log("UpdateNotificationValue called");
         }
 
@@ -156,26 +157,5 @@ namespace DGP.Genshin.Services.Updating
                 Arguments = "UpdateInstall"
             });
         }
-
-        #region 单例
-        private static volatile UpdateService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private UpdateService() { }
-        public static UpdateService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
-            }
-        }
-        #endregion
     }
 }

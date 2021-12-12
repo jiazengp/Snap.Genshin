@@ -3,7 +3,7 @@ using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using System.Collections.Generic;
 
-namespace DGP.Genshin.Services.GameRecord
+namespace DGP.Genshin.DataModel.MiHoYo2
 {
     /// <summary>
     /// 包装一次查询的数据

@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services;
+using DGP.Genshin.ViewModels;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -18,7 +18,7 @@ namespace DGP.Genshin.Pages
         private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             await Task.Delay(1000);
-            DataContext = DailyViewService.Instance;
+            DataContext = DailyViewModel.Instance;
             this.Log("initialized");
         }
     }

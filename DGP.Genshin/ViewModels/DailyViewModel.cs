@@ -1,33 +1,40 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Weapons;
+using DGP.Genshin.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.ViewModels
 {
     /// <summary>
     /// 日常材料服务
     /// </summary>
-    public class DailyViewService : Observable
+    [ViewModel]
+    public class DailyViewModel : ObservableObject
     {
-        private readonly MetadataService dataService = MetadataService.Instance;
+        private readonly MetadataViewModel dataService;
+        private DailyViewModel(MetadataViewModel metadataService)
+        {
+            dataService = metadataService;
+            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
+            this.Log("initialized");
+        }
 
         private NamedValue<DayOfWeek> selectedDayOfWeek;
-
         public NamedValue<DayOfWeek> SelectedDayOfWeek
         {
             get => selectedDayOfWeek; set
             {
-                Set(ref selectedDayOfWeek, value);
-
+                SetProperty(ref selectedDayOfWeek, value);
                 RaisePropertyChanged("Mondstadt");
                 RaisePropertyChanged("Liyue");
                 RaisePropertyChanged("Inazuma");
@@ -50,13 +57,11 @@ namespace DGP.Genshin.Services
             OnPropertyChanged($"Today{city}Weapon5");
             OnPropertyChanged($"Today{city}Weapon4");
         }
-
         public void ClearFieldValue(string name)
         {
-            FieldInfo? fieldInfo = typeof(DailyViewService).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo? fieldInfo = typeof(DailyViewModel).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
             fieldInfo?.SetValue(this, null);
         }
-
         public List<NamedValue<DayOfWeek>> DayOfWeeks { get; set; } = new()
         {
             new("星期一", DayOfWeek.Monday),
@@ -322,31 +327,6 @@ namespace DGP.Genshin.Services
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayInazumaWeapon4;
-            }
-        }
-        #endregion
-
-        #region 单例
-        private static volatile DailyViewService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private DailyViewService()
-        {
-            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
-            this.Log("initialized");
-        }
-        public static DailyViewService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
             }
         }
         #endregion

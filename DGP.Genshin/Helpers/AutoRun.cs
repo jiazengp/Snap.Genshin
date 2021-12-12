@@ -4,10 +4,15 @@ using System.Diagnostics;
 
 namespace DGP.Genshin.Helpers
 {
-    public class AutoRunHelper
+    public class AutoRun
     {
         private const string AppName = "SnapGenshin";
         private const string RunPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private static bool hasCreated = false;
+        public AutoRun()
+        {
+            hasCreated = hasCreated ? throw new SnapGenshinInternalException($"{nameof(AutoRun)}的实例在运行期间仅允许创建一次") : true;
+        }
 
         public bool IsAutoRun
         {

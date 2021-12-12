@@ -1,14 +1,15 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Cookie;
+using DGP.Genshin.DataModel.MiHoYo2;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
+using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Settings;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -19,15 +20,18 @@ namespace DGP.Genshin.Services.GameRecord
     /// 由于直接在方法内创建了提供器实列
     /// 所以不需要监听 <see cref="CookieManager.CookieChanged"/> 事件
     /// </summary>
-    public class RecordService : Observable
+    [Service(typeof(IRecordService), ServiceType.Singleton)]
+    public class RecordService : IRecordService
     {
-        #region Observable
-        private Record? currentRecord;
-        public Record? CurrentRecord { get => currentRecord; set => Set(ref currentRecord, value); }
-
-        private bool isQuerying = false;
-        public bool IsQuerying { get => isQuerying; set => Set(ref isQuerying, value); }
-        #endregion
+        private RecordService()
+        {
+            if (File.Exists(QueryHistoryFile))
+            {
+                QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile)) ?? new();
+            }
+            this.Log("initialized");
+        }
+        
 
         public List<string> QueryHistory { get; set; } = new();
         internal void AddQueryHistory(string? uid)
@@ -115,7 +119,7 @@ namespace DGP.Genshin.Services.GameRecord
             return result;
         }
 
-        public static event Action<string?>? RecordProgressed;
+        public event Action<string?>? RecordProgressed;
 
         private const string QueryHistoryFile = "history.dat";
 
@@ -124,33 +128,5 @@ namespace DGP.Genshin.Services.GameRecord
             File.WriteAllText(QueryHistoryFile, Json.Stringify(QueryHistory));
             this.Log("uninitialized");
         }
-
-        #region 单例
-        private static volatile RecordService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-        private RecordService()
-        {
-            if (File.Exists(QueryHistoryFile))
-            {
-                QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile)) ?? new();
-            }
-            this.Log("initialized");
-        }
-        public static RecordService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
-                    {
-                        instance ??= new();
-                    }
-                }
-                return instance;
-            }
-        }
-        #endregion
     }
 }

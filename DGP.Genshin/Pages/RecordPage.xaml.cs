@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.DataModel.MiHoYo2;
 using DGP.Genshin.Services.CelestiaDatabase;
 using DGP.Genshin.Services.GameRecord;
 using ModernWpf.Controls;

@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Genshin.Services;
+using DGP.Genshin.ViewModels;
 using System;
 
 namespace DGP.Genshin.DataModel.Materials.Talents
@@ -25,7 +25,7 @@ namespace DGP.Genshin.DataModel.Materials.Talents
 
         public bool IsTodaysTalent()
         {
-            return DailyViewService.Instance.SelectedDayOfWeek.Value switch
+            return DailyViewModel.Instance.SelectedDayOfWeek.Value switch
             {
                 DayOfWeek.Sunday => true,
                 DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Freedom or Prosperity or Transience),
