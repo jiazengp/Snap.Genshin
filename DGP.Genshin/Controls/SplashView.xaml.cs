@@ -1,7 +1,10 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,29 +14,14 @@ namespace DGP.Genshin.Controls
     /// <summary>
     /// SplashView.xaml 的交互逻辑
     /// </summary>
-    public partial class SplashView : UserControl, INotifyPropertyChanged
+    public partial class SplashView : UserControl
     {
-        public MetadataViewModel MetaDataService { get; set; } = MetadataViewModel.Instance;
-        private bool integrityCheckCompleted;
-        private bool isCookieVisible = true;
-        private bool hasCheckCompleted;
-        private string currentStateDescription = "校验缓存完整性...";
+        public MetadataViewModel metadataViewModel;
 
-        public bool IsCookieVisible
-        {
-            get => isCookieVisible; set
-            {
-                Set(ref isCookieVisible, value);
-                OnInitializeStateChanged();
-            }
-        }
-
-        public bool HasCheckCompleted { get => hasCheckCompleted; set => Set(ref hasCheckCompleted, value); }
-        public string CurrentStateDescription { get => currentStateDescription; set => Set(ref currentStateDescription, value); }
         public SplashView()
         {
             DataContext = this;
-            MetadataViewModel.Instance.CompleteStateChanged += isCompleted =>
+            metadataViewModel.CompleteStateChanged += isCompleted =>
             {
                 if (isCompleted)
                 {
@@ -45,40 +33,35 @@ namespace DGP.Genshin.Controls
             InitializeComponent();
         }
 
-        private async void UserControlLoaded(object sender, RoutedEventArgs e)
+        private async void CookieButtonClick(object sender, RoutedEventArgs e)
         {
-            await MetadataViewModel.Instance.CheckAllIntegrityAsync();
+            await CookieManager.SetCookieAsync();
+            IsCookieVisible = !CookieManager.IsCookieAvailable;
         }
+    }
+
+    public class SplashViewModel : ObservableObject
+    {
+        private MetadataViewModel metadataViewModel;
+        private bool integrityCheckCompleted;
+
+        private bool isCookieVisible = true;
+        private bool hasCheckCompleted;
+        private string currentStateDescription = "校验缓存完整性...";
+        private IAsyncRelayCommand initializeCommand;
 
         /// <summary>
         /// you need to set <see cref="HasCheckCompleted"/> to true to collaspe the view
         /// </summary>
         public event Action<SplashView>? PostInitializationAction;
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        public bool IsCookieVisible
         {
-            if (Equals(storage, value))
+            get => isCookieVisible; set
             {
-                return;
+                SetProperty(ref isCookieVisible, value);
+                OnInitializeStateChanged();
             }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        private async void CookieButtonClick(object sender, RoutedEventArgs e)
-        {
-            await CookieManager.SetCookieAsync();
-            IsCookieVisible = !CookieManager.IsCookieAvailable;
         }
 
         private void OnInitializeStateChanged()
@@ -87,6 +70,19 @@ namespace DGP.Genshin.Controls
             {
                 PostInitializationAction?.Invoke(this);
             }
+        }
+        public bool HasCheckCompleted { get => hasCheckCompleted; set => SetProperty(ref hasCheckCompleted, value); }
+        public string CurrentStateDescription { get => currentStateDescription; set => SetProperty(ref currentStateDescription, value); }
+        public IAsyncRelayCommand InitializeCommand 
+        { 
+            get => initializeCommand; 
+            [MemberNotNull(nameof(initializeCommand))]
+            set => SetProperty(ref initializeCommand, value); }
+
+        public SplashViewModel(MetadataViewModel metadataViewModel)
+        {
+            this.metadataViewModel = metadataViewModel;
+            InitializeCommand = new AsyncRelayCommand(async () => { await this.metadataViewModel.CheckAllIntegrityAsync(); });
         }
     }
 }

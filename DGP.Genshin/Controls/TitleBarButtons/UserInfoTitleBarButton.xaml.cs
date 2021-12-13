@@ -1,11 +1,14 @@
 ﻿using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -16,70 +19,14 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     /// <summary>
     /// UserInfoTitleBarButton.xaml 的交互逻辑
     /// </summary>
-    public partial class UserInfoTitleBarButton : TitleBarButton, INotifyPropertyChanged
+    public partial class UserInfoTitleBarButton : TitleBarButton
     {
-        private CookieUserInfo? selectedCookieUserInfo;
-        private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
-
-        public CookieUserInfo? SelectedCookieUserInfo
-        {
-            get => selectedCookieUserInfo; set
-            {
-                Set(ref selectedCookieUserInfo, value);
-                CookieManager.ChangeOrIgnoreCurrentCookie(value?.Cookie);
-            }
-        }
-
-        public ObservableCollection<CookieUserInfo> CookieUserInfos { get => cookieUserInfos; set => Set(ref cookieUserInfos, value); }
-
         public UserInfoTitleBarButton()
         {
             //suppress the databinding warning
-            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
+            //PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             InitializeComponent();
             DataContext = this;
-            CookieManager.Cookies.CookieAdded += OnCookiesAdded;
-            CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
-        }
-
-        internal async Task InitializeAsync()
-        {
-            //every time open menu will retrive data from api
-            CookieUserInfos.Clear();
-            foreach (string cookie in CookieManager.Cookies)
-            {
-                UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
-                if (info is not null)
-                {
-                    CookieUserInfos.Add(new CookieUserInfo(cookie, info));
-                }
-            }
-            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == CookieManager.CurrentCookie);
-        }
-
-        private async void OnCookiesAdded(string newCookie)
-        {
-            UserInfo? newInfo = await new UserInfoProvider(newCookie).GetUserInfoAsync();
-            if (newInfo is not null)
-            {
-                CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
-            }
-        }
-
-        public void OnCookieRemoved(string cookie)
-        {
-            CookieUserInfo? prevSelected = SelectedCookieUserInfo;
-            CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == cookie);
-            CookieUserInfos.Remove(currentRemoved);
-            if (prevSelected == currentRemoved)
-            {
-                SelectedCookieUserInfo = CookieUserInfos.First();
-            }
-        }
-
-        private void TitleBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            sender.ShowAttachedFlyout<System.Windows.Controls.Grid>(this);
         }
 
         private async void RemoveCookieAppBarButtonClick(object sender, RoutedEventArgs e)
@@ -119,24 +66,72 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             await CookieManager.AddNewCookieToPoolAsync();
         }
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
+    }
+    public class UserInfoViewModel : ObservableObject
+    {
+        private CookieUserInfo? selectedCookieUserInfo;
+        private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
+        private IRelayCommand<TitleBarButton> initializeCommand;
 
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        public CookieUserInfo? SelectedCookieUserInfo
         {
-            if (Equals(storage, value))
+            get => selectedCookieUserInfo; set
             {
-                return;
+                SetProperty(ref selectedCookieUserInfo, value);
+                CookieManager.ChangeOrIgnoreCurrentCookie(value?.Cookie);
             }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
         }
-
-        protected void OnPropertyChanged(string propertyName)
+        public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => cookieUserInfos;
+            set => SetProperty(ref cookieUserInfos, value);
         }
-        #endregion
+        public IRelayCommand<TitleBarButton> InitializeCommand 
+        { 
+            get => initializeCommand; 
+            [MemberNotNull(nameof(initializeCommand))]
+            set => SetProperty(ref initializeCommand, value); 
+        }
+
+        public UserInfoViewModel()
+        {
+            CookieManager.Cookies.CookieAdded += OnCookiesAdded;
+            CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
+            InitializeCommand = new RelayCommand<TitleBarButton>(t => { t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this); });
+        }
+
+        private async void OnCookiesAdded(string newCookie)
+        {
+            UserInfo? newInfo = await new UserInfoProvider(newCookie).GetUserInfoAsync();
+            if (newInfo is not null)
+            {
+                CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
+            }
+        }
+
+        public void OnCookieRemoved(string cookie)
+        {
+            CookieUserInfo? prevSelected = SelectedCookieUserInfo;
+            CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == cookie);
+            CookieUserInfos.Remove(currentRemoved);
+            if (prevSelected == currentRemoved)
+            {
+                SelectedCookieUserInfo = CookieUserInfos.First();
+            }
+        }
+
+        internal async Task InitializeAsync()
+        {
+            CookieUserInfos.Clear();
+            foreach (string cookie in CookieManager.Cookies)
+            {
+                UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
+                if (info is not null)
+                {
+                    CookieUserInfos.Add(new CookieUserInfo(cookie, info));
+                }
+            }
+            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == CookieManager.CurrentCookie);
+        }
     }
 }
