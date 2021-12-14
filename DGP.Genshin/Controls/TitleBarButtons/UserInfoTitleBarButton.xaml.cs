@@ -1,16 +1,13 @@
-﻿using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.DataModel.Cookies;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
+using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -32,7 +29,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         private async void RemoveCookieAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             this.HideAttachedFlyout();
-            if (CookieManager.Cookies.Count <= 1)
+            if (CookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
@@ -55,7 +52,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                 }.ShowAsync).Task.Unwrap();
                 if (result is ContentDialogResult.Primary)
                 {
-                    CookieManager.Cookies.Remove(SelectedCookieUserInfo.Cookie);
+                    CookieService.Cookies.Remove(SelectedCookieUserInfo.Cookie);
                 }
             }
         }
@@ -63,12 +60,14 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         private async void AddCookieAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             this.HideAttachedFlyout();
-            await CookieManager.AddNewCookieToPoolAsync();
+            await CookieService.AddNewCookieToPoolAsync();
         }
 
     }
     public class UserInfoViewModel : ObservableObject
     {
+        private readonly ICookieService cookieService;
+
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
         private IRelayCommand<TitleBarButton> initializeCommand;
@@ -78,7 +77,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             get => selectedCookieUserInfo; set
             {
                 SetProperty(ref selectedCookieUserInfo, value);
-                CookieManager.ChangeOrIgnoreCurrentCookie(value?.Cookie);
+                CookieService.ChangeOrIgnoreCurrentCookie(value?.Cookie);
             }
         }
         public ObservableCollection<CookieUserInfo> CookieUserInfos
@@ -92,12 +91,18 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             [MemberNotNull(nameof(initializeCommand))]
             set => SetProperty(ref initializeCommand, value); 
         }
-
-        public UserInfoViewModel()
+        public IAsyncRelayCommand RemoveUserCommand { get; set; }
+        public UserInfoViewModel(ICookieService cookieService)
         {
-            CookieManager.Cookies.CookieAdded += OnCookiesAdded;
-            CookieManager.Cookies.CookieRemoved += OnCookieRemoved;
-            InitializeCommand = new RelayCommand<TitleBarButton>(t => { t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this); });
+            this.cookieService = cookieService;
+            cookieService.Cookies.CookieAdded += OnCookiesAdded;
+            cookieService.Cookies.CookieRemoved += OnCookieRemoved;
+            InitializeCommand = new RelayCommand<TitleBarButton>(InitializeAsync);
+        }
+
+        private void InitializeAsync(TitleBarButton? t)
+        {
+            t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this);
         }
 
         private async void OnCookiesAdded(string newCookie)
@@ -108,7 +113,6 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                 CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
             }
         }
-
         public void OnCookieRemoved(string cookie)
         {
             CookieUserInfo? prevSelected = SelectedCookieUserInfo;
@@ -120,10 +124,10 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             }
         }
 
-        internal async Task InitializeAsync()
+        internal async Task InitializeInternalAsync()
         {
             CookieUserInfos.Clear();
-            foreach (string cookie in CookieManager.Cookies)
+            foreach (string cookie in cookieService.Cookies)
             {
                 UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
                 if (info is not null)
@@ -131,7 +135,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                     CookieUserInfos.Add(new CookieUserInfo(cookie, info));
                 }
             }
-            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == CookieManager.CurrentCookie);
+            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);
         }
     }
 }

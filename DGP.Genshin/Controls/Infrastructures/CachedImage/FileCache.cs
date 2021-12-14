@@ -114,7 +114,6 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        [SuppressMessage("", "CA5350")]
         private static string BuildFileName(Uri uri)
         {
             StringBuilder fileNameBuilder = new();

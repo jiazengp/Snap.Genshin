@@ -1,7 +1,8 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
+using DGP.Genshin.Services;
+using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls.Primitives;
@@ -14,22 +15,29 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     [ViewModel(ViewModelType.Transient)]
     public class DailyNoteViewModel : ObservableObject
     {
-        private bool isRefreshing;
+        private readonly ICookieService cookieService;
+
         private List<DailyNote> dailyNotes = new();
         private IAsyncRelayCommand<TitleBarButton> refreshCommand;
+
         public List<DailyNote> DailyNotes { get => dailyNotes; set => SetProperty(ref dailyNotes, value); }
         public IAsyncRelayCommand<TitleBarButton> RefreshCommand { get => refreshCommand; set => refreshCommand = value; }
-        public DailyNoteViewModel()
+
+        public DailyNoteViewModel(ICookieService cookieService)
         {
-            refreshCommand = new AsyncRelayCommand<TitleBarButton>(async (t) =>
-            {
-                if (t?.ShowAttachedFlyout<Grid>(this) == true)
-                {
-                    await RefreshAsync();
-                }
-            });
+            this.cookieService = cookieService;
+            refreshCommand = new AsyncRelayCommand<TitleBarButton>(RefreshAsync);
         }
-        public async Task RefreshAsync()
+        private async Task RefreshAsync(TitleBarButton? t)
+        {
+            if (t?.ShowAttachedFlyout<Grid>(this) == true)
+            {
+                await RefreshInternalAsync();
+            }
+        }
+
+        private bool isRefreshing;
+        private async Task RefreshInternalAsync()
         {
             if (isRefreshing)
             {
@@ -37,7 +45,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
             }
             isRefreshing = true;
             List<DailyNote> list = new();
-            UserGameRoleInfo? roles = await new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync();
+            UserGameRoleInfo? roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
 
             if (roles?.List is not null)
             {
@@ -45,7 +53,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
                 {
                     if (role.Region is not null && role.GameUid is not null)
                     {
-                        DailyNote? note = await new DailyNoteProvider(CookieManager.CurrentCookie).GetDailyNoteAsync(role.Region, role.GameUid);
+                        DailyNote? note = await new DailyNoteProvider(cookieService.CurrentCookie).GetDailyNoteAsync(role.Region, role.GameUid);
                         if (note is not null)
                         {
                             list.Add(note);

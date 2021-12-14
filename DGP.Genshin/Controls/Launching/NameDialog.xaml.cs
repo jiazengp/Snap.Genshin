@@ -1,9 +1,10 @@
-﻿using ModernWpf.Controls;
+﻿using DGP.Genshin.DataModel.Launching;
+using ModernWpf.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.Launching
+namespace DGP.Genshin.Controls.Launching
 {
     /// <summary>
     /// NameDialog.xaml 的交互逻辑

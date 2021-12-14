@@ -1,10 +1,12 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Controls.TitleBarButtons;
-using DGP.Genshin.Cookie;
+using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Journey;
+using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls.Primitives;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -17,28 +19,32 @@ namespace DGP.Genshin.ViewModels
     /// 旅行札记服务
     /// </summary>
     [ViewModel(ViewModelType.Transient)]
-    public class JourneyViewModel : ObservableObject
+    public class JourneyViewModel : ObservableObject, IRecipient<CookieChangedMessage>
     {
+        private readonly ICookieService cookieService;
+
         private JourneyProvider journeyProvider;
         private UserGameRoleProvider userGameRoleProvider;
-        public JourneyViewModel()
+
+        public JourneyViewModel(ICookieService cookieService)
         {
-            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(async (t) =>
-            {
-                if (t?.ShowAttachedFlyout<Grid>(this) == true)
-                {
-                    await InitializeAsync();
-                }
-            });
-            CookieManager.CookieChanged += UpdateProvider;
-            journeyProvider = new JourneyProvider(CookieManager.CurrentCookie);
-            userGameRoleProvider = new UserGameRoleProvider(CookieManager.CurrentCookie);
+            this.cookieService = cookieService;
+            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+            journeyProvider = new JourneyProvider(this.cookieService.CurrentCookie);
+            userGameRoleProvider = new UserGameRoleProvider(this.cookieService.CurrentCookie);
         }
 
-        private void UpdateProvider()
+        private async Task InitializeAsync(TitleBarButton? t)
         {
-            journeyProvider = new JourneyProvider(CookieManager.CurrentCookie);
-            userGameRoleProvider = new UserGameRoleProvider(CookieManager.CurrentCookie);
+            if (t?.ShowAttachedFlyout<Grid>(this) == true)
+            {
+                await InitializeInternalAsync();
+            }
+        }
+        private async Task InitializeInternalAsync()
+        {
+            UserGameRoleInfo = await userGameRoleProvider.GetUserGameRolesAsync();
+            SelectedRole = UserGameRoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
         }
 
         #region Observable
@@ -61,19 +67,20 @@ namespace DGP.Genshin.ViewModels
         {
             JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
         }
-        public IAsyncRelayCommand<TitleBarButton> InitializeCommand 
-        { 
-            get => initializeCommand; 
 
-            [MemberNotNull("initializeCommand")] 
-            set => SetProperty(ref initializeCommand, value); 
+        public IAsyncRelayCommand<TitleBarButton> InitializeCommand
+        {
+            get => initializeCommand;
+
+            [MemberNotNull("initializeCommand")]
+            set => SetProperty(ref initializeCommand, value);
         }
         #endregion
 
-        public async Task InitializeAsync()
+        public void Receive(CookieChangedMessage message)
         {
-            UserGameRoleInfo = await userGameRoleProvider.GetUserGameRolesAsync();
-            SelectedRole = UserGameRoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
+            journeyProvider = new JourneyProvider(message.Value);
+            userGameRoleProvider = new UserGameRoleProvider(message.Value);
         }
     }
 }

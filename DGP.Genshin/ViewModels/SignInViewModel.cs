@@ -1,11 +1,13 @@
-﻿using DGP.Genshin.Controls.TitleBarButtons;
-using DGP.Genshin.Cookie;
+﻿using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls.Primitives;
 using System;
@@ -16,11 +18,10 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.ViewModels
 {
-    public class SignInViewModel : ObservableObject
+    public class SignInViewModel : ObservableObject,IRecipient<CookieChangedMessage>
     {
-        //prevent multiple signin task
-        private bool isSigningIn;
         private readonly ISettingService settingService;
+        private readonly ICookieService cookieService;
 
         private SignInReward? signInReward;
         private SignInInfo? signInInfo;
@@ -29,25 +30,25 @@ namespace DGP.Genshin.ViewModels
         private IAsyncRelayCommand<TitleBarButton> initializeCommand;
         private IAsyncRelayCommand signInCommand;
 
-        public SignInViewModel(ISettingService settingService)
+        public SignInViewModel(ISettingService settingService,ICookieService cookieService)
         {
             this.settingService = settingService;
-            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(async t =>
+            this.cookieService = cookieService;
+
+            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+            SignInCommand = new AsyncRelayCommand(SignInAsync);
+        }
+
+        //prevent multiple signin task
+        private bool isSigningIn;
+        private async Task SignInAsync()
+        {
+            if (!isSigningIn)
             {
-                if (t?.ShowAttachedFlyout<Grid>(this) == true)
-                {
-                    await InitializeSignInPanelDataAsync();
-                }
-            });
-            SignInCommand = new AsyncRelayCommand(async() => {
-                if (!isSigningIn)
-                {
-                    isSigningIn = true;
-                    await App.Current.Dispatcher.InvokeAsync(SignInInternalAsync).Task.Unwrap();
-                    isSigningIn = false;
-                }
-            });
-            CookieManager.CookieChanged += CookieManagerCookieChanged;
+                isSigningIn = true;
+                await App.Current.Dispatcher.InvokeAsync(SignInInternalAsync).Task.Unwrap();
+                isSigningIn = false;
+            }
         }
 
         private async Task SignInInternalAsync()
@@ -55,10 +56,10 @@ namespace DGP.Genshin.ViewModels
             if (SelectedRole is null)
             {
                 isSigningIn = false;
-                throw new InvalidOperationException("无角色信息时不能签到");
+                throw new UnexceptedNullException("无角色信息时不能签到");
             }
 
-            SignInResult? result = await new SignInProvider(CookieManager.CurrentCookie).SignInAsync(SelectedRole);
+            SignInResult? result = await new SignInProvider(cookieService.CurrentCookie).SignInAsync(SelectedRole);
             if (result is not null)
             {
                 settingService[Setting.LastAutoSignInTime] = DateTime.Now;
@@ -68,11 +69,19 @@ namespace DGP.Genshin.ViewModels
                     .AddText(SelectedRole.ToString())
                     .AddAttributionText("米游社每日签到")
                     .Show();
-            SignInReward? reward = await new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync();
+            SignInReward? reward = await new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync();
             ApplyItemOpacity(reward);
             SignInReward = reward;
             //refresh info
-            SignInInfo = await new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(SelectedRole);
+            SignInInfo = await new SignInProvider(cookieService.CurrentCookie).GetSignInInfoAsync(SelectedRole);
+        }
+
+        private async Task InitializeAsync(TitleBarButton? t)
+        {
+            if (t?.ShowAttachedFlyout<Grid>(this) == true)
+            {
+                await InitializeSignInPanelDataAsync();
+            }
         }
 
         /// <summary>
@@ -81,19 +90,14 @@ namespace DGP.Genshin.ViewModels
         /// <returns></returns>
         private async Task InitializeSignInPanelDataAsync()
         {
-            SignInReward ??= await Task.Run(new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync);
+            SignInReward ??= await Task.Run(new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync);
             if (SignInInfo is null)
             {
-                RoleInfo = await Task.Run(new UserGameRoleProvider(CookieManager.CurrentCookie).GetUserGameRolesAsync);
+                RoleInfo = await Task.Run(new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync);
                 SelectedRole = RoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
             }
         }
-        private void CookieManagerCookieChanged()
-        {
-            //reset sign in panel
-            SignInReward = null;
-            SignInInfo = null;
-        }
+
         /// <summary>
         /// 签到奖励一览
         /// </summary>
@@ -134,8 +138,8 @@ namespace DGP.Genshin.ViewModels
         {
             if (SelectedRole is not null)
             {
-                SignInInfo = await Task.Run(() => new SignInProvider(CookieManager.CurrentCookie).GetSignInInfoAsync(SelectedRole));
-                SignInReward? reward = await Task.Run(new SignInProvider(CookieManager.CurrentCookie).GetSignInRewardAsync);
+                SignInInfo = await Task.Run(() => new SignInProvider(cookieService.CurrentCookie).GetSignInInfoAsync(SelectedRole));
+                SignInReward? reward = await Task.Run(new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync);
                 ApplyItemOpacity(reward);
                 SignInReward = reward;
             }
@@ -151,15 +155,30 @@ namespace DGP.Genshin.ViewModels
                 item.Opacity = (i + 1) <= SignInInfo?.TotalSignDay ? 0.2 : 1;
             }
         }
+
+        /// <summary>
+        /// Cookie改变
+        /// </summary>
+        /// <param name="message"></param>
+        public void Receive(CookieChangedMessage message)
+        {
+            //reset sign in panel
+            SignInReward = null;
+            SignInInfo = null;
+        }
+
         public IAsyncRelayCommand<TitleBarButton> InitializeCommand
         {
             get => initializeCommand;
             [MemberNotNull(nameof(initializeCommand))]
             set => SetProperty(ref initializeCommand, value);
         }
+
         public IAsyncRelayCommand SignInCommand
         {
-            get => signInCommand; set => SetProperty(ref signInCommand, value);
+            get => signInCommand;
+            [MemberNotNull(nameof(signInCommand))]
+            set => SetProperty(ref signInCommand, value);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DGP.Genshin.DataModel.Launching;
+using Microsoft.Win32;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace DGP.Genshin.Services.Launching
 
         /// <summary>
         /// 在注册表中获取账号信息
-        /// 若不提供命名器，则返回的账号仅用于比较，不应存入列表中
+        /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
         /// </summary>
         /// <param name="accountNamer"></param>
         /// <returns></returns>
@@ -46,7 +47,7 @@ namespace DGP.Genshin.Services.Launching
 
         /// <summary>
         /// 在注册表中获取账号信息
-        /// 若不提供命名器，则返回的账号仅用于比较，不应存入列表中
+        /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
         /// </summary>
         /// <param name="accountNamer"></param>
         /// <returns></returns>

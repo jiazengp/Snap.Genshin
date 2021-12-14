@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace DGP.Genshin.Cookie
+namespace DGP.Genshin.Controls.Cookies
 {
     /// <summary>
     /// CookieWindow.xaml 的交互逻辑

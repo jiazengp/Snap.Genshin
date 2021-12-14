@@ -1,18 +1,21 @@
-﻿using System;
+﻿using DGP.Genshin.Services;
+using DGP.Genshin.Services.Abstratcions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DGP.Genshin.Cookie
+namespace DGP.Genshin.Services.Cookies
 {
     /// <summary>
-    /// Cookie池，提供Cookie操作事件支持
+    /// Cookie池的默认实现，提供Cookie操作事件支持
     /// </summary>
-    public class CookiePool : List<string>
+    public class CookiePool : List<string>, ICookiePool
     {
         private readonly List<string> AccountIds = new();
-        public CookiePool() : base() { }
-        public CookiePool(IEnumerable<string> collection) : base(collection)
+        private readonly ICookieService cookieService;
+        public CookiePool(ICookieService cookieService, IEnumerable<string> collection) : base(collection)
         {
+            this.cookieService = cookieService;
             AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
         }
 
@@ -26,7 +29,7 @@ namespace DGP.Genshin.Cookie
             {
                 base.Add(cookie);
                 CookieAdded?.Invoke(cookie);
-                CookieManager.SaveCookies();
+                cookieService.SaveCookies();
             }
         }
 
@@ -57,7 +60,7 @@ namespace DGP.Genshin.Cookie
             AccountIds.Remove(id);
             bool result = base.Remove(cookie);
             CookieRemoved?.Invoke(cookie);
-            CookieManager.SaveCookies();
+            cookieService.SaveCookies();
             return result;
         }
 

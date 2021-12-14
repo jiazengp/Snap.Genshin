@@ -49,7 +49,7 @@ namespace DGP.Genshin.Pages
             DependencyProperty.Register("VersionString", typeof(string), typeof(SettingsPage), new PropertyMetadata(""));
         #endregion
 
-        public AutoRun AutoRunHelper { get => autoRunHelper; set => autoRunHelper = value; }
+        public AutoRun AutoRun { get => autoRunHelper; set => autoRunHelper = value; }
 
         private async void UpdateRequestedAsync(object sender, RoutedEventArgs e)
         {

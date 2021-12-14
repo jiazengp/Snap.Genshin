@@ -2,7 +2,6 @@
 using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
-using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
@@ -92,7 +91,7 @@ namespace DGP.Genshin
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                foreach (string cookie in CookieManager.Cookies)
+                foreach (string cookie in CookieService.Cookies)
                 {
                     UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                     List<UserGameRole>? list = roleInfo?.List;

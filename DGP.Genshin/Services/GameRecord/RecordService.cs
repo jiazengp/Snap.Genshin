@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Cookie;
 using DGP.Genshin.DataModel.MiHoYo2;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
@@ -18,7 +17,7 @@ namespace DGP.Genshin.Services.GameRecord
     /// <summary>
     /// 玩家记录服务
     /// 由于直接在方法内创建了提供器实列
-    /// 所以不需要监听 <see cref="CookieManager.CookieChanged"/> 事件
+    /// 所以不需要监听 <see cref="CookieService.CookieChanged"/> 事件
     /// </summary>
     [Service(typeof(IRecordService), ServiceType.Singleton)]
     public class RecordService : IRecordService
@@ -60,7 +59,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record("请输入Uid");
                 }
 
-                RecordProvider recordProvider = new(CookieManager.CurrentCookie);
+                RecordProvider recordProvider = new(CookieService.CurrentCookie);
 
                 //figure out the server
                 string? server = recordProvider.EvaluateUidRegion(uid);

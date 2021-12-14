@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.GameRole;
+using DGP.Genshin.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -95,15 +95,15 @@ namespace DGP.Genshin.Pages
         {
             DataContext = this;
             InitializeComponent();
-            calculator = new(CookieManager.CurrentCookie);
-            userGameRoleProvider = new(CookieManager.CurrentCookie);
-            CookieManager.CookieChanged += CookieManagerCookieChanged;
+            calculator = new(CookieService.CurrentCookie);
+            userGameRoleProvider = new(CookieService.CurrentCookie);
+            CookieService.CookieChanged += CookieManagerCookieChanged;
         }
 
         private async void CookieManagerCookieChanged()
         {
-            calculator = new(CookieManager.CurrentCookie);
-            userGameRoleProvider = new(CookieManager.CurrentCookie);
+            calculator = new(CookieService.CurrentCookie);
+            userGameRoleProvider = new(CookieService.CurrentCookie);
 
             UserGameRoleInfo? gameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
             if (gameRoles?.List is not null)

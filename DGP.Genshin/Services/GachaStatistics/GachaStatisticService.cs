@@ -1,8 +1,8 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Data.Privacy;
+﻿using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using ModernWpf.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -14,7 +14,7 @@ namespace DGP.Genshin.Services.GachaStatistics
     /// <summary>
     /// 抽卡记录服务
     /// </summary>
-    public class GachaStatisticService : Observable
+    public class GachaStatisticService
     {
         private readonly LocalGachaLogWorker localGachaLogWorker;
 
@@ -51,64 +51,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         }
         #endregion
 
-        #region observables
-        private Statistic? statistic;
-        private PrivateString? selectedUid;
-        private FetchProgress? fetchProgress;
-        private SpecificBanner? selectedSpecificBanner;
-        private bool canUserSwitchUid = true;
-        private ObservableCollection<PrivateString> uids = new();
 
-        /// <summary>
-        /// 当前的统计信息
-        /// </summary>
-        public Statistic? Statistic { get => statistic; set => Set(ref statistic, value); }
-
-        /// <summary>
-        /// 当前选择的UID
-        /// </summary>
-        public PrivateString? SelectedUid
-        {
-            get => selectedUid; set
-            {
-                Set(ref selectedUid, value);
-                if (CanUserSwitchUid)
-                {
-                    SyncStatisticWithUid();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 所有UID
-        /// </summary>
-        public ObservableCollection<PrivateString> Uids { get => uids; set => Set(ref uids, value); }
-
-        /// <summary>
-        /// UID切换状态锁
-        /// 用来保证切换UID时无法再次切换
-        /// </summary>
-        public bool CanUserSwitchUid { get => canUserSwitchUid; set => Set(ref canUserSwitchUid, value); }
-
-        /// <summary>
-        /// 用于前台判断是否存在可展示的数据
-        /// </summary>
-        public bool HasNoData => gachaDataCollection.Count <= 0;
-
-        /// <summary>
-        /// 当前的获取进度
-        /// </summary>
-        public FetchProgress? FetchProgress { get => fetchProgress; set => Set(ref fetchProgress, value); }
-        private void OnFetchProgressed(FetchProgress p)
-        {
-            FetchProgress = p;
-        }
-        /// <summary>
-        /// 选定的特定池
-        /// </summary>
-        public SpecificBanner? SelectedSpecificBanner { get => selectedSpecificBanner; set => Set(ref selectedSpecificBanner, value); }
-
-        #endregion
 
         /// <summary>
         /// 获得当前的祈愿记录工作器
@@ -122,28 +65,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         private bool isSyncingUid = false;
 
-        public async void SyncStatisticWithUid()
-        {
-            if (isSyncingUid)
-            {
-                return;
-            }
-            isSyncingUid = true;
-            await Task.Run(() =>
-            {
-                if (SelectedUid is null)
-                {
-                    return;
-                }
-                string? uid = SelectedUid.UnMaskedValue;
-                Statistic = StatisticFactory.ToStatistic(gachaDataCollection[uid], uid);
-                if (Statistic.SpecificBanners?.Count > 0)
-                {
-                    SelectedSpecificBanner = Statistic.SpecificBanners.First();
-                }
-            });
-            isSyncingUid = false;
-        }
+
 
 
 
@@ -334,5 +256,86 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
         #endregion
+    }
+
+    public class GachaStatisticViewModel : ObservableObject
+    {
+        private Statistic? statistic;
+        private PrivateString? selectedUid;
+        private FetchProgress? fetchProgress;
+        private SpecificBanner? selectedSpecificBanner;
+        private bool canUserSwitchUid = true;
+        private ObservableCollection<PrivateString> uids = new();
+
+        /// <summary>
+        /// 当前的统计信息
+        /// </summary>
+        public Statistic? Statistic { get => statistic; set => SetProperty(ref statistic, value); }
+
+        /// <summary>
+        /// 当前选择的UID
+        /// </summary>
+        public PrivateString? SelectedUid
+        {
+            get => selectedUid; set
+            {
+                SetProperty(ref selectedUid, value);
+                if (CanUserSwitchUid)
+                {
+                    SyncStatisticWithUid();
+                }
+            }
+        }
+
+        public async void SyncStatisticWithUid()
+        {
+            if (isSyncingUid)
+            {
+                return;
+            }
+            isSyncingUid = true;
+            await Task.Run(() =>
+            {
+                if (SelectedUid is null)
+                {
+                    return;
+                }
+                string? uid = SelectedUid.UnMaskedValue;
+                Statistic = StatisticFactory.ToStatistic(gachaDataCollection[uid], uid);
+                if (Statistic.SpecificBanners?.Count > 0)
+                {
+                    SelectedSpecificBanner = Statistic.SpecificBanners.First();
+                }
+            });
+            isSyncingUid = false;
+        }
+        /// <summary>
+        /// 所有UID
+        /// </summary>
+        public ObservableCollection<PrivateString> Uids { get => uids; set => SetProperty(ref uids, value); }
+
+        /// <summary>
+        /// UID切换状态锁
+        /// 用来保证切换UID时无法再次切换
+        /// </summary>
+        public bool CanUserSwitchUid { get => canUserSwitchUid; set => SetProperty(ref canUserSwitchUid, value); }
+
+        /// <summary>
+        /// 用于前台判断是否存在可展示的数据
+        /// </summary>
+        public bool HasNoData => gachaDataCollection.Count <= 0;
+
+        /// <summary>
+        /// 当前的获取进度
+        /// </summary>
+        public FetchProgress? FetchProgress { get => fetchProgress; set => SetProperty(ref fetchProgress, value); }
+        private void OnFetchProgressed(FetchProgress p)
+        {
+            FetchProgress = p;
+        }
+        /// <summary>
+        /// 选定的特定池
+        /// </summary>
+        public SpecificBanner? SelectedSpecificBanner { get => selectedSpecificBanner; set => SetProperty(ref selectedSpecificBanner, value); }
     }
 }

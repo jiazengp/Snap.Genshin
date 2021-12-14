@@ -5,6 +5,7 @@ using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
@@ -14,22 +15,42 @@ using System.Windows;
 
 namespace DGP.Genshin
 {
+    /// <summary>
+    /// Snap Genshin
+    /// </summary>
     public partial class App : Application
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
-        //private IHost host;
+
         public App()
         {
             Services = ConfigureServices();
         }
 
         /// <summary>
-        /// Gets the current <see cref="App"/> instance in use
+        /// 覆盖默认的 Current
         /// </summary>
         public new static App Current => (App)Application.Current;
 
         #region Dependency Injection
+        public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
+        /// <summary>
+        /// 获取服务时应使用服务的接口类型
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="SnapGenshinInternalException"></exception>
+        public static TService GetService<TService>()
+        {
+            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException("无法找到对应的服务");
+        }
+
+        public static TViewModel GetViewModel<TViewModel>()
+        {
+            return GetService<TViewModel>();
+        }
+
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
         /// </summary>
@@ -46,14 +67,7 @@ namespace DGP.Genshin
             ScanServices(services, typeof(YoungMoeAPI.ScanEntry));
             return services.BuildServiceProvider();
         }
-        public static TService GetService<TService>()
-        {
-            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException("无法找到对应的服务");
-        }
-        public static TViewModel GetViewModel<TViewModel>()
-        {
-            return GetService<TViewModel>();
-        }
+
         private static void ScanServices(ServiceCollection services, Type entryType)
         {
             foreach (Type type in entryType.Assembly.GetTypes())

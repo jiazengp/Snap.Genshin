@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Cookie;
 using DGP.Genshin.MiHoYoAPI.Blackboard;
 using DGP.Genshin.MiHoYoAPI.Post;
+using DGP.Genshin.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -51,7 +51,7 @@ namespace DGP.Genshin.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Posts = (await new PostProvider(CookieManager.CurrentCookie).GetOfficialRecommendedPostsAsync())?
+            Posts = (await new PostProvider(CookieService.CurrentCookie).GetOfficialRecommendedPostsAsync())?
                 .OrderBy(p => p.OfficialType);
             BlackboardEvents = (await new BlackboardProvider().GetBlackboardEventsAsync())?
                 .Where(b => b.Kind == "1");

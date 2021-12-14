@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DGP.Genshin.Services.Launching
+namespace DGP.Genshin.DataModel.Launching
 {
     public class GenshinAccount
     {
@@ -13,5 +13,4 @@ namespace DGP.Genshin.Services.Launching
 
         [JsonProperty("GENERAL_DATA_h2389025596")] public string? GeneralData { get; set; }
     }
-
 }

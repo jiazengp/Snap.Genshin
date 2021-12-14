@@ -2,7 +2,7 @@
 using ModernWpf.Controls;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Cookie
+namespace DGP.Genshin.Controls.Cookies
 {
     /// <summary>
     /// CookieDialog.xaml 的交互逻辑

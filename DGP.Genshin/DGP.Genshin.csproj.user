@@ -30,7 +30,7 @@
     <Compile Update="Pages\PromotionCalculatePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Services\Launching\NameDialog.xaml.cs">
+    <Compile Update="Controls\Launching\NameDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <Page Update="Pages\PromotionCalculatePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Services\Launching\NameDialog.xaml">
+    <Page Update="Controls\Launching\NameDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -1,21 +1,29 @@
-﻿using DGP.Genshin.Common.Core.Logging;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Controls.Cookies;
 using DGP.Genshin.Helpers;
+using DGP.Genshin.Messages;
+using DGP.Genshin.Services.Abstratcions;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Cookie
+namespace DGP.Genshin.Services.Cookies
 {
     /// <summary>
-    /// 全局Cookie管理器
+    /// 全局Cookie管理服务
     /// </summary>
-    public static class CookieManager
+    [Service(typeof(ICookieService), ServiceType.Singleton)]
+    [Send(typeof(CookieChangedMessage))]
+    public class CookieService : ICookieService
     {
         private const string CookieFile = "cookie.dat";
         private const string CookieListFile = "cookielist.dat";
@@ -28,22 +36,21 @@ namespace DGP.Genshin.Cookie
         /// <summary>
         /// 备选Cookie池
         /// </summary>
-        public static CookiePool Cookies { get; set; }
+        public ICookiePool Cookies { get; set; }
 
-        static CookieManager()
+        public CookieService()
         {
-            //load cookies
-            try
+            LoadCookies();
+            LoadCookie();
+
+            if (currentCookie is not null)
             {
-                CookiePool base64Cookies = Json.FromFile<CookiePool>(CookieListFile) ?? new();
-                Cookies = new CookiePool(base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+                Cookies.AddOrIgnore(currentCookie);
             }
-            catch (Exception ex)
-            {
-                ex.Log($"{ex.Message}");
-                Cookies = new();
-                File.Create(CookieListFile).Dispose();
-            }
+        }
+
+        private void LoadCookie()
+        {
             //load cookie
             if (File.Exists(CookieFile))
             {
@@ -54,17 +61,29 @@ namespace DGP.Genshin.Cookie
                 Logger.LogStatic("无可用的Cookie");
                 File.Create(CookieFile).Dispose();
             }
+        }
 
-            if (currentCookie is not null)
+        [MemberNotNull(nameof(Cookies))]
+        private void LoadCookies()
+        {
+            //load cookies
+            try
             {
-                Cookies.AddOrIgnore(currentCookie);
+                IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
+                Cookies = new CookiePool(this,base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+            }
+            catch (Exception ex)
+            {
+                ex.Log($"{ex.Message}");
+                Cookies = new CookiePool(this, new List<string>());
+                File.Create(CookieListFile).Dispose();
             }
         }
 
         /// <summary>
-        /// 当前使用的Cookie，由<see cref="CookieManager"/> 保证不为 <see cref="null"/>
+        /// 当前使用的Cookie，由<see cref="CookieService"/> 保证不为 <see cref="null"/>
         /// </summary>
-        public static string CurrentCookie
+        public string CurrentCookie
         {
             get => currentCookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
             private set
@@ -79,20 +98,19 @@ namespace DGP.Genshin.Cookie
                     Cookies.Add(currentCookie);
                 }
                 Logger.LogStatic("current cookie has changed");
-                CookieChanged?.Invoke();
+                App.Messenger.Send(new CookieChangedMessage(currentCookie));
             }
         }
 
         /// <summary>
         /// 用于在初始化时判断Cookie是否可用
         /// </summary>
-        public static bool IsCookieAvailable =>
-            !string.IsNullOrEmpty(currentCookie);
+        public bool IsCookieAvailable => !string.IsNullOrEmpty(currentCookie);
 
         /// <summary>
         /// 设置新的Cookie
         /// </summary>
-        public static async Task SetCookieAsync()
+        public async Task SetCookieAsync()
         {
             string cookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
             //prevent user input unexpected invalid cookie
@@ -106,7 +124,7 @@ namespace DGP.Genshin.Cookie
             }
         }
 
-        internal static void ChangeOrIgnoreCurrentCookie(string? cookie)
+        internal void ChangeOrIgnoreCurrentCookie(string? cookie)
         {
             if (cookie is null)
             {
@@ -118,7 +136,7 @@ namespace DGP.Genshin.Cookie
             }
         }
 
-        public static async Task AddNewCookieToPoolAsync()
+        public async Task AddNewCookieToPoolAsync()
         {
             string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
 
@@ -128,21 +146,13 @@ namespace DGP.Genshin.Cookie
             }
         }
 
-        public static void SaveCookies()
+        public void SaveCookies()
         {
             lock (_savingCookies)
             {
-                List<string> encodedCookies = (Cookies as List<string>)
-                .Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c))
-                //.ToList() fix json parse error
-                .ToList();
+                IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
                 Json.ToFile(CookieListFile, encodedCookies);
             }
         }
-
-        /// <summary>
-        /// Cookie改变时触发
-        /// </summary>
-        public static event Action? CookieChanged;
     }
 }

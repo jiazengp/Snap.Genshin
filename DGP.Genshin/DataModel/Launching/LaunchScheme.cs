@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.Services.Launching
+﻿namespace DGP.Genshin.DataModel.Launching
 {
     /// <summary>
     /// 启动方案

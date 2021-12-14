@@ -1,15 +1,15 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.DataModel
 {
-    public class KeySource : Observable
+    public class KeySource : ObservableObject
     {
-        [JsonIgnore] private bool isSelected = true;
-
         public string? Key { get; set; }
         public string? Source { get; set; }
 
-        [JsonIgnore] public bool IsSelected { get => isSelected; set => Set(ref isSelected, value); }
+        [JsonIgnore] private bool isSelected = true;
+        [JsonIgnore] public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
     }
 }

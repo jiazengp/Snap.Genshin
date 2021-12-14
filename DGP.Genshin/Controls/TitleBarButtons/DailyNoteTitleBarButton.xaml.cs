@@ -9,7 +9,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     {
         public DailyNoteTitleBarButton()
         {
-            DataContext = new DailyNoteViewModel();
+            DataContext = App.GetViewModel<DailyNoteViewModel>();
             InitializeComponent();
         }
     }

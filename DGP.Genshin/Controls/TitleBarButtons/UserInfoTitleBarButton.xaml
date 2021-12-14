@@ -65,7 +65,7 @@
                             <ui:FontIcon Glyph="&#xE8FA;"/>
                         </ui:AppBarButton.Icon>
                     </ui:AppBarButton>
-                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick">
+                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick" Command="{Binding RemoveUserCommand}">
                         <ui:AppBarButton.Icon>
                             <ui:FontIcon Glyph="&#xE74D;"/>
                         </ui:AppBarButton.Icon>
