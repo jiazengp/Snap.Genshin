@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
@@ -10,6 +10,8 @@ using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
+using DGP.Genshin.ViewModels;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using System;
@@ -33,25 +35,22 @@ namespace DGP.Genshin
             //do not set datacontext for mainwindow
             InitializeComponent();
 
-            MainSplashView.PostInitializationAction += SplashInitializeCompleted;
+            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, Receive);
 
-            navigationService = App.GetService<NavigationService>();
+            navigationService = App.GetService<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
 
             this.Log("initialized");
         }
 
-        /// <summary>
-        /// 前初始化工作已经完成
-        /// </summary>
-        /// <param name="splashView"></param>
-        private async void SplashInitializeCompleted(SplashView splashView)
+        public async void Receive(MainWindow window,SplashInitializationCompletedMessage message)
         {
-            await PrepareTitleBarArea(splashView);
+            SplashViewModel splashView = message.Value;
+            PrepareTitleBarArea(splashView);
             DoUpdateFlow();
             //签到
-            if (SettingService.Instance.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+            if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
             {
                 await SignInOnStartUp(splashView);
             }
@@ -66,7 +65,7 @@ namespace DGP.Genshin
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
-        private async Task PrepareTitleBarArea(SplashView splashView)
+        private void PrepareTitleBarArea(SplashViewModel splashView)
         {
             UserInfoTitleBarButton UserInfoTitleButton = new();
             TitleBarStackPanel.Children.Add(UserInfoTitleButton);
@@ -75,7 +74,6 @@ namespace DGP.Genshin
             TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
             TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
             splashView.CurrentStateDescription = "初始化用户信息...";
-            await UserInfoTitleButton.InitializeAsync();
         }
 
         /// <summary>
@@ -83,15 +81,15 @@ namespace DGP.Genshin
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
-        private static async Task SignInOnStartUp(SplashView splashView)
+        private static async Task SignInOnStartUp(SplashViewModel splashView)
         {
             DateTime? converter(object? str) => str is not null ? DateTime.Parse((string)str) : null;
-            DateTime? latsSignInTime = SettingService.Instance.GetOrDefault(Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), converter);
+            DateTime? latsSignInTime = App.GetService<ISettingService>().GetOrDefault(Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), converter);
 
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                foreach (string cookie in CookieService.Cookies)
+                foreach (string cookie in App.GetService<ICookieService>().Cookies)
                 {
                     UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                     List<UserGameRole>? list = roleInfo?.List;
@@ -100,12 +98,12 @@ namespace DGP.Genshin
                         foreach (UserGameRole role in list)
                         {
                             SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
-                            SettingService.Instance[Setting.LastAutoSignInTime] = DateTime.Now;
+                            App.GetService<ISettingService>()[Setting.LastAutoSignInTime] = DateTime.Now;
                             new ToastContentBuilder()
                                 .AddSignInHeader("米游社每日签到")
                                 .AddText(role.ToString())
                                 .AddText(result is null ? "签到失败" : "签到成功")
-                                .Show(toast => { toast.SuppressPopup = SettingService.Instance.GetOrDefault(Setting.SignInSilently, false); });
+                                .Show(toast => { toast.SuppressPopup = App.GetService<ISettingService>().GetOrDefault(Setting.SignInSilently, false); });
                         }
                     }
                 }
@@ -116,17 +114,19 @@ namespace DGP.Genshin
         private async void DoUpdateFlow()
         {
             await CheckUpdateAsync();
-            Version? lastLaunchAppVersion = SettingService.Instance.GetOrDefault(Setting.AppVersion, UpdateService.Instance.CurrentVersion, Setting.VersionConverter);
+            ISettingService settingService = App.GetService<ISettingService>();
+            IUpdateService? updateService = App.GetService<IUpdateService>();
+            Version? lastLaunchAppVersion = settingService.GetOrDefault(Setting.AppVersion, updateService.CurrentVersion, Setting.VersionConverter);
             //first launch after update
-            if (lastLaunchAppVersion < UpdateService.Instance.CurrentVersion)
+            if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
-                SettingService.Instance[Setting.AppVersion] = UpdateService.Instance.CurrentVersion;
+                settingService[Setting.AppVersion] = updateService.CurrentVersion;
                 await ShowWhatsNewDialogAsync();
             }
         }
         private async Task CheckUpdateAsync()
         {
-            UpdateState result = await UpdateService.Instance.CheckUpdateStateAsync();
+            UpdateState result = await App.GetService<IUpdateService>().CheckUpdateStateAsync();
             //if (Debugger.IsAttached) result = UpdateState.NeedUpdate;
             switch (result)
             {
@@ -134,7 +134,7 @@ namespace DGP.Genshin
                     {
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
-                            .AddText(UpdateService.Instance.NewVersion?.ToString())
+                            .AddText(App.GetService<IUpdateService>().NewVersion?.ToString())
                             .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
                             .Show();
@@ -157,18 +157,20 @@ namespace DGP.Genshin
         {
             await new ContentDialog
             {
-                Title = $"版本 {UpdateService.Instance.Release?.TagName} 更新日志",
+                Title = $"版本 {App.GetService<IUpdateService>().Release?.TagName} 更新日志",
                 Content = new FlowDocumentScrollViewer
                 {
                     Document = new TextToFlowDocumentConverter
                     {
                         Markdown = FindResource("Markdown") as Markdown
-                    }.Convert(UpdateService.Instance.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
+                    }.Convert(App.GetService<IUpdateService>().Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
                 },
                 PrimaryButtonText = "了解",
                 DefaultButton = ContentDialogButton.Primary
             }.ShowAsync();
         }
+
+
         #endregion
     }
 }

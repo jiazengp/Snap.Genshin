@@ -58,7 +58,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DGP.Genshin.Common\DGP.Genshin.Common.csproj" />
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
-    <ProjectReference Include="..\DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

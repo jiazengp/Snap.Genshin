@@ -1,20 +1,20 @@
-﻿using DGP.Genshin.Common.Data.Privacy;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using ModernWpf.Controls;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.GachaStatistics
 {
+
     /// <summary>
     /// 抽卡记录服务
     /// </summary>
-    public class GachaStatisticService
+    [Service(typeof(IGachaStatisticService),ServiceType.Transient)]
+    public class GachaStatisticService : IGachaStatisticService
     {
         private readonly LocalGachaLogWorker localGachaLogWorker;
 
@@ -23,35 +23,11 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         private readonly GachaDataCollection gachaDataCollection = new();
 
-        #region LifeCycle
         public GachaStatisticService()
         {
-            gachaDataCollection.UidAdded += GachaDataCollectionUidAdded;
-            gachaDataCollection.UidSyncRequested += GachaDataCollectionUidSyncRequested;
             localGachaLogWorker = new(gachaDataCollection);
             this.Log("initialized");
         }
-
-        private void GachaDataCollectionUidSyncRequested(string uid)
-        {
-            SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
-        }
-
-        private void GachaDataCollectionUidAdded(string uid)
-        {
-            bool showFullUid = Settings.SettingService.Instance.GetOrDefault(Settings.Setting.ShowFullUID, false);
-            App.Current.Dispatcher.Invoke(() => Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid)));
-        }
-
-        public void Initialize()
-        {
-            //fix #44
-            SelectedUid = Uids.FirstOrDefault();
-            SyncStatisticWithUid();
-        }
-        #endregion
-
-
 
         /// <summary>
         /// 获得当前的祈愿记录工作器
@@ -63,29 +39,12 @@ namespace DGP.Genshin.Services.GachaStatistics
             return url is null ? null : (new(url, gachaDataCollection));
         }
 
-        private bool isSyncingUid = false;
-
-
-
-
-
-        public async Task RefreshAsync(GachaLogUrlMode mode, bool full = false)
+        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
         {
-            string GetUrlFailHintByMode(GachaLogUrlMode mode)
-            {
-                return mode switch
-                {
-                    GachaLogUrlMode.GameLogFile => "请在游戏中打开祈愿历史记录页面后尝试刷新",
-                    GachaLogUrlMode.ManualInput => "请重新输入有效的Url",
-                    _ => string.Empty,
-                };
-            }
-
-            CanUserSwitchUid = false;
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
             if (!isOk)
             {
-                return;
+                return (false, null);
             }
             if (url is null)
             {
@@ -96,10 +55,12 @@ namespace DGP.Genshin.Services.GachaStatistics
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
+                return (false, null);
             }
             else
             {
-                if (!await RefreshInternalAsync(mode, full))
+                (bool isSuccess, string? uid) = await RefreshInternalAsync(mode, progressCallback, full);
+                if (!isSuccess)
                 {
                     await new ContentDialog()
                     {
@@ -109,8 +70,18 @@ namespace DGP.Genshin.Services.GachaStatistics
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
                 }
+                return (isSuccess, uid);
             }
-            CanUserSwitchUid = true;
+        }
+
+        private string GetUrlFailHintByMode(GachaLogUrlMode mode)
+        {
+            return mode switch
+            {
+                GachaLogUrlMode.GameLogFile => "请在游戏中打开祈愿历史记录页面后尝试刷新",
+                GachaLogUrlMode.ManualInput => "请重新输入有效的Url",
+                _ => string.Empty,
+            };
         }
 
         /// <summary>
@@ -118,24 +89,14 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="mode"></param>
         /// <returns>卡池配置是否可用</returns>
-        private async Task<bool> RefreshInternalAsync(GachaLogUrlMode mode, bool full = false)
+        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
         {
             GachaLogWorker? worker = await GetGachaLogWorkerAsync(mode);
             if (worker is null)
             {
-                return false;
+                return (false, null);
             }
-            bool isGachaConfigAvailable = await FetchGachaLogsAsync(worker, full);
-            FetchProgress = null;
-            //unlock here to make uid switchable
-            CanUserSwitchUid = true;
-
-            if (Statistic != null && isGachaConfigAvailable)
-            {
-                SelectedUid = Uids.FirstOrDefault(uid => uid.UnMaskedValue == worker.WorkingUid);
-            }
-            CanUserSwitchUid = false;
-            return isGachaConfigAvailable;
+            return await FetchGachaLogsAsync(worker, progressCallback, full);
         }
 
         /// <summary>
@@ -144,36 +105,39 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="worker">工作器对象</param>
         /// <param name="full">是否增量获取</param>
         /// <returns>是否获取成功</returns>
-        private async Task<bool> FetchGachaLogsAsync(GachaLogWorker worker, bool full = false)
+        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaLogWorker worker, Action<FetchProgress> progressCallback, bool full = false)
         {
-            //gacha config can be null while authkey timeout
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
             if (gachaConfigTypes?.Types != null)
             {
-                worker.OnFetchProgressed += OnFetchProgressed;
+                string? uid = null;
                 foreach (ConfigType pool in gachaConfigTypes.Types)
                 {
                     if (full)
                     {
-                        await worker.FetchGachaLogAggressivelyAsync(pool);
+                        uid = await worker.FetchGachaLogAggressivelyAsync(pool, progressCallback);
                     }
                     else
                     {
-                        await worker.FetchGachaLogIncrementAsync(pool);
+                        uid = await worker.FetchGachaLogIncrementAsync(pool, progressCallback);
                     }
                     if (worker.IsFetchDelayEnabled)
                     {
                         await Task.Delay(worker.GetRandomDelay());
                     }
                 }
-                worker.OnFetchProgressed -= OnFetchProgressed;
                 localGachaLogWorker.SaveAllLogs();
-                return true;
+                return (true, uid);
             }
             else
             {
-                return false;
+                return (false, null);
             }
+        }
+
+        public async Task<Statistic> GetStatisticAsync(string uid)
+        {
+            return await Task.Run(() => StatisticFactory.ToStatistic(gachaDataCollection[uid], uid));
         }
 
         #region Im/Export
@@ -182,50 +146,14 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public async Task ExportDataToExcelAsync(string path)
+        public async Task ExportDataToExcelAsync(string path, string uid)
         {
-            if (selectedUid is null)
-            {
-                throw new InvalidOperationException("无UID");
-            }
-            await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(selectedUid.UnMaskedValue, path));
+            await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(uid, path));
         }
 
-        public async Task ExportDataToJsonAsync(string path)
+        public async Task ExportDataToJsonAsync(string path, string uid)
         {
-            if (selectedUid is null)
-            {
-                throw new InvalidOperationException("无UID");
-            }
-            await Task.Run(() => localGachaLogWorker.ExportToUIGFJ(selectedUid.UnMaskedValue, path));
-        }
-
-        public async Task ImportFromGenshinGachaExportAsync(string path)
-        {
-            if (!await Task.Run(() => localGachaLogWorker.ImportFromGenshinGachaExport(path)))
-            {
-                await new ContentDialog()
-                {
-                    Title = "导入祈愿记录失败",
-                    Content = "选择的文件内部格式不正确",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
-            }
-        }
-
-        public async Task ImportFromKeqingNiuzaAsync(string path)
-        {
-            if (!await Task.Run(() => localGachaLogWorker.ImportFromKeqingNiuza(path)))
-            {
-                await new ContentDialog()
-                {
-                    Title = "导入祈愿记录失败",
-                    Content = "选择的文件内部格式不正确",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
-            }
+            await Task.Run(() => localGachaLogWorker.ExportToUIGFJ(uid, path));
         }
 
         public async Task ImportFromUIGFWAsync(string path)
@@ -256,86 +184,5 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
         #endregion
-    }
-
-    public class GachaStatisticViewModel : ObservableObject
-    {
-        private Statistic? statistic;
-        private PrivateString? selectedUid;
-        private FetchProgress? fetchProgress;
-        private SpecificBanner? selectedSpecificBanner;
-        private bool canUserSwitchUid = true;
-        private ObservableCollection<PrivateString> uids = new();
-
-        /// <summary>
-        /// 当前的统计信息
-        /// </summary>
-        public Statistic? Statistic { get => statistic; set => SetProperty(ref statistic, value); }
-
-        /// <summary>
-        /// 当前选择的UID
-        /// </summary>
-        public PrivateString? SelectedUid
-        {
-            get => selectedUid; set
-            {
-                SetProperty(ref selectedUid, value);
-                if (CanUserSwitchUid)
-                {
-                    SyncStatisticWithUid();
-                }
-            }
-        }
-
-        public async void SyncStatisticWithUid()
-        {
-            if (isSyncingUid)
-            {
-                return;
-            }
-            isSyncingUid = true;
-            await Task.Run(() =>
-            {
-                if (SelectedUid is null)
-                {
-                    return;
-                }
-                string? uid = SelectedUid.UnMaskedValue;
-                Statistic = StatisticFactory.ToStatistic(gachaDataCollection[uid], uid);
-                if (Statistic.SpecificBanners?.Count > 0)
-                {
-                    SelectedSpecificBanner = Statistic.SpecificBanners.First();
-                }
-            });
-            isSyncingUid = false;
-        }
-        /// <summary>
-        /// 所有UID
-        /// </summary>
-        public ObservableCollection<PrivateString> Uids { get => uids; set => SetProperty(ref uids, value); }
-
-        /// <summary>
-        /// UID切换状态锁
-        /// 用来保证切换UID时无法再次切换
-        /// </summary>
-        public bool CanUserSwitchUid { get => canUserSwitchUid; set => SetProperty(ref canUserSwitchUid, value); }
-
-        /// <summary>
-        /// 用于前台判断是否存在可展示的数据
-        /// </summary>
-        public bool HasNoData => gachaDataCollection.Count <= 0;
-
-        /// <summary>
-        /// 当前的获取进度
-        /// </summary>
-        public FetchProgress? FetchProgress { get => fetchProgress; set => SetProperty(ref fetchProgress, value); }
-        private void OnFetchProgressed(FetchProgress p)
-        {
-            FetchProgress = p;
-        }
-        /// <summary>
-        /// 选定的特定池
-        /// </summary>
-        public SpecificBanner? SelectedSpecificBanner { get => selectedSpecificBanner; set => SetProperty(ref selectedSpecificBanner, value); }
     }
 }

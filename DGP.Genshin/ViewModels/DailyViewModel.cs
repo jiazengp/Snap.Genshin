@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Helpers;
 using DGP.Genshin.DataModel.Materials.Talents;
@@ -18,15 +17,14 @@ namespace DGP.Genshin.ViewModels
     /// <summary>
     /// 日常材料服务
     /// </summary>
-    [ViewModel]
+    [ViewModel(ViewModelType.Singleton)]
     public class DailyViewModel : ObservableObject
     {
-        private readonly MetadataViewModel dataService;
-        private DailyViewModel(MetadataViewModel metadataService)
+        private readonly MetadataViewModel dataViewModel;
+        public DailyViewModel(MetadataViewModel metadataService)
         {
-            dataService = metadataService;
+            dataViewModel = metadataService;
             selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
-            this.Log("initialized");
         }
 
         private NamedValue<DayOfWeek> selectedDayOfWeek;
@@ -81,7 +79,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtTalent == null)
                 {
-                    todayMondstadtTalent = dataService.DailyTalents?
+                    todayMondstadtTalent = dataViewModel.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsMondstadt());
                 }
                 return todayMondstadtTalent;
@@ -95,7 +93,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtWeaponAscension == null)
                 {
-                    todayMondstadtWeaponAscension = dataService.DailyWeapons?
+                    todayMondstadtWeaponAscension = dataViewModel.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsMondstadt());
                 }
                 return todayMondstadtWeaponAscension;
@@ -109,7 +107,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtCharacter5 == null)
                 {
-                    todayMondstadtCharacter5 = dataService.Characters?
+                    todayMondstadtCharacter5 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent());
                 }
                 return todayMondstadtCharacter5;
@@ -123,7 +121,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtCharacter4 == null)
                 {
-                    todayMondstadtCharacter4 = dataService.Characters?
+                    todayMondstadtCharacter4 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent());
                 }
                 return todayMondstadtCharacter4;
@@ -137,7 +135,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtWeapon5 == null)
                 {
-                    todayMondstadtWeapon5 = dataService.Weapons?
+                    todayMondstadtWeapon5 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayMondstadtWeapon5;
@@ -151,7 +149,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayMondstadtWeapon4 == null)
                 {
-                    todayMondstadtWeapon4 = dataService.Weapons?
+                    todayMondstadtWeapon4 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayMondstadtWeapon4;
@@ -167,7 +165,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueTalent == null)
                 {
-                    todayLiyueTalent = dataService.DailyTalents?
+                    todayLiyueTalent = dataViewModel.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsLiyue());
                 }
                 return todayLiyueTalent;
@@ -181,7 +179,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueWeaponAscension == null)
                 {
-                    todayLiyueWeaponAscension = dataService.DailyWeapons?
+                    todayLiyueWeaponAscension = dataViewModel.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsLiyue());
                 }
                 return todayLiyueWeaponAscension;
@@ -195,7 +193,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueCharacter5 == null)
                 {
-                    todayLiyueCharacter5 = dataService.Characters?
+                    todayLiyueCharacter5 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent());
                 }
                 return todayLiyueCharacter5;
@@ -209,7 +207,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueCharacter4 == null)
                 {
-                    todayLiyueCharacter4 = dataService.Characters?
+                    todayLiyueCharacter4 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent());
                 }
                 return todayLiyueCharacter4;
@@ -223,7 +221,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueWeapon5 == null)
                 {
-                    todayLiyueWeapon5 = dataService.Weapons?
+                    todayLiyueWeapon5 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayLiyueWeapon5;
@@ -237,7 +235,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayLiyueWeapon4 == null)
                 {
-                    todayLiyueWeapon4 = dataService.Weapons?
+                    todayLiyueWeapon4 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayLiyueWeapon4;
@@ -253,7 +251,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaTalent == null)
                 {
-                    todayInazumaTalent = dataService.DailyTalents?
+                    todayInazumaTalent = dataViewModel.DailyTalents?
                         .Where(i => i.IsTodaysTalent() && i.IsInazuma());
                 }
                 return todayInazumaTalent;
@@ -267,7 +265,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaWeaponAscension == null)
                 {
-                    todayInazumaWeaponAscension = dataService.DailyWeapons?
+                    todayInazumaWeaponAscension = dataViewModel.DailyWeapons?
                         .Where(i => i.IsTodaysWeapon() && i.IsInazuma());
                 }
                 return todayInazumaWeaponAscension;
@@ -281,7 +279,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaCharacter5 == null)
                 {
-                    todayInazumaCharacter5 = dataService.Characters?
+                    todayInazumaCharacter5 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent());
                 }
                 return todayInazumaCharacter5;
@@ -295,7 +293,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaCharacter4 == null)
                 {
-                    todayInazumaCharacter4 = dataService.Characters?
+                    todayInazumaCharacter4 = dataViewModel.Characters?
                         .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent());
                 }
                 return todayInazumaCharacter4;
@@ -309,7 +307,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaWeapon5 == null)
                 {
-                    todayInazumaWeapon5 = dataService.Weapons?
+                    todayInazumaWeapon5 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayInazumaWeapon5;
@@ -323,7 +321,7 @@ namespace DGP.Genshin.ViewModels
             {
                 if (todayInazumaWeapon4 == null)
                 {
-                    todayInazumaWeapon4 = dataService.Weapons?
+                    todayInazumaWeapon4 = dataViewModel.Weapons?
                         .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon());
                 }
                 return todayInazumaWeapon4;

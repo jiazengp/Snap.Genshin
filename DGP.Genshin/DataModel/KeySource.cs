@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
 namespace DGP.Genshin.DataModel

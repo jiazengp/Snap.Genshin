@@ -19,21 +19,22 @@ namespace DGP.Genshin.Services.GameRecord
     /// 由于直接在方法内创建了提供器实列
     /// 所以不需要监听 <see cref="CookieService.CookieChanged"/> 事件
     /// </summary>
-    [Service(typeof(IRecordService), ServiceType.Singleton)]
+    [Service(typeof(IRecordService), ServiceType.Transient)]
     public class RecordService : IRecordService
     {
-        private RecordService()
+        private readonly ICookieService cookieService;
+        public RecordService(ICookieService cookieService)
         {
+            this.cookieService = cookieService;
             if (File.Exists(QueryHistoryFile))
             {
                 QueryHistory = Json.ToObject<List<string>>(File.ReadAllText(QueryHistoryFile)) ?? new();
             }
-            this.Log("initialized");
         }
-        
+
 
         public List<string> QueryHistory { get; set; } = new();
-        internal void AddQueryHistory(string? uid)
+        public void AddQueryHistory(string? uid)
         {
             if (uid is not null)
             {
@@ -51,7 +52,6 @@ namespace DGP.Genshin.Services.GameRecord
         /// <returns></returns>
         public async Task<Record> GetRecordAsync(string? uid)
         {
-            IsQuerying = true;
             Record? result = await Task.Run(async () =>
             {
                 if (uid is null)
@@ -59,7 +59,7 @@ namespace DGP.Genshin.Services.GameRecord
                     return new Record("请输入Uid");
                 }
 
-                RecordProvider recordProvider = new(CookieService.CurrentCookie);
+                RecordProvider recordProvider = new(cookieService.CurrentCookie);
 
                 //figure out the server
                 string? server = recordProvider.EvaluateUidRegion(uid);
@@ -94,8 +94,7 @@ namespace DGP.Genshin.Services.GameRecord
                 }
 
                 RecordProgressed?.Invoke("正在获取 详细角色信息 (4/4)");
-                bool bypass = SettingService.Instance.GetOrDefault(Setting.BypassCharactersLimit, false);
-                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo, bypass);
+                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo, false);
                 if (detailedAvatarInfo is null)
                 {
                     RecordProgressed?.Invoke(null);
@@ -114,7 +113,6 @@ namespace DGP.Genshin.Services.GameRecord
                     DetailedAvatars = detailedAvatarInfo.Avatars
                 };
             });
-            IsQuerying = false;
             return result;
         }
 

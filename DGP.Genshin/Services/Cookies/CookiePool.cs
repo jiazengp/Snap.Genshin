@@ -1,6 +1,7 @@
-﻿using DGP.Genshin.Services;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using System;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +10,8 @@ namespace DGP.Genshin.Services.Cookies
     /// <summary>
     /// Cookie池的默认实现，提供Cookie操作事件支持
     /// </summary>
+    [Send(typeof(CookieAddedMeaasge))]
+    [Send(typeof(CookieRemovedMessage))]
     public class CookiePool : List<string>, ICookiePool
     {
         private readonly List<string> AccountIds = new();
@@ -28,7 +31,7 @@ namespace DGP.Genshin.Services.Cookies
             if (!string.IsNullOrEmpty(cookie))
             {
                 base.Add(cookie);
-                CookieAdded?.Invoke(cookie);
+                App.Messenger.Send(new CookieAddedMeaasge(cookie));
                 cookieService.SaveCookies();
             }
         }
@@ -59,20 +62,10 @@ namespace DGP.Genshin.Services.Cookies
             string id = GetCookiePairs(cookie)["account_id"];
             AccountIds.Remove(id);
             bool result = base.Remove(cookie);
-            CookieRemoved?.Invoke(cookie);
+            App.Messenger.Send(new CookieRemovedMessage(cookie));
             cookieService.SaveCookies();
             return result;
         }
-
-        /// <summary>
-        /// 当明确有新的Cookie加入时触发
-        /// </summary>
-        public event Action<string>? CookieAdded;
-
-        /// <summary>
-        /// 当Cookie删除时触发
-        /// </summary>
-        public event Action<string>? CookieRemoved;
 
         /// <summary>
         /// 获取Cookie的键值对

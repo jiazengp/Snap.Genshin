@@ -1,13 +1,10 @@
-﻿using DGP.Genshin.Services.Settings;
-using System;
+﻿using System;
 
 namespace DGP.Genshin.Services.Abstratcions
 {
     public interface ISettingService
     {
         object? this[string key] { set; }
-
-        event SettingChangedHandler? SettingChanged;
 
         bool? Equals<T>(string key, T? defaultValue, T? value) where T : IEquatable<T>;
         T? GetOrDefault<T>(string key, T defaultValue);

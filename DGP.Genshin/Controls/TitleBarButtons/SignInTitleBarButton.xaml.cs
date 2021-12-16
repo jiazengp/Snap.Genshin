@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.ViewModels;
 using ModernWpf.Controls.Primitives;
-using System.Windows;
 
 namespace DGP.Genshin.Controls.TitleBarButtons
 {

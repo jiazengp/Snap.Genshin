@@ -17,6 +17,10 @@ namespace DGP.Genshin.Services
     [Service(typeof(INavigationService), ServiceType.Singleton)]
     public class NavigationService : INavigationService
     {
+        public NavigationService()
+        {
+
+        }
         private NavigationView? navigationView;
         public Frame? Frame { get; set; }
         public NavigationView? NavigationView
@@ -24,7 +28,7 @@ namespace DGP.Genshin.Services
             get => navigationView; set
             {
                 //remove old listener
-                if(navigationView != null)
+                if (navigationView != null)
                 {
                     navigationView.ItemInvoked -= OnItemInvoked;
                 }
@@ -40,7 +44,7 @@ namespace DGP.Genshin.Services
         public bool HasEverNavigated { get; set; }
         public void SyncTabWith(Type pageType)
         {
-            if(NavigationView is null)
+            if (NavigationView is null)
             {
                 return;
             }

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DGP.Genshin.Pages
+namespace DGP.Genshin.Controls.GenshinElements
 {
     /// <summary>
     /// CharacterGachaSplashWindwo.xaml 的交互逻辑

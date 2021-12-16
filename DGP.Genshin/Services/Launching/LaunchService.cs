@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Launching
 {
-    [Service(typeof(ILaunchService),ServiceType.Transient)]
+    [Service(typeof(ILaunchService), ServiceType.Transient)]
     public class LaunchService : ILaunchService
     {
         private const string AccountsFile = "accounts.json";

@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Common.Exceptions;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -18,7 +19,8 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.ViewModels
 {
-    public class SignInViewModel : ObservableObject,IRecipient<CookieChangedMessage>
+    [ViewModel(ViewModelType.Transient)]
+    public class SignInViewModel : ObservableObject, IRecipient<CookieChangedMessage>
     {
         private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
@@ -30,7 +32,7 @@ namespace DGP.Genshin.ViewModels
         private IAsyncRelayCommand<TitleBarButton> initializeCommand;
         private IAsyncRelayCommand signInCommand;
 
-        public SignInViewModel(ISettingService settingService,ICookieService cookieService)
+        public SignInViewModel(ISettingService settingService, ICookieService cookieService)
         {
             this.settingService = settingService;
             this.cookieService = cookieService;

@@ -13,10 +13,9 @@
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="启动游戏"
                    Command="{Binding InitializeCommand}"
-                   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                   Click="LaunchTitleBarButtonClick">
+                   CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
     <ui:FlyoutBase.AttachedFlyout>
-        <ui:Flyout Placement="Bottom" Closed="Flyout_Closed">
+        <ui:Flyout Placement="Bottom">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Closed">
                     <i:InvokeCommandAction Command="{Binding UnInitializeCommand}"/>

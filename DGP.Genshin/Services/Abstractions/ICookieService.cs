@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Services.Cookies;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Abstratcions
 {
@@ -10,6 +9,7 @@ namespace DGP.Genshin.Services.Abstratcions
         bool IsCookieAvailable { get; }
 
         Task AddNewCookieToPoolAsync();
+        void ChangeOrIgnoreCurrentCookie(string? cookie);
         void SaveCookies();
         Task SetCookieAsync();
     }

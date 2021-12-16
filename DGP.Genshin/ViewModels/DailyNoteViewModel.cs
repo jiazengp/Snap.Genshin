@@ -1,16 +1,17 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
-using DGP.Genshin.Services;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace DGP.Genshin.Controls.TitleBarButtons
+namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
     public class DailyNoteViewModel : ObservableObject
@@ -21,12 +22,17 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         private IAsyncRelayCommand<TitleBarButton> refreshCommand;
 
         public List<DailyNote> DailyNotes { get => dailyNotes; set => SetProperty(ref dailyNotes, value); }
-        public IAsyncRelayCommand<TitleBarButton> RefreshCommand { get => refreshCommand; set => refreshCommand = value; }
+        public IAsyncRelayCommand<TitleBarButton> RefreshCommand
+        {
+            get => refreshCommand;
+            [MemberNotNull(nameof(refreshCommand))]
+            set => refreshCommand = value;
+        }
 
         public DailyNoteViewModel(ICookieService cookieService)
         {
             this.cookieService = cookieService;
-            refreshCommand = new AsyncRelayCommand<TitleBarButton>(RefreshAsync);
+            RefreshCommand = new AsyncRelayCommand<TitleBarButton>(RefreshAsync);
         }
         private async Task RefreshAsync(TitleBarButton? t)
         {

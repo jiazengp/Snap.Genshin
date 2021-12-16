@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services.Updating;
+using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace DGP.Genshin.Helpers.Notifications
@@ -17,7 +17,7 @@ namespace DGP.Genshin.Helpers.Notifications
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
             if (args.TryGetValue("action", out string value) && value == "update")
             {
-                await UpdateService.Instance.DownloadAndInstallPackageAsync();
+                await App.GetService<IUpdateService>().DownloadAndInstallPackageAsync();
             }
         }
     }

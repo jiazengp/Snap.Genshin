@@ -1,8 +1,4 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
+﻿using DGP.Genshin.Services;
 
 namespace DGP.Genshin.Pages
 {
@@ -13,37 +9,8 @@ namespace DGP.Genshin.Pages
     {
         public CharactersPage()
         {
+            DataContext = App.GetViewModel<MetadataViewModel>();
             InitializeComponent();
-        }
-
-        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            MetadataViewModel service = MetadataViewModel.Instance;
-            await Task.Delay(300);
-            DataContext = service;
-            service.SelectedCharacter ??= service.Characters?.First();
-            this.Log("initialized");
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            DataContext = null;
-            this.Log("uninitialized");
-            base.OnNavigatedFrom(e);
-        }
-
-        private void FilterToggleButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            MetadataViewModel.Instance.FilterCharacterAndWeapon();
-        }
-
-        private void GachaSplashButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            new CharacterGachaSplashWindow()
-            {
-                Source = MetadataViewModel.Instance.SelectedCharacter?.GachaSplash,
-                Owner = App.Current.MainWindow
-            }.ShowDialog();
         }
     }
 }

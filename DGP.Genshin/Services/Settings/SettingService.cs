@@ -1,11 +1,11 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace DGP.Genshin.Services.Settings
@@ -13,7 +13,8 @@ namespace DGP.Genshin.Services.Settings
     /// <summary>
     /// 实现了各项设置的保存
     /// </summary>
-    [Service(typeof(ISettingService),ServiceType.Singleton)]
+    [Service(typeof(ISettingService), ServiceType.Singleton)]
+    [Send(typeof(SettingChangedMessage))]
     internal class SettingService : ISettingService
     {
         private const string settingsFileName = "settings.json";
@@ -54,12 +55,12 @@ namespace DGP.Genshin.Services.Settings
             set
             {
                 settingDictionary[key] = value;
-                SettingChanged?.Invoke(key, value);
+                App.Messenger.Send(new SettingChangedMessage(key, value));
             }
         }
 
         /// <summary>
-        /// 设置设置选项，不触发改变事件
+        /// 设置 设置选项，不触发改变事件
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -68,11 +69,6 @@ namespace DGP.Genshin.Services.Settings
             this.Log($"setting {key} to {value} internally without notify");
             settingDictionary[key] = value;
         }
-
-        /// <summary>
-        /// 当设置项发生改变时触发
-        /// </summary>
-        public event SettingChangedHandler? SettingChanged;
 
         public void Initialize()
         {

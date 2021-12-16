@@ -1,10 +1,11 @@
-﻿using Octokit;
+﻿using DGP.Genshin.Services.Updating;
+using Octokit;
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.Updating
+namespace DGP.Genshin.Services.Abstratcions
 {
-    internal interface IUpdateService
+    public interface IUpdateService
     {
         Version? CurrentVersion { get; }
         Version? NewVersion { get; set; }

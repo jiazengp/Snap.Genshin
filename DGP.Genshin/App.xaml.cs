@@ -3,6 +3,7 @@ using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services;
+using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -43,7 +44,7 @@ namespace DGP.Genshin
         /// <exception cref="SnapGenshinInternalException"></exception>
         public static TService GetService<TService>()
         {
-            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException("无法找到对应的服务");
+            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException($"无法找到对应的服务 {typeof(TService)}");
         }
 
         public static TViewModel GetViewModel<TViewModel>()
@@ -63,8 +64,7 @@ namespace DGP.Genshin
         {
             ServiceCollection services = new();
             ScanServices(services, typeof(App));
-            ScanServices(services, typeof(MiHoYoAPI.ScanEntry));
-            ScanServices(services, typeof(YoungMoeAPI.ScanEntry));
+            //ScanServices(services, typeof(MiHoYoAPI.ScanEntry));
             return services.BuildServiceProvider();
         }
 
@@ -76,8 +76,8 @@ namespace DGP.Genshin
                 {
                     _ = serviceAttr.ServiceType switch
                     {
-                        ServiceType.Singleton => services.AddSingleton(type, serviceAttr.ImplmentationInterfaceType),
-                        ServiceType.Transient => services.AddTransient(type, serviceAttr.ImplmentationInterfaceType),
+                        ServiceType.Singleton => services.AddSingleton(serviceAttr.ImplmentationInterfaceType, type),
+                        ServiceType.Transient => services.AddTransient(serviceAttr.ImplmentationInterfaceType, type),
                         _ => throw new SnapGenshinInternalException($"未知的服务类型{type}"),
                     };
                 }
@@ -104,7 +104,7 @@ namespace DGP.Genshin
             singleInstanceChecker.Ensure(Current);
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
-            GetService<SettingService>().Initialize();
+            GetService<ISettingService>().Initialize();
             //app theme
             SetAppTheme();
             //open main window
@@ -136,13 +136,13 @@ namespace DGP.Genshin
         private void SetAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =
-                GetService<SettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+                GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
         protected override void OnExit(ExitEventArgs e)
         {
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
-                GetService<SettingService>().UnInitialize();
+                GetService<ISettingService>().UnInitialize();
                 GetService<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
             }

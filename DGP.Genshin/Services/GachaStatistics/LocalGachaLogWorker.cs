@@ -258,39 +258,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             });
         }
 
-        public bool ImportFromGenshinGachaExport(string filePath)
-        {
-            return ImportFromExternalData<GenshinGachaExportFile>(filePath, file =>
-            {
-                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
-                return new ImportableGachaData { Uid = file.Uid, Data = file.Data };
-            });
-        }
-
-        public bool ImportFromKeqingNiuza(string filePath)
-        {
-            return ImportFromExternalData<KeqingNiuzaFile>(filePath, file =>
-            {
-                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
-                ImportableGachaData importData = new();
-                importData.Data = new();
-                foreach (GachaLogItem item in file)
-                {
-                    importData.Uid ??= item.Uid;
-                    string? type = item.GachaType;
-                    //refactor 400 type here to prevent 400 list creation
-                    type = type == "400" ? "301" : type;
-                    _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
-                    if (!importData.Data.ContainsKey(type))
-                    {
-                        importData.Data.Add(type, new());
-                    }
-                    importData.Data[type]!.Insert(0, item);
-                }
-                return importData;
-            });
-        }
-
         #region import core method
         /// <summary>
         /// 泛式方法，将其他类型的数据转化为可导入的类型后调用 <see cref="ImportImportableGachaData"/> 进行导入的实际操作
@@ -319,7 +286,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             return successful;
         }
 
-        private void ImportImportableGachaData(ImportableGachaData importable)
+        private string ImportImportableGachaData(ImportableGachaData importable)
         {
             if (importable.Uid is null)
             {
@@ -345,7 +312,8 @@ namespace DGP.Genshin.Services.GachaStatistics
                     //is new uid
                     Data.Add(importable.Uid, data);
                 }
-                Data.SyncUid(importable.Uid);
+                //Data.SyncUid(importable.Uid);
+                return importable.Uid;
             }
             else
             {

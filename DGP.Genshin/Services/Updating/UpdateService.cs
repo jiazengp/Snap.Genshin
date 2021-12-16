@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Helpers;
+using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
 using System;
@@ -14,7 +15,7 @@ using Windows.UI.Notifications;
 
 namespace DGP.Genshin.Services.Updating
 {
-    [Service(typeof(IUpdateService),ServiceType.Singleton)]
+    [Service(typeof(IUpdateService), ServiceType.Singleton)]
     internal class UpdateService : IUpdateService
     {
         public Uri? PackageUri { get; set; }

@@ -25,7 +25,7 @@ namespace DGP.Genshin.DataModel.Materials.Talents
 
         public bool IsTodaysTalent()
         {
-            return DailyViewModel.Instance.SelectedDayOfWeek.Value switch
+            return App.GetViewModel<DailyViewModel>().SelectedDayOfWeek.Value switch
             {
                 DayOfWeek.Sunday => true,
                 DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Freedom or Prosperity or Transience),

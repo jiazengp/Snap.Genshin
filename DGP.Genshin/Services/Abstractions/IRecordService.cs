@@ -9,6 +9,8 @@ namespace DGP.Genshin.Services.Abstratcions
     {
         List<string> QueryHistory { get; set; }
         event Action<string?>? RecordProgressed;
+
+        void AddQueryHistory(string? uid);
         Task<Record> GetRecordAsync(string? uid);
         void UnInitialize();
     }

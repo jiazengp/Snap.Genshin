@@ -29,11 +29,9 @@
                         <TextBlock Text="外观" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
                     <StackPanel Margin="0,0,0,6">
-                        <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeChangeRequested" ui:ControlHelper.Header="选择应用的颜色">
-                            <ComboBoxItem Content="浅色"/>
-                            <ComboBoxItem Content="深色(推荐)"/>
-                            <ComboBoxItem Content="跟随系统"/>
-                        </ComboBox>
+                        <ComboBox x:Name="ThemeComboBox" 
+                                  ItemsSource="{Binding Themes}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTheme}"
+                                  ui:ControlHelper.Header="选择应用的颜色"/>
                     </StackPanel>
                 </Expander>
                 <Expander Margin="12,12,16,0">
@@ -96,7 +94,7 @@
                     <StackPanel>
                         <TextBlock Text="Snap 原神" Style="{StaticResource BaseTextBlockStyle}"/>
                         <TextBlock Text="{Binding VersionString}" Margin="0,6,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <Button Tag="Github" Content="检查更新并安装" Margin="0,0,0,6" Click="UpdateRequestedAsync"/>
+                        <Button Tag="Github" Content="检查更新并安装" Margin="0,0,0,6" Command="{Binding CheckUpdateCommand}"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>

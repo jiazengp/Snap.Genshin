@@ -70,7 +70,7 @@ namespace DGP.Genshin.Services.Cookies
             try
             {
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
-                Cookies = new CookiePool(this,base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+                Cookies = new CookiePool(this, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace DGP.Genshin.Services.Cookies
             }
         }
 
-        internal void ChangeOrIgnoreCurrentCookie(string? cookie)
+        public void ChangeOrIgnoreCurrentCookie(string? cookie)
         {
             if (cookie is null)
             {

@@ -4,7 +4,6 @@
         xmlns:ui="http://schemas.modernwpf.com/2019" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:local="clr-namespace:DGP.Genshin.Controls" 
         xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
         mc:Ignorable="d" 
         d:DesignHeight="70" d:DesignWidth="70" 

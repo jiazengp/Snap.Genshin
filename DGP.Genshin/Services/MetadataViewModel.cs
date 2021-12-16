@@ -2,7 +2,7 @@
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.Controls.Infrastructures.CachedImage;
+using DGP.Genshin.Controls.GenshinElements;
 using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.Characters;
 using DGP.Genshin.DataModel.Materials.GemStones;
@@ -12,18 +12,16 @@ using DGP.Genshin.DataModel.Materials.Talents;
 using DGP.Genshin.DataModel.Materials.Weeklys;
 using DGP.Genshin.DataModel.Weapons;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using MaterialWeapon = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
+using WeaponMaterial = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.Services
 {
@@ -31,7 +29,7 @@ namespace DGP.Genshin.Services
     /// 元数据服务
     /// </summary>
     [ViewModel(ViewModelType.Singleton)]
-    public class MetadataViewModel:ObservableObject
+    public class MetadataViewModel : ObservableObject
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -110,7 +108,7 @@ namespace DGP.Genshin.Services
         }
         private ObservableCollection<Talent>? dailyTalents;
 
-        public ObservableCollection<MaterialWeapon>? DailyWeapons
+        public ObservableCollection<WeaponMaterial>? DailyWeapons
         {
             get
             {
@@ -122,7 +120,7 @@ namespace DGP.Genshin.Services
             }
             set => dailyWeapons = value;
         }
-        private ObservableCollection<MaterialWeapon>? dailyWeapons;
+        private ObservableCollection<WeaponMaterial>? dailyWeapons;
 
         public ObservableCollection<KeySource>? Elements
         {
@@ -281,8 +279,8 @@ namespace DGP.Genshin.Services
         private Talent? selectedDailyTalent;
         public Talent? SelectedDailyTalent { get => selectedDailyTalent; set => SetProperty(ref selectedDailyTalent, value); }
 
-        private MaterialWeapon? selectedDailyWeapon;
-        public MaterialWeapon? SelectedDailyWeapon { get => selectedDailyWeapon; set => SetProperty(ref selectedDailyWeapon, value); }
+        private WeaponMaterial? selectedDailyWeapon;
+        public WeaponMaterial? SelectedDailyWeapon { get => selectedDailyWeapon; set => SetProperty(ref selectedDailyWeapon, value); }
 
         private Elite? selectedElite;
         public Elite? SelectedElite { get => selectedElite; set => SetProperty(ref selectedElite, value); }
@@ -299,6 +297,50 @@ namespace DGP.Genshin.Services
         private Weekly? selectedWeeklyTalent;
         public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => SetProperty(ref selectedWeeklyTalent, value); }
         #endregion
+
+        private IRelayCommand characterInitializeCommand;
+        private IRelayCommand filterCharacterCommand;
+        private IRelayCommand gachaSplashCommand;
+        private IRelayCommand weaponInitializeCommand;
+
+        public IRelayCommand CharacterInitializeCommand
+        {
+            get => characterInitializeCommand;
+            [MemberNotNull(nameof(characterInitializeCommand))]
+            set => SetProperty(ref characterInitializeCommand, value);
+        }
+        public IRelayCommand WeaponInitializeCommand
+        {
+            get => weaponInitializeCommand;
+            set => SetProperty(ref weaponInitializeCommand, value);
+        }
+        public IRelayCommand FilterCharacterCommand
+        {
+            get => filterCharacterCommand;
+            [MemberNotNull(nameof(filterCharacterCommand))]
+            set => SetProperty(ref filterCharacterCommand, value);
+        }
+        public IRelayCommand GachaSplashCommand
+        {
+            get => gachaSplashCommand;
+            [MemberNotNull(nameof(gachaSplashCommand))]
+            set => SetProperty(ref gachaSplashCommand, value);
+        }
+
+        public MetadataViewModel()
+        {
+            CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
+            weaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
+            FilterCharacterCommand = new RelayCommand(FilterCharacterAndWeapon);
+            GachaSplashCommand = new RelayCommand(() =>
+            {
+                new CharacterGachaSplashWindow()
+                {
+                    Source = SelectedCharacter?.GachaSplash,
+                    Owner = App.Current.MainWindow
+                }.ShowDialog();
+            });
+        }
 
         #region Helper
         /// <summary>
@@ -343,7 +385,7 @@ namespace DGP.Genshin.Services
 
         #endregion
 
-        #region LifeCycle
+        #region read write
         private string Read(string filename)
         {
             string path = folderPath + filename;
@@ -368,7 +410,7 @@ namespace DGP.Genshin.Services
             }
             this.Log($"Save gachaevent metadata to {filename}");
         }
-        private void Save<T>(ObservableCollection<T>? collection, string filename)where T : Primitive
+        private void Save<T>(ObservableCollection<T>? collection, string filename) where T : Primitive
         {
             string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
             using (StreamWriter sw = new(File.Create(folderPath + filename)))
@@ -385,10 +427,6 @@ namespace DGP.Genshin.Services
                 sw.Write(json);
             }
             this.Log($"Save metadata to {filename}");
-        }
-        public void Initialize()
-        {
-            this.Log("instantiated");
         }
         public void UnInitialize()
         {
@@ -409,162 +447,6 @@ namespace DGP.Genshin.Services
 
             Save(SpecificBanners, GachaEventJson);
             this.Log("uninitialized");
-        }
-        private MetadataViewModel() { Initialize(); }
-
-        #endregion
-
-        #region Integrity
-
-        private int currentCount;
-        public int CurrentCount { get => currentCount; set => SetProperty(ref currentCount, value); }
-
-        private string? currentInfo;
-        public string? CurrentInfo { get => currentInfo; set => SetProperty(ref currentInfo, value); }
-
-        private int? totalCount;
-        public int? TotalCount { get => totalCount; set => SetProperty(ref totalCount, value); }
-
-        private double percent;
-        public double Percent { get => percent; set => SetProperty(ref percent, value); }
-
-        private bool hasCheckCompleted;
-        public bool HasCheckCompleted { get => hasCheckCompleted; set { SetProperty(ref hasCheckCompleted, value); CompleteStateChanged?.Invoke(value); } }
-
-        private int checkingCount;
-
-        public event Action<bool>? CompleteStateChanged;
-
-        public async Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, IProgress<InitializeState> progress) where T : KeySource
-        {
-            if (collection is null)
-            {
-                this.Log("初始化时遇到了空的集合");
-                return;
-            }
-            //restrict thread count.
-            await collection.ParallelForEachAsync(async (t) =>
-            {
-                if (!FileCache.Exists(t.Source))
-                {
-                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                }
-                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
-            });
-        }
-
-        public async Task CheckCharacterIntegrityAsync(ObservableCollection<Character>? collection, IProgress<InitializeState> progress)
-        {
-            if (collection is null)
-            {
-                this.Log("初始化时遇到了空的集合");
-                return;
-            }
-            //restrict thread count.
-            Task sourceTask = collection.ParallelForEachAsync(async (t) =>
-            {
-                if (!FileCache.Exists(t.Source))
-                {
-                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                }
-                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
-            });
-            Task profileTask = collection.ParallelForEachAsync(async (t) =>
-            {
-                if (!FileCache.Exists(t.Source))
-                {
-                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                }
-                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
-            });
-            Task gachasplashTask = collection.ParallelForEachAsync(async (t) =>
-            {
-                if (!FileCache.Exists(t.Source))
-                {
-                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                }
-                progress.Report(new InitializeState(Interlocked.Increment(ref checkingCount), t.Source?.ToFileName()));
-            });
-            await Task.WhenAll(sourceTask, profileTask, gachasplashTask);
-        }
-
-        private bool hasEverChecked;
-
-        /// <summary>
-        /// 检查基础缓存图片完整性，不完整的自动下载补全
-        /// 此次启动后若进行过检查则直接跳过
-        /// </summary>
-        public async Task CheckAllIntegrityAsync()
-        {
-            if (hasEverChecked)
-            {
-                return;
-            }
-            if (App.GetService<SettingService>().GetOrDefault(Setting.SkipCacheCheck, false))
-            {
-                this.Log("Integrity Check Suppressed by User SetPropertytings");
-                HasCheckCompleted = true;
-                return;
-            }
-            this.Log("Integrity Check Start");
-            hasEverChecked = true;
-            HasCheckCompleted = false;
-            Progress<InitializeState> progress = new(i =>
-            {
-                CurrentCount = i.CurrentCount;
-                Percent = (i.CurrentCount * 1D / TotalCount) ?? 0D;
-                CurrentInfo = i.Info;
-            });
-            CurrentCount = 0;
-            TotalCount =
-                Bosses?.Count +
-                Cities?.Count +
-                (Characters?.Count * 3) +
-                DailyTalents?.Count +
-                DailyWeapons?.Count +
-                Elements?.Count +
-                Elites?.Count +
-                GemStones?.Count +
-                Locals?.Count +
-                Monsters?.Count +
-                Stars?.Count +
-                Weapons?.Count +
-                WeeklyTalents?.Count +
-                WeaponTypes?.Count;
-
-            Task[] integrityTasks =
-            {
-                CheckIntegrityAsync(Bosses, progress),
-                CheckCharacterIntegrityAsync(Characters, progress),
-                CheckIntegrityAsync(Cities, progress),
-                CheckIntegrityAsync(DailyTalents, progress),
-                CheckIntegrityAsync(DailyWeapons, progress),
-                CheckIntegrityAsync(Elements, progress),
-                CheckIntegrityAsync(Elites, progress),
-                CheckIntegrityAsync(GemStones, progress),
-                CheckIntegrityAsync(Locals, progress),
-                CheckIntegrityAsync(Monsters, progress),
-                CheckIntegrityAsync(Stars, progress),
-                CheckIntegrityAsync(Weapons, progress),
-                CheckIntegrityAsync(WeeklyTalents, progress),
-                CheckIntegrityAsync(WeaponTypes, progress)
-            };
-
-            await Task.WhenAll(integrityTasks);
-
-            this.Log("Integrity Check Stop");
-            HasCheckCompleted = true;
-        }
-
-        public class InitializeState
-        {
-            public InitializeState(int count, string? info)
-            {
-                CurrentCount = count;
-                Info = info;
-            }
-            public int CurrentCount { get; set; }
-            public string? Info { get; set; }
         }
         #endregion
     }

@@ -3,9 +3,9 @@ using DGP.Genshin.DataModel.MiHoYo2;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace DGP.Genshin.Services.ViewModels
+namespace DGP.Genshin.ViewModels
 {
-    [ViewModel]
+    [ViewModel(ViewModelType.Transient)]
     public class RecordViewModel : ObservableObject
     {
         private readonly IRecordService recordService;
@@ -19,5 +19,7 @@ namespace DGP.Genshin.Services.ViewModels
 
         private bool isQuerying = false;
         public bool IsQuerying { get => isQuerying; set => SetProperty(ref isQuerying, value); }
+
+        public IRecordService RecordService => recordService;
     }
 }
