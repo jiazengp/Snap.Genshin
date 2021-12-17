@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModel.Characters;
-using DGP.Genshin.Services;
+using DGP.Genshin.DataModels.Characters;
 using System.Collections.Generic;
 using System.Linq;
 

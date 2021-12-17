@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DGP.Genshin.DataModel.Launching
+namespace DGP.Genshin.DataModels.Launching
 {
     public class GenshinAccount
     {

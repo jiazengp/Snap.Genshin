@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DGP.Genshin.DataModel
+namespace DGP.Genshin.DataModels
 {
     public static class StringExtensions
     {

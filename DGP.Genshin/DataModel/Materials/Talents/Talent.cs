@@ -1,8 +1,7 @@
-﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Genshin.ViewModels;
+﻿using DGP.Genshin.DataModels.Helpers;
 using System;
 
-namespace DGP.Genshin.DataModel.Materials.Talents
+namespace DGP.Genshin.DataModels.Materials.Talents
 {
     public class Talent : Material
     {
@@ -23,9 +22,9 @@ namespace DGP.Genshin.DataModel.Materials.Talents
             Star = StarHelper.FromRank(4);
         }
 
-        public bool IsTodaysTalent()
+        public bool IsTodaysTalent(DayOfWeek dayOfWeek)
         {
-            return App.GetViewModel<DailyViewModel>().SelectedDayOfWeek.Value switch
+            return dayOfWeek switch
             {
                 DayOfWeek.Sunday => true,
                 DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Freedom or Prosperity or Transience),

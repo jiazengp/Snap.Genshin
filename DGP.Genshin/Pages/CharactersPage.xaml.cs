@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Services;
+﻿using DGP.Genshin.ViewModels;
 
 namespace DGP.Genshin.Pages
 {

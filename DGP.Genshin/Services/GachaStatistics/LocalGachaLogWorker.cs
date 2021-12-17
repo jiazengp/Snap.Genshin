@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,7 +26,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         private const string localFolder = "GachaStatistic";
         private const string metadataSheetName = "原始数据";
 
-        public GachaDataCollection Data { get; set; } = new();
+        public GachaDataCollection Data { get; [MemberNotNull(nameof(Data))] set; }
 
         #region Initialization
         /// <summary>

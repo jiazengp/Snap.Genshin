@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
-namespace DGP.Genshin.DataModel
+namespace DGP.Genshin.DataModels
 {
     public class KeySource : ObservableObject
     {

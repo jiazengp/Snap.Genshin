@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.Launching;
+﻿using DGP.Genshin.DataModels.Launching;
 using Microsoft.Win32;
 using System;
 using System.Text;

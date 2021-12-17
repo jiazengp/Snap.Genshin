@@ -5,10 +5,8 @@ using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
-using DGP.Genshin.Services;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Notifications;
-using DGP.Genshin.Services.Settings;
 using DGP.Genshin.Services.Updating;
 using DGP.Genshin.ViewModels;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -44,7 +42,7 @@ namespace DGP.Genshin
             this.Log("initialized");
         }
 
-        public async void Receive(MainWindow window,SplashInitializationCompletedMessage message)
+        public async void Receive(MainWindow window, SplashInitializationCompletedMessage message)
         {
             SplashViewModel splashView = message.Value;
             PrepareTitleBarArea(splashView);
@@ -57,7 +55,6 @@ namespace DGP.Genshin
             splashView.CurrentStateDescription = "完成";
             //post actions
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
-            splashView.HasCheckCompleted = true;
         }
 
         /// <summary>

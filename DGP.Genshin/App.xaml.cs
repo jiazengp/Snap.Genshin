@@ -1,10 +1,9 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Exceptions;
+﻿using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Core;
 using DGP.Genshin.Helpers.Notifications;
-using DGP.Genshin.Services;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
+using DGP.Genshin.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -23,74 +22,45 @@ namespace DGP.Genshin
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
+        private readonly ServiceManager serviceManager;
 
         public App()
         {
-            Services = ConfigureServices();
+            serviceManager = new();
         }
 
         /// <summary>
-        /// 覆盖默认的 Current
+        /// 覆盖默认类型的 Current
         /// </summary>
         public new static App Current => (App)Application.Current;
 
-        #region Dependency Injection
-        public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
+        #region Dependency Injection Helper
         /// <summary>
-        /// 获取服务时应使用服务的接口类型
+        /// 全局消息交换器
+        /// </summary>
+        public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
+
+        /// <summary>
+        /// 获取应注入的服务
+        /// 获取时应使用服务的接口类型
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
-        /// <exception cref="SnapGenshinInternalException"></exception>
+        /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
         public static TService GetService<TService>()
         {
-            return Current.Services.GetService<TService>() ?? throw new SnapGenshinInternalException($"无法找到对应的服务 {typeof(TService)}");
+            return Current.serviceManager.Services.GetService<TService>()
+                ?? throw new SnapGenshinInternalException($"无法找到 {typeof(TService)} 类型的服务");
         }
 
+        /// <summary>
+        /// 获取应注入的视图模型
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <returns></returns>
         public static TViewModel GetViewModel<TViewModel>()
         {
             return GetService<TViewModel>();
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
-        /// </summary>
-        public IServiceProvider Services { get; }
-
-        /// <summary>
-        /// Configures the services for the application.
-        /// </summary>
-        private static IServiceProvider ConfigureServices()
-        {
-            ServiceCollection services = new();
-            ScanServices(services, typeof(App));
-            //ScanServices(services, typeof(MiHoYoAPI.ScanEntry));
-            return services.BuildServiceProvider();
-        }
-
-        private static void ScanServices(ServiceCollection services, Type entryType)
-        {
-            foreach (Type type in entryType.Assembly.GetTypes())
-            {
-                if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
-                {
-                    _ = serviceAttr.ServiceType switch
-                    {
-                        ServiceType.Singleton => services.AddSingleton(serviceAttr.ImplmentationInterfaceType, type),
-                        ServiceType.Transient => services.AddTransient(serviceAttr.ImplmentationInterfaceType, type),
-                        _ => throw new SnapGenshinInternalException($"未知的服务类型{type}"),
-                    };
-                }
-                if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
-                {
-                    _ = viewModelAttr.ViewModelType switch
-                    {
-                        ViewModelType.Singleton => services.AddSingleton(type),
-                        ViewModelType.Transient => services.AddTransient(type),
-                        _ => throw new SnapGenshinInternalException($"未知的视图模型类型{type}"),
-                    };
-                }
-            }
         }
         #endregion
 
@@ -126,9 +96,7 @@ namespace DGP.Genshin
         /// </summary>
         private void EnsureWorkingPath()
         {
-            string path = AppContext.BaseDirectory;
-            string? workingPath = Path.GetDirectoryName(path);
-            if (workingPath is not null)
+            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string workingPath)
             {
                 Environment.CurrentDirectory = workingPath;
             }
@@ -143,7 +111,7 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 GetService<ISettingService>().UnInitialize();
-                GetService<MetadataViewModel>().UnInitialize();
+                GetViewModel<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
             }
             base.OnExit(e);
@@ -157,7 +125,6 @@ namespace DGP.Genshin
                     sw.WriteLine($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
                     sw.Write(e.ExceptionObject);
                 }
-                //while exit with error OnExit will somehow not triggered
             }
         }
         #endregion

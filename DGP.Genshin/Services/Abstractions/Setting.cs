@@ -1,7 +1,7 @@
 ﻿using ModernWpf;
 using System;
 
-namespace DGP.Genshin.Services.Settings
+namespace DGP.Genshin.Services.Abstratcions
 {
     public static class Setting
     {

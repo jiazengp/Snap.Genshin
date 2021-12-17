@@ -1,13 +1,14 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System.Collections.ObjectModel;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class GachaStatisticViewModel : ObservableObject
+    public class GachaStatisticViewModel : ObservableObject, IRecipient<GachaUidAddedMessage>
     {
         private readonly IGachaStatisticService gachaStatisticService;
         private readonly ISettingService settingService;
@@ -150,7 +151,9 @@ namespace DGP.Genshin.ViewModels
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService, ISettingService settingService)
         {
             this.gachaStatisticService = gachaStatisticService;
+            Uids = new(gachaStatisticService.GetUids());
             this.settingService = settingService;
+
 
             InitializeCommand = new RelayCommand(() => { SelectedUid = Uids.FirstOrDefault(); });
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);
@@ -281,8 +284,10 @@ namespace DGP.Genshin.ViewModels
             SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
         }
 
-        private void GachaDataCollectionUidAdded(string uid)
+        public void Receive(GachaUidAddedMessage message)
         {
+            string uid = message.Value;
+            this.Log($"uid {uid} added");
             bool showFullUid = settingService.GetOrDefault(Setting.ShowFullUID, false);
             App.Current.Dispatcher.Invoke(() => Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid)));
         }

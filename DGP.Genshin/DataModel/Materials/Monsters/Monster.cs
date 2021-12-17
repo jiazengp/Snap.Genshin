@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.DataModel.Helpers;
+﻿using DGP.Genshin.DataModels.Helpers;
 
-namespace DGP.Genshin.DataModel.Materials.Monsters
+namespace DGP.Genshin.DataModels.Materials.Monsters
 {
     public class Monster : Material
     {

@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.MiHoYo2;
+﻿using DGP.Genshin.DataModels.MiHoYo2;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

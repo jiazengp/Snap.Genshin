@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 
-namespace DGP.Genshin.DataModel.Helpers
+namespace DGP.Genshin.DataModels.Helpers
 {
     public static class StarHelper
     {

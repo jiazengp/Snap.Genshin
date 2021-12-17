@@ -4,11 +4,11 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.DataModels.Helpers
 {
-    public class StarConverter : IValueConverter
+    public class StarSolidConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return StarHelper.FromRank((int)value);
+            return StarHelper.ToSolid((int)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -3,14 +3,14 @@ using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.GenshinElements;
-using DGP.Genshin.DataModel;
-using DGP.Genshin.DataModel.Characters;
-using DGP.Genshin.DataModel.Materials.GemStones;
-using DGP.Genshin.DataModel.Materials.Locals;
-using DGP.Genshin.DataModel.Materials.Monsters;
-using DGP.Genshin.DataModel.Materials.Talents;
-using DGP.Genshin.DataModel.Materials.Weeklys;
-using DGP.Genshin.DataModel.Weapons;
+using DGP.Genshin.DataModels;
+using DGP.Genshin.DataModels.Characters;
+using DGP.Genshin.DataModels.Materials.GemStones;
+using DGP.Genshin.DataModels.Materials.Locals;
+using DGP.Genshin.DataModels.Materials.Monsters;
+using DGP.Genshin.DataModels.Materials.Talents;
+using DGP.Genshin.DataModels.Materials.Weeklys;
+using DGP.Genshin.DataModels.Weapons;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -21,9 +21,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
-using WeaponMaterial = DGP.Genshin.DataModel.Materials.Weapons.Weapon;
+using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 
-namespace DGP.Genshin.Services
+namespace DGP.Genshin.ViewModels
 {
     /// <summary>
     /// 元数据服务
@@ -114,7 +114,7 @@ namespace DGP.Genshin.Services
             {
                 if (dailyWeapons == null)
                 {
-                    dailyWeapons = Json.ToObject<ObservableCollection<DataModel.Materials.Weapons.Weapon>>(Read(DailyWeaponsJson));
+                    dailyWeapons = Json.ToObject<ObservableCollection<WeaponMaterial>>(Read(DailyWeaponsJson));
                 }
                 return dailyWeapons;
             }
@@ -298,6 +298,7 @@ namespace DGP.Genshin.Services
         public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => SetProperty(ref selectedWeeklyTalent, value); }
         #endregion
 
+        #region Command
         private IRelayCommand characterInitializeCommand;
         private IRelayCommand filterCharacterCommand;
         private IRelayCommand gachaSplashCommand;
@@ -326,6 +327,7 @@ namespace DGP.Genshin.Services
             [MemberNotNull(nameof(gachaSplashCommand))]
             set => SetProperty(ref gachaSplashCommand, value);
         }
+        #endregion
 
         public MetadataViewModel()
         {

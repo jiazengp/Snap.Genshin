@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModel.Launching;
+using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using IniParser;
 using IniParser.Model;
 using Microsoft.Win32;

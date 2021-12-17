@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.Launching;
+﻿using DGP.Genshin.DataModels.Launching;
 using IniParser.Model;
 using System;
 using System.Threading.Tasks;

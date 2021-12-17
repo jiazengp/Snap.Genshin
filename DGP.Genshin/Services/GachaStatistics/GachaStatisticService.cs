@@ -1,10 +1,13 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using ModernWpf.Controls;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.GachaStatistics
@@ -13,9 +16,10 @@ namespace DGP.Genshin.Services.GachaStatistics
     /// <summary>
     /// 抽卡记录服务
     /// </summary>
-    [Service(typeof(IGachaStatisticService),ServiceType.Transient)]
+    [Service(typeof(IGachaStatisticService), ServiceType.Transient)]
     public class GachaStatisticService : IGachaStatisticService
     {
+        private readonly ISettingService settingService;
         private readonly LocalGachaLogWorker localGachaLogWorker;
 
         /// <summary>
@@ -23,10 +27,17 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         private readonly GachaDataCollection gachaDataCollection = new();
 
-        public GachaStatisticService()
+        public GachaStatisticService(ISettingService settingService)
         {
+            this.settingService = settingService;
             localGachaLogWorker = new(gachaDataCollection);
             this.Log("initialized");
+        }
+
+        public IEnumerable<PrivateString> GetUids()
+        {
+            bool showFullUid = settingService.GetOrDefault(Setting.ShowFullUID, false);
+            return gachaDataCollection.Keys.Select(uid => new PrivateString(uid, PrivateString.DefaultMasker, showFullUid));
         }
 
         /// <summary>

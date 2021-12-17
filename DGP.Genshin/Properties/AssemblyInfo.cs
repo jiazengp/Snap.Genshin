@@ -4,4 +4,4 @@ using System.Windows;
 [assembly: AssemblyDescription("原神信息速查App")]
 [assembly: AssemblyCopyright("Copyright © DGP Studio 2021")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("2021.12.16.29")]
+[assembly: AssemblyVersion("2021.12.17.16")]

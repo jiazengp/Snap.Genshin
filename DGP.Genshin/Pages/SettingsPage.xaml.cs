@@ -1,8 +1,6 @@
-﻿using DGP.Genshin.Services.Settings;
-using DGP.Genshin.Services.Updating;
+﻿using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
 using ModernWpf;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 

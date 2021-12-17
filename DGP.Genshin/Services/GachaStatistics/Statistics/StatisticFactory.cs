@@ -1,8 +1,9 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.DataModel.Helpers;
+using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,13 +149,13 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                             };
                             if (itemType == "武器")
                             {
-                                DataModel.Weapons.Weapon? weapon = App.GetViewModel<MetadataViewModel>().Weapons?.First(w => w.Name == i.Name);
+                                DataModels.Weapons.Weapon? weapon = App.GetViewModel<MetadataViewModel>().Weapons?.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon?.Source;
                                 counter[i.Name].Badge = weapon?.Type;
                             }
                             else if (itemType == "角色")
                             {
-                                DataModel.Characters.Character? character = App.GetViewModel<MetadataViewModel>().Characters?.First(c => c.Name == i.Name);
+                                DataModels.Characters.Character? character = App.GetViewModel<MetadataViewModel>().Characters?.First(c => c.Name == i.Name);
                                 counter[i.Name].Source = character?.Source;
                                 counter[i.Name].Badge = character?.Element;
                             }
@@ -310,8 +311,8 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         }
         private static void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            DataModel.Characters.Character? isc = App.GetViewModel<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
-            DataModel.Weapons.Weapon? isw = App.GetViewModel<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
+            DataModels.Characters.Character? isc = App.GetViewModel<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
+            DataModels.Weapons.Weapon? isw = App.GetViewModel<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
             SpecificItem ni = new()
             {
                 Time = item.Time

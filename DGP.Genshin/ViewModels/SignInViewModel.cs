@@ -5,7 +5,6 @@ using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;

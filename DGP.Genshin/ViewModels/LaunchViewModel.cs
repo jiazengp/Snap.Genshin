@@ -2,10 +2,9 @@
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Controls.Launching;
 using DGP.Genshin.Controls.TitleBarButtons;
-using DGP.Genshin.DataModel.Launching;
+using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Launching;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;

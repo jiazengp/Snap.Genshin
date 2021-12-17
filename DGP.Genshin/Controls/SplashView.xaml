@@ -61,14 +61,14 @@
             <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1} - {2:p} {3}">
-                        <Binding Path="MetaDataService.CurrentCount"/>
-                        <Binding Path="MetaDataService.TotalCount"/>
-                        <Binding Path="MetaDataService.Percent"/>
-                        <Binding Path="MetaDataService.CurrentInfo"/>
+                        <Binding Path="CurrentCount"/>
+                        <Binding Path="TotalCount"/>
+                        <Binding Path="Percent"/>
+                        <Binding Path="CurrentInfo"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding MetaDataService.Percent,TargetNullValue=1}"/>
+            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding Percent,TargetNullValue=1}"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -4,10 +4,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                   xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
                    xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
-                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                   xmlns:launching="clr-namespace:DGP.Genshin.Services.Launching"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
@@ -15,12 +12,7 @@
                    Command="{Binding InitializeCommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
     <ui:FlyoutBase.AttachedFlyout>
-        <ui:Flyout Placement="Bottom">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Closed">
-                    <i:InvokeCommandAction Command="{Binding UnInitializeCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+        <ui:Flyout Placement="Bottom" Closed="Flyout_Closed">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>

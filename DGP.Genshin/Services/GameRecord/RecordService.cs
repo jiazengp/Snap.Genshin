@@ -1,12 +1,11 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.DataModel.MiHoYo2;
+using DGP.Genshin.DataModels.MiHoYo2;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;

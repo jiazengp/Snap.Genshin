@@ -1,8 +1,8 @@
-﻿using DGP.Genshin.DataModel.Helpers;
+﻿using DGP.Genshin.DataModels.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Media;
 
-namespace DGP.Genshin.DataModel
+namespace DGP.Genshin.DataModels
 {
     public abstract class Primitive : KeySource
     {

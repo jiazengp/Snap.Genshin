@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.MiHoYoAPI.UserInfo;
 
-namespace DGP.Genshin.DataModel.Cookies
+namespace DGP.Genshin.DataModels.Cookies
 {
     /// <summary>
     /// Cookie与对应的用户信息

@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using System;
 using System.Globalization;
 using System.Windows;

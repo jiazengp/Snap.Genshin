@@ -4,11 +4,18 @@ using System.Windows;
 
 namespace DGP.Genshin
 {
+    /// <summary>
+    /// 单例程序检查器
+    /// </summary>
     public class SingleInstanceChecker
     {
         private readonly string uniqueEventName = "Snap.Genshin";
         private EventWaitHandle? eventWaitHandle;
 
+        /// <summary>
+        /// 构造新的检测器实例
+        /// </summary>
+        /// <param name="uniqueEventName">App的唯一名称标识符</param>
         public SingleInstanceChecker(string uniqueEventName)
         {
             this.uniqueEventName = uniqueEventName;
@@ -23,8 +30,9 @@ namespace DGP.Genshin
         /// 指示是否在进行验证
         /// </summary>
         public bool IsEnsureingSingleInstance { get; set; }
+
         /// <summary>
-        /// 检测应用程序是否为第一个打开
+        /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
         public void Ensure(Application app)

@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModel.MiHoYo2;
+using DGP.Genshin.DataModels.MiHoYo2;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 

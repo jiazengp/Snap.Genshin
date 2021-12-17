@@ -1,8 +1,7 @@
-﻿using DGP.Genshin.DataModel.Helpers;
-using DGP.Genshin.ViewModels;
+﻿using DGP.Genshin.DataModels.Helpers;
 using System;
 
-namespace DGP.Genshin.DataModel.Materials.Weapons
+namespace DGP.Genshin.DataModels.Materials.Weapons
 {
     public class Weapon : Material
     {
@@ -23,9 +22,9 @@ namespace DGP.Genshin.DataModel.Materials.Weapons
             Star = StarHelper.FromRank(5);
         }
 
-        public bool IsTodaysWeapon()
+        public bool IsTodaysWeapon(DayOfWeek dayOfWeek)
         {
-            return App.GetViewModel<DailyViewModel>().SelectedDayOfWeek.Value switch
+            return dayOfWeek switch
             {
                 DayOfWeek.Sunday => true,
                 DayOfWeek.Monday or DayOfWeek.Thursday => Source is (Decarabian or Guyun or DistantSea),

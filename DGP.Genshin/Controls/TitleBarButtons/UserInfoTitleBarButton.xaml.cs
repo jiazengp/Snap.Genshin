@@ -10,10 +10,8 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     {
         public UserInfoTitleBarButton()
         {
-            //suppress the databinding warning
-            //PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
-            InitializeComponent();
             DataContext = App.GetViewModel<UserInfoViewModel>();
+            InitializeComponent();
         }
 
     }

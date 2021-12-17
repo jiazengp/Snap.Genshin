@@ -4,7 +4,6 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -168,8 +167,8 @@ namespace DGP.Genshin.ViewModels
         {
             ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
-        public IAsyncRelayCommand CheckUpdateCommand 
-        { 
+        public IAsyncRelayCommand CheckUpdateCommand
+        {
             get => checkUpdateCommand;
             [MemberNotNull(nameof(checkUpdateCommand))]
             set => checkUpdateCommand = value;

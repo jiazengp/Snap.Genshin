@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Controls.TitleBarButtons;
-using DGP.Genshin.DataModel.Cookies;
+using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Services.Abstratcions;
@@ -48,8 +48,8 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(initializeCommand))]
             set => SetProperty(ref initializeCommand, value);
         }
-        public IAsyncRelayCommand LoadCommand 
-        { 
+        public IAsyncRelayCommand LoadCommand
+        {
             get => loadCommand;
             [MemberNotNull(nameof(loadCommand))]
             set => SetProperty(ref loadCommand, value);

@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.DataModel.Materials.Monsters;
+﻿using DGP.Genshin.DataModels.Materials.Monsters;
 
-namespace DGP.Genshin.DataModel.Weapons
+namespace DGP.Genshin.DataModels.Weapons
 {
     public class Weapon : Primitive
     {

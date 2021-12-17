@@ -2,12 +2,10 @@
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.Infrastructures.CachedImage;
-using DGP.Genshin.DataModel;
-using DGP.Genshin.DataModel.Characters;
+using DGP.Genshin.DataModels;
+using DGP.Genshin.DataModels.Characters;
 using DGP.Genshin.Messages;
-using DGP.Genshin.Services;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -27,10 +25,9 @@ namespace DGP.Genshin.ViewModels
         private readonly MetadataViewModel metadataViewModel;
         private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
-        private bool integrityCheckCompleted;
 
         private bool isCookieVisible = true;
-        private bool hasCheckCompleted=false;
+        private bool hasCheckCompleted = false;
         private string currentStateDescription = "校验缓存完整性...";
         private IAsyncRelayCommand initializeCommand;
         private IAsyncRelayCommand setCookieCommand;
@@ -40,13 +37,13 @@ namespace DGP.Genshin.ViewModels
             get => isCookieVisible; set
             {
                 SetProperty(ref isCookieVisible, value);
-                OnInitializeStateChanged();
+                TrySendCompletedMessage();
             }
         }
 
-        private void OnInitializeStateChanged()
+        private void TrySendCompletedMessage()
         {
-            if (IsCookieVisible == false && integrityCheckCompleted)
+            if (IsCookieVisible == false && HasCheckCompleted)
             {
                 this.Log(IsCookieVisible);
                 App.Messenger.Send(new SplashInitializationCompletedMessage(this));
@@ -58,7 +55,7 @@ namespace DGP.Genshin.ViewModels
             set
             {
                 SetProperty(ref hasCheckCompleted, value);
-                OnInitializeStateChanged();
+                TrySendCompletedMessage();
             }
         }
 
@@ -222,7 +219,6 @@ namespace DGP.Genshin.ViewModels
             };
 
             await Task.WhenAll(integrityTasks);
-
             this.Log("Integrity Check Stop");
             HasCheckCompleted = true;
         }

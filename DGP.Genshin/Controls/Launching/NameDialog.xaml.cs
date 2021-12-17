@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.Launching;
+﻿using DGP.Genshin.DataModels.Launching;
 using ModernWpf.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
