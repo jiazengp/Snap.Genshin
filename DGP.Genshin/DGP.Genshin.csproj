@@ -42,10 +42,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="5.8.2" />
+    <PackageReference Include="EPPlus" Version="5.8.4" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.1" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1020.30" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1054.31" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
@@ -55,7 +58,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DGP.Genshin.Common\DGP.Genshin.Common.csproj" />
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
-    <ProjectReference Include="..\DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

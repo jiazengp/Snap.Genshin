@@ -1,7 +1,5 @@
-﻿using DGP.Genshin.Services;
+﻿using DGP.Genshin.ViewModels;
 using ModernWpf.Controls.Primitives;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace DGP.Genshin.Controls.TitleBarButtons
 {
@@ -10,19 +8,10 @@ namespace DGP.Genshin.Controls.TitleBarButtons
     /// </summary>
     public partial class JourneyLogTitleBarButton : TitleBarButton
     {
-        private readonly JourneyService journeyService;
         public JourneyLogTitleBarButton()
         {
-            journeyService = new JourneyService();
+            DataContext = App.GetViewModel<JourneyViewModel>();
             InitializeComponent();
-        }
-
-        private async void JourneyLogTitleBarButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (sender.ShowAttachedFlyout<Grid>(journeyService))
-            {
-                await journeyService.InitializeAsync();
-            }
         }
     }
 }

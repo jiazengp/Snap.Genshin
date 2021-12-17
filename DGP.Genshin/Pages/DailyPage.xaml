@@ -6,10 +6,10 @@
       xmlns:controls="clr-namespace:DGP.Genshin.Controls.GenshinElements"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
-      xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+      xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
-      Loaded="Page_Loaded">
+      d:DesignHeight="600" d:DesignWidth="800">
     <Page.Resources>
         <DataTemplate x:Key="CharacterTemplate">
             <controls:ContentIcon Width="70" Height="70" 

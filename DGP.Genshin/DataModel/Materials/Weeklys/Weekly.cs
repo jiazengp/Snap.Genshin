@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.DataModel.Helpers;
+﻿using DGP.Genshin.DataModels.Helpers;
 
-namespace DGP.Genshin.DataModel.Materials.Weeklys
+namespace DGP.Genshin.DataModels.Materials.Weeklys
 {
     public class Weekly : Material
     {

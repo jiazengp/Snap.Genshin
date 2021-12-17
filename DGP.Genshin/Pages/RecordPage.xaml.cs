@@ -1,35 +1,25 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services.CelestiaDatabase;
-using DGP.Genshin.Services.GameRecord;
+﻿using DGP.Genshin.DataModels.MiHoYo2;
+using DGP.Genshin.Services.Abstratcions;
+using DGP.Genshin.ViewModels;
 using ModernWpf.Controls;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Navigation;
 
 namespace DGP.Genshin.Pages
 {
     /// <summary>
     /// RecordPage.xaml 的交互逻辑
     /// </summary>
-    public partial class RecordPage : Page, INotifyPropertyChanged
+    public partial class RecordPage : Page
     {
         public RecordPage()
         {
+            DataContext = App.GetViewModel<RecordViewModel>();
             InitializeComponent();
         }
 
-        private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            DataContext = RecordService.Instance;
-            if (RecordService.Instance.QueryHistory?.Count > 0)
-            {
-                RecordService s = RecordService.Instance;
-            }
-            this.Log("initialized");
-        }
+        private RecordViewModel ViewModel => (RecordViewModel)DataContext;
 
         #region AutoSuggest
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -37,7 +27,7 @@ namespace DGP.Genshin.Pages
             if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput or AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 IEnumerable<string>? result =
-                    RecordService.Instance.QueryHistory?.Where(i => string.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
+                    ViewModel.RecordService.QueryHistory?.Where(i => string.IsNullOrEmpty(sender.Text) || i.Contains(sender.Text));
                 sender.ItemsSource = result?.Count() == 0 ? new List<string> { "暂无记录" } : result;
             }
         }
@@ -56,17 +46,13 @@ namespace DGP.Genshin.Pages
             }
             opLocker = true;
             string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-            Record record = await RecordService.Instance.GetRecordAsync(uid);
+            Record record = await ViewModel.RecordService.GetRecordAsync(uid);
 
             if (record.Success)
             {
-                RecordService service = RecordService.Instance;
+                IRecordService service = ViewModel.RecordService;
                 //so that current record is always has data
-                service.CurrentRecord = record;
-                if (CelestiaDatabaseService.Instance.IsInitialized)
-                {
-                    await CelestiaDatabaseService.Instance.RefershRecommandsAsync();
-                }
+                ViewModel.CurrentRecord = record;
                 service.AddQueryHistory(uid);
             }
             else
@@ -96,30 +82,5 @@ namespace DGP.Genshin.Pages
             opLocker = false;
         }
         #endregion
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            RecordService.Instance.UnInitialize();
-        }
     }
 }

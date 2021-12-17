@@ -25,6 +25,7 @@
         <converters:GemStonesConverter x:Key="GemStonesConverter"/>
         <converters:LocalsConverter x:Key="LocalsConverter"/>
         <converters:ElementStringConverter x:Key="ElementStringConverter"/>
+        
         <DataTemplate x:Key="KeySourceDataTemplate">
             <Grid Height="24">
                 <Grid.ColumnDefinitions>

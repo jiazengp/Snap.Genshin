@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.DataModel.Materials.Locals
+﻿namespace DGP.Genshin.DataModels.Materials.Locals
 {
     public class Local : Material
     {

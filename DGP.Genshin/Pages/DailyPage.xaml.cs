@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services;
-using System.Threading.Tasks;
+﻿using DGP.Genshin.ViewModels;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
@@ -12,14 +10,8 @@ namespace DGP.Genshin.Pages
     {
         public DailyPage()
         {
+            DataContext = App.GetViewModel<DailyViewModel>();
             InitializeComponent();
-        }
-
-        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            await Task.Delay(1000);
-            DataContext = DailyViewService.Instance;
-            this.Log("initialized");
         }
     }
 }

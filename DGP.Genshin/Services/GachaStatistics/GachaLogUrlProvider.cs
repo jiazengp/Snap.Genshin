@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Controls.GenshinElements;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -24,7 +25,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// 根据模式获取Url
         /// </summary>
         /// <param name="mode">模式</param>
-        /// <returns>若获取失败返回null</returns>
+        /// <returns>文件存在返回true,若获取失败返回null</returns>
         public static async Task<(bool isOk, string? url)> GetUrlAsync(GachaLogUrlMode mode)
         {
             switch (mode)
@@ -77,7 +78,8 @@ namespace DGP.Genshin.Services.GachaStatistics
             (bool isOk, string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
             url = url.Trim();
             string? result = null;
-            if (url.StartsWith(@"https://webstatic.mihoyo.com") && url.EndsWith("#/log"))
+            //compat with iOS 
+            if (url.StartsWith(@"https://webstatic.mihoyo.com"))
             {
                 url = url.Replace("#/log", "");
                 string[] splitedUrl = url.Split('?');

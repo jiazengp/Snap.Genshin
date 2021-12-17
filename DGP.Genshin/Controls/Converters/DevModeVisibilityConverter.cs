@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Services.Settings;
+﻿using DGP.Genshin.Services.Abstratcions;
 using System;
 using System.Globalization;
 using System.Windows;
@@ -13,7 +13,7 @@ namespace DGP.Genshin.Controls.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return SettingService.Instance.GetOrDefault(Setting.IsDevMode, false) ? Visibility.Visible : Visibility.Collapsed;
+            return App.GetService<ISettingService>().GetOrDefault(Setting.IsDevMode, false) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.DataModel.Materials
+﻿namespace DGP.Genshin.DataModels.Materials
 {
     public class Material : Primitive
     {

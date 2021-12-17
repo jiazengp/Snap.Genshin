@@ -24,13 +24,13 @@
     <Compile Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Pages\CharacterGachaSplashWindow.xaml.cs">
+    <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\PromotionCalculatePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Services\Launching\NameDialog.xaml.cs">
+    <Compile Update="Controls\Launching\NameDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -53,13 +53,13 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\CharacterGachaSplashWindow.xaml">
+    <Page Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\PromotionCalculatePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Services\Launching\NameDialog.xaml">
+    <Page Update="Controls\Launching\NameDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

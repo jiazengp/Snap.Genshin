@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.DataModel.Materials.GemStones;
-using DGP.Genshin.DataModel.Materials.Locals;
-using DGP.Genshin.DataModel.Materials.Monsters;
-using DGP.Genshin.DataModel.Materials.Talents;
-using DGP.Genshin.DataModel.Materials.Weeklys;
+﻿using DGP.Genshin.DataModels.Materials.GemStones;
+using DGP.Genshin.DataModels.Materials.Locals;
+using DGP.Genshin.DataModels.Materials.Monsters;
+using DGP.Genshin.DataModels.Materials.Talents;
+using DGP.Genshin.DataModels.Materials.Weeklys;
 
-namespace DGP.Genshin.DataModel.Characters
+namespace DGP.Genshin.DataModels.Characters
 {
     public class Character : Primitive
     {

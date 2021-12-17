@@ -3,14 +3,22 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                   xmlns:ui="http://schemas.modernwpf.com/2019"
                    xmlns:local="clr-namespace:DGP.Genshin.Controls.TitleBarButtons"
-                   xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+                   xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer" 
+                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
-                   Click="TitleBarButton_Click"
+                   Command="{Binding InitializeCommand}"
+                   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                    Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay}"
                    >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:UserInfoTitleBarButton}}}">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <ui:TitleBarButton.Resources>
         <Style TargetType="ui:ListViewItem">
             <Setter Property="Padding" Value="0"/>
@@ -59,20 +67,17 @@
                     </ui:ListView>
                 </s:SmoothScrollViewer>
                 <ui:CommandBar Grid.Row="1">
-                    <ui:AppBarButton Label="添加一个新用户" Click="AddCookieAppBarButtonClick">
+                    <ui:AppBarButton Label="添加一个新用户" Command="{Binding AddUserCommand}">
                         <ui:AppBarButton.Icon>
                             <ui:FontIcon Glyph="&#xE8FA;"/>
                         </ui:AppBarButton.Icon>
                     </ui:AppBarButton>
-                    <ui:AppBarButton Label="删除选中的用户" Click="RemoveCookieAppBarButtonClick">
+                    <ui:AppBarButton Label="删除选中的用户" Command="{Binding RemoveUserCommand}">
                         <ui:AppBarButton.Icon>
                             <ui:FontIcon Glyph="&#xE74D;"/>
                         </ui:AppBarButton.Icon>
                     </ui:AppBarButton>
                 </ui:CommandBar>
-                <ItemsControl Grid.Row="2" ItemsSource="{Binding SelectedCookieCard.DataSwitches}">
-                    
-                </ItemsControl>
             </Grid>
         </ui:Flyout>
     </ui:FlyoutBase.AttachedFlyout>

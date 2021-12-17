@@ -5,7 +5,8 @@ namespace DGP.Genshin.SDK
     /// <summary>
     /// 实现日志输出
     /// </summary>
-    public interface ILoggable {
+    public interface ILoggable
+    {
         event LogHandler Log;
     }
 

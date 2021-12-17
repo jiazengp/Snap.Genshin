@@ -1,13 +1,11 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Services.Settings;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.DataModels.Launching;
+using DGP.Genshin.Services.Abstratcions;
 using IniParser;
 using IniParser.Model;
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,78 +14,63 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Launching
 {
-    /// <summary>
-    /// 游戏启动服务
-    /// </summary>
-    public class LaunchService : Observable
+    [Service(typeof(ILaunchService), ServiceType.Transient)]
+    public class LaunchService : ILaunchService
     {
         private const string AccountsFile = "accounts.json";
 
-        #region Observable
-        private List<LaunchScheme> knownSchemes = new()
-        {
-            new LaunchScheme(name: "官服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
-            new LaunchScheme(name: "B 服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0")
-        };
-        private LaunchScheme currentScheme;
-        private bool isBorderless;
-        private bool isFullScreen;
-        private ObservableCollection<GenshinAccount> accounts;
-        private GenshinAccount? selectedAccount;
+        private readonly ISettingService settingService;
 
-        /// <summary>
-        /// 已知的启动方案
-        /// </summary>
-        public List<LaunchScheme> KnownSchemes { get => knownSchemes; set => Set(ref knownSchemes, value); }
-
-        /// <summary>
-        /// 当前启动方案
-        /// </summary>
-        public LaunchScheme CurrentScheme { get => currentScheme; set { Set(ref currentScheme, value); OnSchemeChanged(); } }
-
-        /// <summary>
-        /// 在此处保存更改后的配置
-        /// 以便游戏启动后能读取到
-        /// </summary>
-        private void OnSchemeChanged()
-        {
-            gameConfig["General"]["channel"] = currentScheme.Channel;
-            gameConfig["General"]["cps"] = currentScheme.CPS;
-            gameConfig["General"]["sub_channel"] = currentScheme.SubChannel;
-
-            string unescapedGameFolder = Regex.Unescape(launcherConfig["launcher"]["game_install_path"].Replace("x", "u"));
-            //compat with https://github.com/DawnFz/GenShin-LauncherDIY
-            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", gameConfig, new UTF8Encoding(false));
-        }
-
-        public bool IsFullScreen { get => isFullScreen; set { Set(ref isFullScreen, value); SettingService.Instance[Setting.IsFullScreen] = value; } }
-
-        /// <summary>
-        /// 是否启用无边框窗口模式
-        /// </summary>
-        public bool IsBorderless { get => isBorderless; set { Set(ref isBorderless, value); SettingService.Instance[Setting.IsBorderless] = value; } }
-
-        public ObservableCollection<GenshinAccount> Accounts { get => accounts; set => Set(ref accounts, value); }
-
-        public GenshinAccount? SelectedAccount { get => selectedAccount; set { Set(ref selectedAccount, value); RegistryInterop.Set(value); } }
-        #endregion
-
-        #region Basic Launch
         private readonly IniData launcherConfig;
         private readonly IniData gameConfig;
+
+        public IniData LauncherConfig => launcherConfig;
+        public IniData GameConfig => gameConfig;
+
+        public LaunchService(ISettingService settingService)
+        {
+            this.settingService = settingService;
+
+            FileStream? accountFile = File.Exists(AccountsFile) ? null : File.Create(AccountsFile);
+            accountFile?.Dispose();
+
+            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
+
+            string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
+            launcherConfig = GetIniData(configPath);
+
+            string unescapedGameFolder = GetUnescapedGameFolder();
+            gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
+        }
+
+        /// <summary>
+        /// 读取 ini 文件
+        /// </summary>
+        /// <param name="file">文件路径</param>
+        /// <returns></returns>
+        private IniData GetIniData(string file)
+        {
+            FileIniDataParser parser = new();
+            parser.Parser.Configuration.AssigmentSpacer = "";
+            return parser.ReadFile(file);
+        }
 
         /// <summary>
         /// 启动游戏
         /// </summary>
         /// <param name="scheme">配置方案</param>
         /// <param name="failAction">启动失败回调</param>
-        public void Launch(LaunchScheme scheme, Action<Exception> failAction)
+        public void Launch(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen)
         {
-            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            if (scheme is null)
+            {
+                return;
+            }
+            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
             if (launcherPath is not null)
             {
                 string unescapedGameFolder = GetUnescapedGameFolder();
-                string gamePath = $@"{unescapedGameFolder}/{launcherConfig["launcher"]["game_start_name"]}";
+                string gamePath = $@"{unescapedGameFolder}/{LauncherConfig["launcher"]["game_start_name"]}";
                 gamePath = Regex.Unescape(gamePath);
 
                 try
@@ -96,8 +79,9 @@ namespace DGP.Genshin.Services.Launching
                     {
                         FileName = gamePath,
                         Verb = "runas",
+                        WorkingDirectory = Path.GetDirectoryName(gamePath),
                         UseShellExecute = true,
-                        Arguments = $"{(IsBorderless ? "-popupwindow " : "")}-screen-fullscreen {(IsFullScreen ? 1 : 0)}"
+                        Arguments = $"{(isBorderless ? "-popupwindow " : "")}-screen-fullscreen {(isFullScreen ? 1 : 0)}"
                     };
                     Process? p = Process.Start(info);
                 }
@@ -108,9 +92,13 @@ namespace DGP.Genshin.Services.Launching
             }
         }
 
+        /// <summary>
+        /// 启动官方启动器
+        /// </summary>
+        /// <param name="failAction"></param>
         public void OpenOfficialLauncher(Action<Exception>? failAction)
         {
-            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
+            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
             try
             {
                 ProcessStartInfo info = new()
@@ -135,7 +123,7 @@ namespace DGP.Genshin.Services.Launching
         /// <returns></returns>
         private string GetUnescapedGameFolder()
         {
-            string gameInstallPath = launcherConfig["launcher"]["game_install_path"];
+            string gameInstallPath = LauncherConfig["launcher"]["game_install_path"];
             return Regex.Unescape(gameInstallPath.Replace(@"\x", @"\u"));
         }
 
@@ -152,92 +140,55 @@ namespace DGP.Genshin.Services.Launching
             }
             return Task.CompletedTask;
         }
-        #endregion
 
-        #region Account Switch
         /// <summary>
-        /// 从注册表获取当前的账户信息
+        /// 选择原神启动器的目录
         /// </summary>
-        public async void MatchAccount()
+        /// <param name="launcherPath"></param>
+        /// <returns></returns>
+        public string? SelectLaunchDirectory(string? launcherPath)
         {
-            //注册表内有账号信息
-            if (RegistryInterop.Get() is GenshinAccount current)
+            if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
             {
-                GenshinAccount? matched = Accounts.FirstOrDefault(a => a.GeneralData == current.GeneralData && a.MihoyoSDK == current.MihoyoSDK);
-                //账号列表内无匹配项
-                if (matched is null)
+                OpenFileDialog openFileDialog = new()
                 {
-                    //命名
-                    current.Name = await new NameDialog { TargetAccount = current }.GetInputAsync();
-                    Accounts.Add(current);
-                    selectedAccount = current;
-                }
-                else
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Filter = "启动器|launcher.exe|快捷方式|*.lnk",
+                    Title = "选择启动器文件",
+                    CheckPathExists = true,
+                    DereferenceLinks = true,
+                    FileName = "launcher.exe"
+                };
+                if (openFileDialog.ShowDialog() == true)
                 {
-                    selectedAccount = matched;
-                }
-                OnPropertyChanged(nameof(SelectedAccount));
-            }
-        }
-        public object _savingFile = new();
-        public void SaveAllAccounts()
-        {
-            lock (_savingFile)
-            {
-                Json.ToFile(AccountsFile, Accounts);
-            }
-        }
-        #endregion
-
-        #region 单例
-        private static volatile LaunchService? instance;
-        [SuppressMessage("", "IDE0044")]
-        private static object _locker = new();
-
-
-        private LaunchService()
-        {
-            //prepare accounts
-            if (!File.Exists(AccountsFile))
-            {
-                File.Create(AccountsFile).Dispose();
-            }
-            accounts = Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
-            selectedAccount = accounts.FirstOrDefault();
-            //prepare basic launch
-            isBorderless = SettingService.Instance.GetOrDefault(Setting.IsBorderless, false);
-            OnPropertyChanged(nameof(IsBorderless));
-
-            string? launcherPath = SettingService.Instance.GetOrDefault<string?>(Setting.LauncherPath, null);
-            string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
-
-            FileIniDataParser launcherParser = new();
-            launcherParser.Parser.Configuration.AssigmentSpacer = "";
-            launcherConfig = launcherParser.ReadFile(configPath);
-
-            string unescapedGameFolder = GetUnescapedGameFolder();
-
-            FileIniDataParser gameParser = new();
-            gameParser.Parser.Configuration.AssigmentSpacer = "";
-            gameConfig = gameParser.ReadFile($@"{unescapedGameFolder}\config.ini");
-
-            currentScheme = KnownSchemes.First(item => item.Channel == gameConfig["General"]["channel"]);
-            OnPropertyChanged(nameof(CurrentScheme));
-        }
-        public static LaunchService Instance
-        {
-            get
-            {
-                if (instance is null)
-                {
-                    lock (_locker)
+                    string fileName = openFileDialog.FileName;
+                    if (Path.GetFileNameWithoutExtension(fileName) == "launcher")
                     {
-                        instance ??= new();
+                        launcherPath = openFileDialog.FileName;
+                        settingService[Setting.LauncherPath] = launcherPath;
                     }
                 }
-                return instance;
             }
+
+            return launcherPath;
         }
-        #endregion
+
+        /// <summary>
+        /// 保存配置,以便游戏启动后能读取到
+        /// </summary>
+        public void SaveLaunchScheme(LaunchScheme? scheme)
+        {
+            if (scheme is null)
+            {
+                return;
+            }
+            GameConfig["General"]["channel"] = scheme.Channel;
+            GameConfig["General"]["cps"] = scheme.CPS;
+            GameConfig["General"]["sub_channel"] = scheme.SubChannel;
+
+            string unescapedGameFolder = Regex.Unescape(LauncherConfig["launcher"]["game_install_path"].Replace("x", "u"));
+            //compat with https://github.com/DawnFz/GenShin-LauncherDIY
+            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", GameConfig, new UTF8Encoding(false));
+        }
     }
 }

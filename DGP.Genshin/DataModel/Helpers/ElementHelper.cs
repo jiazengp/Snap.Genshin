@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.DataModel.Helpers
+﻿namespace DGP.Genshin.DataModels.Helpers
 {
     public class ElementHelper
     {

@@ -6,8 +6,13 @@
              xmlns:local="clr-namespace:DGP.Genshin.Controls"
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.modernwpf.com/2019" 
-             d:DesignHeight="540" d:DesignWidth="800"
-             Loaded="UserControlLoaded">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DesignHeight="540" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitializeCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ui:CubicBezierEase x:Key="CubicBezierEase" EasingMode="EaseIn"/>
         <Style TargetType="{x:Type local:SplashView}">
@@ -48,7 +53,7 @@
             </StackPanel>
             <StackPanel Margin="0,0,0,0" Visibility="{Binding IsCookieVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <TextBlock Text="我们需要至少一组米游社Cookie" Margin="0,0,0,6" Style="{StaticResource BaseTextBlockStyle}"/>
-                <Button Content="设置Cookie" Click="CookieButtonClick" Margin="0,12,0,0" HorizontalAlignment="Stretch"/>
+                <Button Content="设置Cookie" Command="{Binding SetCookieCommand}" Margin="0,12,0,0" HorizontalAlignment="Stretch"/>
             </StackPanel>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MaxHeight="160" Margin="12">
@@ -56,14 +61,14 @@
             <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1} - {2:p} {3}">
-                        <Binding Path="MetaDataService.CurrentCount"/>
-                        <Binding Path="MetaDataService.TotalCount"/>
-                        <Binding Path="MetaDataService.Percent"/>
-                        <Binding Path="MetaDataService.CurrentInfo"/>
+                        <Binding Path="CurrentCount"/>
+                        <Binding Path="TotalCount"/>
+                        <Binding Path="Percent"/>
+                        <Binding Path="CurrentInfo"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding MetaDataService.Percent,TargetNullValue=1}"/>
+            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding Percent,TargetNullValue=1}"/>
         </StackPanel>
     </Grid>
 </UserControl>

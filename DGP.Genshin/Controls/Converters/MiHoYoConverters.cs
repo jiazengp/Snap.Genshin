@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.Helpers;
+﻿using DGP.Genshin.DataModels.Helpers;
 using System;
 using System.Globalization;
 using System.Windows.Data;
