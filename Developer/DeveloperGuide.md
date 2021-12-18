@@ -13,8 +13,7 @@
 <details>
 <summary>DGP.Genshin</summary>
 
-UI层 基本架构如下
-![架构图](https://i.loli.net/2021/10/30/tDQqhNPIOae1Ui6.png)
+主程序
 
 </details>
 
@@ -73,23 +72,41 @@ UI层 基本架构如下
 </details>
 
 <details>
-<summary>DGP.Genshin.YoungMoeAPI</summary>
-
-天空岛数据库API交互
-
-* 11层角色使用信息
-* 12层角色武器圣遗物信息
-* 数据库记录信息
-* 队伍上场次数信息（用于推荐配队）
-
-</details>
-
-<details>
 <summary>DGP.Snap.AutoVersion</summary>
 
 用于生成主项目时自动更改版本号
 
 </details>
+
+## Snap Genshin 类型设计规范
+
+### 名称规范
+
+初始化视图模型 √ OpenUI × Initialize
+更新视图模型属性 √ Update × Refresh
+
+### ViewModel 类型规范
+
+``` c#
+[ViewModel(ViewModelType.Transient)]
+public class MyViewModel ： ObservableObject, IRecipient<T>, IOtherInterface
+{
+    //private consts
+
+    //private readonly services
+
+    //private providers
+
+    //observables
+    //private observables called methods
+
+    //public constructors
+
+    //private command called methods
+
+    //IRecipient<T>.Receive methods
+}
+```
 
 
 ## 生成与调试

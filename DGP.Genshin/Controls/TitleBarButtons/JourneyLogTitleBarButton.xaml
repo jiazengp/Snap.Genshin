@@ -20,7 +20,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <ComboBox HorizontalAlignment="Stretch" Grid.Row="0" 
-                          ItemsSource="{Binding UserGameRoleInfo.List}" 
+                          ItemsSource="{Binding UserGameRoles}" 
                           SelectedItem="{Binding SelectedRole}"/>
 
                 <StackPanel Grid.Row="1">

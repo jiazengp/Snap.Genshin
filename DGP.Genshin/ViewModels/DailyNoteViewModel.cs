@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
@@ -21,14 +22,14 @@ namespace DGP.Genshin.ViewModels
         private readonly ICookieService cookieService;
 
         private List<DailyNote> dailyNotes = new();
-        private IAsyncRelayCommand<TitleBarButton> refreshCommand;
+        private IAsyncRelayCommand<TitleBarButton> openUICommand;
 
         public List<DailyNote> DailyNotes { get => dailyNotes; set => SetProperty(ref dailyNotes, value); }
         public IAsyncRelayCommand<TitleBarButton> OpenUICommand
         {
-            get => refreshCommand;
-            [MemberNotNull(nameof(refreshCommand))]
-            set => refreshCommand = value;
+            get => openUICommand;
+            [MemberNotNull(nameof(openUICommand))]
+            set => openUICommand = value;
         }
 
         public DailyNoteViewModel(ICookieService cookieService)
@@ -50,26 +51,30 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
+        private readonly TaskPreventer refreshDailyNoteTaskPreventer = new();
         /// <summary>
         /// 刷新实时便笺
         /// </summary>
         /// <returns></returns>
         private async Task RefreshDailyNotesAsync()
         {
-            List<DailyNote> list = new();
-            List<UserGameRole> roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
-
-            foreach (UserGameRole role in roles)
+            if (refreshDailyNoteTaskPreventer.ShouldExecute)
             {
-                if (role.Region is not null && role.GameUid is not null)
-                {
-                    DailyNote? note = await new DailyNoteProvider(cookieService.CurrentCookie).GetDailyNoteAsync(role.Region, role.GameUid);
-                    bool result = list.AddIfNotNull(note);
-                    this.Log($"add dailynote to result :{result}");
-                }
-            }
+                List<DailyNote> list = new();
+                List<UserGameRole> roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
 
-            DailyNotes = list;
+                foreach (UserGameRole role in roles)
+                {
+                    if (role.Region is not null && role.GameUid is not null)
+                    {
+                        DailyNote? note = await new DailyNoteProvider(cookieService.CurrentCookie).GetDailyNoteAsync(role.Region, role.GameUid);
+                        bool result = list.AddIfNotNull(note);
+                        this.Log($"add dailynote to result :{result}");
+                    }
+                }
+                DailyNotes = list;
+                refreshDailyNoteTaskPreventer.Release();
+            }
         }
     }
 }

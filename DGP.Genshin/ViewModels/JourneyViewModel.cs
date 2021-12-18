@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls.Primitives;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +27,33 @@ namespace DGP.Genshin.ViewModels
         private JourneyProvider journeyProvider;
         private UserGameRoleProvider userGameRoleProvider;
 
+        private JourneyInfo? journeyInfo;
+        private List<UserGameRole> userGameRoles=new();
+        private UserGameRole? selectedRole;
+        private IAsyncRelayCommand<TitleBarButton> initializeCommand;
+
+        public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
+        public List<UserGameRole> UserGameRoles { get => userGameRoles; set => SetProperty(ref userGameRoles, value); }
+        public UserGameRole? SelectedRole
+        {
+            get => selectedRole; set
+            {
+                SetProperty(ref selectedRole, value);
+                UpdateJourneyInfo(value);
+            }
+        }
+        private async void UpdateJourneyInfo(UserGameRole? role)
+        {
+            JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
+        }
+        public IAsyncRelayCommand<TitleBarButton> InitializeCommand
+        {
+            get => initializeCommand;
+
+            [MemberNotNull("initializeCommand")]
+            set => SetProperty(ref initializeCommand, value);
+        }
+
         public JourneyViewModel(ICookieService cookieService)
         {
             this.cookieService = cookieService;
@@ -43,39 +71,9 @@ namespace DGP.Genshin.ViewModels
         }
         private async Task InitializeInternalAsync()
         {
-            UserGameRoleInfo = await userGameRoleProvider.GetUserGameRolesAsync();
-            SelectedRole = UserGameRoleInfo?.List?.FirstOrDefault(i => i.IsChosen);
+            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
+            SelectedRole = UserGameRoles.FirstOrDefault(i => i.IsChosen);
         }
-
-        #region Observable
-        private JourneyInfo? journeyInfo;
-        private UserGameRoleInfo? userGameRoleInfo;
-        private UserGameRole? selectedRole;
-        private IAsyncRelayCommand<TitleBarButton> initializeCommand;
-
-        public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
-        public UserGameRoleInfo? UserGameRoleInfo { get => userGameRoleInfo; set => SetProperty(ref userGameRoleInfo, value); }
-        public UserGameRole? SelectedRole
-        {
-            get => selectedRole; set
-            {
-                SetProperty(ref selectedRole, value);
-                UpdateJourneyInfo(value);
-            }
-        }
-        private async void UpdateJourneyInfo(UserGameRole? role)
-        {
-            JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
-        }
-
-        public IAsyncRelayCommand<TitleBarButton> InitializeCommand
-        {
-            get => initializeCommand;
-
-            [MemberNotNull("initializeCommand")]
-            set => SetProperty(ref initializeCommand, value);
-        }
-        #endregion
 
         public void Receive(CookieChangedMessage message)
         {

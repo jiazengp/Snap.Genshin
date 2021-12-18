@@ -24,6 +24,7 @@ namespace DGP.Genshin.ViewModels
     public class SettingViewModel : ObservableObject, IRecipient<SettingChangedMessage>
     {
         private readonly ISettingService settingService;
+        private ISettingService SettingService => settingService;
 
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
         {
@@ -32,20 +33,15 @@ namespace DGP.Genshin.ViewModels
             new("系统默认", null),
         };
 
-        public SettingViewModel(ISettingService settingService, IUpdateService updateService)
-        {
-            this.settingService = settingService;
-            SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
-            CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
-            Initialize();
-        }
-
-        #region Setting Related Property
         private bool showFullUID;
         private bool autoDailySignInOnLaunch;
         private bool skipCacheCheck;
         private bool signInSilently;
-        private bool bypassCharactersLimit;
+
+        private string versionString;
+        private AutoRun autoRun = new();
+        private NamedValue<ApplicationTheme?> selectedTheme;
+        private IAsyncRelayCommand checkUpdateCommand;
 
         public bool ShowFullUID
         {
@@ -55,7 +51,6 @@ namespace DGP.Genshin.ViewModels
                 SetProperty(ref showFullUID, value);
             }
         }
-
         public bool AutoDailySignInOnLaunch
         {
             get => autoDailySignInOnLaunch; set
@@ -64,7 +59,6 @@ namespace DGP.Genshin.ViewModels
                 SetProperty(ref autoDailySignInOnLaunch, value);
             }
         }
-
         public bool SkipCacheCheck
         {
             get => skipCacheCheck; set
@@ -73,7 +67,6 @@ namespace DGP.Genshin.ViewModels
                 SetProperty(ref skipCacheCheck, value);
             }
         }
-
         public bool SignInSilently
         {
             get => signInSilently; set
@@ -82,16 +75,43 @@ namespace DGP.Genshin.ViewModels
                 SetProperty(ref signInSilently, value);
             }
         }
-        [Obsolete("绕过方法已经不再有效")]
-        public bool BypassCharactersLimit
+
+        public string VersionString
         {
-            get => bypassCharactersLimit; set
+            get => versionString;
+            [MemberNotNull("versionString")]
+            set => SetProperty(ref versionString, value);
+        }
+        public AutoRun AutoRun { get => autoRun; set => autoRun = value; }
+        public NamedValue<ApplicationTheme?> SelectedTheme
+        {
+            get => selectedTheme;
+            [MemberNotNull(nameof(selectedTheme))]
+            set
             {
-                SettingService.SetValueNoNotify(Setting.BypassCharactersLimit, value);
-                SetProperty(ref bypassCharactersLimit, value);
+                SetProperty(ref selectedTheme, value);
+                SettingService[Setting.AppTheme] = value.Value;
+                UpdateAppTheme();
             }
         }
-        #endregion
+        internal void UpdateAppTheme()
+        {
+            ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+        }
+        public IAsyncRelayCommand CheckUpdateCommand
+        {
+            get => checkUpdateCommand;
+            [MemberNotNull(nameof(checkUpdateCommand))]
+            set => checkUpdateCommand = value;
+        }
+
+        public SettingViewModel(ISettingService settingService, IUpdateService updateService)
+        {
+            this.settingService = settingService;
+            SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
+            CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
+            Initialize();
+        }
 
         [MemberNotNull("versionString")]
         private void Initialize()
@@ -100,7 +120,6 @@ namespace DGP.Genshin.ViewModels
             autoDailySignInOnLaunch = SettingService.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
             skipCacheCheck = SettingService.GetOrDefault(Setting.SkipCacheCheck, false);
             signInSilently = SettingService.GetOrDefault(Setting.SignInSilently, false);
-            bypassCharactersLimit = SettingService.GetOrDefault(Setting.BypassCharactersLimit, false);
 
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;
@@ -132,47 +151,9 @@ namespace DGP.Genshin.ViewModels
                 case Setting.SignInSilently:
                     SignInSilently = value is not null && (bool)value;
                     break;
-                case Setting.BypassCharactersLimit:
-                    BypassCharactersLimit = value is not null && (bool)value;
-                    break;
                 default:
                     break;
             }
         }
-
-        private string versionString;
-        private AutoRun autoRun = new();
-        private NamedValue<ApplicationTheme?> selectedTheme;
-        private IAsyncRelayCommand checkUpdateCommand;
-
-        public string VersionString
-        {
-            get => versionString;
-            [MemberNotNull("versionString")]
-            set => SetProperty(ref versionString, value);
-        }
-        public AutoRun AutoRun { get => autoRun; set => autoRun = value; }
-        public NamedValue<ApplicationTheme?> SelectedTheme
-        {
-            get => selectedTheme;
-            [MemberNotNull(nameof(selectedTheme))]
-            set
-            {
-                SetProperty(ref selectedTheme, value);
-                SettingService[Setting.AppTheme] = value.Value;
-                SetAppTheme();
-            }
-        }
-        internal void SetAppTheme()
-        {
-            ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
-        }
-        public IAsyncRelayCommand CheckUpdateCommand
-        {
-            get => checkUpdateCommand;
-            [MemberNotNull(nameof(checkUpdateCommand))]
-            set => checkUpdateCommand = value;
-        }
-        public ISettingService SettingService => settingService;
     }
 }

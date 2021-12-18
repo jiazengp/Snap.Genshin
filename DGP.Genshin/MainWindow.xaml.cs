@@ -89,20 +89,16 @@ namespace DGP.Genshin
                 splashView.CurrentStateDescription = "签到中...";
                 foreach (string cookie in App.GetService<ICookieService>().Cookies)
                 {
-                    UserGameRoleInfo? roleInfo = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                    List<UserGameRole>? list = roleInfo?.List;
-                    if (list is not null)
+                    List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                    foreach (UserGameRole role in roles)
                     {
-                        foreach (UserGameRole role in list)
-                        {
-                            SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
-                            App.GetService<ISettingService>()[Setting.LastAutoSignInTime] = DateTime.Now;
-                            new ToastContentBuilder()
-                                .AddSignInHeader("米游社每日签到")
-                                .AddText(role.ToString())
-                                .AddText(result is null ? "签到失败" : "签到成功")
-                                .Show(toast => { toast.SuppressPopup = App.GetService<ISettingService>().GetOrDefault(Setting.SignInSilently, false); });
-                        }
+                        SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
+                        App.GetService<ISettingService>()[Setting.LastAutoSignInTime] = DateTime.Now;
+                        new ToastContentBuilder()
+                            .AddSignInHeader("米游社每日签到")
+                            .AddText(role.ToString())
+                            .AddText(result is null ? "签到失败" : "签到成功")
+                            .Show(toast => { toast.SuppressPopup = App.GetService<ISettingService>().GetOrDefault(Setting.SignInSilently, false); });
                     }
                 }
             }

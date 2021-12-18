@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class UserInfoViewModel : ObservableObject, IRecipient<CookieAddedMeaasge>, IRecipient<CookieRemovedMessage>
+    public class UserInfoViewModel : ObservableObject, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
 
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
-        private IRelayCommand<TitleBarButton> initializeCommand;
+        private IRelayCommand<TitleBarButton> opneUICommand;
         private IAsyncRelayCommand removeUserCommand;
         private IAsyncRelayCommand addUserCommand;
         private IAsyncRelayCommand loadCommand;
@@ -42,11 +42,11 @@ namespace DGP.Genshin.ViewModels
             get => cookieUserInfos;
             set => SetProperty(ref cookieUserInfos, value);
         }
-        public IRelayCommand<TitleBarButton> InitializeCommand
+        public IRelayCommand<TitleBarButton> OpenUICommand
         {
-            get => initializeCommand;
-            [MemberNotNull(nameof(initializeCommand))]
-            set => SetProperty(ref initializeCommand, value);
+            get => opneUICommand;
+            [MemberNotNull(nameof(opneUICommand))]
+            set => SetProperty(ref opneUICommand, value);
         }
         public IAsyncRelayCommand LoadCommand
         {
@@ -71,7 +71,7 @@ namespace DGP.Genshin.ViewModels
         {
             this.cookieService = cookieService;
             LoadCommand = new AsyncRelayCommand(InitializeInternalAsync);
-            InitializeCommand = new RelayCommand<TitleBarButton>(Initialize);
+            OpenUICommand = new RelayCommand<TitleBarButton>(OpenUI);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
             AddUserCommand = new AsyncRelayCommand(AddUserAsync);
         }
@@ -80,7 +80,6 @@ namespace DGP.Genshin.ViewModels
         {
             await cookieService.AddNewCookieToPoolAsync();
         }
-
         private async Task RemoveUserAsync()
         {
             //this.HideAttachedFlyout();
@@ -111,12 +110,10 @@ namespace DGP.Genshin.ViewModels
                 }
             }
         }
-
-        private void Initialize(TitleBarButton? t)
+        private void OpenUI(TitleBarButton? t)
         {
             t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this);
         }
-
         internal async Task InitializeInternalAsync()
         {
             CookieUserInfos.Clear();
@@ -131,7 +128,7 @@ namespace DGP.Genshin.ViewModels
             SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);
         }
 
-        public async void Receive(CookieAddedMeaasge message)
+        public async void Receive(CookieAddedMessage message)
         {
             string newCookie = message.Value;
             if ((await new UserInfoProvider(newCookie).GetUserInfoAsync()) is UserInfo newInfo)
@@ -139,7 +136,6 @@ namespace DGP.Genshin.ViewModels
                 CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
             }
         }
-
         public void Receive(CookieRemovedMessage message)
         {
             CookieUserInfo? prevSelected = SelectedCookieUserInfo;

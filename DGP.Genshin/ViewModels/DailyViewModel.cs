@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MaterialWeapon = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
+using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -20,11 +20,17 @@ namespace DGP.Genshin.ViewModels
     public class DailyViewModel : ObservableObject
     {
         private readonly MetadataViewModel dataViewModel;
-        public DailyViewModel(MetadataViewModel metadataService)
+
+        public List<NamedValue<DayOfWeek>> DayOfWeeks{ get; set; } = new()
         {
-            dataViewModel = metadataService;
-            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
-        }
+            new("星期一", DayOfWeek.Monday),
+            new("星期二", DayOfWeek.Tuesday),
+            new("星期三", DayOfWeek.Wednesday),
+            new("星期四", DayOfWeek.Thursday),
+            new("星期五", DayOfWeek.Friday),
+            new("星期六", DayOfWeek.Saturday),
+            new("星期日", DayOfWeek.Sunday)
+        };
 
         private NamedValue<DayOfWeek> selectedDayOfWeek;
         public NamedValue<DayOfWeek> SelectedDayOfWeek
@@ -40,12 +46,12 @@ namespace DGP.Genshin.ViewModels
 
         private void RaisePropertyChanged(string city)
         {
-            ClearFieldValue($"today{city}Talent");
-            ClearFieldValue($"today{city}WeaponAscension");
-            ClearFieldValue($"today{city}Character5");
-            ClearFieldValue($"today{city}Character4");
-            ClearFieldValue($"today{city}Weapon5");
-            ClearFieldValue($"today{city}Weapon4");
+            ClearFieldValueOf($"today{city}Talent");
+            ClearFieldValueOf($"today{city}WeaponAscension");
+            ClearFieldValueOf($"today{city}Character5");
+            ClearFieldValueOf($"today{city}Character4");
+            ClearFieldValueOf($"today{city}Weapon5");
+            ClearFieldValueOf($"today{city}Weapon4");
 
             OnPropertyChanged($"Today{city}Talent");
             OnPropertyChanged($"Today{city}WeaponAscension");
@@ -54,21 +60,17 @@ namespace DGP.Genshin.ViewModels
             OnPropertyChanged($"Today{city}Weapon5");
             OnPropertyChanged($"Today{city}Weapon4");
         }
-        public void ClearFieldValue(string name)
+        private void ClearFieldValueOf(string name)
         {
             FieldInfo? fieldInfo = typeof(DailyViewModel).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
             fieldInfo?.SetValue(this, null);
         }
-        public List<NamedValue<DayOfWeek>> DayOfWeeks { get; set; } = new()
+
+        public DailyViewModel(MetadataViewModel metadataService)
         {
-            new("星期一", DayOfWeek.Monday),
-            new("星期二", DayOfWeek.Tuesday),
-            new("星期三", DayOfWeek.Wednesday),
-            new("星期四", DayOfWeek.Thursday),
-            new("星期五", DayOfWeek.Friday),
-            new("星期六", DayOfWeek.Saturday),
-            new("星期日", DayOfWeek.Sunday)
-        };
+            dataViewModel = metadataService;
+            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
+        }
 
         #region Mondstadt
         private IEnumerable<Talent>? todayMondstadtTalent;
@@ -85,8 +87,8 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
-        private IEnumerable<MaterialWeapon>? todayMondstadtWeaponAscension;
-        public IEnumerable<MaterialWeapon>? TodayMondstadtWeaponAscension
+        private IEnumerable<WeaponMaterial>? todayMondstadtWeaponAscension;
+        public IEnumerable<WeaponMaterial>? TodayMondstadtWeaponAscension
         {
             get
             {
@@ -171,8 +173,8 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
-        private IEnumerable<MaterialWeapon>? todayLiyueWeaponAscension;
-        public IEnumerable<MaterialWeapon>? TodayLiyueWeaponAscension
+        private IEnumerable<WeaponMaterial>? todayLiyueWeaponAscension;
+        public IEnumerable<WeaponMaterial>? TodayLiyueWeaponAscension
         {
             get
             {
@@ -257,8 +259,8 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
-        private IEnumerable<MaterialWeapon>? todayInazumaWeaponAscension;
-        public IEnumerable<MaterialWeapon>? TodayInazumaWeaponAscension
+        private IEnumerable<WeaponMaterial>? todayInazumaWeaponAscension;
+        public IEnumerable<WeaponMaterial>? TodayInazumaWeaponAscension
         {
             get
             {

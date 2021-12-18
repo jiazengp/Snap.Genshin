@@ -36,7 +36,7 @@ namespace DGP.Genshin.Services.Cookies
         /// <summary>
         /// Cookie池的默认实现，提供Cookie操作事件支持
         /// </summary>
-        [Send(typeof(CookieAddedMeaasge))]
+        [Send(typeof(CookieAddedMessage))]
         [Send(typeof(CookieRemovedMessage))]
         internal class CookiePool : List<string>, ICookieService.ICookiePool
         {
@@ -57,7 +57,7 @@ namespace DGP.Genshin.Services.Cookies
                 if (!string.IsNullOrEmpty(cookie))
                 {
                     base.Add(cookie);
-                    App.Messenger.Send(new CookieAddedMeaasge(cookie));
+                    App.Messenger.Send(new CookieAddedMessage(cookie));
                     cookieService.SaveCookies();
                 }
             }

@@ -1,8 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging.Messages;
-
-namespace DGP.Genshin.Messages
+﻿namespace DGP.Genshin.Messages
 {
-    public class GachaUidAddedMessage : ValueChangedMessage<string>
+    public class GachaUidAddedMessage : TypedMessage<string>
     {
         public GachaUidAddedMessage(string uid) : base(uid) { }
     }

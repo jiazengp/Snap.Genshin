@@ -18,7 +18,6 @@ namespace DGP.Genshin.ViewModels
     public class GachaStatisticViewModel : ObservableObject
     {
         private readonly IGachaStatisticService gachaStatisticService;
-        private readonly ISettingService settingService;
 
         private bool isRefreshing = false;
         private bool isSyncingUid = false;
@@ -45,6 +44,7 @@ namespace DGP.Genshin.ViewModels
             get => statistic;
             set => SetProperty(ref statistic, value);
         }
+
         /// <summary>
         /// 当前选择的UID
         /// </summary>
@@ -144,11 +144,11 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(exportToUIGFJCommand))]
             set => SetProperty(ref exportToUIGFJCommand, value);
         }
-        public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService, ISettingService settingService)
+
+        public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
         {
             this.gachaStatisticService = gachaStatisticService;
             gachaStatisticService.InitializeGachaData(Uids);
-            this.settingService = settingService;
 
             InitializeCommand = new RelayCommand(() => { SelectedUid = Uids.FirstOrDefault(); });
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);

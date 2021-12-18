@@ -18,7 +18,7 @@ namespace DGP.Genshin.Controls.TitleBarButtons
 
         private void Flyout_Closed(object sender, object e)
         {
-            ViewModel.UnInitializeCommand.Execute(null);
+            ViewModel.CloseUICommand.Execute(null);
         }
     }
 }

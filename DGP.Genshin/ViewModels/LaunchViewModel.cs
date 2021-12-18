@@ -23,28 +23,25 @@ namespace DGP.Genshin.ViewModels
     public class LaunchViewModel : ObservableObject
     {
         private const string AccountsFile = "accounts.json";
+
         private readonly ILaunchService launchService;
         private readonly ISettingService settingService;
 
-        /// <summary>
-        /// 已知的启动方案
-        /// </summary>
+        private TitleBarButton? View;
+
         private List<LaunchScheme> knownSchemes = new()
         {
             new LaunchScheme(name: "官服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
             new LaunchScheme(name: "B 服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0")
         };
-
-        #region Observable
         private LaunchScheme? currentScheme;
         private bool isBorderless;
         private bool isFullScreen;
         private ObservableCollection<GenshinAccount> accounts = new();
         private GenshinAccount? selectedAccount;
-
-        private IAsyncRelayCommand<TitleBarButton> initializeCommand;
+        private IAsyncRelayCommand<TitleBarButton> openUICommand;
         private IRelayCommand<string> launchCommand;
-        private IRelayCommand unInitializeCommand;
+        private IRelayCommand closeUICommand;
         private IAsyncRelayCommand deleteAccountCommand;
 
         /// <summary>
@@ -105,17 +102,17 @@ namespace DGP.Genshin.ViewModels
                 GenshinRegistry.Set(value);
             }
         }
-        public IAsyncRelayCommand<TitleBarButton> InitializeCommand
+        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
         {
-            get => initializeCommand;
-            [MemberNotNull(nameof(initializeCommand))]
-            set => SetProperty(ref initializeCommand, value);
+            get => openUICommand;
+            [MemberNotNull(nameof(openUICommand))]
+            set => SetProperty(ref openUICommand, value);
         }
-        public IRelayCommand UnInitializeCommand
+        public IRelayCommand CloseUICommand
         {
-            get => unInitializeCommand;
-            [MemberNotNull(nameof(unInitializeCommand))]
-            set => SetProperty(ref unInitializeCommand, value);
+            get => closeUICommand;
+            [MemberNotNull(nameof(closeUICommand))]
+            set => SetProperty(ref closeUICommand, value);
         }
         public IRelayCommand<string> LaunchCommand
         {
@@ -129,56 +126,48 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(deleteAccountCommand))]
             set => SetProperty(ref deleteAccountCommand, value);
         }
-        #endregion
 
         public LaunchViewModel(ILaunchService launchService, ISettingService settingService)
         {
             this.launchService = launchService;
             this.settingService = settingService;
-            accounts = Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
-            selectedAccount = accounts.FirstOrDefault();
-            //prepare basic launch
-            isBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
-            OnPropertyChanged(nameof(IsBorderless));
 
-            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+            Accounts = Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
+            selectedAccount = accounts.FirstOrDefault();
+            IsBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
+            IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
+
+            OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             LaunchCommand = new RelayCommand<string>(LaunchByOption);
-            UnInitializeCommand = new RelayCommand(SaveAllAccounts);
+            CloseUICommand = new RelayCommand(SaveAllAccounts);
             DeleteAccountCommand = new AsyncRelayCommand(DeleteAccountAsync);
         }
 
-        private async Task DeleteAccountAsync()
+        private async Task OpenUIAsync(TitleBarButton? t)
         {
-            if (SelectedAccount is not null)
+            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
+            launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
+            if (launcherPath is not null)
             {
-                if (Accounts.Count <= 1)
+                launchService.LoadIniData(launcherPath);
+                await MatchAccount();
+                CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+                t?.ShowAttachedFlyout<Grid>(this);
+                View = t;
+            }
+            else
+            {
+                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
-                    //this.HideAttachedFlyout();
-                    await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
-                    {
-                        Title = "删除账户失败",
-                        Content = "我们需要至少一组信息才能正常启动游戏。",
-                        PrimaryButtonText = "确定"
-                    }.ShowAsync).Task.Unwrap();
-                    return;
-                }
-                Accounts.Remove(SelectedAccount);
-                SelectedAccount = Accounts.Last();
+                    Title = "无法使用此功能",
+                    Content = "我们需要启动器的路径才能启动游戏。",
+                    PrimaryButtonText = "确定"
+                }.ShowAsync).Task.Unwrap();
             }
         }
-
-        public object _savingFile = new();
-        public void SaveAllAccounts()
-        {
-            lock (_savingFile)
-            {
-                Json.ToFile(AccountsFile, Accounts);
-            }
-        }
-
         private void LaunchByOption(string? option)
         {
-            //this.HideAttachedFlyout();
+            View?.HideAttachedFlyout();
             switch (option)
             {
                 case "Launcher":
@@ -201,7 +190,7 @@ namespace DGP.Genshin.ViewModels
                         {
                             await new ContentDialog()
                             {
-                                Title = "启动失败",
+                                Title = "启动游戏失败",
                                 Content = ex.Message,
                                 PrimaryButtonText = "确定",
                                 DefaultButton = ContentDialogButton.Primary
@@ -211,50 +200,52 @@ namespace DGP.Genshin.ViewModels
                     }
             }
         }
-
-        private async Task InitializeAsync(TitleBarButton? t)
+        private void SaveAllAccounts()
         {
-            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
-            launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
-            if (launcherPath is not null)
+            Json.ToFile(AccountsFile, Accounts);
+        }
+        private async Task DeleteAccountAsync()
+        {
+            if (SelectedAccount is not null)
             {
-                launchService.LoadIniData(launcherPath);
-                MatchAccount();
-                CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
-                t?.ShowAttachedFlyout<Grid>(this);
-            }
-            else
-            {
-                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                if (Accounts.Count <= 1)
                 {
-                    Title = "打开面板失败",
-                    Content = "我们需要启动器的路径才能正常启动游戏。",
-                    PrimaryButtonText = "确定"
-                }.ShowAsync).Task.Unwrap();
+                    View?.HideAttachedFlyout();
+                    await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                    {
+                        Title = "删除账户失败",
+                        Content = "我们需要至少一组信息才能正常启动游戏。",
+                        PrimaryButtonText = "确定"
+                    }.ShowAsync).Task.Unwrap();
+                    return;
+                }
+                Accounts.Remove(SelectedAccount);
+                SelectedAccount = Accounts.Last();
             }
         }
-
         /// <summary>
         /// 从注册表获取当前的账户信息
         /// </summary>
-        public async void MatchAccount()
+        private async Task MatchAccount()
         {
             //注册表内有账号信息
-            if (GenshinRegistry.Get() is GenshinAccount current)
+            if (GenshinRegistry.Get() is GenshinAccount currentRegistryAccount)
             {
-                GenshinAccount? matched = Accounts.FirstOrDefault(a => a.GeneralData == current.GeneralData && a.MihoyoSDK == current.MihoyoSDK);
+                GenshinAccount? matched = Accounts.FirstOrDefault(
+                    a => a.GeneralData == currentRegistryAccount.GeneralData && a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
                 //账号列表内无匹配项
                 if (matched is null)
                 {
                     //命名
-                    current.Name = await new NameDialog { TargetAccount = current }.GetInputAsync();
-                    Accounts.Add(current);
-                    selectedAccount = current;
+                    currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
+                    Accounts.Add(currentRegistryAccount);
+                    selectedAccount = currentRegistryAccount;
                 }
                 else
                 {
                     selectedAccount = matched;
                 }
+                //prevent registry set
                 OnPropertyChanged(nameof(SelectedAccount));
             }
         }

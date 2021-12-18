@@ -30,8 +30,7 @@ namespace DGP.Genshin.ViewModels
             get => blackboardEvents;
             set => SetProperty(ref blackboardEvents, value);
         }
-
-        public IAsyncRelayCommand InitializeCommand
+        public IAsyncRelayCommand OpenUICommand
         {
             get => initializeCommand;
             [MemberNotNull(nameof(initializeCommand))]
@@ -41,13 +40,19 @@ namespace DGP.Genshin.ViewModels
         public HomeViewModel(ICookieService cookieService)
         {
             this.cookieService = cookieService;
-            InitializeCommand = new AsyncRelayCommand(InitializeAsync);
+            OpenUICommand = new AsyncRelayCommand(InitializeAsync);
         }
 
+        /// <summary>
+        /// 加载公告与活动
+        /// </summary>
+        /// <returns></returns>
         private async Task InitializeAsync()
         {
-            Posts = (await new PostProvider(cookieService.CurrentCookie).GetOfficialRecommendedPostsAsync()).OrderBy(p => p.OfficialType);
-            BlackboardEvents = (await new BlackboardProvider().GetBlackboardEventsAsync()).Where(b => b.Kind == "1");
+            List<Post> posts = await new PostProvider(cookieService.CurrentCookie).GetOfficialRecommendedPostsAsync();
+            Posts = posts.OrderBy(p => p.OfficialType);
+            List<BlackboardEvent> events = await new BlackboardProvider().GetBlackboardEventsAsync();
+            BlackboardEvents = events.Where(b => b.Kind == "1");
         }
     }
 }

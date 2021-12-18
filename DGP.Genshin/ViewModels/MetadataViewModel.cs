@@ -26,7 +26,8 @@ using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 namespace DGP.Genshin.ViewModels
 {
     /// <summary>
-    /// 元数据服务
+    /// 元数据视图模型
+    /// 存有各类共享物品数据
     /// </summary>
     [ViewModel(ViewModelType.Singleton)]
     public class MetadataViewModel : ObservableObject

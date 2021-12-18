@@ -10,11 +10,6 @@ namespace DGP.Genshin.ViewModels
     {
         private readonly MetadataViewModel dataService;
 
-        public WeeklyViewModel(MetadataViewModel dataService)
-        {
-            this.dataService = dataService;
-        }
-
         #region 风魔龙
         private IEnumerable<Character>? dvalinsPlume;
         public IEnumerable<Character>? DvalinsPlume
@@ -234,5 +229,10 @@ namespace DGP.Genshin.ViewModels
             }
         }
         #endregion
+
+        public WeeklyViewModel(MetadataViewModel dataService)
+        {
+            this.dataService = dataService;
+        }
     }
 }

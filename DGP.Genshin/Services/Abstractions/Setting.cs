@@ -16,7 +16,7 @@ namespace DGP.Genshin.Services.Abstratcions
         public const string LastAutoSignInTime = "LastAutoSignInTime";
         public const string AppVersion = "AppVersion";
         public const string SkipCacheCheck = "SkipCacheCheck";
-        public const string BypassCharactersLimit = "BypassCharactersLimit";
+        //public const string BypassCharactersLimit = "BypassCharactersLimit";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

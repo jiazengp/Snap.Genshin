@@ -9,7 +9,7 @@
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="每日签到"
-                   Command="{Binding InitializeCommand}"
+                   Command="{Binding OpenUICommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
@@ -54,7 +54,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox ItemsSource="{Binding RoleInfo.List}" SelectedItem="{Binding SelectedRole}"/>
+                        <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}"/>
                         <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" Grid.Column="1" Content="签到" Command="{Binding SignInCommand}" IsEnabled="{Binding SignInInfo.IsNotSign}"/>
                     </Grid>
                 </Grid>

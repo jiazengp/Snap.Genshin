@@ -28,28 +28,83 @@ namespace DGP.Genshin.ViewModels
         private Avatar? selectedAvatar;
         private AvatarDetailData? avatarDetailData;
         private Consumption? consumption = new();
-        private IAsyncRelayCommand initializeCommand;
+        private IAsyncRelayCommand openUICommand;
         private IAsyncRelayCommand computeCommand;
 
-        public IEnumerable<UserGameRole>? UserGameRoles { get => userGameRoles; set => SetProperty(ref userGameRoles, value); }
+        public IEnumerable<UserGameRole>? UserGameRoles
+        { 
+            get => userGameRoles; 
+            set => SetProperty(ref userGameRoles, value); 
+        }
         public UserGameRole? SelectedUserGameRole
         {
             get => selectedUserGameRole;
             set
             {
                 SetProperty(ref selectedUserGameRole, value);
-                RefreshAvatarListAsync();
+                UpdateAvatarListAsync();
             }
         }
-        public IEnumerable<Avatar>? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
-        public Avatar? SelectedAvatar { get => selectedAvatar; set { SetProperty(ref selectedAvatar, value); RefreshAvatarDetailDataAsync(); } }
-        public AvatarDetailData? AvatarDetailData { get => avatarDetailData; set => SetProperty(ref avatarDetailData, value); }
-        public Consumption? Consumption { get => consumption; set => SetProperty(ref consumption, value); }
-        public IAsyncRelayCommand InitializeCommand
+        private async void UpdateAvatarListAsync()
         {
-            get => initializeCommand;
-            [MemberNotNull(nameof(initializeCommand))]
-            set => SetProperty(ref initializeCommand, value);
+            if (SelectedUserGameRole is not null)
+            {
+                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
+                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
+                Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
+                SelectedAvatar = Avatars?.FirstOrDefault();
+            }
+        }
+        public IEnumerable<Avatar>? Avatars
+        { 
+            get => avatars; 
+            set => SetProperty(ref avatars, value); 
+        }
+        public Avatar? SelectedAvatar
+        { 
+            get => selectedAvatar; 
+            set
+            { 
+                SetProperty(ref selectedAvatar, value); 
+                UpdateAvatarDetailDataAsync(); 
+            } 
+        }
+        private async void UpdateAvatarDetailDataAsync()
+        {
+            if (SelectedUserGameRole is not null && SelectedAvatar is not null)
+            {
+                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
+                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
+                int avatarId = SelectedAvatar.Id;
+
+                AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region);
+            }
+            if (SelectedAvatar is not null)
+            {
+                SelectedAvatar.LevelTarget = SelectedAvatar.MaxLevel;
+                AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.MaxLevel);
+                if (AvatarDetailData?.Weapon is not null)
+                {
+                    AvatarDetailData.Weapon.LevelTarget = AvatarDetailData.Weapon.MaxLevel;
+                }
+                AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.MaxLevel);
+            }
+        }
+        public AvatarDetailData? AvatarDetailData
+        { 
+            get => avatarDetailData; 
+            set => SetProperty(ref avatarDetailData, value); 
+        }
+        public Consumption? Consumption
+        { 
+            get => consumption; 
+            set => SetProperty(ref consumption, value); 
+        }
+        public IAsyncRelayCommand OpenUICommand
+        {
+            get => openUICommand;
+            [MemberNotNull(nameof(openUICommand))]
+            set => SetProperty(ref openUICommand, value);
         }
         public IAsyncRelayCommand ComputeCommand
         {
@@ -61,20 +116,17 @@ namespace DGP.Genshin.ViewModels
         public PromotionCalculateViewModel(ICookieService cookieService)
         {
             this.cookieService = cookieService;
+
             calculator = new(cookieService.CurrentCookie);
             userGameRoleProvider = new(cookieService.CurrentCookie);
 
-            InitializeCommand = new AsyncRelayCommand(InitializeAsync);
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             ComputeCommand = new AsyncRelayCommand(ComputeAsync);
         }
 
-        private async Task InitializeAsync()
+        private async Task OpenUIAsync()
         {
-            UserGameRoleInfo? gameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
-            if (gameRoles?.List is not null)
-            {
-                UserGameRoles = gameRoles.List;
-            }
+            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
             SelectedUserGameRole = UserGameRoles?.FirstOrDefault();
         }
         private async Task ComputeAsync()
@@ -97,52 +149,16 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
-        private async void RefreshAvatarDetailDataAsync()
-        {
-            if (SelectedUserGameRole is not null && SelectedAvatar is not null)
-            {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
-                int avatarId = SelectedAvatar.Id;
-
-                AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region);
-            }
-            if (SelectedAvatar is not null)
-            {
-                SelectedAvatar.LevelTarget = SelectedAvatar.MaxLevel;
-                AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.MaxLevel);
-                if (AvatarDetailData?.Weapon is not null)
-                {
-                    AvatarDetailData.Weapon.LevelTarget = AvatarDetailData.Weapon.MaxLevel;
-                }
-                AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.MaxLevel);
-            }
-        }
-
         /// <summary>
-        /// 准备角色列表
+        /// Cookie 改变
         /// </summary>
-        /// <exception cref="UnexceptedNullException"></exception>
-        private async void RefreshAvatarListAsync()
-        {
-            if (SelectedUserGameRole is not null)
-            {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
-                Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
-                SelectedAvatar = Avatars?.FirstOrDefault();
-            }
-        }
+        /// <param name="message"></param>
         public async void Receive(CookieChangedMessage message)
         {
             calculator = new(cookieService.CurrentCookie);
             userGameRoleProvider = new(cookieService.CurrentCookie);
 
-            UserGameRoleInfo? gameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
-            if (gameRoles?.List is not null)
-            {
-                UserGameRoles = gameRoles.List;
-            }
+            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
             SelectedUserGameRole = UserGameRoles?.FirstOrDefault();
         }
     }

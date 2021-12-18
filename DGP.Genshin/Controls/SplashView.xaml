@@ -10,7 +10,7 @@
              d:DesignHeight="540" d:DesignWidth="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding InitializeCommand}"/>
+            <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>

@@ -10,12 +10,12 @@
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
-                   Command="{Binding InitializeCommand}"
+                   Command="{Binding OpenUICommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                   Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay}"
-                   >
+                   Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay}">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded" SourceObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:UserInfoTitleBarButton}}}">
+        <i:EventTrigger EventName="Loaded" 
+                        SourceObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:UserInfoTitleBarButton}}}">
             <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
