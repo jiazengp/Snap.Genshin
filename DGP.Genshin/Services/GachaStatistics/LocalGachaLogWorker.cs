@@ -67,9 +67,9 @@ namespace DGP.Genshin.Services.GachaStatistics
         #region save
         public void SaveAllLogs()
         {
-            foreach (KeyValuePair<string, GachaData> entry in Data)
+            foreach (UidGachaData entry in Data)
             {
-                SaveLogOf(entry.Key);
+                SaveLogOf(entry.Uid);
             }
         }
 
@@ -78,7 +78,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         private void SaveLogOf(string uid)
         {
             Directory.CreateDirectory($@"{localFolder}\{uid}");
-            foreach (KeyValuePair<string, List<GachaLogItem>?> entry in Data[uid])
+            foreach (KeyValuePair<string, List<GachaLogItem>?> entry in Data[uid]!)
             {
                 lock (savingGachaLog)
                 {
@@ -296,7 +296,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 
             if (importable.Data is GachaData data)
             {
-                if (Data.ContainsKey(importable.Uid))
+                if (Data[importable.Uid] is not null)
                 {
                     //we need to perform merge operation
                     foreach (KeyValuePair<string, List<GachaLogItem>?> pool in data)
@@ -332,7 +332,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <returns>经过修改的原列表</returns>
         private void TrimToBackIncrement(string uid, string poolType, List<GachaLogItem>? importList)
         {
-            GachaData source = Data[uid];
+            GachaData source = Data[uid]!;
             List<GachaLogItem>? sourceItems = source[poolType];
 
             if (sourceItems?.Count > 0)
@@ -367,7 +367,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="backIncrement">增量</param>
         private void MergeBackIncrement(string uid, string type, List<GachaLogItem>? backIncrement)
         {
-            GachaData dict = Data[uid];
+            GachaData dict = Data[uid]!;
 
             if (dict.ContainsKey(type) && backIncrement is not null)
             {
@@ -396,7 +396,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                     ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
                     UIGFVersion = "2.0"
                 },
-                List = Data[uid].SelectMany(pair => pair.Value!.Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
+                List = Data[uid]!.SelectMany(pair => pair.Value!.Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
             };
             Json.ToFile(fileName, exportData);
         }
@@ -406,7 +406,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         {
             lock (exporting)
             {
-                if (Data.ContainsKey(uid))
+                if (Data[uid] is not null)
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                     //FileStream can't be disposed by ExcelPackage,so we need to dispose it ourselves
@@ -414,10 +414,10 @@ namespace DGP.Genshin.Services.GachaStatistics
                     {
                         using (ExcelPackage package = new(fs))
                         {
-                            foreach (string pool in Data[uid].Keys)
+                            foreach (string pool in Data[uid]!.Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
-                                IEnumerable<GachaLogItem>? logs = Data[uid][pool];
+                                IEnumerable<GachaLogItem>? logs = Data[uid]![pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
                                 InitializeGachaLogSheetHeader(sheet);
@@ -426,7 +426,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 sheet.View.FreezePanes(2, 1);
                             }
 
-                            AddInterchangeableSheet(package, Data[uid]);
+                            AddInterchangeableSheet(package, Data[uid]!);
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";
@@ -446,16 +446,17 @@ namespace DGP.Genshin.Services.GachaStatistics
         }
         private void InitializeInterchangeSheetHeader(ExcelWorksheet sheet)
         {
-            sheet.Cells[1, 1].Value = "uid";
+            sheet.Cells[1, 1].Value = "count";
             sheet.Cells[1, 2].Value = "gacha_type";
-            sheet.Cells[1, 3].Value = "item_id";
-            sheet.Cells[1, 4].Value = "count";
-            sheet.Cells[1, 5].Value = "time";
-            sheet.Cells[1, 6].Value = "name";
-            sheet.Cells[1, 7].Value = "lang";
-            sheet.Cells[1, 8].Value = "item_type";
-            sheet.Cells[1, 9].Value = "rank_type";
-            sheet.Cells[1, 10].Value = "id";
+            sheet.Cells[1, 3].Value = "id";
+            sheet.Cells[1, 4].Value = "item_id";
+            sheet.Cells[1, 5].Value = "item_type";
+            sheet.Cells[1, 6].Value = "lang";
+            sheet.Cells[1, 7].Value = "name";
+            sheet.Cells[1, 8].Value = "rank_type";
+            sheet.Cells[1, 9].Value = "time";
+            sheet.Cells[1, 10].Value = "uid";
+            sheet.Cells[1, 11].Value = "uigf_gacha_type";
         }
         private void InitializeGachaLogSheetHeader(ExcelWorksheet sheet)
         {
@@ -513,16 +514,17 @@ namespace DGP.Genshin.Services.GachaStatistics
                 foreach (GachaLogItem item in logs)
                 {
                     j++;
-                    sheet.Cells[j, 1].Value = item.Uid;
+                    sheet.Cells[j, 1].Value = item.Count;
                     sheet.Cells[j, 2].Value = item.GachaType;
-                    sheet.Cells[j, 3].Value = string.Empty;
-                    sheet.Cells[j, 4].Value = item.Count;
-                    sheet.Cells[j, 5].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
-                    sheet.Cells[j, 6].Value = item.Name;
-                    sheet.Cells[j, 7].Value = item.Language;
-                    sheet.Cells[j, 8].Value = item.ItemType;
-                    sheet.Cells[j, 9].Value = item.Rank;
-                    sheet.Cells[j, 10].Value = item.Id;
+                    sheet.Cells[j, 3].Value = item.Id;
+                    sheet.Cells[j, 4].Value = string.Empty;
+                    sheet.Cells[j, 5].Value = item.ItemType;
+                    sheet.Cells[j, 6].Value = item.Language;
+                    sheet.Cells[j, 7].Value = item.Name;
+                    sheet.Cells[j, 8].Value = item.Rank;
+                    sheet.Cells[j, 9].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                    sheet.Cells[j, 10].Value = item.Uid;
+                    sheet.Cells[j, 11].Value = ConfigType.UIGFGachaTypeMap[item.GachaType!];
 
                     using (ExcelRange range = sheet.Cells[j, 1, j, 10])
                     {

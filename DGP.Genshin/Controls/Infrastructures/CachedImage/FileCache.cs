@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
-using DGP.Genshin.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -121,7 +121,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             {
                 string canonicalUrl = uri.ToString();
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
-                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfoHelper.Default));
+                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfo.DefaultThreadCurrentCulture));
                 if (Path.HasExtension(canonicalUrl))
                 {
                     fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);

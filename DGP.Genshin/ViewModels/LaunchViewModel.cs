@@ -215,9 +215,10 @@ namespace DGP.Genshin.ViewModels
         private async Task InitializeAsync(TitleBarButton? t)
         {
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
-            launcherPath = launchService.SelectLaunchDirectory(launcherPath);
+            launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
             if (launcherPath is not null)
             {
+                launchService.LoadIniData(launcherPath);
                 MatchAccount();
                 CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
                 t?.ShowAttachedFlyout<Grid>(this);

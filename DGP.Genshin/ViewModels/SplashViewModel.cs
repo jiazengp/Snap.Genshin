@@ -43,20 +43,18 @@ namespace DGP.Genshin.ViewModels
 
         private void TrySendCompletedMessage()
         {
-            if (IsCookieVisible == false && HasCheckCompleted)
+            if (IsCookieVisible == false && integrityCheckCompleted)
             {
-                this.Log(IsCookieVisible);
                 App.Messenger.Send(new SplashInitializationCompletedMessage(this));
             }
         }
-        public bool HasCheckCompleted
+        /// <summary>
+        /// 设置为<see cref="true"/> 以触发淡入主界面动画
+        /// </summary>
+        public bool IsSplashNotVisible
         {
             get => hasCheckCompleted;
-            set
-            {
-                SetProperty(ref hasCheckCompleted, value);
-                TrySendCompletedMessage();
-            }
+            set => SetProperty(ref hasCheckCompleted, value);
         }
 
         public string CurrentStateDescription { get => currentStateDescription; set => SetProperty(ref currentStateDescription, value); }
@@ -104,6 +102,8 @@ namespace DGP.Genshin.ViewModels
         public double Percent { get => percent; set => SetProperty(ref percent, value); }
 
         private int checkingCount;
+
+        private bool integrityCheckCompleted = false;
 
         public async Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, IProgress<InitializeState> progress) where T : KeySource
         {
@@ -171,12 +171,12 @@ namespace DGP.Genshin.ViewModels
             if (settingService.GetOrDefault(Setting.SkipCacheCheck, false))
             {
                 this.Log("Integrity Check Suppressed by User Settings");
-                HasCheckCompleted = true;
+                integrityCheckCompleted = true;
                 return;
             }
             this.Log("Integrity Check Start");
             hasEverChecked = true;
-            HasCheckCompleted = false;
+            integrityCheckCompleted = false;
             Progress<InitializeState> progress = new(i =>
             {
                 CurrentCount = i.CurrentCount;
@@ -220,7 +220,8 @@ namespace DGP.Genshin.ViewModels
 
             await Task.WhenAll(integrityTasks);
             this.Log("Integrity Check Stop");
-            HasCheckCompleted = true;
+            integrityCheckCompleted = true;
+            TrySendCompletedMessage();
         }
 
         public class InitializeState

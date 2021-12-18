@@ -3,6 +3,8 @@ using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DGP.Genshin.Services.GachaStatistics
@@ -11,8 +13,7 @@ namespace DGP.Genshin.Services.GachaStatistics
     /// 包装了包含Uid与抽卡记录的字典
     /// 所有与抽卡记录相关的服务都基于对此类的操作
     /// </summary>
-    [Send(typeof(GachaUidAddedMessage))]
-    public class GachaDataCollection : Dictionary<string, GachaData>
+    public class GachaDataCollection : ObservableCollection<UidGachaData>
     {
         /// <summary>
         /// 向集合添加数据
@@ -20,10 +21,19 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="data"></param>
-        public new void Add(string uid, GachaData data)
+        public void Add(string uid, GachaData data)
         {
-            base.Add(uid, data);
-            App.Messenger.Send(new GachaUidAddedMessage(uid));
+            Add(new(uid, data));
+        }
+
+        public GachaData? this[string uid]
+        {
+            get { return this.FirstOrDefault(x => x.Uid == uid)?.Data; }
+        }
+
+        public bool HasUid(string uid)
+        {
+            return this.Any(x => x.Uid == uid);
         }
 
         /// <summary>
@@ -38,18 +48,15 @@ namespace DGP.Genshin.Services.GachaStatistics
                 return 0;
             }
             //有uid有卡池记录就读取最新物品的id,否则返回0
-            if (ContainsKey(uid))
+            if (this[uid] is GachaData matchedData)
             {
-                if (this[uid] is GachaData matchedData)
+                if (matchedData.ContainsKey(typeId))
                 {
-                    if (matchedData.ContainsKey(typeId))
+                    if (matchedData[typeId] is List<GachaLogItem> item)
                     {
-                        if (matchedData[typeId] is List<GachaLogItem> item)
+                        if (item.Any())
                         {
-                            if (item.Any())
-                            {
-                                return item[0].TimeId;
-                            }
+                            return item[0].TimeId;
                         }
                     }
                 }

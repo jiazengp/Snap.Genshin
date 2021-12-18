@@ -34,9 +34,98 @@ namespace DGP.Genshin.Services.Cookies
         private static string? currentCookie;
 
         /// <summary>
-        /// 备选Cookie池
+        /// Cookie池的默认实现，提供Cookie操作事件支持
         /// </summary>
-        public ICookiePool Cookies { get; set; }
+        [Send(typeof(CookieAddedMeaasge))]
+        [Send(typeof(CookieRemovedMessage))]
+        internal class CookiePool : List<string>, ICookieService.ICookiePool
+        {
+            private readonly List<string> AccountIds = new();
+            private readonly ICookieService cookieService;
+            public CookiePool(ICookieService cookieService, IEnumerable<string> collection) : base(collection)
+            {
+                this.cookieService = cookieService;
+                AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
+            }
+
+            /// <summary>
+            /// 添加
+            /// </summary>
+            /// <param name="cookie"></param>
+            public new void Add(string cookie)
+            {
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    base.Add(cookie);
+                    App.Messenger.Send(new CookieAddedMeaasge(cookie));
+                    cookieService.SaveCookies();
+                }
+            }
+
+            /// <summary>
+            /// 添加或忽略
+            /// </summary>
+            /// <param name="cookie"></param>
+            public void AddOrIgnore(string cookie)
+            {
+                if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
+                {
+                    if (!AccountIds.Contains(id))
+                    {
+                        AccountIds.Add(id);
+                        Add(cookie);
+                    }
+                }
+            }
+
+            /// <summary>
+            /// 隐藏了基类成员以便发送事件
+            /// </summary>
+            /// <param name="cookie"></param>
+            /// <returns></returns>
+            public new bool Remove(string cookie)
+            {
+                string id = GetCookiePairs(cookie)["account_id"];
+                AccountIds.Remove(id);
+                bool result = base.Remove(cookie);
+                App.Messenger.Send(new CookieRemovedMessage(cookie));
+                cookieService.SaveCookies();
+                return result;
+            }
+
+            /// <summary>
+            /// 获取Cookie的键值对
+            /// </summary>
+            /// <param name="cookie"></param>
+            /// <returns></returns>
+            private IDictionary<string, string> GetCookiePairs(string cookie)
+            {
+                Dictionary<string, string> cookieDictionary = new();
+
+                string[] values = cookie.TrimEnd(';').Split(';');
+                foreach (string[] parts in values.Select(c => c.Split(new[] { '=' }, 2)))
+                {
+                    string cookieName = parts[0].Trim();
+                    string cookieValue;
+
+                    if (parts.Length == 1)
+                    {
+                        //Cookie attribute
+                        cookieValue = string.Empty;
+                    }
+                    else
+                    {
+                        cookieValue = parts[1];
+                    }
+
+                    cookieDictionary[cookieName] = cookieValue;
+                }
+
+                return cookieDictionary;
+            }
+        }
+
+        public ICookieService.ICookiePool Cookies { get; set; }
 
         public CookieService()
         {

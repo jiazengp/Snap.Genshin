@@ -52,7 +52,7 @@ namespace DGP.Genshin.Updater
                     {
                         if (entry.FullName.EndsWith("/"))
                         {
-                            string directoryName = entry.FullName.Substring(0, entry.FullName.Length - 1);
+                            string directoryName = entry.FullName[0..^1];
                             Console.WriteLine($"创建目录:{directoryName}");
                             Directory.CreateDirectory($"../{directoryName}");
                         }
@@ -79,6 +79,7 @@ namespace DGP.Genshin.Updater
             {
                 Process p = ps[0];
                 p.CloseMainWindow();
+
                 Console.WriteLine($"等待 {processName} 退出中...(可能需要手动退出)");
                 p.WaitForExit();
             }
@@ -90,11 +91,9 @@ namespace DGP.Genshin.Updater
         private static void EnsureWorkingPath()
         {
             //fix unable to find file issue
-            string? path = AppContext.BaseDirectory;
-            string? workingPath = Path.GetDirectoryName(path);
-            if (workingPath is not null)
+            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string exePath)
             {
-                Environment.CurrentDirectory = workingPath;
+                Environment.CurrentDirectory = exePath;
             }
         }
     }

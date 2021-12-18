@@ -34,7 +34,6 @@ namespace DGP.Genshin.Services.Updating
                     Credentials = new Credentials(TokenHelper.GetToken()),
                 };
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
-
                 PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
                 string newVersion = Release.TagName;
                 NewVersion = new Version(Release.TagName);
@@ -97,10 +96,10 @@ namespace DGP.Genshin.Services.Updating
                 .Show(toast =>
                 {
                     toast.Tag = UpdateNotificationTag;
-                    toast.Data = new NotificationData(new Dictionary<string, string>()
+                    toast.Data = new(new Dictionary<string, string>()
                     {
                         {"progressValue", "0" },
-                        {"progressValueString", "0% - 0KB / 0KB" },
+                        {"progressValueString", "0% - 0MB / 0MB" },
                         {"progressStatus", "下载中..." }
                     })
                     {
@@ -133,7 +132,7 @@ namespace DGP.Genshin.Services.Updating
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            data.Values["progressValueString"] = $@"{percent:p2}% - {bytesReceived * 1.0 / 1024:p2}KB / {totalBytesToReceive * 1.0 / 1024:p2}KB";
+            data.Values["progressValueString"] = $@"{percent:p2}% - {bytesReceived * 1.0 / 1024 / 1024}MB / {totalBytesToReceive * 1.0 / 1024 / 1024}MB";
             if (percent >= 1)
             {
                 data.Values["progressStatus"] = "下载完成";

@@ -35,5 +35,4 @@ namespace DGP.Genshin.Helpers
             }
         }
     }
-
 }

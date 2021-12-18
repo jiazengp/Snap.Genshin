@@ -82,7 +82,7 @@ namespace DGP.Genshin.ViewModels
                 SetProperty(ref signInSilently, value);
             }
         }
-
+        [Obsolete("绕过方法已经不再有效")]
         public bool BypassCharactersLimit
         {
             get => bypassCharactersLimit; set

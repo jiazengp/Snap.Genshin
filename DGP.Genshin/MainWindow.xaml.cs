@@ -53,6 +53,7 @@ namespace DGP.Genshin
                 await SignInOnStartUp(splashView);
             }
             splashView.CurrentStateDescription = "完成";
+            splashView.IsSplashNotVisible = true;
             //post actions
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
         }

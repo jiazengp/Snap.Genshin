@@ -4,6 +4,9 @@ using System.Windows.Media;
 
 namespace DGP.Genshin.DataModels
 {
+    /// <summary>
+    /// 物品元件，在 <see cref="KeySource"/> 的基础上增加了名称与星级
+    /// </summary>
     public abstract class Primitive : KeySource
     {
         public string? Name { get; set; }

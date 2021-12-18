@@ -8,4 +8,3 @@
         NotAvailable = 3
     }
 }
-

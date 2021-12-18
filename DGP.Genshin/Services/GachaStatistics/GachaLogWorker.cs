@@ -202,12 +202,12 @@ namespace DGP.Genshin.Services.GachaStatistics
         private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
         {
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
-            if (!WorkingGachaData.ContainsKey(WorkingUid))
+            if (!WorkingGachaData.HasUid(WorkingUid))
             {
                 WorkingGachaData.Add(WorkingUid, new GachaData());
             }
             //简单的将老数据插入到增量后侧，最后重置数据
-            GachaData data = WorkingGachaData[WorkingUid];
+            GachaData data = WorkingGachaData[WorkingUid]!;
             string? key = type.Key;
             if (key is not null)
             {
@@ -231,12 +231,12 @@ namespace DGP.Genshin.Services.GachaStatistics
         private void MergeFull(ConfigType type, List<GachaLogItem> full)
         {
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
-            if (!WorkingGachaData.ContainsKey(WorkingUid))
+            if (!WorkingGachaData.HasUid(WorkingUid))
             {
                 WorkingGachaData.Add(WorkingUid, new GachaData());
             }
             //将老数据插入到后侧，最后重置数据
-            GachaData data = WorkingGachaData[WorkingUid];
+            GachaData data = WorkingGachaData[WorkingUid]!;
             string? key = type.Key;
             if (key is not null)
             {

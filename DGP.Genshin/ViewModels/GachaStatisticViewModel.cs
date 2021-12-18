@@ -1,17 +1,13 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using ModernWpf.Controls;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +15,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class GachaStatisticViewModel : ObservableObject, IRecipient<GachaUidAddedMessage>
+    public class GachaStatisticViewModel : ObservableObject
     {
         private readonly IGachaStatisticService gachaStatisticService;
         private readonly ISettingService settingService;
@@ -28,10 +24,10 @@ namespace DGP.Genshin.ViewModels
         private bool isSyncingUid = false;
 
         private Statistic? statistic;
-        private PrivateString? selectedUid;
+        private UidGachaData? selectedUid;
         private FetchProgress? fetchProgress;
         private SpecificBanner? selectedSpecificBanner;
-        private ObservableCollection<PrivateString> uids = new();
+        private GachaDataCollection uids = new();
         private bool isFullFetch;
         private IRelayCommand initializeCommand;
         private IAsyncRelayCommand gachaLogAutoFindCommand;
@@ -52,7 +48,7 @@ namespace DGP.Genshin.ViewModels
         /// <summary>
         /// 当前选择的UID
         /// </summary>
-        public PrivateString? SelectedUid
+        public UidGachaData? SelectedUid
         {
             get => selectedUid;
             set
@@ -72,7 +68,7 @@ namespace DGP.Genshin.ViewModels
             {
                 return;
             }
-            string? uid = SelectedUid.UnMaskedValue;
+            string? uid = SelectedUid.Uid;
             Statistic = await gachaStatisticService.GetStatisticAsync(uid);
             SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             isSyncingUid = false;
@@ -80,7 +76,7 @@ namespace DGP.Genshin.ViewModels
         /// <summary>
         /// 所有UID
         /// </summary>
-        public ObservableCollection<PrivateString> Uids
+        public GachaDataCollection Uids
         {
             get => uids;
             set => SetProperty(ref uids, value);
@@ -151,9 +147,8 @@ namespace DGP.Genshin.ViewModels
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService, ISettingService settingService)
         {
             this.gachaStatisticService = gachaStatisticService;
-            Uids = new(gachaStatisticService.GetUids());
+            gachaStatisticService.InitializeGachaData(Uids);
             this.settingService = settingService;
-
 
             InitializeCommand = new RelayCommand(() => { SelectedUid = Uids.FirstOrDefault(); });
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);
@@ -176,11 +171,11 @@ namespace DGP.Genshin.ViewModels
                 Title = "保存到文件",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{SelectedUid.UnMaskedValue}.json"
+                FileName = $"{SelectedUid.Uid}.json"
             };
             if (dialog.ShowDialog() == true)
             {
-                await gachaStatisticService.ExportDataToJsonAsync(dialog.FileName, SelectedUid.UnMaskedValue);
+                await gachaStatisticService.ExportDataToJsonAsync(dialog.FileName, SelectedUid.Uid);
                 await new ContentDialog
                 {
                     Title = "导出祈愿记录完成",
@@ -203,12 +198,12 @@ namespace DGP.Genshin.ViewModels
                 Title = "保存到表格",
                 ValidateNames = true,
                 CheckPathExists = true,
-                FileName = $"{SelectedUid.UnMaskedValue}.xlsx"
+                FileName = $"{SelectedUid.Uid}.xlsx"
             };
             if (dialog.ShowDialog() == true)
             {
                 this.Log("try to export to excel");
-                await gachaStatisticService.ExportDataToExcelAsync(dialog.FileName, SelectedUid.UnMaskedValue);
+                await gachaStatisticService.ExportDataToExcelAsync(dialog.FileName, SelectedUid.Uid);
                 await new ContentDialog
                 {
                     Title = "导出祈愿记录完成",
@@ -256,7 +251,7 @@ namespace DGP.Genshin.ViewModels
                 isRefreshing = true;
                 (_, string? uid) = await gachaStatisticService.RefreshAsync(GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
                 FetchProgress = null;
-                SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
+                SelectedUid = Uids.FirstOrDefault(u => u.Uid == uid);
 
                 isRefreshing = false;
             }
@@ -269,7 +264,7 @@ namespace DGP.Genshin.ViewModels
                 isRefreshing = true;
                 (_, string? uid) = await gachaStatisticService.RefreshAsync(GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
                 FetchProgress = null;
-                SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
+                SelectedUid = Uids.FirstOrDefault(u => u.Uid == uid);
                 isRefreshing = false;
             }
         }
@@ -277,19 +272,6 @@ namespace DGP.Genshin.ViewModels
         private void OnFetchProgressed(FetchProgress p)
         {
             FetchProgress = p;
-        }
-
-        private void GachaDataCollectionUidSyncRequested(string uid)
-        {
-            SelectedUid = Uids.FirstOrDefault(u => u.UnMaskedValue == uid);
-        }
-
-        public void Receive(GachaUidAddedMessage message)
-        {
-            string uid = message.Value;
-            this.Log($"uid {uid} added");
-            bool showFullUid = settingService.GetOrDefault(Setting.ShowFullUID, false);
-            App.Current.Dispatcher.Invoke(() => Uids.Add(new PrivateString(uid, PrivateString.DefaultMasker, showFullUid)));
         }
     }
 }

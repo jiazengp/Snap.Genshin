@@ -6,8 +6,14 @@ using System.Reflection;
 
 namespace DGP.Genshin.Core
 {
+    /// <summary>
+    /// 服务管理器
+    /// </summary>
     public class ServiceManager
     {
+        /// <summary>
+        /// 实例化一个新的服务管理器
+        /// </summary>
         public ServiceManager()
         {
             Services = ConfigureServices();

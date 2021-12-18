@@ -1,12 +1,11 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Privacy;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using ModernWpf.Controls;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,24 +19,21 @@ namespace DGP.Genshin.Services.GachaStatistics
     public class GachaStatisticService : IGachaStatisticService
     {
         private readonly ISettingService settingService;
-        private readonly LocalGachaLogWorker localGachaLogWorker;
-
-        /// <summary>
-        /// 核心数据
-        /// </summary>
-        private readonly GachaDataCollection gachaDataCollection = new();
-
+        private LocalGachaLogWorker? localGachaLogWorker;
+        
+        private GachaDataCollection? GachaDataCollection { get; set; }
         public GachaStatisticService(ISettingService settingService)
         {
             this.settingService = settingService;
-            localGachaLogWorker = new(gachaDataCollection);
             this.Log("initialized");
         }
 
-        public IEnumerable<PrivateString> GetUids()
+        [MemberNotNull(nameof(localGachaLogWorker))]
+        [MemberNotNull(nameof(GachaDataCollection))]
+        public void InitializeGachaData(GachaDataCollection gachaData)
         {
-            bool showFullUid = settingService.GetOrDefault(Setting.ShowFullUID, false);
-            return gachaDataCollection.Keys.Select(uid => new PrivateString(uid, PrivateString.DefaultMasker, showFullUid));
+            GachaDataCollection = gachaData;
+            localGachaLogWorker = new(gachaData);
         }
 
         /// <summary>
@@ -47,7 +43,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaLogUrlMode mode)
         {
             (_, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            return url is null ? null : (new(url, gachaDataCollection));
+            return url is null ? null : (new(url, GachaDataCollection!));
         }
 
         public async Task<(bool isOk, string? uid)> RefreshAsync(GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
@@ -137,7 +133,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                         await Task.Delay(worker.GetRandomDelay());
                     }
                 }
-                localGachaLogWorker.SaveAllLogs();
+                localGachaLogWorker!.SaveAllLogs();
                 return (true, uid);
             }
             else
@@ -148,7 +144,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         public async Task<Statistic> GetStatisticAsync(string uid)
         {
-            return await Task.Run(() => StatisticFactory.ToStatistic(gachaDataCollection[uid], uid));
+            return await Task.Run(() => StatisticFactory.ToStatistic(GachaDataCollection![uid]!, uid));
         }
 
         #region Im/Export
@@ -159,17 +155,17 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <returns></returns>
         public async Task ExportDataToExcelAsync(string path, string uid)
         {
-            await Task.Run(() => localGachaLogWorker.SaveLocalGachaDataToExcel(uid, path));
+            await Task.Run(() => localGachaLogWorker!.SaveLocalGachaDataToExcel(uid, path));
         }
 
         public async Task ExportDataToJsonAsync(string path, string uid)
         {
-            await Task.Run(() => localGachaLogWorker.ExportToUIGFJ(uid, path));
+            await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path));
         }
 
         public async Task ImportFromUIGFWAsync(string path)
         {
-            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGFW(path)))
+            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFW(path)))
             {
                 await new ContentDialog()
                 {
@@ -183,7 +179,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         public async Task ImportFromUIGFJAsync(string path)
         {
-            if (!await Task.Run(() => localGachaLogWorker.ImportFromUIGFJ(path)))
+            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFJ(path)))
             {
                 await new ContentDialog()
                 {

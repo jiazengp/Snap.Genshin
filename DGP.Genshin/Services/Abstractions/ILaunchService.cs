@@ -11,9 +11,10 @@ namespace DGP.Genshin.Services.Abstratcions
         IniData LauncherConfig { get; }
 
         void Launch(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen);
+        bool LoadIniData(string? launcherPath);
         void OpenOfficialLauncher(Action<Exception>? failAction);
         void SaveLaunchScheme(LaunchScheme? scheme);
-        string? SelectLaunchDirectory(string? launcherPath);
+        string? SelectLaunchDirectoryIfNull(string? launcherPath);
         Task WaitGenshinImpactExitAsync();
     }
 }

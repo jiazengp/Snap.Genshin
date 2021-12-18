@@ -19,15 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.MiHoYoAPI", "DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj", "{C0D8D525-7664-4075-A17A-346DBE114008}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.YoungMoeAPI", "DGP.Genshin.YoungMoeAPI\DGP.Genshin.YoungMoeAPI.csproj", "{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Common", "DGP.Genshin.Common\DGP.Genshin.Common.csproj", "{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.DataViewer", "DGP.Genshin.DataViewer\DGP.Genshin.DataViewer.csproj", "{BF5C9943-4E48-4680-BA17-980B7E9B99D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Mate", "DGP.Genshin.Mate\DGP.Genshin.Mate.csproj", "{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.SDK", "DGP.Genshin.SDK\DGP.Genshin.SDK.csproj", "{320BD233-0827-430E-BCFA-3C168913E0B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +47,6 @@ Global
 		{C0D8D525-7664-4075-A17A-346DBE114008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0D8D525-7664-4075-A17A-346DBE114008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0D8D525-7664-4075-A17A-346DBE114008}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15CB87A6-83D4-48C8-B64F-AF9885F9C54A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC7B47D7-60CB-4C6F-BF6B-82AAA91FEBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,10 +59,6 @@ Global
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Release|Any CPU.Build.0 = Release|Any CPU
-		{320BD233-0827-430E-BCFA-3C168913E0B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{320BD233-0827-430E-BCFA-3C168913E0B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{320BD233-0827-430E-BCFA-3C168913E0B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{320BD233-0827-430E-BCFA-3C168913E0B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

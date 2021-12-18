@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
 using IniParser;
@@ -6,6 +7,7 @@ using IniParser.Model;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,11 +23,24 @@ namespace DGP.Genshin.Services.Launching
 
         private readonly ISettingService settingService;
 
-        private readonly IniData launcherConfig;
-        private readonly IniData gameConfig;
+        private IniData? launcherConfig;
+        private IniData? gameConfig;
 
-        public IniData LauncherConfig => launcherConfig;
-        public IniData GameConfig => gameConfig;
+        public IniData LauncherConfig
+        {
+            get
+            {
+                return launcherConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
+            }
+        }
+
+        public IniData GameConfig
+        {
+            get
+            {
+                return gameConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
+            }
+        }
 
         public LaunchService(ISettingService settingService)
         {
@@ -36,11 +51,27 @@ namespace DGP.Genshin.Services.Launching
 
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
 
-            string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
-            launcherConfig = GetIniData(configPath);
+            LoadIniData(launcherPath);
+        }
 
-            string unescapedGameFolder = GetUnescapedGameFolder();
-            gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
+        [MemberNotNullWhen(true, nameof(gameConfig))]
+        [MemberNotNullWhen(true, nameof(launcherConfig))]
+        public bool LoadIniData(string? launcherPath)
+        {
+            if (launcherPath != null)
+            {
+                string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
+                launcherConfig = GetIniData(configPath);
+
+                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
+                gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -69,7 +100,7 @@ namespace DGP.Genshin.Services.Launching
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
             if (launcherPath is not null)
             {
-                string unescapedGameFolder = GetUnescapedGameFolder();
+                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
                 string gamePath = $@"{unescapedGameFolder}/{LauncherConfig["launcher"]["game_start_name"]}";
                 gamePath = Regex.Unescape(gamePath);
 
@@ -121,7 +152,7 @@ namespace DGP.Genshin.Services.Launching
         /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
         /// </summary>
         /// <returns></returns>
-        private string GetUnescapedGameFolder()
+        private string GetUnescapedGameFolderFromLauncherConfig()
         {
             string gameInstallPath = LauncherConfig["launcher"]["game_install_path"];
             return Regex.Unescape(gameInstallPath.Replace(@"\x", @"\u"));
@@ -146,7 +177,7 @@ namespace DGP.Genshin.Services.Launching
         /// </summary>
         /// <param name="launcherPath"></param>
         /// <returns></returns>
-        public string? SelectLaunchDirectory(string? launcherPath)
+        public string? SelectLaunchDirectoryIfNull(string? launcherPath)
         {
             if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
             {
