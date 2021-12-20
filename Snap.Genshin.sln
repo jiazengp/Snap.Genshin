@@ -27,6 +27,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Mate", "DGP.Gen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{402B9B12-B187-47C3-9726-34B4931E77D7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.WindowsDesktop", "Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj", "{C37471DE-486F-4D80-A1A0-27BD77DF950E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterSDK", "AppCenterSDK", "{997C8BB2-3315-4372-83CD-620F65B608B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Analytics.WindowsDesktop", "Modified\appcenter-sdk-dotnet\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.WindowsDesktop\Microsoft.AppCenter.Analytics.WindowsDesktop.csproj", "{46B38968-0B9D-4E08-8228-FE9F8390ACF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Crashes.WindowsDesktop", "Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.WindowsDesktop\Microsoft.AppCenter.Crashes.WindowsDesktop.csproj", "{860C4D7A-7EFF-415D-BC84-341FC69C2B58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,9 +69,26 @@ Global
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C37471DE-486F-4D80-A1A0-27BD77DF950E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37471DE-486F-4D80-A1A0-27BD77DF950E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37471DE-486F-4D80-A1A0-27BD77DF950E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37471DE-486F-4D80-A1A0-27BD77DF950E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B38968-0B9D-4E08-8228-FE9F8390ACF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B38968-0B9D-4E08-8228-FE9F8390ACF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B38968-0B9D-4E08-8228-FE9F8390ACF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B38968-0B9D-4E08-8228-FE9F8390ACF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{860C4D7A-7EFF-415D-BC84-341FC69C2B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{860C4D7A-7EFF-415D-BC84-341FC69C2B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{860C4D7A-7EFF-415D-BC84-341FC69C2B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{860C4D7A-7EFF-415D-BC84-341FC69C2B58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C37471DE-486F-4D80-A1A0-27BD77DF950E} = {997C8BB2-3315-4372-83CD-620F65B608B7}
+		{46B38968-0B9D-4E08-8228-FE9F8390ACF6} = {997C8BB2-3315-4372-83CD-620F65B608B7}
+		{860C4D7A-7EFF-415D-BC84-341FC69C2B58} = {997C8BB2-3315-4372-83CD-620F65B608B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

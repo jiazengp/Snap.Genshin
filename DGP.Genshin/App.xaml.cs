@@ -76,18 +76,15 @@ namespace DGP.Genshin
             //handle notification activation
             SetupToastNotificationHandling();
             singleInstanceChecker.Ensure(Current);
-
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
-            Analytics.TrackEvent("App started");
-
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
             SetAppTheme();
 
-            
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
+            Analytics.TrackEvent("App started");
 
             //open main window
             base.OnStartup(e);
