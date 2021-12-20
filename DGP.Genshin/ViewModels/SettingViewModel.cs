@@ -21,7 +21,7 @@ namespace DGP.Genshin.ViewModels
     /// 仅供 <see cref="Pages.SettingsPage"/> 使用
     /// </summary>
     [ViewModel(ViewModelType.Singleton)]
-    public class SettingViewModel : ObservableObject, IRecipient<SettingChangedMessage>
+    public class SettingViewModel : ObservableRecipient, IRecipient<SettingChangedMessage>
     {
         private readonly ISettingService settingService;
         private ISettingService SettingService => settingService;
@@ -105,12 +105,13 @@ namespace DGP.Genshin.ViewModels
             set => checkUpdateCommand = value;
         }
 
-        public SettingViewModel(ISettingService settingService, IUpdateService updateService)
+        public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
             SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
             Initialize();
+            IsActive = true;
         }
 
         [MemberNotNull("versionString")]

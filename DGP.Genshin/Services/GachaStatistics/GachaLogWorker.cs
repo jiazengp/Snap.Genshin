@@ -11,45 +11,26 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
-    /// 联机抽卡记录
+    /// 联机抽卡记录工作器
     /// </summary>
     public class GachaLogWorker
     {
-        public GachaDataCollection WorkingGachaData { get; set; }
-
+        private readonly Random random = new();
         private readonly int batchSize;
         private readonly string gachaLogUrl;
-
-        /// <summary>
-        /// 初始化 联机抽卡记录
-        /// </summary>
-        /// <param name="gachaLogUrl">url</param>
-        /// <param name="gachaData">需要操作的祈愿数据</param>
-        /// <param name="batchSize">每次请求获取的批大小 最大20</param>
-        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, int batchSize = 20)
-        {
-            this.gachaLogUrl = gachaLogUrl;
-            WorkingGachaData = gachaData;
-            this.batchSize = batchSize;
-        }
-
         private Config? gachaConfig;
         private (int min, int max) delay = (1000, 1500);
-
-        public async Task<Config?> GetCurrentGachaConfigAsync()
+        public int GetRandomDelay()
         {
-            if (gachaConfig == null)
-            {
-                gachaConfig = await GetGachaConfigAsync();
-            }
-            return gachaConfig;
+            return Delay.min + random.Next(Delay.max - Delay.min, Delay.max);
         }
 
+        public GachaDataCollection WorkingGachaData { get; set; }
+        public string? WorkingUid { get; private set; }
         /// <summary>
         /// 设置祈愿接口获取延迟是否启用
         /// </summary>
         public bool IsFetchDelayEnabled { get; set; } = true;
-
         /// <summary>
         /// 随机延迟的范围
         /// </summary>
@@ -65,8 +46,27 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
-        public string? WorkingUid { get; private set; }
+        /// <summary>
+        /// 初始化联机抽卡记录工作器
+        /// </summary>
+        /// <param name="gachaLogUrl">url</param>
+        /// <param name="gachaData">需要操作的祈愿数据</param>
+        /// <param name="batchSize">每次请求获取的批大小 最大20 默认20</param>
+        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, int batchSize = 20)
+        {
+            this.gachaLogUrl = gachaLogUrl;
+            WorkingGachaData = gachaData;
+            this.batchSize = batchSize;
+        }
 
+        public async Task<Config?> GetCurrentGachaConfigAsync()
+        {
+            if (gachaConfig == null)
+            {
+                gachaConfig = await GetGachaConfigAsync();
+            }
+            return gachaConfig;
+        }
         /// <summary>
         /// 获取祈愿池信息
         /// </summary>
@@ -83,11 +83,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             return resp?.Data;
         }
         /// <summary>
-        /// 随机延时用
-        /// </summary>
-        private readonly Random random = new();
-
-        /// <summary>
         /// 获取单个奖池的祈愿记录增量信息
         /// 并自动合并数据
         /// </summary>
@@ -100,7 +95,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             do
             {
                 progressCallBack.Invoke(new(type.Name, ++currentPage));
-                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId, currentPage);
+                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
                     if (log.List is not null)
@@ -141,7 +136,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             MergeIncrement(type, increment);
             return WorkingUid;
         }
-
         /// <summary>
         /// 获取单个奖池的祈愿记录全量信息
         /// 并自动合并数据
@@ -156,7 +150,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             do
             {
                 progressCallBack.Invoke(new(type.Name, ++currentPage));
-                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId, currentPage);
+                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
                     if (log.List is not null)
@@ -187,11 +181,6 @@ namespace DGP.Genshin.Services.GachaStatistics
             //first time fecth could go here
             MergeFull(type, full);
             return WorkingUid;
-        }
-
-        public int GetRandomDelay()
-        {
-            return Delay.min + random.Next(Delay.max - Delay.min, Delay.max);
         }
 
         /// <summary>
@@ -262,12 +251,12 @@ namespace DGP.Genshin.Services.GachaStatistics
         }
 
         /// <summary>
-        /// 尝试获得20个奖池物品
+        /// 尝试获得 <see cref="batchSize"/> 个奖池物品
         /// </summary>
         /// <param name="type"></param>
         /// <param name="endId"></param>
         /// <returns></returns>
-        private async Task<(bool Succeed, GachaLog GachaLog)> TryGetBatchAsync(ConfigType type, long endId, int currentPage)
+        private async Task<(bool Succeed, GachaLog GachaLog)> TryGetBatchAsync(ConfigType type, long endId)
         {
             //modify the url
             string[]? splitedUrl = gachaLogUrl?.Split('?');

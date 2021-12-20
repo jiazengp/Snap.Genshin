@@ -39,8 +39,8 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         public override string ToString()
         {
             return CurrentName is "奔行世间"
-                ? CurrentName
-                : $"{CurrentName} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
+                ? $"{TotalCount} 抽 | {CurrentName}"
+                : $"{TotalCount} 抽 | {CurrentName:12} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
         }
     }
 }

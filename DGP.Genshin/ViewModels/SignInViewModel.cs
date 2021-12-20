@@ -21,7 +21,7 @@ using System.Windows.Controls;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class SignInViewModel : ObservableObject, IRecipient<CookieChangedMessage>
+    public class SignInViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
@@ -104,13 +104,15 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref signInCommand, value);
         }
 
-        public SignInViewModel(ISettingService settingService, ICookieService cookieService)
+        public SignInViewModel(ISettingService settingService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
             this.cookieService = cookieService;
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             SignInCommand = new AsyncRelayCommand(SignInAsync);
+
+            IsActive = true;
         }
 
         //prevent multiple signin task

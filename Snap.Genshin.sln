@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.DataViewer", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Mate", "DGP.Genshin.Mate\DGP.Genshin.Mate.csproj", "{FA9A4DF3-AFC3-4ABE-B8B2-5B428A0FC045}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{402B9B12-B187-47C3-9726-34B4931E77D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

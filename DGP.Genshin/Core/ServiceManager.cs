@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Reflection;
 
@@ -30,6 +31,7 @@ namespace DGP.Genshin.Core
         {
             ServiceCollection services = new();
             RegisterServices(services, typeof(App));
+            services.AddSingleton<IMessenger>(App.Messenger);
             return services.BuildServiceProvider();
         }
 
@@ -53,7 +55,7 @@ namespace DGP.Genshin.Core
                         _ => throw new SnapGenshinInternalException($"未知的服务类型{type}"),
                     };
                 }
-                //注册视图模型类
+                //注册视图模型
                 if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
                 {
                     _ = viewModelAttr.ViewModelType switch

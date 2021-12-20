@@ -60,6 +60,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             HttpClient client = LazyHttpClient.Value;
             try
             {
+                Logger.LogStatic($"Download {uri} as {fileName}");
                 HttpResponseMessage response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
 
                 if (!response.IsSuccessStatusCode)
@@ -77,6 +78,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 
                 await CopyToCacheAndMemoryAsync(responseStream, memoryStream, fileStream, fileName);
                 memoryStream.Seek(0, SeekOrigin.Begin);
+                Logger.LogStatic($"Download {uri} completed.");
                 return memoryStream;
             }
             catch (Exception ex)

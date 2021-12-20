@@ -24,7 +24,7 @@ namespace DGP.Genshin
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
         private readonly INavigationService navigationService;
 
@@ -33,7 +33,7 @@ namespace DGP.Genshin
             //do not set datacontext for mainwindow
             InitializeComponent();
 
-            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, Receive);
+            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
 
             navigationService = App.GetService<INavigationService>();
             navigationService.NavigationView = NavView;
@@ -42,7 +42,7 @@ namespace DGP.Genshin
             this.Log("initialized");
         }
 
-        public async void Receive(MainWindow window, SplashInitializationCompletedMessage message)
+        public async void Receive(SplashInitializationCompletedMessage message)
         {
             SplashViewModel splashView = message.Value;
             PrepareTitleBarArea(splashView);
@@ -163,8 +163,6 @@ namespace DGP.Genshin
                 DefaultButton = ContentDialogButton.Primary
             }.ShowAsync();
         }
-
-
         #endregion
     }
 }

@@ -25,19 +25,16 @@ namespace DGP.Genshin.Mate.Services
             List<UserGameRoleDailyNote> list = new();
             foreach (string cookie in CookieManager.Cookies)
             {
-                UserGameRoleInfo? roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                List<UserGameRole>? roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
 
-                if (roles?.List is not null)
+                foreach (UserGameRole role in roles)
                 {
-                    foreach (UserGameRole role in roles.List)
+                    if (role.Region is not null && role.GameUid is not null)
                     {
-                        if (role.Region is not null && role.GameUid is not null)
+                        DailyNote? note = await new DailyNoteProvider(cookie).GetDailyNoteAsync(role.Region, role.GameUid);
+                        if (note is not null)
                         {
-                            DailyNote? note = await new DailyNoteProvider(cookie).GetDailyNoteAsync(role.Region, role.GameUid);
-                            if (note is not null)
-                            {
-                                list.Add(new(role, note));
-                            }
+                            list.Add(new(role, note));
                         }
                     }
                 }

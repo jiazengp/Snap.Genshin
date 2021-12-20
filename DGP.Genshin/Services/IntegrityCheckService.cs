@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.Infrastructures.CachedImage;
 using DGP.Genshin.DataModels;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
-
+    [Service(typeof(IIntegrityCheckService), ServiceType.Transient)]
     public class IntegrityCheckService : IIntegrityCheckService
     {
         private readonly ISettingService settingService;
@@ -28,7 +29,7 @@ namespace DGP.Genshin.Services
 
         public bool IntegrityCheckCompleted { get; private set; } = false;
 
-        public async Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, int totalCount, 
+        public async Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, int totalCount,
             IProgress<IIntegrityCheckService.IIntegrityState> progress) where T : KeySource
         {
             if (collection is null)
@@ -44,7 +45,7 @@ namespace DGP.Genshin.Services
                 progress.Report(new IntegrityState(Interlocked.Increment(ref currentCheckingCount), totalCount, t.Source?.ToFileName()));
             });
         }
-        public async Task CheckCharacterIntegrityAsync(ObservableCollection<Character>? collection, int totalCount, 
+        public async Task CheckCharacterIntegrityAsync(ObservableCollection<Character>? collection, int totalCount,
             IProgress<IIntegrityCheckService.IIntegrityState> progress)
         {
             if (collection is null)
@@ -91,7 +92,7 @@ namespace DGP.Genshin.Services
             }
             this.Log("Integrity Check Start");
             IntegrityCheckCompleted = false;
-            
+
             Progress<IIntegrityCheckService.IIntegrityState> progress = new(progressedCallback);
 
             int totalCount =
@@ -137,7 +138,7 @@ namespace DGP.Genshin.Services
         /// <summary>
         /// 为完整性检查进度提供包装
         /// </summary>
-        public class IntegrityState:IIntegrityCheckService.IIntegrityState
+        public class IntegrityState : IIntegrityCheckService.IIntegrityState
         {
             public IntegrityState(int count, int totalCount, string? info)
             {

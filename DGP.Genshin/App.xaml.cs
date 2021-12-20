@@ -1,9 +1,13 @@
 ﻿using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
 using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -72,11 +76,19 @@ namespace DGP.Genshin
             //handle notification activation
             SetupToastNotificationHandling();
             singleInstanceChecker.Ensure(Current);
+
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
+            Analytics.TrackEvent("App started");
+
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
             SetAppTheme();
+
+            
+
             //open main window
             base.OnStartup(e);
         }
@@ -113,6 +125,7 @@ namespace DGP.Genshin
                 GetService<ISettingService>().UnInitialize();
                 GetViewModel<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
+                Analytics.TrackEvent("App exited");
             }
             base.OnExit(e);
         }
@@ -120,11 +133,8 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
-                using (StreamWriter sw = new(File.Create($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}-crash.log")))
-                {
-                    sw.WriteLine($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
-                    sw.Write(e.ExceptionObject);
-                }
+                Crashes.TrackError((Exception)e.ExceptionObject);
+                new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }
         #endregion

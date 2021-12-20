@@ -5,7 +5,7 @@ namespace DGP.Genshin.Services.Abstratcions
 {
     public interface ICookieService
     {
-        public interface ICookiePool : IList<string> 
+        public interface ICookiePool : IList<string>
         {
             new void Add(string cookie);
             void AddOrIgnore(string cookie);

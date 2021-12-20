@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class RecordViewModel : ObservableObject, IRecipient<RecordProgressChangedMessage>
+    public class RecordViewModel : ObservableRecipient, IRecipient<RecordProgressChangedMessage>
     {
         private readonly IRecordService recordService;
         public IRecordService RecordService => recordService;
@@ -33,11 +33,13 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref queryCommand, value);
         }
 
-        public RecordViewModel(IRecordService recordService)
+        public RecordViewModel(IRecordService recordService, IMessenger messenger) : base(messenger)
         {
             this.recordService = recordService;
 
             QueryCommand = new AsyncRelayCommand<string?>(UpdateRecordAsync);
+
+            IsActive = true;
         }
 
 

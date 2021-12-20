@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -26,37 +25,32 @@ namespace DGP.Genshin.Services.GachaStatistics
         private const string localFolder = "GachaStatistic";
         private const string metadataSheetName = "原始数据";
 
-        public GachaDataCollection Data { get; [MemberNotNull(nameof(Data))] set; }
-
         #region Initialization
         /// <summary>
         /// 初始化 <see cref="LocalGachaLogWorker"/>的一个实例，并初始化本地数据
         /// 本地数据在初始化完成后随即可用
         /// </summary>
         /// <param name="data"></param>
-        public LocalGachaLogWorker(GachaDataCollection data)
+        public LocalGachaLogWorker()
         {
-            Data = data;
             Directory.CreateDirectory(localFolder);
-            LoadAllLogs();
-            this.Log("initialized");
         }
-        private void LoadAllLogs()
+        public void LoadAll(GachaDataCollection gachaData)
         {
             foreach (string uidFolder in Directory.EnumerateDirectories($@"{localFolder}"))
             {
                 string uid = new DirectoryInfo(uidFolder).Name;
-                LoadLogOf(uid);
+                LoadLogOf(uid, gachaData);
             }
         }
-        private void LoadLogOf(string uid)
+        private void LoadLogOf(string uid, GachaDataCollection gachaData)
         {
-            Data.Add(uid, new GachaData());
+            gachaData.Add(uid, new GachaData());
             foreach (string p in Directory.EnumerateFiles($@"{localFolder}\{uid}"))
             {
                 FileInfo fileInfo = new(p);
                 string pool = fileInfo.Name.Replace(".json", "");
-                if (Data[uid] is GachaData user)
+                if (gachaData[uid] is GachaData user)
                 {
                     user[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
                 }
@@ -65,25 +59,22 @@ namespace DGP.Genshin.Services.GachaStatistics
         #endregion
 
         #region save
-        public void SaveAllLogs()
+        public void SaveAll(GachaDataCollection gachaData)
         {
-            foreach (UidGachaData entry in Data)
+            foreach (UidGachaData entry in gachaData)
             {
-                SaveLogOf(entry.Uid);
+                SaveLogOf(entry.Uid, gachaData);
             }
         }
 
-
-        private readonly object savingGachaLog = new();
-        private void SaveLogOf(string uid)
+        private void SaveLogOf(string uid, GachaDataCollection gachaData)
         {
             Directory.CreateDirectory($@"{localFolder}\{uid}");
-            foreach (KeyValuePair<string, List<GachaLogItem>?> entry in Data[uid]!)
+            foreach (KeyValuePair<string, List<GachaLogItem>?> entry in gachaData[uid]!)
             {
-                lock (savingGachaLog)
-                {
-                    Json.ToFile($@"{localFolder}\{uid}\{entry.Key}.json", entry.Value);
-                }
+
+                Json.ToFile($@"{localFolder}\{uid}\{entry.Key}.json", entry.Value);
+
             }
         }
         #endregion
@@ -91,7 +82,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         #region import
 
         #region UIGF.W
-        public bool ImportFromUIGFW(string filePath)
+        public bool ImportFromUIGFW(string filePath, GachaDataCollection gachaData)
         {
             bool successful = true;
             lock (exporting)
@@ -125,7 +116,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 columnIndex = DetectColumn(metadataSheet, columnIndex, propertyColumn);
                                 List<GachaLogItem> gachaLogs = EnumerateSheetData(metadataSheet, propertyColumn);
                                 ImportableGachaData importData = BuildImportableDataByList(gachaLogs);
-                                ImportImportableGachaData(importData);
+                                ImportImportableGachaData(importData, gachaData);
                             }
                             else
                             {
@@ -133,7 +124,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                             }
                         }
                     }
-                    SaveAllLogs();
+                    SaveAll(gachaData);
                 }
                 catch (Exception ex)
                 {
@@ -229,34 +220,34 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         #endregion
 
-        public bool ImportFromUIGFJ(string filePath)
+        public bool ImportFromUIGFJ(string filePath, GachaDataCollection gachaData)
         {
-            return ImportFromExternalData<UIGF>(filePath, file =>
-            {
-                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
-                ImportableGachaData importData = new();
-                importData.Data = new();
-                if (file.List is not null)
-                {
-                    foreach (GachaLogItem? item in file.List)
-                    {
-                        if (item is not null)
-                        {
-                            importData.Uid ??= item.Uid;
-                            string? type = item.GachaType;
-                            //refactor 400 type here to prevent 400 list creation
-                            type = type == "400" ? "301" : type;
-                            _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
-                            if (!importData.Data.ContainsKey(type))
-                            {
-                                importData.Data.Add(type, new());
-                            }
-                            importData.Data[type]!.Insert(0, item);
-                        }
-                    }
-                }
-                return importData;
-            });
+            return ImportFromExternalData<UIGF>(filePath, gachaData, file =>
+             {
+                 _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
+                 ImportableGachaData importData = new();
+                 importData.Data = new();
+                 if (file.List is not null)
+                 {
+                     foreach (GachaLogItem? item in file.List)
+                     {
+                         if (item is not null)
+                         {
+                             importData.Uid ??= item.Uid;
+                             string? type = item.GachaType;
+                             //refactor 400 type here to prevent 400 list creation
+                             type = type == "400" ? "301" : type;
+                             _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
+                             if (!importData.Data.ContainsKey(type))
+                             {
+                                 importData.Data.Add(type, new());
+                             }
+                             importData.Data[type]!.Insert(0, item);
+                         }
+                     }
+                 }
+                 return importData;
+             });
         }
 
         #region import core method
@@ -267,7 +258,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="filePath"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public bool ImportFromExternalData<T>(string filePath, Func<T?, ImportableGachaData> converter)
+        public bool ImportFromExternalData<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
             lock (exporting)
@@ -275,8 +266,8 @@ namespace DGP.Genshin.Services.GachaStatistics
                 try
                 {
                     T? file = Json.FromFile<T>(filePath);
-                    ImportImportableGachaData(converter.Invoke(file));
-                    SaveAllLogs();
+                    ImportImportableGachaData(converter.Invoke(file), gachaData);
+                    SaveAll(gachaData);
                 }
                 catch (Exception ex)
                 {
@@ -287,7 +278,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             return successful;
         }
 
-        private string ImportImportableGachaData(ImportableGachaData importable)
+        private string ImportImportableGachaData(ImportableGachaData importable, GachaDataCollection gachaData)
         {
             if (importable.Uid is null)
             {
@@ -296,22 +287,19 @@ namespace DGP.Genshin.Services.GachaStatistics
 
             if (importable.Data is GachaData data)
             {
-                if (Data[importable.Uid] is not null)
+                if (gachaData[importable.Uid] is not null)
                 {
                     //we need to perform merge operation
                     foreach (KeyValuePair<string, List<GachaLogItem>?> pool in data)
                     {
-                        this.Log(importable);
-                        TrimToBackIncrement(importable.Uid, pool.Key, pool.Value);
-                        this.Log(importable);
-                        MergeBackIncrement(importable.Uid, pool.Key, pool.Value ?? new());
-                        this.Log(importable);
+                        TrimToBackIncrement(importable.Uid, pool.Key, gachaData, pool.Value);
+                        MergeBackIncrement(importable.Uid, pool.Key, gachaData, pool.Value ?? new());
                     }
                 }
                 else
                 {
                     //is new uid
-                    Data.Add(importable.Uid, data);
+                    gachaData.Add(importable.Uid, data);
                 }
                 //Data.SyncUid(importable.Uid);
                 return importable.Uid;
@@ -330,9 +318,9 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="poolType"></param>
         /// <param name="importList"></param>
         /// <returns>经过修改的原列表</returns>
-        private void TrimToBackIncrement(string uid, string poolType, List<GachaLogItem>? importList)
+        private void TrimToBackIncrement(string uid, string poolType, GachaDataCollection gachaData, List<GachaLogItem>? importList)
         {
-            GachaData source = Data[uid]!;
+            GachaData source = gachaData[uid]!;
             List<GachaLogItem>? sourceItems = source[poolType];
 
             if (sourceItems?.Count > 0)
@@ -365,9 +353,9 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="type">卡池</param>
         /// <param name="backIncrement">增量</param>
-        private void MergeBackIncrement(string uid, string type, List<GachaLogItem>? backIncrement)
+        private void MergeBackIncrement(string uid, string type, GachaDataCollection gachaData, List<GachaLogItem>? backIncrement)
         {
-            GachaData dict = Data[uid]!;
+            GachaData dict = gachaData[uid]!;
 
             if (dict.ContainsKey(type) && backIncrement is not null)
             {
@@ -383,7 +371,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         #endregion
 
         #region export
-        public void ExportToUIGFJ(string uid, string fileName)
+        public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
         {
             UIGF? exportData = new()
             {
@@ -396,17 +384,17 @@ namespace DGP.Genshin.Services.GachaStatistics
                     ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
                     UIGFVersion = "2.0"
                 },
-                List = Data[uid]!.SelectMany(pair => pair.Value!.Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
+                List = gachaData[uid]!.SelectMany(pair => pair.Value!.Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
             };
             Json.ToFile(fileName, exportData);
         }
 
         #region Excel
-        public void SaveLocalGachaDataToExcel(string uid, string fileName)
+        public void SaveLocalGachaDataToExcel(string uid, string fileName, GachaDataCollection gachaData)
         {
             lock (exporting)
             {
-                if (Data[uid] is not null)
+                if (gachaData[uid] is not null)
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                     //FileStream can't be disposed by ExcelPackage,so we need to dispose it ourselves
@@ -414,10 +402,10 @@ namespace DGP.Genshin.Services.GachaStatistics
                     {
                         using (ExcelPackage package = new(fs))
                         {
-                            foreach (string pool in Data[uid]!.Keys)
+                            foreach (string pool in gachaData[uid]!.Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
-                                IEnumerable<GachaLogItem>? logs = Data[uid]![pool];
+                                IEnumerable<GachaLogItem>? logs = gachaData[uid]![pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
                                 InitializeGachaLogSheetHeader(sheet);
@@ -426,7 +414,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                                 sheet.View.FreezePanes(2, 1);
                             }
 
-                            AddInterchangeableSheet(package, Data[uid]!);
+                            AddInterchangeableSheet(package, gachaData[uid]!);
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";

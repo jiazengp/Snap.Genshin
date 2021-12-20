@@ -14,7 +14,7 @@ namespace DGP.Genshin.Core.Plugins
         public void LoadAllPlugins()
         {
             Directory.CreateDirectory(PluginPath);
-            Directory.EnumerateFiles(PluginPath);
+            Directory.EnumerateFiles(PluginPath, "*.dll", SearchOption.AllDirectories);
         }
     }
 }

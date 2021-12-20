@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class UserInfoViewModel : ObservableObject, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
+    public class UserInfoViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
 
@@ -67,13 +67,15 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref addUserCommand, value);
         }
 
-        public UserInfoViewModel(ICookieService cookieService)
+        public UserInfoViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             LoadCommand = new AsyncRelayCommand(InitializeInternalAsync);
             OpenUICommand = new RelayCommand<TitleBarButton>(OpenUI);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
             AddUserCommand = new AsyncRelayCommand(AddUserAsync);
+
+            IsActive = true;
         }
 
         private async Task AddUserAsync()

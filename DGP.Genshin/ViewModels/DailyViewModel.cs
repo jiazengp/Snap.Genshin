@@ -21,7 +21,7 @@ namespace DGP.Genshin.ViewModels
     {
         private readonly MetadataViewModel dataViewModel;
 
-        public List<NamedValue<DayOfWeek>> DayOfWeeks{ get; set; } = new()
+        public List<NamedValue<DayOfWeek>> DayOfWeeks { get; set; } = new()
         {
             new("星期一", DayOfWeek.Monday),
             new("星期二", DayOfWeek.Tuesday),

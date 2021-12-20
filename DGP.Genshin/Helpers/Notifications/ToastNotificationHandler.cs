@@ -18,7 +18,7 @@ namespace DGP.Genshin.Helpers.Notifications
             if (args.TryGetValue("action", out string value) && value == "update")
             {
                 IUpdateService updateService = App.GetService<IUpdateService>();
-                if(updateService.Release is not null)
+                if (updateService.Release is not null)
                 {
                     await updateService.DownloadAndInstallPackageAsync();
                 }

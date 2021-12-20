@@ -4,7 +4,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 {
     public class UidGachaData
     {
-        public UidGachaData(string uid,GachaData data)
+        public UidGachaData(string uid, GachaData data)
         {
             Uid = uid;
             Data = data;

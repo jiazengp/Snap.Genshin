@@ -32,6 +32,7 @@
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resources\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resources\UI_BtnIcon_Gacha.png" />
+    <None Remove="Resources\UI_EmotionIcon72.png" />
     <None Remove="Resources\UI_GachaSettlement_Bg2.png" />
     <None Remove="Resources\UI_ImgSign_ItemIcon.png" />
     <None Remove="SG_Logo.ico" />
@@ -44,6 +45,8 @@
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.8.4" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
@@ -67,6 +70,7 @@
     <Resource Include="Resources\UI_BagTabIcon_Avatar.png" />
     <Resource Include="Resources\UI_BagTabIcon_Weapon.png" />
     <Resource Include="Resources\UI_BtnIcon_Gacha.png" />
+    <Resource Include="Resources\UI_EmotionIcon72.png" />
     <Resource Include="Resources\UI_GachaSettlement_Bg2.png" />
     <Resource Include="Resources\UI_ImgSign_ItemIcon.png" />
     <Resource Include="SG_Logo.ico" />

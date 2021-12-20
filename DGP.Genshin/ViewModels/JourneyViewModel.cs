@@ -20,7 +20,7 @@ namespace DGP.Genshin.ViewModels
     /// 旅行札记服务
     /// </summary>
     [ViewModel(ViewModelType.Transient)]
-    public class JourneyViewModel : ObservableObject, IRecipient<CookieChangedMessage>
+    public class JourneyViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;
 
@@ -28,7 +28,7 @@ namespace DGP.Genshin.ViewModels
         private UserGameRoleProvider userGameRoleProvider;
 
         private JourneyInfo? journeyInfo;
-        private List<UserGameRole> userGameRoles=new();
+        private List<UserGameRole> userGameRoles = new();
         private UserGameRole? selectedRole;
         private IAsyncRelayCommand<TitleBarButton> initializeCommand;
 
@@ -54,12 +54,16 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref initializeCommand, value);
         }
 
-        public JourneyViewModel(ICookieService cookieService)
+        public JourneyViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
-            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+
             journeyProvider = new JourneyProvider(this.cookieService.CurrentCookie);
             userGameRoleProvider = new UserGameRoleProvider(this.cookieService.CurrentCookie);
+
+            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+
+            IsActive = true;
         }
 
         private async Task InitializeAsync(TitleBarButton? t)

@@ -1,12 +1,9 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using ModernWpf.Controls;
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.GachaStatistics
@@ -18,35 +15,27 @@ namespace DGP.Genshin.Services.GachaStatistics
     [Service(typeof(IGachaStatisticService), ServiceType.Transient)]
     public class GachaStatisticService : IGachaStatisticService
     {
-        private readonly ISettingService settingService;
-        private LocalGachaLogWorker? localGachaLogWorker;
-        
-        private GachaDataCollection? GachaDataCollection { get; set; }
-        public GachaStatisticService(ISettingService settingService)
+        private readonly LocalGachaLogWorker localGachaLogWorker = new();
+
+        public GachaStatisticService()
         {
-            this.settingService = settingService;
-            this.Log("initialized");
         }
 
-        [MemberNotNull(nameof(localGachaLogWorker))]
-        [MemberNotNull(nameof(GachaDataCollection))]
-        public void InitializeGachaData(GachaDataCollection gachaData)
+        public void LoadLocalGachaData(GachaDataCollection gachaData)
         {
-            GachaDataCollection = gachaData;
-            localGachaLogWorker = new(gachaData);
+            localGachaLogWorker.LoadAll(gachaData);
         }
-
         /// <summary>
         /// 获得当前的祈愿记录工作器
         /// </summary>
         /// <returns>如果无可用的Url则返回null</returns>
-        public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaLogUrlMode mode)
+        public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode)
         {
             (_, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            return url is null ? null : (new(url, GachaDataCollection!));
+            return url is null ? null : (new(url, gachaData));
         }
 
-        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
+        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
             if (!isOk)
@@ -66,7 +55,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
             else
             {
-                (bool isSuccess, string? uid) = await RefreshInternalAsync(mode, progressCallback, full);
+                (bool isSuccess, string? uid) = await RefreshInternalAsync(gachaData, mode, progressCallback, full);
                 if (!isSuccess)
                 {
                     await new ContentDialog()
@@ -92,18 +81,18 @@ namespace DGP.Genshin.Services.GachaStatistics
         }
 
         /// <summary>
-        /// 
+        /// 按模式刷新
         /// </summary>
         /// <param name="mode"></param>
         /// <returns>卡池配置是否可用</returns>
-        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
+        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
         {
-            GachaLogWorker? worker = await GetGachaLogWorkerAsync(mode);
+            GachaLogWorker? worker = await GetGachaLogWorkerAsync(gachaData, mode);
             if (worker is null)
             {
                 return (false, null);
             }
-            return await FetchGachaLogsAsync(worker, progressCallback, full);
+            return await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
         }
 
         /// <summary>
@@ -112,7 +101,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="worker">工作器对象</param>
         /// <param name="full">是否增量获取</param>
         /// <returns>是否获取成功</returns>
-        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaLogWorker worker, Action<FetchProgress> progressCallback, bool full = false)
+        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaDataCollection gachaData, GachaLogWorker worker, Action<FetchProgress> progressCallback, bool full = false)
         {
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
             if (gachaConfigTypes?.Types != null)
@@ -133,7 +122,7 @@ namespace DGP.Genshin.Services.GachaStatistics
                         await Task.Delay(worker.GetRandomDelay());
                     }
                 }
-                localGachaLogWorker!.SaveAllLogs();
+                localGachaLogWorker!.SaveAll(gachaData);
                 return (true, uid);
             }
             else
@@ -142,9 +131,9 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
-        public async Task<Statistic> GetStatisticAsync(string uid)
+        public async Task<Statistic> GetStatisticAsync(GachaDataCollection gachaData, string uid)
         {
-            return await Task.Run(() => StatisticFactory.ToStatistic(GachaDataCollection![uid]!, uid));
+            return await Task.Run(() => StatisticFactory.ToStatistic(gachaData[uid]!, uid));
         }
 
         #region Im/Export
@@ -153,19 +142,19 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public async Task ExportDataToExcelAsync(string path, string uid)
+        public async Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path)
         {
-            await Task.Run(() => localGachaLogWorker!.SaveLocalGachaDataToExcel(uid, path));
+            await Task.Run(() => localGachaLogWorker!.SaveLocalGachaDataToExcel(uid, path, gachaData));
         }
 
-        public async Task ExportDataToJsonAsync(string path, string uid)
+        public async Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path)
         {
-            await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path));
+            await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
         }
 
-        public async Task ImportFromUIGFWAsync(string path)
+        public async Task ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
         {
-            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFW(path)))
+            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFW(path, gachaData)))
             {
                 await new ContentDialog()
                 {
@@ -177,9 +166,9 @@ namespace DGP.Genshin.Services.GachaStatistics
             }
         }
 
-        public async Task ImportFromUIGFJAsync(string path)
+        public async Task ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
         {
-            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFJ(path)))
+            if (!await Task.Run(() => localGachaLogWorker!.ImportFromUIGFJ(path, gachaData)))
             {
                 await new ContentDialog()
                 {

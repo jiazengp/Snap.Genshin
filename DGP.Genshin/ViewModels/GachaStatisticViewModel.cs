@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Threading;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
@@ -19,16 +20,13 @@ namespace DGP.Genshin.ViewModels
     {
         private readonly IGachaStatisticService gachaStatisticService;
 
-        private bool isRefreshing = false;
-        private bool isSyncingUid = false;
-
         private Statistic? statistic;
-        private UidGachaData? selectedUid;
+        private UidGachaData? selectedUserGachaData;
         private FetchProgress? fetchProgress;
         private SpecificBanner? selectedSpecificBanner;
-        private GachaDataCollection uids = new();
+        private GachaDataCollection userGachaDataCollection = new();
         private bool isFullFetch;
-        private IRelayCommand initializeCommand;
+        private IRelayCommand openUICommand;
         private IAsyncRelayCommand gachaLogAutoFindCommand;
         private IAsyncRelayCommand gachaLogManualCommand;
         private IAsyncRelayCommand importFromUIGFJCommand;
@@ -44,42 +42,39 @@ namespace DGP.Genshin.ViewModels
             get => statistic;
             set => SetProperty(ref statistic, value);
         }
-
         /// <summary>
         /// 当前选择的UID
         /// </summary>
-        public UidGachaData? SelectedUid
+        public UidGachaData? SelectedUserGachaData
         {
-            get => selectedUid;
+            get => selectedUserGachaData;
             set
             {
-                SetProperty(ref selectedUid, value);
+                SetProperty(ref selectedUserGachaData, value);
                 SyncStatisticWithUid();
             }
         }
         public async void SyncStatisticWithUid()
         {
-            if (isSyncingUid)
+            if (SelectedUserGachaData is null)
             {
                 return;
             }
-            isSyncingUid = true;
-            if (SelectedUid is null)
+            string? currentUid = Statistic?.Uid;
+            string? targetUid = SelectedUserGachaData.Uid;
+            if (currentUid != targetUid)
             {
-                return;
+                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, targetUid);
+                SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
-            string? uid = SelectedUid.Uid;
-            Statistic = await gachaStatisticService.GetStatisticAsync(uid);
-            SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
-            isSyncingUid = false;
         }
         /// <summary>
         /// 所有UID
         /// </summary>
-        public GachaDataCollection Uids
+        public GachaDataCollection UserGachaDataCollection
         {
-            get => uids;
-            set => SetProperty(ref uids, value);
+            get => userGachaDataCollection;
+            set => SetProperty(ref userGachaDataCollection, value);
         }
         /// <summary>
         /// 当前的获取进度
@@ -102,11 +97,11 @@ namespace DGP.Genshin.ViewModels
             get => isFullFetch;
             set => SetProperty(ref isFullFetch, value);
         }
-        public IRelayCommand InitializeCommand
+        public IRelayCommand OpenUICommand
         {
-            get => initializeCommand;
-            [MemberNotNull(nameof(initializeCommand))]
-            set => SetProperty(ref initializeCommand, value);
+            get => openUICommand;
+            [MemberNotNull(nameof(openUICommand))]
+            set => SetProperty(ref openUICommand, value);
         }
         public IAsyncRelayCommand GachaLogAutoFindCommand
         {
@@ -148,9 +143,9 @@ namespace DGP.Genshin.ViewModels
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
         {
             this.gachaStatisticService = gachaStatisticService;
-            gachaStatisticService.InitializeGachaData(Uids);
+            gachaStatisticService.LoadLocalGachaData(UserGachaDataCollection);
 
-            InitializeCommand = new RelayCommand(() => { SelectedUid = Uids.FirstOrDefault(); });
+            OpenUICommand = new RelayCommand(() => { SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(); });
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);
             GachaLogManualCommand = new AsyncRelayCommand(RefreshByManualAsync);
             ImportFromUIGFJCommand = new AsyncRelayCommand(ImportFromUIGFJAsync);
@@ -159,119 +154,133 @@ namespace DGP.Genshin.ViewModels
             ExportToUIGFJCommand = new AsyncRelayCommand(ExportToUIGFJAsync);
         }
 
-        private async Task ExportToUIGFJAsync()
-        {
-            if (SelectedUid is null)
-            {
-                return;
-            }
-            SaveFileDialog dialog = new()
-            {
-                Filter = "JS对象简谱文件|*.json",
-                Title = "保存到文件",
-                ValidateNames = true,
-                CheckPathExists = true,
-                FileName = $"{SelectedUid.Uid}.json"
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                await gachaStatisticService.ExportDataToJsonAsync(dialog.FileName, SelectedUid.Uid);
-                await new ContentDialog
-                {
-                    Title = "导出祈愿记录完成",
-                    Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
-            }
-        }
-
-        private async Task ExportToUIGFWAsync()
-        {
-            if (SelectedUid is null)
-            {
-                return;
-            }
-            SaveFileDialog dialog = new()
-            {
-                Filter = "Excel 工作簿|*.xlsx",
-                Title = "保存到表格",
-                ValidateNames = true,
-                CheckPathExists = true,
-                FileName = $"{SelectedUid.Uid}.xlsx"
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                this.Log("try to export to excel");
-                await gachaStatisticService.ExportDataToExcelAsync(dialog.FileName, SelectedUid.Uid);
-                await new ContentDialog
-                {
-                    Title = "导出祈愿记录完成",
-                    Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
-            }
-        }
-
-        private async Task ImportFromUIGFWAsync()
-        {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "Excel 工作簿|*.xlsx",
-                Title = "从 可交换统一格式祈愿记录工作簿 文件导入",
-                Multiselect = false,
-                CheckFileExists = true
-            };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                await gachaStatisticService.ImportFromUIGFWAsync(openFileDialog.FileName);
-            }
-        }
-
-        private async Task ImportFromUIGFJAsync()
-        {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "JS对象简谱文件|*.json",
-                Title = "从 可交换统一格式祈愿记录 Json文件导入",
-                Multiselect = false,
-                CheckFileExists = true
-            };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                await gachaStatisticService.ImportFromUIGFJAsync(openFileDialog.FileName);
-            }
-        }
-
-        private async Task RefreshByManualAsync()
-        {
-            if (!isRefreshing)
-            {
-                isRefreshing = true;
-                (_, string? uid) = await gachaStatisticService.RefreshAsync(GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
-                FetchProgress = null;
-                SelectedUid = Uids.FirstOrDefault(u => u.Uid == uid);
-
-                isRefreshing = false;
-            }
-        }
-
+        private readonly TaskPreventer taskPreventer = new();
         private async Task RefreshByAutoFindModeAsync()
         {
-            if (!isRefreshing)
+            if (taskPreventer.ShouldExecute)
             {
-                isRefreshing = true;
-                (_, string? uid) = await gachaStatisticService.RefreshAsync(GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
+                (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
                 FetchProgress = null;
-                SelectedUid = Uids.FirstOrDefault(u => u.Uid == uid);
-                isRefreshing = false;
+                if (isOk)
+                {
+                    SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                }
+                taskPreventer.Release();
             }
         }
-
+        private async Task RefreshByManualAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
+                FetchProgress = null;
+                if (isOk)
+                {
+                    SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                }
+                taskPreventer.Release();
+            }
+        }
         private void OnFetchProgressed(FetchProgress p)
         {
             FetchProgress = p;
+        }
+        private async Task ImportFromUIGFJAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                OpenFileDialog openFileDialog = new()
+                {
+                    Filter = "JS对象简谱文件|*.json",
+                    Title = "从 可交换统一格式祈愿记录 Json文件导入",
+                    Multiselect = false,
+                    CheckFileExists = true
+                };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName);
+                }
+                taskPreventer.Release();
+            }
+        }
+        private async Task ImportFromUIGFWAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                OpenFileDialog openFileDialog = new()
+                {
+                    Filter = "Excel 工作簿|*.xlsx",
+                    Title = "从 可交换统一格式祈愿记录工作簿 文件导入",
+                    Multiselect = false,
+                    CheckFileExists = true
+                };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName);
+                }
+                taskPreventer.Release();
+            }
+        }
+        private async Task ExportToUIGFWAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                if (SelectedUserGachaData is null)
+                {
+                    return;
+                }
+                SaveFileDialog dialog = new()
+                {
+                    Filter = "Excel 工作簿|*.xlsx",
+                    Title = "保存到表格",
+                    ValidateNames = true,
+                    CheckPathExists = true,
+                    FileName = $"{SelectedUserGachaData.Uid}.xlsx"
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    this.Log("try to export to excel");
+                    await gachaStatisticService.ExportDataToExcelAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
+                    await new ContentDialog
+                    {
+                        Title = "导出祈愿记录完成",
+                        Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                }
+                taskPreventer.Release();
+            }
+        }
+        private async Task ExportToUIGFJAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                if (SelectedUserGachaData is null)
+                {
+                    return;
+                }
+                SaveFileDialog dialog = new()
+                {
+                    Filter = "JS对象简谱文件|*.json",
+                    Title = "保存到文件",
+                    ValidateNames = true,
+                    CheckPathExists = true,
+                    FileName = $"{SelectedUserGachaData.Uid}.json"
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    await gachaStatisticService.ExportDataToJsonAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
+                    await new ContentDialog
+                    {
+                        Title = "导出祈愿记录完成",
+                        Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                }
+                taskPreventer.Release();
+            }
         }
     }
 }

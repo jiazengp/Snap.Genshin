@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(ViewModelType.Transient)]
-    public class PromotionCalculateViewModel : ObservableObject, IRecipient<CookieChangedMessage>
+    public class PromotionCalculateViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;
 
@@ -32,9 +32,9 @@ namespace DGP.Genshin.ViewModels
         private IAsyncRelayCommand computeCommand;
 
         public IEnumerable<UserGameRole>? UserGameRoles
-        { 
-            get => userGameRoles; 
-            set => SetProperty(ref userGameRoles, value); 
+        {
+            get => userGameRoles;
+            set => SetProperty(ref userGameRoles, value);
         }
         public UserGameRole? SelectedUserGameRole
         {
@@ -56,18 +56,18 @@ namespace DGP.Genshin.ViewModels
             }
         }
         public IEnumerable<Avatar>? Avatars
-        { 
-            get => avatars; 
-            set => SetProperty(ref avatars, value); 
+        {
+            get => avatars;
+            set => SetProperty(ref avatars, value);
         }
         public Avatar? SelectedAvatar
-        { 
-            get => selectedAvatar; 
+        {
+            get => selectedAvatar;
             set
-            { 
-                SetProperty(ref selectedAvatar, value); 
-                UpdateAvatarDetailDataAsync(); 
-            } 
+            {
+                SetProperty(ref selectedAvatar, value);
+                UpdateAvatarDetailDataAsync();
+            }
         }
         private async void UpdateAvatarDetailDataAsync()
         {
@@ -91,14 +91,14 @@ namespace DGP.Genshin.ViewModels
             }
         }
         public AvatarDetailData? AvatarDetailData
-        { 
-            get => avatarDetailData; 
-            set => SetProperty(ref avatarDetailData, value); 
+        {
+            get => avatarDetailData;
+            set => SetProperty(ref avatarDetailData, value);
         }
         public Consumption? Consumption
-        { 
-            get => consumption; 
-            set => SetProperty(ref consumption, value); 
+        {
+            get => consumption;
+            set => SetProperty(ref consumption, value);
         }
         public IAsyncRelayCommand OpenUICommand
         {
@@ -113,7 +113,7 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref computeCommand, value);
         }
 
-        public PromotionCalculateViewModel(ICookieService cookieService)
+        public PromotionCalculateViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
 
@@ -122,6 +122,8 @@ namespace DGP.Genshin.ViewModels
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             ComputeCommand = new AsyncRelayCommand(ComputeAsync);
+
+            IsActive = true;
         }
 
         private async Task OpenUIAsync()
