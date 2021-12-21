@@ -3,7 +3,7 @@
 namespace DGP.Genshin.Core.Plugins
 {
     /// <summary>
-    /// 插件
+    /// 实现插件接口
     /// </summary>
     public interface IPlugin
     {

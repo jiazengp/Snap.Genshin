@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Launching
 {
+    /// <summary>
+    /// 启动服务的默认实现
+    /// </summary>
     [Service(typeof(ILaunchService), ServiceType.Transient)]
     public class LaunchService : ILaunchService
     {
@@ -86,12 +89,7 @@ namespace DGP.Genshin.Services.Launching
             return parser.ReadFile(file);
         }
 
-        /// <summary>
-        /// 启动游戏
-        /// </summary>
-        /// <param name="scheme">配置方案</param>
-        /// <param name="failAction">启动失败回调</param>
-        public void Launch(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen)
+        public async Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen, bool waitForExit = false)
         {
             if (scheme is null)
             {
@@ -115,6 +113,10 @@ namespace DGP.Genshin.Services.Launching
                         Arguments = $"{(isBorderless ? "-popupwindow " : "")}-screen-fullscreen {(isFullScreen ? 1 : 0)}"
                     };
                     Process? p = Process.Start(info);
+                    if (waitForExit && p is not null)
+                    {
+                        await p.WaitForExitAsync();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -123,10 +125,6 @@ namespace DGP.Genshin.Services.Launching
             }
         }
 
-        /// <summary>
-        /// 启动官方启动器
-        /// </summary>
-        /// <param name="failAction"></param>
         public void OpenOfficialLauncher(Action<Exception>? failAction)
         {
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
@@ -158,10 +156,6 @@ namespace DGP.Genshin.Services.Launching
             return Regex.Unescape(gameInstallPath.Replace(@"\x", @"\u"));
         }
 
-        /// <summary>
-        /// 等待原神进程退出，若找不到原神进程会直接返回
-        /// </summary>
-        /// <returns></returns>
         public Task WaitGenshinImpactExitAsync()
         {
             Process[] procs = Process.GetProcessesByName("YuanShen");
@@ -172,11 +166,6 @@ namespace DGP.Genshin.Services.Launching
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// 选择原神启动器的目录
-        /// </summary>
-        /// <param name="launcherPath"></param>
-        /// <returns></returns>
         public string? SelectLaunchDirectoryIfNull(string? launcherPath)
         {
             if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
@@ -204,9 +193,6 @@ namespace DGP.Genshin.Services.Launching
             return launcherPath;
         }
 
-        /// <summary>
-        /// 保存配置,以便游戏启动后能读取到
-        /// </summary>
         public void SaveLaunchScheme(LaunchScheme? scheme)
         {
             if (scheme is null)

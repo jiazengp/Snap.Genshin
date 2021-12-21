@@ -2,7 +2,6 @@
 using DGP.Genshin.MiHoYoAPI.Blackboard;
 using DGP.Genshin.MiHoYoAPI.Post;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;

@@ -80,7 +80,7 @@ namespace DGP.Genshin.ViewModels
 
         private async Task AddUserAsync()
         {
-            await cookieService.AddNewCookieToPoolAsync();
+            await cookieService.AddCookieToPoolOrIgnoreAsync();
         }
         private async Task RemoveUserAsync()
         {

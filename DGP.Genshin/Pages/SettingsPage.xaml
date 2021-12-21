@@ -17,9 +17,7 @@
                         <TextBlock Text="重要信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </Expander.Header>
                     <StackPanel>
-                        <TextBlock Text="Snap Genshin 可能包含尚未发布的角色或武器等物品信息" Foreground="Red" 
-                                   Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock Text="均为第三方泄露开发中内容，请以正式服上线为准" Foreground="Red" 
+                        <TextBlock Text="可能包含了尚未发布的角色或武器等物品信息&#10;均为第三方泄露的开发中内容，请以正式服上线为准" Foreground="Red" 
                                    Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </Expander>
@@ -95,6 +93,9 @@
                         <TextBlock Text="Snap 原神" Style="{StaticResource BaseTextBlockStyle}"/>
                         <TextBlock Text="{Binding VersionString}" Margin="0,6,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
                         <Button Tag="Github" Content="检查更新并安装" Margin="0,0,0,6" Command="{Binding CheckUpdateCommand}"/>
+
+                        <TextBlock Text="AppCenter" Style="{StaticResource BaseTextBlockStyle}" Margin="0,6,0,0"/>
+                        <TextBlock Text="Snap Genshin 采用经过修改的 Microsoft.AppCenter.SDK 进行基础的用户活跃数据收集&#10;收集的数据不会包括 用户Cookie 等敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>

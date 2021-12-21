@@ -13,11 +13,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
-namespace DGP.Genshin.Services.Updating
+namespace DGP.Genshin.Services
 {
     [Service(typeof(IUpdateService), ServiceType.Singleton)]
     internal class UpdateService : IUpdateService
     {
+        private const string UpdateNotificationTag = "snap_genshin_update";
+        private NotificationUpdateResult LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
         public Release? Release { get; set; }
@@ -78,8 +81,9 @@ namespace DGP.Genshin.Services.Updating
             }
         }
 
-        private const string UpdateNotificationTag = "snap_genshin_update";
-
+        /// <summary>
+        /// 显示下载进度通知
+        /// </summary>
         private void ShowDownloadToastNotification()
         {
             LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
@@ -109,11 +113,15 @@ namespace DGP.Genshin.Services.Updating
                 });
         }
 
-        private NotificationUpdateResult LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
-
+        /// <summary>
+        /// 进度更新
+        /// </summary>
+        /// <param name="totalBytesToReceive">总大小</param>
+        /// <param name="bytesReceived">下载的大小</param>
+        /// <param name="percent">进度</param>
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
-            this.Log(percent ?? 0);
+            this.Log(percent);
             this.Log(LastNotificationUpdateResult);
             //user has dismissed the notification so we don't update it anymore
             if (LastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
@@ -127,6 +135,12 @@ namespace DGP.Genshin.Services.Updating
             }
         }
 
+        /// <summary>
+        /// 更新下载进度通知上的进度条
+        /// </summary>
+        /// <param name="totalBytesToReceive">总大小</param>
+        /// <param name="bytesReceived">下载的大小</param>
+        /// <param name="percent">进度</param>
         private void UpdateNotificationValue(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
             NotificationData data = new() { SequenceNumber = 0 };
@@ -144,13 +158,14 @@ namespace DGP.Genshin.Services.Updating
         }
 
         /// <summary>
-        /// invoke updater launch and do it's work
+        /// 开始安装更新
         /// </summary>
-        public static void StartInstallUpdate()
+        private void StartInstallUpdate()
         {
             Directory.CreateDirectory("Updater");
             File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
 
+            //Updater自带工作路径纠正
             Process.Start(new ProcessStartInfo()
             {
                 FileName = @"Updater/DGP.Genshin.Updater.exe",

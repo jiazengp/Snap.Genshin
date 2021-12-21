@@ -7,7 +7,6 @@ using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Notifications;
-using DGP.Genshin.Services.Updating;
 using DGP.Genshin.ViewModels;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;

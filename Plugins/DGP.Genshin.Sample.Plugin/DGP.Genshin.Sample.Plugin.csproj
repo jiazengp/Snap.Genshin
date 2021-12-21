@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows10.0.18362</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>embedded</DebugType>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <BaseOutputPath>..\..\Build\Debug\net6.0-windows10.0.18362.0\Plugins</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DGP.Genshin.Common\DGP.Genshin.Common.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DGP.Genshin\DGP.Genshin.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.WindowsDesktop\Microsoft.AppCenter.Analytics.WindowsDesktop.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.WindowsDesktop\Microsoft.AppCenter.Crashes.WindowsDesktop.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" >
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

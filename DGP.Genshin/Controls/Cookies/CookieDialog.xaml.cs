@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Helpers;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
 
@@ -27,13 +28,22 @@ namespace DGP.Genshin.Controls.Cookies
 
         private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            using (CookieWindow cookieWindow = new())
+            if (!WebView2Helper.IsSupported)
             {
-                cookieWindow.ShowDialog();
-                bool isLoggedIn = cookieWindow.IsLoggedIn;
-                if (isLoggedIn)
+                System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
+                button.IsEnabled = false;
+                button.Content = "需要先安装WebView2运行时";
+            }
+            else
+            {
+                using (CookieWindow cookieWindow = new())
                 {
-                    InputText.Text = cookieWindow.Cookie;
+                    cookieWindow.ShowDialog();
+                    bool isLoggedIn = cookieWindow.IsLoggedIn;
+                    if (isLoggedIn)
+                    {
+                        InputText.Text = cookieWindow.Cookie;
+                    }
                 }
             }
         }

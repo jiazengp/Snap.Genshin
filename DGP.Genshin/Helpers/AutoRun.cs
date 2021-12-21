@@ -14,7 +14,7 @@ namespace DGP.Genshin.Helpers
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 RegistryKey? run = currentUser.OpenSubKey(RunPath);
-                return run is not null && run.GetValue(AppName) is not null;
+                return run?.GetValue(AppName) is not null;
             }
             set
             {

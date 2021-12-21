@@ -9,6 +9,7 @@ namespace DGP.Genshin.Core
 {
     /// <summary>
     /// 服务管理器
+    /// 依赖注入的核心管理类
     /// </summary>
     public class ServiceManager
     {
@@ -19,8 +20,10 @@ namespace DGP.Genshin.Core
         {
             Services = ConfigureServices();
         }
+
         /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// 获取 <see cref="IServiceProvider"/> 的实例
+        /// 存放类
         /// </summary>
         public IServiceProvider Services { get; }
 
@@ -30,8 +33,9 @@ namespace DGP.Genshin.Core
         private static IServiceProvider ConfigureServices()
         {
             ServiceCollection services = new();
-            RegisterServices(services, typeof(App));
             services.AddSingleton<IMessenger>(App.Messenger);
+            //register default services
+            RegisterServices(services, typeof(App));
             return services.BuildServiceProvider();
         }
 
@@ -45,26 +49,36 @@ namespace DGP.Genshin.Core
         {
             foreach (Type type in entryType.Assembly.GetTypes())
             {
-                //注册服务类型
-                if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
+                RegisterService(services, type);
+            }
+        }
+        /// <summary>
+        /// 向容器注册服务
+        /// </summary>
+        /// <param name="services">容器</param>
+        /// <param name="type">待检测的类型</param>
+        /// <exception cref="SnapGenshinInternalException">未知的注册类型</exception>
+        private static void RegisterService(ServiceCollection services, Type type)
+        {
+            //注册服务类型
+            if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
+            {
+                _ = serviceAttr.ServiceType switch
                 {
-                    _ = serviceAttr.ServiceType switch
-                    {
-                        ServiceType.Singleton => services.AddSingleton(serviceAttr.InterfaceType, type),
-                        ServiceType.Transient => services.AddTransient(serviceAttr.InterfaceType, type),
-                        _ => throw new SnapGenshinInternalException($"未知的服务类型{type}"),
-                    };
-                }
-                //注册视图模型
-                if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
+                    ServiceType.Singleton => services.AddSingleton(serviceAttr.InterfaceType, type),
+                    ServiceType.Transient => services.AddTransient(serviceAttr.InterfaceType, type),
+                    _ => throw new SnapGenshinInternalException($"未知的服务类型 {type}"),
+                };
+            }
+            //注册视图模型
+            if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
+            {
+                _ = viewModelAttr.ViewModelType switch
                 {
-                    _ = viewModelAttr.ViewModelType switch
-                    {
-                        ViewModelType.Singleton => services.AddSingleton(type),
-                        ViewModelType.Transient => services.AddTransient(type),
-                        _ => throw new SnapGenshinInternalException($"未知的视图模型类型{type}"),
-                    };
-                }
+                    ViewModelType.Singleton => services.AddSingleton(type),
+                    ViewModelType.Transient => services.AddTransient(type),
+                    _ => throw new SnapGenshinInternalException($"未知的视图模型类型 {type}"),
+                };
             }
         }
     }

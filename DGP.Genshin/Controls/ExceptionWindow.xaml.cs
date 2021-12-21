@@ -18,11 +18,11 @@ namespace DGP.Genshin.Controls
             InitializeComponent();
         }
 
-        public Exception ExceptionObject 
-        { 
-            get => exceptionObject; 
+        public Exception ExceptionObject
+        {
+            get => exceptionObject;
             [MemberNotNull(nameof(exceptionObject))]
-            set => Set(ref exceptionObject, value); 
+            set => Set(ref exceptionObject, value);
         }
 
         public string ExceptionType => ExceptionObject.GetType().ToString();

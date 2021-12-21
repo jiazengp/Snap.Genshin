@@ -1,24 +1,55 @@
-﻿using DGP.Genshin.DataModels;
-using DGP.Genshin.DataModels.Characters;
-using System;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Abstratcions
 {
+    /// <summary>
+    /// 完整性检查服务
+    /// </summary>
     public interface IIntegrityCheckService
     {
+        /// <summary>
+        /// 完整性检查是否完成
+        /// 出于线程安全的考虑请勿在检查完整性的过程中途访问
+        /// </summary>
         bool IntegrityCheckCompleted { get; }
 
-        Task CheckAllIntegrityAsync(Action<IIntegrityState> progressedCallback);
-        Task CheckCharacterIntegrityAsync(ObservableCollection<Character>? collection, int totalCount, IProgress<IIntegrityState> progress);
-        Task CheckIntegrityAsync<T>(ObservableCollection<T>? collection, int totalCount, IProgress<IIntegrityState> progress) where T : KeySource;
+        /// <summary>
+        /// 检查基础缓存图片完整性，不完整的自动下载补全
+        /// </summary>
+        Task CheckMetadataIntegrityAsync(Action<IIntegrityCheckState> progressedCallback);
 
-        public interface IIntegrityState
+        /// <summary>
+        /// 封装完整性检查进度报告
+        /// </summary>
+        public interface IIntegrityCheckState
         {
+            /// <summary>
+            /// 当前检查进度
+            /// </summary>
             int CurrentCount { get; set; }
+
+            /// <summary>
+            /// 总进度
+            /// </summary>
             int TotalCount { get; set; }
+
+            /// <summary>
+            /// 描述
+            /// </summary>
             string? Info { get; set; }
         }
+    }
+
+    /// <summary>
+    /// 指示此字段需要在完整性检查时作为集合的一部分进行检查
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class IntegrityAwareAttribute : Attribute
+    {
+        /// <summary>
+        /// 该字段是否为角色容器
+        /// </summary>
+        public bool IsCharacter { get; set; } = false;
     }
 }

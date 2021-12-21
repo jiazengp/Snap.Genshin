@@ -11,6 +11,7 @@ using DGP.Genshin.DataModels.Materials.Monsters;
 using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Materials.Weeklys;
 using DGP.Genshin.DataModels.Weapons;
+using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -53,6 +54,7 @@ namespace DGP.Genshin.ViewModels
         #endregion
 
         #region Collections
+        [IntegrityAware]
         public ObservableCollection<Boss>? Bosses
         {
             get
@@ -67,6 +69,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Boss>? bosses;
 
+        [IntegrityAware(IsCharacter = true)]
         public ObservableCollection<Character>? Characters
         {
             get
@@ -81,6 +84,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Character>? characters;
 
+        [IntegrityAware]
         public ObservableCollection<KeySource>? Cities
         {
             get
@@ -95,6 +99,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<KeySource>? cities;
 
+        [IntegrityAware]
         public ObservableCollection<Talent>? DailyTalents
         {
             get
@@ -109,6 +114,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Talent>? dailyTalents;
 
+        [IntegrityAware]
         public ObservableCollection<WeaponMaterial>? DailyWeapons
         {
             get
@@ -123,6 +129,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<WeaponMaterial>? dailyWeapons;
 
+        [IntegrityAware]
         public ObservableCollection<KeySource>? Elements
         {
             get
@@ -137,6 +144,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<KeySource>? elements;
 
+        [IntegrityAware]
         public ObservableCollection<Elite>? Elites
         {
             get
@@ -151,6 +159,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Elite>? elites;
 
+        [IntegrityAware]
         public ObservableCollection<GemStone>? GemStones
         {
             get
@@ -165,6 +174,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<GemStone>? gemstones;
 
+        [IntegrityAware]
         public ObservableCollection<Local>? Locals
         {
             get
@@ -179,6 +189,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Local>? locals;
 
+        [IntegrityAware]
         public ObservableCollection<Monster>? Monsters
         {
             get
@@ -193,6 +204,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Monster>? monsters;
 
+        [IntegrityAware]
         public ObservableCollection<KeySource>? Stars
         {
             get
@@ -207,6 +219,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<KeySource>? stars;
 
+        [IntegrityAware]
         public ObservableCollection<Weapon>? Weapons
         {
             get
@@ -221,6 +234,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<Weapon>? weapons;
 
+        [IntegrityAware]
         public ObservableCollection<KeySource>? WeaponTypes
         {
             get
@@ -235,6 +249,7 @@ namespace DGP.Genshin.ViewModels
         }
         private ObservableCollection<KeySource>? weaponTypes;
 
+        [IntegrityAware]
         public ObservableCollection<Weekly>? WeeklyTalents
         {
             get
@@ -248,7 +263,6 @@ namespace DGP.Genshin.ViewModels
             set => weeklyTalents = value;
         }
         private ObservableCollection<Weekly>? weeklyTalents;
-
         #endregion
 
         #region GachaEvents

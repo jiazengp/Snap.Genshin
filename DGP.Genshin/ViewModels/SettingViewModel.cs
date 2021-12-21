@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -25,6 +26,7 @@ namespace DGP.Genshin.ViewModels
     {
         private readonly ISettingService settingService;
         private ISettingService SettingService => settingService;
+        private readonly IUpdateService updateService;
 
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
         {
@@ -108,6 +110,7 @@ namespace DGP.Genshin.ViewModels
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
+            this.updateService = updateService;
             SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
             Initialize();
@@ -125,6 +128,11 @@ namespace DGP.Genshin.ViewModels
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;
             VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+        }
+
+        public async Task CheckUpdateAsync()
+        {
+            UpdateState result = await updateService.CheckUpdateStateAsync();
         }
 
         /// <summary>

@@ -19,7 +19,6 @@ namespace DGP.Genshin.Core.Plugins
             {
                 return LoadFromAssemblyPath(assemblyPath);
             }
-
             return null;
         }
     }

@@ -8,17 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DGP.Genshin.Services.Settings
+namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// 实现了各项设置的保存
+    /// 设置服务的默认实现
     /// </summary>
     [Service(typeof(ISettingService), ServiceType.Singleton)]
     [Send(typeof(SettingChangedMessage))]
     internal class SettingService : ISettingService
     {
         private const string settingsFileName = "settings.json";
-        private readonly string settingFile = AppDomain.CurrentDomain.BaseDirectory + settingsFileName;
+        private readonly string settingFile = Path.Combine(AppContext.BaseDirectory, settingsFileName);
 
         private Dictionary<string, object?> settingDictionary = new();
 
@@ -34,6 +34,7 @@ namespace DGP.Genshin.Services.Settings
                 return (T?)value;
             }
         }
+
         public T GetOrDefault<T>(string key, T defaultValue, Func<object?, T> converter)
         {
             if (!settingDictionary.TryGetValue(key, out object? value))
@@ -46,10 +47,7 @@ namespace DGP.Genshin.Services.Settings
                 return converter.Invoke(value);
             }
         }
-        public bool? Equals<T>(string key, T? defaultValue, T? value) where T : IEquatable<T>
-        {
-            return GetOrDefault(key, defaultValue)?.Equals(value);
-        }
+
         public object? this[string key]
         {
             set
@@ -59,11 +57,6 @@ namespace DGP.Genshin.Services.Settings
             }
         }
 
-        /// <summary>
-        /// 设置 设置选项，不触发改变事件
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         public void SetValueNoNotify(string key, object value)
         {
             this.Log($"setting {key} to {value} internally without notify");
@@ -83,6 +76,7 @@ namespace DGP.Genshin.Services.Settings
             }
             this.Log("initialized");
         }
+
         public void UnInitialize()
         {
             string json = Json.Stringify(settingDictionary);

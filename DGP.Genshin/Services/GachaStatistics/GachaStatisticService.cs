@@ -28,7 +28,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <summary>
         /// 获得当前的祈愿记录工作器
         /// </summary>
-        /// <returns>如果无可用的Url则返回null</returns>
+        /// <returns></returns>
         public async Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode)
         {
             (_, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);

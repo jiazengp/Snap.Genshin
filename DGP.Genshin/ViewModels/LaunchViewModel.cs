@@ -5,7 +5,6 @@ using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.Launching;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
@@ -41,7 +40,7 @@ namespace DGP.Genshin.ViewModels
         private ObservableCollection<GenshinAccount> accounts = new();
         private GenshinAccount? selectedAccount;
         private IAsyncRelayCommand<TitleBarButton> openUICommand;
-        private IRelayCommand<string> launchCommand;
+        private IAsyncRelayCommand<string> launchCommand;
         private IRelayCommand closeUICommand;
         private IAsyncRelayCommand deleteAccountCommand;
 
@@ -115,7 +114,7 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(closeUICommand))]
             set => SetProperty(ref closeUICommand, value);
         }
-        public IRelayCommand<string> LaunchCommand
+        public IAsyncRelayCommand<string> LaunchCommand
         {
             get => launchCommand;
             [MemberNotNull(nameof(launchCommand))]
@@ -139,7 +138,7 @@ namespace DGP.Genshin.ViewModels
             IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
-            LaunchCommand = new RelayCommand<string>(LaunchByOption);
+            LaunchCommand = new AsyncRelayCommand<string>(LaunchByOption);
             CloseUICommand = new RelayCommand(SaveAllAccounts);
             DeleteAccountCommand = new AsyncRelayCommand(DeleteAccountAsync);
         }
@@ -166,7 +165,7 @@ namespace DGP.Genshin.ViewModels
                 }.ShowAsync).Task.Unwrap();
             }
         }
-        private void LaunchByOption(string? option)
+        private async Task LaunchByOption(string? option)
         {
             View?.HideAttachedFlyout();
             switch (option)
@@ -187,7 +186,7 @@ namespace DGP.Genshin.ViewModels
                     }
                 case "Game":
                     {
-                        launchService.Launch(CurrentScheme, async ex =>
+                        await launchService.LaunchAsync(CurrentScheme, async ex =>
                         {
                             await new ContentDialog()
                             {

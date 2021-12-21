@@ -9,26 +9,22 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.GameRecord
+namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// 玩家记录服务
+    /// 玩家记录服务的默认实现
     /// </summary>
     [Service(typeof(IRecordService), ServiceType.Transient)]
     [Send(typeof(RecordProgressChangedMessage))]
     public class RecordService : IRecordService
     {
         private readonly ICookieService cookieService;
+
         public RecordService(ICookieService cookieService)
         {
             this.cookieService = cookieService;
         }
 
-        /// <summary>
-        /// 查询玩家信息
-        /// </summary>
-        /// <param name="uid">uid</param>
-        /// <returns></returns>
         public async Task<Record> GetRecordAsync(string? uid)
         {
             Record? result = await Task.Run(async () =>
@@ -79,6 +75,7 @@ namespace DGP.Genshin.Services.GameRecord
                     App.Messenger.Send(new RecordProgressChangedMessage(null));
                     return new Record($"获取详细角色信息失败");
                 }
+
                 App.Messenger.Send(new RecordProgressChangedMessage(null));
                 //return
                 return new Record

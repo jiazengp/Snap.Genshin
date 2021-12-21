@@ -1,4 +1,6 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Helpers;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Threading.Tasks;
@@ -13,7 +15,15 @@ namespace DGP.Genshin.Pages
     {
         public MapPage()
         {
-            InitializeComponent();
+            if (WebView2Helper.IsSupported)
+            {
+                InitializeComponent();
+            }
+            else
+            {
+                throw new SnapGenshinInternalException("未找到可用的 WebView2运行时 安装");
+            }
+            
         }
 
         #region Standard Disopse

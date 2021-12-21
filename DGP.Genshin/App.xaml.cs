@@ -82,12 +82,22 @@ namespace DGP.Genshin
             //app theme
             SetAppTheme();
 
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
-            Analytics.TrackEvent("App started");
-
+            ConfigureAppCenter();
             //open main window
             base.OnStartup(e);
+        }
+
+        private static void ConfigureAppCenter()
+        {
+            AppCenter.LogLevel = LogLevel.Verbose;
+#if DEBUG
+            //DEBUG INFO should send to Snap Genshin Debug kanban
+            //cause the version of debug is always higher than normal release
+            AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
+#else
+            //NORMAL INFO should send to Snap Genshin kanban
+            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void SetupToastNotificationHandling()
@@ -130,7 +140,6 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
-                Crashes.TrackError((Exception)e.ExceptionObject);
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }

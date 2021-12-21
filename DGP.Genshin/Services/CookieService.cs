@@ -16,10 +16,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.Cookies
+namespace DGP.Genshin.Services
 {
     /// <summary>
-    /// 全局Cookie管理服务
+    /// <inheritdoc cref="ICookieService"/>
     /// </summary>
     [Service(typeof(ICookieService), ServiceType.Singleton)]
     [Send(typeof(CookieChangedMessage))]
@@ -27,9 +27,6 @@ namespace DGP.Genshin.Services.Cookies
     {
         private const string CookieFile = "cookie.dat";
         private const string CookieListFile = "cookielist.dat";
-
-        private readonly static object _savingCookie = new();
-        private readonly static object _savingCookies = new();
 
         private static string? currentCookie;
 
@@ -42,16 +39,18 @@ namespace DGP.Genshin.Services.Cookies
         {
             private readonly List<string> AccountIds = new();
             private readonly ICookieService cookieService;
+
+            /// <summary>
+            /// 构造新的 Cookie 池的默认实例
+            /// </summary>
+            /// <param name="cookieService"></param>
+            /// <param name="collection"></param>
             public CookiePool(ICookieService cookieService, IEnumerable<string> collection) : base(collection)
             {
                 this.cookieService = cookieService;
                 AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
             }
 
-            /// <summary>
-            /// 添加
-            /// </summary>
-            /// <param name="cookie"></param>
             public new void Add(string cookie)
             {
                 if (!string.IsNullOrEmpty(cookie))
@@ -62,10 +61,6 @@ namespace DGP.Genshin.Services.Cookies
                 }
             }
 
-            /// <summary>
-            /// 添加或忽略
-            /// </summary>
-            /// <param name="cookie"></param>
             public void AddOrIgnore(string cookie)
             {
                 if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
@@ -78,11 +73,6 @@ namespace DGP.Genshin.Services.Cookies
                 }
             }
 
-            /// <summary>
-            /// 隐藏了基类成员以便发送事件
-            /// </summary>
-            /// <param name="cookie"></param>
-            /// <returns></returns>
             public new bool Remove(string cookie)
             {
                 string id = GetCookiePairs(cookie)["account_id"];
@@ -138,6 +128,9 @@ namespace DGP.Genshin.Services.Cookies
             }
         }
 
+        /// <summary>
+        /// 加载 cookie.dat 文件
+        /// </summary>
         private void LoadCookie()
         {
             //load cookie
@@ -147,15 +140,17 @@ namespace DGP.Genshin.Services.Cookies
             }
             else
             {
-                Logger.LogStatic("无可用的Cookie");
+                this.Log("无可用的Cookie");
                 File.Create(CookieFile).Dispose();
             }
         }
 
+        /// <summary>
+        /// 加载 cookielist.dat 文件
+        /// </summary>
         [MemberNotNull(nameof(Cookies))]
         private void LoadCookies()
         {
-            //load cookies
             try
             {
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
@@ -169,9 +164,6 @@ namespace DGP.Genshin.Services.Cookies
             }
         }
 
-        /// <summary>
-        /// 当前使用的Cookie，由<see cref="CookieService"/> 保证不为 <see cref="null"/>
-        /// </summary>
         public string CurrentCookie
         {
             get => currentCookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
@@ -186,31 +178,22 @@ namespace DGP.Genshin.Services.Cookies
                 {
                     Cookies.Add(currentCookie);
                 }
-                Logger.LogStatic("current cookie has changed");
+                this.Log("current cookie has changed");
                 App.Messenger.Send(new CookieChangedMessage(currentCookie));
             }
         }
 
-        /// <summary>
-        /// 用于在初始化时判断Cookie是否可用
-        /// </summary>
         public bool IsCookieAvailable => !string.IsNullOrEmpty(currentCookie);
 
-        /// <summary>
-        /// 设置新的Cookie
-        /// </summary>
         public async Task SetCookieAsync()
         {
             string cookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
             //prevent user input unexpected invalid cookie
-            if (cookie != string.Empty)
+            if (!string.IsNullOrEmpty(cookie))
             {
                 CurrentCookie = cookie;
             }
-            lock (_savingCookie)
-            {
-                File.WriteAllText(CookieFile, CurrentCookie);
-            }
+            File.WriteAllText(CookieFile, CurrentCookie);
         }
 
         public void ChangeOrIgnoreCurrentCookie(string? cookie)
@@ -225,7 +208,7 @@ namespace DGP.Genshin.Services.Cookies
             }
         }
 
-        public async Task AddNewCookieToPoolAsync()
+        public async Task AddCookieToPoolOrIgnoreAsync()
         {
             string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
 
@@ -237,11 +220,8 @@ namespace DGP.Genshin.Services.Cookies
 
         public void SaveCookies()
         {
-            lock (_savingCookies)
-            {
-                IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
-                Json.ToFile(CookieListFile, encodedCookies);
-            }
+            IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
+            Json.ToFile(CookieListFile, encodedCookies);
         }
     }
 }

@@ -95,7 +95,7 @@ namespace DGP.Genshin.ViewModels
 
         private async Task OpenUICheckIntegrityAsync()
         {
-            await integrityCheckService.CheckAllIntegrityAsync(i =>
+            await integrityCheckService.CheckMetadataIntegrityAsync(i =>
             {
                 CurrentCount = i.CurrentCount;
                 Percent = (i.CurrentCount * 1D / TotalCount) ?? 0D;
