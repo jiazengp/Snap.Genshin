@@ -54,12 +54,12 @@ namespace DGP.Genshin.Controls
 
         private void GithubAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer", "https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose");
+            Process.Start("https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose");
         }
 
         private void QQChatAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer", "https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi");
+            Process.Start("https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi");
         }
     }
 }

@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
@@ -80,7 +81,7 @@ namespace DGP.Genshin
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
-            SetAppTheme();
+            UpdateAppTheme();
 
             ConfigureAppCenter();
             //open main window
@@ -111,7 +112,7 @@ namespace DGP.Genshin
         }
 
         /// <summary>
-        /// set working dir while launch by windows autorun
+        /// 设置工作路径
         /// </summary>
         private void EnsureWorkingPath()
         {
@@ -120,7 +121,7 @@ namespace DGP.Genshin
                 Environment.CurrentDirectory = workingPath;
             }
         }
-        private void SetAppTheme()
+        private void UpdateAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =
                 GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
@@ -142,7 +143,7 @@ namespace DGP.Genshin
             {
                 //unhandled exception can't be uploaded automatically
                 //so we manually upload it by mark it as error
-                Crashes.TrackError(e.ExceptionObject as Exception);
+                Crashes.TrackError(e.ExceptionObject as Exception, new Info("Unhandled Exception", "Uploaded").Build());
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }

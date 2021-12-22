@@ -98,7 +98,8 @@
 * [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
 米哈游原神API交互
 
-* [Microsoft.AppCenter]()
+* [Microsoft.AppCenter](https://github.com/DGP-Studio/appcenter-sdk-dotnet)
+魔改的AppCenter SDK 使之支持 使用了 TFM 的 非 WinUI3 程序
 
 ## 参阅
 

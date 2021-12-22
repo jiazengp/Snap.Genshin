@@ -3,6 +3,9 @@ using System.Runtime.Loader;
 
 namespace DGP.Genshin.Core.Plugins
 {
+    /// <summary>
+    /// 重写默认的程序集加载行为
+    /// </summary>
     internal class PluginLoadContext : AssemblyLoadContext
     {
         private readonly AssemblyDependencyResolver internalResolver;

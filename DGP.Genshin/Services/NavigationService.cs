@@ -74,10 +74,10 @@ namespace DGP.Genshin.Services
             _ = isSyncTabRequested && SyncTabWith(pageType);
             bool result = Frame?.Navigate(pageType, data, new DrillInNavigationTransitionInfo()) ?? false;
             this.Log($"Navigate to {pageType}:{(result ? "succeed" : "failed")}");
+            //分析页面统计数据时不应加入启动时导航的首个页面
             if (HasEverNavigated&&result)
             {
-                //分析页面统计数据时不应加入启动时导航的首个页面
-                Analytics.TrackEvent($"OpenUI : {pageType}");
+                Analytics.TrackEvent("OpenUI", new Info(pageType, result).Build());
             }
             //fix memory leak? issue
             Frame?.RemoveBackEntry();

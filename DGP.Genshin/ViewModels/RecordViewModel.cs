@@ -3,7 +3,6 @@ using DGP.Genshin.Common.Threading;
 using DGP.Genshin.DataModels.MiHoYo2;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -39,8 +38,6 @@ namespace DGP.Genshin.ViewModels
             this.recordService = recordService;
 
             QueryCommand = new AsyncRelayCommand<string?>(UpdateRecordAsync);
-
-            Crashes.GenerateTestCrash();
         }
 
 

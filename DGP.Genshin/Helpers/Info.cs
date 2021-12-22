@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DGP.Genshin.Helpers
 {
@@ -11,6 +12,11 @@ namespace DGP.Genshin.Helpers
         public Info(string key,string value)
         {
             analyticsInfo[key] = value;
+        }
+
+        public Info(Type pageType, bool result)
+        {
+            analyticsInfo[pageType.ToString()] = result.ToString();
         }
 
         public IDictionary<string, string> Build()
