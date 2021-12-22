@@ -82,8 +82,8 @@
 
 ### 名称规范
 
-初始化视图模型 √ OpenUI × Initialize
-更新视图模型属性 √ Update × Refresh
+* 初始化视图模型 √ OpenUI × Initialize  
+* 更新视图模型属性 √ Update × Refresh
 
 ### ViewModel 类型规范
 
@@ -107,7 +107,106 @@ public class MyViewModel ： ObservableObject, IRecipient<T>, IOtherInterface
     //IRecipient<T>.Receive methods
 }
 ```
+### 插件开发
 
+Snap Genshin 的插件系统设计使得开发者的权限非常之高  
+可以进行任何类型的 服务/视图模型 注册  
+开发插件前，你需要 clone 整个 Snap Genshin 仓库到本地  
+我们推荐你 folk一个分支 后再进行 clone
+
+#### 关键信息
+首先，从新建一个 .NET 6 类库开始
+
+* 由于 Snap Genshin 使用了 Windows Runtimes API  
+插件的目标框架需要基于 `net6.0-windows10.0.18362` 才能使插件正常通过编译
+
+下面列出了项目的项目文件内的部分xml
+
+``` xml
+<PropertyGroup>
+    <TargetFramework>net6.0-windows10.0.18362</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>embedded</DebugType>
+    <UseWPF>true</UseWPF>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <BaseOutputPath>..\..\Build\Debug\net6.0-windows10.0.18362.0\Plugins</BaseOutputPath>
+</PropertyGroup>
+```
+
+其中，需要特别注意下面几条
+``` xml
+<TargetFramework>net6.0-windows10.0.18362</TargetFramework>
+```
+
+``` xml
+<EnableDynamicLoading>true</EnableDynamicLoading>
+```
+
+```xml
+<BaseOutputPath>..\..\Build\Debug\net6.0-windows10.0.18362.0\Plugins</BaseOutputPath>
+```
+
+`<BaseOutputPath>`决定了输出的路径，修改到此处使其能在生成后直接被 Snap Genshin 主程序发现
+
+需要将 `DGP.Genshin` 等项目 添加到项目引用
+
+完成后 项目文件也应做出相应修改
+```xml
+  <ItemGroup>
+    <ProjectReference Include="..\..\DGP.Genshin.Common\DGP.Genshin.Common.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DGP.Genshin\DGP.Genshin.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.WindowsDesktop\Microsoft.AppCenter.Analytics.WindowsDesktop.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.WindowsDesktop\Microsoft.AppCenter.Crashes.WindowsDesktop.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+```
+
+下面两个节点
+
+```xml
+<Private>false</Private>
+<ExcludeAssets>runtime</ExcludeAssets>
+```
+是非常重要的，写明这两个节点可以使编译器在生成时跳过那些程序集  
+有关这两个节点的详细信息，请参阅 [微软官方文档](https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support#simple-plugin-with-no-dependencies)
+
+在上述工作完成后，你需要实现 `DGP.Genshin.Core.Plugins.IPlugin` 接口  
+此时编译程序集已经能在DGP.Genshin.exe 中发现插件
+
+如果需要添加可导航的新页面则需要准备好一个新的Page类型  
+并在实现了插件的类上标注 `[ImportPage]` 特性
+
+由于 Snap Genshin 实现了依赖注入，你也完全可以依赖于这一套系统来注入服务
+
+可以 在服务类上添加 `[Service]` 特性 在视图模型上添加 `[ViewModel]` 特性  
+理论上，如果你想，可以注入任何类型，但是我们只推荐你注入上述的两种类型
+
+在完成上述工作后你的插件就具有页面，并能在 Snap Genshin 左侧的导航栏中呈现了
+我们很快会推出服务替换功能，届时，可以实现 Snap Genshin 内部的抽象接口并修改 Snap Genshin 的默认行为。
+
+关于目前详细的项目示例，请参考[此处](https://github.com/DGP-Studio/Snap.Genshin/tree/main/Plugins/DGP.Genshin.Sample.Plugin)
 
 ## 生成与调试
 

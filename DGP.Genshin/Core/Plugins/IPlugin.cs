@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DGP.Genshin.Services.Abstratcions;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace DGP.Genshin.Core.Plugins
 {
@@ -7,6 +10,11 @@ namespace DGP.Genshin.Core.Plugins
     /// </summary>
     public interface IPlugin
     {
+        /// <summary>
+        /// 启用与禁用
+        /// 插件需要自行实现这一状态的保存
+        /// </summary>
+        bool IsEnabled { get; set; }
         /// <summary>
         /// 名称
         /// </summary>

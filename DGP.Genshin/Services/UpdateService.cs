@@ -19,7 +19,7 @@ namespace DGP.Genshin.Services
     internal class UpdateService : IUpdateService
     {
         private const string UpdateNotificationTag = "snap_genshin_update";
-        private NotificationUpdateResult LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+        private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
@@ -86,7 +86,7 @@ namespace DGP.Genshin.Services
         /// </summary>
         private void ShowDownloadToastNotification()
         {
-            LastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+            lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
             new ToastContentBuilder()
                 .AddText("下载更新中...")
@@ -122,9 +122,9 @@ namespace DGP.Genshin.Services
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
             this.Log(percent);
-            this.Log(LastNotificationUpdateResult);
+            this.Log(lastNotificationUpdateResult);
             //user has dismissed the notification so we don't update it anymore
-            if (LastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
+            if (lastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
             {
                 return;
             }
@@ -153,7 +153,7 @@ namespace DGP.Genshin.Services
             }
 
             // Update the existing notification's data
-            LastNotificationUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
+            lastNotificationUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
             this.Log("UpdateNotificationValue called");
         }
 

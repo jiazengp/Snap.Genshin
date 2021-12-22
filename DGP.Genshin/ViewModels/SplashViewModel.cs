@@ -47,7 +47,7 @@ namespace DGP.Genshin.ViewModels
             }
         }
         /// <summary>
-        /// 设置为<see cref="true"/> 以触发淡入主界面动画
+        /// 设置为 <see cref="true"/> 以触发淡入主界面动画
         /// </summary>
         public bool IsSplashNotVisible
         {

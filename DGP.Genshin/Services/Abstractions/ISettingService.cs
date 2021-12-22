@@ -7,6 +7,8 @@ namespace DGP.Genshin.Services.Abstratcions
 {
     /// <summary>
     /// 设置服务
+    /// 使用此服务时需要注意储存值的键名称不能与 <see cref="Setting"/> 内的相同
+    /// 否则会影响已有的设置值
     /// </summary>
     [Send(typeof(SettingChangedMessage))]
     public interface ISettingService

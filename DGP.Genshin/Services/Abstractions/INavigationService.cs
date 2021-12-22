@@ -1,9 +1,13 @@
-﻿using ModernWpf.Controls;
+﻿using DGP.Genshin.Core.Plugins;
+using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 
 namespace DGP.Genshin.Services.Abstratcions
 {
+    /// <summary>
+    /// 导航服务
+    /// </summary>
     public interface INavigationService
     {
         /// <summary>
@@ -25,6 +29,13 @@ namespace DGP.Genshin.Services.Abstratcions
         /// 选中的 <see cref="NavigationViewItem"/>
         /// </summary>
         NavigationViewItem? Selected { get; set; }
+
+        /// <summary>
+        /// 将页面添加到导航视图
+        /// </summary>
+        /// <param name="importPage">导入的页面</param>
+        /// <returns>是否导入成功</returns>
+        bool AddToNavigation(ImportPageAttribute importPage);
 
         /// <summary>
         /// 导航到指定类型的页面

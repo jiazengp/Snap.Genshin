@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
@@ -13,6 +14,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,18 +28,16 @@ namespace DGP.Genshin
     public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
         private readonly INavigationService navigationService;
-
         public MainWindow()
         {
-            //do not set datacontext for mainwindow
             InitializeComponent();
-
-            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
-
             navigationService = App.GetService<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
+            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
 
+            //do not set datacontext for mainwindow
+            
             this.Log("initialized");
         }
 
@@ -45,6 +45,7 @@ namespace DGP.Genshin
         {
             SplashViewModel splashView = message.Value;
             PrepareTitleBarArea(splashView);
+            AddAditionalNavigationViewItem();
             DoUpdateFlow();
             //签到
             if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
@@ -55,6 +56,20 @@ namespace DGP.Genshin
             splashView.IsSplashNotVisible = true;
             //post actions
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+        }
+
+        /// <summary>
+        /// 添加从插件引入的额外的导航页面
+        /// </summary>
+        private void AddAditionalNavigationViewItem()
+        {
+            foreach (var plugin in App.Current.ServiceManager.PluginService.Plugins)
+            {
+                foreach (var importPage in plugin.GetType().GetCustomAttributes<ImportPageAttribute>())
+                {
+                    navigationService.AddToNavigation(importPage);
+                }
+            }
         }
 
         /// <summary>
@@ -163,5 +178,7 @@ namespace DGP.Genshin
             }.ShowAsync();
         }
         #endregion
+
+
     }
 }

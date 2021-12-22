@@ -29,6 +29,8 @@ namespace DGP.Genshin
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
         private readonly ServiceManager serviceManager = new();
 
+        internal ServiceManager ServiceManager => serviceManager;
+
         /// <summary>
         /// 覆盖默认类型的 Current
         /// </summary>

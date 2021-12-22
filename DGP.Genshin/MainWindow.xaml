@@ -65,20 +65,19 @@
                                        UriSource="https://webstatic.mihoyo.com/upload/static-resource/2021/09/06/1ec1d1e2afbcc99f8f8c58eabb88a69d_3023852421646190619.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-
-                <ui:NavigationViewItemHeader Content="记录"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BtnIcon_Gacha.png"
                             UriSource="pack://application:,,,/Resources/UI_BtnIcon_Gacha.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-
-                <ui:NavigationViewItemHeader Content="计算"/>
-                <ui:NavigationViewItem Content="养成计算器" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
-
-                <ui:NavigationViewItemHeader Content="高级"/>
+                <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
+                <ui:NavigationViewItem Content="插件管理" helpers:NavHelper.NavigateTo="{x:Type pages:PluginPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xEA86;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:Frame Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}" x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>

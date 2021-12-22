@@ -1,8 +1,10 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Core.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace DGP.Genshin.Core
@@ -13,11 +15,20 @@ namespace DGP.Genshin.Core
     /// </summary>
     public class ServiceManager
     {
+        private readonly PluginService pluginService;
+
+        /// <summary>
+        /// 插件服务，
+        /// 由于不能置于容器中，所以直接存放在此处
+        /// </summary>
+        internal PluginService PluginService => pluginService;
+
         /// <summary>
         /// 实例化一个新的服务管理器
         /// </summary>
         public ServiceManager()
         {
+            pluginService = new PluginService();
             Services = ConfigureServices();
         }
 
@@ -28,15 +39,31 @@ namespace DGP.Genshin.Core
         public IServiceProvider Services { get; }
 
         /// <summary>
-        /// Configures the services
+        /// 配置服务
         /// </summary>
-        private static IServiceProvider ConfigureServices()
+        private IServiceProvider ConfigureServices()
         {
             ServiceCollection services = new();
             services.AddSingleton<IMessenger>(App.Messenger);
             //register default services
             RegisterServices(services, typeof(App));
+            //insert plugins services here
+            //currently we don't allow dlls only contains services to inject
+            RegisterPluginsServices(services, PluginService.Plugins);
             return services.BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// 向容器注册插件内的服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="plugins"></param>
+        private static void RegisterPluginsServices(ServiceCollection services, IEnumerable<IPlugin> plugins)
+        {
+            foreach(IPlugin plugin in plugins)
+            {
+                RegisterServices(services, plugin.GetType());
+            }
         }
 
         /// <summary>

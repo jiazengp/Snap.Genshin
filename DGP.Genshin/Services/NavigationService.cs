@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
@@ -8,10 +9,10 @@ using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
-
     /// <summary>
     /// 导航服务的默认实现
     /// </summary>
@@ -102,6 +103,23 @@ namespace DGP.Genshin.Services
             {
                 Navigate(Selected?.GetValue(NavHelper.NavigateToProperty) as Type);
             }
+        }
+
+        public bool AddToNavigation(ImportPageAttribute importPage)
+        {
+            return AddToNavigation(importPage.PageType, importPage.Label, importPage.Icon);
+        }
+
+        private bool AddToNavigation(Type pageType, string label, IconElement icon)
+        {
+            if (NavigationView is null)
+            {
+                return false;
+            }
+            NavigationViewItem item = new() { Content = label, Icon = icon };
+            NavHelper.SetNavigateTo(item, pageType);
+            this.Log($"Add {pageType} to NavigationView");
+            return NavigationView.MenuItems.Add(item) != -1;
         }
     }
 }

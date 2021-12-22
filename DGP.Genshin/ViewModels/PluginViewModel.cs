@@ -1,20 +1,45 @@
-﻿using DGP.Genshin.Core.Plugins;
+﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Core.Plugins;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace DGP.Genshin.ViewModels
 {
+    [ViewModel(ViewModelType.Transient)]
     public class PluginViewModel : ObservableObject
     {
-        public IEnumerable<IPlugin> Plugins { get; set; }
+        private const string PluginFolder = "Plugins";
+
+        private IEnumerable<IPlugin> plugins;
+        private IRelayCommand openPluginFolderCommand;
+
+        public IEnumerable<IPlugin> Plugins
+        {
+            get => plugins;
+            [MemberNotNull(nameof(plugins))]
+            set => SetProperty(ref plugins, value);
+        }
+        public IRelayCommand OpenPluginFolderCommand 
+        { 
+            get => openPluginFolderCommand; 
+            [MemberNotNull(nameof(openPluginFolderCommand))]
+            set => openPluginFolderCommand = value; 
+        }
 
         public PluginViewModel()
         {
+            Plugins = App.Current.ServiceManager.PluginService.Plugins;
 
+            OpenPluginFolderCommand = new RelayCommand(OpenPluginsFolder);
+        }
+
+        private void OpenPluginsFolder()
+        {
+            Process.Start("explorer.exe", Path.GetFullPath(Path.Combine(App.BaseDirectory, PluginFolder)));
         }
     }
 }
