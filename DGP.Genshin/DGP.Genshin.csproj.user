@@ -30,6 +30,9 @@
     <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\PluginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\PromotionCalculatePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +63,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PluginPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\PromotionCalculatePage.xaml">
