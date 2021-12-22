@@ -22,16 +22,15 @@
 ### 友情链接
 
 [![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza)
+[![GenShin-LauncherDIY](https://img.shields.io/badge/DawnFz-GenShin_LauncherDIY-red/total?style=flat-square)](https://github.com/DawnFz/GenShin-LauncherDIY)
 
 ### 最低系统要求
 
 > **最低：Windows 10 1903 - 10.0.18362.x**  
 > 推荐：Windows 11 21H1 - 10.0.22000.x  
-> 运行时：.NET 6 [下载 .NET 6 运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-6.0.0-windows-x64-installer)  
+> 运行时：.NET 6 [下载 .NET 6 桌面运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-6.0.0-windows-x64-installer)  
 > 运行时内存需求：300MB  
 > 储存空间需求：500MB  
-> [用户手册 常见问题Q&A](UserGuide.md)
-
 
 
 # 标题栏
@@ -63,13 +62,6 @@
 
 ![record.png](/Design/ImgAssets/record.png)
 
-# [![logo](https://youngmoe.com/static/img/png/logo.c2ceb873.png)](https://youngmoe.com/)
-
-> 从 [天空岛数据库](https://youngmoe.com/) 获取数据，重新呈现  
-> 队伍推荐功能 直接访问玩家角色信息，提供最佳推荐方案  
-
-![天空岛.png](/Design/ImgAssets/celestia.png)
-
 # DGP.Genshin.Mate
 
 > 桌面树脂伴侣，无需复杂设置，即点即用，方便快捷  
@@ -83,7 +75,6 @@
 # 反馈须知
 
 **如果你在低于我们要求的最低Windows版本上运行程序并出现了问题，我们不会修复**  
-程序所在目录下的 **crash.log** 与 **latest.log** 文件包含了崩溃信息,请一并提交
 
 如果你需要反馈的信息包含大量的图片  
 或任何不便于在issue中提供的信息  
@@ -93,7 +84,7 @@
 
 # 开发人员
 
-如果你是一位正在编写原神相关程序的开发者 可以加入我们的QQ群  
+如果你是一位正在编写原神相关程序的开发者，可以加入我们的QQ群  
 群内有很多拥有相关开发经验的大佬，可以一起探讨学习
 
 ## 我们的方案
@@ -107,8 +98,7 @@
 * [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
 米哈游原神API交互
 
-* [DGP.Genshin.YoungMoeAPI](https://github.com/DGP-Studio/DGP.Genshin.YoungMoeAPI)  
-天空岛数据库API交互
+* [Microsoft.AppCenter]()
 
 ## 参阅
 

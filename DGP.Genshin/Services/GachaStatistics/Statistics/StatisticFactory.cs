@@ -2,8 +2,10 @@
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.DataModels.Helpers;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.ViewModels;
+using Microsoft.AppCenter.Analytics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +24,18 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         private const double WeaponProb4 = 14.5 / 100.0;
         private const int WeaponGranteeCount5 = 80;
 
-        private static readonly BannerConfigration NonWeaponConfig =
-            new() { Prob5 = NonWeaponProb5, Prob4 = NonWeaponProb4, GranteeCount = NonWeaponGranteeCount5 };
-        private static readonly BannerConfigration WeaponConfig =
-            new() { Prob5 = WeaponProb5, Prob4 = WeaponProb4, GranteeCount = WeaponGranteeCount5 };
+        private static readonly BannerConfigration NonWeaponConfig = new() 
+        { 
+            Prob5 = NonWeaponProb5, 
+            Prob4 = NonWeaponProb4, 
+            GranteeCount = NonWeaponGranteeCount5 
+        };
+        private static readonly BannerConfigration WeaponConfig = new() 
+        { 
+            Prob5 = WeaponProb5, 
+            Prob4 = WeaponProb4, 
+            GranteeCount = WeaponGranteeCount5 
+        };
 
         /// <summary>
         /// 转换到统计
@@ -336,7 +346,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             {
                 ni.Name = item.Name;
                 ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
-                Logger.LogStatic($"an unsupported item:{item.Name} is found while converting to {nameof(SpecificBanner)}");
+                Analytics.TrackEvent("Unsupported GachaEvent Item", new Info(nameof(SpecificBanner), item.Name ?? "No name").Build());
             }
             //? fix issue where crashes when no banner exists
             banner?.Items.Add(ni);

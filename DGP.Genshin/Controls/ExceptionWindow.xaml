@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DGP.Genshin.Controls"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+        xmlns:ui="http://schemas.modernwpf.com/2019" 
+        xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         Title="崩溃窗口"
@@ -27,7 +28,7 @@
                     <TextBlock VerticalAlignment="Center"
                        Text="似乎遇到了一些问题" Style="{StaticResource SubheaderTextBlockStyle}"/>
                     <TextBlock VerticalAlignment="Center"
-                       Text="Snap Genshin 很快就会关闭，但在此之前，我们将保存崩溃日志" Style="{StaticResource CaptionTextBlockStyle}"/>
+                       Text="Snap Genshin 很快就会关闭，但在此之前，我们将发送崩溃日志" Style="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
                 <ui:CommandBar HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent">
                     <ui:AppBarButton Label="QQ群 910780153" Click="QQChatAppBarButtonClick">

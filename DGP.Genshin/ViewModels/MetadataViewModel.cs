@@ -59,10 +59,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (bosses == null)
-                {
-                    bosses = Json.ToObject<ObservableCollection<Boss>>(Read(BossesJson));
-                }
+                bosses ??= Json.ToObject<ObservableCollection<Boss>>(Read(BossesJson));
                 return bosses;
             }
             set => bosses = value;
@@ -74,10 +71,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (characters == null)
-                {
-                    characters = Json.ToObject<ObservableCollection<Character>>(Read(CharactersJson));
-                }
+                characters ??= Json.ToObject<ObservableCollection<Character>>(Read(CharactersJson));
                 return characters;
             }
             set => characters = value;
@@ -89,10 +83,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (cities == null)
-                {
-                    cities = Json.ToObject<ObservableCollection<KeySource>>(Read(CitiesJson));
-                }
+                cities ??= Json.ToObject<ObservableCollection<KeySource>>(Read(CitiesJson));
                 return cities;
             }
             set => cities = value;
@@ -104,10 +95,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (dailyTalents == null)
-                {
-                    dailyTalents = Json.ToObject<ObservableCollection<Talent>>(Read(DailyTalentsJson));
-                }
+                dailyTalents ??= Json.ToObject<ObservableCollection<Talent>>(Read(DailyTalentsJson));
                 return dailyTalents;
             }
             set => dailyTalents = value;
@@ -119,10 +107,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (dailyWeapons == null)
-                {
-                    dailyWeapons = Json.ToObject<ObservableCollection<WeaponMaterial>>(Read(DailyWeaponsJson));
-                }
+                dailyWeapons ??= Json.ToObject<ObservableCollection<WeaponMaterial>>(Read(DailyWeaponsJson));
                 return dailyWeapons;
             }
             set => dailyWeapons = value;
@@ -134,10 +119,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (elements == null)
-                {
-                    elements = Json.ToObject<ObservableCollection<KeySource>>(Read(ElementsJson));
-                }
+                elements ??= Json.ToObject<ObservableCollection<KeySource>>(Read(ElementsJson));
                 return elements;
             }
             set => elements = value;
@@ -149,10 +131,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (elites == null)
-                {
-                    elites = Json.ToObject<ObservableCollection<Elite>>(Read(ElitesJson));
-                }
+                elites ??= Json.ToObject<ObservableCollection<Elite>>(Read(ElitesJson));
                 return elites;
             }
             set => elites = value;
@@ -164,10 +143,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (gemstones == null)
-                {
-                    gemstones = Json.ToObject<ObservableCollection<GemStone>>(Read(GemStonesJson));
-                }
+                gemstones ??= Json.ToObject<ObservableCollection<GemStone>>(Read(GemStonesJson));
                 return gemstones;
             }
             set => gemstones = value;
@@ -179,10 +155,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (locals == null)
-                {
-                    locals = Json.ToObject<ObservableCollection<Local>>(Read(LocalsJson));
-                }
+                locals ??= Json.ToObject<ObservableCollection<Local>>(Read(LocalsJson));
                 return locals;
             }
             set => locals = value;
@@ -194,10 +167,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (monsters == null)
-                {
-                    monsters = Json.ToObject<ObservableCollection<Monster>>(Read(MonstersJson));
-                }
+                monsters ??= Json.ToObject<ObservableCollection<Monster>>(Read(MonstersJson));
                 return monsters;
             }
             set => monsters = value;
@@ -209,10 +179,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (stars == null)
-                {
-                    stars = Json.ToObject<ObservableCollection<KeySource>>(Read(StarsJson));
-                }
+                stars ??= Json.ToObject<ObservableCollection<KeySource>>(Read(StarsJson));
                 return stars;
             }
             set => stars = value;
@@ -224,10 +191,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (weapons == null)
-                {
-                    weapons = Json.ToObject<ObservableCollection<Weapon>>(Read(WeaponsJson));
-                }
+                weapons ??= Json.ToObject<ObservableCollection<Weapon>>(Read(WeaponsJson));
                 return weapons;
             }
             set => weapons = value;
@@ -239,10 +203,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (weaponTypes == null)
-                {
-                    weaponTypes = Json.ToObject<ObservableCollection<KeySource>>(Read(WeaponTypesJson));
-                }
+                weaponTypes ??= Json.ToObject<ObservableCollection<KeySource>>(Read(WeaponTypesJson));
                 return weaponTypes;
             }
             set => weaponTypes = value;
@@ -254,10 +215,7 @@ namespace DGP.Genshin.ViewModels
         {
             get
             {
-                if (weeklyTalents == null)
-                {
-                    weeklyTalents = Json.ToObject<ObservableCollection<Weekly>>(Read(WeeklyTalentsJson));
-                }
+                weeklyTalents ??= Json.ToObject<ObservableCollection<Weekly>>(Read(WeeklyTalentsJson));
                 return weeklyTalents;
             }
             set => weeklyTalents = value;
@@ -403,47 +361,37 @@ namespace DGP.Genshin.ViewModels
         #endregion
 
         #region read write
-        private string Read(string filename)
+        private string Read(string fileName)
         {
-            string path = folderPath + filename;
+            string path = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
             if (File.Exists(path))
             {
-                string json;
-                using (StreamReader sr = new(File.OpenRead(path)))
-                {
-                    json = sr.ReadToEnd();
-                }
-                this.Log($"{filename} loaded.");
+                string json = File.ReadAllText(path);
+                this.Log($"{fileName} loaded.");
                 return json;
             }
             return "";
         }
-        private void Save(List<SpecificBanner>? collection, string filename)
+        private void Save(List<SpecificBanner>? collection, string fileName)
         {
             string json = Json.Stringify(collection);
-            using (StreamWriter sw = new(File.Create(folderPath + filename)))
-            {
-                sw.Write(json);
-            }
-            this.Log($"Save gachaevent metadata to {filename}");
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            File.WriteAllText(filePath, json);
+            this.Log($"Save gachaevent metadata to {fileName}");
         }
-        private void Save<T>(ObservableCollection<T>? collection, string filename) where T : Primitive
+        private void Save<T>(ObservableCollection<T>? collection, string fileName) where T : Primitive
         {
             string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
-            using (StreamWriter sw = new(File.Create(folderPath + filename)))
-            {
-                sw.Write(json);
-            }
-            this.Log($"Save primitive metadata to {filename}");
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            File.WriteAllText(filePath, json);
+            this.Log($"Save primitive metadata to {fileName}");
         }
-        private void Save(ObservableCollection<KeySource>? collection, string filename)
+        private void Save(ObservableCollection<KeySource>? collection, string fileName)
         {
             string json = Json.Stringify(collection);
-            using (StreamWriter sw = new(File.Create(folderPath + filename)))
-            {
-                sw.Write(json);
-            }
-            this.Log($"Save metadata to {filename}");
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            File.WriteAllText(filePath, json);
+            this.Log($"Save metadata to {fileName}");
         }
         public void UnInitialize()
         {

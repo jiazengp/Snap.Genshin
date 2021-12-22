@@ -26,17 +26,17 @@ namespace DGP.Genshin
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
-        private readonly ServiceManager serviceManager;
-
-        public App()
-        {
-            serviceManager = new();
-        }
+        private readonly ServiceManager serviceManager = new();
 
         /// <summary>
         /// 覆盖默认类型的 Current
         /// </summary>
         public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// 程序根路径
+        /// </summary>
+        public static string BaseDirectory => AppContext.BaseDirectory;
 
         #region Dependency Injection Helper
         /// <summary>
@@ -129,10 +129,10 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
+                Analytics.TrackEvent("App exited");
                 GetService<ISettingService>().UnInitialize();
                 GetViewModel<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");
-                Analytics.TrackEvent("App exited");
             }
             base.OnExit(e);
         }
@@ -140,6 +140,9 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
+                //unhandled exception can't be uploaded automatically
+                //so we manually upload it by mark it as error
+                Crashes.TrackError(e.ExceptionObject as Exception);
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }

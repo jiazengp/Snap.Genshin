@@ -6,7 +6,7 @@
  
 本项目及所有子项目已经迁移至使用 .NET 6 × C# 10 + VS2022 编写环境下  
 主程序使用了 WPF 作为基础 UI 框架  
-*由于 Win UI 3 目前阶段存在大量  BUG  故暂时不予使用*
+*由于 Win UI 3 目前阶段存在大量  BUG  故暂时不使用*
 
 ## Snap Genshin Foundation
 

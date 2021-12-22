@@ -42,13 +42,13 @@ namespace DGP.Genshin.Services.Abstratcions
     }
 
     /// <summary>
-    /// 指示此字段需要在完整性检查时作为集合的一部分进行检查
+    /// 指示此属性需要受到完整性检查
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class IntegrityAwareAttribute : Attribute
     {
         /// <summary>
-        /// 该字段是否为角色容器
+        /// 该属性是否为角色容器
         /// </summary>
         public bool IsCharacter { get; set; } = false;
     }
