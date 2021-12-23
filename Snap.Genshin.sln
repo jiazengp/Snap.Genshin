@@ -39,11 +39,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Sample.Plugin",
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Crashes.Shared", "Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.shproj", "{DB5A0B7D-8090-4A0C-97C7-CDF17AACAAF2}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Windows.Shared", "Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.shproj", "{B4E6AD1C-21A0-43A4-BD73-ED9BFC19BE6F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Modified\appcenter-sdk-dotnet\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{46b38968-0b9d-4e08-8228-fe9f8390acf6}*SharedItemsImports = 5
 		Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems*{860c4d7a-7eff-415d-bc84-341fc69c2b58}*SharedItemsImports = 5
 		Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{860c4d7a-7eff-415d-bc84-341fc69c2b58}*SharedItemsImports = 5
+		Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{b4e6ad1c-21a0-43a4-bd73-ed9bfc19be6f}*SharedItemsImports = 13
 		Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{c37471de-486f-4d80-a1a0-27bd77df950e}*SharedItemsImports = 5
 		Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{c37471de-486f-4d80-a1a0-27bd77df950e}*SharedItemsImports = 5
 		Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems*{db5a0b7d-8090-4a0c-97c7-cdf17aacaaf2}*SharedItemsImports = 13
@@ -107,6 +110,7 @@ Global
 		{860C4D7A-7EFF-415D-BC84-341FC69C2B58} = {997C8BB2-3315-4372-83CD-620F65B608B7}
 		{3E2783D3-2802-4051-A711-A6593AF2AAD3} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 		{DB5A0B7D-8090-4A0C-97C7-CDF17AACAAF2} = {997C8BB2-3315-4372-83CD-620F65B608B7}
+		{B4E6AD1C-21A0-43A4-BD73-ED9BFC19BE6F} = {997C8BB2-3315-4372-83CD-620F65B608B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

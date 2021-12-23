@@ -23,7 +23,6 @@ namespace DGP.Genshin.Pages
             {
                 throw new SnapGenshinInternalException("未找到可用的 WebView2运行时 安装");
             }
-            
         }
 
         #region Standard Disopse
@@ -49,7 +48,9 @@ namespace DGP.Genshin.Pages
                 // unmanaged resources here.
                 // If disposing is false,
                 // only the following code is executed.
-                WebView.Dispose();
+
+                //WebView2 can still be null
+                WebView?.Dispose();
 
                 // Note disposing has been done.
                 disposed = true;

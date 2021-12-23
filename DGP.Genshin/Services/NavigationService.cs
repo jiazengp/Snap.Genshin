@@ -9,7 +9,6 @@ using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
 {
@@ -73,10 +72,15 @@ namespace DGP.Genshin.Services
                 return false;
             }
             _ = isSyncTabRequested && SyncTabWith(pageType);
-            bool result = Frame?.Navigate(pageType, data, new DrillInNavigationTransitionInfo()) ?? false;
+            bool result = false;
+            try
+            {
+                result = Frame?.Navigate(pageType, data, new DrillInNavigationTransitionInfo()) ?? false;
+            }
+            catch { }
             this.Log($"Navigate to {pageType}:{(result ? "succeed" : "failed")}");
             //分析页面统计数据时不应加入启动时导航的首个页面
-            if (HasEverNavigated&&result)
+            if (HasEverNavigated)
             {
                 Analytics.TrackEvent("OpenUI", new Info(pageType, result).Build());
             }
