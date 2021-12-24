@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DGP.Genshin.Helpers
 {
@@ -22,6 +25,25 @@ namespace DGP.Genshin.Helpers
         public IDictionary<string, string> Build()
         {
             return analyticsInfo;
+        }
+
+        private static string? userId;
+        public static string UserId
+        {
+            get
+            {
+                userId ??= GetUniqueUserID();
+                return userId;
+            }
+        }
+
+        private static string GetUniqueUserID()
+        {
+            var UserName = Environment.UserName;
+            var MachineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", UserName);
+            var bytes = Encoding.UTF8.GetBytes(UserName + MachineGuid);
+            var hash = MD5.Create().ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", "");
         }
     }
 }

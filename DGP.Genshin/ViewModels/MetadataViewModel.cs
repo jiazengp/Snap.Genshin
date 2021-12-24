@@ -15,6 +15,7 @@ using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -363,7 +364,7 @@ namespace DGP.Genshin.ViewModels
         #region read write
         private string Read(string fileName)
         {
-            string path = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            string path = Path.GetFullPath(Path.Combine(folderPath, fileName),AppContext.BaseDirectory);
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
@@ -375,21 +376,21 @@ namespace DGP.Genshin.ViewModels
         private void Save(List<SpecificBanner>? collection, string fileName)
         {
             string json = Json.Stringify(collection);
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
             File.WriteAllText(filePath, json);
             this.Log($"Save gachaevent metadata to {fileName}");
         }
         private void Save<T>(ObservableCollection<T>? collection, string fileName) where T : Primitive
         {
             string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
             File.WriteAllText(filePath, json);
             this.Log($"Save primitive metadata to {fileName}");
         }
         private void Save(ObservableCollection<KeySource>? collection, string fileName)
         {
             string json = Json.Stringify(collection);
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), App.BaseDirectory);
+            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
             File.WriteAllText(filePath, json);
             this.Log($"Save metadata to {fileName}");
         }

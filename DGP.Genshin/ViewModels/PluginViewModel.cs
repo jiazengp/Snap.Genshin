@@ -2,6 +2,7 @@
 using DGP.Genshin.Core.Plugins;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -39,7 +40,7 @@ namespace DGP.Genshin.ViewModels
 
         private void OpenPluginsFolder()
         {
-            Process.Start("explorer.exe", Path.GetFullPath(Path.Combine(App.BaseDirectory, PluginFolder)));
+            Process.Start("explorer.exe", Path.GetFullPath(PluginFolder, AppContext.BaseDirectory));
         }
     }
 }

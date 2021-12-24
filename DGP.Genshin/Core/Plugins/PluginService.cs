@@ -32,7 +32,7 @@ namespace DGP.Genshin.Core.Plugins
 
         private IEnumerable<Assembly> LoadAllPluginDlls()
         {
-            string pluginPath = Path.GetFullPath(PluginFolder, App.BaseDirectory);
+            string pluginPath = Path.GetFullPath(PluginFolder, AppContext.BaseDirectory);
             Directory.CreateDirectory(PluginFolder);
             IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(PluginFolder, "*.Plugin.dll", SearchOption.AllDirectories);
             List<Assembly> plugins = new();

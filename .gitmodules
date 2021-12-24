@@ -7,6 +7,3 @@
 [submodule "DGP.Genshin.DataViewer"]
 	path = DGP.Genshin.DataViewer
 	url = https://github.com/DGP-Studio/DGP.Genshin.DataViewer.git
-[submodule "Modified/appcenter-sdk-dotnet"]
-	path = Modified/appcenter-sdk-dotnet
-	url = https://github.com/DGP-Studio/appcenter-sdk-dotnet.git

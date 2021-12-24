@@ -69,7 +69,7 @@ namespace DGP.Genshin.Services
                 }
 
                 App.Messenger.Send(new RecordProgressChangedMessage("正在获取 详细角色信息 (4/4)"));
-                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo, false);
+                DetailedAvatarInfo? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
                 if (detailedAvatarInfo is null)
                 {
                     App.Messenger.Send(new RecordProgressChangedMessage(null));

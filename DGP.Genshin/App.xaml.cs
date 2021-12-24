@@ -36,11 +36,6 @@ namespace DGP.Genshin
         /// </summary>
         public new static App Current => (App)Application.Current;
 
-        /// <summary>
-        /// 程序根路径
-        /// </summary>
-        public static string BaseDirectory => AppContext.BaseDirectory;
-
         #region Dependency Injection Helper
         /// <summary>
         /// 全局消息交换器
@@ -74,36 +69,43 @@ namespace DGP.Genshin
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
-            EnsureWorkingPath();
+            ConfigureWorkingDirectory();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             //handle notification activation
-            SetupToastNotificationHandling();
+            ConfigureToastNotification();
             singleInstanceChecker.Ensure(Current);
             //file operation starts
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
             UpdateAppTheme();
-
+            //app center services
             ConfigureAppCenter();
             //open main window
             base.OnStartup(e);
         }
-
-        private static void ConfigureAppCenter()
+        private void ConfigureWorkingDirectory()
         {
+            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string workingPath)
+            {
+                Environment.CurrentDirectory = workingPath;
+            }
+        }
+        private void ConfigureAppCenter()
+        {
+            AppCenter.SetUserId(Info.UserId);
             AppCenter.LogLevel = LogLevel.Verbose;
+            //cause the version of debug is always higher than normal release
+            //we need to send debug info to separate kanban
 #if DEBUG
             //DEBUG INFO should send to Snap Genshin Debug kanban
-            //cause the version of debug is always higher than normal release
             AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
 #else
             //NORMAL INFO should send to Snap Genshin kanban
-            AppCenter.Start("b95619e7-cdb2-407e-8cc8-818411c98f3a", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
 #endif
         }
-
-        private void SetupToastNotificationHandling()
+        private void ConfigureToastNotification()
         {
             if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
             {
@@ -111,17 +113,6 @@ namespace DGP.Genshin
                 ToastNotificationManagerCompat.History.Clear();
             }
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
-        }
-
-        /// <summary>
-        /// 设置工作路径
-        /// </summary>
-        private void EnsureWorkingPath()
-        {
-            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string workingPath)
-            {
-                Environment.CurrentDirectory = workingPath;
-            }
         }
         private void UpdateAppTheme()
         {
@@ -143,9 +134,7 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
-                //unhandled exception can't be uploaded automatically
-                //so we manually upload it by mark it as error
-                Crashes.TrackError(e.ExceptionObject as Exception, new Info("Unhandled Exception", "Uploaded").Build());
+                //unhandled exception now can be uploaded automatically
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }

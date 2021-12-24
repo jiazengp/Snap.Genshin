@@ -155,32 +155,20 @@ Snap Genshin 的插件系统设计使得开发者的权限非常之高
 
 完成后 项目文件也应做出相应修改
 ```xml
-  <ItemGroup>
-    <ProjectReference Include="..\..\DGP.Genshin.Common\DGP.Genshin.Common.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DGP.Genshin\DGP.Genshin.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.WindowsDesktop\Microsoft.AppCenter.Analytics.WindowsDesktop.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.WindowsDesktop\Microsoft.AppCenter.Crashes.WindowsDesktop.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Modified\appcenter-sdk-dotnet\SDK\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
-  </ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\..\DGP.Genshin.Common\DGP.Genshin.Common.csproj">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </ProjectReference>
+  <ProjectReference Include="..\..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </ProjectReference>
+  <ProjectReference Include="..\..\DGP.Genshin\DGP.Genshin.csproj">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </ProjectReference>
+</ItemGroup>
 ```
 
 下面两个节点

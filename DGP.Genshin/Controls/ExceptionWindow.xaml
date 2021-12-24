@@ -9,7 +9,8 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         Title="崩溃窗口"
-        Height="750" Width="1000">
+        Height="750" Width="1000"
+        MinWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -27,7 +28,7 @@
                     <TextBlock VerticalAlignment="Center"
                        Text="似乎遇到了一些问题" Style="{StaticResource SubheaderTextBlockStyle}"/>
                     <TextBlock VerticalAlignment="Center"
-                       Text="关闭本窗口以结束 Snap Genshin 进程" Style="{StaticResource CaptionTextBlockStyle}"/>
+                       Text="我们保存了崩溃日志，以便下次启动时自动发送，关闭本窗口以结束 Snap Genshin 进程" Style="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
                 <ui:CommandBar HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent">
                     <ui:AppBarButton Label="QQ群 910780153" Click="QQChatAppBarButtonClick">

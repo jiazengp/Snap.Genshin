@@ -98,9 +98,6 @@
 * [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
 米哈游原神API交互
 
-* [Microsoft.AppCenter](https://github.com/DGP-Studio/appcenter-sdk-dotnet)  
-魔改了 AppCenter SDK 使之支持 使用了 TFM 的 非 WinUI3 程序
-
 ## 插件系统
 
 * Snap Genshin 正在进行实验性的插件功能测试  
