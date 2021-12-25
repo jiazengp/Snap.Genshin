@@ -56,7 +56,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="info">导航动画变换信息</param>
         /// <returns>是否导航成功</returns>
         bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null) where T : System.Windows.Controls.Page;
-        
+
         /// <summary>
         /// 同步导航标签
         /// </summary>

@@ -9,7 +9,12 @@ namespace DGP.Genshin.Updater
     {
         private static void Main(string[] args)
         {
-            EnsureWorkingPath();
+            //fix unable to find file issue
+            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string exePath)
+            {
+                Environment.CurrentDirectory = exePath;
+            }
+
             bool hasArgs = args.Length > 0 && args[0] == "UpdateInstall";
             bool hasPackage = File.Exists("../Package.zip");
 
@@ -22,7 +27,7 @@ namespace DGP.Genshin.Updater
                     ManualUpdate();
                     break;
                 case (_, false):
-                    Console.WriteLine("未找到更新文件");
+                    Console.WriteLine($"未在 {AppContext.BaseDirectory} 找到更新文件 'Package.zip'");
                     Console.ReadKey();
                     break;
             };
@@ -82,18 +87,6 @@ namespace DGP.Genshin.Updater
 
                 Console.WriteLine($"等待 {processName} 退出中...(可能需要手动退出)");
                 p.WaitForExit();
-            }
-        }
-
-        /// <summary>
-        /// set working dir while launch by other app
-        /// </summary>
-        private static void EnsureWorkingPath()
-        {
-            //fix unable to find file issue
-            if (Path.GetDirectoryName(AppContext.BaseDirectory) is string exePath)
-            {
-                Environment.CurrentDirectory = exePath;
             }
         }
     }

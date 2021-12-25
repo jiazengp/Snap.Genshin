@@ -21,7 +21,7 @@ namespace DGP.Genshin.Services
     /// 完整性检查服务的默认实现
     /// </summary>
     [Service(typeof(IIntegrityCheckService), ServiceType.Transient)]
-    public class IntegrityCheckService : IIntegrityCheckService
+    internal class IntegrityCheckService : IIntegrityCheckService
     {
         private readonly ISettingService settingService;
         private readonly MetadataViewModel metadataViewModel;

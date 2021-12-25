@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.DataModels.Launching
 {
+    /// <summary>
+    /// 对注册表内信息的抽象
+    /// </summary>
     public class GenshinAccount
     {
         /// <summary>

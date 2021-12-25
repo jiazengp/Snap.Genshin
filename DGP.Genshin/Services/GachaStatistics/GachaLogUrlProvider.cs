@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Controls.GenshinElements;
+using DGP.Genshin.Controls.GenshinElements.GachaStatistics;
+using DGP.Genshin.Services.Abstratcions;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;

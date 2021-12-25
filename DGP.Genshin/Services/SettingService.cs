@@ -22,7 +22,21 @@ namespace DGP.Genshin.Services
 
         private Dictionary<string, object?> settingDictionary = new();
 
-        public T? GetOrDefault<T>(string key, T defaultValue)
+        public object? GetBoxedOrDefault(string key, object defaultValue)
+        {
+            if (!settingDictionary.TryGetValue(key, out object? value))
+            {
+                settingDictionary[key] = defaultValue;
+                return defaultValue;
+            }
+            else
+            {
+                //won't be null if TryGetValue return true.
+                return value!;
+            }
+        }
+
+        public T? GetOrDefault<T>(string key, T? defaultValue)
         {
             if (!settingDictionary.TryGetValue(key, out object? value))
             {
@@ -35,7 +49,7 @@ namespace DGP.Genshin.Services
             }
         }
 
-        public T GetOrDefault<T>(string key, T defaultValue, Func<object?, T> converter)
+        public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
         {
             if (!settingDictionary.TryGetValue(key, out object? value))
             {
@@ -44,7 +58,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                return converter.Invoke(value);
+                return converter.Invoke(value!);
             }
         }
 

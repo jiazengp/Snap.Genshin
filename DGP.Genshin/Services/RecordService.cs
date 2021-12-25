@@ -16,7 +16,7 @@ namespace DGP.Genshin.Services
     /// </summary>
     [Service(typeof(IRecordService), ServiceType.Transient)]
     [Send(typeof(RecordProgressChangedMessage))]
-    public class RecordService : IRecordService
+    internal class RecordService : IRecordService
     {
         private readonly ICookieService cookieService;
 

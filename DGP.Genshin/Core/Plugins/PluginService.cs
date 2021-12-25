@@ -32,9 +32,10 @@ namespace DGP.Genshin.Core.Plugins
 
         private IEnumerable<Assembly> LoadAllPluginDlls()
         {
+            //fix autorun fail issue
             string pluginPath = Path.GetFullPath(PluginFolder, AppContext.BaseDirectory);
-            Directory.CreateDirectory(PluginFolder);
-            IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(PluginFolder, "*.Plugin.dll", SearchOption.AllDirectories);
+            Directory.CreateDirectory(pluginPath);
+            IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.Plugin.dll", SearchOption.AllDirectories);
             List<Assembly> plugins = new();
 
             foreach (string? pluginLocation in pluginsPaths)

@@ -2,12 +2,12 @@
 using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Core.Plugins;
+using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Notifications;
 using DGP.Genshin.ViewModels;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -37,7 +37,7 @@ namespace DGP.Genshin
             App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
 
             //do not set datacontext for mainwindow
-            
+
             this.Log("initialized");
         }
 
@@ -63,9 +63,9 @@ namespace DGP.Genshin
         /// </summary>
         private void AddAditionalNavigationViewItem()
         {
-            foreach (var plugin in App.Current.ServiceManager.PluginService.Plugins)
+            foreach (IPlugin? plugin in App.Current.ServiceManager.PluginService.Plugins)
             {
-                foreach (var importPage in plugin.GetType().GetCustomAttributes<ImportPageAttribute>())
+                foreach (ImportPageAttribute? importPage in plugin.GetType().GetCustomAttributes<ImportPageAttribute>())
                 {
                     navigationService.AddToNavigation(importPage);
                 }

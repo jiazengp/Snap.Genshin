@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     /// <summary>
     /// 用于展示的卡池物品

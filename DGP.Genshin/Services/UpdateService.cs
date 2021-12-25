@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Helpers;
@@ -20,6 +21,7 @@ namespace DGP.Genshin.Services
     {
         private const string UpdateNotificationTag = "snap_genshin_update";
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+        private readonly ISettingService settingService;
 
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
@@ -28,13 +30,18 @@ namespace DGP.Genshin.Services
 
         private Downloader? InnerDownloader { get; set; }
 
+        public UpdateService(ISettingService settingService)
+        {
+            this.settingService = settingService;
+        }
+
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try
             {
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
                 {
-                    Credentials = new Credentials(TokenHelper.GetToken()),
+                    Credentials = new Credentials(GithubTokenHelper.GetToken()),
                 };
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
                 PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
@@ -55,12 +62,15 @@ namespace DGP.Genshin.Services
 
         public async Task DownloadAndInstallPackageAsync()
         {
-            string destinationPath = AppDomain.CurrentDomain.BaseDirectory + @"\Package.zip";
+            string destinationPath = Path.Combine(AppContext.BaseDirectory, "Package.zip");
 
-            if (PackageUri is null)
+            //unlikely to happen,unless a new release with no package is published
+            _ = PackageUri ?? throw new SnapGenshinInternalException("未找到更新包的下载地址");
+
+            if (settingService.GetOrDefault(Setting.UpdateUseFastGit, false))
             {
-                //unlikely to happen,unless a new release with no package is published
-                throw new InvalidOperationException("未找到更新包的下载地址");
+                //replace host with fastgit
+                PackageUri = new UriBuilder(PackageUri) { Host = "download.fastgit.org" }.Uri;
             }
 
             InnerDownloader = new(PackageUri, destinationPath);
@@ -146,7 +156,7 @@ namespace DGP.Genshin.Services
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            data.Values["progressValueString"] = $@"{percent:p2}% - {bytesReceived * 1.0 / 1024 / 1024}MB / {totalBytesToReceive * 1.0 / 1024 / 1024}MB";
+            data.Values["progressValueString"] = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
             if (percent >= 1)
             {
                 data.Values["progressStatus"] = "下载完成";

@@ -116,7 +116,7 @@ namespace DGP.Genshin.ViewModels
         }
 
         //prevent multiple signin task
-        private TaskPreventer signInTaskPreventer = new();
+        private readonly TaskPreventer signInTaskPreventer = new();
         private async Task SignInAsync()
         {
             if (signInTaskPreventer.ShouldExecute)
@@ -161,10 +161,10 @@ namespace DGP.Genshin.ViewModels
         /// <returns></returns>
         private async Task InitializeInternalAsync()
         {
-            SignInReward ??= await Task.Run(new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync);
+            SignInReward ??= await new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync();
             if (SignInInfo is null)
             {
-                Roles = await Task.Run(new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync);
+                Roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
                 SelectedRole = Roles.FirstOrDefault(i => i.IsChosen);
             }
         }

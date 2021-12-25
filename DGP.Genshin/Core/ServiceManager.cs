@@ -13,7 +13,7 @@ namespace DGP.Genshin.Core
     /// 服务管理器
     /// 依赖注入的核心管理类
     /// </summary>
-    public class ServiceManager
+    internal class ServiceManager
     {
         private readonly PluginService pluginService;
 
@@ -60,7 +60,7 @@ namespace DGP.Genshin.Core
         /// <param name="plugins"></param>
         private static void RegisterPluginsServices(ServiceCollection services, IEnumerable<IPlugin> plugins)
         {
-            foreach(IPlugin plugin in plugins)
+            foreach (IPlugin plugin in plugins)
             {
                 RegisterServices(services, plugin.GetType());
             }

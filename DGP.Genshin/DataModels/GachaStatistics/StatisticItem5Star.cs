@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     /// <summary>
     /// 带有个数统计的奖池统计5星物品

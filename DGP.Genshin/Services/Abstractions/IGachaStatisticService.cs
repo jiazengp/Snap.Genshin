@@ -1,11 +1,49 @@
-﻿using DGP.Genshin.MiHoYoAPI.Gacha;
+﻿using DGP.Genshin.DataModels.GachaStatistics;
+using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.GachaStatistics;
-using DGP.Genshin.Services.GachaStatistics.Statistics;
 using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Abstratcions
 {
+    public interface IGachaLogWorker
+    {
+        (int min, int max) Delay { get; set; }
+        bool IsFetchDelayEnabled { get; set; }
+        GachaDataCollection WorkingGachaData { get; set; }
+        string? WorkingUid { get; }
+
+        Task<string?> FetchGachaLogAggressivelyAsync(ConfigType type, Action<FetchProgress> progressCallBack);
+        Task<string?> FetchGachaLogIncrementAsync(ConfigType type, Action<FetchProgress> progressCallBack);
+        Task<Config?> GetCurrentGachaConfigAsync();
+        int GetRandomDelay();
+    }
+
+    /// <summary>
+    /// 表示可导入的数据实体
+    /// 仅能表示一个uid的数据
+    /// </summary>
+    public class ImportableGachaData
+    {
+        public GachaData? Data { get; set; }
+        public string? Uid { get; set; }
+    }
+
+    /// <summary>
+    /// 获取抽卡Url的模式
+    /// </summary>
+    public enum GachaLogUrlMode
+    {
+        /// <summary>
+        /// 从游戏日志获取
+        /// </summary>
+        GameLogFile,
+        /// <summary>
+        /// 手动输入
+        /// </summary>
+        ManualInput
+    }
+
     /// <summary>
     /// 祈愿统计服务
     /// </summary>
@@ -30,12 +68,12 @@ namespace DGP.Genshin.Services.Abstratcions
         Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false);
 
         /// <summary>
-        /// 按模式异步获取<see cref="GachaLogWorker"/>
+        /// 按模式异步获取<see cref="IGachaLogWorker"/>
         /// </summary>
         /// <param name="gachaData">抽卡源数据</param>
         /// <param name="mode">模式</param>
         /// <returns>如果无可用的 Url 则返回 <see cref="null"/></returns>
-        Task<GachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode);
+        Task<IGachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode);
 
         /// <summary>
         /// 异步导出记录到Excel
@@ -58,14 +96,14 @@ namespace DGP.Genshin.Services.Abstratcions
         /// </summary>
         /// <param name="gachaData"></param>
         /// <param name="path"></param>
-        Task ImportFromUIGFWAsync(GachaDataCollection gachaData, string path);
+        Task<bool> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 异步从Json导入记录
         /// </summary>
         /// <param name="gachaData"></param>
         /// <param name="path"></param>
-        Task ImportFromUIGFJAsync(GachaDataCollection gachaData, string path);
+        Task<bool> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 加载本地储存的记录数据

@@ -24,11 +24,11 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(plugins))]
             set => SetProperty(ref plugins, value);
         }
-        public IRelayCommand OpenPluginFolderCommand 
-        { 
-            get => openPluginFolderCommand; 
+        public IRelayCommand OpenPluginFolderCommand
+        {
+            get => openPluginFolderCommand;
             [MemberNotNull(nameof(openPluginFolderCommand))]
-            set => openPluginFolderCommand = value; 
+            set => openPluginFolderCommand = value;
         }
 
         public PluginViewModel()

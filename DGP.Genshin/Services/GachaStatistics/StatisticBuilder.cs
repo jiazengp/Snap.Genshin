@@ -1,21 +1,21 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.ViewModels;
-using Microsoft.AppCenter.Analytics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.Services.GachaStatistics
 {
     /// <summary>
-    /// 构造奖池统计信息的工厂类
+    /// 构造奖池统计信息的建造器
     /// </summary>
-    public static class StatisticFactory
+    internal class StatisticBuilder
     {
         private const double NonWeaponProb5 = 1.6 / 100.0;
         private const double NonWeaponProb4 = 13 / 100.0;
@@ -24,17 +24,30 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         private const double WeaponProb4 = 14.5 / 100.0;
         private const int WeaponGranteeCount5 = 80;
 
-        private static readonly BannerConfigration NonWeaponConfig = new() 
-        { 
-            Prob5 = NonWeaponProb5, 
-            Prob4 = NonWeaponProb4, 
-            GranteeCount = NonWeaponGranteeCount5 
+        private class BannerConfigration
+        {
+            public double Prob5 { get; set; }
+            public double Prob4 { get; set; }
+            public int GranteeCount { get; set; }
+        }
+
+        /// <summary>
+        /// 表示一个对 <see cref="T"/> 类型的计数器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        private class CounterOf<T> : Dictionary<string, T> { }
+
+        private static readonly BannerConfigration NonWeaponConfig = new()
+        {
+            Prob5 = NonWeaponProb5,
+            Prob4 = NonWeaponProb4,
+            GranteeCount = NonWeaponGranteeCount5
         };
-        private static readonly BannerConfigration WeaponConfig = new() 
-        { 
-            Prob5 = WeaponProb5, 
-            Prob4 = WeaponProb4, 
-            GranteeCount = WeaponGranteeCount5 
+        private static readonly BannerConfigration WeaponConfig = new()
+        {
+            Prob5 = WeaponProb5,
+            Prob4 = WeaponProb4,
+            GranteeCount = WeaponGranteeCount5
         };
 
         /// <summary>
@@ -43,7 +56,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         /// <param name="data"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public static Statistic ToStatistic(GachaData data, string uid)
+        public Statistic ToStatistic(GachaData data, string uid)
         {
             Logger.LogStatic($"convert data of {uid} to statistic view");
             List<StatisticItem> characters = ToStatisticTotalCountList(data, "角色");
@@ -74,14 +87,14 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         /// <param name="prob4"></param>
         /// <param name="granteeCount"></param>
         /// <returns></returns>
-        private static StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerConfigration config)
+        private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerConfigration config)
         {
             List<GachaLogItem>? list = data[type];
             _ = list ?? throw new UnexceptedNullException($"卡池{type}:对应的卡池信息不应为 null");
             return BuildStatisticBanner(name, config, list);
         }
 
-        private static StatisticBanner BuildStatisticBanner(string name, BannerConfigration config, List<GachaLogItem> list)
+        private StatisticBanner BuildStatisticBanner(string name, BannerConfigration config, List<GachaLogItem> list)
         {
             //上次出货抽数
             int index5 = list.FindIndex(i => i.Rank == "5");
@@ -137,7 +150,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
         /// <param name="data"></param>
         /// <param name="itemType"></param>
         /// <returns></returns>
-        private static List<StatisticItem> ToStatisticTotalCountList(GachaData data, string itemType)
+        private List<StatisticItem> ToStatisticTotalCountList(GachaData data, string itemType)
         {
             CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
@@ -180,7 +193,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             }
             return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToRank()).ThenByDescending(i => i.Count).ToList();
         }
-        private static List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
+        private List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
         {
             CounterOf<StatisticItem> counter = new();
             foreach (SpecificItem i in list)
@@ -207,7 +220,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 .OrderByDescending(i => i.StarUrl?.ToRank())
                 .ThenByDescending(i => i.Count).ToList();
         }
-        private static List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
+        private List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
             //search from the earliest time
@@ -241,7 +254,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             counter.Reverse();
             return counter;
         }
-        private static int RestrictPredicatedCount5(int predicatedCount, StatisticBanner banner, int granteeCount)
+        private int RestrictPredicatedCount5(int predicatedCount, StatisticBanner banner, int granteeCount)
         {
             if (predicatedCount < 1)
             {
@@ -260,7 +273,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             }
             return predicatedCount;
         }
-        private static int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner, int granteeCount = 10)
+        private int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner, int granteeCount = 10)
         {
             if (predicatedCount < 1)
             {
@@ -273,7 +286,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             }
             return predicatedCount;
         }
-        private static List<SpecificBanner> ToSpecificBanners(GachaData data)
+        private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             //clone from metadata
             List<SpecificBanner>? clonedBanners = App.GetViewModel<MetadataViewModel>().SpecificBanners?.ClonePartially();
@@ -319,7 +332,7 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
                 .ThenBy(b => b.Type)
                 .ToList();
         }
-        private static void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
+        private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
             DataModels.Characters.Character? isc = App.GetViewModel<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
             DataModels.Weapons.Weapon? isw = App.GetViewModel<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
@@ -346,12 +359,12 @@ namespace DGP.Genshin.Services.GachaStatistics.Statistics
             {
                 ni.Name = item.Name;
                 ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
-                Analytics.TrackEvent("Unsupported GachaEvent Item", new Info(nameof(SpecificBanner), item.Name ?? "No name").Build());
+                new Event("Unsupported Item", item.Name ?? "No name").TrackAs(Event.GachaStatistic);
             }
             //? fix issue where crashes when no banner exists
             banner?.Items.Add(ni);
         }
-        private static void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
+        private void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
         {
             foreach (SpecificBanner banner in specificBanners)
             {

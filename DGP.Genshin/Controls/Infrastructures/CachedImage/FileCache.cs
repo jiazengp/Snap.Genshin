@@ -15,12 +15,12 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     /// <summary>
     /// https://github.com/floydpink/CachedImage/blob/main/source/FileCache.cs
     /// </summary>
-    public static class FileCache
+    internal static class FileCache
     {
         // Record whether a file is being written.
         private static readonly Dictionary<string, bool> IsWritingFile = new();
 
-        public static string AppCacheDirectory { get; set; } = $"{Environment.CurrentDirectory}\\Cache\\";
+        public static string AppCacheDirectory { get; set; } = Path.Combine(AppContext.BaseDirectory, "Cache");
 
         // HttpClient is intended to be instantiated once per application, rather than per-use.
         private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });

@@ -8,8 +8,9 @@ using System.Windows.Media.Imaging;
 namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 {
     /// <summary>
-    /// 用来在 <see cref="Border"/> 上设置异步设置 <see cref="Border.Background"/>
-    /// 实现了图片缓存，因为只有Border可以较为便捷的设置角落弧度
+    /// 实现了图片缓存，
+    /// 用来在 <see cref="Border"/> 上设置异步设置 <see cref="Border.Background"/> 与相应的 <see cref="ImageBrush.Stretch"/>，
+    /// 因为只有 <see cref="Border"/> 可以较为便捷的设置角落弧度
     /// </summary>
     public class ImageAsyncHelper : DependencyObject
     {

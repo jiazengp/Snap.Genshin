@@ -1,10 +1,8 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Controls.Launching;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.Launching;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
@@ -22,13 +20,12 @@ namespace DGP.Genshin.ViewModels
     [ViewModel(ViewModelType.Transient)]
     public class LaunchViewModel : ObservableObject
     {
-        private const string AccountsFile = "accounts.json";
-
         private readonly ILaunchService launchService;
         private readonly ISettingService settingService;
 
         private TitleBarButton? View;
 
+        #region Observables
         private List<LaunchScheme> knownSchemes = new()
         {
             new LaunchScheme(name: "官服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
@@ -99,7 +96,7 @@ namespace DGP.Genshin.ViewModels
             set
             {
                 SetProperty(ref selectedAccount, value);
-                GenshinRegistry.Set(value);
+                launchService.SetToRegistry(value);
             }
         }
         public IAsyncRelayCommand<TitleBarButton> OpenUICommand
@@ -126,14 +123,15 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(deleteAccountCommand))]
             set => SetProperty(ref deleteAccountCommand, value);
         }
+        #endregion
 
         public LaunchViewModel(ILaunchService launchService, ISettingService settingService)
         {
             this.launchService = launchService;
             this.settingService = settingService;
 
-            Accounts = Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
-            selectedAccount = accounts.FirstOrDefault();
+            Accounts = launchService.LoadAllAccount();
+            SelectedAccount = Accounts.FirstOrDefault();
             IsBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
             IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
 
@@ -147,9 +145,8 @@ namespace DGP.Genshin.ViewModels
         {
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
             launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
-            if (launcherPath is not null)
+            if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
-                launchService.LoadIniData(launcherPath);
                 await MatchAccount();
                 CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
                 t?.ShowAttachedFlyout<Grid>(this);
@@ -160,7 +157,7 @@ namespace DGP.Genshin.ViewModels
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "无法使用此功能",
-                    Content = "我们需要启动器的路径才能启动游戏。",
+                    Content = "我们需要启动器的路径才能启动游戏。\n如果你已经选择了正确的文件夹但仍看到此提示，\n请尝试联系开发者。",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
             }
@@ -202,7 +199,7 @@ namespace DGP.Genshin.ViewModels
         }
         private void SaveAllAccounts()
         {
-            Json.ToFile(AccountsFile, Accounts);
+            launchService.SaveAllAccounts(Accounts);
         }
         private async Task DeleteAccountAsync()
         {
@@ -229,7 +226,7 @@ namespace DGP.Genshin.ViewModels
         private async Task MatchAccount()
         {
             //注册表内有账号信息
-            if (GenshinRegistry.Get() is GenshinAccount currentRegistryAccount)
+            if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
             {
                 GenshinAccount? matched = Accounts.FirstOrDefault(
                     a => a.GeneralData == currentRegistryAccount.GeneralData && a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);

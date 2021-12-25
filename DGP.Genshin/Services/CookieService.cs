@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Core.Logging;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
@@ -23,7 +22,7 @@ namespace DGP.Genshin.Services
     /// </summary>
     [Service(typeof(ICookieService), ServiceType.Singleton)]
     [Send(typeof(CookieChangedMessage))]
-    public class CookieService : ICookieService
+    internal class CookieService : ICookieService
     {
         private const string CookieFile = "cookie.dat";
         private const string CookieListFile = "cookielist.dat";

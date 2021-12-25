@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     /// <summary>
     /// 20或14天一轮的up卡池信息

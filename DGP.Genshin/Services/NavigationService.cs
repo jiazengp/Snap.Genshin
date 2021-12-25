@@ -4,7 +4,6 @@ using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.AppCenter.Analytics;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
@@ -16,7 +15,7 @@ namespace DGP.Genshin.Services
     /// 导航服务的默认实现
     /// </summary>
     [Service(typeof(INavigationService), ServiceType.Singleton)]
-    public class NavigationService : INavigationService
+    internal class NavigationService : INavigationService
     {
         private NavigationView? navigationView;
 
@@ -82,7 +81,7 @@ namespace DGP.Genshin.Services
             //分析页面统计数据时不应加入启动时导航的首个页面
             if (HasEverNavigated)
             {
-                Analytics.TrackEvent("OpenUI", new Info(pageType, result).Build());
+                new Event(pageType, result).TrackAs(Event.OpenUI);
             }
             //fix memory leak? issue
             Frame?.RemoveBackEntry();

@@ -27,7 +27,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="key">键</param>
         /// <param name="defaultValue">默认填充返回值</param>
         /// <returns>设置值</returns>
-        T? GetOrDefault<T>(string key, T defaultValue);
+        T? GetOrDefault<T>(string key, T? defaultValue);
 
         /// <summary>
         /// 读取设置值
@@ -37,7 +37,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="defaultValue">默认填充返回值</param>
         /// <param name="converter">类型转换器</param>
         /// <returns>设置值</returns>
-        T GetOrDefault<T>(string key, T defaultValue, Func<object?, T> converter);
+        T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter);
 
         /// <summary>
         /// 初始化设置服务，加载设置数据
@@ -73,6 +73,7 @@ namespace DGP.Genshin.Services.Abstratcions
         public const string LastAutoSignInTime = "LastAutoSignInTime";
         public const string AppVersion = "AppVersion";
         public const string SkipCacheCheck = "SkipCacheCheck";
+        public const string UpdateUseFastGit = "UpdateUseFastGit";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

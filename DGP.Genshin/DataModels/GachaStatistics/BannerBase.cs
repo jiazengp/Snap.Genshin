@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     public abstract class BannerBase
     {

@@ -7,7 +7,7 @@ namespace DGP.Genshin.Helpers
     /// <summary>
     /// https://github.com/HandyOrg/HandyControl/blob/master/src/Shared/HandyControl_Shared/Tools/Helper/AnimationHelper.cs
     /// </summary>
-    public class AnimationHelper
+    internal class AnimationHelper
     {
         /// <summary>
         /// 创建一个Double动画

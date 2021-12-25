@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 
-namespace DGP.Genshin.Services.Notifications
+namespace DGP.Genshin.Helpers.Notifications
 {
     public static class ToastContentBuilderExtensions
     {

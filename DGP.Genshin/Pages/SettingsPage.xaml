@@ -91,11 +91,12 @@
                     </Expander.Header>
                     <StackPanel>
                         <TextBlock Text="Snap 原神" Style="{StaticResource BaseTextBlockStyle}"/>
-                        <TextBlock Text="{Binding VersionString}" Margin="0,6,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <Button Tag="Github" Content="检查更新并安装" Margin="0,0,0,6" Command="{Binding CheckUpdateCommand}"/>
+                        <TextBlock Text="{Binding VersionString}" Opacity="0.6" Margin="0,6,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <ui:ToggleSwitch Header="使用 FastGit 代替 Github 下载更新" IsOn="{Binding UpdateUseFastGit}"/>
+                        <Button Tag="Github" Content="检查更新并安装" Margin="0,6,0,6" Command="{Binding CheckUpdateCommand}"/>
 
                         <TextBlock Text="AppCenter" Style="{StaticResource BaseTextBlockStyle}" Margin="0,6,0,0"/>
-                        <TextBlock Text="Snap Genshin 采用经过修改的 Microsoft.AppCenter.SDK 进行基础的用户活跃数据收集&#10;收集的数据不会包括 用户Cookie 等敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Text="我们使用 Microsoft AppCenter 进行基础的用户活跃数据收集&#10;收集的数据不会包括用户敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>

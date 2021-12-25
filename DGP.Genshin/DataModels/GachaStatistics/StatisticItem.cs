@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.Services.GachaStatistics.Statistics
+﻿namespace DGP.Genshin.DataModels.GachaStatistics
 {
     /// <summary>
     /// 带有个数统计的奖池统计物品

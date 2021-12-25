@@ -80,7 +80,7 @@ namespace DGP.Genshin
             //app theme
             UpdateAppTheme();
             //app center services
-            ConfigureAppCenter();
+            ConfigureAppCenter(true);
             //open main window
             base.OnStartup(e);
         }
@@ -91,19 +91,22 @@ namespace DGP.Genshin
                 Environment.CurrentDirectory = workingPath;
             }
         }
-        private void ConfigureAppCenter()
+        private void ConfigureAppCenter(bool enabled)
         {
-            AppCenter.SetUserId(Info.UserId);
-            AppCenter.LogLevel = LogLevel.Verbose;
-            //cause the version of debug is always higher than normal release
-            //we need to send debug info to separate kanban
+            if (enabled)
+            {
+                AppCenter.SetUserId(User.Id);
+                AppCenter.LogLevel = LogLevel.Verbose;
+                //cause the version of debug is always higher than normal release
+                //we need to send debug info to separate kanban
 #if DEBUG
-            //DEBUG INFO should send to Snap Genshin Debug kanban
-            AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
+                //DEBUG INFO should send to Snap Genshin Debug kanban
+                AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
 #else
-            //NORMAL INFO should send to Snap Genshin kanban
-            AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
+                //NORMAL INFO should send to Snap Genshin kanban
+                AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
 #endif
+            }
         }
         private void ConfigureToastNotification()
         {
@@ -123,7 +126,6 @@ namespace DGP.Genshin
         {
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
-                Analytics.TrackEvent("App exited");
                 GetService<ISettingService>().UnInitialize();
                 GetViewModel<MetadataViewModel>().UnInitialize();
                 this.Log($"Exit code:{e.ApplicationExitCode}");

@@ -10,7 +10,7 @@ namespace DGP.Genshin.Core.Plugins
     /// <para/>
     /// 必须将此特性添加在实现了 <see cref="IPlugin"/> 的主类上
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class,AllowMultiple =true,Inherited =false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public class ImportPageAttribute : Attribute
     {
         public Type PageType { get; set; }
@@ -24,7 +24,7 @@ namespace DGP.Genshin.Core.Plugins
         /// <param name="pageType">导航页面的类型</param>
         /// <param name="label">导航页面的标签字符串</param>
         /// <param name="icon">图标</param>
-        public ImportPageAttribute(Type pageType,string label, IconElement icon)
+        public ImportPageAttribute(Type pageType, string label, IconElement icon)
         {
             PageType = pageType;
             Label = label;

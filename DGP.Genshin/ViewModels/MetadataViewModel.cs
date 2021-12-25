@@ -5,6 +5,7 @@ using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.GenshinElements;
 using DGP.Genshin.DataModels;
 using DGP.Genshin.DataModels.Characters;
+using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.DataModels.Materials.GemStones;
 using DGP.Genshin.DataModels.Materials.Locals;
 using DGP.Genshin.DataModels.Materials.Monsters;
@@ -12,7 +13,6 @@ using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Materials.Weeklys;
 using DGP.Genshin.DataModels.Weapons;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -364,7 +364,7 @@ namespace DGP.Genshin.ViewModels
         #region read write
         private string Read(string fileName)
         {
-            string path = Path.GetFullPath(Path.Combine(folderPath, fileName),AppContext.BaseDirectory);
+            string path = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);

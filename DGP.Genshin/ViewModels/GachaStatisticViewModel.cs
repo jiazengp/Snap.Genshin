@@ -1,10 +1,10 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Threading;
+using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
-using DGP.Genshin.Services.GachaStatistics.Statistics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
@@ -42,6 +42,7 @@ namespace DGP.Genshin.ViewModels
             get => statistic;
             set => SetProperty(ref statistic, value);
         }
+
         /// <summary>
         /// 当前选择的UID
         /// </summary>
@@ -54,20 +55,23 @@ namespace DGP.Genshin.ViewModels
                 SyncStatisticWithUid();
             }
         }
+
+        /// <summary>
+        /// 同步统计数据与当前uid
+        /// </summary>
+        /// <param name="forceRefresh"></param>
         public async void SyncStatisticWithUid()
         {
-            if (SelectedUserGachaData is null)
+            if (SelectedUserGachaData is not null)
             {
-                return;
-            }
-            string? currentUid = Statistic?.Uid;
-            string? targetUid = SelectedUserGachaData.Uid;
-            if (currentUid != targetUid)
-            {
-                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, targetUid);
+                string? currentUser = Statistic?.Uid;
+                string? targetUser = SelectedUserGachaData.Uid;
+                //移除相等判断是因为同一个uid刷新后无法更新
+                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, targetUser);
                 SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
         }
+
         /// <summary>
         /// 所有UID
         /// </summary>
@@ -76,6 +80,7 @@ namespace DGP.Genshin.ViewModels
             get => userGachaDataCollection;
             set => SetProperty(ref userGachaDataCollection, value);
         }
+
         /// <summary>
         /// 当前的获取进度
         /// </summary>
@@ -84,6 +89,7 @@ namespace DGP.Genshin.ViewModels
             get => fetchProgress;
             set => SetProperty(ref fetchProgress, value);
         }
+
         /// <summary>
         /// 选定的特定池
         /// </summary>
@@ -192,13 +198,22 @@ namespace DGP.Genshin.ViewModels
                 OpenFileDialog openFileDialog = new()
                 {
                     Filter = "JS对象简谱文件|*.json",
-                    Title = "从 可交换统一格式祈愿记录 Json文件导入",
+                    Title = "从 Json 文件导入",
                     Multiselect = false,
                     CheckFileExists = true
                 };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName);
+                    if (await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName))
+                    {
+                        await new ContentDialog()
+                        {
+                            Title = "导入祈愿记录失败",
+                            Content = "选择的Json文件不是标准的可交换格式",
+                            PrimaryButtonText = "确定",
+                            DefaultButton = ContentDialogButton.Primary
+                        }.ShowAsync();
+                    }
                 }
                 taskPreventer.Release();
             }
@@ -210,13 +225,22 @@ namespace DGP.Genshin.ViewModels
                 OpenFileDialog openFileDialog = new()
                 {
                     Filter = "Excel 工作簿|*.xlsx",
-                    Title = "从 可交换统一格式祈愿记录工作簿 文件导入",
+                    Title = "从 Excel 文件导入",
                     Multiselect = false,
                     CheckFileExists = true
                 };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName);
+                    if (!await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName))
+                    {
+                        await new ContentDialog()
+                        {
+                            Title = "导入祈愿记录失败",
+                            Content = "选择的Excel文件不是标准的可交换格式",
+                            PrimaryButtonText = "确定",
+                            DefaultButton = ContentDialogButton.Primary
+                        }.ShowAsync();
+                    }
                 }
                 taskPreventer.Release();
             }

@@ -39,12 +39,14 @@ namespace DGP.Genshin.ViewModels
         private bool autoDailySignInOnLaunch;
         private bool skipCacheCheck;
         private bool signInSilently;
+        private bool updateUseFastGit;
 
         private string versionString;
         private AutoRun autoRun = new();
         private NamedValue<ApplicationTheme?> selectedTheme;
         private IAsyncRelayCommand checkUpdateCommand;
 
+        //需要在 Initalize 中添加字段的初始化
         public bool ShowFullUID
         {
             get => showFullUID; set
@@ -75,6 +77,14 @@ namespace DGP.Genshin.ViewModels
             {
                 SettingService.SetValueNoNotify(Setting.SignInSilently, value);
                 SetProperty(ref signInSilently, value);
+            }
+        }
+        public bool UpdateUseFastGit
+        {
+            get => updateUseFastGit; set
+            {
+                SettingService.SetValueNoNotify(Setting.UpdateUseFastGit, value);
+                updateUseFastGit = value;
             }
         }
 
@@ -114,16 +124,17 @@ namespace DGP.Genshin.ViewModels
             SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
             Initialize();
-            IsActive = true;
         }
 
         [MemberNotNull("versionString")]
         private void Initialize()
         {
+            //不能直接设置属性 会导致触发通知操作进而造成死循环
             showFullUID = SettingService.GetOrDefault(Setting.ShowFullUID, false);
             autoDailySignInOnLaunch = SettingService.GetOrDefault(Setting.AutoDailySignInOnLaunch, false);
             skipCacheCheck = SettingService.GetOrDefault(Setting.SkipCacheCheck, false);
             signInSilently = SettingService.GetOrDefault(Setting.SignInSilently, false);
+            updateUseFastGit = SettingService.GetOrDefault(Setting.UpdateUseFastGit, false);
 
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;

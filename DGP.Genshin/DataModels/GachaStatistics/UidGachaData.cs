@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Gacha;
 
-namespace DGP.Genshin.Services.GachaStatistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     public class UidGachaData
     {

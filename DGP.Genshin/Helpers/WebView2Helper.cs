@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Common.Core.Logging;
-using DGP.Genshin.Common.Extensions.System;
 using Microsoft.Win32;
 
 namespace DGP.Genshin.Helpers
@@ -9,8 +8,8 @@ namespace DGP.Genshin.Helpers
     /// </summary>
     internal class WebView2Helper
     {
-        private const string value = "pv";
-        private const string path = @"SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}";
+        private const string pvKey = "pv";
+        private const string Path = @"SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}";
 
         /// <summary>
         /// 检测WebView
@@ -20,9 +19,9 @@ namespace DGP.Genshin.Helpers
             get
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                RegistryKey? subKey = currentUser.OpenSubKey(path);
-                Logger.LogStatic(subKey?.GetValue(value));
-                return subKey?.GetValue(value) is not null;
+                RegistryKey? subKey = currentUser.OpenSubKey(Path);
+                Logger.LogStatic(subKey?.GetValue(pvKey));
+                return subKey?.GetValue(pvKey) is not null;
             }
         }
     }

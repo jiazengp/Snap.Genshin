@@ -25,7 +25,7 @@ namespace DGP.Genshin.Mate.Services
             List<UserGameRoleDailyNote> list = new();
             foreach (string cookie in CookieManager.Cookies)
             {
-                List<UserGameRole>? roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
 
                 foreach (UserGameRole role in roles)
                 {

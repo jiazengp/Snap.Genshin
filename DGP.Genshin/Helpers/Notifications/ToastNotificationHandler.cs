@@ -5,7 +5,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace DGP.Genshin.Helpers.Notifications
 {
-    public class ToastNotificationHandler
+    internal class ToastNotificationHandler
     {
         /// <summary>
         /// 在后台处理并响应通知

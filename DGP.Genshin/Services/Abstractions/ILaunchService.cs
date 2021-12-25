@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.DataModels.Launching;
 using IniParser.Model;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Abstratcions
@@ -35,7 +37,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// </summary>
         /// <param name="launcherPath">启动器路径</param>
         /// <returns>是否加载成功</returns>
-        bool LoadIniData(string? launcherPath);
+        bool TryLoadIniData(string? launcherPath);
 
         /// <summary>
         /// 启动官方启动器
@@ -60,5 +62,9 @@ namespace DGP.Genshin.Services.Abstratcions
         /// 异步等待原神进程退出
         /// </summary>
         Task WaitGenshinImpactExitAsync();
+        void SaveAllAccounts(IEnumerable<GenshinAccount> accounts);
+        ObservableCollection<GenshinAccount> LoadAllAccount();
+        GenshinAccount? GetFromRegistry();
+        bool SetToRegistry(GenshinAccount? account);
     }
 }

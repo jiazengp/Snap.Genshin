@@ -3,6 +3,7 @@ using DGP.Genshin.Common.Request;
 using DGP.Genshin.Common.Request.QueryString;
 using DGP.Genshin.Common.Response;
 using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.Services.Abstratcions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.GachaStatistics
 {
+
     /// <summary>
     /// 联机抽卡记录工作器
     /// </summary>
-    public class GachaLogWorker
+    public class GachaLogWorker : IGachaLogWorker
     {
         private readonly Random random = new();
         private readonly int batchSize;

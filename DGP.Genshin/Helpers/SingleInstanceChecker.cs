@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DGP.Genshin
+namespace DGP.Genshin.Helpers
 {
     /// <summary>
     /// 单例程序检查器
     /// </summary>
-    public class SingleInstanceChecker
+    internal class SingleInstanceChecker
     {
-        private readonly string uniqueEventName = "Snap.Genshin";
+        private readonly string uniqueEventName;
         private EventWaitHandle? eventWaitHandle;
 
         /// <summary>

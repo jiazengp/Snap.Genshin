@@ -37,6 +37,7 @@ namespace DGP.Genshin.Services.Abstratcions
 
         /// <summary>
         /// 下载并安装更新包
+        /// 尽量避免在捕获的上下文中使用
         /// </summary>
         Task DownloadAndInstallPackageAsync();
     }

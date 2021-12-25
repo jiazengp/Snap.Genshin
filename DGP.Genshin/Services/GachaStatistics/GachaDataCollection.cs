@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.MiHoYoAPI.Gacha;
+﻿using DGP.Genshin.DataModels.GachaStatistics;
+using DGP.Genshin.MiHoYoAPI.Gacha;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

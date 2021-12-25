@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DGP.Genshin.Services.GachaStatistics.Statistics
+namespace DGP.Genshin.DataModels.GachaStatistics
 {
     /// <summary>
     /// 统计信息

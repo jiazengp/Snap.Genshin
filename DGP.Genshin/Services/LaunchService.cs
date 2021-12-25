@@ -1,11 +1,15 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Services.Abstratcions;
 using IniParser;
 using IniParser.Model;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -14,17 +18,84 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Services.Launching
+namespace DGP.Genshin.Services
 {
     /// <summary>
     /// 启动服务的默认实现
     /// </summary>
     [Service(typeof(ILaunchService), ServiceType.Transient)]
-    public class LaunchService : ILaunchService
+    internal class LaunchService : ILaunchService
     {
         private const string AccountsFile = "accounts.json";
 
         private readonly ISettingService settingService;
+
+        /// <summary>
+        /// 定义了对注册表的操作
+        /// </summary>
+        internal class GenshinRegistry
+        {
+            private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
+            private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+            private const string DataKey = "GENERAL_DATA_h2389025596";
+
+            public static bool Set(GenshinAccount? account)
+            {
+                if (account?.MihoyoSDK is not null && account.GeneralData is not null)
+                {
+                    Registry.SetValue(GenshinKey, SdkKey, Encoding.UTF8.GetBytes(account.MihoyoSDK));
+                    Registry.SetValue(GenshinKey, DataKey, Encoding.UTF8.GetBytes(account.GeneralData));
+                    return true;
+                }
+                return false;
+            }
+
+            /// <summary>
+            /// 在注册表中获取账号信息
+            /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
+            /// </summary>
+            /// <param name="accountNamer"></param>
+            /// <returns></returns>
+            public static GenshinAccount? Get()
+            {
+                object? sdk = Registry.GetValue(GenshinKey, SdkKey, "");
+                object? data = Registry.GetValue(GenshinKey, DataKey, "");
+
+                if (sdk is null || data is null)
+                {
+                    return null;
+                }
+
+                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
+                string dataString = Encoding.UTF8.GetString((byte[])data);
+
+                return new GenshinAccount { MihoyoSDK = sdkString, GeneralData = dataString };
+            }
+
+            /// <summary>
+            /// 在注册表中获取账号信息
+            /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
+            /// </summary>
+            /// <param name="accountNamer"></param>
+            /// <returns></returns>
+            public static async Task<GenshinAccount?> GetAsync(Func<GenshinAccount, Task<string?>> asyncAccountNamer)
+            {
+                object? sdk = Registry.GetValue(GenshinKey, SdkKey, null);
+                object? data = Registry.GetValue(GenshinKey, DataKey, null);
+
+                if (sdk is null || data is null)
+                {
+                    return null;
+                }
+
+                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
+                string dataString = Encoding.UTF8.GetString((byte[])data);
+
+                GenshinAccount account = new() { MihoyoSDK = sdkString, GeneralData = dataString };
+                account.Name = await asyncAccountNamer.Invoke(account);
+                return account;
+            }
+        }
 
         private IniData? launcherConfig;
         private IniData? gameConfig;
@@ -54,21 +125,28 @@ namespace DGP.Genshin.Services.Launching
 
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
 
-            LoadIniData(launcherPath);
+            TryLoadIniData(launcherPath);
         }
 
         [MemberNotNullWhen(true, nameof(gameConfig))]
         [MemberNotNullWhen(true, nameof(launcherConfig))]
-        public bool LoadIniData(string? launcherPath)
+        public bool TryLoadIniData(string? launcherPath)
         {
             if (launcherPath != null)
             {
-                string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
-                launcherConfig = GetIniData(configPath);
+                try
+                {
+                    string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
+                    launcherConfig = GetIniData(configPath);
 
-                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-                gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
-
+                    string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
+                    gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    return false;
+                }
                 return true;
             }
             else
@@ -84,6 +162,8 @@ namespace DGP.Genshin.Services.Launching
         /// <returns></returns>
         private IniData GetIniData(string file)
         {
+            //this method cause tons of problems
+
             FileIniDataParser parser = new();
             parser.Parser.Configuration.AssigmentSpacer = "";
             return parser.ReadFile(file);
@@ -206,6 +286,25 @@ namespace DGP.Genshin.Services.Launching
             string unescapedGameFolder = Regex.Unescape(LauncherConfig["launcher"]["game_install_path"].Replace("x", "u"));
             //compat with https://github.com/DawnFz/GenShin-LauncherDIY
             new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", GameConfig, new UTF8Encoding(false));
+        }
+
+        public ObservableCollection<GenshinAccount> LoadAllAccount()
+        {
+            return Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
+        }
+
+        public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
+        {
+            Json.ToFile(AccountsFile, accounts);
+        }
+
+        public GenshinAccount? GetFromRegistry()
+        {
+            return GenshinRegistry.Get();
+        }
+        public bool SetToRegistry(GenshinAccount? account)
+        {
+            return GenshinRegistry.Set(account);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace DGP.Genshin.Helpers
     /// so we store base64 encoded value here
     /// https://github.com/settings/tokens
     /// </summary>
-    public class TokenHelper : Base64Converter
+    internal class GithubTokenHelper : Base64Converter
     {
         public static string GetToken()
         {
