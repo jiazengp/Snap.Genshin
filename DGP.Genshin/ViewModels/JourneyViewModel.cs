@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Journey;
@@ -30,7 +31,7 @@ namespace DGP.Genshin.ViewModels
         private JourneyInfo? journeyInfo;
         private List<UserGameRole> userGameRoles = new();
         private UserGameRole? selectedRole;
-        private IAsyncRelayCommand<TitleBarButton> initializeCommand;
+        private IAsyncRelayCommand<TitleBarButton> openUICommand;
 
         public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
         public List<UserGameRole> UserGameRoles { get => userGameRoles; set => SetProperty(ref userGameRoles, value); }
@@ -46,12 +47,12 @@ namespace DGP.Genshin.ViewModels
         {
             JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
         }
-        public IAsyncRelayCommand<TitleBarButton> InitializeCommand
+        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
         {
-            get => initializeCommand;
+            get => openUICommand;
 
-            [MemberNotNull("initializeCommand")]
-            set => SetProperty(ref initializeCommand, value);
+            [MemberNotNull(nameof(openUICommand))]
+            set => SetProperty(ref openUICommand, value);
         }
 
         public JourneyViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
@@ -61,15 +62,16 @@ namespace DGP.Genshin.ViewModels
             journeyProvider = new JourneyProvider(this.cookieService.CurrentCookie);
             userGameRoleProvider = new UserGameRoleProvider(this.cookieService.CurrentCookie);
 
-            InitializeCommand = new AsyncRelayCommand<TitleBarButton>(InitializeAsync);
+            OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
 
             IsActive = true;
         }
 
-        private async Task InitializeAsync(TitleBarButton? t)
+        private async Task OpenUIAsync(TitleBarButton? t)
         {
             if (t?.ShowAttachedFlyout<Grid>(this) == true)
             {
+                new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
                 await InitializeInternalAsync();
             }
         }

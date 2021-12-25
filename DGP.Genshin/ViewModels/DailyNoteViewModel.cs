@@ -3,6 +3,7 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Services.Abstratcions;
@@ -47,11 +48,13 @@ namespace DGP.Genshin.ViewModels
         {
             if (t?.ShowAttachedFlyout<Grid>(this) == true)
             {
+                new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
                 await RefreshDailyNotesAsync();
             }
         }
 
         private readonly TaskPreventer refreshDailyNoteTaskPreventer = new();
+
         /// <summary>
         /// 刷新实时便笺
         /// </summary>

@@ -2,6 +2,7 @@
 using DGP.Genshin.Controls.Launching;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Launching;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -145,12 +146,14 @@ namespace DGP.Genshin.ViewModels
         {
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
             launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
+            bool result = false;
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
                 await MatchAccount();
                 CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
                 t?.ShowAttachedFlyout<Grid>(this);
                 View = t;
+                result = true;
             }
             else
             {
@@ -160,7 +163,9 @@ namespace DGP.Genshin.ViewModels
                     Content = "我们需要启动器的路径才能启动游戏。\n如果你已经选择了正确的文件夹但仍看到此提示，\n请尝试联系开发者。",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
+                result = false;
             }
+            new Event(t?.GetType(), result).TrackAs(Event.OpenTitle);
         }
         private async Task LaunchByOption(string? option)
         {

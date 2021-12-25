@@ -6,11 +6,25 @@ namespace DGP.Genshin.Helpers
 {
     /// <summary>
     /// AppCenter 分析事件
+    /// 传入的字符串长度不能超过64
     /// </summary>
     internal class Event : Dictionary<string, string>
     {
+        /// <summary>
+        /// 导航到指定页面
+        /// </summary>
         public const string OpenUI = "OpenUI";
+
+        /// <summary>
+        /// 打开标题栏
+        /// </summary>
+        public const string OpenTitle = "OpenTitle";
+
+        /// <summary>
+        /// 祈愿记录分析
+        /// </summary>
         public const string GachaStatistic = "GachaStatistic";
+
         /// <summary>
         /// 普通事件的构造器
         /// </summary>
@@ -24,11 +38,11 @@ namespace DGP.Genshin.Helpers
         /// <summary>
         /// 导航服务使用的事件构造器
         /// </summary>
-        /// <param name="pageType">页面类型</param>
-        /// <param name="result">导航的结果</param>
-        public Event(Type pageType, bool result)
+        /// <param name="type">类型</param>
+        /// <param name="result">结果</param>
+        public Event(Type? type, bool result)
         {
-            this[pageType.ToString()] = result.ToString();
+            this[type?.ToString()??"Unknown Type"] = result.ToString();
         }
 
         /// <summary>
@@ -37,7 +51,14 @@ namespace DGP.Genshin.Helpers
         /// <param name="name">事件名称</param>
         public void TrackAs(string name)
         {
-            Analytics.TrackEvent(name, this);
+            if (Count > 0)
+            {
+                Analytics.TrackEvent(name, this);
+            }
+            else
+            {
+                Analytics.TrackEvent(name);
+            }
         }
     }
 }

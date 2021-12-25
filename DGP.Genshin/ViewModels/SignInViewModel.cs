@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Controls.TitleBarButtons;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
@@ -153,6 +154,7 @@ namespace DGP.Genshin.ViewModels
             if (t?.ShowAttachedFlyout<Grid>(this) == true)
             {
                 await InitializeInternalAsync();
+                new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
             }
         }
         /// <summary>

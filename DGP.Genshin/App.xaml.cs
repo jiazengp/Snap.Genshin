@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Request;
 using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
 using DGP.Genshin.Helpers;
@@ -14,6 +15,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -81,8 +83,16 @@ namespace DGP.Genshin
             UpdateAppTheme();
             //app center services
             ConfigureAppCenter(true);
+            //global requester callback
+            ConfigureRequester();
             //open main window
             base.OnStartup(e);
+        }
+
+        private void ConfigureRequester()
+        {
+            Requester.ResponseFailedCallback = (ex, method, desc) =>
+            Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });
         }
         private void ConfigureWorkingDirectory()
         {

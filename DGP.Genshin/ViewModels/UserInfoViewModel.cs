@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Cookies;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Services.Abstratcions;
@@ -114,7 +115,10 @@ namespace DGP.Genshin.ViewModels
         }
         private void OpenUI(TitleBarButton? t)
         {
-            t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this);
+            if (t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this) == true)
+            {
+                new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
+            }
         }
         internal async Task InitializeInternalAsync()
         {

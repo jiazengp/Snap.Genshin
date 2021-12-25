@@ -10,7 +10,7 @@
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="旅行札记"
-                   Command="{Binding InitializeCommand}"
+                   Command="{Binding OpenUICommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">

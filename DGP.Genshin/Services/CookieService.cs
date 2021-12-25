@@ -6,6 +6,7 @@ using DGP.Genshin.Controls.Cookies;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
@@ -157,9 +158,8 @@ namespace DGP.Genshin.Services
             }
             catch (Exception ex)
             {
-                ex.Log($"{ex.Message}");
+                Crashes.TrackError(ex);
                 Cookies = new CookiePool(this, new List<string>());
-                File.Create(CookieListFile).Dispose();
             }
         }
 

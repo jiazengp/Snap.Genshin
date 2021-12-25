@@ -50,7 +50,7 @@ namespace DGP.Genshin.Pages
                 // only the following code is executed.
 
                 //WebView2 can still be null
-                WebView?.Dispose();
+                App.Current.Dispatcher.Invoke(() => WebView?.Dispose());
 
                 // Note disposing has been done.
                 disposed = true;
