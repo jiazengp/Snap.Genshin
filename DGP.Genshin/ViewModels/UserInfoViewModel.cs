@@ -122,7 +122,7 @@ namespace DGP.Genshin.ViewModels
         }
         internal async Task InitializeInternalAsync()
         {
-            CookieUserInfos.Clear();
+            //CookieUserInfos.Clear();
             foreach (string cookie in cookieService.Cookies)
             {
                 UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();

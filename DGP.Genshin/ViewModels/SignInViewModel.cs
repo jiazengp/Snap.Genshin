@@ -167,7 +167,7 @@ namespace DGP.Genshin.ViewModels
             if (SignInInfo is null)
             {
                 Roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
-                SelectedRole = Roles.FirstOrDefault(i => i.IsChosen);
+                SelectedRole = Roles.FirstOrDefault(i => i.IsChosen) ?? Roles.FirstOrDefault();
             }
         }
 

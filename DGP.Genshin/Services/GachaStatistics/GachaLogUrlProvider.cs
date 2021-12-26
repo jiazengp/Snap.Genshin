@@ -11,7 +11,7 @@ namespace DGP.Genshin.Services.GachaStatistics
     /// <summary>
     /// 联机抽卡Url提供器
     /// </summary>
-    public class GachaLogUrlProvider
+    internal class GachaLogUrlProvider
     {
         private const string gachaLogBaseUrl = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
         private static readonly string LocalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -79,7 +79,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             (bool isOk, string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
             url = url.Trim();
             string? result = null;
-            //compat with iOS 
+            //compat with iOS url
             if (url.StartsWith(@"https://webstatic.mihoyo.com"))
             {
                 url = url.Replace("#/log", "");
