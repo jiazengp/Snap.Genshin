@@ -4,11 +4,16 @@ using DGP.Genshin.DataModels.Characters;
 using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Weapons;
+using DGP.Genshin.Messages;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.ViewModels
@@ -32,8 +37,9 @@ namespace DGP.Genshin.ViewModels
             new("星期日", DayOfWeek.Sunday)
         };
 
-        private NamedValue<DayOfWeek> selectedDayOfWeek;
-        public NamedValue<DayOfWeek> SelectedDayOfWeek
+        private NamedValue<DayOfWeek>? selectedDayOfWeek;
+        private IAsyncRelayCommand openUICommand;
+        public NamedValue<DayOfWeek>? SelectedDayOfWeek
         {
             get => selectedDayOfWeek; set
             {
@@ -44,7 +50,14 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
-        private void RaisePropertyChanged(string city)
+        public IAsyncRelayCommand OpenUICommand
+        {
+            get => openUICommand;
+            [MemberNotNull(nameof(openUICommand))]
+            set => SetProperty(ref openUICommand, value);
+        }
+
+        private async void RaisePropertyChanged(string city)
         {
             ClearFieldValueOf($"today{city}Talent");
             ClearFieldValueOf($"today{city}WeaponAscension");
@@ -54,10 +67,15 @@ namespace DGP.Genshin.ViewModels
             ClearFieldValueOf($"today{city}Weapon4");
 
             OnPropertyChanged($"Today{city}Talent");
-            OnPropertyChanged($"Today{city}WeaponAscension");
+            await Task.Delay(200);
             OnPropertyChanged($"Today{city}Character5");
+            await Task.Delay(200);
             OnPropertyChanged($"Today{city}Character4");
+            await Task.Delay(200);
+            OnPropertyChanged($"Today{city}WeaponAscension");
+            await Task.Delay(200);
             OnPropertyChanged($"Today{city}Weapon5");
+            await Task.Delay(200);
             OnPropertyChanged($"Today{city}Weapon4");
         }
         private void ClearFieldValueOf(string name)
@@ -69,7 +87,13 @@ namespace DGP.Genshin.ViewModels
         public DailyViewModel(MetadataViewModel metadataService)
         {
             dataViewModel = metadataService;
-            selectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        }
+
+        private async Task OpenUIAsync()
+        {
+            await Task.Delay(1000);
+            SelectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.Now.DayOfWeek);
         }
 
         #region Mondstadt
@@ -81,7 +105,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtTalent == null)
                 {
                     todayMondstadtTalent = dataViewModel.DailyTalents?
-                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek.Value) && i.IsMondstadt());
+                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek?.Value) && i.IsMondstadt());
                 }
                 return todayMondstadtTalent;
             }
@@ -95,7 +119,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtWeaponAscension == null)
                 {
                     todayMondstadtWeaponAscension = dataViewModel.DailyWeapons?
-                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek.Value) && i.IsMondstadt());
+                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek?.Value) && i.IsMondstadt());
                 }
                 return todayMondstadtWeaponAscension;
             }
@@ -109,7 +133,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtCharacter5 == null)
                 {
                     todayMondstadtCharacter5 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayMondstadtCharacter5;
             }
@@ -123,7 +147,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtCharacter4 == null)
                 {
                     todayMondstadtCharacter4 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsMondstadt() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayMondstadtCharacter4;
             }
@@ -137,7 +161,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtWeapon5 == null)
                 {
                     todayMondstadtWeapon5 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayMondstadtWeapon5;
             }
@@ -151,7 +175,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayMondstadtWeapon4 == null)
                 {
                     todayMondstadtWeapon4 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsMondstadt() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayMondstadtWeapon4;
             }
@@ -167,7 +191,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueTalent == null)
                 {
                     todayLiyueTalent = dataViewModel.DailyTalents?
-                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek.Value) && i.IsLiyue());
+                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek?.Value) && i.IsLiyue());
                 }
                 return todayLiyueTalent;
             }
@@ -181,7 +205,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueWeaponAscension == null)
                 {
                     todayLiyueWeaponAscension = dataViewModel.DailyWeapons?
-                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek.Value) && i.IsLiyue());
+                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek?.Value) && i.IsLiyue());
                 }
                 return todayLiyueWeaponAscension;
             }
@@ -195,7 +219,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueCharacter5 == null)
                 {
                     todayLiyueCharacter5 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayLiyueCharacter5;
             }
@@ -209,7 +233,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueCharacter4 == null)
                 {
                     todayLiyueCharacter4 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsLiyue() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayLiyueCharacter4;
             }
@@ -223,7 +247,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueWeapon5 == null)
                 {
                     todayLiyueWeapon5 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayLiyueWeapon5;
             }
@@ -237,7 +261,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayLiyueWeapon4 == null)
                 {
                     todayLiyueWeapon4 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsLiyue() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayLiyueWeapon4;
             }
@@ -253,7 +277,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaTalent == null)
                 {
                     todayInazumaTalent = dataViewModel.DailyTalents?
-                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek.Value) && i.IsInazuma());
+                        .Where(i => i.IsTodaysTalent(SelectedDayOfWeek?.Value) && i.IsInazuma());
                 }
                 return todayInazumaTalent;
             }
@@ -267,7 +291,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaWeaponAscension == null)
                 {
                     todayInazumaWeaponAscension = dataViewModel.DailyWeapons?
-                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek.Value) && i.IsInazuma());
+                        .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek?.Value) && i.IsInazuma());
                 }
                 return todayInazumaWeaponAscension;
             }
@@ -281,7 +305,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaCharacter5 == null)
                 {
                     todayInazumaCharacter5 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 5 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayInazumaCharacter5;
             }
@@ -295,7 +319,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaCharacter4 == null)
                 {
                     todayInazumaCharacter4 = dataViewModel.Characters?
-                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent(SelectedDayOfWeek.Value));
+                        .Where(c => c.Star.ToRank() == 4 && c.Talent is not null && c.Talent.IsInazuma() && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
                 }
                 return todayInazumaCharacter4;
             }
@@ -309,13 +333,15 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaWeapon5 == null)
                 {
                     todayInazumaWeapon5 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 5 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayInazumaWeapon5;
             }
         }
 
         private IEnumerable<Weapon>? todayInazumaWeapon4;
+
+
         public IEnumerable<Weapon>? TodayInazumaWeapon4
         {
             get
@@ -323,7 +349,7 @@ namespace DGP.Genshin.ViewModels
                 if (todayInazumaWeapon4 == null)
                 {
                     todayInazumaWeapon4 = dataViewModel.Weapons?
-                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek.Value));
+                        .Where(w => w.Ascension != null && w.Star.ToRank() == 4 && w.Ascension.IsInazuma() && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 }
                 return todayInazumaWeapon4;
             }

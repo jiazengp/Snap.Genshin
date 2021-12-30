@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Controls.Cookies
 {
-    /// <summary>
-    /// CookieDialog.xaml 的交互逻辑
-    /// </summary>
     public partial class CookieDialog : ContentDialog
     {
         public CookieDialog()
@@ -17,9 +14,9 @@ namespace DGP.Genshin.Controls.Cookies
         }
 
         /// <summary>
-        /// 
+        /// 获取输入的Cookie
         /// </summary>
-        /// <returns>string.Empty if user force return</returns>
+        /// <returns>string.Empty if user force return with invalid cookie</returns>
         public async Task<string> GetInputCookieAsync()
         {
             await ShowAsync();
@@ -50,8 +47,10 @@ namespace DGP.Genshin.Controls.Cookies
 
         private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            bool inputEmpty = string.IsNullOrEmpty(InputText.Text);
-            bool inputHasAccountId = InputText.Text.Contains("account_id");
+            string text = InputText.Text;
+            bool inputEmpty = string.IsNullOrEmpty(text);
+            bool inputHasAccountId = text.Contains("account_id");
+
             (PrimaryButtonText, IsPrimaryButtonEnabled) = (inputEmpty, inputHasAccountId) switch
             {
                 (true, _) => ("请输入Cookie", false),

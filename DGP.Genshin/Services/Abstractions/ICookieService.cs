@@ -29,7 +29,8 @@ namespace DGP.Genshin.Services.Abstratcions
             /// 添加或忽略相同的 Cookie
             /// </summary>
             /// <param name="cookie"></param>
-            void AddOrIgnore(string cookie);
+            /// <returns>是否成功添加</returns>
+            bool AddOrIgnore(string cookie);
 
             /// <summary>
             /// 移除Cookie,
@@ -78,5 +79,11 @@ namespace DGP.Genshin.Services.Abstratcions
         /// 更新 <see cref="CurrentCookie"/> 的值
         /// </summary>
         Task SetCookieAsync();
+
+        /// <summary>
+        /// 保存当前的Cookie
+        /// </summary>
+        /// <param name="cookie"></param>
+        void SaveCookie(string cookie);
     }
 }

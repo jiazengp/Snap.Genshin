@@ -11,15 +11,12 @@ namespace DGP.Genshin.Core.Plugins
     /// <summary>
     /// 此服务会保证插件文件夹的存在
     /// </summary>
-    internal class PluginService
+    internal class PluginService : IPluginService
     {
         private const string PluginFolder = "Plugins";
         private readonly IEnumerable<Assembly> pluginAssemblies;
         private readonly IEnumerable<IPlugin> plugins;
 
-        /// <summary>
-        /// 此处的程序集可能包括了不含插件实现的 污染程序集
-        /// </summary>
         public IEnumerable<Assembly> PluginAssemblies => pluginAssemblies;
 
         public IEnumerable<IPlugin> Plugins => plugins;

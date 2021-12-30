@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace DGP.Genshin.ViewModels
+namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(ViewModelType.Transient)]
     public class LaunchViewModel : ObservableObject

@@ -47,7 +47,7 @@
                             <ui:ToggleSwitch Grid.Column="0" Header="开机时启动" IsOn="{Binding AutoRun.IsAutoRun}"/>
                             <ui:ToggleSwitch Grid.Column="1" Header="启动时跳过缓存完整性检查" IsOn="{Binding SkipCacheCheck}"/>
                         </Grid>
-                        <TextBlock Text="签到" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                        <TextBlock Text="签到" Style="{StaticResource BaseTextBlockStyle}" Margin="0,12,0,6"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -91,12 +91,12 @@
                     </Expander.Header>
                     <StackPanel>
                         <TextBlock Text="Snap 原神" Style="{StaticResource BaseTextBlockStyle}"/>
-                        <TextBlock Text="{Binding VersionString}" Opacity="0.6" Margin="0,6,0,8" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <ui:ToggleSwitch Header="使用 FastGit 代替 Github 下载更新" IsOn="{Binding UpdateUseFastGit}"/>
-                        <Button Tag="Github" Content="检查更新并安装" Margin="0,6,0,6" Command="{Binding CheckUpdateCommand}"/>
+                        <TextBlock Text="{Binding VersionString}" Opacity="0.6" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <ui:ToggleSwitch Header="使用 FastGit 代替 Github 下载更新 [实验性]" Margin="0,6,0,2" IsOn="{Binding UpdateUseFastGit}"/>
+                        <Button Tag="Github" Content="强制检查更新并安装" Margin="0,6,0,6" Command="{Binding CheckUpdateCommand}"/>
 
-                        <TextBlock Text="AppCenter" Style="{StaticResource BaseTextBlockStyle}" Margin="0,6,0,0"/>
-                        <TextBlock Text="我们使用 Microsoft AppCenter 进行基础的用户活跃数据收集&#10;收集的数据不会包括用户敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Text="AppCenter" Style="{StaticResource BaseTextBlockStyle}" Margin="0,12,0,0"/>
+                        <TextBlock Text="我们使用 Microsoft AppCenter 进行基础的用户活跃数据收集&#10;收集崩溃与错误报告等信息，数据不会包括用户敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>

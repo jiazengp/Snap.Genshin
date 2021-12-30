@@ -3,10 +3,12 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Request;
 using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
+using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -17,6 +19,7 @@ using ModernWpf;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -29,9 +32,18 @@ namespace DGP.Genshin
     {
         private readonly ToastNotificationHandler toastNotificationHandler = new();
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
-        private readonly ServiceManager serviceManager = new();
+        private readonly ServiceManagerBase serviceManager;
+        private readonly IPluginService pluginService;
 
-        internal ServiceManager ServiceManager => serviceManager;
+        internal ServiceManagerBase ServiceManager => serviceManager;
+        internal IPluginService PluginService => pluginService;
+        public TaskbarIcon? NotifyIcon { get; set; }
+
+        public App()
+        {
+            pluginService = new PluginService();
+            serviceManager = new PluginSupportedServiceManager();
+        }
 
         /// <summary>
         /// 覆盖默认类型的 Current
@@ -51,9 +63,9 @@ namespace DGP.Genshin
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
-        public static TService GetService<TService>()
+        public static TService GetService<TService>() 
         {
-            return Current.serviceManager.Services.GetService<TService>()
+            return Current.serviceManager.Services!.GetService<TService>()
                 ?? throw new SnapGenshinInternalException($"无法找到 {typeof(TService)} 类型的服务");
         }
 
@@ -62,9 +74,28 @@ namespace DGP.Genshin
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <returns></returns>
-        public static TViewModel GetViewModel<TViewModel>()
+        public static TViewModel GetViewModel<TViewModel>() 
         {
             return GetService<TViewModel>();
+        }
+
+        /// <summary>
+        /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
+        /// </summary>
+        /// <returns>返回唯一的窗口，未找到返回新实例</returns>
+        public static void ShowOrCloseWindow<TWindow>(string? name = null) where TWindow : Window, new()
+        {
+            TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
+
+            if (window is not null)
+            {
+                window.Close();
+            }
+            else
+            {
+                TWindow newWindow = new();
+                newWindow.Show();
+            }
         }
         #endregion
 
@@ -88,7 +119,16 @@ namespace DGP.Genshin
             //open main window
             base.OnStartup(e);
         }
-
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
+            {
+                GetService<ISettingService>().UnInitialize();
+                GetViewModel<MetadataViewModel>().UnInitialize();
+                this.Log($"Exit code:{e.ApplicationExitCode}");
+            }
+            base.OnExit(e);
+        }
         private void ConfigureRequester()
         {
             Requester.ResponseFailedCallback = (ex, method, desc) =>
@@ -131,16 +171,6 @@ namespace DGP.Genshin
         {
             ThemeManager.Current.ApplicationTheme =
                 GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
-        }
-        protected override void OnExit(ExitEventArgs e)
-        {
-            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
-            {
-                GetService<ISettingService>().UnInitialize();
-                GetViewModel<MetadataViewModel>().UnInitialize();
-                this.Log($"Exit code:{e.ApplicationExitCode}");
-            }
-            base.OnExit(e);
         }
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {

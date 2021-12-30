@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace DGP.Genshin.ViewModels
+namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     /// <summary>
     /// 旅行札记服务

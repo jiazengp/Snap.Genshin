@@ -5,9 +5,11 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls.Cookies;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
+using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -61,7 +63,7 @@ namespace DGP.Genshin.Services
                 }
             }
 
-            public void AddOrIgnore(string cookie)
+            public bool AddOrIgnore(string cookie)
             {
                 if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
                 {
@@ -69,9 +71,13 @@ namespace DGP.Genshin.Services
                     {
                         AccountIds.Add(id);
                         Add(cookie);
+                        return true;
                     }
                 }
+                return false;
             }
+
+
 
             public new bool Remove(string cookie)
             {
@@ -121,11 +127,6 @@ namespace DGP.Genshin.Services
         {
             LoadCookies();
             LoadCookie();
-
-            if (currentCookie is not null)
-            {
-                Cookies.AddOrIgnore(currentCookie);
-            }
         }
 
         /// <summary>
@@ -173,11 +174,8 @@ namespace DGP.Genshin.Services
                     return;
                 }
                 currentCookie = value;
-                if (!Cookies.Contains(currentCookie))
-                {
-                    Cookies.Add(currentCookie);
-                }
-                this.Log("current cookie has changed");
+                SaveCookie(value);
+                Cookies.AddOrIgnore(currentCookie);
                 App.Messenger.Send(new CookieChangedMessage(currentCookie));
             }
         }
@@ -188,7 +186,7 @@ namespace DGP.Genshin.Services
         {
             string cookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
             //prevent user input unexpected invalid cookie
-            if (!string.IsNullOrEmpty(cookie))
+            if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
             {
                 CurrentCookie = cookie;
             }
@@ -210,17 +208,50 @@ namespace DGP.Genshin.Services
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
             string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
-
-            if (!string.IsNullOrEmpty(newCookie))
+            if (await ValidateCookieAsync(newCookie))
             {
-                Cookies.AddOrIgnore(newCookie);
+                if (!string.IsNullOrEmpty(newCookie))
+                {
+                    Cookies.AddOrIgnore(newCookie);
+                }
             }
+        }
+
+        public void SaveCookie(string cookie)
+        {
+            File.WriteAllText(CookieFile, cookie);
         }
 
         public void SaveCookies()
         {
             IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
             Json.ToFile(CookieListFile, encodedCookies);
+        }
+
+        /// <summary>
+        /// 验证Cookie是否任处于登录态
+        /// 若Cookie已失效则会弹出对话框提示用户
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        private async Task<bool> ValidateCookieAsync(string cookie)
+        {
+            UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
+            if (info is not null)
+            {
+                return true;
+            }
+            else
+            {
+                await new ContentDialog
+                {
+                    Title = "该Cookie无效",
+                    Content = "无法获取到你的账户信息，\n可能是Cookie已经失效，请重新登录获取",
+                    PrimaryButtonText = "确认",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+                return false;
+            }
         }
     }
 }

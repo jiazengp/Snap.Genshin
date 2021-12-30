@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.ViewModels;
+﻿using DGP.Genshin.ViewModels.TitleBarButtons;
 using ModernWpf.Controls.Primitives;
 
 namespace DGP.Genshin.Controls.TitleBarButtons

@@ -9,6 +9,7 @@ using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
@@ -27,6 +28,7 @@ namespace DGP.Genshin
     /// </summary>
     public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
+        private static bool hasEverOpen = false;
         private readonly INavigationService navigationService;
         public MainWindow()
         {
@@ -41,20 +43,31 @@ namespace DGP.Genshin
             this.Log("initialized");
         }
 
-        public async void Receive(SplashInitializationCompletedMessage message)
+        public async void Receive(SplashInitializationCompletedMessage viewReference)
         {
-            SplashViewModel splashView = message.Value;
+            SplashViewModel splashView = viewReference.Value;
             PrepareTitleBarArea(splashView);
             AddAditionalNavigationViewItem();
-            DoUpdateFlow();
-            //签到
-            if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+            //pre process
+            if (!hasEverOpen)
             {
-                await SignInOnStartUp(splashView);
+                hasEverOpen = true;
+
+                DoUpdateFlow();
+                //签到
+                if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+                {
+                    await SignInOnStartUp(splashView);
+                }
+                //taskbar icon
+                App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
+                if (App.Current.NotifyIcon is not null)
+                {
+                    App.Current.NotifyIcon.DataContext = App.GetViewModel<TaskbarIconViewModel>();
+                }
             }
             splashView.CurrentStateDescription = "完成";
             splashView.IsSplashNotVisible = true;
-            //post actions
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
         }
 
@@ -63,7 +76,7 @@ namespace DGP.Genshin
         /// </summary>
         private void AddAditionalNavigationViewItem()
         {
-            foreach (IPlugin? plugin in App.Current.ServiceManager.PluginService.Plugins)
+            foreach (IPlugin? plugin in App.Current.PluginService.Plugins)
             {
                 foreach (ImportPageAttribute? importPage in plugin.GetType().GetCustomAttributes<ImportPageAttribute>())
                 {
@@ -178,7 +191,5 @@ namespace DGP.Genshin
             }.ShowAsync();
         }
         #endregion
-
-
     }
 }

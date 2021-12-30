@@ -22,7 +22,7 @@ namespace DGP.Genshin.DataModels.Materials.Weapons
             Star = StarHelper.FromRank(5);
         }
 
-        public bool IsTodaysWeapon(DayOfWeek dayOfWeek)
+        public bool IsTodaysWeapon(DayOfWeek? dayOfWeek)
         {
             return dayOfWeek switch
             {

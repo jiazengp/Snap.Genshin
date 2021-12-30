@@ -22,6 +22,7 @@ namespace DGP.Genshin.Controls.GenshinElements
 
         private void Window_LostFocus(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             Close();
         }
     }

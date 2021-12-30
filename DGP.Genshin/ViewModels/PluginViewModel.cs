@@ -33,7 +33,7 @@ namespace DGP.Genshin.ViewModels
 
         public PluginViewModel()
         {
-            Plugins = App.Current.ServiceManager.PluginService.Plugins;
+            Plugins = App.Current.PluginService.Plugins;
 
             OpenPluginFolderCommand = new RelayCommand(OpenPluginsFolder);
         }

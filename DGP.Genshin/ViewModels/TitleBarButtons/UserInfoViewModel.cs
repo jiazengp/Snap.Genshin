@@ -16,12 +16,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.ViewModels
+namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(ViewModelType.Transient)]
     public class UserInfoViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
+        private UserInfoTitleBarButton? View;
 
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
@@ -33,9 +34,10 @@ namespace DGP.Genshin.ViewModels
         public CookieUserInfo? SelectedCookieUserInfo
         {
             get => selectedCookieUserInfo; set
-            {
+            {            
                 SetProperty(ref selectedCookieUserInfo, value);
                 cookieService.ChangeOrIgnoreCurrentCookie(value?.Cookie);
+                View?.HideAttachedFlyout();
             }
         }
         public ObservableCollection<CookieUserInfo> CookieUserInfos
@@ -117,12 +119,12 @@ namespace DGP.Genshin.ViewModels
         {
             if (t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this) == true)
             {
+                View = t as UserInfoTitleBarButton;
                 new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
             }
         }
         internal async Task InitializeInternalAsync()
         {
-            //CookieUserInfos.Clear();
             foreach (string cookie in cookieService.Cookies)
             {
                 UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
@@ -137,7 +139,7 @@ namespace DGP.Genshin.ViewModels
         public async void Receive(CookieAddedMessage message)
         {
             string newCookie = message.Value;
-            if ((await new UserInfoProvider(newCookie).GetUserInfoAsync()) is UserInfo newInfo)
+            if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
             {
                 CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
             }

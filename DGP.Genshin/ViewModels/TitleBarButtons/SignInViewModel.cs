@@ -19,7 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace DGP.Genshin.ViewModels
+namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(ViewModelType.Transient)]
     public class SignInViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
@@ -88,7 +88,7 @@ namespace DGP.Genshin.ViewModels
             for (int i = 0; i < reward?.Awards?.Count; i++)
             {
                 SignInAward item = reward.Awards[i];
-                item.Opacity = (i + 1) <= SignInInfo?.TotalSignDay ? 0.2 : 1;
+                item.Opacity = i + 1 <= SignInInfo?.TotalSignDay ? 0.2 : 1;
             }
         }
         public IAsyncRelayCommand<TitleBarButton> OpenUICommand

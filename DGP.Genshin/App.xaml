@@ -9,7 +9,7 @@
     xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
-    ShutdownMode="OnMainWindowClose">
+    ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,6 +18,7 @@
                 <ui:IntellisenseResources/>
                 <!--merged dictionaries here -->
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Infrastructures/Markdown/MarkdownStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/TaskbarIconResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--#region ConstValues-->

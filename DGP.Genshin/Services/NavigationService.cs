@@ -14,7 +14,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 导航服务的默认实现
     /// </summary>
-    [Service(typeof(INavigationService), ServiceType.Singleton)]
+    [Service(typeof(INavigationService), ServiceType.Transient)]
     internal class NavigationService : INavigationService
     {
         private NavigationView? navigationView;

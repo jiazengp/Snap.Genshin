@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\BookmarkIcon.png" />
     <None Remove="Resources\Eff_Sc_StarSky01.png" />
     <None Remove="Resources\Segoe Fluent Icons.ttf" />
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
@@ -35,6 +34,7 @@
     <None Remove="Resources\UI_EmotionIcon72.png" />
     <None Remove="Resources\UI_GachaSettlement_Bg2.png" />
     <None Remove="Resources\UI_ImgSign_ItemIcon.png" />
+    <None Remove="Resources\UI_ItemIcon_210.png" />
     <None Remove="SG_Logo.ico" />
   </ItemGroup>
 
@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.8.4" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.3.0" />
@@ -64,7 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\BookmarkIcon.png" />
     <Resource Include="Resources\Eff_Sc_StarSky01.png" />
     <Resource Include="Resources\Segoe Fluent Icons.ttf" />
     <Resource Include="Resources\UI_BagTabIcon_Avatar.png" />
@@ -73,6 +73,7 @@
     <Resource Include="Resources\UI_EmotionIcon72.png" />
     <Resource Include="Resources\UI_GachaSettlement_Bg2.png" />
     <Resource Include="Resources\UI_ImgSign_ItemIcon.png" />
+    <Resource Include="Resources\UI_ItemIcon_210.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
   

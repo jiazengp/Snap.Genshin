@@ -12,6 +12,9 @@
     <Compile Update="Controls\ExceptionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\GenshinElements\DailyNoteWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -44,6 +47,9 @@
     <Page Update="Controls\ExceptionWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\GenshinElements\DailyNoteWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -72,6 +78,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Launching\NameDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TaskbarIconResources.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
