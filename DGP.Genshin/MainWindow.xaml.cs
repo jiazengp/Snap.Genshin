@@ -43,9 +43,9 @@ namespace DGP.Genshin
             this.Log("initialized");
         }
 
-        public async void Receive(SplashInitializationCompletedMessage viewReference)
+        public async void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
-            SplashViewModel splashView = viewReference.Value;
+            SplashViewModel splashView = viewModelReference.Value;
             PrepareTitleBarArea(splashView);
             AddAditionalNavigationViewItem();
             //pre process
@@ -142,7 +142,10 @@ namespace DGP.Genshin
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
                 settingService[Setting.AppVersion] = updateService.CurrentVersion;
-                await ShowWhatsNewDialogAsync();
+                if (App.Current.MainWindow is not null)
+                {
+                    await ShowWhatsNewDialogAsync();
+                }
             }
         }
         private async Task CheckUpdateAsync()

@@ -7,7 +7,6 @@ using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Notifications;
 using DGP.Genshin.Services.Abstratcions;
-using DGP.Genshin.ViewModels;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -63,7 +62,7 @@ namespace DGP.Genshin
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
-        public static TService GetService<TService>() 
+        public static TService GetService<TService>()
         {
             return Current.serviceManager.Services!.GetService<TService>()
                 ?? throw new SnapGenshinInternalException($"无法找到 {typeof(TService)} 类型的服务");
@@ -74,7 +73,7 @@ namespace DGP.Genshin
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <returns></returns>
-        public static TViewModel GetViewModel<TViewModel>() 
+        public static TViewModel GetViewModel<TViewModel>()
         {
             return GetService<TViewModel>();
         }
@@ -97,17 +96,39 @@ namespace DGP.Genshin
                 newWindow.Show();
             }
         }
+
+        /// <summary>
+        /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
+        /// </summary>
+        /// <returns>返回唯一的窗口，未找到返回新实例</returns>
+        public static void BringWindowToFront<TWindow>(string? name = null) where TWindow : Window, new()
+        {
+            TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
+
+            if (window is null)
+            {
+                window = new();
+            }
+            if (window.WindowState == WindowState.Minimized || window.Visibility != Visibility.Visible)
+            {
+                window.Show();
+                window.WindowState = WindowState.Normal;
+            }
+            window.Activate();
+            window.Topmost = true;
+            window.Topmost = false;
+            window.Focus();
+        }
         #endregion
 
         #region LifeCycle
         protected override void OnStartup(StartupEventArgs e)
         {
             ConfigureWorkingDirectory();
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            ConfigureUnhandledException();
             //handle notification activation
             ConfigureToastNotification();
-            singleInstanceChecker.Ensure(Current);
-            //file operation starts
+            singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
             this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
@@ -124,11 +145,25 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 GetService<ISettingService>().UnInitialize();
-                GetViewModel<MetadataViewModel>().UnInitialize();
-                this.Log($"Exit code:{e.ApplicationExitCode}");
+                ToastNotificationManagerCompat.History.Clear();
+                this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);
         }
+
+        private void ConfigureUnhandledException()
+        {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        }
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (!singleInstanceChecker.IsEnsureingSingleInstance)
+            {
+                //unhandled exception now can be uploaded automatically
+                new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
+            }
+        }
+
         private void ConfigureRequester()
         {
             Requester.ResponseFailedCallback = (ex, method, desc) =>
@@ -153,18 +188,13 @@ namespace DGP.Genshin
                 //DEBUG INFO should send to Snap Genshin Debug kanban
                 AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
 #else
-                //NORMAL INFO should send to Snap Genshin kanban
+                //RELEASE INFO should send to Snap Genshin kanban
                 AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
 #endif
             }
         }
         private void ConfigureToastNotification()
         {
-            if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
-            {
-                //remove toast last time not cleared if it's manually launched
-                ToastNotificationManagerCompat.History.Clear();
-            }
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
         }
         private void UpdateAppTheme()
@@ -172,14 +202,7 @@ namespace DGP.Genshin
             ThemeManager.Current.ApplicationTheme =
                 GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
-        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            if (!singleInstanceChecker.IsEnsureingSingleInstance)
-            {
-                //unhandled exception now can be uploaded automatically
-                new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
-            }
-        }
+
         #endregion
     }
 }

@@ -17,7 +17,7 @@ namespace DGP.Genshin.Helpers
         {
             IntPtr handle = new WindowInteropHelper(window).Handle;
             //notify windows to create a WorkerW
-            SendMessageTimeout(FindWindow("Progman", ""), 1324u, new UIntPtr(0u), IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, 1000u, out var _);
+            SendMessageTimeout(FindWindow("Progman", ""), 1324u, new UIntPtr(0u), IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, 1000u, out UIntPtr _);
             SetParent(handle, FindWorkerWPtr());
         }
 
@@ -25,7 +25,7 @@ namespace DGP.Genshin.Helpers
         {
             IntPtr workerw = IntPtr.Zero;
             IntPtr def = IntPtr.Zero;
-            IntPtr result = FindWindow("Progman", null);
+            IntPtr result = FindWindow("Progman", "");
             _ = IntPtr.Zero;
             EnumWindows(delegate (IntPtr handle, IntPtr param)
             {
@@ -48,7 +48,7 @@ namespace DGP.Genshin.Helpers
         /// <param name="window"></param>
         internal static void EnableAcrylic(this Window window)
         {
-            AccentPolicy accent = new ()
+            AccentPolicy accent = new()
             {
                 AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
                 GradientColor = (0 << 24) | (acrylicBackgroundColor & 0xFFFFFF)

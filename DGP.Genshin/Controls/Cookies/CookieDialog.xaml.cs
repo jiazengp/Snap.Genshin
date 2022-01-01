@@ -16,11 +16,10 @@ namespace DGP.Genshin.Controls.Cookies
         /// <summary>
         /// 获取输入的Cookie
         /// </summary>
-        /// <returns>string.Empty if user force return with invalid cookie</returns>
-        public async Task<string> GetInputCookieAsync()
+        public async Task<(ContentDialogResult result, string cookie)> GetInputCookieAsync()
         {
-            await ShowAsync();
-            return InputText.Text.Contains("account_id") ? InputText.Text : string.Empty;
+            ContentDialogResult result = await ShowAsync();
+            return (result, InputText.Text);
         }
 
         private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)

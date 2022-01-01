@@ -4,11 +4,19 @@
     
     <ContextMenu x:Shared="false" x:Key="TaskbarIconMenu">
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}" />
-        <MenuItem Header="实时便笺 [实验性]" Command="{Binding DailyNoteWindowCommand}" />
-        <Separator />
+        <MenuItem Header="实时便笺" ItemsSource="{Binding UserGameRoles}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
+                    <Setter Property="IsCheckable" Value="True"/>
+                    <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
+                    <Setter Property="Header" Value="{Binding Path=Value.Key.UserGameRole}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
         <MenuItem Header="退出" Command="{Binding ExitCommand}" />
     </ContextMenu>
-
+    
     <tb:TaskbarIcon x:Key="TaskbarIcon"
                     IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
                     ToolTipText="Snap Genshin"

@@ -1,13 +1,12 @@
-﻿using DGP.Genshin.ViewModels.TitleBarButtons;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DGP.Genshin.Controls.GenshinElements
 {
     public partial class DailyNoteWindow : Window
     {
-        public DailyNoteWindow()
+        public DailyNoteWindow(object dataContext)
         {
-            DataContext = App.GetViewModel<DailyNoteViewModel>();
+            DataContext = dataContext;
             InitializeComponent();
         }
     }

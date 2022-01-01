@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Helpers;
@@ -34,7 +35,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public CookieUserInfo? SelectedCookieUserInfo
         {
             get => selectedCookieUserInfo; set
-            {            
+            {
                 SetProperty(ref selectedCookieUserInfo, value);
                 cookieService.ChangeOrIgnoreCurrentCookie(value?.Cookie);
                 View?.HideAttachedFlyout();
@@ -83,11 +84,12 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
 
         private async Task AddUserAsync()
         {
+            View?.HideAttachedFlyout();
             await cookieService.AddCookieToPoolOrIgnoreAsync();
         }
         private async Task RemoveUserAsync()
         {
-            //this.HideAttachedFlyout();
+            View?.HideAttachedFlyout();
             if (cookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
@@ -131,6 +133,12 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 if (info is not null)
                 {
                     CookieUserInfos.Add(new CookieUserInfo(cookie, info));
+                }
+                else
+                {
+                    this.Log($"Delete cookie {cookie}");
+                    //删除用户无法手动选中的cookie(失效的cookie)
+                    cookieService.Cookies.Remove(cookie);
                 }
             }
             SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);

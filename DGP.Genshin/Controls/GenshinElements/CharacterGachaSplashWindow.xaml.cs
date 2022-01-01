@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace DGP.Genshin.Controls.GenshinElements
 {
@@ -20,10 +21,11 @@ namespace DGP.Genshin.Controls.GenshinElements
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(string), typeof(CharacterGachaSplashWindow));
 
-        private void Window_LostFocus(object sender, RoutedEventArgs e)
+
+        protected override void OnDeactivated(EventArgs e)
         {
+            base.OnDeactivated(e);
             DialogResult = true;
-            Close();
         }
     }
 }

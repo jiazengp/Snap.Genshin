@@ -16,7 +16,8 @@ namespace DGP.Genshin.Controls.Behaviors
             AssociatedObject.MouseLeftButtonDown -= MouseDown;
             base.OnDetaching();
         }
-        void MouseDown(object sender, EventArgs ea)
+
+        private void MouseDown(object sender, EventArgs ea)
         {
             Window.GetWindow(sender as FrameworkElement)?.DragMove();
         }

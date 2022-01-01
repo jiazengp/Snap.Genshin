@@ -42,7 +42,7 @@ namespace DGP.Genshin.Helpers
         /// <param name="result">结果</param>
         public Event(Type? type, bool result)
         {
-            this[type?.ToString()??"Unknown Type"] = result.ToString();
+            this[type?.ToString() ?? "Unknown Type"] = result.ToString();
         }
 
         /// <summary>

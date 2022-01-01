@@ -57,6 +57,18 @@
                             <ui:ToggleSwitch Grid.Column="0" Header="每日首次启动时签到" IsOn="{Binding AutoDailySignInOnLaunch}"/>
                             <ui:ToggleSwitch Grid.Column="1" Header="签到通知静默" IsOn="{Binding SignInSilently}"/>
                         </Grid>
+                        <TextBlock Text="桌面上的 实时便笺 - 树脂" Style="{StaticResource BaseTextBlockStyle}" Margin="0,12,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox ui:ControlHelper.Header="刷新时间"
+                                ItemsSource="{Binding ResinAutoRefreshTime,Mode=OneWay}" 
+                                SelectedItem="{Binding SelectedResinAutoRefreshTime}" 
+                                DisplayMemberPath="Name"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
                 <!--<Expander Margin="12,12,16,0">

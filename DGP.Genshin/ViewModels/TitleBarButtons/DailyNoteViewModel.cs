@@ -4,7 +4,6 @@ using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Helpers;
-using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Services.Abstratcions;
@@ -15,39 +14,31 @@ using ModernWpf.Controls.Primitives;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
-    [ViewModel(ViewModelType.Singleton)]
-    public class DailyNoteViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
+    [ViewModel(ViewModelType.Transient)]
+    public class DailyNoteViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;
 
         private List<DailyNote> dailyNotes = new();
-        private IAsyncRelayCommand<TitleBarButton> openUICommand;
-        private IAsyncRelayCommand<Window> openSinkUICommand;
+        private ICommand openUICommand;
 
         public List<DailyNote> DailyNotes { get => dailyNotes; set => SetProperty(ref dailyNotes, value); }
-        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
+        public ICommand OpenUICommand
         {
             get => openUICommand;
             [MemberNotNull(nameof(openUICommand))]
             set => openUICommand = value;
         }
-        public IAsyncRelayCommand<Window> OpenSinkUICommand
-        {
-            get => openSinkUICommand;
-            [MemberNotNull(nameof(openSinkUICommand))]
-            set => SetProperty(ref openSinkUICommand, value);
-        }
 
-        public DailyNoteViewModel(ICookieService cookieService,IMessenger messenger):base(messenger)
+        public DailyNoteViewModel(ICookieService cookieService, IMessenger messenger)
         {
             this.cookieService = cookieService;
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
-            openSinkUICommand = new AsyncRelayCommand<Window>(OpenSinkUIAsync);
         }
 
         /// <summary>
@@ -62,13 +53,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
                 await RefreshDailyNotesAsync();
             }
-        }
-
-        private async Task OpenSinkUIAsync(Window? window)
-        {
-            window?.EnableAcrylic();
-            //window?.Sink();
-            await RefreshDailyNotesAsync();
         }
 
         private readonly TaskPreventer refreshDailyNoteTaskPreventer = new();
@@ -96,11 +80,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 DailyNotes = list;
                 refreshDailyNoteTaskPreventer.Release();
             }
-        }
-
-        public async void Receive(CookieChangedMessage message)
-        {
-            await RefreshDailyNotesAsync();
         }
     }
 }

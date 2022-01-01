@@ -77,8 +77,6 @@ namespace DGP.Genshin.Services
                 return false;
             }
 
-
-
             public new bool Remove(string cookie)
             {
                 string id = GetCookiePairs(cookie)["account_id"];
@@ -157,16 +155,17 @@ namespace DGP.Genshin.Services
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
                 Cookies = new CookiePool(this, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
+            catch (FileNotFoundException) { }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                Cookies = new CookiePool(this, new List<string>());
             }
+            Cookies ??= new CookiePool(this, new List<string>());
         }
 
         public string CurrentCookie
         {
-            get => currentCookie ?? throw new SnapGenshinInternalException("Cookie 不应为 null");
+            get => currentCookie ?? throw new UnexceptedNullException("Cookie 不应为 null");
             private set
             {
                 if (currentCookie == value)
@@ -184,13 +183,16 @@ namespace DGP.Genshin.Services
 
         public async Task SetCookieAsync()
         {
-            string cookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
-            //prevent user input unexpected invalid cookie
-            if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
+            (ContentDialogResult result, string cookie) = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            if (result is ContentDialogResult.Primary)
             {
-                CurrentCookie = cookie;
+                //prevent user input unexpected invalid cookie
+                if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
+                {
+                    CurrentCookie = cookie;
+                }
+                File.WriteAllText(CookieFile, CurrentCookie);
             }
-            File.WriteAllText(CookieFile, CurrentCookie);
         }
 
         public void ChangeOrIgnoreCurrentCookie(string? cookie)
@@ -207,12 +209,15 @@ namespace DGP.Genshin.Services
 
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
-            string newCookie = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
-            if (await ValidateCookieAsync(newCookie))
+            (ContentDialogResult result, string newCookie) = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            if (result is ContentDialogResult.Primary)
             {
-                if (!string.IsNullOrEmpty(newCookie))
+                if (await ValidateCookieAsync(newCookie))
                 {
-                    Cookies.AddOrIgnore(newCookie);
+                    if (!string.IsNullOrEmpty(newCookie))
+                    {
+                        Cookies.AddOrIgnore(newCookie);
+                    }
                 }
             }
         }
@@ -234,7 +239,7 @@ namespace DGP.Genshin.Services
         /// </summary>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        private async Task<bool> ValidateCookieAsync(string cookie)
+        private async Task<bool> ValidateCookieAsync(string cookie, bool showDialog = true)
         {
             UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
             if (info is not null)
@@ -243,13 +248,16 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                await new ContentDialog
+                if (showDialog)
                 {
-                    Title = "该Cookie无效",
-                    Content = "无法获取到你的账户信息，\n可能是Cookie已经失效，请重新登录获取",
-                    PrimaryButtonText = "确认",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
+                    await new ContentDialog
+                    {
+                        Title = "该Cookie无效",
+                        Content = "无法获取到你的账户信息，\n可能是Cookie已经失效，请重新登录获取",
+                        PrimaryButtonText = "确认",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                }
                 return false;
             }
         }

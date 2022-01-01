@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -26,13 +25,19 @@ namespace DGP.Genshin.ViewModels
     {
         private readonly ISettingService settingService;
         private ISettingService SettingService => settingService;
-        private readonly IUpdateService updateService;
 
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
         {
             new("浅色", ApplicationTheme.Light),
             new("深色", ApplicationTheme.Dark),
             new("系统默认", null),
+        };
+        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime => new()
+        {
+            new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
+            new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
+            new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
+            new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
         };
 
         private bool showFullUID;
@@ -44,9 +49,10 @@ namespace DGP.Genshin.ViewModels
         private string versionString;
         private AutoRun autoRun = new();
         private NamedValue<ApplicationTheme?> selectedTheme;
+        private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
         private IAsyncRelayCommand checkUpdateCommand;
 
-        //需要在 Initalize 中添加字段的初始化
+        //需要在 Initalize Receive 中添加字段的初始化
         public bool ShowFullUID
         {
             get => showFullUID; set
@@ -88,6 +94,7 @@ namespace DGP.Genshin.ViewModels
             }
         }
 
+        //不需要显式初始化的字段
         public string VersionString
         {
             get => versionString;
@@ -110,6 +117,16 @@ namespace DGP.Genshin.ViewModels
         {
             ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
+        public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
+        {
+            get => selectedResinAutoRefreshTime;
+            [MemberNotNull(nameof(selectedResinAutoRefreshTime))]
+            set
+            {
+                SetProperty(ref selectedResinAutoRefreshTime, value);
+                settingService[Setting.ResinRefreshMinutes] = value.Value.TotalMinutes;
+            }
+        }
         public IAsyncRelayCommand CheckUpdateCommand
         {
             get => checkUpdateCommand;
@@ -120,9 +137,16 @@ namespace DGP.Genshin.ViewModels
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
-            this.updateService = updateService;
-            SelectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
+
+            selectedTheme = Themes.First(x => x.Value == SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter));
+
+            double minutes = settingService.GetOrDefault(Setting.ResinRefreshMinutes, 8d);
+            selectedResinAutoRefreshTime =
+                ResinAutoRefreshTime.FirstOrDefault(s => s.Value.TotalMinutes == minutes)
+                ?? ResinAutoRefreshTime.First();
+
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
+
             Initialize();
         }
 
@@ -139,11 +163,6 @@ namespace DGP.Genshin.ViewModels
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;
             VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
-        }
-
-        public async Task CheckUpdateAsync()
-        {
-            UpdateState result = await updateService.CheckUpdateStateAsync();
         }
 
         /// <summary>
@@ -170,6 +189,9 @@ namespace DGP.Genshin.ViewModels
                     break;
                 case Setting.SignInSilently:
                     SignInSilently = value is not null && (bool)value;
+                    break;
+                case Setting.UpdateUseFastGit:
+                    UpdateUseFastGit = value is not null && (bool)value;
                     break;
                 default:
                     break;

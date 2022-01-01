@@ -76,14 +76,14 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             {
                 SignInInfo = await Task.Run(() => new SignInProvider(cookieService.CurrentCookie).GetSignInInfoAsync(SelectedRole));
                 SignInReward? reward = await Task.Run(new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync);
-                ApplyItemOpacity(reward);
+                UpdateItemOpacity(reward);
                 SignInReward = reward;
             }
         }
         /// <summary>
         /// 更新物品透明度
         /// </summary>
-        private void ApplyItemOpacity(SignInReward? reward)
+        private void UpdateItemOpacity(SignInReward? reward)
         {
             for (int i = 0; i < reward?.Awards?.Count; i++)
             {
@@ -144,7 +144,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                     .AddAttributionText("米游社每日签到")
                     .Show();
             SignInReward? reward = await new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync();
-            ApplyItemOpacity(reward);
+            UpdateItemOpacity(reward);
             SignInReward = reward;
             //refresh info
             SignInInfo = await new SignInProvider(cookieService.CurrentCookie).GetSignInInfoAsync(SelectedRole);

@@ -74,6 +74,7 @@ namespace DGP.Genshin.Services.Abstratcions
         public const string AppVersion = "AppVersion";
         public const string SkipCacheCheck = "SkipCacheCheck";
         public const string UpdateUseFastGit = "UpdateUseFastGit";
+        public const string ResinRefreshMinutes = "ResinRefreshMinutes";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

@@ -83,15 +83,14 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="data"></param>
         /// <param name="type"></param>
         /// <param name="name"></param>
-        /// <param name="prob5"></param>
-        /// <param name="prob4"></param>
-        /// <param name="granteeCount"></param>
         /// <returns></returns>
         private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerConfigration config)
         {
-            List<GachaLogItem>? list = data[type];
-            _ = list ?? throw new UnexceptedNullException($"卡池{type}:对应的卡池信息不应为 null");
-            return BuildStatisticBanner(name, config, list);
+            if (data.TryGetValue(type, out List<GachaLogItem>? list))
+            {
+                return BuildStatisticBanner(name, config, list!);
+            }
+            return new() { CurrentName = name };
         }
 
         private StatisticBanner BuildStatisticBanner(string name, BannerConfigration config, List<GachaLogItem> list)

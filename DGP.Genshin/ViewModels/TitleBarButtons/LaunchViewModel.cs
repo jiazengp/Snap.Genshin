@@ -149,7 +149,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             bool result = false;
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
-                await MatchAccount();
+                await MatchAccountAsync();
                 CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
                 t?.ShowAttachedFlyout<Grid>(this);
                 View = t;
@@ -228,7 +228,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         /// <summary>
         /// 从注册表获取当前的账户信息
         /// </summary>
-        private async Task MatchAccount()
+        private async Task MatchAccountAsync()
         {
             //注册表内有账号信息
             if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)

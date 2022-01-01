@@ -62,14 +62,6 @@
 
 ![record.png](/Design/ImgAssets/record.png)
 
-# DGP.Genshin.Mate
-
-> 桌面树脂伴侣，无需复杂设置，即点即用，方便快捷  
-> 支持多账号，支持嵌入桌面窗口模式  
-> 独立程序，点击系统托盘图标显示实时树脂  
-
-![mate.png](/Design/ImgAssets/mate.png)
-
 </div>
 
 # 反馈须知

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -35,7 +36,7 @@ namespace DGP.Genshin.Helpers
         /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
-        public void Ensure(Application app)
+        public void Ensure(Application app, Action multiInstancePresentCallback)
         {
             // check if it is already open.
             try
@@ -63,23 +64,7 @@ namespace DGP.Genshin.Helpers
             {
                 while (eventWaitHandle.WaitOne())
                 {
-                    app.Dispatcher.BeginInvoke(() =>
-                    {
-                        // could be set or removed anytime
-                        if (!app.MainWindow.Equals(null))
-                        {
-                            Window mainWindow = app.MainWindow;
-                            if (mainWindow.WindowState == WindowState.Minimized || mainWindow.Visibility != Visibility.Visible)
-                            {
-                                mainWindow.Show();
-                                mainWindow.WindowState = WindowState.Normal;
-                            }
-                            mainWindow.Activate();
-                            mainWindow.Topmost = true;
-                            mainWindow.Topmost = false;
-                            mainWindow.Focus();
-                        }
-                    });
+                    app.Dispatcher.BeginInvoke(multiInstancePresentCallback);
                 }
             })
             .Start();

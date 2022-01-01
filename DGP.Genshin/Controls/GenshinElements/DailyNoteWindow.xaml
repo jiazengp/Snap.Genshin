@@ -4,58 +4,63 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:b="clr-namespace:DGP.Genshin.Controls.Behaviors"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        xmlns:titlebarbuttons="clr-namespace:DGP.Genshin.ViewModels.TitleBarButtons" 
-        d:DataContext="{d:DesignInstance Type=titlebarbuttons:DailyNoteViewModel}"
         mc:Ignorable="d"
         x:Name="DailyNoteSinkWindow"
-        Title="实时便笺" Height="450" Width="800"
+        Title="实时便笺" Height="40" Width="300"
         WindowStyle="None"
         AllowsTransparency="True"
+        Background="Transparent"
         SizeToContent="WidthAndHeight"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        Background="#01000000">
+        >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding OpenSinkUICommand}" CommandParameter="{Binding ElementName=DailyNoteSinkWindow}"/>
+            <i:InvokeCommandAction Command="{Binding OpenUICommand}" CommandParameter="{Binding ElementName=DailyNoteSinkWindow}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid x:Name="DragGrid" Background="Transparent">
-        <i:Interaction.Behaviors>
-            <b:DragMoveBehavior/>
-        </i:Interaction.Behaviors>
-        <ItemsControl Margin="0" ItemsSource="{Binding DailyNotes}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="0">
-                        <Border>
-                            <Grid>
-                                <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="0"
-                                                    Value="{Binding CurrentResin}" Minimum="0" Maximum="{Binding MaxResin}"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition MinWidth="40"/>
-                                        <ColumnDefinition MinWidth="200"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Source="/Resources/UI_ItemIcon_210.png" Width="24" Margin="8"/>
-
-                                    <TextBlock Grid.Column="1" Margin="12" Text="{Binding CurrentResin}" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                               Style="{StaticResource BaseTextBlockStyle}"
-                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                    <TextBlock Grid.Column="2" Margin="12" Text="{Binding ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Right"
-                                               Style="{StaticResource BodyTextBlockStyle}"
-                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+    <Border Background="{DynamicResource SystemControlBackgroundAltMediumBrush}" CornerRadius="{StaticResource CompatCornerRadius}">
+        <Grid x:Name="DragGrid" Background="Transparent">
+            <i:Interaction.Behaviors>
+                <b:DragMoveBehavior/>
+            </i:Interaction.Behaviors>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0" Grid.Row="1">
+                <Border CornerRadius="{StaticResource CompatCornerRadius}">
+                    <Grid>
+                        <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="{StaticResource CompatCornerRadius}" 
+                                     Background="Transparent" Value="{Binding DailyNote.CurrentResin}" Minimum="0" Maximum="{Binding DailyNote.MaxResin}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition MinWidth="40"/>
+                                <ColumnDefinition MinWidth="240"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="/Resources/UI_ItemIcon_210.png" Width="24" Margin="8"/>
+                            <TextBlock Grid.Column="1" Margin="12" Text="{Binding DailyNote.CurrentResin}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <StackPanel Grid.Column="2" Margin="12">
+                                <TextBlock Text="{Binding CookieUserGameRole.UserGameRole}" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyTextBlockStyle}"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                <TextBlock Text="{Binding DailyNote.ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           Style="{StaticResource CaptionTextBlockStyle}" Margin="0,2,0,0"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            </StackPanel>
+                            
+                        </Grid>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

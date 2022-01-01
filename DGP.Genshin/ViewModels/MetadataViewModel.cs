@@ -12,10 +12,10 @@ using DGP.Genshin.DataModels.Materials.Monsters;
 using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Materials.Weeklys;
 using DGP.Genshin.DataModels.Weapons;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -364,55 +364,14 @@ namespace DGP.Genshin.ViewModels
         #region read write
         private string Read(string fileName)
         {
-            string path = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
+            string path = PathContext.Locate(folderPath, fileName);
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
                 this.Log($"{fileName} loaded.");
                 return json;
             }
-            return "";
-        }
-        private void Save(List<SpecificBanner>? collection, string fileName)
-        {
-            string json = Json.Stringify(collection);
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
-            File.WriteAllText(filePath, json);
-            this.Log($"Save gachaevent metadata to {fileName}");
-        }
-        private void Save<T>(ObservableCollection<T>? collection, string fileName) where T : Primitive
-        {
-            string json = Json.Stringify(collection?.OrderByDescending(i => i.Star));
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
-            File.WriteAllText(filePath, json);
-            this.Log($"Save primitive metadata to {fileName}");
-        }
-        private void Save(ObservableCollection<KeySource>? collection, string fileName)
-        {
-            string json = Json.Stringify(collection);
-            string filePath = Path.GetFullPath(Path.Combine(folderPath, fileName), AppContext.BaseDirectory);
-            File.WriteAllText(filePath, json);
-            this.Log($"Save metadata to {fileName}");
-        }
-        public void UnInitialize()
-        {
-            Save(Bosses, BossesJson);
-            Save(Characters, CharactersJson);
-            Save(Cities, CitiesJson);
-            Save(DailyTalents, DailyTalentsJson);
-            Save(DailyWeapons, DailyWeaponsJson);
-            Save(Elements, ElementsJson);
-            Save(Elites, ElitesJson);
-            Save(GemStones, GemStonesJson);
-            Save(Locals, LocalsJson);
-            Save(Monsters, MonstersJson);
-            Save(Stars, StarsJson);
-            Save(Weapons, WeaponsJson);
-            Save(WeaponTypes, WeaponTypesJson);
-            Save(WeeklyTalents, WeeklyTalentsJson);
-
-            Save(SpecificBanners, GachaEventJson);
-            this.Log("uninitialized");
+            return string.Empty;
         }
         #endregion
     }
