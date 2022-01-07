@@ -67,6 +67,11 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             IsActive = true;
         }
 
+        ~JourneyViewModel()
+        {
+            IsActive = false;
+        }
+
         private async Task OpenUIAsync(TitleBarButton? t)
         {
             if (t?.ShowAttachedFlyout<Grid>(this) == true)

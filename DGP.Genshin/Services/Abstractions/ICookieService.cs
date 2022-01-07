@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Messages;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services.Abstratcions
@@ -21,6 +22,7 @@ namespace DGP.Genshin.Services.Abstratcions
             /// <summary>
             /// 添加Cookie,
             /// 隐藏了基类成员<see cref="ICollection{T}.Add(T)"/>以便发送事件
+            /// 该方法是线程不安全的，请勿直接调用
             /// </summary>
             /// <param name="cookie"></param>
             new void Add(string cookie);
@@ -57,6 +59,11 @@ namespace DGP.Genshin.Services.Abstratcions
         bool IsCookieAvailable { get; }
 
         /// <summary>
+        /// 使用读写锁保证 <see cref="Cookies"/> 线程安全
+        /// </summary>
+        ReaderWriterLockSlim CookiesLock { get; init; }
+
+        /// <summary>
         /// 向Cookie池异步添加Cookie,
         /// 忽略已存在的Cookie,
         /// 不更新 <see cref="CurrentCookie"/> 的值
@@ -85,5 +92,12 @@ namespace DGP.Genshin.Services.Abstratcions
         /// </summary>
         /// <param name="cookie"></param>
         void SaveCookie(string cookie);
+
+        /// <summary>
+        /// 初始化Cookie服务
+        /// 在初始化完成前 <see cref="IsCookieAvailable"/> 始终为 false
+        /// </summary>
+        /// <returns></returns>
+        Task InitializeAsync();
     }
 }

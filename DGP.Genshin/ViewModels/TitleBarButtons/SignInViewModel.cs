@@ -115,6 +115,10 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
 
             IsActive = true;
         }
+        ~SignInViewModel()
+        {
+            IsActive = false;
+        }
 
         //prevent multiple signin task
         private readonly TaskPreventer signInTaskPreventer = new();

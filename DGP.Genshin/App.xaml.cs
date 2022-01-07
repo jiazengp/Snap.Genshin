@@ -181,7 +181,8 @@ namespace DGP.Genshin
             if (enabled)
             {
                 AppCenter.SetUserId(User.Id);
-                AppCenter.LogLevel = LogLevel.Verbose;
+                //AppCenter.LogLevel = LogLevel.Verbose;
+
                 //cause the version of debug is always higher than normal release
                 //we need to send debug info to separate kanban
 #if DEBUG
@@ -202,7 +203,6 @@ namespace DGP.Genshin
             ThemeManager.Current.ApplicationTheme =
                 GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
-
         #endregion
     }
 }

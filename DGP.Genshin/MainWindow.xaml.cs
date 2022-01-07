@@ -15,7 +15,9 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,28 +25,34 @@ using System.Windows.Documents;
 
 namespace DGP.Genshin
 {
-    /// <summary>
-    /// MainWindow.xaml 的交互逻辑
-    /// </summary>
     public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
+        //make sure while initializing exact components app main window can't be closed
+        //prevent System.NullReferenceException
+        private readonly SemaphoreSlim initializingWindow = new(1);
         private static bool hasEverOpen = false;
         private readonly INavigationService navigationService;
+        /// <summary>
+        /// do not set datacontext for mainwindow
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             navigationService = App.GetService<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
+
             App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
+        }
 
-            //do not set datacontext for mainwindow
-
-            this.Log("initialized");
+        ~MainWindow()
+        {
+            App.Messenger.Unregister<SplashInitializationCompletedMessage>(this);
         }
 
         public async void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
+            initializingWindow.Wait();
             SplashViewModel splashView = viewModelReference.Value;
             PrepareTitleBarArea(splashView);
             AddAditionalNavigationViewItem();
@@ -53,7 +61,7 @@ namespace DGP.Genshin
             {
                 hasEverOpen = true;
 
-                DoUpdateFlow();
+                DoUpdateFlowAsync();
                 //签到
                 if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
                 {
@@ -69,6 +77,14 @@ namespace DGP.Genshin
             splashView.CurrentStateDescription = "完成";
             splashView.IsSplashNotVisible = true;
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+            initializingWindow.Release();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            initializingWindow.Wait();
+            base.OnClosing(e);
+            initializingWindow.Release();
         }
 
         /// <summary>
@@ -92,13 +108,12 @@ namespace DGP.Genshin
         /// <returns></returns>
         private void PrepareTitleBarArea(SplashViewModel splashView)
         {
-            UserInfoTitleBarButton UserInfoTitleButton = new();
-            TitleBarStackPanel.Children.Add(UserInfoTitleButton);
+            splashView.CurrentStateDescription = "初始化标题栏...";
+            TitleBarStackPanel.Children.Add(new UserInfoTitleBarButton());
             TitleBarStackPanel.Children.Add(new LaunchTitleBarButton());
             TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
             TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
             TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
-            splashView.CurrentStateDescription = "初始化用户信息...";
         }
 
         /// <summary>
@@ -108,13 +123,18 @@ namespace DGP.Genshin
         /// <returns></returns>
         private static async Task SignInOnStartUp(SplashViewModel splashView)
         {
-            DateTime? converter(object? str) => str is not null ? DateTime.Parse((string)str) : null;
-            DateTime? latsSignInTime = App.GetService<ISettingService>().GetOrDefault(Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), converter);
+            DateTime? latsSignInTime = App.GetService<ISettingService>().GetOrDefault(
+                Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), Setting.NullableDataTimeConverter);
 
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                foreach (string cookie in App.GetService<ICookieService>().Cookies)
+
+                ICookieService cookieService = App.GetService<ICookieService>();
+
+                cookieService.CookiesLock.EnterReadLock();
+
+                foreach (string cookie in cookieService.Cookies)
                 {
                     List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                     foreach (UserGameRole role in roles)
@@ -128,11 +148,13 @@ namespace DGP.Genshin
                             .Show(toast => { toast.SuppressPopup = App.GetService<ISettingService>().GetOrDefault(Setting.SignInSilently, false); });
                     }
                 }
+
+                cookieService.CookiesLock.ExitReadLock();
             }
         }
 
         #region Update
-        private async void DoUpdateFlow()
+        private async void DoUpdateFlowAsync()
         {
             await CheckUpdateAsync();
             ISettingService settingService = App.GetService<ISettingService>();
@@ -179,15 +201,16 @@ namespace DGP.Genshin
         }
         private async Task ShowWhatsNewDialogAsync()
         {
+            IUpdateService updateService = App.GetService<IUpdateService>();
             await new ContentDialog
             {
-                Title = $"版本 {App.GetService<IUpdateService>().Release?.TagName} 更新日志",
+                Title = $"版本 {updateService.Release?.TagName} 更新日志",
                 Content = new FlowDocumentScrollViewer
                 {
                     Document = new TextToFlowDocumentConverter
                     {
                         Markdown = FindResource("Markdown") as Markdown
-                    }.Convert(App.GetService<IUpdateService>().Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
+                    }.Convert(updateService.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
                 },
                 PrimaryButtonText = "了解",
                 DefaultButton = ContentDialogButton.Primary

@@ -20,13 +20,20 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <s:SmoothScrollViewer Grid.Row="0" MaxHeight="120">
-                    <ui:ListView 
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="在游戏内切换账号后打开此面板会自动检测新的账号"/>
+                    <s:SmoothScrollViewer Grid.Row="1" MaxHeight="120" Margin="0,12,0,0">
+                        <ui:ListView 
                         ItemsSource="{Binding Accounts}" 
                         SelectedItem="{Binding SelectedAccount}"
                         SelectionMode="Single"
                         DisplayMemberPath="Name"/>
-                </s:SmoothScrollViewer>
+                    </s:SmoothScrollViewer>
+                </Grid>
                 <Button Grid.Row="1" Content="删除选中的账号" HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}"/>
                 <StackPanel Grid.Row="2" Margin="0,12,0,0">
                     <ComboBox ui:ControlHelper.PlaceholderText="选择启动方案"
@@ -34,16 +41,23 @@
                           ItemsSource="{Binding KnownSchemes}"
                           SelectedItem="{Binding CurrentScheme}"
                           DisplayMemberPath="Name"/>
-                    <ui:DropDownButton Content="启动" HorizontalAlignment="Stretch" Margin="0,12,0,0">
-                        <ui:DropDownButton.Flyout>
-                            <ui:MenuFlyout Placement="Bottom">
-                                <MenuItem Header="游戏本体" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
-                                <MenuItem Header="打开启动器" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
-                            </ui:MenuFlyout>
-                        </ui:DropDownButton.Flyout>
-                    </ui:DropDownButton>
-                    <ui:ToggleSwitch Header="无边框" Margin="0,8,0,0" IsOn="{Binding IsBorderless}"/>
-                    <ui:ToggleSwitch Header="全屏" Margin="0,8,0,0" IsOn="{Binding IsFullScreen}"/>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Content="启动游戏本体" HorizontalAlignment="Stretch" Margin="0,0,6,0"
+                                Command="{Binding LaunchCommand}" CommandParameter="Game"/>
+                        <Button Grid.Row="0" Grid.Column="1" Content="打开启动器" HorizontalAlignment="Stretch" Margin="6,0,0,0"
+                                Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
+                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="0" Header="无边框" Margin="0,8,6,0" IsOn="{Binding IsBorderless}"/>
+                        <ui:ToggleSwitch Grid.Row="1" Grid.Column="1" Header="全屏" Margin="6,8,0,0" IsOn="{Binding IsFullScreen}"/>
+                    </Grid>
+                    
                 </StackPanel>
             </Grid>
         </ui:Flyout>

@@ -27,7 +27,7 @@ namespace DGP.Genshin.Updater
                     ManualUpdate();
                     break;
                 case (_, false):
-                    Console.WriteLine($"未在 {AppContext.BaseDirectory} 找到更新文件 'Package.zip'");
+                    Console.WriteLine($"未在 {Directory.GetParent(AppContext.BaseDirectory)} 找到更新文件 'Package.zip'");
                     Console.ReadKey();
                     break;
             };
@@ -47,7 +47,6 @@ namespace DGP.Genshin.Updater
         {
             Console.WriteLine("准备开始安装...");
             WaitForProcessExit("DGP.Genshin");
-            WaitForProcessExit("DGP.Genshin.Mate");
             Console.Clear();
             using (ZipArchive archive = ZipFile.OpenRead("../Package.zip"))
             {

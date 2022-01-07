@@ -15,10 +15,20 @@ namespace DGP.Genshin.Services.Abstratcions
     {
         /// <summary>
         /// 设置索引器
+        /// 触发 <see cref="SettingChangedMessage"/>
         /// </summary>
         /// <param name="key">设置键</param>
         /// <returns>对应的设置值</returns>
         object? this[string key] { set; }
+        
+        /// <summary>
+        /// 对于复杂的引用对象，请使用此方法获取设置的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        T? GetComplexOrDefault<T>(string key, T? defaultValue);
 
         /// <summary>
         /// 读取设置值
@@ -75,6 +85,7 @@ namespace DGP.Genshin.Services.Abstratcions
         public const string SkipCacheCheck = "SkipCacheCheck";
         public const string UpdateUseFastGit = "UpdateUseFastGit";
         public const string ResinRefreshMinutes = "ResinRefreshMinutes";
+        public const string ResinWidgetConfigrations = "ResinWidgetConfigrations";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {
@@ -86,5 +97,9 @@ namespace DGP.Genshin.Services.Abstratcions
             return obj is string str ? Version.Parse(str) : null;
         }
 
+        public static DateTime? NullableDataTimeConverter(object? str)
+        {
+            return str is not null ? DateTime.Parse((string)str) : null;
+        }
     }
 }

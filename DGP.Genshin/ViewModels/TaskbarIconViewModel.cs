@@ -3,6 +3,7 @@ using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Controls.GenshinElements;
 using DGP.Genshin.DataModels.Behavior;
 using DGP.Genshin.DataModels.Cookies;
+using DGP.Genshin.DataModels.DailyNotes;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Services.Abstratcions;
@@ -22,6 +23,7 @@ namespace DGP.Genshin.ViewModels
     internal class TaskbarIconViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
+        private readonly ISettingService settingService;
 
         public class DailyNoteCheckable : Checkable<Pair<CookieUserGameRole, DailyNoteWindow?>>
         {
@@ -32,7 +34,7 @@ namespace DGP.Genshin.ViewModels
 
         private ICommand showMainWindowCommand;
         private ICommand exitCommand;
-        private ObservableCollection<DailyNoteCheckable>? userGameRoles;
+        private ObservableCollection<ResinWidgetConfigration>? resinWidget;
 
         public ICommand ShowMainWindowCommand
         {
@@ -46,43 +48,79 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(exitCommand))]
             set => SetProperty(ref exitCommand, value);
         }
-        public ObservableCollection<DailyNoteCheckable>? UserGameRoles
+        public ObservableCollection<ResinWidgetConfigration>? ResinWidgets
         {
-            get => userGameRoles;
-            set => SetProperty(ref userGameRoles, value);
+            get => resinWidget;
+            set => SetProperty(ref resinWidget, value);
         }
 
-        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService,IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, ISettingService settingService, IMessenger messenger) 
+            : base(messenger)
         {
             this.cookieService = cookieService;
+            this.settingService = settingService;
 
             scheduleService.Initialize();
-            InitializeUserGameRolesAsync();
+            InitializeResinWidgetsAsync();
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
+
+            IsActive = true;
         }
-        private async void InitializeUserGameRolesAsync()
+        ~TaskbarIconViewModel()
         {
-            List<CookieUserGameRole> results = new();
+            
+            IsActive = false;
+        }
+
+        private async void InitializeResinWidgetsAsync()
+        {
+            List<CookieUserGameRole> cookieUserGameRoles = new();
+
+            cookieService.CookiesLock.EnterReadLock();
             foreach (string cookie in cookieService.Cookies)
             {
                 List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                results.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
+                cookieUserGameRoles.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
             }
-            UserGameRoles = new(results.Select(u => new DailyNoteCheckable(new(u, null), OnCheckChanged)));
+            cookieService.CookiesLock.ExitReadLock();
+
+            //首先初始化可用的列表
+            ResinWidgets = new(cookieUserGameRoles.Select(role => new ResinWidgetConfigration { CookieUserGameRole = role }));
+            //读取储存的状态
+            List<ResinWidgetConfigration>? storedResinWidgets =
+                settingService.GetComplexOrDefault<List<ResinWidgetConfigration>>(Setting.ResinWidgetConfigrations, null);
+            //开始恢复状态
+            if (storedResinWidgets?.Count > 0)
+            {
+                foreach(ResinWidgetConfigration widget in ResinWidgets)
+                {
+                    ResinWidgetConfigration? matched = storedResinWidgets.FirstOrDefault(stored => stored.CookieUserGameRole == widget.CookieUserGameRole);
+                    if(matched != null)
+                    {
+                        widget.IsPresent = matched.IsPresent;
+                        widget.Top = matched.Top;
+                        widget.Left = matched.Left;
+                    }
+                }
+            }
+            //initialize widgets state
+            foreach(ResinWidgetConfigration widget in ResinWidgets)
+            {
+                widget.Initialize();
+            }
         }
-        private void OnCheckChanged(bool isChecked, Pair<CookieUserGameRole, DailyNoteWindow?> roleWindowPair)
+
+        public void SaveResinWidgetConfigrations()
         {
-            if (isChecked)
+            if(ResinWidgets is not null)
             {
-                roleWindowPair.Value = new DailyNoteWindow(new DailyNoteResinViewModel(roleWindowPair.Key, cookieService, App.Messenger));
-                roleWindowPair.Value.Show();
-            }
-            else
-            {
-                roleWindowPair.Value?.Close();
-                roleWindowPair.Value = null;
+                foreach (var widget in ResinWidgets)
+                {
+                    widget.UpdatePropertyState();
+                }
+                settingService[Setting.ResinWidgetConfigrations] = ResinWidgets;
             }
         }
 
@@ -92,6 +130,7 @@ namespace DGP.Genshin.ViewModels
         }
         private void ExitApp()
         {
+            SaveResinWidgetConfigrations();
             App.Current.Shutdown();
         }
 
@@ -103,17 +142,17 @@ namespace DGP.Genshin.ViewModels
             results.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
             foreach(CookieUserGameRole role in results)
             {
-                UserGameRoles?.Add(new DailyNoteCheckable(new(role, null), OnCheckChanged));
+                ResinWidgets?.Add(new ResinWidgetConfigration { CookieUserGameRole = role });
             }
         }
         public void Receive(CookieRemovedMessage message)
         {
-            DailyNoteCheckable? target = UserGameRoles?.FirstOrDefault(u => u.Value.Key.Cookie == message.Value);
-            if(target is not null)
+            IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!.Where(u => u.CookieUserGameRole!.Cookie == message.Value);
+
+            foreach(ResinWidgetConfigration target in targets)
             {
-                target.Value.Value?.Close();
-                target.Value.Value = null;
-                UserGameRoles?.Remove(target);
+                target.IsChecked = false;
+                ResinWidgets?.Remove(target);
             }
         }
     }

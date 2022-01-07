@@ -749,6 +749,37 @@
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3407.png"
   },
   {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
+    "ATK": "608",
+    "SubStat": "暴击伤害",
+    "SubStatValue": "66.2%",
+    "Passive": "神樱神游神乐舞",
+    "PassiveDescription": "施放元素战技时，将获得「神乐舞」的效果，使装备该武器的角色的元素战技造成的伤害提高12%/15%/18%/21%/24%，该效果持续12秒，至多叠加3层。持有3层时，该角色获得12%/15%/18%/21%/24%所有元素伤害加成。",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "今昔剧画",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Mask",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_584.png"
+    },
+    "Elite": {
+      "Name": "隐兽",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Concealed",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
+    },
+    "Monster": {
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187.png"
+    },
+    "Name": "神乐之真意",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "KagurasVerity",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5407.png"
+  },
+  {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_213101.png",
     "ATK": "510",
     "SubStat": "攻击力",
@@ -2485,7 +2516,7 @@
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5313.png"
   },
   {
-    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
     "ATK": "454",
     "SubStat": "攻击力",
     "SubStatValue": "55.1%",
@@ -2578,7 +2609,7 @@
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4314.png"
   },
   {
-    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
     "ATK": "510",
     "SubStat": "攻击力",
     "SubStatValue": "41.3%",
@@ -2700,6 +2731,37 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
     "Key": "CinnabarSpindle",
     "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1314.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
+    "ATK": "565",
+    "SubStat": "攻击力",
+    "SubStatValue": "27.6%",
+    "Passive": "微光的海渊民",
+    "PassiveDescription": "施放元素战技后，元素充能效率提升24%/30%/36%/42%/48%，持续10秒。",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "远海夷地",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_DistantSea",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_564.png"
+    },
+    "Elite": {
+      "Name": "隐兽",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Concealed",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
+    },
+    "Monster": {
+      "Name": "浮游",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Spectral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_187.png"
+    },
+    "Name": "证誓之明瞳",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "OathswornEye",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5314.png"
   },
   {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
@@ -3352,7 +3414,7 @@
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png",
     "ATK": "401",
     "SubStat": "防御力",
-    "SubStatValue": "43.9",
+    "SubStatValue": "43.9%",
     "Passive": "收割",
     "PassiveDescription": "击败敌人时，恢复8%/10%/12%/14%/16%生命值。",
     "Ascension": {

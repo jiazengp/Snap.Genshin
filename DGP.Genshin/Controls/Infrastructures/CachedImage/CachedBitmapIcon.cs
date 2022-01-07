@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -138,23 +139,21 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                 Uri uriSource = UriSource;
                 if (uriSource != null)
                 {
-                    BitmapImage imageSource = new();
-                    imageSource.BeginInit();
-                    imageSource.CreateOptions = BitmapCreateOptions.None;
-                    try
+                    MemoryStream? stream = await FileCache.HitAsync(uriSource.ToString());
+                    if (stream is not null)
                     {
-                        imageSource.StreamSource = await FileCache.HitAsync(uriSource.ToString());
+                        try
+                        {
+                            BitmapImage imageSource = new();
+                            imageSource.BeginInit();
+                            //imageSource.CreateOptions = BitmapCreateOptions.None;
+                            imageSource.StreamSource = stream;
+                            imageSource.EndInit();
+                            _image.Source = imageSource;
+                            _opacityMask.ImageSource = imageSource;
+                        }
+                        catch { }
                     }
-                    catch
-                    {
-                        imageSource.StreamSource = null;
-                    }
-                    finally
-                    {
-                        imageSource.EndInit();
-                    }
-                    _image.Source = imageSource;
-                    _opacityMask.ImageSource = imageSource;
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGP.Genshin.Common.Core.Logging;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -15,29 +16,34 @@ namespace DGP.Genshin.Helpers
         /// <param name="window"></param>
         public static void SetInDesktop(this Window window)
         {
-            IntPtr handle = new WindowInteropHelper(window).Handle;
+            IntPtr hWnd = new WindowInteropHelper(window).Handle;
             //notify windows to create a WorkerW
-            SendMessageTimeout(FindWindow("Progman", ""), 1324u, new UIntPtr(0u), IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, 1000u, out UIntPtr _);
-            SetParent(handle, FindWorkerWPtr());
+            IntPtr hProgManWnd = FindWindow("Progman", "Program Manager");
+            SendMessageTimeout(hProgManWnd, 1324u, new UIntPtr(0u), IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, 1000u, out UIntPtr _);
+            ConfigureWorkerW();
+            SetParent(hWnd, hProgManWnd);
         }
 
-        private static IntPtr FindWorkerWPtr()
+        private static void ConfigureWorkerW()
         {
-            IntPtr workerw = IntPtr.Zero;
-            IntPtr def = IntPtr.Zero;
-            IntPtr result = FindWindow("Progman", "");
-            _ = IntPtr.Zero;
-            EnumWindows(delegate (IntPtr handle, IntPtr param)
+            IntPtr hWorkerWnd = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "WorkerW", IntPtr.Zero);
+
+            while (hWorkerWnd!=IntPtr.Zero)
             {
-                if ((def = FindWindowEx(handle, IntPtr.Zero, "SHELLDLL_DefView", IntPtr.Zero)) != IntPtr.Zero)
+                uint dwStyle = GetWindowLong(hWorkerWnd, GWL_STYLE);
+                if((dwStyle & WS_VISIBLE) != 0)
                 {
-                    workerw = FindWindowEx(IntPtr.Zero, handle, "WorkerW", IntPtr.Zero);
-                    Console.Write("workerw:" + workerw + "\n");
-                    ShowWindow(workerw, 0);
+                    IntPtr hdefWnd = FindWindowEx(hWorkerWnd, IntPtr.Zero, "SHELLDLL_DefView", IntPtr.Zero);
+                    if (hdefWnd != IntPtr.Zero)
+                    {
+                        hWorkerWnd = FindWindowEx(IntPtr.Zero, hWorkerWnd, "WorkerW", IntPtr.Zero);
+                        break;
+                    }
                 }
-                return true;
-            }, IntPtr.Zero);
-            return result;
+                hWorkerWnd = FindWindowEx(IntPtr.Zero, hWorkerWnd, "WorkerW", IntPtr.Zero);
+            }
+
+            _ = ShowWindow(hWorkerWnd, SW_HIDE);
         }
 
         private static readonly uint acrylicBackgroundColor = 0x808080; /* BGR color format */

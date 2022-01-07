@@ -16,12 +16,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
-{
+{ 
+    
     /// <summary>
-    /// <inheritdoc cref="ICookieService"/>
+    /// TODO 添加 current cookie 启动时校验
     /// </summary>
     [Service(typeof(ICookieService), ServiceType.Singleton)]
     [Send(typeof(CookieChangedMessage))]
@@ -69,8 +71,13 @@ namespace DGP.Genshin.Services
                 {
                     if (!AccountIds.Contains(id))
                     {
+                        cookieService.CookiesLock.EnterWriteLock();
+
                         AccountIds.Add(id);
                         Add(cookie);
+
+                        cookieService.CookiesLock.ExitWriteLock();
+
                         return true;
                     }
                 }
@@ -79,11 +86,16 @@ namespace DGP.Genshin.Services
 
             public new bool Remove(string cookie)
             {
+                cookieService.CookiesLock.EnterWriteLock();
+
                 string id = GetCookiePairs(cookie)["account_id"];
                 AccountIds.Remove(id);
                 bool result = base.Remove(cookie);
                 App.Messenger.Send(new CookieRemovedMessage(cookie));
                 cookieService.SaveCookies();
+
+                cookieService.CookiesLock.ExitWriteLock();
+
                 return result;
             }
 
@@ -121,8 +133,12 @@ namespace DGP.Genshin.Services
 
         public ICookieService.ICookiePool Cookies { get; set; }
 
+        public ReaderWriterLockSlim CookiesLock { get; init; } 
+
         public CookieService()
         {
+            //支持递归调用使其可以重复进入读模式
+            CookiesLock = new(LockRecursionPolicy.SupportsRecursion);
             LoadCookies();
             LoadCookie();
         }
@@ -150,6 +166,8 @@ namespace DGP.Genshin.Services
         [MemberNotNull(nameof(Cookies))]
         private void LoadCookies()
         {
+            CookiesLock.EnterWriteLock();
+
             try
             {
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
@@ -161,6 +179,8 @@ namespace DGP.Genshin.Services
                 Crashes.TrackError(ex);
             }
             Cookies ??= new CookiePool(this, new List<string>());
+
+            CookiesLock.ExitWriteLock();
         }
 
         public string CurrentCookie
@@ -179,7 +199,7 @@ namespace DGP.Genshin.Services
             }
         }
 
-        public bool IsCookieAvailable => !string.IsNullOrEmpty(currentCookie);
+        public bool IsCookieAvailable => isInitialized && (!string.IsNullOrEmpty(currentCookie));
 
         public async Task SetCookieAsync()
         {
@@ -197,19 +217,16 @@ namespace DGP.Genshin.Services
 
         public void ChangeOrIgnoreCurrentCookie(string? cookie)
         {
-            if (cookie is null)
+            if (cookie is not null)
             {
-                return;
-            }
-            if (CurrentCookie != cookie)
-            {
-                CurrentCookie = cookie;
+                CurrentCookie ??= cookie;
             }
         }
 
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
             (ContentDialogResult result, string newCookie) = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            
             if (result is ContentDialogResult.Primary)
             {
                 if (await ValidateCookieAsync(newCookie))
@@ -260,6 +277,31 @@ namespace DGP.Genshin.Services
                 }
                 return false;
             }
+        }
+
+        private bool isInitialized = false;
+        public async Task InitializeAsync()
+        {
+            CookiesLock.EnterWriteLock();
+
+            //enumerate the shallow copied list to remove item in foreach loop
+            //prevent InvalidOperationException
+            foreach (string cookie in Cookies.ToList())
+            {
+                UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
+                if (info is null)
+                {
+                    //删除用户无法手动选中的cookie(失效的cookie)
+                    Cookies.Remove(cookie);
+                }
+            }
+
+            if (Cookies.Count <= 0)
+            {
+                currentCookie = null;
+            }
+            CookiesLock.ExitWriteLock();
+            isInitialized = true;
         }
     }
 }

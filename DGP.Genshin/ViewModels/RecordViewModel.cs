@@ -38,8 +38,14 @@ namespace DGP.Genshin.ViewModels
             this.recordService = recordService;
 
             QueryCommand = new AsyncRelayCommand<string?>(UpdateRecordAsync);
+
+            IsActive = true;
         }
 
+        ~RecordViewModel()
+        {
+            IsActive = false;
+        }
 
         private readonly TaskPreventer updateRecordTaskPreventer = new();
         private async Task UpdateRecordAsync(string? uid)

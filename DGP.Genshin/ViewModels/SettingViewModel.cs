@@ -47,10 +47,12 @@ namespace DGP.Genshin.ViewModels
         private bool updateUseFastGit;
 
         private string versionString;
+        private string userId;
         private AutoRun autoRun = new();
         private NamedValue<ApplicationTheme?> selectedTheme;
         private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
         private IAsyncRelayCommand checkUpdateCommand;
+        
 
         //需要在 Initalize Receive 中添加字段的初始化
         public bool ShowFullUID
@@ -101,6 +103,12 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull("versionString")]
             set => SetProperty(ref versionString, value);
         }
+        public string UserId 
+        { 
+            get => userId; 
+            [MemberNotNull(nameof(userId))]
+            set => userId = value; 
+        }
         public AutoRun AutoRun { get => autoRun; set => autoRun = value; }
         public NamedValue<ApplicationTheme?> SelectedTheme
         {
@@ -148,9 +156,16 @@ namespace DGP.Genshin.ViewModels
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
 
             Initialize();
+            IsActive = true;
         }
 
-        [MemberNotNull("versionString")]
+        ~SettingViewModel()
+        {
+            IsActive = false;
+        }
+
+        [MemberNotNull(nameof(versionString))]
+        [MemberNotNull(nameof(userId))]
         private void Initialize()
         {
             //不能直接设置属性 会导致触发通知操作进而造成死循环
@@ -163,6 +178,7 @@ namespace DGP.Genshin.ViewModels
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;
             VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            UserId = User.Id;
         }
 
         /// <summary>

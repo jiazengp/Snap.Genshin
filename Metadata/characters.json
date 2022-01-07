@@ -1110,6 +1110,60 @@
   {
     "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
     "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7108_party_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/yaemiko_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/yaemiko_gacha_splash.png",
+    "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
+    "BaseHP": "11284",
+    "BaseATK": "264",
+    "BaseDEF": "682",
+    "AscensionStat": "暴击率",
+    "AscensionStatValue": "19.2%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "天光",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Light",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_428.png"
+    },
+    "Boss": {
+      "Name": "龙嗣伪鳍",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Boss_DragonheirsFalseFin",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_216.png"
+    },
+    "GemStone": {
+      "Name": "最胜紫晶",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "GemStone_VajradaAmethyst",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_334.png"
+    },
+    "Local": {
+      "Name": "海灵芝",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_675.png"
+    },
+    "Monster": {
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
+    },
+    "Weekly": {
+      "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
+      "Name": "？？？",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_Unknown_3",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png"
+    },
+    "Name": "八重神子",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "YaeMiko",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/yaemiko_face.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png",
     "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7011_profile_135.png",
     "GachaCard": "https://genshin.honeyhunterworld.com/img/char/lisa_gacha_card.png",
     "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/lisa_gacha_splash.png",

@@ -125,7 +125,10 @@ namespace DGP.Genshin.ViewModels
 
             IsActive = true;
         }
-
+        ~PromotionCalculateViewModel()
+        {
+            IsActive = false;
+        }
         private async Task OpenUIAsync()
         {
             UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();

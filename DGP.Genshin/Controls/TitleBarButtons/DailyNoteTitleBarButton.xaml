@@ -17,20 +17,20 @@
                 <ItemsControl ItemsSource="{Binding DailyNotes}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Width="272">
+                            <StackPanel Width="300">
                                 <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
                                         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
                                         </Grid.ColumnDefinitions>
                                         <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
                                                         Background="Transparent"
                                                         Value="{Binding CurrentResin}" Minimum="0" Maximum="{Binding MaxResin}"/>
                                         <StackPanel Grid.Column="0" Margin="8">
                                             <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
-                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding ResinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
                                         </StackPanel>
                                         <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -48,7 +48,32 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
+                                                        Background="Transparent"
+                                                        Value="{Binding CurrentHomeCoin}" Minimum="0" Maximum="{Binding MaxHomeCoin}"/>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="洞天宝钱" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding HomeCoinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                                       Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="6">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="CurrentHomeCoin"/>
+                                                    <Binding Path="MaxHomeCoin"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
                                         </Grid.ColumnDefinitions>
                                         <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
                                                         Background="Transparent"
@@ -72,7 +97,7 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
                                         </Grid.ColumnDefinitions>
                                         <ui:ProgressBar Grid.ColumnSpan="2" VerticalAlignment="Stretch" 
                                                         Background="Transparent"

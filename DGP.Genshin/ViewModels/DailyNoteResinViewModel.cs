@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Common.Threading;
+﻿using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Common.Threading;
 using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
-using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -34,11 +34,11 @@ namespace DGP.Genshin.ViewModels
             set => openUICommand = value;
         }
 
-        public DailyNoteResinViewModel(CookieUserGameRole cookieUserGameRole, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public DailyNoteResinViewModel(CookieUserGameRole cookieUserGameRole, IMessenger messenger) : base(messenger)
         {
             CookieUserGameRole = cookieUserGameRole;
             OpenUICommand = new AsyncRelayCommand<Window>(OpenUIAsync);
-            //显式调用注册消息
+
             IsActive = true;
         }
 
@@ -54,7 +54,7 @@ namespace DGP.Genshin.ViewModels
         /// <returns></returns>
         private async Task OpenUIAsync(Window? window)
         {
-            window?.SetInDesktop();
+            //window?.SetInDesktop();
             await UpdateInfoAsync();
         }
 

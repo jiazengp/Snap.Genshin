@@ -16,14 +16,12 @@ namespace DGP.Genshin.ViewModels
     [Send(typeof(SplashInitializationCompletedMessage))]
     public class SplashViewModel : ObservableObject
     {
-        private readonly MetadataViewModel metadataViewModel;
-        private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;
 
-        private bool isCookieVisible = true;
+        private bool isCookieVisible = false;
         private bool isSplashNotVisible = false;
-        private string currentStateDescription = "校验缓存完整性...";
+        private string currentStateDescription = "初始化...";
         private int currentCount;
         private string? currentInfo;
         private int? totalCount;
@@ -74,17 +72,13 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref setCookieCommand, value);
         }
 
-        public SplashViewModel(MetadataViewModel metadataViewModel, ISettingService settingService, ICookieService cookieService, IIntegrityCheckService integrityCheckService)
+        public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService)
         {
-            this.metadataViewModel = metadataViewModel;
-            this.settingService = settingService;
             this.cookieService = cookieService;
             this.integrityCheckService = integrityCheckService;
 
-            IsCookieVisible = !cookieService.IsCookieAvailable;
-
             SetCookieCommand = new AsyncRelayCommand(SetCookieAsync);
-            OpenUICommand = new AsyncRelayCommand(OpenUICheckIntegrityAsync);
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         }
 
         private async Task SetCookieAsync()
@@ -93,16 +87,30 @@ namespace DGP.Genshin.ViewModels
             IsCookieVisible = !cookieService.IsCookieAvailable;
         }
 
-        private async Task OpenUICheckIntegrityAsync()
+        private async Task OpenUIAsync()
         {
-            await integrityCheckService.CheckMetadataIntegrityAsync(i =>
-            {
-                CurrentCount = i.CurrentCount;
-                Percent = (i.CurrentCount * 1D / TotalCount) ?? 0D;
-                TotalCount = i.TotalCount;
-                CurrentInfo = i.Info;
-            });
+            CurrentStateDescription = "校验 Cookie 有效性...";
+            await PerformCookieServiceCheckAsync();
+            CurrentStateDescription = "校验 缓存资源 完整性...";
+            await PerformIntegrityServiceCheckAsync();
             TrySendCompletedMessage();
+        }
+
+        private async Task PerformCookieServiceCheckAsync()
+        {
+            await cookieService.InitializeAsync();
+            IsCookieVisible = !cookieService.IsCookieAvailable;
+        }
+
+        private async Task PerformIntegrityServiceCheckAsync()
+        {
+            await integrityCheckService.CheckMetadataIntegrityAsync(state =>
+            {
+                CurrentCount = state.CurrentCount;
+                Percent = (state.CurrentCount * 1D / TotalCount) ?? 0D;
+                TotalCount = state.TotalCount;
+                CurrentInfo = state.Info;
+            });
         }
     }
 }

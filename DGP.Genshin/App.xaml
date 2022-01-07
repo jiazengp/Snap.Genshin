@@ -22,6 +22,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--#region ConstValues-->
+            <CornerRadius x:Key="WindowCornerRadius" >8</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadius" >4</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop" >4,4,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusBottom" >0,0,4,4</CornerRadius>

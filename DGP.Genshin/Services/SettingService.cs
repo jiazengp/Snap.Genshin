@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -18,7 +19,7 @@ namespace DGP.Genshin.Services
     internal class SettingService : ISettingService
     {
         private const string settingsFileName = "settings.json";
-        private readonly string settingFile = Path.Combine(AppContext.BaseDirectory, settingsFileName);
+        private readonly string settingFile = PathContext.Locate(settingsFileName);
 
         private Dictionary<string, object?> settingDictionary = new();
 
@@ -62,6 +63,19 @@ namespace DGP.Genshin.Services
             }
         }
 
+        public T? GetComplexOrDefault<T>(string key, T? defaultValue)
+        {
+            if (!settingDictionary.TryGetValue(key, out object? value))
+            {
+                settingDictionary[key] = defaultValue;
+                return defaultValue;
+            }
+            else
+            {
+                return Json.ToObject<T>(value!.ToString()!);
+            }
+        }
+
         public object? this[string key]
         {
             set
@@ -81,12 +95,8 @@ namespace DGP.Genshin.Services
         {
             if (File.Exists(settingFile))
             {
-                string json;
-                using (StreamReader sr = new(settingFile))
-                {
-                    json = sr.ReadToEnd();
-                }
-                settingDictionary = Json.ToObject<Dictionary<string, object?>>(json) ?? new Dictionary<string, object?>();
+                string json = File.ReadAllText(settingFile);
+                settingDictionary = Json.ToObjectOrNew<Dictionary<string, object?>>(json);
             }
             this.Log("initialized");
         }

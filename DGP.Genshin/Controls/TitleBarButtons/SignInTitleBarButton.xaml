@@ -27,17 +27,14 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="310" ItemsSource="{Binding SignInReward.Awards}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="310" 
+                              ItemsSource="{Binding SignInReward.Awards}"
+                              ItemsPanel="{StaticResource WrapPanelItemsPanel}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0,0,4,4"
                                     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
-                                    Opacity="{Binding Opacity,IsAsync=True}">
+                                    Opacity="{Binding Opacity}">
                                 <StackPanel Width="40">
                                     <Border Width="40" Height="40">
                                         <c:CachedImage ImageUrl="{Binding Icon}"/>

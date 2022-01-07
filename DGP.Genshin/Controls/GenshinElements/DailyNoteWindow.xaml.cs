@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using DGP.Genshin.ViewModels;
+using System.Windows;
 
 namespace DGP.Genshin.Controls.GenshinElements
 {
     public partial class DailyNoteWindow : Window
     {
-        public DailyNoteWindow(object dataContext)
+        public DailyNoteWindow(DailyNoteResinViewModel dataContext)
         {
             DataContext = dataContext;
             InitializeComponent();

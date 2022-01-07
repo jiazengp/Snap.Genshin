@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
+using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -60,34 +61,41 @@ namespace DGP.Genshin.Services
             }
         }
 
+        private readonly TaskPreventer updateTaskPreventer = new();
+
         public async Task DownloadAndInstallPackageAsync()
         {
-            string destinationPath = Path.Combine(AppContext.BaseDirectory, "Package.zip");
+            if (updateTaskPreventer.ShouldExecute)
+            {
+                string destinationPath = PathContext.Locate("Package.zip");
 
-            //unlikely to happen,unless a new release with no package is published
-            _ = PackageUri ?? throw new SnapGenshinInternalException("未找到更新包的下载地址");
+                //unlikely to happen,unless a new release with no package is published
+                _ = PackageUri ?? throw new SnapGenshinInternalException("未找到更新包的下载地址");
 
-            if (settingService.GetOrDefault(Setting.UpdateUseFastGit, false))
-            {
-                //replace host with fastgit
-                PackageUri = new UriBuilder(PackageUri) { Host = "download.fastgit.org" }.Uri;
-            }
+                if (settingService.GetOrDefault(Setting.UpdateUseFastGit, false))
+                {
+                    //replace host with fastgit
+                    PackageUri = new UriBuilder(PackageUri) { Host = "download.fastgit.org" }.Uri;
+                }
 
-            InnerDownloader = new(PackageUri, destinationPath);
-            InnerDownloader.ProgressChanged += OnProgressChanged;
-            App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
-            bool caught = false;
-            try
-            {
-                await InnerDownloader.DownloadAsync();
-            }
-            catch
-            {
-                caught = true;
-            }
-            if (!caught)
-            {
-                StartInstallUpdate();
+                InnerDownloader = new(PackageUri, destinationPath);
+                InnerDownloader.ProgressChanged += OnProgressChanged;
+                //toast can only be shown & updated by main thread
+                App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
+                bool caught = false;
+                try
+                {
+                    await InnerDownloader.DownloadAsync();
+                }
+                catch
+                {
+                    caught = true;
+                }
+                if (!caught)
+                {
+                    StartInstallUpdate();
+                }
+                updateTaskPreventer.Release();
             }
         }
 
@@ -110,7 +118,8 @@ namespace DGP.Genshin.Services
                 .Show(toast =>
                 {
                     toast.Tag = UpdateNotificationTag;
-                    toast.Data = new(new Dictionary<string, string>()
+                    toast.Data = 
+                    new(new Dictionary<string, string>()
                     {
                         {"progressValue", "0" },
                         {"progressValueString", "0% - 0MB / 0MB" },
@@ -131,8 +140,6 @@ namespace DGP.Genshin.Services
         /// <param name="percent">进度</param>
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
-            this.Log(percent);
-            this.Log(lastNotificationUpdateResult);
             //user has dismissed the notification so we don't update it anymore
             if (lastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
             {
@@ -156,7 +163,8 @@ namespace DGP.Genshin.Services
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            data.Values["progressValueString"] = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
+            data.Values["progressValueString"] = 
+                $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
             if (percent >= 1)
             {
                 data.Values["progressStatus"] = "下载完成";

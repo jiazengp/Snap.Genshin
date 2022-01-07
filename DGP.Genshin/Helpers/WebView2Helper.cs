@@ -1,27 +1,40 @@
-﻿using DGP.Genshin.Common.Core.Logging;
-using Microsoft.Win32;
+﻿using Microsoft.Web.WebView2.Core;
 
 namespace DGP.Genshin.Helpers
 {
     /// <summary>
     /// 检测 WebView2运行时 是否存在
+    /// 不再使用注册表检查方式
     /// </summary>
     internal class WebView2Helper
     {
-        private const string pvKey = "pv";
-        private const string Path = @"SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}";
-
+        private static bool hasEverDetected = false;
+        private static bool isSupported = false;
         /// <summary>
-        /// 检测WebView
+        /// 检测WebView 是否存在
         /// </summary>
         public static bool IsSupported
         {
             get
             {
-                RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                RegistryKey? subKey = currentUser.OpenSubKey(Path);
-                Logger.LogStatic(subKey?.GetValue(pvKey));
-                return subKey?.GetValue(pvKey) is not null;
+                if (hasEverDetected)
+                {
+                    return isSupported;
+                }
+                else
+                {
+                    hasEverDetected = true;
+                    isSupported = true;
+                    try
+                    {
+                        string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                    }
+                    catch (WebView2RuntimeNotFoundException)
+                    {
+                        isSupported = false;
+                    }
+                    return isSupported;
+                }
             }
         }
     }

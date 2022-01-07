@@ -1,26 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar">
-    
-    <ContextMenu x:Shared="false" x:Key="TaskbarIconMenu">
-        <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}" />
-        <MenuItem Header="实时便笺" ItemsSource="{Binding UserGameRoles}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
-                    <Setter Property="IsCheckable" Value="True"/>
-                    <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
-                    <Setter Property="Header" Value="{Binding Path=Value.Key.UserGameRole}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="退出" Command="{Binding ExitCommand}" />
-    </ContextMenu>
-    
+
     <tb:TaskbarIcon x:Key="TaskbarIcon"
                     IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
                     ToolTipText="Snap Genshin"
-                    PopupActivation="All"
-                    ContextMenu="{StaticResource TaskbarIconMenu}">
+                    PopupActivation="All" LeftClickCommand="{Binding ShowMainWindowCommand}">
+        <tb:TaskbarIcon.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}" />
+                <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
+                            <Setter Property="Header" Value="{Binding Path=CookieUserGameRole.UserGameRole}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="退出" Command="{Binding ExitCommand}" />
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>
 </ResourceDictionary>

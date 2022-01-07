@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
@@ -30,7 +31,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         private IRelayCommand<TitleBarButton> opneUICommand;
         private IAsyncRelayCommand removeUserCommand;
         private IAsyncRelayCommand addUserCommand;
-        private IAsyncRelayCommand loadCommand;
+        private ICommand loadCommand;
 
         public CookieUserInfo? SelectedCookieUserInfo
         {
@@ -52,7 +53,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             [MemberNotNull(nameof(opneUICommand))]
             set => SetProperty(ref opneUICommand, value);
         }
-        public IAsyncRelayCommand LoadCommand
+        public ICommand LoadCommand
         {
             get => loadCommand;
             [MemberNotNull(nameof(loadCommand))]
@@ -81,6 +82,10 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
 
             IsActive = true;
         }
+        ~UserInfoViewModel()
+        {
+            IsActive = false;
+        }
 
         private async Task AddUserAsync()
         {
@@ -90,6 +95,9 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         private async Task RemoveUserAsync()
         {
             View?.HideAttachedFlyout();
+
+            cookieService.CookiesLock.EnterWriteLock();
+
             if (cookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
@@ -101,6 +109,8 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 //fix remove cookie crash.
                 return;
             }
+
+            cookieService.CookiesLock.ExitWriteLock();
 
             if (SelectedCookieUserInfo is not null)
             {
@@ -133,12 +143,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 if (info is not null)
                 {
                     CookieUserInfos.Add(new CookieUserInfo(cookie, info));
-                }
-                else
-                {
-                    this.Log($"Delete cookie {cookie}");
-                    //删除用户无法手动选中的cookie(失效的cookie)
-                    cookieService.Cookies.Remove(cookie);
                 }
             }
             SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);

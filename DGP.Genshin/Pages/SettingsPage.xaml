@@ -71,20 +71,6 @@
                         </Grid>
                     </StackPanel>
                 </Expander>
-                <!--<Expander Margin="12,12,16,0">
-                    <Expander.Header>
-                        <TextBlock Text="数据与隐私" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    </Expander.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ui:ToggleSwitch Grid.Column="0" Header="祈愿记录显示完整的UID" IsOn="{Binding ShowFullUID}"/>
-                        <ui:ToggleSwitch Grid.Column="1" Header="绕过玩家查询角色数量限制(实验性)" IsOn="{Binding BypassCharactersLimit}"/>
-                    </Grid>
-                </Expander>-->
                 <Expander Margin="12,12,16,0">
                     <Expander.Header>
                         <TextBlock Text="问题与反馈" Style="{StaticResource SubtitleTextBlockStyle}"/>
@@ -104,11 +90,19 @@
                     <StackPanel>
                         <TextBlock Text="Snap 原神" Style="{StaticResource BaseTextBlockStyle}"/>
                         <TextBlock Text="{Binding VersionString}" Opacity="0.6" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <ui:ToggleSwitch Header="使用 FastGit 代替 Github 下载更新 [实验性]" Margin="0,6,0,2" IsOn="{Binding UpdateUseFastGit}"/>
-                        <Button Tag="Github" Content="强制检查更新并安装" Margin="0,6,0,6" Command="{Binding CheckUpdateCommand}"/>
+                        <ui:ToggleSwitch Header="使用 FastGit 代替 Github 下载更新" Margin="0,6,0,2" IsOn="{Binding UpdateUseFastGit}"/>
+                        <Button Tag="Github" Content="检查更新" Margin="0,6,0,6" Command="{Binding CheckUpdateCommand}"/>
 
                         <TextBlock Text="AppCenter" Style="{StaticResource BaseTextBlockStyle}" Margin="0,12,0,0"/>
                         <TextBlock Text="我们使用 Microsoft AppCenter 进行基础的用户活跃数据收集&#10;收集崩溃与错误报告等信息，数据不会包括用户敏感数据" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
+
+                        <TextBlock Text="用户设备ID" Style="{StaticResource BaseTextBlockStyle}" Margin="0,12,0,0"/>
+                        <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                            <TextBlock Text="{Binding UserId}" Opacity="0.6"  Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                            <Button Content="&#xE8C8;" Margin="6,0,0,0"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}" ToolTipService.ToolTip="复制到剪贴板"/>
+                        </StackPanel>
+                        <TextBlock Text="在反馈时，提供此ID可以帮助我们更快的定位问题" Margin="0,6,0,6" Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>

@@ -103,5 +103,26 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
     "Key": "Weekly_AshenHeart",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_482.png"
+  },
+  {
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+    "Name": "？？？",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Weekly_Unknow_1",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_483.png"
+  },
+  {
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+    "Name": "？？？",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Weekly_Unknow_2",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_484.png"
+  },
+  {
+    "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+    "Name": "？？？",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Weekly_Unknown_3",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png"
   }
 ]

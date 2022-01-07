@@ -40,7 +40,7 @@ namespace DGP.Genshin.DataModels.GachaStatistics
         {
             return CurrentName is "奔行世间"
                 ? $"{TotalCount} 抽 | {CurrentName}"
-                : $"{TotalCount} 抽 | {CurrentName:12} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
+                : $"{TotalCount} 抽 | {CurrentName} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
         }
     }
 }

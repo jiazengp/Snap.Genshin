@@ -230,6 +230,50 @@ namespace DGP.Genshin.ViewModels
         }
         #endregion
 
+        #region 雷电将军
+        private IEnumerable<Character>? unknow1;
+        public IEnumerable<Character>? Unknown1
+        {
+            get
+            {
+                if (unknow1 == null)
+                {
+                    unknow1 = dataService.Characters?
+                        .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_483.png").ToList();
+                }
+                return unknow1;
+            }
+        }
+
+        private IEnumerable<Character>? unknow2;
+        public IEnumerable<Character>? Unkonw2
+        {
+            get
+            {
+                if (unknow2 == null)
+                {
+                    unknow2 = dataService.Characters?
+                        .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_484.png").ToList();
+                }
+                return unknow2;
+            }
+        }
+
+        private IEnumerable<Character>? unknown3;
+        public IEnumerable<Character>? Unknow3
+        {
+            get
+            {
+                if (unknown3 == null)
+                {
+                    unknown3 = dataService.Characters?
+                        .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png").ToList();
+                }
+                return unknown3;
+            }
+        }
+        #endregion
+
         public WeeklyViewModel(MetadataViewModel dataService)
         {
             this.dataService = dataService;

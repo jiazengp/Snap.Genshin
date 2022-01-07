@@ -8,20 +8,21 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         x:Name="DailyNoteSinkWindow"
-        Title="实时便笺" Height="40" Width="300"
+        Title="实时便笺" Height="48" Width="500"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
         SizeToContent="WidthAndHeight"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
+        SnapsToDevicePixels="True"
         >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OpenUICommand}" CommandParameter="{Binding ElementName=DailyNoteSinkWindow}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border Background="{DynamicResource SystemControlBackgroundAltMediumBrush}" CornerRadius="{StaticResource CompatCornerRadius}">
+    <Border Background="{DynamicResource SystemControlBackgroundAltMediumBrush}" CornerRadius="{StaticResource WindowCornerRadius}">
         <Grid x:Name="DragGrid" Background="Transparent">
             <i:Interaction.Behaviors>
                 <b:DragMoveBehavior/>
@@ -31,27 +32,27 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Margin="0" Grid.Row="1">
-                <Border CornerRadius="{StaticResource CompatCornerRadius}">
+                <Border CornerRadius="{StaticResource WindowCornerRadius}">
                     <Grid>
-                        <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="{StaticResource CompatCornerRadius}" 
+                        <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="{StaticResource WindowCornerRadius}" 
                                      Background="Transparent" Value="{Binding DailyNote.CurrentResin}" Minimum="0" Maximum="{Binding DailyNote.MaxResin}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition MinWidth="40"/>
-                                <ColumnDefinition MinWidth="240"/>
+                                <ColumnDefinition Width="68"/>
+                                <ColumnDefinition Width="232"/>
                             </Grid.ColumnDefinitions>
                             <Image Source="/Resources/UI_ItemIcon_210.png" Width="24" Margin="8"/>
-                            <TextBlock Grid.Column="1" Margin="12" Text="{Binding DailyNote.CurrentResin}"
+                            <TextBlock Grid.Column="1" Margin="6,12" Text="{Binding DailyNote.CurrentResin}"
                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
                                        Style="{StaticResource TitleTextBlockStyle}"
                                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <StackPanel Grid.Column="2" Margin="12">
+                            <StackPanel Grid.Column="2" Margin="12" HorizontalAlignment="Right">
                                 <TextBlock Text="{Binding CookieUserGameRole.UserGameRole}" 
                                            VerticalAlignment="Center" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyTextBlockStyle}"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                <TextBlock Text="{Binding DailyNote.ResinRecovertTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                <TextBlock Text="{Binding DailyNote.ResinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
                                            VerticalAlignment="Center" HorizontalAlignment="Right"
                                            Style="{StaticResource CaptionTextBlockStyle}" Margin="0,2,0,0"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
