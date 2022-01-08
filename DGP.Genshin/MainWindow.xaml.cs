@@ -164,7 +164,7 @@ namespace DGP.Genshin
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
                 settingService[Setting.AppVersion] = updateService.CurrentVersion;
-                if (App.Current.MainWindow is not null)
+                if (App.Current.MainWindow?.IsActive == true)
                 {
                     await ShowWhatsNewDialogAsync();
                 }
@@ -173,6 +173,7 @@ namespace DGP.Genshin
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await App.GetService<IUpdateService>().CheckUpdateStateAsync();
+            //update debug code here
             //if (Debugger.IsAttached) result = UpdateState.NeedUpdate;
             switch (result)
             {

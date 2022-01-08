@@ -129,7 +129,6 @@ namespace DGP.Genshin
             //handle notification activation
             ConfigureToastNotification();
             singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
-            this.Log($"Snap Genshin - {Assembly.GetExecutingAssembly().GetName().Version}");
             GetService<ISettingService>().Initialize();
             //app theme
             UpdateAppTheme();

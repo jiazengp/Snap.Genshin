@@ -9,7 +9,7 @@ namespace DGP.Genshin.Services
 {
     [Service(typeof(IScheduleService), ServiceType.Singleton)]
     [Send(typeof(TickScheduledMessage))]
-    public class ScheduleService : IScheduleService, IRecipient<SettingChangedMessage>
+    internal class ScheduleService : IScheduleService, IRecipient<SettingChangedMessage>
     {
         private readonly DispatcherTimer timer;
         public ScheduleService(ISettingService settingService)

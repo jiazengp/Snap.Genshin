@@ -72,7 +72,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                return Json.ToObject<T>(value!.ToString()!);
+                return value is null ? default : Json.ToObject<T>(value.ToString()!);
             }
         }
 
