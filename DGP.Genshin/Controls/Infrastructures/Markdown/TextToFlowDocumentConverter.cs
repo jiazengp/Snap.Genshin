@@ -57,6 +57,6 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
         }
 
         private readonly Lazy<Markdown> mMarkdown
-            = new Lazy<Markdown>(() => new Markdown());
+            = new(() => new Markdown());
     }
 }

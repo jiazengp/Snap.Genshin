@@ -16,9 +16,9 @@ namespace DGP.Genshin.Controls.TitleBarButtons
         {
             if (FlyoutBase.GetAttachedFlyout(button) is Flyout flyout)
             {
-                if (flyout.Content is TContentType grid)
+                if (flyout.Content is TContentType content)
                 {
-                    grid.DataContext = dataContext;
+                    content.DataContext = dataContext;
                     FlyoutBase.ShowAttachedFlyout(button);
                     return true;
                 }

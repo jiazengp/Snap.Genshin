@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Controls.Infrastructures.Markdown;
+﻿using DGP.Genshin.Controls.Infrastructures.Markdown;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers.Notifications;

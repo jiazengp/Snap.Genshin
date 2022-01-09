@@ -21,7 +21,16 @@ namespace DGP.Genshin.Controls.Cookies
 
         private async void ContinueButtonClick(object sender, RoutedEventArgs e)
         {
-            List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
+            List<CoreWebView2Cookie> cookies;
+            try
+            {
+                cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
+            }
+            catch
+            {
+                cookies = new();
+            }
+
             string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();
             Cookie = string.Concat(cookiesString);
             if (Cookie.Contains("account_id"))

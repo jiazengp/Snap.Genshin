@@ -4,6 +4,7 @@ using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Helpers;
+using DGP.Genshin.Helpers.Converters;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
@@ -42,7 +43,7 @@ namespace DGP.Genshin.Services
             {
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
                 {
-                    Credentials = new Credentials(GithubTokenHelper.GetToken()),
+                    Credentials = new Credentials(GithubToken.GetToken()),
                 };
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
                 PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
@@ -118,7 +119,7 @@ namespace DGP.Genshin.Services
                 .Show(toast =>
                 {
                     toast.Tag = UpdateNotificationTag;
-                    toast.Data = 
+                    toast.Data =
                     new(new Dictionary<string, string>()
                     {
                         {"progressValue", "0" },
@@ -163,7 +164,7 @@ namespace DGP.Genshin.Services
             NotificationData data = new() { SequenceNumber = 0 };
 
             data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
-            data.Values["progressValueString"] = 
+            data.Values["progressValueString"] =
                 $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
             if (percent >= 1)
             {

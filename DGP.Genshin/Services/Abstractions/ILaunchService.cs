@@ -30,7 +30,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="isBorderless">是否启用无边框</param>
         /// <param name="isFullScreen">是否启用全屏</param>
         /// <param name="waitForExit">是否应等待游戏进程退出</param>
-        Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen, bool waitForExit = false);
+        Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option);
 
         /// <summary>
         /// 加载配置文件数据
@@ -57,14 +57,17 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="launcherPath">待检验的启动器路径</param>
         /// <returns>启动器路径</returns>
         string? SelectLaunchDirectoryIfNull(string? launcherPath);
-
-        /// <summary>
-        /// 异步等待原神进程退出
-        /// </summary>
-        Task WaitGenshinImpactExitAsync();
         void SaveAllAccounts(IEnumerable<GenshinAccount> accounts);
         ObservableCollection<GenshinAccount> LoadAllAccount();
         GenshinAccount? GetFromRegistry();
         bool SetToRegistry(GenshinAccount? account);
+    }
+
+    public class LaunchOption
+    {
+        public bool IsBorderless { get; set; }
+        public bool IsFullScreen { get; set; }
+        public bool UnlockFPS { get; set; }
+        public int TargetFPS { get; set; }
     }
 }

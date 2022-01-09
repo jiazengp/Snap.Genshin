@@ -221,19 +221,6 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                     s2 => DoLists(s2,
                     s3 => DoTable(s3,
                     sn => FormParagraphs(sn)))));
-
-            //text = DoCodeBlocks(text);
-            //text = DoBlockQuotes(text);
-
-            //// We already ran HashHTMLBlocks() before, in Markdown(), but that
-            //// was to escape raw HTML in the original Markdown source. This time,
-            //// we're escaping the markup we've just created, so that we don't wrap
-            //// <p> tags around block-level tags.
-            //text = HashHTMLBlocks(text);
-
-            //text = FormParagraphs(text);
-
-            //return text;
         }
 
         /// <summary>
@@ -251,28 +238,10 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 s1 => DoAnchors(s1,
                 s2 => DoItalicsAndBold(s2,
                 s3 => DoText(s3)))));
-
-            //text = EscapeSpecialCharsWithinTagAttributes(text);
-            //text = EscapeBackslashes(text);
-
-            //// Images must come first, because ![foo][f] looks like an anchor.
-            //text = DoImages(text);
-            //text = DoAnchors(text);
-
-            //// Must come after DoAnchors(), because you can use < and >
-            //// delimiters in inline links like [this](<url>).
-            //text = DoAutoLinks(text);
-
-            //text = EncodeAmpsAndAngles(text);
-            //text = DoItalicsAndBold(text);
-            //text = DoHardBreaks(text);
-
-            //return text;
         }
 
-        private static readonly Regex _newlinesLeadingTrailing = new Regex(@"^\n+|\n+\z", RegexOptions.Compiled);
-        private static readonly Regex _newlinesMultiple = new Regex(@"\n{2,}", RegexOptions.Compiled);
-        private static readonly Regex _leadingWhitespace = new Regex(@"^[ ]*", RegexOptions.Compiled);
+        private static readonly Regex _newlinesLeadingTrailing = new(@"^\n+|\n+\z", RegexOptions.Compiled);
+        private static readonly Regex _newlinesMultiple = new(@"\n{2,}", RegexOptions.Compiled);
 
         /// <summary>
         /// splits on two or more newlines, to form "paragraphs";    
@@ -376,7 +345,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return _nestedParensPatternWithWhiteSpace;
         }
 
-        private static readonly Regex _imageInline = new Regex(
+        private static readonly Regex _imageInline = new(
             string.Format(CultureInfo.InvariantCulture, @"
                 (                           # wrap whole match in $1
                     !\[
@@ -398,7 +367,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             GetNestedParensPatternWithWhiteSpace()),
                   RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
-        private static readonly Regex _anchorInline = new Regex(
+        private static readonly Regex _anchorInline = new(
             string.Format(CultureInfo.InvariantCulture, @"
                 (                           # wrap whole match in $1
                     \[
@@ -465,7 +434,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 return new Run("!" + url) { Foreground = Brushes.Red };
             }
 
-            Image image = new Image { Source = imgSource, Tag = linkText };
+            Image image = new() { Source = imgSource, Tag = linkText };
             if (ImageStyle is null)
             {
                 image.Margin = new Thickness(0);
@@ -478,7 +447,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             // Bind size so document is updated when image is downloaded
             if (imgSource.IsDownloading)
             {
-                Binding binding = new Binding(nameof(BitmapImage.Width))
+                Binding binding = new(nameof(BitmapImage.Width))
                 {
                     Source = imgSource,
                     Mode = BindingMode.OneWay
@@ -546,7 +515,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return result;
         }
 
-        private static readonly Regex _headerSetext = new Regex(@"
+        private static readonly Regex _headerSetext = new(@"
                 ^(.+?)
                 [ ]*
                 \n
@@ -555,7 +524,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 \n+",
     RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
-        private static readonly Regex _headerAtx = new Regex(@"
+        private static readonly Regex _headerAtx = new(@"
                 ^(\#{1,6})  # $1 = string of #'s
                 [ ]*
                 (.+?)       # $2 = Header text
@@ -664,7 +633,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return block;
         }
 
-        private static readonly Regex _horizontalRules = new Regex(@"
+        private static readonly Regex _horizontalRules = new(@"
             ^[ ]{0,3}         # Leading space
                 ([-*_])       # $1: First marker
                 (?>           # Repeated marker group
@@ -701,13 +670,13 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 throw new ArgumentNullException(nameof(match));
             }
 
-            Separator separator = new Separator();
+            Separator separator = new();
             if (SeparatorStyle != null)
             {
                 separator.Style = SeparatorStyle;
             }
 
-            BlockUIContainer container = new BlockUIContainer(separator);
+            BlockUIContainer container = new(separator);
             return container;
         }
 
@@ -732,11 +701,9 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
               )
             )", string.Format(CultureInfo.InvariantCulture, "(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1);
 
-        private static readonly Regex _listNested = new Regex(@"^" + _wholeList,
-            RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+        private static readonly Regex _listNested = new(@"^" + _wholeList, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
-        private static readonly Regex _listTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeList,
-            RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+        private static readonly Regex _listTopLevel = new(@"(?:(?<=\n\n)|\A\n?)" + _wholeList, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         /// <summary>
         /// Turn Markdown lists into HTML ul and ol and li tags
@@ -787,27 +754,6 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
         /// </summary>
         private IEnumerable<ListItem> ProcessListItems(string list, string marker)
         {
-            // The listLevel global keeps track of when we're inside a list.
-            // Each time we enter a list, we increment it; when we leave a list,
-            // we decrement. If it's zero, we're not in a list anymore.
-
-            // We do this because when we're not inside a list, we want to treat
-            // something like this:
-
-            //    I recommend upgrading to version
-            //    8. Oops, now this line is treated
-            //    as a sub-list.
-
-            // As a single paragraph, despite the fact that the second line starts
-            // with a digit-period-space sequence.
-
-            // Whereas when we're inside a list (or sub-list), that line will be
-            // treated as the start of a sub-list. What a kludge, huh? This is
-            // an aspect of Markdown's syntax that's hard to parse perfectly
-            // without resorting to mind-reading. Perhaps the solution is to
-            // change the syntax rules such that sub-lists must start with a
-            // starting cardinal number; e.g. "1." or "a.".
-
             _listLevel++;
             try
             {
@@ -822,7 +768,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 (\n{{1,2}}))      
                 (?= \n* (\z | \2 ({0}) [ ]+))", marker);
 
-                Regex regex = new Regex(pattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+                Regex regex = new(pattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
                 MatchCollection matches = regex.Matches(list);
                 foreach (Match m in matches)
                 {
@@ -857,7 +803,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             }
         }
 
-        private static readonly Regex _table = new Regex(@"
+        private static readonly Regex _table = new(@"
             (                               # $1 = whole table
                 [ \r\n]*
                 (                           # $2 = table header
@@ -873,8 +819,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                         \|([^|\r\n]*\|)+    # $8
                     )+
                 )
-            )",
-            RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            )", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         public IEnumerable<Block> DoTable(string text, Func<string, IEnumerable<Block>> defaultHandler)
         {
@@ -898,12 +843,12 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             string style = match.Groups[4].Value.Trim();
             string row = match.Groups[6].Value.Trim();
 
-            string[] styles = style.Substring(1, style.Length - 2).Split('|');
-            string[] headers = header.Substring(1, header.Length - 2).Split('|');
+            string[] styles = style[1..^1].Split('|');
+            string[] headers = header[1..^1].Split('|');
             List<string[]> rowList = row.Split('\n').Select(ritm =>
             {
                 string trimRitm = ritm.Trim();
-                return trimRitm.Substring(1, trimRitm.Length - 2).Split('|');
+                return trimRitm[1..^1].Split('|');
             }).ToList();
 
             int maxColCount =
@@ -914,7 +859,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
 
 
             // table style
-            List<TextAlignment?> aligns = new List<TextAlignment?>();
+            List<TextAlignment?> aligns = new();
             foreach (string colStyleTxt in styles)
             {
                 char firstChar = colStyleTxt.First();
@@ -946,7 +891,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             }
 
             // table
-            Table table = new Table();
+            Table table = new();
             if (TableStyle != null)
             {
                 table.Style = TableStyle;
@@ -959,7 +904,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             }
 
             // table header
-            TableRowGroup tableHeaderRG = new TableRowGroup();
+            TableRowGroup tableHeaderRG = new();
             if (TableHeaderStyle != null)
             {
                 tableHeaderRG.Style = TableHeaderStyle;
@@ -970,7 +915,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             table.RowGroups.Add(tableHeaderRG);
 
             // row
-            TableRowGroup tableBodyRG = new TableRowGroup();
+            TableRowGroup tableBodyRG = new();
             if (TableBodyStyle != null)
             {
                 tableBodyRG.Style = TableBodyStyle;
@@ -988,7 +933,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
 
         private TableRow CreateTableRow(string[] txts, List<TextAlignment?> aligns)
         {
-            TableRow tableRow = new TableRow();
+            TableRow tableRow = new();
 
             foreach (int idx in Enumerable.Range(0, txts.Length))
             {
@@ -996,7 +941,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 TextAlignment? align = aligns[idx];
 
                 Paragraph paragraph = Create<Paragraph, Inline>(RunSpanGamut(txt));
-                TableCell cell = new TableCell(paragraph);
+                TableCell cell = new(paragraph);
 
                 if (align.HasValue)
                 {
@@ -1014,7 +959,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return tableRow;
         }
 
-        private static readonly Regex _codeSpan = new Regex(@"
+        private static readonly Regex _codeSpan = new(@"
                     (?<!\\)   # Character before opening ` can't be a backslash
                     (`+)      # $1 = Opening run of `
                     (.+?)     # $2 = The code block
@@ -1068,7 +1013,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             span = Regex.Replace(span, @"^[ ]*", ""); // leading whitespace
             span = Regex.Replace(span, @"[ ]*$", ""); // trailing whitespace
 
-            Run result = new Run(span);
+            Run result = new(span);
             if (CodeStyle != null)
             {
                 result.Style = CodeStyle;
@@ -1077,15 +1022,11 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return result;
         }
 
-        private static readonly Regex _bold = new Regex(@"(\*\*|__) (?=\S) (.+?[*_]*) (?<=\S) \1",
-            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex _strictBold = new Regex(@"([\W_]|^) (\*\*|__) (?=\S) ([^\r]*?\S[\*_]*) \2 ([\W_]|$)",
-            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _bold = new(@"(\*\*|__) (?=\S) (.+?[*_]*) (?<=\S) \1", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _strictBold = new(@"([\W_]|^) (\*\*|__) (?=\S) ([^\r]*?\S[\*_]*) \2 ([\W_]|$)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex _italic = new Regex(@"(\*|_) (?=\S) (.+?) (?<=\S) \1",
-            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex _strictItalic = new Regex(@"([\W_]|^) (\*|_) (?=\S) ([^\r\*_]*?\S) \2 ([\W_]|$)",
-            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _italic = new(@"(\*|_) (?=\S) (.+?) (?<=\S) \1", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _strictItalic = new(@"([\W_]|^) (\*|_) (?=\S) ([^\r\*_]*?\S) \2 ([\W_]|$)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Turn Markdown *italics* and **bold** into HTML strong and em tags
@@ -1134,7 +1075,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             return Create<Bold, Inline>(RunSpanGamut(content));
         }
 
-        private static readonly Regex _outDent = new Regex(@"^[ ]{1," + _tabWidth + @"}", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex _outDent = new(@"^[ ]{1," + _tabWidth + @"}", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
         /// Remove one level of line-leading spaces
@@ -1157,8 +1098,8 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            StringBuilder output = new StringBuilder(text.Length);
-            StringBuilder line = new StringBuilder();
+            StringBuilder output = new(text.Length);
+            StringBuilder line = new();
             bool valid = false;
 
             for (int i = 0; i < text.Length; i++)
@@ -1230,7 +1171,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
                 throw new ArgumentNullException(nameof(value));
             }
 
-            StringBuilder sb = new StringBuilder(value.Length * count);
+            StringBuilder sb = new(value.Length * count);
             for (int i = 0; i < count; i++)
             {
                 sb.Append(value);
@@ -1242,7 +1183,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
         private TResult Create<TResult, TContent>(IEnumerable<TContent> content)
             where TResult : IAddChild, new()
         {
-            TResult result = new TResult();
+            TResult result = new();
             foreach (TContent c in content)
             {
                 result.AddChild(c);
@@ -1264,7 +1205,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             {
                 if (m.Index > index)
                 {
-                    string prefix = text.Substring(index, m.Index - index);
+                    string prefix = text[index..m.Index];
                     foreach (T t in rest(prefix))
                     {
                         yield return t;
@@ -1278,7 +1219,7 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
 
             if (index < text.Length)
             {
-                string suffix = text.Substring(index, text.Length - index);
+                string suffix = text[index..];
                 foreach (T t in rest(suffix))
                 {
                     yield return t;
@@ -1286,8 +1227,8 @@ namespace DGP.Genshin.Controls.Infrastructures.Markdown
             }
         }
 
-        private static readonly Regex _eoln = new Regex("\\s+");
-        private static readonly Regex _lbrk = new Regex(@"\ {2,}\n");
+        private static readonly Regex _eoln = new("\\s+");
+        private static readonly Regex _lbrk = new(@"\ {2,}\n");
 
         public IEnumerable<Inline> DoText(string text)
         {

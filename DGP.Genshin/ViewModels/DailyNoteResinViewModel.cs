@@ -1,7 +1,5 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Threading;
+﻿using DGP.Genshin.Common.Threading;
 using DGP.Genshin.DataModels.Cookies;
-using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;

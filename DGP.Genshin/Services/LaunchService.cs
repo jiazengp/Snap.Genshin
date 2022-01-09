@@ -1,7 +1,11 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
+﻿using DGP.Genshin.Common.Core;
+using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
+using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.DataModels.Launching;
+using DGP.Genshin.FPSUnlocking;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
 using IniParser;
 using IniParser.Model;
@@ -13,7 +17,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -26,7 +29,15 @@ namespace DGP.Genshin.Services
     [Service(typeof(ILaunchService), ServiceType.Transient)]
     internal class LaunchService : ILaunchService
     {
-        private const string AccountsFile = "accounts.json";
+        private const string AccountsFileName = "accounts.json";
+        private const string LauncherSection = "launcher";
+        private const string GameName = "game_start_name";
+        private const string GeneralSection = "General";
+        private const string Channel = "channel";
+        private const string CPS = "cps";
+        private const string SubChannel = "sub_channel";
+        private const string GameInstallPath = "game_install_path";
+        private const string ConfigFileName = "config.ini";
 
         private readonly ISettingService settingService;
 
@@ -71,30 +82,6 @@ namespace DGP.Genshin.Services
 
                 return new GenshinAccount { MihoyoSDK = sdkString, GeneralData = dataString };
             }
-
-            /// <summary>
-            /// 在注册表中获取账号信息
-            /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
-            /// </summary>
-            /// <param name="accountNamer"></param>
-            /// <returns></returns>
-            public static async Task<GenshinAccount?> GetAsync(Func<GenshinAccount, Task<string?>> asyncAccountNamer)
-            {
-                object? sdk = Registry.GetValue(GenshinKey, SdkKey, null);
-                object? data = Registry.GetValue(GenshinKey, DataKey, null);
-
-                if (sdk is null || data is null)
-                {
-                    return null;
-                }
-
-                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
-                string dataString = Encoding.UTF8.GetString((byte[])data);
-
-                GenshinAccount account = new() { MihoyoSDK = sdkString, GeneralData = dataString };
-                account.Name = await asyncAccountNamer.Invoke(account);
-                return account;
-            }
         }
 
         private IniData? launcherConfig;
@@ -107,7 +94,6 @@ namespace DGP.Genshin.Services
                 return launcherConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
             }
         }
-
         public IniData GameConfig
         {
             get
@@ -119,28 +105,25 @@ namespace DGP.Genshin.Services
         public LaunchService(ISettingService settingService)
         {
             this.settingService = settingService;
-
-            FileStream? accountFile = File.Exists(AccountsFile) ? null : File.Create(AccountsFile);
-            accountFile?.Dispose();
+            PathContext.CreateOrIgnore(AccountsFileName);
 
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
 
             TryLoadIniData(launcherPath);
         }
 
-        [MemberNotNullWhen(true, nameof(gameConfig))]
-        [MemberNotNullWhen(true, nameof(launcherConfig))]
+        [MemberNotNullWhen(true, nameof(gameConfig)), MemberNotNullWhen(true, nameof(launcherConfig))]
         public bool TryLoadIniData(string? launcherPath)
         {
             if (launcherPath != null)
             {
                 try
                 {
-                    string configPath = $@"{Path.GetDirectoryName(launcherPath)}\config.ini";
+                    string configPath = Path.Combine(Path.GetDirectoryName(launcherPath)!, "config.ini");
                     launcherConfig = GetIniData(configPath);
 
                     string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-                    gameConfig = GetIniData(Path.Combine(unescapedGameFolder, "config.ini"));
+                    gameConfig = GetIniData(Path.Combine(unescapedGameFolder, ConfigFileName));
                 }
                 catch (Exception ex)
                 {
@@ -163,13 +146,12 @@ namespace DGP.Genshin.Services
         private IniData GetIniData(string file)
         {
             //this method cause tons of problems
-
             FileIniDataParser parser = new();
             parser.Parser.Configuration.AssigmentSpacer = "";
             return parser.ReadFile(file);
         }
 
-        public async Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, bool isBorderless, bool isFullScreen, bool waitForExit = false)
+        public async Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option)
         {
             if (scheme is null)
             {
@@ -179,28 +161,45 @@ namespace DGP.Genshin.Services
             if (launcherPath is not null)
             {
                 string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-                string gamePath = $@"{unescapedGameFolder}/{LauncherConfig["launcher"]["game_start_name"]}";
-                gamePath = Regex.Unescape(gamePath);
+                string gamePath = Path.Combine(unescapedGameFolder, LauncherConfig[LauncherSection][GameName]);
 
                 try
                 {
-                    ProcessStartInfo info = new()
+                    //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
+                    string commandLine = new CommandLine()
+                        .WithIf(option.IsBorderless, "-popupwindow")
+                        .With("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
+                        .Build();
+
+                    Process? game = new()
                     {
-                        FileName = gamePath,
-                        Verb = "runas",
-                        WorkingDirectory = Path.GetDirectoryName(gamePath),
-                        UseShellExecute = true,
-                        Arguments = $"{(isBorderless ? "-popupwindow " : "")}-screen-fullscreen {(isFullScreen ? 1 : 0)}"
+                        StartInfo = new()
+                        {
+                            FileName = gamePath,
+                            Verb = "runas",
+                            WorkingDirectory = Path.GetDirectoryName(gamePath),
+                            UseShellExecute = true,
+                            Arguments = commandLine
+                        }
                     };
-                    Process? p = Process.Start(info);
-                    if (waitForExit && p is not null)
+
+                    if (option.UnlockFPS)
                     {
-                        await p.WaitForExitAsync();
+                        Unlocker unlocker = new(game, option.TargetFPS);
+                        UnlockResult result = await unlocker.StartProcessAndUnlockAsync();
+                        this.Log(result);
+                    }
+                    else
+                    {
+                        if (game.Start())
+                        {
+                            await game.WaitForExitAsync();
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    failAction?.Invoke(ex);
+                    failAction.Invoke(ex);
                 }
             }
         }
@@ -228,27 +227,19 @@ namespace DGP.Genshin.Services
         /// 还原转义后的原游戏目录
         /// 目录符号应为/
         /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
+        /// https://stackoverflow.com/questions/70639344/replace-captured-item-in-regular-expression-replace-in-c-sharp
         /// </summary>
         /// <returns></returns>
         private string GetUnescapedGameFolderFromLauncherConfig()
         {
-            string gameInstallPath = LauncherConfig["launcher"]["game_install_path"];
-            return Regex.Unescape(gameInstallPath.Replace(@"\x", @"\u"));
-        }
-
-        public Task WaitGenshinImpactExitAsync()
-        {
-            Process[] procs = Process.GetProcessesByName("YuanShen");
-            if (procs.Any())
-            {
-                return Task.WhenAll(procs.Select(p => p.WaitForExitAsync()));
-            }
-            return Task.CompletedTask;
+            string gameInstallPath = LauncherConfig[LauncherSection][GameInstallPath];
+            string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
+            return Regex.Unescape(hex4Result);
         }
 
         public string? SelectLaunchDirectoryIfNull(string? launcherPath)
         {
-            if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != "launcher")
+            if (!File.Exists(launcherPath) || Path.GetFileNameWithoutExtension(launcherPath) != LauncherSection)
             {
                 OpenFileDialog openFileDialog = new()
                 {
@@ -259,10 +250,11 @@ namespace DGP.Genshin.Services
                     DereferenceLinks = true,
                     FileName = "launcher.exe"
                 };
+
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string fileName = openFileDialog.FileName;
-                    if (Path.GetFileNameWithoutExtension(fileName) == "launcher")
+                    if (Path.GetFileNameWithoutExtension(fileName) == LauncherSection)
                     {
                         launcherPath = openFileDialog.FileName;
                         settingService[Setting.LauncherPath] = launcherPath;
@@ -279,29 +271,30 @@ namespace DGP.Genshin.Services
             {
                 return;
             }
-            GameConfig["General"]["channel"] = scheme.Channel;
-            GameConfig["General"]["cps"] = scheme.CPS;
-            GameConfig["General"]["sub_channel"] = scheme.SubChannel;
+            GameConfig[GeneralSection][Channel] = scheme.Channel;
+            GameConfig[GeneralSection][CPS] = scheme.CPS;
+            GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
 
-            string unescapedGameFolder = Regex.Unescape(LauncherConfig["launcher"]["game_install_path"].Replace("x", "u"));
-            //compat with https://github.com/DawnFz/GenShin-LauncherDIY
-            new FileIniDataParser().WriteFile($@"{unescapedGameFolder}\config.ini", GameConfig, new UTF8Encoding(false));
+            string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
+            //new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
+            new FileIniDataParser().WriteFile(Path.Combine(unescapedGameFolder, ConfigFileName), GameConfig, new UTF8Encoding(false));
         }
 
         public ObservableCollection<GenshinAccount> LoadAllAccount()
         {
-            return Json.FromFile<ObservableCollection<GenshinAccount>>(AccountsFile) ?? new();
+            return Json.FromFileOrNew<ObservableCollection<GenshinAccount>>(AccountsFileName);
         }
 
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
-            Json.ToFile(AccountsFile, accounts);
+            Json.ToFile(AccountsFileName, accounts);
         }
 
         public GenshinAccount? GetFromRegistry()
         {
             return GenshinRegistry.Get();
         }
+
         public bool SetToRegistry(GenshinAccount? account)
         {
             return GenshinRegistry.Set(account);

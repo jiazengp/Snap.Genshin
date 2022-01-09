@@ -3,7 +3,6 @@ using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.ViewModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
-using System;
 
 namespace DGP.Genshin.DataModels.DailyNotes
 {
@@ -17,7 +16,7 @@ namespace DGP.Genshin.DataModels.DailyNotes
         [JsonProperty] public double Top { get; set; }
         [JsonProperty] public double Left { get; set; }
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public DailyNoteWindow? DailyNoteWindow { get; set; }
 
         private bool isChecked;

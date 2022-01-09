@@ -31,5 +31,7 @@ namespace DGP.Genshin.Helpers
             byte[] hash = MD5.Create().ComputeHash(bytes);
             return BitConverter.ToString(hash).Replace("-", "");
         }
+
+
     }
 }

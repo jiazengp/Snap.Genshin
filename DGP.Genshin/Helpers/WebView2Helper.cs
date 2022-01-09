@@ -10,6 +10,7 @@ namespace DGP.Genshin.Helpers
     {
         private static bool hasEverDetected = false;
         private static bool isSupported = false;
+
         /// <summary>
         /// 检测WebView 是否存在
         /// </summary>

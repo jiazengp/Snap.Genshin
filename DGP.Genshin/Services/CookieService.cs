@@ -3,7 +3,7 @@ using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Exceptions;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls.Cookies;
-using DGP.Genshin.Helpers;
+using DGP.Genshin.Helpers.Converters;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Services.Abstratcions;
@@ -20,8 +20,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Services
-{ 
-    
+{
+
     /// <summary>
     /// TODO 添加 current cookie 启动时校验
     /// </summary>
@@ -133,7 +133,7 @@ namespace DGP.Genshin.Services
 
         public ICookieService.ICookiePool Cookies { get; set; }
 
-        public ReaderWriterLockSlim CookiesLock { get; init; } 
+        public ReaderWriterLockSlim CookiesLock { get; init; }
 
         public CookieService()
         {
@@ -226,7 +226,7 @@ namespace DGP.Genshin.Services
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
             (ContentDialogResult result, string newCookie) = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
-            
+
             if (result is ContentDialogResult.Primary)
             {
                 if (await ValidateCookieAsync(newCookie))

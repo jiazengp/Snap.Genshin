@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Common.Data.Behavior;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -10,24 +9,15 @@ namespace DGP.Genshin.Controls.GenshinElements
     {
         public ContentIcon()
         {
-            //suppress the databinding warning
-            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             Loaded += ContentIcon_Loaded;
             InitializeComponent();
         }
-
-        private bool isFirstLoaded = true;
         private void ContentIcon_Loaded(object sender, RoutedEventArgs e)
         {
-            if (isFirstLoaded)
-            {
-                isFirstLoaded = false;
-                Storyboard? storyBoard = FindResource("FadeInAnimation") as Storyboard;
-                if (storyBoard is not null)
-                {
-                    storyBoard.Begin();
-                }
-            }
+            Storyboard? storyBoard = FindResource("FadeInAnimation") as Storyboard;
+            storyBoard?.Begin();
+            //thus only affect first load
+            Loaded -= ContentIcon_Loaded;
         }
 
         public string BackgroundUrl

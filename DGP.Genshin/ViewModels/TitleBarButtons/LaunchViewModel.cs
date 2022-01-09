@@ -41,6 +41,8 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         private IAsyncRelayCommand<string> launchCommand;
         private IRelayCommand closeUICommand;
         private IAsyncRelayCommand deleteAccountCommand;
+        private bool unlockFPS;
+        private double targetFPS;
 
         /// <summary>
         /// 已知的启动方案
@@ -84,6 +86,40 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             {
                 SetProperty(ref isBorderless, value);
                 settingService[Setting.IsBorderless] = value;
+            }
+        }
+        /// <summary>
+        /// 是否解锁FPS上限
+        /// </summary>
+        public bool UnlockFPS
+        {
+            get => unlockFPS;
+            set
+            {
+                SetProperty(ref unlockFPS, value);
+                settingService[Setting.UnlockFPS] = value;
+            }
+        }
+        /// <summary>
+        /// 目标帧率
+        /// </summary>
+        public double TargetFPS
+        {
+            get => targetFPS;
+            set
+            {
+                SetProperty(ref targetFPS, value);
+                settingService[Setting.TargetFPS] = value;
+            }
+        }
+
+        private bool? isElevated;
+        public bool IsElevated
+        {
+            get
+            {
+                isElevated ??= App.IsElevated;
+                return isElevated.Value;
             }
         }
         public ObservableCollection<GenshinAccount> Accounts
@@ -135,6 +171,8 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             SelectedAccount = Accounts.FirstOrDefault();
             IsBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
             IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
+            UnlockFPS = settingService.GetOrDefault(Setting.UnlockFPS, false);
+            TargetFPS = settingService.GetOrDefault(Setting.TargetFPS, 60.0);
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             LaunchCommand = new AsyncRelayCommand<string>(LaunchByOption);
@@ -188,6 +226,14 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                     }
                 case "Game":
                     {
+                        LaunchOption? launchOption = new LaunchOption()
+                        {
+                            IsBorderless = IsBorderless,
+                            IsFullScreen = IsFullScreen,
+                            UnlockFPS = IsElevated && UnlockFPS,
+                            TargetFPS = (int)TargetFPS
+                        };
+
                         await launchService.LaunchAsync(CurrentScheme, async ex =>
                         {
                             await new ContentDialog()
@@ -197,7 +243,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                                 PrimaryButtonText = "确定",
                                 DefaultButton = ContentDialogButton.Primary
                             }.ShowAsync();
-                        }, IsBorderless, IsFullScreen);
+                        }, launchOption);
                         break;
                     }
             }
@@ -225,6 +271,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 SelectedAccount = Accounts.Last();
             }
         }
+
         /// <summary>
         /// 从注册表获取当前的账户信息
         /// </summary>

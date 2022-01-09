@@ -37,6 +37,7 @@ namespace DGP.Genshin.ViewModels
                 TrySendCompletedMessage();
             }
         }
+
         private void TrySendCompletedMessage()
         {
             if (IsCookieVisible == false && integrityCheckService.IntegrityCheckCompleted)

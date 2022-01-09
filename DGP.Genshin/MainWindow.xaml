@@ -7,7 +7,6 @@
         xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
-        xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
         xmlns:m="clr-namespace:DGP.Genshin.Controls.Infrastructures.Markdown" 
         xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
         mc:Ignorable="d"
@@ -22,7 +21,6 @@
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         >
     <Window.Resources>
-        <converters:DevModeVisibilityConverter x:Key="DevModeVisibilityConverter"/>
         <m:Markdown x:Key="Markdown"
                         DocumentStyle="{StaticResource DocumentStyle}"
                         Heading1Style="{StaticResource H1Style}"

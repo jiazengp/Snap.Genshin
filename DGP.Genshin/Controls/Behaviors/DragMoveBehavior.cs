@@ -4,6 +4,9 @@ using System.Windows;
 
 namespace DGP.Genshin.Controls.Behaviors
 {
+    /// <summary>
+    /// 允许控件实现DragMove
+    /// </summary>
     public class DragMoveBehavior : Behavior<FrameworkElement>
     {
         protected override void OnAttached()

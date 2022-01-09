@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Helpers;
@@ -39,7 +38,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             {
                 SetProperty(ref selectedCookieUserInfo, value);
                 cookieService.ChangeOrIgnoreCurrentCookie(value?.Cookie);
-                View?.HideAttachedFlyout();
             }
         }
         public ObservableCollection<CookieUserInfo> CookieUserInfos

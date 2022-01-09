@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Security.Principal;
 using System.Windows;
 
 namespace DGP.Genshin
@@ -48,6 +48,18 @@ namespace DGP.Genshin
         /// 覆盖默认类型的 Current
         /// </summary>
         public new static App Current => (App)Application.Current;
+
+        public static bool IsElevated
+        {
+            get
+            {
+                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+                {
+                    WindowsPrincipal principal = new(identity);
+                    return principal.IsInRole(WindowsBuiltInRole.Administrator);
+                }
+            }
+        }
 
         #region Dependency Injection Helper
         /// <summary>

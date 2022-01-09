@@ -52,7 +52,7 @@ namespace DGP.Genshin.ViewModels
         private NamedValue<ApplicationTheme?> selectedTheme;
         private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
         private IAsyncRelayCommand checkUpdateCommand;
-        
+
 
         //需要在 Initalize Receive 中添加字段的初始化
         public bool ShowFullUID
@@ -103,11 +103,11 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull("versionString")]
             set => SetProperty(ref versionString, value);
         }
-        public string UserId 
-        { 
-            get => userId; 
+        public string UserId
+        {
+            get => userId;
             [MemberNotNull(nameof(userId))]
-            set => userId = value; 
+            set => userId = value;
         }
         public AutoRun AutoRun { get => autoRun; set => autoRun = value; }
         public NamedValue<ApplicationTheme?> SelectedTheme

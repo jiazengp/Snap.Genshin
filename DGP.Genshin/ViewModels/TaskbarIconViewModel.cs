@@ -54,7 +54,7 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref resinWidget, value);
         }
 
-        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, ISettingService settingService, IMessenger messenger) 
+        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, ISettingService settingService, IMessenger messenger)
             : base(messenger)
         {
             this.cookieService = cookieService;
@@ -70,7 +70,7 @@ namespace DGP.Genshin.ViewModels
         }
         ~TaskbarIconViewModel()
         {
-            
+
             IsActive = false;
         }
 
@@ -94,10 +94,10 @@ namespace DGP.Genshin.ViewModels
             //开始恢复状态
             if (storedResinWidgets?.Count > 0)
             {
-                foreach(ResinWidgetConfigration widget in ResinWidgets)
+                foreach (ResinWidgetConfigration widget in ResinWidgets)
                 {
                     ResinWidgetConfigration? matched = storedResinWidgets.FirstOrDefault(stored => stored.CookieUserGameRole == widget.CookieUserGameRole);
-                    if(matched != null)
+                    if (matched != null)
                     {
                         widget.IsPresent = matched.IsPresent;
                         widget.Top = matched.Top;
@@ -106,7 +106,7 @@ namespace DGP.Genshin.ViewModels
                 }
             }
             //initialize widgets state
-            foreach(ResinWidgetConfigration widget in ResinWidgets)
+            foreach (ResinWidgetConfigration widget in ResinWidgets)
             {
                 widget.Initialize();
             }
@@ -114,9 +114,9 @@ namespace DGP.Genshin.ViewModels
 
         public void SaveResinWidgetConfigrations()
         {
-            if(ResinWidgets is not null)
+            if (ResinWidgets is not null)
             {
-                foreach (var widget in ResinWidgets)
+                foreach (ResinWidgetConfigration? widget in ResinWidgets)
                 {
                     widget.UpdatePropertyState();
                 }
@@ -140,7 +140,7 @@ namespace DGP.Genshin.ViewModels
             List<CookieUserGameRole> results = new();
             List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
             results.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
-            foreach(CookieUserGameRole role in results)
+            foreach (CookieUserGameRole role in results)
             {
                 ResinWidgets?.Add(new ResinWidgetConfigration { CookieUserGameRole = role });
             }
@@ -149,7 +149,7 @@ namespace DGP.Genshin.ViewModels
         {
             IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!.Where(u => u.CookieUserGameRole!.Cookie == message.Value);
 
-            foreach(ResinWidgetConfigration target in targets)
+            foreach (ResinWidgetConfigration target in targets)
             {
                 target.IsChecked = false;
                 ResinWidgets?.Remove(target);

@@ -1,15 +1,15 @@
-﻿using DGP.Genshin.Common.Core.Logging;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
 using static DGP.Genshin.Common.NativeMethods.User32;
 
-namespace DGP.Genshin.Helpers
+namespace DGP.Genshin.Helpers.Extensions
 {
-    public static class WindowHelper
+    public static class WindowExtensions
     {
+        #region Bottom Most Window
         /// <summary>
         /// 使窗体置于桌面底端
         /// </summary>
@@ -28,10 +28,10 @@ namespace DGP.Genshin.Helpers
         {
             IntPtr hWorkerWnd = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "WorkerW", IntPtr.Zero);
 
-            while (hWorkerWnd!=IntPtr.Zero)
+            while (hWorkerWnd != IntPtr.Zero)
             {
                 uint dwStyle = GetWindowLong(hWorkerWnd, GWL_STYLE);
-                if((dwStyle & WS_VISIBLE) != 0)
+                if ((dwStyle & WS_VISIBLE) != 0)
                 {
                     IntPtr hdefWnd = FindWindowEx(hWorkerWnd, IntPtr.Zero, "SHELLDLL_DefView", IntPtr.Zero);
                     if (hdefWnd != IntPtr.Zero)
@@ -45,7 +45,9 @@ namespace DGP.Genshin.Helpers
 
             _ = ShowWindow(hWorkerWnd, SW_HIDE);
         }
+        #endregion
 
+        #region Acrylic
         private static readonly uint acrylicBackgroundColor = 0x808080; /* BGR color format */
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace DGP.Genshin.Helpers
             AccentPolicy accent = new()
             {
                 AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
-                GradientColor = (0 << 24) | (acrylicBackgroundColor & 0xFFFFFF)
+                GradientColor = 0 << 24 | acrylicBackgroundColor & 0xFFFFFF
             };
 
             int accentStructSize = Marshal.SizeOf(accent);
@@ -76,5 +78,6 @@ namespace DGP.Genshin.Helpers
 
             Marshal.FreeHGlobal(accentPtr);
         }
+        #endregion
     }
 }

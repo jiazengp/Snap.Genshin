@@ -10,9 +10,9 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     /// <summary>
     /// 实现了图片缓存，
     /// 用来在 <see cref="Border"/> 上设置异步设置 <see cref="Border.Background"/> 与相应的 <see cref="ImageBrush.Stretch"/>，
-    /// 因为只有 <see cref="Border"/> 可以较为便捷的设置角落弧度
+    /// 因为只有 <see cref="Border"/> 可以较为便捷的设置角落弧度 <see cref="Border.CornerRadius"/>
     /// </summary>
-    public class ImageAsyncHelper : DependencyObject
+    public class ImageAsyncHelper
     {
         public static string GetImageUrl(Border obj)
         {

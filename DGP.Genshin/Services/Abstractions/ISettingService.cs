@@ -20,7 +20,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="key">设置键</param>
         /// <returns>对应的设置值</returns>
         object? this[string key] { set; }
-        
+
         /// <summary>
         /// 对于复杂的引用对象，请使用此方法获取设置的值
         /// </summary>
@@ -80,6 +80,8 @@ namespace DGP.Genshin.Services.Abstratcions
         public const string LauncherPath = "LauncherPath";
         public const string IsFullScreen = "IsFullScreenLaunch";
         public const string IsBorderless = "IsBorderlessLaunch";
+        public const string UnlockFPS = "FPSUnlockingEnabled";
+        public const string TargetFPS = "FPSUnlockingTarget";
         public const string LastAutoSignInTime = "LastAutoSignInTime";
         public const string AppVersion = "AppVersion";
         public const string SkipCacheCheck = "SkipCacheCheck";
