@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>D:\Development\Projects\Snap.Genshin\DGP.Genshin\Properties\PublishProfiles\StandardProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\ExceptionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\GenshinElements\DailyNoteWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TitleBarButtons\JourneyLogTitleBarButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TitleBarButtons\LaunchTitleBarButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TitleBarButtons\SignInTitleBarButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\PluginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\PromotionCalculatePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Launching\NameDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ExceptionWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\GenshinElements\DailyNoteWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TitleBarButtons\JourneyLogTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TitleBarButtons\LaunchTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TitleBarButtons\SignInTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PluginPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PromotionCalculatePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Launching\NameDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TaskbarIconResources.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,518 @@
+﻿<Application
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+    xmlns:c="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+    xmlns:ge="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+    x:Class="DGP.Genshin.App"
+    StartupUri="MainWindow.xaml"
+    ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources/>
+                <ui:XamlControlsResources/>
+                <ui:IntellisenseResources/>
+                <!--merged dictionaries here -->
+                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Infrastructures/Markdown/MarkdownStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/TaskbarIconResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--#region ConstValues-->
+            <CornerRadius x:Key="WindowCornerRadius" >8</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadius" >4</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusTop" >4,4,0,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusBottom" >0,0,4,4</CornerRadius>
+            <CornerRadius x:Key="SmallCompatCornerRadius" >2,2,2,2</CornerRadius>
+
+            <ItemsPanelTemplate x:Key="WrapPanelItemsPanel">
+                <WrapPanel/>
+            </ItemsPanelTemplate>
+            <ItemsPanelTemplate x:Key="HorizontalStackPanelItemsPanel">
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+            <!--#endregion-->
+            
+            <!--#region OverrideConst-->
+            <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
+            <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
+            <sys:Double x:Key="ContentDialogMaxHeight">640</sys:Double>
+            <Thickness x:Key="PivotItemMargin">0</Thickness>
+            <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
+            <!--#endregion-->
+            
+            <!--#region Texts-->
+            <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
+                <!--<Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MessageFontFamilyKey}}" />-->
+                <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextTrimming" Value="None" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+            </Style>
+            <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontSize" Value="46" />
+                <Setter Property="FontWeight" Value="Light" />
+            </Style>
+            <Style x:Key="SubheaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontSize" Value="34" />
+                <Setter Property="FontWeight" Value="Light" />
+            </Style>
+            <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+            <Style x:Key="SubtitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="20" />
+            </Style>
+            <Style x:Key="BodyTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style x:Key="CaptionTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="Normal" />
+            </Style>
+            <!--#endregion-->
+            
+            <!--#region Converters-->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
+            <!--#endregion-->
+
+            <!--#region Modefied Styles-->
+            <Style TargetType="{x:Type Expander}">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Expander}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    CornerRadius="{DynamicResource CompatCornerRadius}" 
+                                    SnapsToDevicePixels="True">
+                                <DockPanel>
+                                    <ToggleButton 
+                                        x:Name="HeaderSite" 
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                        Content="{TemplateBinding Header}" 
+                                        DockPanel.Dock="Top" 
+                                        Foreground="{TemplateBinding Foreground}" 
+                                        ui:FocusVisualHelper.FocusVisualMargin="-3" 
+                                        FontWeight="{TemplateBinding FontWeight}" 
+                                        FocusVisualStyle="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" 
+                                        FontStyle="{TemplateBinding FontStyle}" 
+                                        FontStretch="{TemplateBinding FontStretch}" 
+                                        FontSize="{TemplateBinding FontSize}" 
+                                        FontFamily="{TemplateBinding FontFamily}" 
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                        Margin="1" 
+                                        MinWidth="0" 
+                                        MinHeight="0" 
+                                        Padding="{TemplateBinding Padding}" 
+                                        ui:FocusVisualHelper.UseSystemFocusVisuals="True" 
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <ControlTemplate.Resources>
+                                                                <StreamGeometry x:Key="ChevronDown">M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z</StreamGeometry>
+                                                                <StreamGeometry x:Key="ChevronUp">M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z</StreamGeometry>
+                                                            </ControlTemplate.Resources>
+                                                            <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                                                                <Grid SnapsToDevicePixels="False">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <ui:FontIconFallback Margin="2,0" Grid.Column="1" x:Name="arrow" Data="M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" FontSize="12" FontFamily="{DynamicResource SymbolThemeFontFamily}" HorizontalAlignment="Center" SnapsToDevicePixels="False" VerticalAlignment="Center"/>
+                                                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="0,0,8,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                                                </Grid>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Data" TargetName="arrow" Value="M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                    <!--Visibility="Collapsed"-->
+                                    <ContentPresenter 
+                                        x:Name="ExpandSite" 
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                        Content="{TemplateBinding Content}" 
+                                        ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                        DockPanel.Dock="Bottom" 
+                                        Focusable="False" 
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        Margin="{TemplateBinding Padding}" 
+                                        Visibility="Collapsed"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Opacity="0">
+                                        <ContentPresenter.LayoutTransform>
+                                            <ScaleTransform ScaleY="0"/>
+                                        </ContentPresenter.LayoutTransform>
+                                    </ContentPresenter>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsExpanded" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation Storyboard.TargetName="ExpandSite"
+                                                 Storyboard.TargetProperty="(ContentPresenter.LayoutTransform).(ScaleTransform.ScaleY)"                                                 
+                                                 To="1"
+                                                 Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    BeginTime="0:0:0.1"
+                                                    Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0"
+                                                    Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <ui:CubicBezierEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="ExpandSite"
+                                                    Storyboard.TargetProperty="(ContentPresenter.LayoutTransform).(ScaleTransform.ScaleY)"
+                                                    To="0"
+                                                    BeginTime="0:0:0.1"
+                                                    Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <ui:CubicBezierEase EasingMode="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+
+                                <!--<Trigger Property="IsExpanded" Value="True">
+                                    
+                                </Trigger>-->
+                                <Trigger Property="ExpandDirection" Value="Right">
+                                    <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
+                                    <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
+                                    <Setter Property="Style" TargetName="HeaderSite">
+                                        <Setter.Value>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <ControlTemplate.Resources>
+                                                                <StreamGeometry x:Key="ChevronDown">M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z</StreamGeometry>
+                                                                <StreamGeometry x:Key="ChevronUp">M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z</StreamGeometry>
+                                                            </ControlTemplate.Resources>
+                                                            <Border Padding="{TemplateBinding Padding}">
+                                                                <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="Auto"/>
+                                                                        <RowDefinition Height="*"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid>
+                                                                        <Grid.LayoutTransform>
+                                                                            <TransformGroup>
+                                                                                <RotateTransform Angle="-90"/>
+                                                                            </TransformGroup>
+                                                                        </Grid.LayoutTransform>
+                                                                        <ui:FontIconFallback x:Name="arrow" Data="M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" FontSize="12" FontFamily="{DynamicResource SymbolThemeFontFamily}" HorizontalAlignment="Center" SnapsToDevicePixels="False" VerticalAlignment="Center"/>
+                                                                    </Grid>
+                                                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Data" TargetName="arrow" Value="M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="ExpandDirection" Value="Up">
+                                    <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
+                                    <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
+                                    <Setter Property="Style" TargetName="HeaderSite">
+                                        <Setter.Value>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <ControlTemplate.Resources>
+                                                                <StreamGeometry x:Key="ChevronDown">M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z</StreamGeometry>
+                                                                <StreamGeometry x:Key="ChevronUp">M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z</StreamGeometry>
+                                                            </ControlTemplate.Resources>
+                                                            <Border Padding="{TemplateBinding Padding}">
+                                                                <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid>
+                                                                        <Grid.LayoutTransform>
+                                                                            <TransformGroup>
+                                                                                <RotateTransform Angle="180"/>
+                                                                            </TransformGroup>
+                                                                        </Grid.LayoutTransform>
+                                                                        <ui:FontIconFallback x:Name="arrow" Data="M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" FontSize="12" FontFamily="{DynamicResource SymbolThemeFontFamily}" HorizontalAlignment="Center" SnapsToDevicePixels="False" VerticalAlignment="Center"/>
+                                                                    </Grid>
+                                                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="1" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="Left" Margin="8,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Data" TargetName="arrow" Value="M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="ExpandDirection" Value="Left">
+                                    <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
+                                    <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
+                                    <Setter Property="Style" TargetName="HeaderSite">
+                                        <Setter.Value>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <ControlTemplate.Resources>
+                                                                <StreamGeometry x:Key="ChevronDown">M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z</StreamGeometry>
+                                                                <StreamGeometry x:Key="ChevronUp">M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z</StreamGeometry>
+                                                            </ControlTemplate.Resources>
+                                                            <Border Padding="{TemplateBinding Padding}">
+                                                                <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="Auto"/>
+                                                                        <RowDefinition Height="*"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid>
+                                                                        <Grid.LayoutTransform>
+                                                                            <TransformGroup>
+                                                                                <RotateTransform Angle="90"/>
+                                                                            </TransformGroup>
+                                                                        </Grid.LayoutTransform>
+                                                                        <ui:FontIconFallback x:Name="arrow" Data="M18.935547,4.560547L19.814453,5.439453 10,15.253906 0.185547,5.439453 1.064453,4.560547 10,13.496094z" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" FontSize="12" FontFamily="{DynamicResource SymbolThemeFontFamily}" HorizontalAlignment="Center" SnapsToDevicePixels="False" VerticalAlignment="Center"/>
+                                                                    </Grid>
+                                                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Data" TargetName="arrow" Value="M19.091797,14.970703L10,5.888672 0.908203,14.970703 0.029297,14.091797 10,4.111328 19.970703,14.091797z"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="True">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter Property="Foreground" TargetName="arrow" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="DefaultListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="Local"/>
+                <!--<Setter Property="Padding" Value="0,9,0,12"/>-->
+                <Setter Property="Padding" Value="0,4,0,4"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
+                <Setter Property="ui:FocusVisualHelper.UseSystemFocusVisuals" Value="{DynamicResource UseSystemFocusVisuals}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border x:Name="LayoutRoot" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Rectangle x:Name="PressedBackground" Fill="Transparent" ui:FocusVisualHelper.IsTemplateFocusTarget="True"/>
+                                    <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" TextElement.FontWeight="Normal" TextElement.FontSize="{DynamicResource ControlContentThemeFontSize}" HorizontalAlignment="Stretch" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <!--<Setter Property="Fill" TargetName="PressedBackground" Value="{DynamicResource SystemControlHighlightListLowBrush}"/>-->
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                        <Condition Property="IsSelected" Value="True"/>
+                                        <Condition Property="IsMouseOver" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Fill" TargetName="PressedBackground" Value="{DynamicResource SystemControlHighlightListAccentMediumLowBrush}"/>
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                        <Condition Property="IsSelected" Value="True"/>
+                                        <Condition Property="IsMouseOver" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Fill" TargetName="PressedBackground" Value="{DynamicResource SystemControlHighlightListAccentMediumLowBrush}"/>
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True"/>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Fill" TargetName="PressedBackground" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}"/>
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentPresenter" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="{x:Type s:SmoothScrollViewer}"/>
+            <Style TargetType="{x:Type c:CachedImage}">
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Focusable" Value="False"/>
+            </Style>
+            <Style TargetType="{x:Type ge:ContentIcon}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border 
+                                x:Name="border" 
+                                CornerRadius="{DynamicResource IconCornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="true">
+                                <ui:ContentPresenterEx 
+                                    x:Name="contentPresenter" 
+                                    Focusable="False" 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    Margin="{TemplateBinding Padding}" 
+                                    RecognizesAccessKey="True" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type ui:FontIcon}">
+                <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons"/>
+            </Style>
+            <!--#endregion-->
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

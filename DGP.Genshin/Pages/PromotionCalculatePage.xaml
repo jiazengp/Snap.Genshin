@@ -1,0 +1,266 @@
+﻿<Page x:Class="DGP.Genshin.Pages.PromotionCalculatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:genshinelements="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
+      xmlns:helpers="clr-namespace:DGP.Genshin.DataModels.Helpers" 
+      xmlns:ui="http://schemas.modernwpf.com/2019" 
+      xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
+      xmlns:cachedimage="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage"
+      xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PromotionCalculatePage">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Page.Resources>
+        <helpers:StarConverter x:Key="StarConverter"/>
+        <helpers:StarSolidConverter x:Key="StarSolidConverter"/>
+        <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ui:CommandBar>
+            <ui:CommandBar.Content>
+                <ui:AppBarElementContainer>
+                    <ComboBox Margin="12,4,0,0" Grid.Row="0" 
+                              ItemsSource="{Binding UserGameRoles}" 
+                              SelectedItem="{Binding SelectedUserGameRole}"/>
+                </ui:AppBarElementContainer>
+            </ui:CommandBar.Content>
+            <ui:AppBarButton Label="计算" Command="{Binding ComputeCommand}">
+                <ui:AppBarButton.Icon>
+                    <ui:FontIcon Glyph="&#xF246;"/>
+                </ui:AppBarButton.Icon>
+            </ui:AppBarButton>
+        </ui:CommandBar>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition MaxWidth="480"/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+                <ui:GridView Margin="12,12,0,0" SelectionMode="Single" ItemsSource="{Binding Avatars}" SelectedItem="{Binding SelectedAvatar}">
+                    <ui:GridView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <genshinelements:ContentIcon IsHitTestVisible="False" 
+                                        ForegroundUrl="{Binding Icon}" 
+                                        BackgroundUrl="{Binding AvatarLevel,Converter = {StaticResource StarConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ui:GridView.ItemTemplate>
+                </ui:GridView>
+            </smoothscrollviewer:SmoothScrollViewer>
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="-12,12,4,12">
+                    <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,0" Background="{Binding SelectedAvatar.AvatarLevel,Converter = {StaticResource StarSolidConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding SelectedAvatar.Icon}"/>
+                            <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
+                                       Grid.Column="1" Margin="6" Text="{Binding SelectedAvatar.Name}"/>
+                            <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding SelectedAvatar.LevelCurrent}" IsEnabled="False"/>
+                                <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding SelectedAvatar.LevelCurrent}" Maximum="{Binding SelectedAvatar.MaxLevel}"
+                                              Value="{Binding SelectedAvatar.LevelTarget}" Margin="6,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ItemsControl ItemsSource="{Binding AvatarDetailData.SkillList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                       Grid.Column="1" Margin="6" Text="{Binding Name}"/>
+                                        <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}" IsEnabled="False"/>
+                                            <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}"
+                                              Value="{Binding LevelTarget}" Margin="6,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,12,12,0" Background="{Binding AvatarDetailData.Weapon.WeaponLevel,Converter = {StaticResource StarSolidConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding AvatarDetailData.Weapon.Icon}"/>
+                            <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
+                                       Grid.Column="1" Margin="6" Text="{Binding AvatarDetailData.Weapon.Name}"/>
+                            <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding AvatarDetailData.Weapon.LevelCurrent}" IsEnabled="False"/>
+                                <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding AvatarDetailData.Weapon.LevelCurrent}" Maximum="{Binding AvatarDetailData.Weapon.MaxLevel}"
+                                              Value="{Binding AvatarDetailData.Weapon.LevelTarget}" Margin="6,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ItemsControl ItemsSource="{Binding AvatarDetailData.ReliquaryList}" Margin="0,8,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{Binding ReliquaryLevel,Converter = {StaticResource StarSolidConverter}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" Margin="6" Text="{Binding Name}"/>
+                                        <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}" IsEnabled="False"/>
+                                            <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}"
+                                              Value="{Binding LevelTarget}" Margin="6,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </smoothscrollviewer:SmoothScrollViewer>
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="-12,12,0,12">
+                    <TextBlock Text="角色消耗" Margin="12,0,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
+                               Visibility="{Binding Consumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>
+                    <ItemsControl ItemsSource="{Binding Consumption.AvatarConsume}" Margin="0,8,0,0"
+                                  Visibility="{Binding Consumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="天赋消耗" Margin="12,12,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
+                               Visibility="{Binding Consumption.AvatarSkillConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>
+                    <ItemsControl ItemsSource="{Binding Consumption.AvatarSkillConsume}" Margin="0,8,0,0"
+                                  Visibility="{Binding Consumption.AvatarSkillConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="武器消耗" Margin="12,12,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
+                               Visibility="{Binding Consumption.WeaponConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>
+                    <ItemsControl ItemsSource="{Binding Consumption.WeaponConsume}" Margin="0,8,0,0"
+                                  Visibility="{Binding Consumption.WeaponConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="圣遗物消耗" Margin="12,12,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
+                               Visibility="{Binding Consumption.ReliquaryConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>
+                    <ItemsControl ItemsSource="{Binding Consumption.ReliquaryConsume}"
+                                  Visibility="{Binding Consumption.ReliquaryConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding IdConsumeList}" Margin="0,8,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="36"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </smoothscrollviewer:SmoothScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
