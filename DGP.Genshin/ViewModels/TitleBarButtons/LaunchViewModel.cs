@@ -255,6 +255,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         {
             if (SelectedAccount is not null)
             {
+                View?.HideAttachedFlyout();
                 Accounts.Remove(SelectedAccount);
                 SelectedAccount = Accounts.LastOrDefault();
             }

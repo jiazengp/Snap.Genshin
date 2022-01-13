@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Extensions.System;
+using DGP.Genshin.Controls.Helpers;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
@@ -40,8 +41,6 @@ namespace DGP.Genshin.Services
         public NavigationViewItem? Selected { get; set; }
         public bool HasEverNavigated { get; set; }
 
-        public NavigationService() { }
-
         public bool SyncTabWith(Type pageType)
         {
             if (NavigationView is null)
@@ -57,7 +56,7 @@ namespace DGP.Genshin.Services
             {
                 NavigationViewItem? target = NavigationView.MenuItems
                     .OfType<NavigationViewItem>()
-                    .FirstOrDefault(menuItem => ((Type)menuItem.GetValue(NavHelper.NavigateToProperty)) == pageType);
+                    .FirstOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
                 NavigationView.SelectedItem = target;
             }
             Selected = NavigationView.SelectedItem as NavigationViewItem;
@@ -83,9 +82,10 @@ namespace DGP.Genshin.Services
             {
                 new Event(pageType, result).TrackAs(Event.OpenUI);
             }
-            //fix memory leak? issue
+            //fix memory leak issue
             Frame?.RemoveBackEntry();
-            HasEverNavigated = result;
+            //|= 解决了导航失败使属性置为false
+            HasEverNavigated |= result;
             return result;
         }
 
@@ -104,7 +104,7 @@ namespace DGP.Genshin.Services
             }
             else
             {
-                Navigate(Selected?.GetValue(NavHelper.NavigateToProperty) as Type);
+                Navigate(NavHelper.GetNavigateTo(Selected));
             }
         }
 

@@ -69,7 +69,7 @@ namespace DGP.Genshin.Services
             /// <returns></returns>
             public static GenshinAccount? Get()
             {
-                object? sdk = Registry.GetValue(GenshinKey, SdkKey, "");
+                object? sdk = Registry.GetValue(GenshinKey, SdkKey, string.Empty);
                 object? data = Registry.GetValue(GenshinKey, DataKey, "");
 
                 if (sdk is null || data is null)
@@ -145,7 +145,6 @@ namespace DGP.Genshin.Services
         /// <returns></returns>
         private IniData GetIniData(string file)
         {
-            //this method cause tons of problems
             FileIniDataParser parser = new();
             parser.Parser.Configuration.AssigmentSpacer = "";
             return parser.ReadFile(file);

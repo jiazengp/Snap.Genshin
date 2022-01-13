@@ -90,7 +90,7 @@
 * [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
 米哈游原神API交互
 
-* [DGP.Genshin.FPSUnlocking](https://github.com/DGP-Studio/DGP.Genshin.FPSUnlocking)
+* [DGP.Genshin.FPSUnlocking](https://github.com/DGP-Studio/DGP.Genshin.FPSUnlocking)  
 FPS上限解锁，重新封装
 
 ## 插件系统

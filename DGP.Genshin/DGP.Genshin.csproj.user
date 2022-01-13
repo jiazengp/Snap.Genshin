@@ -33,6 +33,9 @@
     <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\WhatsNewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\PluginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -63,6 +66,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WhatsNewWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WPFUIStyle\Dark.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WPFUIStyle\Light.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WPFUIStyle\OverrideStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

@@ -3,7 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                  xmlns:ui="http://schemas.modernwpf.com/2019"
+                  xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="600" d:DesignWidth="800" 
                   IsPrimaryButtonEnabled="False"
@@ -11,7 +11,7 @@
                   DefaultButton="Primary" 
                   PrimaryButtonText="请输入Cookie" 
                   CloseButtonText="取消">
-    <StackPanel>
+    <StackPanel MaxWidth="400">
         <TextBox Margin="0,0,0,0" x:Name="InputText" TextChanged="InputText_TextChanged" 
                  ui:ControlHelper.PlaceholderText="在此处输入" VerticalAlignment="Top"/>
         <TextBlock Margin="0,8,0,0" Text="自动获取" Style="{StaticResource BaseTextBlockStyle}"/>
@@ -19,13 +19,21 @@
         <TextBlock Margin="0,8,0,0" Text="手动获取" VerticalAlignment="Center"  Style="{StaticResource BaseTextBlockStyle}"/>
         <ui:HyperlinkButton Content="1. 进入米游社并登录" NavigateUri="https://bbs.mihoyo.com/ys/"/>
         <TextBlock Text="2. 按 F12 打开 开发者工具" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="3. 刷新页面" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="4. 将开发者工具切换至 Network(网络) 页签" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="5. 在左侧的列表中找到 ys/ 并单击" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="6. 在右侧的信息中找到 Request Header(请求标头) 下的 Cookie" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="7. 选择后右键复制值并粘贴至上方的文本框中" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock Text="3. 将开发者工具切换至 控制台(Console) 页签" Margin="0,2,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock Text="4. 复制下方的代码，并将其粘贴在控制台中，按下回车" Margin="0,2,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+        <Border Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" Margin="0,8,0,0" CornerRadius="{StaticResource CompatCornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"
+                       Text="javascript:(()=&gt;{_=(n)=&gt;{for(i in(r=document.cookie.split(';'))){var a=r[i].split('=');if(a[0].trim()==n)return a[1]}};c=_('account_id')||alert('无效的Cookie,请重新登录!');c&amp;&amp;confirm('将Cookie复制到剪贴板?')&amp;&amp;copy(document.cookie)})();"/>
+                <Button Content="&#xE8C8;" Margin="12,0,0,0" Grid.Column="1" VerticalAlignment="Top"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}" ToolTipService.ToolTip="复制到剪贴板" Click="CopyCodeButtonClick"/>
+            </Grid>
+        </Border>
         <TextBlock Margin="0,8,0,8" Text="注意事项" VerticalAlignment="Center"  Style="{StaticResource BaseTextBlockStyle}"/>
-        <TextBlock Text="如果确认按钮为灰色，不可点击状态" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock Text="可以尝试重新登录米游社及米哈游通行证刷新 Cookie" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock Text="如果确认按钮为灰色，不可点击状态&#10;可以尝试重新登录米游社及米哈游通行证刷新 Cookie" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
     </StackPanel>
 </ui:ContentDialog>

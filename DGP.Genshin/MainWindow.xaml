@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        xmlns:helpers="clr-namespace:DGP.Genshin.Helpers"
+        xmlns:helpers="clr-namespace:DGP.Genshin.Controls.Helpers"
         xmlns:pages="clr-namespace:DGP.Genshin.Pages" 
         xmlns:cf="clr-namespace:DGP.Genshin.Controls" 
         xmlns:m="clr-namespace:DGP.Genshin.Controls.Infrastructures.Markdown" 
@@ -20,19 +20,6 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         >
-    <Window.Resources>
-        <m:Markdown x:Key="Markdown"
-                        DocumentStyle="{StaticResource DocumentStyle}"
-                        Heading1Style="{StaticResource H1Style}"
-                        Heading2Style="{StaticResource H2Style}"
-                        Heading3Style="{StaticResource H3Style}"
-                        Heading4Style="{StaticResource H4Style}"
-                        LinkStyle="{StaticResource LinkStyle}"
-                        ImageStyle="{StaticResource ImageStyle}"
-                        SeparatorStyle="{StaticResource SeparatorStyle}"
-                        TableStyle="{StaticResource TableStyle}"
-                        TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
-    </Window.Resources>
     <Grid>
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"

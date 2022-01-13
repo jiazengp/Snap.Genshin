@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Controls.Infrastructures.Markdown;
+﻿using DGP.Genshin.Controls;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers.Notifications;
@@ -11,7 +11,6 @@ using DGP.Genshin.ViewModels;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
-using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,8 +18,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace DGP.Genshin
 {
@@ -28,7 +25,7 @@ namespace DGP.Genshin
     {
         //make sure while initializing exact components app main window can't be closed
         //prevent System.NullReferenceException
-        private readonly SemaphoreSlim initializingWindow = new(1);
+        private readonly SemaphoreSlim initializingWindow = new(1,1);
         private static bool hasEverOpen = false;
         private readonly INavigationService navigationService;
 
@@ -61,7 +58,7 @@ namespace DGP.Genshin
             if (!hasEverOpen)
             {
                 splashView.CurrentStateDescription = "检查更新...";
-                await DoUpdateFlowAsync();
+                DoUpdateFlowAsync();
                 //签到
                 if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
                 {
@@ -174,7 +171,7 @@ namespace DGP.Genshin
         }
 
         #region Update
-        private async Task DoUpdateFlowAsync()
+        private async void DoUpdateFlowAsync()
         {
             await CheckUpdateAsync();
             ISettingService settingService = App.GetService<ISettingService>();
@@ -184,7 +181,7 @@ namespace DGP.Genshin
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
                 settingService[Setting.AppVersion] = updateService.CurrentVersion;
-                await ShowWhatsNewDialogAsync();
+                new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
             }
         }
         private async Task CheckUpdateAsync()
@@ -216,23 +213,6 @@ namespace DGP.Genshin
                 default:
                     break;
             }
-        }
-        private async Task ShowWhatsNewDialogAsync()
-        {
-            IUpdateService updateService = App.GetService<IUpdateService>();
-            await new ContentDialog
-            {
-                Title = $"{updateService.Release?.TagName} 更新日志",
-                Content = new FlowDocumentScrollViewer
-                {
-                    Document = new TextToFlowDocumentConverter
-                    {
-                        Markdown = FindResource("Markdown") as Markdown
-                    }.Convert(updateService.Release?.Body, typeof(FlowDocument), null, null) as FlowDocument
-                },
-                PrimaryButtonText = "了解",
-                DefaultButton = ContentDialogButton.Primary
-            }.ShowAsync();
         }
         #endregion
     }

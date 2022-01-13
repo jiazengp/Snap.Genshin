@@ -8,7 +8,7 @@
         xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        Title="崩溃窗口"
+        Title="崩溃窗口" WindowStartupLocation="CenterScreen"
         Height="750" Width="1000"
         MinWidth="1000">
     <Grid>
@@ -48,21 +48,20 @@
         </Grid>
         <Grid Grid.Row="1" Margin="12,12,16,12">
             <TextBlock Text="{Binding ExceptionType}" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" />
-            
         </Grid>
         <smoothscrollviewer:SmoothScrollViewer Grid.Row="2" Padding="0,0,4,0">
             <StackPanel>
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
-                        <TextBlock Text="{Binding ExceptionObject.InnerException.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject.InnerException.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
 
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
-                        <TextBlock Text="{Binding ExceptionObject.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.InnerException.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.InnerException.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

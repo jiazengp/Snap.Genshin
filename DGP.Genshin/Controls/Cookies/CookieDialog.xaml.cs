@@ -2,11 +2,14 @@
 using DGP.Genshin.Helpers;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DGP.Genshin.Controls.Cookies
 {
     public partial class CookieDialog : ContentDialog
     {
+        private const string cookieCode = "javascript:(()=>{_=(n)=>{for(i in(r=document.cookie.split(';'))){var a=r[i].split('=');if(a[0].trim()==n)return a[1]}};c=_('account_id')||alert('无效的Cookie,请重新登录!');c&&confirm('将Cookie复制到剪贴板?')&&copy(document.cookie)})();";
+
         public CookieDialog()
         {
             InitializeComponent();
@@ -56,6 +59,11 @@ namespace DGP.Genshin.Controls.Cookies
                 (false, true) => ("确认", true),
                 (false, false) => ("该Cookie无效", false)
             };
+        }
+
+        private void CopyCodeButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Clipboard.SetText(cookieCode);
         }
     }
 }

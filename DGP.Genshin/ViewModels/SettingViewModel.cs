@@ -106,7 +106,7 @@ namespace DGP.Genshin.ViewModels
             set
             {
                 SettingService.SetValueNoNotify(Setting.IsTaskBarIconEnabled, value);
-                isTaskBarIconEnabled = value;
+                SetProperty(ref isTaskBarIconEnabled, value);
             }
         }
         public bool CloseMainWindowAfterInitializaion

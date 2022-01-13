@@ -182,8 +182,8 @@ namespace DGP.Genshin.Services
         private void StartInstallUpdate()
         {
             Directory.CreateDirectory("Updater");
-            File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
-
+            //File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
+            PathContext.MoveToFolderOrIgnore("DGP.Genshin.Updater.exe", "Updater");
             //Updater自带工作路径纠正
             Process.Start(new ProcessStartInfo()
             {

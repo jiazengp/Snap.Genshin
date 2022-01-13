@@ -2,13 +2,13 @@
 using System;
 using System.Windows;
 
-namespace DGP.Genshin.Helpers
+namespace DGP.Genshin.Controls.Helpers
 {
     public class NavHelper
     {
-        public static Type GetNavigateTo(NavigationViewItem item)
+        public static Type? GetNavigateTo(NavigationViewItem? item)
         {
-            return (Type)item.GetValue(NavigateToProperty);
+            return item?.GetValue(NavigateToProperty) as Type;
         }
 
         public static void SetNavigateTo(NavigationViewItem item, Type value)

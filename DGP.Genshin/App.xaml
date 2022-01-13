@@ -7,27 +7,58 @@
     xmlns:ge="clr-namespace:DGP.Genshin.Controls.GenshinElements" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+    xmlns:markdown="clr-namespace:DGP.Genshin.Controls.Infrastructures.Markdown"
     x:Class="DGP.Genshin.App"
     StartupUri="MainWindow.xaml"
     ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources/>
+                <!--<ResourceDictionary Source="pack://application:,,,/WPFUI;component/Styles/Theme/Dark.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/WPFUI;component/Styles/WPFUI.xaml" />
+                <!--Insert after WPFUI to let correct style apply-->
+                <ui:ThemeResources>
+                    <ui:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/WPFUIStyle/Light.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/WPFUIStyle/Dark.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </ui:ThemeResources.ThemeDictionaries>
+                </ui:ThemeResources>
                 <ui:XamlControlsResources/>
                 <ui:IntellisenseResources/>
                 <!--merged dictionaries here -->
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/Infrastructures/Markdown/MarkdownStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/TaskbarIconResources.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/DGP.Genshin;component/Controls/WPFUIStyle/OverrideStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--#region ConstValues-->
-            <CornerRadius x:Key="WindowCornerRadius" >8</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadius" >4</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadiusTop" >4,4,0,0</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadiusBottom" >0,0,4,4</CornerRadius>
-            <CornerRadius x:Key="SmallCompatCornerRadius" >2,2,2,2</CornerRadius>
+            <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,4,4</CornerRadius>
+            <CornerRadius x:Key="SmallCompatCornerRadius">2,2,2,2</CornerRadius>
 
+            <markdown:Markdown x:Key="Markdown"
+                        DocumentStyle="{StaticResource DocumentStyle}"
+                        Heading1Style="{StaticResource H1Style}"
+                        Heading2Style="{StaticResource H2Style}"
+                        Heading3Style="{StaticResource H3Style}"
+                        Heading4Style="{StaticResource H4Style}"
+                        LinkStyle="{StaticResource LinkStyle}"
+                        ImageStyle="{StaticResource ImageStyle}"
+                        SeparatorStyle="{StaticResource SeparatorStyle}"
+                        TableStyle="{StaticResource TableStyle}"
+                        TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
+            
             <ItemsPanelTemplate x:Key="WrapPanelItemsPanel">
                 <WrapPanel/>
             </ItemsPanelTemplate>

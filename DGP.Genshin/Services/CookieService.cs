@@ -193,9 +193,17 @@ namespace DGP.Genshin.Services
                     return;
                 }
                 currentCookie = value;
-                SaveCookie(value);
-                Cookies.AddOrIgnore(currentCookie);
-                App.Messenger.Send(new CookieChangedMessage(currentCookie));
+
+                try
+                {
+                    SaveCookie(value);
+                    Cookies.AddOrIgnore(currentCookie);
+                    App.Messenger.Send(new CookieChangedMessage(currentCookie));
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    throw new SnapGenshinInternalException("Snap Genshin 无法访问所在的根目录，请将应用程序移动到别处，或尝试以管理员权限启动。");
+                }
             }
         }
 
