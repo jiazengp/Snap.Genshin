@@ -33,7 +33,5 @@
                                     FontFamily="{StaticResource SymbolThemeFontFamily}" ToolTipService.ToolTip="复制到剪贴板" Click="CopyCodeButtonClick"/>
             </Grid>
         </Border>
-        <TextBlock Margin="0,8,0,8" Text="注意事项" VerticalAlignment="Center"  Style="{StaticResource BaseTextBlockStyle}"/>
-        <TextBlock Text="如果确认按钮为灰色，不可点击状态&#10;可以尝试重新登录米游社及米哈游通行证刷新 Cookie" Foreground="Red" Style="{StaticResource BodyTextBlockStyle}"/>
     </StackPanel>
 </ui:ContentDialog>

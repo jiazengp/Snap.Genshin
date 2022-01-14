@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
 using DGP.Genshin.Common.Data.Json;
 using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
 using DGP.Genshin.Controls.GenshinElements;
 using DGP.Genshin.DataModels;
 using DGP.Genshin.DataModels.Characters;

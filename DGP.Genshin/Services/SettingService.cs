@@ -18,30 +18,15 @@ namespace DGP.Genshin.Services
     [Send(typeof(SettingChangedMessage))]
     internal class SettingService : ISettingService
     {
-        private const string settingsFileName = "settings.json";
-        private readonly string settingFile = PathContext.Locate(settingsFileName);
+        private readonly string settingFile = PathContext.Locate("settings.json");
 
-        private Dictionary<string, object?> settingDictionary = new();
-
-        public object? GetBoxedOrDefault(string key, object defaultValue)
-        {
-            if (!settingDictionary.TryGetValue(key, out object? value))
-            {
-                settingDictionary[key] = defaultValue;
-                return defaultValue;
-            }
-            else
-            {
-                //won't be null if TryGetValue return true.
-                return value!;
-            }
-        }
+        private Dictionary<string, object?> settings = new();
 
         public T? GetOrDefault<T>(string key, T? defaultValue)
         {
-            if (!settingDictionary.TryGetValue(key, out object? value))
+            if (!settings.TryGetValue(key, out object? value))
             {
-                settingDictionary[key] = defaultValue;
+                settings[key] = defaultValue;
                 return defaultValue;
             }
             else
@@ -52,9 +37,9 @@ namespace DGP.Genshin.Services
 
         public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
         {
-            if (!settingDictionary.TryGetValue(key, out object? value))
+            if (!settings.TryGetValue(key, out object? value))
             {
-                settingDictionary[key] = defaultValue;
+                settings[key] = defaultValue;
                 return defaultValue;
             }
             else
@@ -63,16 +48,16 @@ namespace DGP.Genshin.Services
             }
         }
 
-        public T? GetComplexOrDefault<T>(string key, T? defaultValue)
+        public T? GetComplexOrDefault<T>(string key, T? defaultValue) where T : class
         {
-            if (!settingDictionary.TryGetValue(key, out object? value))
+            if (!settings.TryGetValue(key, out object? value))
             {
-                settingDictionary[key] = defaultValue;
+                settings[key] = defaultValue;
                 return defaultValue;
             }
             else
             {
-                return value is null ? default : Json.ToObject<T>(value.ToString()!);
+                return value is null ? null : Json.ToObject<T>(value.ToString()!);
             }
         }
 
@@ -80,7 +65,7 @@ namespace DGP.Genshin.Services
         {
             set
             {
-                settingDictionary[key] = value;
+                settings[key] = value;
                 App.Messenger.Send(new SettingChangedMessage(key, value));
             }
         }
@@ -88,24 +73,21 @@ namespace DGP.Genshin.Services
         public void SetValueNoNotify(string key, object value)
         {
             this.Log($"setting {key} to {value} internally without notify");
-            settingDictionary[key] = value;
+            settings[key] = value;
         }
 
         public void Initialize()
         {
             if (File.Exists(settingFile))
             {
-                string json = File.ReadAllText(settingFile);
-                settingDictionary = Json.ToObjectOrNew<Dictionary<string, object?>>(json);
+                settings = Json.ToObjectOrNew<Dictionary<string, object?>>(File.ReadAllText(settingFile));
             }
             this.Log("initialized");
         }
 
         public void UnInitialize()
         {
-            string json = Json.Stringify(settingDictionary);
-            using StreamWriter sw = new(File.Create(settingFile));
-            sw.Write(json);
+            File.WriteAllText(settingFile, Json.Stringify(settings));
         }
     }
 }

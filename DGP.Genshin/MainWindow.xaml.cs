@@ -23,9 +23,10 @@ namespace DGP.Genshin
 {
     public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
-        //make sure while initializing exact components app main window can't be closed
+        //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
-        private readonly SemaphoreSlim initializingWindow = new(1,1);
+        private readonly SemaphoreSlim initializingWindow = new(1, 1);
+        private static bool hasInitializeCompleted = false;
         private static bool hasEverOpen = false;
         private readonly INavigationService navigationService;
 
@@ -51,37 +52,28 @@ namespace DGP.Genshin
         {
             initializingWindow.Wait();
             ISettingService settingService = App.GetService<ISettingService>();
-            SplashViewModel splashView = viewModelReference.Value;
-            PrepareTitleBarArea(splashView);
+            SplashViewModel splashViewModel = viewModelReference.Value;
+            PrepareTitleBarArea(splashViewModel);
             AddAditionalNavigationViewItem();
             //preprocess
             if (!hasEverOpen)
             {
-                splashView.CurrentStateDescription = "检查更新...";
                 DoUpdateFlowAsync();
                 //签到
-                if (App.GetService<ISettingService>().GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+                if (settingService.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
                 {
-                    await SignInOnStartUp(splashView);
+                    await SignInOnStartUp(splashViewModel);
                 }
                 if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true))
                 {
-                    //taskbar icon
-                    App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
-                    if (App.Current.NotifyIcon is not null)
-                    {
-                        App.Current.NotifyIcon.DataContext = App.GetViewModel<TaskbarIconViewModel>();
-                    }
-                }
-                else
-                {
-                    App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                    DoTaskbarFlow();
                 }
             }
-            splashView.CurrentStateDescription = "完成";
-            splashView.IsSplashNotVisible = true;
+            splashViewModel.CurrentStateDescription = "完成";
+            splashViewModel.IsSplashNotVisible = true;
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             initializingWindow.Release();
+            hasInitializeCompleted = true;
 
             if (!hasEverOpen)
             {
@@ -89,6 +81,7 @@ namespace DGP.Genshin
                 {
                     if (settingService.GetOrDefault(Setting.CloseMainWindowAfterInitializaion, false))
                     {
+                        //before call Close() in this method,must release initializingWindow.
                         Close();
                     }
                 }
@@ -102,6 +95,21 @@ namespace DGP.Genshin
             initializingWindow.Wait();
             base.OnClosing(e);
             initializingWindow.Release();
+
+            bool isTaskbarIconEnabled = App.GetService<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false);
+            if (!hasInitializeCompleted || !isTaskbarIconEnabled)
+            {
+                App.Current.Shutdown();
+            }
+        }
+
+        private static void DoTaskbarFlow()
+        {
+            App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
+            if (App.Current.NotifyIcon is not null)
+            {
+                App.Current.NotifyIcon.DataContext = App.GetViewModel<TaskbarIconViewModel>();
+            }
         }
 
         /// <summary>
@@ -137,37 +145,41 @@ namespace DGP.Genshin
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
-        private static async Task SignInOnStartUp(SplashViewModel splashView)
+        private async Task SignInOnStartUp(SplashViewModel splashView)
         {
-            ISettingService settingService = App.GetService<ISettingService>();
-            DateTime? latsSignInTime = settingService.GetOrDefault(
+            DateTime? latsSignInTime = App.GetService<ISettingService>().GetOrDefault(
                 Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), Setting.NullableDataTimeConverter);
 
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-
-                ICookieService cookieService = App.GetService<ICookieService>();
-
-                cookieService.CookiesLock.EnterReadLock();
-                foreach (string cookie in cookieService.Cookies)
-                {
-                    List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                    foreach (UserGameRole role in roles)
-                    {
-                        SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
-
-                        settingService[Setting.LastAutoSignInTime] = DateTime.Now;
-                        bool isSignInSilently = settingService.GetOrDefault(Setting.SignInSilently, false);
-                        new ToastContentBuilder()
-                            .AddSignInHeader("米游社每日签到")
-                            .AddText(role.ToString())
-                            .AddText(result is null ? "签到失败" : "签到成功")
-                            .Show(toast => { toast.SuppressPopup = isSignInSilently; });
-                    }
-                }
-                cookieService.CookiesLock.ExitReadLock();
+                await SignInAllAccountsRolesAsync();
             }
+        }
+
+        public static async Task SignInAllAccountsRolesAsync()
+        {
+            ICookieService cookieService = App.GetService<ICookieService>();
+            ISettingService settingService = App.GetService<ISettingService>();
+
+            cookieService.CookiesLock.EnterReadLock();
+            foreach (string cookie in cookieService.Cookies)
+            {
+                List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                foreach (UserGameRole role in roles)
+                {
+                    SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
+
+                    settingService[Setting.LastAutoSignInTime] = DateTime.Now;
+                    bool isSignInSilently = settingService.GetOrDefault(Setting.SignInSilently, false);
+                    new ToastContentBuilder()
+                        .AddSignInHeader("米游社每日签到")
+                        .AddText(role.ToString())
+                        .AddText(result is null ? "签到失败" : "签到成功")
+                        .Show(toast => { toast.SuppressPopup = isSignInSilently; });
+                }
+            }
+            cookieService.CookiesLock.ExitReadLock();
         }
 
         #region Update

@@ -1,7 +1,4 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Controls.GenshinElements;
-using DGP.Genshin.DataModels.Behavior;
 using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.DataModels.DailyNotes;
 using DGP.Genshin.Messages;
@@ -10,7 +7,6 @@ using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -25,16 +21,10 @@ namespace DGP.Genshin.ViewModels
         private readonly ICookieService cookieService;
         private readonly ISettingService settingService;
 
-        public class DailyNoteCheckable : Checkable<Pair<CookieUserGameRole, DailyNoteWindow?>>
-        {
-            public DailyNoteCheckable(Pair<CookieUserGameRole, DailyNoteWindow?> value,
-                Action<bool, Pair<CookieUserGameRole, DailyNoteWindow?>> checkChangedCallback)
-                : base(value, checkChangedCallback) { }
-        }
-
         private ICommand showMainWindowCommand;
         private ICommand exitCommand;
         private ObservableCollection<ResinWidgetConfigration>? resinWidget;
+        private ICommand updateWidgetsCommand;
 
         public ICommand ShowMainWindowCommand
         {
@@ -47,6 +37,12 @@ namespace DGP.Genshin.ViewModels
             get => exitCommand;
             [MemberNotNull(nameof(exitCommand))]
             set => SetProperty(ref exitCommand, value);
+        }
+        public ICommand UpdateWidgetsCommand
+        {
+            get => updateWidgetsCommand;
+            [MemberNotNull(nameof(updateWidgetsCommand))]
+            set => SetProperty(ref updateWidgetsCommand, value);
         }
         public ObservableCollection<ResinWidgetConfigration>? ResinWidgets
         {
@@ -65,6 +61,7 @@ namespace DGP.Genshin.ViewModels
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
+            UpdateWidgetsCommand = new RelayCommand(UpdateWidgets);
 
             IsActive = true;
         }
@@ -110,8 +107,16 @@ namespace DGP.Genshin.ViewModels
                 widget.Initialize();
             }
         }
-
-        public void SaveResinWidgetConfigrations()
+        private void OpenMainWindow()
+        {
+            App.ShowOrCloseWindow<MainWindow>();
+        }
+        private void ExitApp()
+        {
+            SaveResinWidgetConfigrations();
+            App.Current.Shutdown();
+        }
+        private void SaveResinWidgetConfigrations()
         {
             if (ResinWidgets is not null)
             {
@@ -122,17 +127,10 @@ namespace DGP.Genshin.ViewModels
                 settingService[Setting.ResinWidgetConfigrations] = ResinWidgets;
             }
         }
-
-        private void OpenMainWindow()
+        private void UpdateWidgets()
         {
-            App.ShowOrCloseWindow<MainWindow>();
+            App.Messenger.Send<TickScheduledMessage>();
         }
-        private void ExitApp()
-        {
-            SaveResinWidgetConfigrations();
-            App.Current.Shutdown();
-        }
-
         public async void Receive(CookieAddedMessage message)
         {
             string cookie = message.Value;

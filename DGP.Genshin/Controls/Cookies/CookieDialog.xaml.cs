@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Common.Extensions.System;
+﻿using DGP.Genshin.Common.Data;
 using DGP.Genshin.Helpers;
 using ModernWpf.Controls;
 using System.Threading.Tasks;
@@ -13,7 +13,6 @@ namespace DGP.Genshin.Controls.Cookies
         public CookieDialog()
         {
             InitializeComponent();
-            this.Log("initialized");
         }
 
         /// <summary>
@@ -25,13 +24,13 @@ namespace DGP.Genshin.Controls.Cookies
             return (result, InputText.Text);
         }
 
-        private void AutoCookieButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void AutoCookieButtonClick(object sender, RoutedEventArgs e)
         {
             if (!WebView2Helper.IsSupported)
             {
                 System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
                 button.IsEnabled = false;
-                button.Content = "需要先安装WebView2运行时";
+                button.Content = "需要先安装 WebView2运行时";
             }
             else
             {
@@ -61,9 +60,11 @@ namespace DGP.Genshin.Controls.Cookies
             };
         }
 
-        private void CopyCodeButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void CopyCodeButtonClick(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(cookieCode);
+            //clear before copy
+            Clipboard.Clear();
+            Clipboard2.SetText(cookieCode);
         }
     }
 }

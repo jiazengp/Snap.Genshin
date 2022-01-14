@@ -23,8 +23,16 @@ namespace DGP.Genshin.Services.GachaStatistics
         private const double WeaponProb5 = 1.85 / 100.0;
         private const double WeaponProb4 = 14.5 / 100.0;
         private const int WeaponGranteeCount5 = 80;
+        private const string RankFive = "5";
+        private const string RankFour = "4";
+        private const string RankThree = "3";
+        private const string MinGuarantee = "小保底";
+        private const string MaxGuarantee = "大保底";
 
-        private class BannerConfigration
+        /// <summary>
+        /// 卡池概率配置选项
+        /// </summary>
+        private record BannerInformation
         {
             public double Prob5 { get; set; }
             public double Prob4 { get; set; }
@@ -37,13 +45,13 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <typeparam name="T"></typeparam>
         private class CounterOf<T> : Dictionary<string, T> { }
 
-        private static readonly BannerConfigration NonWeaponConfig = new()
+        private static readonly BannerInformation NonWeaponInfo = new()
         {
             Prob5 = NonWeaponProb5,
             Prob4 = NonWeaponProb4,
             GranteeCount = NonWeaponGranteeCount5
         };
-        private static readonly BannerConfigration WeaponConfig = new()
+        private static readonly BannerInformation WeaponInfo = new()
         {
             Prob5 = WeaponProb5,
             Prob4 = WeaponProb4,
@@ -71,9 +79,9 @@ namespace DGP.Genshin.Services.GachaStatistics
                 Weapons3 = weapons.Where(i => i.StarUrl?.ToRank() == 3).ToList(),
                 SpecificBanners = ToSpecificBanners(data)
             };
-            statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponConfig);
-            statistic.WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponConfig);
-            statistic.CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponConfig);
+            statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponInfo);
+            statistic.WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponInfo);
+            statistic.CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponInfo);
             return statistic;
         }
 
@@ -84,20 +92,18 @@ namespace DGP.Genshin.Services.GachaStatistics
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerConfigration config)
+        private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerInformation info)
         {
-            if (data.TryGetValue(type, out List<GachaLogItem>? list))
-            {
-                return BuildStatisticBanner(name, config, list!);
-            }
-            return new() { CurrentName = name };
+            return data.TryGetValue(type, out List<GachaLogItem>? list)
+                ? BuildStatisticBanner(name, info, list!)
+                : (new() { CurrentName = name });
         }
 
-        private StatisticBanner BuildStatisticBanner(string name, BannerConfigration config, List<GachaLogItem> list)
+        private StatisticBanner BuildStatisticBanner(string name, BannerInformation config, List<GachaLogItem> list)
         {
             //上次出货抽数
-            int index5 = list.FindIndex(i => i.Rank == "5");
-            int index4 = list.FindIndex(i => i.Rank == "4");
+            int index5 = list.FindIndex(i => i.Rank == RankFive);
+            int index4 = list.FindIndex(i => i.Rank == RankFour);
 
             StatisticBanner banner = new()
             {
@@ -106,9 +112,9 @@ namespace DGP.Genshin.Services.GachaStatistics
                 CountSinceLastStar5 = index5 == -1 ? 0 : index5,
                 CountSinceLastStar4 = index4 == -1 ? 0 : index4,
 
-                Star5Count = list.Count(i => i.Rank == "5"),
-                Star4Count = list.Count(i => i.Rank == "4"),
-                Star3Count = list.Count(i => i.Rank == "3"),
+                Star5Count = list.Count(i => i.Rank == RankFive),
+                Star4Count = list.Count(i => i.Rank == RankFour),
+                Star3Count = list.Count(i => i.Rank == RankThree),
             };
             if (list.Count > 0)
             {
@@ -116,30 +122,32 @@ namespace DGP.Genshin.Services.GachaStatistics
                 banner.EndTime = list.First().Time;
             }
             banner.Star5List = ListOutStatisticStar5(list, banner.Star5Count);
-            //确保至少有一个五星才进入
+            //确保至少有一个五星
             if (banner.Star5List.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
                 banner.MaxGetStar5Count = banner.Star5List.Max(i => i.Count);
                 banner.MinGetStar5Count = banner.Star5List.Min(i => i.Count);
-                banner.NextGuaranteeType = banner.Star5List.First().IsUp ? "小保底" : "大保底";
+                banner.NextGuaranteeType = banner.Star5List.First().IsUp ? MinGuarantee : MaxGuarantee;
             }
             else//while no 5 star get
             {
                 banner.AverageGetStar5 = 0.0;
                 banner.MaxGetStar5Count = 0;
                 banner.MinGetStar5Count = 0;
-                banner.NextGuaranteeType = "小保底";
+                banner.NextGuaranteeType = MinGuarantee;
             }
 
             int predicatedCount5 = (int)(Math.Round((banner.Star5Count + 1) / config.Prob5) - banner.TotalCount);
             banner.NextStar5PredictCount = RestrictPredicatedCount5(predicatedCount5, banner, config.GranteeCount);
+
             int predicatedCount4 = (int)(Math.Round((banner.Star4Count + 1) / config.Prob4) - banner.TotalCount);
             banner.NextStar4PredictCount = RestrictPredicatedCount4(predicatedCount4, banner);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
             banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
+
             return banner;
         }
 
@@ -227,7 +235,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             List<StatisticItem5Star> counter = new();
             for (int i = 0; i < star5Count; i++)
             {
-                GachaLogItem currentStar5 = reversedItems.First(i => i.Rank == "5");
+                GachaLogItem currentStar5 = reversedItems.First(i => i.Rank == RankFive);
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 

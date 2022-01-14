@@ -156,7 +156,12 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 GetService<ISettingService>().UnInitialize();
-                ToastNotificationManagerCompat.History.Clear();
+                try
+                {
+                    ToastNotificationManagerCompat.History.Clear();
+                }
+                catch { }
+
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);

@@ -344,13 +344,15 @@
                 <s:SmoothScrollViewer MaxHeight="484">
                     <StackPanel Margin="12,12,16,12">
                         <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,0"/>
-                        <wu:CardAction helper:IconHelper.Icon="&#xE7FC;" Content="游戏本体" Margin="0,12,0,0" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
-                        <wu:CardAction helper:IconHelper.Icon="&#xED35;" Content="官方启动器" Margin="0,4,0,0" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
+                        <wu:CardAction helper:IconHelper.Icon="&#xE7FC;" helper:CardHelper.ActionTitle="游戏本体" helper:CardHelper.ActionSubtitle="以下方的自定义设置启动游戏"
+                                       Margin="0,12,0,0" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
+                        <wu:CardAction helper:IconHelper.Icon="&#xED35;" helper:CardHelper.ActionTitle="官方启动器" helper:CardHelper.ActionSubtitle="游戏有版本更新时方便打开"
+                                       Margin="0,4,0,0" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
 
                         <TextBlock Text="常规" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0"/>
                         <wu:CardExpander helper:IconHelper.Icon="&#xE748;" Margin="0,12,0,0"
-                        Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
-                        Subtitle="在游戏内切换账号后打开此面板会自动检测新的账号">
+                            Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
+                            Subtitle="在游戏内切换账号后打开此面板会自动检测新的账号">
                             <s:SmoothScrollViewer Grid.Row="1" MaxHeight="120" Margin="0,0,0,0">
                                 <ui:ListView 
                                 ItemsSource="{Binding Accounts}" 

@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Common.Core.DependencyInjection;
+using DGP.Genshin.Common.Data;
 using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers;
@@ -57,6 +58,7 @@ namespace DGP.Genshin.ViewModels
         private bool isTaskBarIconEnabled;
         private bool closeMainWindowAfterInitializaion;
         private ICommand copyUserIdCommand;
+        private ICommand signInImmediatelyCommand;
 
         #region Need Initalize
         //需要在 Initalize Receive 中添加字段的初始化
@@ -172,6 +174,13 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(copyUserIdCommand))]
             set => copyUserIdCommand = value;
         }
+        public ICommand SignInImmediatelyCommand
+        {
+            get => signInImmediatelyCommand;
+            [MemberNotNull(nameof(signInImmediatelyCommand))]
+            set => SetProperty(ref signInImmediatelyCommand, value);
+        }
+
         #endregion
 
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
@@ -186,6 +195,7 @@ namespace DGP.Genshin.ViewModels
 
             CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
+            SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
 
             Initialize();
             IsActive = true;
@@ -196,8 +206,7 @@ namespace DGP.Genshin.ViewModels
             IsActive = false;
         }
 
-        [MemberNotNull(nameof(versionString))]
-        [MemberNotNull(nameof(userId))]
+        [MemberNotNull(nameof(versionString)), MemberNotNull(nameof(userId))]
         private void Initialize()
         {
             //不能直接设置属性 会导致触发通知操作进而造成死循环
@@ -217,7 +226,8 @@ namespace DGP.Genshin.ViewModels
 
         private void CopyUserIdToClipBoard()
         {
-            Clipboard.SetText(UserId);
+            Clipboard.Clear();
+            Clipboard2.SetText(UserId);
         }
 
         /// <summary>

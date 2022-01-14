@@ -42,7 +42,7 @@ namespace DGP.Genshin.Helpers
         /// <param name="overwrite"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool MoveToFolderOrIgnore(string file, string folder, bool overwrite=true)
+        internal static bool MoveToFolderOrIgnore(string file, string folder, bool overwrite = true)
         {
             string target = Locate(folder, file);
             file = Locate(file);

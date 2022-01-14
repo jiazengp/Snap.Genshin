@@ -29,6 +29,7 @@ namespace DGP.Genshin.ViewModels
         private double percent;
         private IAsyncRelayCommand openUICommand;
         private IAsyncRelayCommand setCookieCommand;
+        private bool isCheckingIntegrity;
 
         public bool IsCookieVisible
         {
@@ -54,13 +55,36 @@ namespace DGP.Genshin.ViewModels
             get => isSplashNotVisible;
             set => SetProperty(ref isSplashNotVisible, value);
         }
-        public string CurrentStateDescription { get => currentStateDescription; set => SetProperty(ref currentStateDescription, value); }
-        public int CurrentCount { get => currentCount; set => SetProperty(ref currentCount, value); }
-        public string? CurrentInfo { get => currentInfo; set => SetProperty(ref currentInfo, value); }
-
-        public int? TotalCount { get => totalCount; set => SetProperty(ref totalCount, value); }
-
-        public double Percent { get => percent; set => SetProperty(ref percent, value); }
+        public string CurrentStateDescription
+        {
+            get => currentStateDescription;
+            set => SetProperty(ref currentStateDescription, value);
+        }
+        public int CurrentCount
+        {
+            get => currentCount;
+            set => SetProperty(ref currentCount, value);
+        }
+        public string? CurrentInfo
+        {
+            get => currentInfo;
+            set => SetProperty(ref currentInfo, value);
+        }
+        public int? TotalCount
+        {
+            get => totalCount;
+            set => SetProperty(ref totalCount, value);
+        }
+        public double Percent
+        {
+            get => percent;
+            set => SetProperty(ref percent, value);
+        }
+        public bool IsCheckingIntegrity
+        {
+            get => isCheckingIntegrity;
+            set => SetProperty(ref isCheckingIntegrity, value);
+        }
         public IAsyncRelayCommand OpenUICommand
         {
             get => openUICommand;
@@ -97,6 +121,7 @@ namespace DGP.Genshin.ViewModels
             await PerformCookieServiceCheckAsync();
             CurrentStateDescription = "校验 缓存资源 完整性...";
             await PerformIntegrityServiceCheckAsync();
+            CurrentStateDescription = string.Empty;
             TrySendCompletedMessage();
         }
 
@@ -108,6 +133,7 @@ namespace DGP.Genshin.ViewModels
 
         private async Task PerformIntegrityServiceCheckAsync()
         {
+            IsCheckingIntegrity = true;
             await integrityCheckService.CheckMetadataIntegrityAsync(state =>
             {
                 CurrentCount = state.CurrentCount;
@@ -115,6 +141,7 @@ namespace DGP.Genshin.ViewModels
                 TotalCount = state.TotalCount;
                 CurrentInfo = state.Info;
             });
+            IsCheckingIntegrity = false;
         }
     }
 }

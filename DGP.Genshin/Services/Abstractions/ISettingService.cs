@@ -28,7 +28,7 @@ namespace DGP.Genshin.Services.Abstratcions
         /// <param name="key"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        T? GetComplexOrDefault<T>(string key, T? defaultValue);
+        T? GetComplexOrDefault<T>(string key, T? defaultValue) where T : class;
 
         /// <summary>
         /// 读取设置值
