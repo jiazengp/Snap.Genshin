@@ -12,9 +12,12 @@ using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Materials.Weeklys;
 using DGP.Genshin.DataModels.Weapons;
 using DGP.Genshin.Helpers;
+using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using ModernWpf.Controls;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,7 +34,7 @@ namespace DGP.Genshin.ViewModels
     /// 存有各类共享物品数据
     /// </summary>
     [ViewModel(ViewModelType.Singleton)]
-    public class MetadataViewModel : ObservableObject
+    public class MetadataViewModel : ObservableRecipient, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -315,6 +318,45 @@ namespace DGP.Genshin.ViewModels
                     Owner = App.Current.MainWindow
                 }.ShowDialog();
             });
+            IsActive = true;
+        }
+        ~MetadataViewModel()
+        {
+            IsActive = false;
+        }
+
+        /// <summary>
+        /// 用于在下载额外的角色图片资源时阻止用户与界面交互
+        /// </summary>
+        private class BlockingDialog : ContentDialog
+        {
+            public bool AllowHide { get; set; }
+            public BlockingDialog()
+            {
+                Title = "额外资源下载";
+                Content = "正在下载缺少的资源，请耐心等待...";
+                Closing += (s, e) =>
+                {
+                    if (!AllowHide)
+                    {
+                        e.Cancel = true;
+                    }
+                };
+            }
+        }
+
+        private readonly BlockingDialog uiBlockingDaialog = new();
+
+        public async void Receive(ImageHitBeginMessage message)
+        {
+            await uiBlockingDaialog.ShowAsync();
+        }
+
+        public void Receive(ImageHitEndMessage message)
+        {
+            uiBlockingDaialog.AllowHide = true;
+            uiBlockingDaialog.Hide();
+            uiBlockingDaialog.AllowHide = false;
         }
 
         #region Helper

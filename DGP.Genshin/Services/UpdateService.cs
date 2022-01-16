@@ -5,7 +5,9 @@ using DGP.Genshin.Common.Net.Download;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Converters;
+using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
 using System;
@@ -19,6 +21,7 @@ using Windows.UI.Notifications;
 namespace DGP.Genshin.Services
 {
     [Service(typeof(IUpdateService), ServiceType.Singleton)]
+    [Send(typeof(UpdateProgressedMessage))]
     internal class UpdateService : IUpdateService
     {
         private const string UpdateNotificationTag = "snap_genshin_update";
@@ -83,6 +86,7 @@ namespace DGP.Genshin.Services
                 InnerDownloader.ProgressChanged += OnProgressChanged;
                 //toast can only be shown & updated by main thread
                 App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
+
                 bool caught = false;
                 try
                 {
@@ -91,6 +95,10 @@ namespace DGP.Genshin.Services
                 catch
                 {
                     caught = true;
+                }
+                finally
+                {
+                    App.Messenger.Send(UpdateProgressedMessage.Default);
                 }
                 if (!caught)
                 {
@@ -141,15 +149,17 @@ namespace DGP.Genshin.Services
         /// <param name="percent">进度</param>
         private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
-            //user has dismissed the notification so we don't update it anymore
-            if (lastNotificationUpdateResult is not NotificationUpdateResult.Succeeded)
+            //message will be sent anyway.
+            string valueString = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
+            App.Messenger.Send(new UpdateProgressedMessage(percent ?? 0, valueString, percent <= 1));
+            //if user has dismissed the notification, we don't update it anymore
+            if (lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
             {
-                return;
-            }
-            if (percent is not null)
-            {
-                //notification could only be updated by same thread.
-                App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
+                if (percent is not null)
+                {
+                    //notification could only be updated by main thread.
+                    App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
+                }
             }
         }
 
@@ -163,7 +173,7 @@ namespace DGP.Genshin.Services
         {
             NotificationData data = new() { SequenceNumber = 0 };
 
-            data.Values["progressValue"] = $"{(percent is null ? 0 : percent.Value)}";
+            data.Values["progressValue"] = $"{percent ?? 0}";
             data.Values["progressValueString"] =
                 $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
             if (percent >= 1)
@@ -179,10 +189,10 @@ namespace DGP.Genshin.Services
         /// <summary>
         /// 开始安装更新
         /// </summary>
+        [Conditional("RELEASE")]
         private void StartInstallUpdate()
         {
             Directory.CreateDirectory("Updater");
-            //File.Move("DGP.Genshin.Updater.exe", @"Updater/DGP.Genshin.Updater.exe", true);
             PathContext.MoveToFolderOrIgnore("DGP.Genshin.Updater.exe", "Updater");
             //Updater自带工作路径纠正
             Process.Start(new ProcessStartInfo()
@@ -190,6 +200,8 @@ namespace DGP.Genshin.Services
                 FileName = @"Updater/DGP.Genshin.Updater.exe",
                 Arguments = "UpdateInstall"
             });
+
+            App.Current.Shutdown();
         }
     }
 }

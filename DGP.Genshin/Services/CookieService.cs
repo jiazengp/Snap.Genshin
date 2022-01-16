@@ -249,7 +249,14 @@ namespace DGP.Genshin.Services
 
         public void SaveCookie(string cookie)
         {
-            File.WriteAllText(CookieFile, cookie);
+            try
+            {
+                File.WriteAllText(CookieFile, cookie);
+            }
+            catch (IOException)
+            {
+                throw new SnapGenshinInternalException("cooie.dat 文件被占用，保存cookie失败");
+            }
         }
 
         public void SaveCookies()

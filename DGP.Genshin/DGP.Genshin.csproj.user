@@ -45,6 +45,9 @@
     <Compile Update="Controls\Launching\NameDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\SponsorPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\ExceptionWindow.xaml">
@@ -96,6 +99,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TaskbarIconResources.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SponsorPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

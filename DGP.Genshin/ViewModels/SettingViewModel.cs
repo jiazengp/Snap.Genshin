@@ -4,6 +4,7 @@ using DGP.Genshin.Common.Data.Behavior;
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
+using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,9 +26,11 @@ namespace DGP.Genshin.ViewModels
     /// 仅供 <see cref="Pages.SettingsPage"/> 使用
     /// </summary>
     [ViewModel(ViewModelType.Singleton)]
-    public class SettingViewModel : ObservableRecipient, IRecipient<SettingChangedMessage>
+    [Send(typeof(NavigateRequestMessage))]
+    public class SettingViewModel : ObservableRecipient, IRecipient<SettingChangedMessage>, IRecipient<UpdateProgressedMessage>
     {
         private readonly ISettingService settingService;
+        private readonly IUpdateService updateService;
         private ISettingService SettingService => settingService;
 
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
@@ -59,6 +63,8 @@ namespace DGP.Genshin.ViewModels
         private bool closeMainWindowAfterInitializaion;
         private ICommand copyUserIdCommand;
         private ICommand signInImmediatelyCommand;
+        private ICommand? sponsorUICommand;
+        private UpdateProgressedMessage updateInfo;
 
         #region Need Initalize
         //需要在 Initalize Receive 中添加字段的初始化
@@ -162,6 +168,12 @@ namespace DGP.Genshin.ViewModels
                 settingService[Setting.ResinRefreshMinutes] = value.Value.TotalMinutes;
             }
         }
+        public UpdateProgressedMessage UpdateInfo
+        {
+            get => updateInfo;
+            [MemberNotNull(nameof(updateInfo))]
+            set => SetProperty(ref updateInfo, value);
+        }
         public IAsyncRelayCommand CheckUpdateCommand
         {
             get => checkUpdateCommand;
@@ -181,11 +193,20 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref signInImmediatelyCommand, value);
         }
 
+        public ICommand SponsorUICommand
+        {
+            get
+            {
+                sponsorUICommand ??= new RelayCommand(NavigateToSponsorPage);
+                return sponsorUICommand;
+            }
+        }
         #endregion
 
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
+            this.updateService = updateService;
 
             ApplicationTheme? theme = settingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
             selectedTheme = Themes.First(x => x.Value == theme);
@@ -193,7 +214,9 @@ namespace DGP.Genshin.ViewModels
             double minutes = settingService.GetOrDefault(Setting.ResinRefreshMinutes, 8.0);
             selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == minutes)!;
 
-            CheckUpdateCommand = new AsyncRelayCommand(updateService.CheckUpdateStateAsync);
+            UpdateInfo = UpdateProgressedMessage.Default;
+
+            CheckUpdateCommand = new AsyncRelayCommand(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
             SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
 
@@ -228,6 +251,28 @@ namespace DGP.Genshin.ViewModels
         {
             Clipboard.Clear();
             Clipboard2.SetText(UserId);
+        }
+
+        private void NavigateToSponsorPage()
+        {
+            App.Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
+        }
+
+        private async Task CheckUpdateAsync()
+        {
+            UpdateState result = await updateService.CheckUpdateStateAsync();
+            //update debug code here
+            //result = UpdateState.NeedUpdate;
+            switch (result)
+            {
+                case UpdateState.NeedUpdate:
+                    {
+                        await updateService.DownloadAndInstallPackageAsync();
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -267,6 +312,10 @@ namespace DGP.Genshin.ViewModels
                 default:
                     break;
             }
+        }
+        public void Receive(UpdateProgressedMessage message)
+        {
+            UpdateInfo = message;
         }
     }
 }

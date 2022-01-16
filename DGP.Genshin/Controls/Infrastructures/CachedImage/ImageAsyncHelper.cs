@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DGP.Genshin.Messages;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +17,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
     /// </summary>
     public class ImageAsyncHelper
     {
+        #region ImageUrl
         public static string GetImageUrl(Border obj)
         {
             return (string)obj.GetValue(ImageUrlProperty);
@@ -24,12 +28,33 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
             obj.SetValue(ImageUrlProperty, value);
         }
 
+        private static int imageUrlHittingCount = 0;
+
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
             "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
             {
                 PropertyChangedCallback = async (obj, e) =>
                 {
-                    MemoryStream? memoryStream = await FileCache.HitAsync((string)e.NewValue);
+                    MemoryStream? memoryStream;
+                    if (FileCache.Exists((string)e.NewValue))
+                    {
+                        memoryStream = await FileCache.HitAsync((string)e.NewValue);
+                    }
+                    else
+                    {
+                        if (imageUrlHittingCount == 0)
+                        {
+                            App.Messenger.Send(new ImageHitBeginMessage());
+                        }
+                        Interlocked.Increment(ref imageUrlHittingCount);
+                        memoryStream = await FileCache.HitAsync((string)e.NewValue);
+                        Interlocked.Decrement(ref imageUrlHittingCount);
+                        if (imageUrlHittingCount == 0)
+                        {
+                            App.Messenger.Send(new ImageHitEndMessage());
+                        }
+                    }
+
                     if (memoryStream == null)
                     {
                         return;
@@ -51,7 +76,9 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     };
                 }
             });
+        #endregion
 
+        #region StretchMode
         public static Stretch GetStretchMode(Border obj)
         {
             return (Stretch)obj.GetValue(StretchModeProperty);
@@ -64,5 +91,6 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
 
         public static readonly DependencyProperty StretchModeProperty = DependencyProperty.RegisterAttached(
             "StretchMode", typeof(Stretch), typeof(ImageAsyncHelper), new PropertyMetadata(Stretch.Uniform));
+        #endregion
     }
 }

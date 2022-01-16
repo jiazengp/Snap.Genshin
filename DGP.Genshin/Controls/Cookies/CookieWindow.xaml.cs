@@ -22,10 +22,16 @@ namespace DGP.Genshin.Controls.Cookies
 
         private void WebViewCoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
         {
+            WebView.CoreWebView2.ProcessFailed += WebViewCoreWebView2ProcessFailed;
             if (e.IsSuccess)
             {
                 ContinueButton.IsEnabled = true;
             }
+        }
+
+        private void WebViewCoreWebView2ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
+        {
+            ((IDisposable)WebView)?.Dispose();
         }
 
         private async void ContinueButtonClick(object sender, RoutedEventArgs e)
@@ -45,7 +51,7 @@ namespace DGP.Genshin.Controls.Cookies
 
         public void Dispose()
         {
-            ((IDisposable)WebView).Dispose();
+            ((IDisposable)WebView)?.Dispose();
         }
     }
 }

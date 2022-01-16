@@ -1,7 +1,7 @@
 ﻿<Page x:Class="DGP.Genshin.Pages.SettingsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:s="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
@@ -375,14 +375,25 @@
 
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE946;" Title="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
-                    <Button Tag="Github" Content="检查更新" Command="{Binding CheckUpdateCommand}"/>
+                    <Button Tag="Github" Content="检查更新并安装" Command="{Binding CheckUpdateCommand}"/>
                 </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit更新" Subtitle="使用 FastGit 代替 Github 下载更新,也许能改善下载速度" Margin="12,4,16,0">
+                <wu:Card Margin="12,4,16,0" Visibility="{Binding UpdateInfo.IsDownloading,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="下载更新中" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding UpdateInfo.ValueString}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Right"/>
+                        <ProgressBar Margin="0,4,0,0" Grid.Row="1" Value="{Binding UpdateInfo.Value,Mode=OneWay}" Maximum="1"/>
+                    </Grid>
+                </wu:Card>
+                <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit" Subtitle="使用 FastGit 代替 Github 下载更新,也许能改善下载速度，下一次下载开始生效" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
                 </wu:CardControl>
 
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="问题与反馈" Subtitle="如果你在使用软件的过程中遇到问题，可以尝试这里的方式" Margin="12,12,16,0">
-                    <StackPanel>
+                    <StackPanel Margin="12">
                         <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                             Content="前往 Github 提交 Issue"/>
                         <ui:HyperlinkButton NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" 
@@ -392,6 +403,9 @@
                 <wu:CardControl helper:IconHelper.Icon="&#xE772;" Title="用户设备ID" Subtitle="{Binding UserId}" Margin="12,4,16,0">
                     <Button Content="复制到剪贴板" Margin="6,0,0,0" Command="{Binding CopyUserIdCommand}"/>
                 </wu:CardControl>
+
+                <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
+                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"/>
             </StackPanel>
         </s:SmoothScrollViewer>
     </Grid>

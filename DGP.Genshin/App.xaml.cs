@@ -47,7 +47,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 覆盖默认类型的 Current
         /// </summary>
-        public new static App Current => (App)Application.Current;
+        public static new App Current => (App)Application.Current;
 
         public static bool IsElevated
         {
@@ -160,8 +160,7 @@ namespace DGP.Genshin
                 {
                     ToastNotificationManagerCompat.History.Clear();
                 }
-                catch { }
-
+                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentException) { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);

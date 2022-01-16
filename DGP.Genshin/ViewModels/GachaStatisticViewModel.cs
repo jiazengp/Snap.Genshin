@@ -2,6 +2,7 @@
 using DGP.Genshin.Common.Extensions.System;
 using DGP.Genshin.Common.Threading;
 using DGP.Genshin.DataModels.GachaStatistics;
+using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
@@ -9,9 +10,11 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -33,6 +36,7 @@ namespace DGP.Genshin.ViewModels
         private IAsyncRelayCommand importFromUIGFWCommand;
         private IAsyncRelayCommand exportToUIGFWCommand;
         private IAsyncRelayCommand exportToUIGFJCommand;
+        private ICommand? openGachaStatisticFolderCommand;
 
         /// <summary>
         /// 当前的统计信息
@@ -144,6 +148,15 @@ namespace DGP.Genshin.ViewModels
             get => exportToUIGFJCommand;
             [MemberNotNull(nameof(exportToUIGFJCommand))]
             set => SetProperty(ref exportToUIGFJCommand, value);
+        }
+
+        public ICommand OpenGachaStatisticFolderCommand
+        {
+            get
+            {
+                openGachaStatisticFolderCommand ??= new RelayCommand(OpenGachaStatisticFolder);
+                return openGachaStatisticFolderCommand;
+            }
         }
 
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
@@ -305,6 +318,10 @@ namespace DGP.Genshin.ViewModels
                 }
                 taskPreventer.Release();
             }
+        }
+        private void OpenGachaStatisticFolder()
+        {
+            Process.Start("explorer.exe", PathContext.Locate("GachaStatistic"));
         }
     }
 }

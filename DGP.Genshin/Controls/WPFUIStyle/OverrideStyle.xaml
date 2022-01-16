@@ -257,7 +257,7 @@
                                 Background="Transparent"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Opacity="0.0">
-                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                <ContentPresenter/>
                                 <Border.LayoutTransform>
                                     <ScaleTransform ScaleY="0" />
                                 </Border.LayoutTransform>

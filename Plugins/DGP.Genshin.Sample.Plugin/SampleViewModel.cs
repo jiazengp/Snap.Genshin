@@ -14,11 +14,11 @@ namespace DGP.Genshin.Sample.Plugin
 
         public SampleViewModel()
         {
-            var list = new List<dynamic>();
-            var families = Fonts.GetFontFamilies(@"C:\Windows\Fonts\segmdl2.ttf");
+            List<dynamic>? list = new List<dynamic>();
+            ICollection<FontFamily>? families = Fonts.GetFontFamilies(@"C:\Windows\Fonts\segmdl2.ttf");
             foreach (FontFamily family in families)
             {
-                var typefaces = family.GetTypefaces();
+                ICollection<Typeface>? typefaces = family.GetTypefaces();
                 foreach (Typeface typeface in typefaces)
                 {
                     typeface.TryGetGlyphTypeface(out GlyphTypeface glyph);

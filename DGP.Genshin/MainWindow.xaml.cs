@@ -21,7 +21,9 @@ using System.Windows;
 
 namespace DGP.Genshin
 {
-    public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
+    public partial class MainWindow : Window, 
+        IRecipient<SplashInitializationCompletedMessage>, 
+        IRecipient<NavigateRequestMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
@@ -36,11 +38,13 @@ namespace DGP.Genshin
         public MainWindow()
         {
             InitializeComponent();
+
             navigationService = App.GetService<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
 
             App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
+            App.Messenger.Register<MainWindow, NavigateRequestMessage>(this, (r, m) => r.Receive(m));
         }
 
         ~MainWindow()
@@ -88,6 +92,10 @@ namespace DGP.Genshin
             }
 
             hasEverOpen = true;
+        }
+        public void Receive(NavigateRequestMessage message)
+        {
+            navigationService.Navigate(message.Value, message.IsSyncTabRequested);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -199,8 +207,8 @@ namespace DGP.Genshin
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await App.GetService<IUpdateService>().CheckUpdateStateAsync();
-            //update debug code here
-            //if (Debugger.IsAttached) result = UpdateState.NeedUpdate;
+            //force-update, debug code
+            //result = UpdateState.NeedUpdate;
             switch (result)
             {
                 case UpdateState.NeedUpdate:

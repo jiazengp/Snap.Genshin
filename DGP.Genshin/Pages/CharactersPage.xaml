@@ -117,8 +117,9 @@
                     <Grid>
                         <ci:CachedImage Grid.Row="1" MaxWidth="228" MaxHeight="120" HorizontalAlignment="Center"
                                     ImageUrl="{Binding SelectedCharacter.GachaSplash}"/>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
-                            <ui:FontIcon Glyph="&#xE78B;"/>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" 
+                                ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
+                            <ui:FontIcon Glyph="&#xE78B;" Foreground="White"/>
                         </Button>
                     </Grid>
                 </Border>

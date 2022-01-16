@@ -21,9 +21,9 @@ namespace DGP.Genshin.Services.GachaStatistics
     internal class LocalGachaLogWorker
     {
         /// <summary>
-        /// 导出操作锁
+        /// 导入导出操作锁
         /// </summary>
-        private readonly object exporting = new();
+        private readonly object processing = new();
         private const string localFolder = "GachaStatistic";
         private const string metadataSheetName = "原始数据";
 
@@ -87,7 +87,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         public bool ImportFromUIGFW(string filePath, GachaDataCollection gachaData)
         {
             bool successful = true;
-            lock (exporting)
+            lock (processing)
             {
                 try
                 {
@@ -222,6 +222,7 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         #endregion
 
+        #region UIGF.J
         public bool ImportFromUIGFJ(string filePath, GachaDataCollection gachaData)
         {
             return ImportFromExternalData<UIGF>(filePath, gachaData, file =>
@@ -263,7 +264,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         public bool ImportFromExternalData<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
-            lock (exporting)
+            lock (processing)
             {
                 try
                 {
@@ -372,6 +373,8 @@ namespace DGP.Genshin.Services.GachaStatistics
 
         #endregion
 
+        #endregion
+
         #region export
         public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
         {
@@ -394,7 +397,7 @@ namespace DGP.Genshin.Services.GachaStatistics
         #region Excel
         public void SaveLocalGachaDataToExcel(string uid, string fileName, GachaDataCollection gachaData)
         {
-            lock (exporting)
+            lock (processing)
             {
                 if (gachaData[uid] is not null)
                 {

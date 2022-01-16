@@ -10,6 +10,8 @@
          xmlns:ci="clr-namespace:DGP.Genshin.Controls.Infrastructures.CachedImage" 
          xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
          xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters"
+         xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+         xmlns:helper="clr-namespace:DGP.Genshin.Controls.Helpers"
          mc:Ignorable="d"
          d:DesignHeight="1000" d:DesignWidth="800"
          Title="GachaStatisticPage">
@@ -128,9 +130,14 @@
                                 <ui:ToggleSwitch x:Name="FullSwitch" IsOn="{Binding IsFullFetch}" Header="启用全量刷新数据" OnContent="全量" OffContent="仅增量"/>
                             </ui:AppBarElementContainer>
                             <ui:AppBarSeparator/>
+                            <ui:AppBarButton Label="打开祈愿记录数据文件夹"  Command="{Binding OpenGachaStatisticFolderCommand}">
+                                <ui:AppBarButton.Icon>
+                                    <ui:FontIcon Glyph="&#xE8B7;"/>
+                                </ui:AppBarButton.Icon>
+                            </ui:AppBarButton>
+                            <ui:AppBarSeparator/>
                             <ui:AppBarButton Icon="Import" Label="从 UIGF 2.0 Json 文件导入"  Command="{Binding ImportFromUIGFJCommand}"/>
                             <ui:AppBarButton Icon="Import" Label="从 UIGF 2.0 Excel 表格 导入" Command="{Binding ImportFromUIGFWCommand}"/>
-                            <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="导出到 UIGF 2.0 Excel 表格" Command="{Binding ExportToUIGFWCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
@@ -141,6 +148,11 @@
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>
                             </ui:AppBarButton>
+                            <ui:AppBarSeparator/>
+                            <ui:AppBarElementContainer>
+                                <ui:HyperlinkButton HorizontalAlignment="Center" Margin="12,0,0,0" Content="什么是 UIGF 格式?" 
+                                    NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat"/>
+                            </ui:AppBarElementContainer>
                         </ui:CommandBar.SecondaryCommands>
                     </ui:CommandBar>
                 </Border>
@@ -806,21 +818,30 @@
             </TabItem>
         </TabControl>
         <!--FallBack-->
-        <Border d:IsHidden="true" 
+        <Border d:Visibility="Visible"
                 Grid.RowSpan="2" 
                 Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" 
                 Visibility="{Binding Statistic,Converter={StaticResource DataVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Text="暂无数据"/>
-                <ui:CommandBar Margin="0,8,0,0" Background="Transparent" HorizontalAlignment="Center">
-                    <ui:AppBarButton Label="从日志中获取" Command="{Binding GachaLogAutoFindCommand}">
-                        <ui:AppBarButton.Icon>
-                            <ui:FontIcon Glyph="&#xE773;"/>
-                        </ui:AppBarButton.Icon>
-                    </ui:AppBarButton>
-                    <ui:AppBarButton Icon="Rename" Label="手动输入Url" Command="{Binding GachaLogManualCommand}"/>
-                </ui:CommandBar>
-                <TextBlock Margin="0,36,0,0" Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}" HorizontalAlignment="Center"/>
+                <wu:CardAction helper:IconHelper.Icon="&#xE773;"
+                               helper:CardHelper.ActionTitle="从日志获取" 
+                               helper:CardHelper.ActionSubtitle="我们会自动扫描日志文件以找到获取记录需要的Url"
+                               Command="{Binding GachaLogAutoFindCommand}" Margin="0,36,0,0"/>
+                <wu:CardAction helper:IconHelper.Icon="&#xE8AC;"
+                               helper:CardHelper.ActionTitle="手动输入 Url" 
+                               helper:CardHelper.ActionSubtitle="适用于高级用户，从移动设备获取Url后手动输入"
+                               Command="{Binding GachaLogManualCommand}" Margin="0,4,0,0"/>
+                <wu:CardAction helper:IconHelper.Icon="&#xE8B6;"
+                               helper:CardHelper.ActionTitle="Json 文件" 
+                               helper:CardHelper.ActionSubtitle="从 UIGF 2.0 格式 Json 文件导入"
+                               Command="{Binding ImportFromUIGFJCommand}" Margin="0,12,0,0"/>
+                <wu:CardAction helper:IconHelper.Icon="&#xE8B5;"
+                               helper:CardHelper.ActionTitle="Excel 文件" 
+                               helper:CardHelper.ActionSubtitle="从 UIGF 2.0 格式 Excel 表格导入"
+                               Command="{Binding ImportFromUIGFWCommand}" Margin="0,4,0,0"/>
+                <ui:HyperlinkButton HorizontalAlignment="Center" Margin="0,36,0,0" Content="什么是 UIGF 格式?" 
+                                    NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat"/>
             </StackPanel>
         </Border>
     </Grid>
