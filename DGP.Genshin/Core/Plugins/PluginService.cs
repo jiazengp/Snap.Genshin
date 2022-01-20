@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
+﻿using Snap.Core.Logging;
+using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.IO;

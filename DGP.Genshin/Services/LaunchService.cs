@@ -1,9 +1,4 @@
-﻿using DGP.Genshin.Common.Core;
-using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.DataModels.Launching;
+﻿using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.FPSUnlocking;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
@@ -11,6 +6,11 @@ using IniParser;
 using IniParser.Model;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Json;
+using Snap.Data.Utility;
+using Snap.Exception;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +26,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 启动服务的默认实现
     /// </summary>
-    [Service(typeof(ILaunchService), ServiceType.Transient)]
+    [Service(typeof(ILaunchService), InjectAs.Transient)]
     internal class LaunchService : ILaunchService
     {
         private const string AccountsFileName = "accounts.json";
@@ -165,9 +165,9 @@ namespace DGP.Genshin.Services
                 try
                 {
                     //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
-                    string commandLine = new CommandLine()
-                        .WithIf(option.IsBorderless, "-popupwindow")
-                        .With("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
+                    string commandLine = new CommandLineBuilder()
+                        .AppendIf(option.IsBorderless, "-popupwindow")
+                        .Append("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
                         .Build();
 
                     Process? game = new()

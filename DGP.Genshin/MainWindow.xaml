@@ -19,6 +19,7 @@
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
+        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
         >
     <Grid>
         <ui:NavigationView 
@@ -64,7 +65,7 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
-            <ui:Frame Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}" x:Name="ContentFrame">
+            <ui:Frame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>
                         <ui:NavigationThemeTransition/>

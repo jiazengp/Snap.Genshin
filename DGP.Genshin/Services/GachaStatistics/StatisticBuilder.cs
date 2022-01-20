@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Core.Logging;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.DataModels.GachaStatistics;
+﻿using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.ViewModels;
+using Snap.Core.Logging;
+using Snap.Exception;
+using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -300,7 +300,8 @@ namespace DGP.Genshin.Services.GachaStatistics
             _ = clonedBanners ?? throw new SnapGenshinInternalException("无可用的卡池信息");
 
             clonedBanners.ForEach(b => b.ClearItemAndStar5List());
-            SpecificBanner permanent = new() { CurrentName = "奔行世间" };
+            //Type = ConfigType.PermanentWish fix order crash
+            SpecificBanner permanent = new() { CurrentName = "奔行世间", Type = ConfigType.PermanentWish };
             clonedBanners.Add(permanent);
 
             foreach (string type in data.Keys)
@@ -336,7 +337,7 @@ namespace DGP.Genshin.Services.GachaStatistics
             return clonedBanners
                 //.Where(b => b.TotalCount > 0)
                 .OrderByDescending(b => b.StartTime)
-                .ThenBy(b => b.Type)
+                .ThenByDescending(b => ConfigType.Order[b.Type!])
                 .ToList();
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)

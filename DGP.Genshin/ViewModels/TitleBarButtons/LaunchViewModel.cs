@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Controls.Launching;
+﻿using DGP.Genshin.Controls.Launching;
 using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Helpers;
@@ -8,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
+using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -18,7 +18,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class LaunchViewModel : ObservableObject
     {
         private readonly ILaunchService launchService;

@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +14,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 设置服务的默认实现
     /// </summary>
-    [Service(typeof(ISettingService), ServiceType.Singleton)]
-    [Send(typeof(SettingChangedMessage))]
+    [Service(typeof(ISettingService), InjectAs.Singleton)]
     internal class SettingService : ISettingService
     {
         private readonly string settingFile = PathContext.Locate("settings.json");

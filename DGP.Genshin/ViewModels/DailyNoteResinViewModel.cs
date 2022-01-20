@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Threading;
-using DGP.Genshin.DataModels.Cookies;
+﻿using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Threading;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows;

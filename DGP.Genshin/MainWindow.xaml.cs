@@ -21,12 +21,13 @@ using System.Windows;
 
 namespace DGP.Genshin
 {
-    public partial class MainWindow : Window, 
-        IRecipient<SplashInitializationCompletedMessage>, 
+    public partial class MainWindow : Window,
+        IRecipient<SplashInitializationCompletedMessage>,
         IRecipient<NavigateRequestMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
+        //cause we do have some async operation in initialization so we can't use lock
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private static bool hasInitializeCompleted = false;
         private static bool hasEverOpen = false;
@@ -50,6 +51,7 @@ namespace DGP.Genshin
         ~MainWindow()
         {
             App.Messenger.Unregister<SplashInitializationCompletedMessage>(this);
+            App.Messenger.Unregister<NavigateRequestMessage>(this);
         }
 
         public async void Receive(SplashInitializationCompletedMessage viewModelReference)

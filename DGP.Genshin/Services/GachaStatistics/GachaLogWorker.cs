@@ -1,9 +1,9 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Request;
-using DGP.Genshin.Common.Request.QueryString;
+﻿using DGP.Genshin.Common.Request;
 using DGP.Genshin.Common.Response;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
+using Snap.Core.Logging;
+using Snap.Net.QueryString;
 using System;
 using System.Collections.Generic;
 using System.Linq;

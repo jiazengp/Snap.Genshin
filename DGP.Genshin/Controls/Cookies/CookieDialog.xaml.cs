@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Common.Data;
-using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Helpers;
 using ModernWpf.Controls;
+using Snap.Win32;
 using System.Threading.Tasks;
 using System.Windows;
 

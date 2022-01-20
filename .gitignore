@@ -4,9 +4,8 @@
 /Build/net5.0
 /Build/net6.0
 
-/Build/Debug/net5.0-windows10.0.18362.0
 /Build/Debug/net6.0-windows10.0.18362.0
-/Build/Debug-Mate
+/Build/Installer
 /Build/Publish
 
 /DGP.Genshin/bin
@@ -23,6 +22,9 @@
 
 /DGP.Genshin.Updater/bin
 /DGP.Genshin.Updater/obj
+
+/DGP.Snap.SGInstaller/bin
+/DGP.Snap.SGInstaller/obj
 
 /Plugins/DGP.Genshin.Sample.Plugin/bin
 /Plugins/DGP.Genshin.Sample.Plugin/obj

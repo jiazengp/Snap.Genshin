@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.Controls.TitleBarButtons;
+﻿using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -10,6 +8,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls.Primitives;
+using Snap.Core.DependencyInjection;
+using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
     /// <summary>
     /// 旅行札记服务
     /// </summary>
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class JourneyViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;

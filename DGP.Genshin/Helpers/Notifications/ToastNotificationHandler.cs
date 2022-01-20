@@ -1,7 +1,7 @@
-﻿using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Services.Abstratcions;
+﻿using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Snap.Core.Logging;
+using Snap.Data.Json;
 
 namespace DGP.Genshin.Helpers.Notifications
 {

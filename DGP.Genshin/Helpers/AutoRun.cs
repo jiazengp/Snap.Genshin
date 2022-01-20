@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common.Exceptions;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+using Snap.Exception;
 using System.Diagnostics;
 
 namespace DGP.Genshin.Helpers

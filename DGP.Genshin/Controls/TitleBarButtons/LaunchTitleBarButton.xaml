@@ -358,7 +358,7 @@
                                 ItemsSource="{Binding Accounts}" 
                                 SelectedItem="{Binding SelectedAccount}"
                                 SelectionMode="Single"
-                                DisplayMemberPath="Name" Padding="0"/>
+                                DisplayMemberPath="Name" Padding="0,0,0,4"/>
                             </s:SmoothScrollViewer>
                         </wu:CardExpander>
                         <wu:CardControl helper:IconHelper.Icon="&#xE74D;" Title="删除当前账号" Subtitle="删除的账号将不会保存" Margin="0,4,0,0">

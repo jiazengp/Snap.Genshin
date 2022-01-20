@@ -1,7 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Threading;
-using DGP.Genshin.DataModels.GachaStatistics;
+﻿using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
@@ -10,6 +7,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Threading;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -18,7 +18,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class GachaStatisticViewModel : ObservableObject
     {
         private readonly IGachaStatisticService gachaStatisticService;

@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModels.Characters;
+﻿using DGP.Genshin.DataModels.Characters;
+using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class WeeklyViewModel
     {
         private readonly MetadataViewModel dataService;

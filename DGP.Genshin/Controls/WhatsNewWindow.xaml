@@ -13,5 +13,5 @@
     <Window.Resources>
         <markdown:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" Markdown="{DynamicResource MarkDown}"/>
     </Window.Resources>
-    <FlowDocumentScrollViewer Margin="12,12,0,12" Document="{Binding ReleaseNote,Converter={StaticResource TextToFlowDocumentConverter}}"/>
+    <FlowDocumentScrollViewer Margin="12,12,12,12" Document="{Binding ReleaseNote,Converter={StaticResource TextToFlowDocumentConverter}}"/>
 </Window>

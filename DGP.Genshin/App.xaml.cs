@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Request;
+﻿using DGP.Genshin.Common.Request;
 using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
 using DGP.Genshin.Core.Plugins;
@@ -15,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
+using Snap.Core.Logging;
+using Snap.Exception;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -113,7 +113,7 @@ namespace DGP.Genshin
         /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
         /// <returns>返回唯一的窗口，未找到返回新实例</returns>
-        public static void BringWindowToFront<TWindow>(string? name = null) where TWindow : Window, new()
+        public static void BringWindowToFront<TWindow>() where TWindow : Window, new()
         {
             TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
 
@@ -160,7 +160,7 @@ namespace DGP.Genshin
                 {
                     ToastNotificationManagerCompat.History.Clear();
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentException) { }
+                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentNullException) { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);
@@ -181,7 +181,7 @@ namespace DGP.Genshin
 
         private void ConfigureRequester()
         {
-            Requester.ResponseFailedCallback = (ex, method, desc) =>
+            Requester.ResponseFailedAction = (ex, method, desc) =>
             Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });
         }
         private void ConfigureWorkingDirectory()

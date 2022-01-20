@@ -1,15 +1,15 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Net.Download;
-using DGP.Genshin.Common.Threading;
-using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Converters;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Exception;
+using Snap.Net.Download;
+using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,8 +20,7 @@ using Windows.UI.Notifications;
 
 namespace DGP.Genshin.Services
 {
-    [Service(typeof(IUpdateService), ServiceType.Singleton)]
-    [Send(typeof(UpdateProgressedMessage))]
+    [Service(typeof(IUpdateService), InjectAs.Singleton)]
     internal class UpdateService : IUpdateService
     {
         private const string UpdateNotificationTag = "snap_genshin_update";

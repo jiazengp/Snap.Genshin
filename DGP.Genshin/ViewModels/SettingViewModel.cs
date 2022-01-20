@@ -1,8 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data;
-using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
@@ -10,6 +6,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Primitive;
+using Snap.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -25,8 +25,7 @@ namespace DGP.Genshin.ViewModels
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
     /// 仅供 <see cref="Pages.SettingsPage"/> 使用
     /// </summary>
-    [ViewModel(ViewModelType.Singleton)]
-    [Send(typeof(NavigateRequestMessage))]
+    [ViewModel(InjectAs.Singleton)]
     public class SettingViewModel : ObservableRecipient, IRecipient<SettingChangedMessage>, IRecipient<UpdateProgressedMessage>
     {
         private readonly ISettingService settingService;

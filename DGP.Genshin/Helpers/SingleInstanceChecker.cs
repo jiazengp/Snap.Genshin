@@ -36,7 +36,7 @@ namespace DGP.Genshin.Helpers
         /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
-        public void Ensure(Application app, Action multiInstancePresentCallback)
+        public void Ensure(Application app, Action multiInstancePresentAction)
         {
             // check if it is already open.
             try
@@ -64,7 +64,7 @@ namespace DGP.Genshin.Helpers
             {
                 while (eventWaitHandle.WaitOne())
                 {
-                    app.Dispatcher.BeginInvoke(multiInstancePresentCallback);
+                    app.Dispatcher.BeginInvoke(multiInstancePresentAction);
                 }
             })
             .Start();

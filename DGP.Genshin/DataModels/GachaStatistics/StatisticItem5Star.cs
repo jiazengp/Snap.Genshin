@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Common.Exceptions;
+﻿using Snap.Exception;
 using System;
 using System.Security.Cryptography;
 using System.Text;

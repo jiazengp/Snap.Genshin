@@ -1,8 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.Common.Threading;
-using DGP.Genshin.Controls.TitleBarButtons;
+﻿using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -13,6 +9,10 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls.Primitives;
+using Snap.Core.DependencyInjection;
+using Snap.Exception;
+using Snap.Extenion.Enumerable;
+using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,7 +21,7 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class SignInViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ISettingService settingService;

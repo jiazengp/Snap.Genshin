@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Messages;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,14 +7,11 @@ namespace DGP.Genshin.Services.Abstratcions
     /// <summary>
     /// 全局Cookie管理服务
     /// </summary>
-    [Send(typeof(CookieChangedMessage))]
     public interface ICookieService
     {
         /// <summary>
         /// 定义Cookie池
         /// </summary>
-        [Send(typeof(CookieAddedMessage))]
-        [Send(typeof(CookieRemovedMessage))]
         public interface ICookiePool : IList<string>
         {
             /// <summary>

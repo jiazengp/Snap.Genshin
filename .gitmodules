@@ -1,12 +1,48 @@
 [submodule "DGP.Genshin.MiHoYoAPI"]
 	path = DGP.Genshin.MiHoYoAPI
 	url = https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI.git
-[submodule "DGP.Genshin.Common"]
-	path = DGP.Genshin.Common
-	url = https://github.com/DGP-Studio/DGP.Genshin.Common.git
 [submodule "DGP.Genshin.DataViewer"]
 	path = DGP.Genshin.DataViewer
 	url = https://github.com/DGP-Studio/DGP.Genshin.DataViewer.git
 [submodule "DGP.Genshin.FPSUnlocking"]
 	path = DGP.Genshin.FPSUnlocking
 	url = https://github.com/DGP-Studio/DGP.Genshin.FPSUnlocking.git
+[submodule "Common/Snap.Core.DependencyInjection"]
+	path = Common/Snap.Core.DependencyInjection
+	url = https://github.com/DGP-Studio/Snap.Core.DependencyInjection.git
+[submodule "Common/Snap.Core.Logging"]
+	path = Common/Snap.Core.Logging
+	url = https://github.com/DGP-Studio/Snap.Core.Logging.git
+[submodule "Common/Snap.Data.Json"]
+	path = Common/Snap.Data.Json
+	url = https://github.com/DGP-Studio/Snap.Data.Json.git
+[submodule "Common/Snap.Data.Primitive"]
+	path = Common/Snap.Data.Primitive
+	url = https://github.com/DGP-Studio/Snap.Data.Primitive.git
+[submodule "Common/Snap.Data.Utility"]
+	path = Common/Snap.Data.Utility
+	url = https://github.com/DGP-Studio/Snap.Data.Utility.git
+[submodule "Common/Snap.Exception"]
+	path = Common/Snap.Exception
+	url = https://github.com/DGP-Studio/Snap.Exception.git
+[submodule "Common/Snap.Extension.Enumerable"]
+	path = Common/Snap.Extension.Enumerable
+	url = https://github.com/DGP-Studio/Snap.Extension.Enumerable.git
+[submodule "Common/Snap.Net.Afdian"]
+	path = Common/Snap.Net.Afdian
+	url = https://github.com/DGP-Studio/Snap.Net.Afdian.git
+[submodule "Common/Snap.Net.Download"]
+	path = Common/Snap.Net.Download
+	url = https://github.com/DGP-Studio/Snap.Net.Download.git
+[submodule "Common/Snap.Net.Networking"]
+	path = Common/Snap.Net.Networking
+	url = https://github.com/DGP-Studio/Snap.Net.Networking.git
+[submodule "Common/Snap.Net.QueryString"]
+	path = Common/Snap.Net.QueryString
+	url = https://github.com/DGP-Studio/Snap.Net.QueryString.git
+[submodule "Common/Snap.Threading"]
+	path = Common/Snap.Threading
+	url = https://github.com/DGP-Studio/Snap.Threading.git
+[submodule "Common/Snap.Win32"]
+	path = Common/Snap.Win32
+	url = https://github.com/DGP-Studio/Snap.Win32.git

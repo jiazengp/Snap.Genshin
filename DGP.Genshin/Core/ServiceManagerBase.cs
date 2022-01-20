@@ -1,7 +1,7 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
+using Snap.Exception;
 using System;
 using System.Reflection;
 
@@ -37,21 +37,31 @@ namespace DGP.Genshin.Core
             //注册服务类型
             if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
             {
-                _ = serviceAttr.ServiceType switch
+                _ = serviceAttr.InjectAs switch
                 {
-                    ServiceType.Singleton => services.AddSingleton(serviceAttr.InterfaceType, type),
-                    ServiceType.Transient => services.AddTransient(serviceAttr.InterfaceType, type),
+                    InjectAs.Singleton => services.AddSingleton(serviceAttr.InterfaceType, type),
+                    InjectAs.Transient => services.AddTransient(serviceAttr.InterfaceType, type),
                     _ => throw new SnapGenshinInternalException($"未知的服务类型 {type}"),
                 };
             }
             //注册视图模型
             if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
             {
-                _ = viewModelAttr.ViewModelType switch
+                _ = viewModelAttr.InjectAs switch
                 {
-                    ViewModelType.Singleton => services.AddSingleton(type),
-                    ViewModelType.Transient => services.AddTransient(type),
+                    InjectAs.Singleton => services.AddSingleton(type),
+                    InjectAs.Transient => services.AddTransient(type),
                     _ => throw new SnapGenshinInternalException($"未知的视图模型类型 {type}"),
+                };
+            }
+            //注册视图
+            if (type.GetCustomAttribute<ViewAttribute>() is ViewAttribute viewAttr)
+            {
+                _ = viewAttr.InjectAs switch
+                {
+                    InjectAs.Singleton => services.AddSingleton(type),
+                    InjectAs.Transient => services.AddTransient(type),
+                    _ => throw new SnapGenshinInternalException($"未知的视图类型 {type}"),
                 };
             }
         }
@@ -77,8 +87,6 @@ namespace DGP.Genshin.Core
         /// <param name="services"></param>
         protected virtual void OnProbingServices(ServiceCollection services)
         {
-            //default messager
-            services.AddSingleton<IMessenger>(App.Messenger);
             //register default services
             RegisterServices(services, typeof(App));
         }

@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Core.Plugins;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Core
@@ -16,6 +17,9 @@ namespace DGP.Genshin.Core
         /// <param name="services"></param>
         protected override void OnProbingServices(ServiceCollection services)
         {
+            //default messager
+            services.AddSingleton<IMessenger>(App.Messenger);
+
             base.OnProbingServices(services);
             //insert plugins services here
             //currently we don't allow dlls only contains services to inject

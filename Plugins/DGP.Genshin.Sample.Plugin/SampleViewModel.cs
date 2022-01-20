@@ -1,20 +1,19 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System.Diagnostics;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Snap.Core.DependencyInjection;
 using System.Windows.Media;
 
 namespace DGP.Genshin.Sample.Plugin
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     internal class SampleViewModel : ObservableObject
     {
-        private IEnumerable<dynamic> icons;
+        private IEnumerable<object> icons;
 
-        public IEnumerable<dynamic> Icons { get => icons; set => SetProperty(ref icons, value); }
+        public IEnumerable<object> Icons { get => icons; set => SetProperty(ref icons, value); }
 
         public SampleViewModel()
         {
-            List<dynamic>? list = new List<dynamic>();
+            List<object>? list = new();
             ICollection<FontFamily>? families = Fonts.GetFontFamilies(@"C:\Windows\Fonts\segmdl2.ttf");
             foreach (FontFamily family in families)
             {
@@ -27,15 +26,10 @@ namespace DGP.Genshin.Sample.Plugin
                     foreach (KeyValuePair<int, ushort> kvp in characterMap)
                     {
                         list.Add(new { Glyph = (char)kvp.Key, Data = kvp.Key });
-                        //Debug.WriteLine(string.Format("{0}:{1}|{0:X8}:{1:X8}", kvp.Key, kvp.Value));
                     }
-
                 }
             }
             icons = list;
-            Debug.WriteLine($"count of list: {list.Count}");
-            //icons = Enumerable.Range(0xE001, 0xF8B3 - 0xE001 + 1)
-            //          .Select(i => new { Glyph = (char)i, Data = i });
         }
     }
 }

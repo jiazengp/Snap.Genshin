@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common.Extensions.System;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
+using Snap.Core.Logging;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Controls.GenshinElements.GachaStatistics

@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Net;
-using DGP.Genshin.Messages;
+﻿using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
+using Snap.Net.Networking;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -13,8 +13,7 @@ namespace DGP.Genshin.ViewModels
     /// <summary>
     /// 启动界面视图模型
     /// </summary>
-    [ViewModel(ViewModelType.Transient)]
-    [Send(typeof(SplashInitializationCompletedMessage))]
+    [ViewModel(InjectAs.Transient)]
     public class SplashViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;

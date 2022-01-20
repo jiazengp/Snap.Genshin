@@ -9,6 +9,7 @@
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu Style="{DynamicResource DefaultContextMenuStyle}">
                 <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
+                <Separator/>
                 <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
                     <MenuItem.ItemContainerStyle>
                         <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">

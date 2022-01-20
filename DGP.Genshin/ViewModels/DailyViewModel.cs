@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Behavior;
-using DGP.Genshin.DataModels.Characters;
+﻿using DGP.Genshin.DataModels.Characters;
 using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Weapons;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Snap.Core.DependencyInjection;
+using Snap.Data.Primitive;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +19,7 @@ namespace DGP.Genshin.ViewModels
     /// <summary>
     /// 日常材料服务
     /// </summary>
-    [ViewModel(ViewModelType.Singleton)]
+    [ViewModel(InjectAs.Singleton)]
     public class DailyViewModel : ObservableObject
     {
         private readonly MetadataViewModel dataViewModel;

@@ -116,22 +116,22 @@ namespace DGP.Genshin.AutoVersion
         {
             if (major < 0)
             {
-                throw new ArgumentOutOfRangeException("major");
+                throw new ArgumentOutOfRangeException(nameof(major));
             }
 
             if (minor < 0)
             {
-                throw new ArgumentOutOfRangeException("minor");
+                throw new ArgumentOutOfRangeException(nameof(minor));
             }
 
             if (build < 0)
             {
-                throw new ArgumentOutOfRangeException("build");
+                throw new ArgumentOutOfRangeException(nameof(build));
             }
 
             if (revision < 0)
             {
-                throw new ArgumentOutOfRangeException("revision");
+                throw new ArgumentOutOfRangeException(nameof(revision));
             }
 
             _Major = major;
@@ -143,17 +143,17 @@ namespace DGP.Genshin.AutoVersion
         {
             if (major < 0)
             {
-                throw new ArgumentOutOfRangeException("major");
+                throw new ArgumentOutOfRangeException(nameof(major));
             }
 
             if (minor < 0)
             {
-                throw new ArgumentOutOfRangeException("minor");
+                throw new ArgumentOutOfRangeException(nameof(minor));
             }
 
             if (build < 0)
             {
-                throw new ArgumentOutOfRangeException("build");
+                throw new ArgumentOutOfRangeException(nameof(build));
             }
 
             _Major = major;
@@ -164,12 +164,12 @@ namespace DGP.Genshin.AutoVersion
         {
             if (major < 0)
             {
-                throw new ArgumentOutOfRangeException("major");
+                throw new ArgumentOutOfRangeException(nameof(major));
             }
 
             if (minor < 0)
             {
-                throw new ArgumentOutOfRangeException("minor");
+                throw new ArgumentOutOfRangeException(nameof(minor));
             }
 
             _Major = major;
@@ -190,7 +190,7 @@ namespace DGP.Genshin.AutoVersion
         }
         public object Clone()
         {
-            VersionEx version = new VersionEx
+            VersionEx version = new()
             {
                 _Major = _Major,
                 _Minor = _Minor,
@@ -364,7 +364,7 @@ namespace DGP.Genshin.AutoVersion
                     return _Major.ToString();
                 case 2:
                     {
-                        StringBuilder stringBuilder = new StringBuilder();
+                        StringBuilder stringBuilder = new();
                         AppendPositiveNumber(_Major, stringBuilder);
                         stringBuilder.Append('.');
                         AppendPositiveNumber(_Minor, stringBuilder);
@@ -394,7 +394,7 @@ namespace DGP.Genshin.AutoVersion
 
                     if (fieldCount == 4)
                     {
-                        StringBuilder stringBuilder = new StringBuilder();
+                        StringBuilder stringBuilder = new();
                         AppendPositiveNumber(_Major, stringBuilder);
                         stringBuilder.Append('.');
                         AppendPositiveNumber(_Minor, stringBuilder);
@@ -423,7 +423,7 @@ namespace DGP.Genshin.AutoVersion
         {
             if (input == null)
             {
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             }
 
             VersionResult result = default(VersionResult);
@@ -517,7 +517,7 @@ namespace DGP.Genshin.AutoVersion
         }
         public static bool operator ==(VersionEx v1, VersionEx v2)
         {
-            return v1?.Equals(v2) ?? ((object)v2 == null);
+            return v1?.Equals(v2) ?? (v2 is null);
         }
 
         public static bool operator !=(VersionEx v1, VersionEx v2)
@@ -527,18 +527,18 @@ namespace DGP.Genshin.AutoVersion
 
         public static bool operator <(VersionEx v1, VersionEx v2)
         {
-            if ((object)v1 == null)
+            if (v1 is null)
             {
-                throw new ArgumentNullException("v1");
+                throw new ArgumentNullException(nameof(v1));
             }
 
             return v1.CompareTo(v2) < 0;
         }
         public static bool operator <=(VersionEx v1, VersionEx v2)
         {
-            if ((object)v1 == null)
+            if (v1 is null)
             {
-                throw new ArgumentNullException("v1");
+                throw new ArgumentNullException(nameof(v1));
             }
 
             return v1.CompareTo(v2) <= 0;

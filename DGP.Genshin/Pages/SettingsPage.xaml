@@ -357,7 +357,7 @@
                     <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE8EE;" Title="立即全部签到" Subtitle="立即对所有账号下的所有角色进行签到" Margin="12,4,16,0">
-                    <Button Content="签到" Command="{Binding AutoDailySignInOnLaunch}"/>
+                    <Button Content="签到" Command="{Binding SignInImmediatelyCommand}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE7ED;" Title="静默签到" Subtitle="签到通知直接进入通知中心，不再直接弹出" Margin="12,12,16,0">
                     <ui:ToggleSwitch Grid.Column="1" IsOn="{Binding SignInSilently}"/>
@@ -368,7 +368,7 @@
                     <ui:ToggleSwitch IsOn="{Binding IsTaskBarIconEnabled}"/>
                 </wu:CardControl>
 
-                <TextBlock Text="小组件" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <TextBlock Text="桌面小组件" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="树脂小组件刷新时间" Subtitle="设置桌面上的树脂小组件（需要启用托盘图标）的刷新间隔时间" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding ResinAutoRefreshTime,Mode=OneWay}" SelectedItem="{Binding SelectedResinAutoRefreshTime}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
@@ -392,20 +392,20 @@
                     <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
                 </wu:CardControl>
 
+                <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
+                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"/>
+                
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="问题与反馈" Subtitle="如果你在使用软件的过程中遇到问题，可以尝试这里的方式" Margin="12,12,16,0">
-                    <StackPanel Margin="12">
-                        <ui:HyperlinkButton NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
-                                            Content="前往 Github 提交 Issue"/>
-                        <ui:HyperlinkButton NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" 
-                                            Content="前往 QQ群[910780153] 反馈"/>
+                    <StackPanel Margin="12" Orientation="Horizontal">
+                        <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
+                                            Content="前往 Github 提交 Issue" Padding="4"/>
+                        <wu:Hyperlink NavigateUri="https://qm.qq.com/cgi-bin/qm/qr?k=K1OglMXZGd-ulewzRDdFOYnSfMBOoNiT&amp;jump_from=webapi" 
+                                            Content="前往 QQ群[910780153] 反馈" Padding="4"/>
                     </StackPanel>
                 </wu:CardExpander>
                 <wu:CardControl helper:IconHelper.Icon="&#xE772;" Title="用户设备ID" Subtitle="{Binding UserId}" Margin="12,4,16,0">
                     <Button Content="复制到剪贴板" Margin="6,0,0,0" Command="{Binding CopyUserIdCommand}"/>
                 </wu:CardControl>
-
-                <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
-                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"/>
             </StackPanel>
         </s:SmoothScrollViewer>
     </Grid>

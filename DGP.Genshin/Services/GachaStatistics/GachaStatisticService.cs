@@ -1,8 +1,8 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModels.GachaStatistics;
+﻿using DGP.Genshin.DataModels.GachaStatistics;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using ModernWpf.Controls;
+using Snap.Core.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace DGP.Genshin.Services.GachaStatistics
     /// <summary>
     /// 抽卡记录服务
     /// </summary>
-    [Service(typeof(IGachaStatisticService), ServiceType.Transient)]
+    [Service(typeof(IGachaStatisticService), InjectAs.Transient)]
     public class GachaStatisticService : IGachaStatisticService
     {
         private readonly LocalGachaLogWorker localGachaLogWorker = new();

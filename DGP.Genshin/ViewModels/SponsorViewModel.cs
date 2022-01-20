@@ -1,14 +1,14 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Net.Afdian;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Snap.Core.DependencyInjection;
+using Snap.Net.Afdian;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     internal class SponsorViewModel : ObservableObject
     {
         private const string UserId = "8f9ed3e87f4911ebacb652540025c377";

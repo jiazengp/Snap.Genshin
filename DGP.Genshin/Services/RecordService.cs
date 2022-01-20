@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.DataModels.MiHoYo2;
+﻿using DGP.Genshin.DataModels.MiHoYo2;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -14,8 +14,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 玩家记录服务的默认实现
     /// </summary>
-    [Service(typeof(IRecordService), ServiceType.Transient)]
-    [Send(typeof(RecordProgressChangedMessage))]
+    [Service(typeof(IRecordService), InjectAs.Transient)]
     internal class RecordService : IRecordService
     {
         private readonly ICookieService cookieService;

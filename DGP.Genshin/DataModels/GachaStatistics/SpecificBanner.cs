@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Common.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Snap.Data.Primitive;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModels.GachaStatistics
@@ -43,4 +43,5 @@ namespace DGP.Genshin.DataModels.GachaStatistics
                 : $"{TotalCount} 抽 | {CurrentName} | {StartTime:yyyy.MM.dd} - {EndTime:yyyy.MM.dd}";
         }
     }
+
 }

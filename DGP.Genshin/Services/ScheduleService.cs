@@ -1,14 +1,13 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Messages;
+﻿using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
 using System;
 using System.Windows.Threading;
 
 namespace DGP.Genshin.Services
 {
-    [Service(typeof(IScheduleService), ServiceType.Singleton)]
-    [Send(typeof(TickScheduledMessage))]
+    [Service(typeof(IScheduleService), InjectAs.Singleton)]
     internal class ScheduleService : IScheduleService, IRecipient<SettingChangedMessage>
     {
         private readonly DispatcherTimer timer;
@@ -29,7 +28,7 @@ namespace DGP.Genshin.Services
         {
             if (message.Value.Key == Setting.ResinRefreshMinutes)
             {
-                //unbox to double then convert to int
+                //unbox to double
                 double minutes = (double)message.Value.Value!;
                 timer.Interval = TimeSpan.FromMinutes(minutes);
             }

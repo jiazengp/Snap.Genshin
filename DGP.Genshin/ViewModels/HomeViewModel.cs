@@ -1,9 +1,9 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.MiHoYoAPI.Blackboard;
+﻿using DGP.Genshin.MiHoYoAPI.Blackboard;
 using DGP.Genshin.MiHoYoAPI.Post;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class HomeViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;

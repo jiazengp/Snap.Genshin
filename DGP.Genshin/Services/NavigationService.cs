@@ -1,12 +1,12 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Controls.Helpers;
+﻿using DGP.Genshin.Controls.Helpers;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using System;
 using System.Linq;
 
@@ -15,7 +15,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 导航服务的默认实现
     /// </summary>
-    [Service(typeof(INavigationService), ServiceType.Transient)]
+    [Service(typeof(INavigationService), InjectAs.Transient)]
     internal class NavigationService : INavigationService
     {
         private NavigationView? navigationView;

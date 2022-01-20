@@ -57,13 +57,21 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1072.54" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="WPF-UI" Version="1.2.2-prerelease116" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DGP.Genshin.Common\DGP.Genshin.Common.csproj" />
+    <ProjectReference Include="..\Common\Snap.Core.DependencyInjection\Snap.Core.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Common\Snap.Core.Logging\Snap.Core.Logging.csproj" />
+    <ProjectReference Include="..\Common\Snap.Exception\Snap.Exception.csproj" />
+    <ProjectReference Include="..\Common\Snap.Extension.Enumerable\Snap.Extension.Enumerable.csproj" />
+    <ProjectReference Include="..\Common\Snap.Net.Afdian\Snap.Net.Afdian.csproj" />
+    <ProjectReference Include="..\Common\Snap.Net.Download\Snap.Net.Download.csproj" />
+    <ProjectReference Include="..\Common\Snap.Net.Networking\Snap.Net.Networking.csproj" />
+    <ProjectReference Include="..\Common\Snap.Net.QueryString\Snap.Net.QueryString.csproj" />
+    <ProjectReference Include="..\Common\Snap.Threading\Snap.Threading.csproj" />
+    <ProjectReference Include="..\Common\Snap.Win32\Snap.Win32.csproj" />
     <ProjectReference Include="..\DGP.Genshin.FPSUnlocking\DGP.Genshin.FPSUnlocking.csproj" />
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
   </ItemGroup>

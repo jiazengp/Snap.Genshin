@@ -1,8 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.Common.Threading;
-using DGP.Genshin.Controls.TitleBarButtons;
+﻿using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
@@ -11,6 +7,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls.Primitives;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Extenion.Enumerable;
+using Snap.Threading;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class DailyNoteViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;

@@ -13,7 +13,7 @@
     <Page.Resources>
         <DataTemplate x:Key="CharacterTemplate">
             <controls:ContentIcon Width="70" Height="70" 
-                                  Margin="0,0,4,4"
+                                  Margin="0,0,6,6"
                                   BadgeUrl="{Binding Element}" 
                                   BackgroundUrl="{Binding Star}" 
                                   ForegroundUrl="{Binding Source}" 

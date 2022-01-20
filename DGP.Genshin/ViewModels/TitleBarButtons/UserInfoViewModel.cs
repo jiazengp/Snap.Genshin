@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Controls.TitleBarButtons;
+﻿using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Cookies;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
@@ -10,6 +9,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
+using Snap.Core.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +19,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class UserInfoViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;

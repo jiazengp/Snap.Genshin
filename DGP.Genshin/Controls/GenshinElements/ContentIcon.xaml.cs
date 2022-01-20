@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Common.Data.Behavior;
+﻿using Snap.Data.Primitive;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -9,6 +10,7 @@ namespace DGP.Genshin.Controls.GenshinElements
     {
         public ContentIcon()
         {
+            PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             Loaded += ContentIcon_Loaded;
             InitializeComponent();
         }

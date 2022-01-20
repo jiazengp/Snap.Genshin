@@ -2,7 +2,6 @@
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,6 +28,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         }
 
         private static int imageUrlHittingCount = 0;
+        private static readonly object compareLocker = new();
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
             "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
@@ -42,16 +42,20 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     }
                     else
                     {
-                        if (imageUrlHittingCount == 0)
+                        lock (compareLocker)
                         {
-                            App.Messenger.Send(new ImageHitBeginMessage());
+                            if (++imageUrlHittingCount == 1)
+                            {
+                                App.Messenger.Send(new ImageHitBeginMessage());
+                            }
                         }
-                        Interlocked.Increment(ref imageUrlHittingCount);
                         memoryStream = await FileCache.HitAsync((string)e.NewValue);
-                        Interlocked.Decrement(ref imageUrlHittingCount);
-                        if (imageUrlHittingCount == 0)
+                        lock (compareLocker)
                         {
-                            App.Messenger.Send(new ImageHitEndMessage());
+                            if (--imageUrlHittingCount == 0)
+                            {
+                                App.Messenger.Send(new ImageHitEndMessage());
+                            }
                         }
                     }
 

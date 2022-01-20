@@ -1,16 +1,13 @@
-﻿using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Helpers;
 using Microsoft.Web.WebView2.Core;
+using Snap.Core.Logging;
+using Snap.Exception;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Pages
 {
-    /// <summary>
-    /// MapPage.xaml 的交互逻辑
-    /// </summary>
     public partial class MapPage : Page, IDisposable
     {
         public MapPage()

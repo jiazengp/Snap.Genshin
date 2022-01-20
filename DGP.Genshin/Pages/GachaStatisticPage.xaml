@@ -820,7 +820,7 @@
         <!--FallBack-->
         <Border d:Visibility="Visible"
                 Grid.RowSpan="2" 
-                Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" 
+                Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}" 
                 Visibility="{Binding Statistic,Converter={StaticResource DataVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{Binding FetchProgress,StringFormat={}正在获取 - {0},TargetNullValue={}}" HorizontalAlignment="Center"/>

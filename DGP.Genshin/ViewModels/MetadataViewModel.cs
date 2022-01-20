@@ -1,7 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Controls.GenshinElements;
+﻿using DGP.Genshin.Controls.GenshinElements;
 using DGP.Genshin.DataModels;
 using DGP.Genshin.DataModels.Characters;
 using DGP.Genshin.DataModels.GachaStatistics;
@@ -18,6 +15,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -33,7 +33,7 @@ namespace DGP.Genshin.ViewModels
     /// 元数据视图模型
     /// 存有各类共享物品数据
     /// </summary>
-    [ViewModel(ViewModelType.Singleton)]
+    [ViewModel(InjectAs.Singleton)]
     public class MetadataViewModel : ObservableRecipient, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
     {
         #region Consts

@@ -1,8 +1,4 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Data.Json;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Controls.Cookies;
+﻿using DGP.Genshin.Controls.Cookies;
 using DGP.Genshin.Helpers.Converters;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
@@ -10,6 +6,10 @@ using DGP.Genshin.Services.Abstratcions;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Json;
+using Snap.Exception;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -25,8 +25,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// TODO 添加 current cookie 启动时校验
     /// </summary>
-    [Service(typeof(ICookieService), ServiceType.Singleton)]
-    [Send(typeof(CookieChangedMessage))]
+    [Service(typeof(ICookieService), InjectAs.Singleton)]
     internal class CookieService : ICookieService
     {
         private const string CookieFile = "cookie.dat";
@@ -37,8 +36,6 @@ namespace DGP.Genshin.Services
         /// <summary>
         /// Cookie池的默认实现，提供Cookie操作事件支持
         /// </summary>
-        [Send(typeof(CookieAddedMessage))]
-        [Send(typeof(CookieRemovedMessage))]
         internal class CookiePool : List<string>, ICookieService.ICookiePool
         {
             private readonly List<string> AccountIds = new();

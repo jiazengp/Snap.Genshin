@@ -1,15 +1,15 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Core.Plugins;
+﻿using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class PluginViewModel : ObservableObject
     {
         private const string PluginFolder = "Plugins";

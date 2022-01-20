@@ -1,11 +1,11 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Extensions.System;
-using DGP.Genshin.Common.Extensions.System.Collections.Generic;
-using DGP.Genshin.Controls.Infrastructures.CachedImage;
+﻿using DGP.Genshin.Controls.Infrastructures.CachedImage;
 using DGP.Genshin.DataModels;
 using DGP.Genshin.DataModels.Characters;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.ViewModels;
+using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ namespace DGP.Genshin.Services
     /// <summary>
     /// 完整性检查服务的默认实现
     /// </summary>
-    [Service(typeof(IIntegrityCheckService), ServiceType.Transient)]
+    [Service(typeof(IIntegrityCheckService), InjectAs.Transient)]
     internal class IntegrityCheckService : IIntegrityCheckService
     {
         private readonly ISettingService settingService;

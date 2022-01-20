@@ -1,12 +1,12 @@
-﻿using DGP.Genshin.Common.Core.DependencyInjection;
-using DGP.Genshin.Common.Exceptions;
-using DGP.Genshin.Messages;
+﻿using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Services.Abstratcions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.DependencyInjection;
+using Snap.Exception;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModels
 {
-    [ViewModel(ViewModelType.Transient)]
+    [ViewModel(InjectAs.Transient)]
     public class PromotionCalculateViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;

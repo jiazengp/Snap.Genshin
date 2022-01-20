@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-using static DGP.Genshin.Common.NativeMethods.User32;
+using static Snap.Win32.NativeMethod.User32;
 
 namespace DGP.Genshin.Helpers.Extensions
 {

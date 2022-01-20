@@ -22,6 +22,10 @@
         <helpers:StarConverter x:Key="StarConverter"/>
         <helpers:StarSolidConverter x:Key="StarSolidConverter"/>
         <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
+
+        <Style TargetType="ui:GridViewItem">
+            <Setter Property="Margin" Value="0,0,6,6"/>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
