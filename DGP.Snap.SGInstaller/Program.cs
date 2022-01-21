@@ -57,7 +57,7 @@ namespace DGP.Snap.SGInstaller
             string installerPath = PathContext.Locate("net-installer.exe");
             Downloader downloader = new(NETRuntime, installerPath);
             downloader.ProgressChanged += (tb, br, p) => Console.WriteLine($@"{p:P2} - {br * 1.0 / 1024 / 1024:F2}MB / {tb * 1.0 / 1024 / 1024:F2}MB");
-            
+
             bool caught = false;
             try
             {

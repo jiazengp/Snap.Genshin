@@ -4,7 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Controls.Infrastructures.SmoothScrollViewer"
-      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+      xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
+      xmlns:infrastructures="clr-namespace:DGP.Genshin.Controls.Infrastructures"
+      xmlns:vm="clr-namespace:DGP.Genshin.ViewModels"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
@@ -13,69 +16,119 @@
             <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Page.Resources>
+        <converters:PercentageToHeightConverter x:Key="PercentageToHeightConverter" TargetWidth="1080" TargetHeight="390"/>
+    </Page.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="公告" Margin="12,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Row="1" Padding="12,0,16,0">
-                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Posts}" Padding="0" Margin="0,6,0,0" SnapsToDevicePixels="True">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,0,0,12">
-                                <Image Source="{Binding Banner}" Height="160" HorizontalAlignment="Stretch" 
-                                       Stretch="UniformToFill" RenderOptions.BitmapScalingMode="Fant"/>
-                                <Grid VerticalAlignment="Bottom" Height="32" Background="{StaticResource SystemControlBackgroundAltMediumBrush}">
-                                    <TextBlock VerticalAlignment="Center" Margin="12,0" Text="{Binding Subject}" TextTrimming="CharacterEllipsis"/>
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </smoothscrollviewer:SmoothScrollViewer>
-        </Grid>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="活动" Margin="12,0,0,6" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Row="1" Padding="0,0,16,0">
-                <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding BlackboardEvents}" Padding="0" Margin="12,6,0,6" SnapsToDevicePixels="True">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="0,0,0,12" Padding="12" CornerRadius="{StaticResource CompatCornerRadius}" Background="{Binding PaddingColor}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding ImgUrl}" Width="32" Height="32" RenderOptions.BitmapScalingMode="Fant"/>
-                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                        <TextBlock Text="{Binding Title}" Style="{StaticResource BaseTextBlockStyle}" Foreground="{Binding FontColor}"/>
-                                        <TextBlock Foreground="{Binding FontColor}" Style="{StaticResource CaptionTextBlockStyle}">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0:yyyy.MM.dd HH:mm} - {1:yyyy.MM.dd HH:mm}">
-                                                    <Binding Path="StartDateTime"/>
-                                                    <Binding Path="EndDateTime"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Grid>
-                                
-                               
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </smoothscrollviewer:SmoothScrollViewer>
-        </Grid>
+        <smoothscrollviewer:SmoothScrollViewer Padding="0,0,4,0">
+            <smoothscrollviewer:SmoothScrollViewer.Resources>
+                <Style x:Key="NavigateButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                    <Setter Property="Command" Value="{Binding OpenAnnouncementUICommand}"/>
+                </Style>
+            </smoothscrollviewer:SmoothScrollViewer.Resources>
+            <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding Announcement.List}" 
+                                  Padding="0" Margin="12,12,0,-24" SnapsToDevicePixels="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding TypeLabel}" Margin="0,0,0,12" Style="{StaticResource TitleTextBlockStyle}"/>
+                            <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding List}" 
+                                  Margin="0,0,0,24" SnapsToDevicePixels="True">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <infrastructures:DesiredWidthUniformGrid ColumnDesiredWidth="332"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,12,12" Padding="0" x:Name="WidthBorder"
+                                            CornerRadius="{StaticResource CompatCornerRadius}" 
+                                            Background="{StaticResource SystemControlPageBackgroundAltHighBrush}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Border CornerRadius="{StaticResource CompatCornerRadiusTop}" RenderOptions.BitmapScalingMode="Fant"
+                                                    Height="{Binding Path=ActualWidth,ElementName=WidthBorder,Converter={StaticResource PercentageToHeightConverter}}">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="{Binding Banner}" Stretch="UniformToFill"/>
+                                                    </Border.Background>
+                                                    <Border CornerRadius="0,4,0,11.5" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                            Background="{StaticResource SystemControlBackgroundAltMediumBrush}" Padding="8,4" 
+                                                            Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding TimeDescription}" />
+                                                    </Border>
+                                                </Border>
+                                                <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                                    <StackPanel  Margin="4" VerticalAlignment="Bottom">
+                                                        <Grid Margin="2,6,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource SubtitleTextBlockStyle}"
+                                                               TextWrapping="NoWrap" TextTrimming="WordEllipsis" />
+                                                            <Button x:Name="OpenAnnouncementButton" Content="&#xE8A7;" FontFamily="{StaticResource SegoeFluentIcons}"
+                                                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                                                                    Grid.Column="1" Background="Transparent"
+                                                                    Visibility="Hidden"
+                                                                    Command="{Binding OpenAnnouncementUICommand}"
+                                                                    CommandParameter="{Binding Content}"/>
+                                                        </Grid>
+                                                        <TextBlock Text="{Binding Title}" Style="{StaticResource BodyTextBlockStyle}" 
+                                                               TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="2,12,0,0" Opacity="0.6"/>
+                                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" FontSize="10" Opacity="0.4" Margin="2,4,0,0">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0:yyyy.MM.dd HH:mm} - {1:yyyy.MM.dd HH:mm}">
+                                                                    <Binding Path="StartTime"/>
+                                                                    <Binding Path="EndTime"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                            <Border.Triggers>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenAnnouncementButton" Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                            <Visibility>Visible</Visibility>
+                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                    </DiscreteObjectKeyFrame>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenAnnouncementButton" Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                            <Visibility>Hidden</Visibility>
+                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                    </DiscreteObjectKeyFrame>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                            </Border.Triggers>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </smoothscrollviewer:SmoothScrollViewer>
     </Grid>
 </Page>

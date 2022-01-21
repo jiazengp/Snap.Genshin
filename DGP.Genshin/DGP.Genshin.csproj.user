@@ -12,6 +12,9 @@
     <Compile Update="Controls\ExceptionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\GenshinElements\AnnouncementWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\GenshinElements\DailyNoteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +34,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\WebView2RuntimeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\WhatsNewWindow.xaml.cs">
@@ -53,6 +59,9 @@
     <Page Update="Controls\ExceptionWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\GenshinElements\AnnouncementWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\GenshinElements\DailyNoteWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -69,6 +78,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebView2RuntimeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\WhatsNewWindow.xaml">

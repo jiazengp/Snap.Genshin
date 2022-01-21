@@ -1,9 +1,9 @@
-﻿using DGP.Genshin.Common.Request;
-using DGP.Genshin.Controls;
+﻿using DGP.Genshin.Controls;
 using DGP.Genshin.Core;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Helpers.Notifications;
+using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Services.Abstratcions;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter;

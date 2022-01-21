@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Common.Request;
-using DGP.Genshin.Common.Response;
-using DGP.Genshin.MiHoYoAPI.Gacha;
+﻿using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.MiHoYoAPI.Request;
+using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Services.Abstratcions;
 using Snap.Core.Logging;
 using Snap.Net.QueryString;

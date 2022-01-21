@@ -9,9 +9,11 @@
 
 ### 赞助
 
-如果你觉得我们的软件做的还不错，欢迎对我们投喂
+|如果你觉得我们的软件做的还不错，欢迎对我们投喂|
+|-|
 
-[爱发电](https://afdian.net/@DismissedLight) 
+|[爱发电](https://afdian.net/@DismissedLight)|
+|-|
 
 ### 前往下载
 仅供学习使用，请勿用于商业用途
@@ -28,9 +30,9 @@
 
 > **最低：Windows 10 1903 - 10.0.18362.x**  
 > 推荐：Windows 11 21H1 - 10.0.22000.x  
-> 运行时：.NET 6 [下载 .NET 6 桌面运行时](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-6.0.0-windows-x64-installer)  
-> 运行时内存需求：300MB  
-> 储存空间需求：500MB  
+> 运行时：.NET 6 [WebView2 Runtime 可选]  
+> 运行时内存需求：200MB  
+> 储存空间需求：300MB  
 
 
 # 标题栏
@@ -42,6 +44,12 @@
 > 显示米游社实时便笺，树脂余量、探索派遣，了如指掌
 
 ![标题栏按钮.png](/Design/ImgAssets/titlebarbuttons.png)
+
+# 主页
+
+> 显示公告
+
+![home.png](/Design/ImgAssets/home.png)
 
 # 祈愿记录
 
@@ -62,6 +70,13 @@
 
 ![record.png](/Design/ImgAssets/record.png)
 
+# 养成计算
+
+> 同步玩家角色武器信息
+> 灵活计算
+
+![promotion.png](/Design/ImgAssets/promotion.png)
+
 </div>
 
 # 反馈须知
@@ -77,23 +92,7 @@
 # 开发人员
 
 如果你是一位正在编写原神相关程序的开发者，可以加入我们的QQ群  
-群内有很多拥有相关开发经验的大佬，可以一起探讨学习
-
-## 我们的方案
-
-* [DGP.Genshin.Common](https://github.com/DGP-Studio/DGP.Genshin.Common)  
-公共基础组件库
-
-* [DGP.Genshin.DataViewer](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
-解包数据可视化
-
-* [DGP.Genshin.MiHoYoAPI](https://github.com/DGP-Studio/DGP.Genshin.MiHoYoAPI)  
-米哈游原神API交互
-
-* [DGP.Genshin.FPSUnlocking](https://github.com/DGP-Studio/DGP.Genshin.FPSUnlocking)  
-FPS上限解锁，重新封装
-
-## 插件系统
+群内有很多拥有相关开发经验的大佬，可以一起探讨学
 
 * Snap Genshin 正在进行实验性的插件功能测试  
 欢迎有能力、感兴趣的开发者进行插件的开发

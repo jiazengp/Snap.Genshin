@@ -393,8 +393,10 @@
                 </wu:CardControl>
 
                 <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
-                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"/>
-                
+                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
+                               Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+
+
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="问题与反馈" Subtitle="如果你在使用软件的过程中遇到问题，可以尝试这里的方式" Margin="12,12,16,0">
                     <StackPanel Margin="12" Orientation="Horizontal">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 

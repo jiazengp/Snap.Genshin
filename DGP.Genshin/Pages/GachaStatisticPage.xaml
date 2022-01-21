@@ -161,7 +161,7 @@
                 <s:SmoothScrollViewer Padding="12,0">
                     <StackPanel Margin="0,0,0,12">
                         <!--角色祈愿-->
-                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
                                 CornerRadius="{StaticResource CompatCornerRadius}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -265,7 +265,7 @@
                         </Border>
 
                         <!--武器祈愿-->
-                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
                                 CornerRadius="{StaticResource CompatCornerRadius}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -363,7 +363,7 @@
                         </Border>
 
                         <!--常驻祈愿-->
-                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                        <Border Margin="0,12,4,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
                                 CornerRadius="{StaticResource CompatCornerRadius}">
                             <Grid>
                                 <Grid.ColumnDefinitions>

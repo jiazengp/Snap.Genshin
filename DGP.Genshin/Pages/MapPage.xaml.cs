@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.Helpers;
+﻿using DGP.Genshin.Controls;
+using DGP.Genshin.Helpers;
 using Microsoft.Web.WebView2.Core;
 using Snap.Core.Logging;
 using Snap.Exception;
@@ -18,6 +19,7 @@ namespace DGP.Genshin.Pages
             }
             else
             {
+                new WebView2RuntimeWindow().ShowDialog();
                 throw new SnapGenshinInternalException("未找到可用的 WebView2运行时 安装");
             }
         }
@@ -31,33 +33,20 @@ namespace DGP.Genshin.Pages
         }
         protected virtual void Dispose(bool disposing)
         {
-            // Check to see if Dispose has already been called.
             if (!disposed)
             {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
                 if (disposing)
                 {
-                    // Dispose managed resources.
+                    //managed
                 }
-
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
-
                 //WebView2 can still be null
                 App.Current.Dispatcher.Invoke(() => WebView?.Dispose());
 
-                // Note disposing has been done.
                 disposed = true;
             }
         }
         ~MapPage()
         {
-            // Do not re-create Dispose clean-up code here.
-            // Calling Dispose(disposing: false) is optimal in terms of
-            // readability and maintainability.
             Dispose(false);
         }
         #endregion
@@ -67,7 +56,8 @@ namespace DGP.Genshin.Pages
             await Task.Delay(2000);
             //在此处操作WebView，移除右下角 二维码 Banner
             string result = await WebView.ExecuteScriptAsync(
-                "var divs=document.getElementsByClassName(\"bbs-qr\");for(i=0;i<divs.length;i++){if(divs[i]!=null)divs[i].parentNode.removeChild(divs[i])}");
+                "var divs=document.getElementsByClassName(\"bbs-qr\");" +
+                "for(i=0;i<divs.length;i++){if(divs[i]!=null)divs[i].parentNode.removeChild(divs[i])}");
             this.Log(result);
         }
     }
