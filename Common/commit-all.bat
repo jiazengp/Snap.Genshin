@@ -1,0 +1,1 @@
+git submodule foreach "git commit -am 'too mush to manually push' || echo ' '"
