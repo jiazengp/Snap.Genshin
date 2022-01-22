@@ -64,6 +64,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Snap.Core.DependencyInjection\Snap.Core.DependencyInjection.csproj" />
     <ProjectReference Include="..\Common\Snap.Core.Logging\Snap.Core.Logging.csproj" />
+    <ProjectReference Include="..\Common\Snap.Core.Mvvm\Snap.Core.Mvvm.csproj" />
     <ProjectReference Include="..\Common\Snap.Exception\Snap.Exception.csproj" />
     <ProjectReference Include="..\Common\Snap.Extension.Enumerable\Snap.Extension.Enumerable.csproj" />
     <ProjectReference Include="..\Common\Snap.Net.Afdian\Snap.Net.Afdian.csproj" />

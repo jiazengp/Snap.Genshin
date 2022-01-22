@@ -28,29 +28,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{53FDC0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.DependencyInjection", "Common\Snap.Core.DependencyInjection\Snap.Core.DependencyInjection.csproj", "{AD9E2A98-41C6-4AF3-B4F5-298405D88EA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Exception", "Common\Snap.Exception\Snap.Exception.csproj", "{AF747EF6-E01E-43B3-8FBB-6FD044EA401B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Exception", "Common\Snap.Exception\Snap.Exception.csproj", "{AF747EF6-E01E-43B3-8FBB-6FD044EA401B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Core.Logging", "Common\Snap.Core.Logging\Snap.Core.Logging.csproj", "{F6C0113D-0574-4FC5-BA03-E27A77B289BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.Logging", "Common\Snap.Core.Logging\Snap.Core.Logging.csproj", "{F6C0113D-0574-4FC5-BA03-E27A77B289BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Threading", "Common\Snap.Threading\Snap.Threading.csproj", "{CC6B0055-C84C-425A-A351-15599429FAF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Threading", "Common\Snap.Threading\Snap.Threading.csproj", "{CC6B0055-C84C-425A-A351-15599429FAF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Net.QueryString", "Common\Snap.Net.QueryString\Snap.Net.QueryString.csproj", "{A0CF8B25-EB2E-4EEC-96FD-7BD914CD496A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Net.QueryString", "Common\Snap.Net.QueryString\Snap.Net.QueryString.csproj", "{A0CF8B25-EB2E-4EEC-96FD-7BD914CD496A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Net.Afdian", "Common\Snap.Net.Afdian\Snap.Net.Afdian.csproj", "{C9544B3C-5A30-450E-A018-CD5A68E0C2A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Net.Afdian", "Common\Snap.Net.Afdian\Snap.Net.Afdian.csproj", "{C9544B3C-5A30-450E-A018-CD5A68E0C2A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Net.Download", "Common\Snap.Net.Download\Snap.Net.Download.csproj", "{29141874-CBF6-446E-B62D-C7908D4E8275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Net.Download", "Common\Snap.Net.Download\Snap.Net.Download.csproj", "{29141874-CBF6-446E-B62D-C7908D4E8275}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Net.Networking", "Common\Snap.Net.Networking\Snap.Net.Networking.csproj", "{6BBDAE51-D93F-41B9-B08E-13C6241BA0C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Net.Networking", "Common\Snap.Net.Networking\Snap.Net.Networking.csproj", "{6BBDAE51-D93F-41B9-B08E-13C6241BA0C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Win32", "Common\Snap.Win32\Snap.Win32.csproj", "{7B1DF90B-D9C4-4FF5-A965-BA23FF31E24E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Win32", "Common\Snap.Win32\Snap.Win32.csproj", "{7B1DF90B-D9C4-4FF5-A965-BA23FF31E24E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Data.Primitive", "Common\Snap.Data.Primitive\Snap.Data.Primitive.csproj", "{A698B070-727B-4154-8706-32B2F45E0FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Data.Primitive", "Common\Snap.Data.Primitive\Snap.Data.Primitive.csproj", "{A698B070-727B-4154-8706-32B2F45E0FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Data.Utility", "Common\Snap.Data.Utility\Snap.Data.Utility.csproj", "{88A37011-DD09-4AE7-81E4-A6066E00A0C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Data.Utility", "Common\Snap.Data.Utility\Snap.Data.Utility.csproj", "{88A37011-DD09-4AE7-81E4-A6066E00A0C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Data.Json", "Common\Snap.Data.Json\Snap.Data.Json.csproj", "{D09A8D83-7406-4328-9953-BBCF0E5FFDA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Extension.Enumerable", "Common\Snap.Extension.Enumerable\Snap.Extension.Enumerable.csproj", "{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Extension.Enumerable", "Common\Snap.Extension.Enumerable\Snap.Extension.Enumerable.csproj", "{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Core.Mvvm", "Common\Snap.Core.Mvvm\Snap.Core.Mvvm.csproj", "{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +222,14 @@ Global
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}.Release|x64.ActiveCfg = Release|Any CPU
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}.Release|x64.Build.0 = Release|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Debug|x64.Build.0 = Debug|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Release|x64.ActiveCfg = Release|Any CPU
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,6 +249,7 @@ Global
 		{88A37011-DD09-4AE7-81E4-A6066E00A0C3} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{D09A8D83-7406-4328-9953-BBCF0E5FFDA1} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
+		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

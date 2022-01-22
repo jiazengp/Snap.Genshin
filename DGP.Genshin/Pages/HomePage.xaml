@@ -7,7 +7,7 @@
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
       xmlns:converters="clr-namespace:DGP.Genshin.Controls.Converters" 
       xmlns:infrastructures="clr-namespace:DGP.Genshin.Controls.Infrastructures"
-      xmlns:vm="clr-namespace:DGP.Genshin.ViewModels"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
@@ -69,7 +69,7 @@
                                                             </Grid.ColumnDefinitions>
                                                             <TextBlock Text="{Binding Subtitle}" Style="{StaticResource SubtitleTextBlockStyle}"
                                                                TextWrapping="NoWrap" TextTrimming="WordEllipsis" />
-                                                            <Button x:Name="OpenAnnouncementButton" Content="&#xE8A7;" FontFamily="{StaticResource SegoeFluentIcons}"
+                                                            <Button x:Name="OpenAnnouncementButton" Content="&#xE8A7;" FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                                                     Grid.Column="1" Background="Transparent"
                                                                     Visibility="Hidden"
@@ -130,5 +130,13 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </smoothscrollviewer:SmoothScrollViewer>
+        <Border Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}"
+                Visibility="{Binding IsOpeningUI,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="加载中" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center"/>
+                <ui:ProgressBar Width="240" IsIndeterminate="True" Margin="0,12,0,0"/>
+            </StackPanel>
+            
+        </Border>
     </Grid>
 </Page>

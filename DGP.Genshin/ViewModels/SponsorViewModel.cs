@@ -15,7 +15,6 @@ namespace DGP.Genshin.ViewModels
         private const string Token = "Th98JamKvc5FHYyErgM4d6spAXGVwbPD";
 
         private List<Sponsor>? sponsors;
-        private ICommand? openUICommand;
 
         public List<Sponsor>? Sponsors
         {
@@ -23,13 +22,11 @@ namespace DGP.Genshin.ViewModels
             set => SetProperty(ref sponsors, value);
         }
 
-        public ICommand OpenUICommand
+        public ICommand OpenUICommand { get; }
+
+        public SponsorViewModel()
         {
-            get
-            {
-                openUICommand ??= new AsyncRelayCommand(OpenUIAsync);
-                return openUICommand;
-            }
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         }
 
         private async Task OpenUIAsync()

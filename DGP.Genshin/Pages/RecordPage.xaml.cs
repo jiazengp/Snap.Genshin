@@ -16,10 +16,10 @@ namespace DGP.Genshin.Pages
 
         private RecordViewModel ViewModel => (RecordViewModel)DataContext;
 
-        private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-            await ViewModel.QueryCommand.ExecuteAsync(uid);
+            ViewModel.QueryCommand.Execute(uid);
         }
     }
 }

@@ -10,19 +10,20 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using Snap.Threading;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(InjectAs.Transient)]
-    public class SignInViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
+    public class SignInViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
     {
         private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
@@ -31,8 +32,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         private SignInInfo? signInInfo;
         private List<UserGameRole> roles = new();
         private UserGameRole? selectedRole;
-        private IAsyncRelayCommand<TitleBarButton> openUICommand;
-        private IAsyncRelayCommand signInCommand;
 
         /// <summary>
         /// 签到奖励一览
@@ -64,13 +63,9 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public UserGameRole? SelectedRole
         {
             get => selectedRole;
-            set
-            {
-                SetProperty(ref selectedRole, value);
-                OnSelectedRoleChanged();
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedRole, value, OnSelectedRoleChanged);
         }
-        private async void OnSelectedRoleChanged()
+        [PropertyChangedCallback] private async void OnSelectedRoleChanged()
         {
             if (SelectedRole is not null)
             {
@@ -91,19 +86,9 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 item.Opacity = i + 1 <= SignInInfo?.TotalSignDay ? 0.2 : 1;
             }
         }
-        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
 
-        public IAsyncRelayCommand SignInCommand
-        {
-            get => signInCommand;
-            [MemberNotNull(nameof(signInCommand))]
-            set => SetProperty(ref signInCommand, value);
-        }
+        public ICommand OpenUICommand { get; }
+        public ICommand SignInCommand { get; }
 
         public SignInViewModel(ISettingService settingService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -112,12 +97,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             SignInCommand = new AsyncRelayCommand(SignInAsync);
-
-            IsActive = true;
-        }
-        ~SignInViewModel()
-        {
-            IsActive = false;
         }
 
         //prevent multiple signin task
@@ -157,7 +136,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         {
             if (t?.ShowAttachedFlyout<Grid>(this) == true)
             {
-                await InitializeInternalAsync();
+                await OpenUIInternalAsync();
                 new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
             }
         }
@@ -165,7 +144,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         /// 初始化 <see cref="SignInReward"/> 与 <see cref="SignInInfo"/>
         /// </summary>
         /// <returns></returns>
-        private async Task InitializeInternalAsync()
+        private async Task OpenUIInternalAsync()
         {
             SignInReward ??= await new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync();
             if (SignInInfo is null)

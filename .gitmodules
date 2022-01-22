@@ -46,3 +46,6 @@
 [submodule "Common/Snap.Win32"]
 	path = Common/Snap.Win32
 	url = https://github.com/DGP-Studio/Snap.Win32.git
+[submodule "Common/Snap.Core.Mvvm"]
+	path = Common/Snap.Core.Mvvm
+	url = https://github.com/DGP-Studio/Snap.Core.Mvvm.git

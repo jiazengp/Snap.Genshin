@@ -4,15 +4,14 @@ using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,69 +19,38 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(InjectAs.Transient)]
-    public class UserInfoViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
+    public class UserInfoViewModel : ObservableRecipient2, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
         private UserInfoTitleBarButton? View;
 
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
-        private IRelayCommand<TitleBarButton> opneUICommand;
-        private IAsyncRelayCommand removeUserCommand;
-        private IAsyncRelayCommand addUserCommand;
-        private ICommand loadCommand;
 
         public CookieUserInfo? SelectedCookieUserInfo
         {
-            get => selectedCookieUserInfo; set
-            {
-                SetProperty(ref selectedCookieUserInfo, value);
-                cookieService.ChangeOrIgnoreCurrentCookie(value?.Cookie);
-            }
+            get => selectedCookieUserInfo;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserInfo, value, v => cookieService.ChangeOrIgnoreCurrentCookie(v?.Cookie));
         }
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
             get => cookieUserInfos;
             set => SetProperty(ref cookieUserInfos, value);
         }
-        public IRelayCommand<TitleBarButton> OpenUICommand
-        {
-            get => opneUICommand;
-            [MemberNotNull(nameof(opneUICommand))]
-            set => SetProperty(ref opneUICommand, value);
-        }
-        public ICommand LoadCommand
-        {
-            get => loadCommand;
-            [MemberNotNull(nameof(loadCommand))]
-            set => SetProperty(ref loadCommand, value);
-        }
-        public IAsyncRelayCommand RemoveUserCommand
-        {
-            get => removeUserCommand;
-            [MemberNotNull(nameof(removeUserCommand))]
-            set => SetProperty(ref removeUserCommand, value);
-        }
-        public IAsyncRelayCommand AddUserCommand
-        {
-            get => addUserCommand;
-            [MemberNotNull(nameof(addUserCommand))]
-            set => SetProperty(ref addUserCommand, value);
-        }
+
+        public ICommand OpenUICommand { get; }
+        public ICommand LoadCommand { get; }
+        public ICommand RemoveUserCommand { get; }
+        public ICommand AddUserCommand { get; }
 
         public UserInfoViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
-            LoadCommand = new AsyncRelayCommand(InitializeInternalAsync);
+
+            LoadCommand = new AsyncRelayCommand(OpenUIInternalAsync);
             OpenUICommand = new RelayCommand<TitleBarButton>(OpenUI);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
             AddUserCommand = new AsyncRelayCommand(AddUserAsync);
-
-            IsActive = true;
-        }
-        ~UserInfoViewModel()
-        {
-            IsActive = false;
         }
 
         private async Task AddUserAsync()
@@ -133,7 +101,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
             }
         }
-        internal async Task InitializeInternalAsync()
+        internal async Task OpenUIInternalAsync()
         {
             foreach (string cookie in cookieService.Cookies)
             {

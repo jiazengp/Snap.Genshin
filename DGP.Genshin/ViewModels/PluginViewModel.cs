@@ -6,6 +6,7 @@ using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -15,7 +16,6 @@ namespace DGP.Genshin.ViewModels
         private const string PluginFolder = "Plugins";
 
         private IEnumerable<IPlugin> plugins;
-        private IRelayCommand openPluginFolderCommand;
 
         public IEnumerable<IPlugin> Plugins
         {
@@ -23,12 +23,8 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(plugins))]
             set => SetProperty(ref plugins, value);
         }
-        public IRelayCommand OpenPluginFolderCommand
-        {
-            get => openPluginFolderCommand;
-            [MemberNotNull(nameof(openPluginFolderCommand))]
-            set => openPluginFolderCommand = value;
-        }
+
+        public ICommand OpenPluginFolderCommand { get; }
 
         public PluginViewModel()
         {

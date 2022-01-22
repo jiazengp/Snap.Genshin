@@ -17,6 +17,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
+using Snap.Core.Mvvm;
 using Snap.Data.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.ViewModels
@@ -34,7 +36,7 @@ namespace DGP.Genshin.ViewModels
     /// 存有各类共享物品数据
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class MetadataViewModel : ObservableRecipient, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
+    public class MetadataViewModel : ObservableRecipient2, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -275,40 +277,16 @@ namespace DGP.Genshin.ViewModels
         #endregion
 
         #region Command
-        private IRelayCommand characterInitializeCommand;
-        private IRelayCommand filterCharacterCommand;
-        private IRelayCommand gachaSplashCommand;
-        private IRelayCommand weaponInitializeCommand;
-
-        public IRelayCommand CharacterInitializeCommand
-        {
-            get => characterInitializeCommand;
-            [MemberNotNull(nameof(characterInitializeCommand))]
-            set => SetProperty(ref characterInitializeCommand, value);
-        }
-        public IRelayCommand WeaponInitializeCommand
-        {
-            get => weaponInitializeCommand;
-            set => SetProperty(ref weaponInitializeCommand, value);
-        }
-        public IRelayCommand FilterCharacterCommand
-        {
-            get => filterCharacterCommand;
-            [MemberNotNull(nameof(filterCharacterCommand))]
-            set => SetProperty(ref filterCharacterCommand, value);
-        }
-        public IRelayCommand GachaSplashCommand
-        {
-            get => gachaSplashCommand;
-            [MemberNotNull(nameof(gachaSplashCommand))]
-            set => SetProperty(ref gachaSplashCommand, value);
-        }
+        public ICommand CharacterInitializeCommand { get; }
+        public ICommand WeaponInitializeCommand { get; }
+        public ICommand FilterCharacterCommand { get; }
+        public ICommand GachaSplashCommand { get; }
         #endregion
 
         public MetadataViewModel()
         {
             CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
-            weaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
+            WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
             FilterCharacterCommand = new RelayCommand(FilterCharacterAndWeapon);
             GachaSplashCommand = new RelayCommand(() =>
             {
@@ -318,11 +296,6 @@ namespace DGP.Genshin.ViewModels
                     Owner = App.Current.MainWindow
                 }.ShowDialog();
             });
-            IsActive = true;
-        }
-        ~MetadataViewModel()
-        {
-            IsActive = false;
         }
 
         /// <summary>
@@ -343,6 +316,13 @@ namespace DGP.Genshin.ViewModels
                     }
                 };
             }
+
+            public new void Hide()
+            {
+                AllowHide = true;
+                base.Hide();
+                AllowHide = false;
+            }
         }
 
         private readonly BlockingDialog uiBlockingDaialog = new();
@@ -354,9 +334,7 @@ namespace DGP.Genshin.ViewModels
 
         public void Receive(ImageHitEndMessage message)
         {
-            uiBlockingDaialog.AllowHide = true;
             uiBlockingDaialog.Hide();
-            uiBlockingDaialog.AllowHide = false;
         }
 
         #region Helper

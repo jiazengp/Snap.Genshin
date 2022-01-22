@@ -1,36 +1,33 @@
 ﻿using DGP.Genshin.DataModels.MiHoYo2;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Threading;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(InjectAs.Transient)]
-    public class RecordViewModel : ObservableRecipient, IRecipient<RecordProgressChangedMessage>
+    public class RecordViewModel : ObservableRecipient2, IRecipient<RecordProgressChangedMessage>
     {
         private readonly IRecordService recordService;
-        public IRecordService RecordService => recordService;
 
+        private readonly TaskPreventer updateRecordTaskPreventer = new();
 
         private Record? currentRecord;
-        private IAsyncRelayCommand<string?> queryCommand;
         private string? stateDescription;
 
         public Record? CurrentRecord { get => currentRecord; set => SetProperty(ref currentRecord, value); }
         public string? StateDescription { get => stateDescription; set => SetProperty(ref stateDescription, value); }
-        public IAsyncRelayCommand<string?> QueryCommand
+        public ICommand QueryCommand
         {
-            get => queryCommand;
-            [MemberNotNull(nameof(queryCommand))]
-            set => SetProperty(ref queryCommand, value);
+            get;
         }
 
         public RecordViewModel(IRecordService recordService, IMessenger messenger) : base(messenger)
@@ -38,16 +35,8 @@ namespace DGP.Genshin.ViewModels
             this.recordService = recordService;
 
             QueryCommand = new AsyncRelayCommand<string?>(UpdateRecordAsync);
-
-            IsActive = true;
         }
 
-        ~RecordViewModel()
-        {
-            IsActive = false;
-        }
-
-        private readonly TaskPreventer updateRecordTaskPreventer = new();
         private async Task UpdateRecordAsync(string? uid)
         {
             if (updateRecordTaskPreventer.ShouldExecute)

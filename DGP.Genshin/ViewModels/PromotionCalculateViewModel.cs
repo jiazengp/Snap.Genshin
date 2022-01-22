@@ -2,20 +2,20 @@
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Exception;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(InjectAs.Transient)]
-    public class PromotionCalculateViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
+    public class PromotionCalculateViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;
 
@@ -28,8 +28,6 @@ namespace DGP.Genshin.ViewModels
         private Avatar? selectedAvatar;
         private AvatarDetailData? avatarDetailData;
         private Consumption? consumption = new();
-        private IAsyncRelayCommand openUICommand;
-        private IAsyncRelayCommand computeCommand;
 
         public IEnumerable<UserGameRole>? UserGameRoles
         {
@@ -39,13 +37,9 @@ namespace DGP.Genshin.ViewModels
         public UserGameRole? SelectedUserGameRole
         {
             get => selectedUserGameRole;
-            set
-            {
-                SetProperty(ref selectedUserGameRole, value);
-                UpdateAvatarListAsync();
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarList);
         }
-        private async void UpdateAvatarListAsync()
+        [PropertyChangedCallback] private async void UpdateAvatarList()
         {
             if (SelectedUserGameRole is not null)
             {
@@ -63,13 +57,9 @@ namespace DGP.Genshin.ViewModels
         public Avatar? SelectedAvatar
         {
             get => selectedAvatar;
-            set
-            {
-                SetProperty(ref selectedAvatar, value);
-                UpdateAvatarDetailDataAsync();
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailDataAsync);
         }
-        private async void UpdateAvatarDetailDataAsync()
+        [PropertyChangedCallback] private async void UpdateAvatarDetailDataAsync()
         {
             if (SelectedUserGameRole is not null && SelectedAvatar is not null)
             {
@@ -100,18 +90,9 @@ namespace DGP.Genshin.ViewModels
             get => consumption;
             set => SetProperty(ref consumption, value);
         }
-        public IAsyncRelayCommand OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
-        public IAsyncRelayCommand ComputeCommand
-        {
-            get => computeCommand;
-            [MemberNotNull(nameof(computeCommand))]
-            set => SetProperty(ref computeCommand, value);
-        }
+
+        public ICommand OpenUICommand { get; }
+        public ICommand ComputeCommand { get; }
 
         public PromotionCalculateViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -122,13 +103,8 @@ namespace DGP.Genshin.ViewModels
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             ComputeCommand = new AsyncRelayCommand(ComputeAsync);
+        }
 
-            IsActive = true;
-        }
-        ~PromotionCalculateViewModel()
-        {
-            IsActive = false;
-        }
         private async Task OpenUIAsync()
         {
             UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();

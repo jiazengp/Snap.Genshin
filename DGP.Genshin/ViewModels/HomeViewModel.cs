@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -18,75 +17,81 @@ namespace DGP.Genshin.ViewModels
     [ViewModel(InjectAs.Transient)]
     public class HomeViewModel : ObservableObject
     {
-        private IAsyncRelayCommand initializeCommand;
         private AnnouncementWrapper? announcement;
+        private bool isOpeningUI;
 
         public AnnouncementWrapper? Announcement
         {
             get => announcement;
             set => SetProperty(ref announcement, value);
         }
-        public IAsyncRelayCommand OpenUICommand
-        {
-            get => initializeCommand;
-            [MemberNotNull(nameof(initializeCommand))]
-            set => SetProperty(ref initializeCommand, value);
+        public bool IsOpeningUI 
+        { 
+            get => isOpeningUI;
+            set => SetProperty(ref isOpeningUI, value);
         }
+        public ICommand OpenUICommand { get; }
+        public ICommand OpenAnnouncementUICommand { get; }
 
-        public ICommand OpenAnnouncementUICommand
-        {
-            get;
-        }
         public HomeViewModel()
         {
-            OpenUICommand = new AsyncRelayCommand(InitializeAsync);
-            OpenAnnouncementUICommand = new RelayCommand<string>(NavigateToAnnouncement);
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
         }
 
-        /// <summary>
-        /// 加载公告与活动
-        /// </summary>
-        private async Task InitializeAsync()
+        private async Task OpenUIAsync()
         {
+            IsOpeningUI = true;
             AnnouncementProvider provider = new();
             AnnouncementWrapper? wrapper = await provider.GetAnnouncementWrapperAsync();
             List<AnnouncementContent> contents = await provider.GetAnnouncementContentsAsync();
 
             Dictionary<int, string?> contentMap = contents.ToDictionary(id => id.AnnId, iContent => iContent.Content);
-            wrapper?.List?.Reverse();
-            wrapper?.List?.ForEach(listWrapper =>
+            if (wrapper is not null)
             {
-                listWrapper.List?.ForEach(item =>
-{
-    item.Content = contentMap[item.AnnId];
-    item.OpenAnnouncementUICommand = OpenAnnouncementUICommand;
-});
-            });
-            wrapper?.List?[0].List?.ForEach(item =>
-            {
-                Match match = Regex.Match(item.Content ?? "", @"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                if (match.Success)
+                if (wrapper.List is List<AnnouncementListWrapper> announcementListWrappers)
                 {
-                    DateTime time = DateTime.Parse(match.Value);
-                    if (time > item.StartTime && time < item.EndTime)
+                    //将活动公告置于上方
+                    announcementListWrappers.Reverse();
+
+                    announcementListWrappers.ForEach(listWrapper =>
                     {
-                        item.StartTime = time;
+                        listWrapper.List?.ForEach(item =>
+                        {
+                            item.Content = contentMap[item.AnnId];
+                            item.OpenAnnouncementUICommand = OpenAnnouncementUICommand;
+                        });
+                    });
+
+                    if (announcementListWrappers[0].List is List<Announcement> activities)
+                    {
+                        //Match d+/d+/d+ d+:d+:d+
+                        Regex regex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                        activities.ForEach(item =>
+                        {
+                            Match matched = regex.Match(item.Content ?? "");
+                            if (matched.Success && DateTime.TryParse(matched.Value, out DateTime time))
+                            {
+                                if (time > item.StartTime && time < item.EndTime)
+                                {
+                                    item.StartTime = time;
+                                }
+                            }
+                        });
+
+                        wrapper.List[0].List = activities.OrderBy(i => i.StartTime).ThenBy(i => i.EndTime).ToList();
                     }
+
+                    Announcement = wrapper;
                 }
-            });
-
-            if (wrapper?.List?[0].List is not null)
-            {
-                wrapper.List[0].List = wrapper?.List?[0].List?.OrderBy(i => i.StartTime).ThenBy(i => i.EndTime).ToList();
             }
-
-            Announcement = wrapper;
+            IsOpeningUI = false;
         }
-        private void NavigateToAnnouncement(string? content)
+        private void OpenAnnouncementUI(string? content)
         {
             if (WebView2Helper.IsSupported)
             {
-                using (AnnouncementWindow? window = new AnnouncementWindow(content))
+                using (AnnouncementWindow? window = new(content))
                 {
                     window.ShowDialog();
                 }

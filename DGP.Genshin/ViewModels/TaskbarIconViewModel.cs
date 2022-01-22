@@ -3,52 +3,34 @@ using DGP.Genshin.DataModels.DailyNotes;
 using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(InjectAs.Transient)]
-    internal class TaskbarIconViewModel : ObservableRecipient, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
+    internal class TaskbarIconViewModel : ObservableRecipient2, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
         private readonly ISettingService settingService;
 
-        private ICommand showMainWindowCommand;
-        private ICommand exitCommand;
         private ObservableCollection<ResinWidgetConfigration>? resinWidget;
-        private ICommand updateWidgetsCommand;
 
-        public ICommand ShowMainWindowCommand
-        {
-            get => showMainWindowCommand;
-            [MemberNotNull(nameof(showMainWindowCommand))]
-            set => SetProperty(ref showMainWindowCommand, value);
-        }
-        public ICommand ExitCommand
-        {
-            get => exitCommand;
-            [MemberNotNull(nameof(exitCommand))]
-            set => SetProperty(ref exitCommand, value);
-        }
-        public ICommand UpdateWidgetsCommand
-        {
-            get => updateWidgetsCommand;
-            [MemberNotNull(nameof(updateWidgetsCommand))]
-            set => SetProperty(ref updateWidgetsCommand, value);
-        }
         public ObservableCollection<ResinWidgetConfigration>? ResinWidgets
         {
             get => resinWidget;
             set => SetProperty(ref resinWidget, value);
         }
+
+        public ICommand ShowMainWindowCommand { get; }
+        public ICommand ExitCommand { get; }
+        public ICommand UpdateWidgetsCommand { get; }
 
         public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, ISettingService settingService, IMessenger messenger)
             : base(messenger)
@@ -62,12 +44,6 @@ namespace DGP.Genshin.ViewModels
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
             UpdateWidgetsCommand = new RelayCommand(UpdateWidgets);
-
-            IsActive = true;
-        }
-        ~TaskbarIconViewModel()
-        {
-            IsActive = false;
         }
 
         private async void InitializeResinWidgetsAsync()
@@ -131,6 +107,7 @@ namespace DGP.Genshin.ViewModels
         {
             App.Messenger.Send<TickScheduledMessage>();
         }
+
         public async void Receive(CookieAddedMessage message)
         {
             string cookie = message.Value;

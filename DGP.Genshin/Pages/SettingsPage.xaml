@@ -388,7 +388,7 @@
                         <ProgressBar Margin="0,4,0,0" Grid.Row="1" Value="{Binding UpdateInfo.Value,Mode=OneWay}" Maximum="1"/>
                     </Grid>
                 </wu:Card>
-                <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit" Subtitle="使用 FastGit 代替 Github 下载更新,也许能改善下载速度，下一次下载开始生效" Margin="12,4,16,0">
+                <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit" Subtitle="使用 FastGit 代替 Github 下载更新，也许能改善下载速度，下一次下载开始生效" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
                 </wu:CardControl>
 

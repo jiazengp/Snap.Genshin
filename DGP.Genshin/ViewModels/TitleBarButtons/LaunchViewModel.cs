@@ -8,9 +8,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
     [ViewModel(InjectAs.Transient)]
-    public class LaunchViewModel : ObservableObject
+    public class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;
         private readonly ISettingService settingService;
@@ -29,18 +29,15 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         #region Observables
         private List<LaunchScheme> knownSchemes = new()
         {
-            new LaunchScheme(name: "官服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
-            new LaunchScheme(name: "B 服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0")
+            new LaunchScheme(name: "天空岛 | 官方服", channel: "1", cps: "pcadbdpz", subChannel: "1"),
+            new LaunchScheme(name: "世界树 | Bili服", channel: "14", cps: "bilibili", subChannel: "0")
         };
+
         private LaunchScheme? currentScheme;
         private bool isBorderless;
         private bool isFullScreen;
         private ObservableCollection<GenshinAccount> accounts = new();
         private GenshinAccount? selectedAccount;
-        private IAsyncRelayCommand<TitleBarButton> openUICommand;
-        private IAsyncRelayCommand<string> launchCommand;
-        private IRelayCommand closeUICommand;
-        private ICommand deleteAccountCommand;
         private bool unlockFPS;
         private double targetFPS;
 
@@ -58,11 +55,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public LaunchScheme? CurrentScheme
         {
             get => currentScheme;
-            set
-            {
-                SetProperty(ref currentScheme, value);
-                launchService.SaveLaunchScheme(value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref currentScheme, value, v => launchService.SaveLaunchScheme(v));
         }
         /// <summary>
         /// 是否全屏
@@ -70,11 +63,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public bool IsFullScreen
         {
             get => isFullScreen;
-            set
-            {
-                SetProperty(ref isFullScreen, value);
-                settingService[Setting.IsFullScreen] = value;
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, v => settingService[Setting.IsFullScreen] = value);
         }
         /// <summary>
         /// 是否无边框窗口
@@ -82,11 +71,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public bool IsBorderless
         {
             get => isBorderless;
-            set
-            {
-                SetProperty(ref isBorderless, value);
-                settingService[Setting.IsBorderless] = value;
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, v => settingService[Setting.IsBorderless] = value);
         }
         /// <summary>
         /// 是否解锁FPS上限
@@ -94,11 +79,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public bool UnlockFPS
         {
             get => unlockFPS;
-            set
-            {
-                SetProperty(ref unlockFPS, value);
-                settingService[Setting.UnlockFPS] = value;
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, v => settingService[Setting.UnlockFPS] = v);
         }
         /// <summary>
         /// 目标帧率
@@ -106,11 +87,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public double TargetFPS
         {
             get => targetFPS;
-            set
-            {
-                SetProperty(ref targetFPS, value);
-                settingService[Setting.TargetFPS] = value;
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, v => settingService[Setting.TargetFPS] = v);
         }
 
         private bool? isElevated;
@@ -130,36 +107,13 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         public GenshinAccount? SelectedAccount
         {
             get => selectedAccount;
-            set
-            {
-                SetProperty(ref selectedAccount, value);
-                launchService.SetToRegistry(value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedAccount, value, v => launchService.SetToRegistry(v));
         }
-        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
-        public IRelayCommand CloseUICommand
-        {
-            get => closeUICommand;
-            [MemberNotNull(nameof(closeUICommand))]
-            set => SetProperty(ref closeUICommand, value);
-        }
-        public IAsyncRelayCommand<string> LaunchCommand
-        {
-            get => launchCommand;
-            [MemberNotNull(nameof(launchCommand))]
-            set => SetProperty(ref launchCommand, value);
-        }
-        public ICommand DeleteAccountCommand
-        {
-            get => deleteAccountCommand;
-            [MemberNotNull(nameof(deleteAccountCommand))]
-            set => SetProperty(ref deleteAccountCommand, value);
-        }
+
+        public ICommand OpenUICommand { get; }
+        public ICommand CloseUICommand { get; }
+        public ICommand LaunchCommand { get; }
+        public ICommand DeleteAccountCommand { get; }
         #endregion
 
         public LaunchViewModel(ILaunchService launchService, ISettingService settingService)
@@ -169,6 +123,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
 
             Accounts = launchService.LoadAllAccount();
             SelectedAccount = Accounts.FirstOrDefault();
+
             IsBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
             IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
             UnlockFPS = settingService.GetOrDefault(Setting.UnlockFPS, false);

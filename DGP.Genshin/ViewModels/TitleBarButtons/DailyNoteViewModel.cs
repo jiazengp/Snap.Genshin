@@ -12,7 +12,6 @@ using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
 using Snap.Threading;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,17 +22,13 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
     public class DailyNoteViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;
+        private readonly TaskPreventer taskPreventer = new();
 
         private List<DailyNote> dailyNotes = new();
-        private ICommand openUICommand;
 
         public List<DailyNote> DailyNotes { get => dailyNotes; set => SetProperty(ref dailyNotes, value); }
-        public ICommand OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => openUICommand = value;
-        }
+
+        public ICommand OpenUICommand { get; }
 
         public DailyNoteViewModel(ICookieService cookieService, IMessenger messenger)
         {
@@ -41,11 +36,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
         }
 
-        /// <summary>
-        /// 打开浮出控件
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
         private async Task OpenUIAsync(TitleBarButton? t)
         {
             if (t?.ShowAttachedFlyout<Grid>(this) == true)
@@ -54,16 +44,9 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                 await RefreshDailyNotesAsync();
             }
         }
-
-        private readonly TaskPreventer refreshDailyNoteTaskPreventer = new();
-
-        /// <summary>
-        /// 刷新实时便笺
-        /// </summary>
-        /// <returns></returns>
         private async Task RefreshDailyNotesAsync()
         {
-            if (refreshDailyNoteTaskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
                 List<DailyNote> list = new();
                 List<UserGameRole> roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
@@ -78,7 +61,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
                     }
                 }
                 DailyNotes = list;
-                refreshDailyNoteTaskPreventer.Release();
+                taskPreventer.Release();
             }
         }
     }

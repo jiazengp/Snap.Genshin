@@ -3,15 +3,14 @@ using DGP.Genshin.Helpers;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Services.Abstratcions;
 using DGP.Genshin.Services.GachaStatistics;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
+using Snap.Core.Mvvm;
 using Snap.Threading;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,9 +18,11 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModels
 {
     [ViewModel(InjectAs.Transient)]
-    public class GachaStatisticViewModel : ObservableObject
+    public class GachaStatisticViewModel : ObservableObject2
     {
         private readonly IGachaStatisticService gachaStatisticService;
+
+        private readonly TaskPreventer taskPreventer = new();
 
         private Statistic? statistic;
         private UidGachaData? selectedUserGachaData;
@@ -29,14 +30,6 @@ namespace DGP.Genshin.ViewModels
         private SpecificBanner? selectedSpecificBanner;
         private GachaDataCollection userGachaDataCollection = new();
         private bool isFullFetch;
-        private IRelayCommand openUICommand;
-        private IAsyncRelayCommand gachaLogAutoFindCommand;
-        private IAsyncRelayCommand gachaLogManualCommand;
-        private IAsyncRelayCommand importFromUIGFJCommand;
-        private IAsyncRelayCommand importFromUIGFWCommand;
-        private IAsyncRelayCommand exportToUIGFWCommand;
-        private IAsyncRelayCommand exportToUIGFJCommand;
-        private ICommand? openGachaStatisticFolderCommand;
 
         /// <summary>
         /// 当前的统计信息
@@ -46,25 +39,18 @@ namespace DGP.Genshin.ViewModels
             get => statistic;
             set => SetProperty(ref statistic, value);
         }
-
         /// <summary>
         /// 当前选择的UID
         /// </summary>
         public UidGachaData? SelectedUserGachaData
         {
             get => selectedUserGachaData;
-            set
-            {
-                SetProperty(ref selectedUserGachaData, value);
-                SyncStatisticWithUid();
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGachaData, value, SyncStatisticWithUid);
         }
-
         /// <summary>
         /// 同步统计数据与当前uid
         /// </summary>
-        /// <param name="forceRefresh"></param>
-        public async void SyncStatisticWithUid()
+        [PropertyChangedCallback] private async void SyncStatisticWithUid()
         {
             if (SelectedUserGachaData is not null)
             {
@@ -75,7 +61,6 @@ namespace DGP.Genshin.ViewModels
                 SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
         }
-
         /// <summary>
         /// 所有UID
         /// </summary>
@@ -84,7 +69,6 @@ namespace DGP.Genshin.ViewModels
             get => userGachaDataCollection;
             set => SetProperty(ref userGachaDataCollection, value);
         }
-
         /// <summary>
         /// 当前的获取进度
         /// </summary>
@@ -93,7 +77,6 @@ namespace DGP.Genshin.ViewModels
             get => fetchProgress;
             set => SetProperty(ref fetchProgress, value);
         }
-
         /// <summary>
         /// 选定的特定池
         /// </summary>
@@ -107,57 +90,15 @@ namespace DGP.Genshin.ViewModels
             get => isFullFetch;
             set => SetProperty(ref isFullFetch, value);
         }
-        public IRelayCommand OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
-        public IAsyncRelayCommand GachaLogAutoFindCommand
-        {
-            get => gachaLogAutoFindCommand;
-            [MemberNotNull(nameof(gachaLogAutoFindCommand))]
-            set => SetProperty(ref gachaLogAutoFindCommand, value);
-        }
-        public IAsyncRelayCommand GachaLogManualCommand
-        {
-            get => gachaLogManualCommand;
-            [MemberNotNull(nameof(gachaLogManualCommand))]
-            set => SetProperty(ref gachaLogManualCommand, value);
-        }
-        public IAsyncRelayCommand ImportFromUIGFJCommand
-        {
-            get => importFromUIGFJCommand;
-            [MemberNotNull(nameof(importFromUIGFJCommand))]
-            set => SetProperty(ref importFromUIGFJCommand, value);
-        }
-        public IAsyncRelayCommand ImportFromUIGFWCommand
-        {
-            get => importFromUIGFWCommand;
-            [MemberNotNull(nameof(importFromUIGFWCommand))]
-            set => SetProperty(ref importFromUIGFWCommand, value);
-        }
-        public IAsyncRelayCommand ExportToUIGFWCommand
-        {
-            get => exportToUIGFWCommand;
-            [MemberNotNull(nameof(exportToUIGFWCommand))]
-            set => SetProperty(ref exportToUIGFWCommand, value);
-        }
-        public IAsyncRelayCommand ExportToUIGFJCommand
-        {
-            get => exportToUIGFJCommand;
-            [MemberNotNull(nameof(exportToUIGFJCommand))]
-            set => SetProperty(ref exportToUIGFJCommand, value);
-        }
 
-        public ICommand OpenGachaStatisticFolderCommand
-        {
-            get
-            {
-                openGachaStatisticFolderCommand ??= new RelayCommand(OpenGachaStatisticFolder);
-                return openGachaStatisticFolderCommand;
-            }
-        }
+        public ICommand OpenUICommand { get; }
+        public ICommand GachaLogAutoFindCommand { get; }
+        public ICommand GachaLogManualCommand { get; }
+        public ICommand ImportFromUIGFJCommand { get; }
+        public ICommand ImportFromUIGFWCommand { get; }
+        public ICommand ExportToUIGFWCommand { get; }
+        public ICommand ExportToUIGFJCommand { get; }
+        public ICommand OpenGachaStatisticFolderCommand { get; }
 
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
         {
@@ -171,9 +112,9 @@ namespace DGP.Genshin.ViewModels
             ImportFromUIGFWCommand = new AsyncRelayCommand(ImportFromUIGFWAsync);
             ExportToUIGFWCommand = new AsyncRelayCommand(ExportToUIGFWAsync);
             ExportToUIGFJCommand = new AsyncRelayCommand(ExportToUIGFJAsync);
+            OpenGachaStatisticFolderCommand= new RelayCommand(OpenGachaStatisticFolder);
         }
 
-        private readonly TaskPreventer taskPreventer = new();
         private async Task RefreshByAutoFindModeAsync()
         {
             if (taskPreventer.ShouldExecute)
@@ -215,7 +156,7 @@ namespace DGP.Genshin.ViewModels
                     Multiselect = false,
                     CheckFileExists = true
                 };
-                if (openFileDialog.ShowDialog() == true)
+                if (openFileDialog.ShowDialog() is true)
                 {
                     if (await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName))
                     {
@@ -242,7 +183,7 @@ namespace DGP.Genshin.ViewModels
                     Multiselect = false,
                     CheckFileExists = true
                 };
-                if (openFileDialog.ShowDialog() == true)
+                if (openFileDialog.ShowDialog() is true)
                 {
                     if (!await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName))
                     {
@@ -274,7 +215,7 @@ namespace DGP.Genshin.ViewModels
                     CheckPathExists = true,
                     FileName = $"{SelectedUserGachaData.Uid}.xlsx"
                 };
-                if (dialog.ShowDialog() == true)
+                if (dialog.ShowDialog() is true)
                 {
                     this.Log("try to export to excel");
                     await gachaStatisticService.ExportDataToExcelAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
@@ -305,7 +246,7 @@ namespace DGP.Genshin.ViewModels
                     CheckPathExists = true,
                     FileName = $"{SelectedUserGachaData.Uid}.json"
                 };
-                if (dialog.ShowDialog() == true)
+                if (dialog.ShowDialog() is true)
                 {
                     await gachaStatisticService.ExportDataToJsonAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
                     await new ContentDialog

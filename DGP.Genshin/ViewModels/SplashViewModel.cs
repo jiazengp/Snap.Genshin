@@ -1,12 +1,12 @@
 ﻿using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Net.Networking;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels
 {
@@ -14,7 +14,7 @@ namespace DGP.Genshin.ViewModels
     /// 启动界面视图模型
     /// </summary>
     [ViewModel(InjectAs.Transient)]
-    public class SplashViewModel : ObservableObject
+    public class SplashViewModel : ObservableObject2
     {
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;
@@ -26,20 +26,15 @@ namespace DGP.Genshin.ViewModels
         private string? currentInfo;
         private int? totalCount;
         private double percent;
-        private IAsyncRelayCommand openUICommand;
-        private IAsyncRelayCommand setCookieCommand;
         private bool isCheckingIntegrity;
 
         public bool IsCookieVisible
         {
-            get => isCookieVisible; set
-            {
-                SetProperty(ref isCookieVisible, value);
-                TrySendCompletedMessage();
-            }
+            get => isCookieVisible;
+            set => SetPropertyAndCallbackOnCompletion(ref isCookieVisible, value, TrySendCompletedMessage);
         }
 
-        private void TrySendCompletedMessage()
+        [PropertyChangedCallback] private void TrySendCompletedMessage()
         {
             if (IsCookieVisible == false && integrityCheckService.IntegrityCheckCompleted)
             {
@@ -84,18 +79,9 @@ namespace DGP.Genshin.ViewModels
             get => isCheckingIntegrity;
             set => SetProperty(ref isCheckingIntegrity, value);
         }
-        public IAsyncRelayCommand OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
-        public IAsyncRelayCommand SetCookieCommand
-        {
-            get => setCookieCommand;
-            [MemberNotNull(nameof(setCookieCommand))]
-            set => SetProperty(ref setCookieCommand, value);
-        }
+
+        public ICommand OpenUICommand { get; }
+        public ICommand SetCookieCommand { get; }
 
         public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService)
         {

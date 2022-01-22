@@ -5,13 +5,14 @@ using DGP.Genshin.DataModels.Weapons;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WeaponMaterial = DGP.Genshin.DataModels.Materials.Weapons.Weapon;
 
 namespace DGP.Genshin.ViewModels
@@ -20,11 +21,11 @@ namespace DGP.Genshin.ViewModels
     /// 日常材料服务
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class DailyViewModel : ObservableObject
+    public class DailyViewModel : ObservableObject2
     {
         private readonly MetadataViewModel dataViewModel;
 
-        public List<NamedValue<DayOfWeek>> DayOfWeeks { get; set; } = new()
+        public List<NamedValue<DayOfWeek>> DayOfWeeks { get; } = new()
         {
             new("星期一", DayOfWeek.Monday),
             new("星期二", DayOfWeek.Tuesday),
@@ -36,45 +37,37 @@ namespace DGP.Genshin.ViewModels
         };
 
         private NamedValue<DayOfWeek>? selectedDayOfWeek;
-        private IAsyncRelayCommand openUICommand;
         public NamedValue<DayOfWeek>? SelectedDayOfWeek
         {
-            get => selectedDayOfWeek; set
+            get => selectedDayOfWeek;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, () => TriggerPropertyChanged("Mondstadt", "Liyue", "Inazuma"));
+        }
+
+        public ICommand OpenUICommand { get; }
+
+        private async void TriggerPropertyChanged(params string[] cities)
+        {
+            foreach(string city in cities)
             {
-                SetProperty(ref selectedDayOfWeek, value);
-                RaisePropertyChanged("Mondstadt");
-                RaisePropertyChanged("Liyue");
-                RaisePropertyChanged("Inazuma");
+                ClearFieldValueOf($"today{city}Talent");
+                ClearFieldValueOf($"today{city}WeaponAscension");
+                ClearFieldValueOf($"today{city}Character5");
+                ClearFieldValueOf($"today{city}Character4");
+                ClearFieldValueOf($"today{city}Weapon5");
+                ClearFieldValueOf($"today{city}Weapon4");
+
+                OnPropertyChanged($"Today{city}Talent");
+                await Task.Delay(100);
+                OnPropertyChanged($"Today{city}Character5");
+                await Task.Delay(100);
+                OnPropertyChanged($"Today{city}Character4");
+                await Task.Delay(100);
+                OnPropertyChanged($"Today{city}WeaponAscension");
+                await Task.Delay(100);
+                OnPropertyChanged($"Today{city}Weapon5");
+                await Task.Delay(100);
+                OnPropertyChanged($"Today{city}Weapon4");
             }
-        }
-
-        public IAsyncRelayCommand OpenUICommand
-        {
-            get => openUICommand;
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
-
-        private async void RaisePropertyChanged(string city)
-        {
-            ClearFieldValueOf($"today{city}Talent");
-            ClearFieldValueOf($"today{city}WeaponAscension");
-            ClearFieldValueOf($"today{city}Character5");
-            ClearFieldValueOf($"today{city}Character4");
-            ClearFieldValueOf($"today{city}Weapon5");
-            ClearFieldValueOf($"today{city}Weapon4");
-
-            OnPropertyChanged($"Today{city}Talent");
-            await Task.Delay(200);
-            OnPropertyChanged($"Today{city}Character5");
-            await Task.Delay(200);
-            OnPropertyChanged($"Today{city}Character4");
-            await Task.Delay(200);
-            OnPropertyChanged($"Today{city}WeaponAscension");
-            await Task.Delay(200);
-            OnPropertyChanged($"Today{city}Weapon5");
-            await Task.Delay(200);
-            OnPropertyChanged($"Today{city}Weapon4");
         }
         private void ClearFieldValueOf(string name)
         {
@@ -82,9 +75,10 @@ namespace DGP.Genshin.ViewModels
             fieldInfo?.SetValue(this, null);
         }
 
-        public DailyViewModel(MetadataViewModel metadataService)
+        public DailyViewModel(MetadataViewModel metadataViewModel)
         {
-            dataViewModel = metadataService;
+            dataViewModel = metadataViewModel;
+
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         }
 

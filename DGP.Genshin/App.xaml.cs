@@ -160,7 +160,7 @@ namespace DGP.Genshin
                 {
                     ToastNotificationManagerCompat.History.Clear();
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentNullException) { }
+                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentNullException or InvalidCastException) { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);

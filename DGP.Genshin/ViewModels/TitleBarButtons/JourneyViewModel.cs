@@ -9,11 +9,12 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Mvvm;
 using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModels.TitleBarButtons
 {
@@ -21,7 +22,7 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
     /// 旅行札记服务
     /// </summary>
     [ViewModel(InjectAs.Transient)]
-    public class JourneyViewModel : ObservableRecipient, IRecipient<CookieChangedMessage>
+    public class JourneyViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
     {
         private readonly ICookieService cookieService;
 
@@ -31,29 +32,17 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
         private JourneyInfo? journeyInfo;
         private List<UserGameRole> userGameRoles = new();
         private UserGameRole? selectedRole;
-        private IAsyncRelayCommand<TitleBarButton> openUICommand;
 
         public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
         public List<UserGameRole> UserGameRoles { get => userGameRoles; set => SetProperty(ref userGameRoles, value); }
         public UserGameRole? SelectedRole
         {
-            get => selectedRole; set
-            {
-                SetProperty(ref selectedRole, value);
-                UpdateJourneyInfo(value);
-            }
+            get => selectedRole;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedRole, value,
+                async role => { JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region); });
         }
-        private async void UpdateJourneyInfo(UserGameRole? role)
-        {
-            JourneyInfo = await journeyProvider.GetMonthInfoAsync(role?.GameUid, role?.Region);
-        }
-        public IAsyncRelayCommand<TitleBarButton> OpenUICommand
-        {
-            get => openUICommand;
 
-            [MemberNotNull(nameof(openUICommand))]
-            set => SetProperty(ref openUICommand, value);
-        }
+        public ICommand OpenUICommand { get; }
 
         public JourneyViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -63,13 +52,6 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             userGameRoleProvider = new UserGameRoleProvider(this.cookieService.CurrentCookie);
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
-
-            IsActive = true;
-        }
-
-        ~JourneyViewModel()
-        {
-            IsActive = false;
         }
 
         private async Task OpenUIAsync(TitleBarButton? t)

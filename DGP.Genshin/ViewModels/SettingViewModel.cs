@@ -2,12 +2,12 @@
 using DGP.Genshin.Messages;
 using DGP.Genshin.Pages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
+using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using Snap.Win32;
 using System;
@@ -26,7 +26,7 @@ namespace DGP.Genshin.ViewModels
     /// 仅供 <see cref="Pages.SettingsPage"/> 使用
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class SettingViewModel : ObservableRecipient, IRecipient<SettingChangedMessage>, IRecipient<UpdateProgressedMessage>
+    public class SettingViewModel : ObservableRecipient2, IRecipient<SettingChangedMessage>, IRecipient<UpdateProgressedMessage>
     {
         private readonly ISettingService settingService;
         private readonly IUpdateService updateService;
@@ -57,12 +57,8 @@ namespace DGP.Genshin.ViewModels
         private AutoRun autoRun = new();
         private NamedValue<ApplicationTheme?> selectedTheme;
         private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
-        private IAsyncRelayCommand checkUpdateCommand;
         private bool isTaskBarIconEnabled;
         private bool closeMainWindowAfterInitializaion;
-        private ICommand copyUserIdCommand;
-        private ICommand signInImmediatelyCommand;
-        private ICommand? sponsorUICommand;
         private UpdateProgressedMessage updateInfo;
 
         #region Need Initalize
@@ -145,27 +141,18 @@ namespace DGP.Genshin.ViewModels
         public NamedValue<ApplicationTheme?> SelectedTheme
         {
             get => selectedTheme;
-            [MemberNotNull(nameof(selectedTheme))]
-            set
-            {
-                SetProperty(ref selectedTheme, value);
-                SettingService[Setting.AppTheme] = value.Value;
-                UpdateAppTheme();
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedTheme, value, v => { UpdateAppTheme(v!); });
         }
-        internal void UpdateAppTheme()
+        [PropertyChangedCallback] private void UpdateAppTheme(NamedValue<ApplicationTheme?> value)
         {
+            SettingService[Setting.AppTheme] = value.Value;
             ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
         }
         public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
         {
             get => selectedResinAutoRefreshTime;
-            [MemberNotNull(nameof(selectedResinAutoRefreshTime))]
-            set
-            {
-                SetProperty(ref selectedResinAutoRefreshTime, value);
-                settingService[Setting.ResinRefreshMinutes] = value.Value.TotalMinutes;
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value,
+                v => settingService[Setting.ResinRefreshMinutes] = v!.Value.TotalMinutes);
         }
         public UpdateProgressedMessage UpdateInfo
         {
@@ -173,33 +160,11 @@ namespace DGP.Genshin.ViewModels
             [MemberNotNull(nameof(updateInfo))]
             set => SetProperty(ref updateInfo, value);
         }
-        public IAsyncRelayCommand CheckUpdateCommand
-        {
-            get => checkUpdateCommand;
-            [MemberNotNull(nameof(checkUpdateCommand))]
-            set => checkUpdateCommand = value;
-        }
-        public ICommand CopyUserIdCommand
-        {
-            get => copyUserIdCommand;
-            [MemberNotNull(nameof(copyUserIdCommand))]
-            set => copyUserIdCommand = value;
-        }
-        public ICommand SignInImmediatelyCommand
-        {
-            get => signInImmediatelyCommand;
-            [MemberNotNull(nameof(signInImmediatelyCommand))]
-            set => SetProperty(ref signInImmediatelyCommand, value);
-        }
 
-        public ICommand SponsorUICommand
-        {
-            get
-            {
-                sponsorUICommand ??= new RelayCommand(NavigateToSponsorPage);
-                return sponsorUICommand;
-            }
-        }
+        public ICommand CheckUpdateCommand { get; }
+        public ICommand CopyUserIdCommand { get; }
+        public ICommand SignInImmediatelyCommand { get; }
+        public ICommand SponsorUICommand { get; }
         #endregion
 
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
@@ -213,19 +178,14 @@ namespace DGP.Genshin.ViewModels
             double minutes = settingService.GetOrDefault(Setting.ResinRefreshMinutes, 8.0);
             selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == minutes)!;
 
+            Initialize();
+
             UpdateInfo = UpdateProgressedMessage.Default;
 
             CheckUpdateCommand = new AsyncRelayCommand(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
             SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
-
-            Initialize();
-            IsActive = true;
-        }
-
-        ~SettingViewModel()
-        {
-            IsActive = false;
+            SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
         }
 
         [MemberNotNull(nameof(versionString)), MemberNotNull(nameof(userId))]
@@ -251,12 +211,10 @@ namespace DGP.Genshin.ViewModels
             Clipboard.Clear();
             Clipboard2.SetText(UserId);
         }
-
         private void NavigateToSponsorPage()
         {
             App.Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
         }
-
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await updateService.CheckUpdateStateAsync();
