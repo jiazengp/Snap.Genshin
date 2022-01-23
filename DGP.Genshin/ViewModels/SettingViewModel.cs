@@ -143,7 +143,8 @@ namespace DGP.Genshin.ViewModels
             get => selectedTheme;
             set => SetPropertyAndCallbackOnCompletion(ref selectedTheme, value, v => { UpdateAppTheme(v!); });
         }
-        [PropertyChangedCallback] private void UpdateAppTheme(NamedValue<ApplicationTheme?> value)
+        [PropertyChangedCallback]
+        private void UpdateAppTheme(NamedValue<ApplicationTheme?> value)
         {
             SettingService[Setting.AppTheme] = value.Value;
             ThemeManager.Current.ApplicationTheme = SettingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);

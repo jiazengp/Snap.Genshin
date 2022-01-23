@@ -11,7 +11,6 @@ using DGP.Genshin.DataModels.Weapons;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Messages;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
@@ -22,7 +21,6 @@ using Snap.Data.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
@@ -340,6 +338,7 @@ namespace DGP.Genshin.ViewModels
         #region Helper
         /// <summary>
         /// 根据名称查找合适的url
+        /// 仅限角色与武器
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

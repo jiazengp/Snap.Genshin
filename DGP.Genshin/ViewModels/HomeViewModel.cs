@@ -25,8 +25,8 @@ namespace DGP.Genshin.ViewModels
             get => announcement;
             set => SetProperty(ref announcement, value);
         }
-        public bool IsOpeningUI 
-        { 
+        public bool IsOpeningUI
+        {
             get => isOpeningUI;
             set => SetProperty(ref isOpeningUI, value);
         }

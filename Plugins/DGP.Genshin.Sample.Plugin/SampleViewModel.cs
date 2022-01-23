@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Snap.Core.DependencyInjection;
+using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace DGP.Genshin.Sample.Plugin

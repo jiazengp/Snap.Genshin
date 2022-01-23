@@ -1,130 +1,12 @@
 # 开发人员文档
 
 我们正在采用下述的准则  
-[框架设计准则[en-us]](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/) [框架设计准则[zh-cn]](https://docs.microsoft.com/zh-cn/dotnet/standard/design-guidelines/)  
+[框架设计准则[en-us]](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/)  [框架设计准则[zh-cn]](https://docs.microsoft.com/zh-cn/dotnet/standard/design-guidelines/)  
 尽管部分模块尚未遵循，但我们力求新的提交遵循上述准则
  
 本项目及所有子项目已经迁移至使用 .NET 6 × C# 10 + VS2022 编写环境下  
 主程序使用了 WPF 作为基础 UI 框架  
 *由于 Win UI 3 目前阶段存在大量  BUG  故暂时不使用*
-
-## Snap Genshin 类型设计规范
-
-### 名称规范
-
-* 初始化视图模型 √ OpenUI × Initialize  
-* 更新视图模型属性 √ Update × Refresh
-
-### ViewModel 类型规范
-
-``` c#
-[ViewModel(ViewModelType.Transient)]
-public class MyViewModel ： ObservableObject, IRecipient<T>, IOtherInterface
-{
-    //private consts
-
-    //private readonly services
-
-    //private providers
-
-    //observables
-    //private observables called methods
-
-    //public constructors
-
-    //private command called methods
-
-    //IRecipient<T>.Receive methods
-}
-```
-### 插件开发
-
-Snap Genshin 的插件系统设计使得开发者的权限非常之高  
-可以进行任何类型的 服务/视图模型 注册  
-开发插件前，你需要 clone 整个 Snap Genshin 仓库到本地  
-我们推荐你 folk一个分支 后再进行 clone
-
-#### 关键信息
-首先，从新建一个 .NET 6 类库开始
-
-* 由于 Snap Genshin 使用了 Windows Runtimes API  
-插件的目标框架需要基于 `net6.0-windows10.0.18362` 才能使插件正常通过编译
-
-下面列出了项目的项目文件内的部分xml
-
-``` xml
-<PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.18362</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>embedded</DebugType>
-    <UseWPF>true</UseWPF>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <BaseOutputPath>..\..\Build\Debug\net6.0-windows10.0.18362.0\Plugins</BaseOutputPath>
-</PropertyGroup>
-```
-
-其中，需要特别注意下面几条
-``` xml
-<TargetFramework>net6.0-windows10.0.18362</TargetFramework>
-```
-
-``` xml
-<EnableDynamicLoading>true</EnableDynamicLoading>
-```
-
-```xml
-<BaseOutputPath>..\..\Build\Debug\net6.0-windows10.0.18362.0\Plugins</BaseOutputPath>
-```
-
-`<BaseOutputPath>`决定了输出的路径，修改到此处使其能在生成后直接被 Snap Genshin 主程序发现
-
-需要将 `DGP.Genshin` 等项目 添加到项目引用
-
-完成后 项目文件也应做出相应修改
-```xml
-<ItemGroup>
-  <ProjectReference Include="..\..\DGP.Genshin.Common\DGP.Genshin.Common.csproj">
-    <Private>false</Private>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </ProjectReference>
-  <ProjectReference Include="..\..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj">
-    <Private>false</Private>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </ProjectReference>
-  <ProjectReference Include="..\..\DGP.Genshin\DGP.Genshin.csproj">
-    <Private>false</Private>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </ProjectReference>
-</ItemGroup>
-```
-
-下面两个节点
-
-```xml
-<Private>false</Private>
-<ExcludeAssets>runtime</ExcludeAssets>
-```
-是非常重要的，写明这两个节点可以使编译器在生成时跳过那些程序集  
-有关这两个节点的详细信息，请参阅 [微软官方文档](https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support#simple-plugin-with-no-dependencies)
-
-在上述工作完成后，你需要实现 `DGP.Genshin.Core.Plugins.IPlugin` 接口  
-此时编译程序集已经能在DGP.Genshin.exe 中发现插件
-
-如果需要添加可导航的新页面则需要准备好一个新的Page类型  
-并在实现了插件的类上标注 `[ImportPage]` 特性
-
-由于 Snap Genshin 实现了依赖注入，你也完全可以依赖于这一套系统来注入服务
-
-可以 在服务类上添加 `[Service]` 特性 在视图模型上添加 `[ViewModel]` 特性  
-理论上，如果你想，可以注入任何类型，但是我们只推荐你注入上述的两种类型
-
-在完成上述工作后你的插件就具有页面，并能在 Snap Genshin 左侧的导航栏中呈现了
-我们很快会推出服务替换功能，届时，可以实现 Snap Genshin 内部的抽象接口并修改 Snap Genshin 的默认行为。
-
-关于目前详细的项目示例，请参考[此处](https://github.com/DGP-Studio/Snap.Genshin/tree/main/Plugins/DGP.Genshin.Sample.Plugin)
 
 ## 生成与调试
 
@@ -153,19 +35,13 @@ Snap Genshin 的插件系统设计使得开发者的权限非常之高
 
 </details>
 
-## 开发者模式
-
-开发者模式相对于用户模式增加了一些导航入口点，其中包含了正在制作尚未完成的内容
-1. 在程序关闭的情况下打开生成文件根目录下的 `settings.json`
-1. 找到 `"IsDevMode": false` 片段，修改为 `"IsDevMode": true`
-1. 再次启动程序后即时生效
 
 ## 提交代码
 
 * 如果修改了子库的代码，一定要确保先发起子库的PR，否则你的提交极有可能是不完整的
 * 对主库的修改应当仅包含界面与界面的业务逻辑
 * 对子库的修改应当仅包含相关API的交互代码
-* 对 `DGP.Genshin.Common` 的要求相对较宽，可以包含任意代码
+* 对 `Common` 的要求相对较宽，可以包含任意代码
 
 
 # 进阶

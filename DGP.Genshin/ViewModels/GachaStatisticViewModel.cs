@@ -50,7 +50,8 @@ namespace DGP.Genshin.ViewModels
         /// <summary>
         /// 同步统计数据与当前uid
         /// </summary>
-        [PropertyChangedCallback] private async void SyncStatisticWithUid()
+        [PropertyChangedCallback]
+        private async void SyncStatisticWithUid()
         {
             if (SelectedUserGachaData is not null)
             {
@@ -112,7 +113,7 @@ namespace DGP.Genshin.ViewModels
             ImportFromUIGFWCommand = new AsyncRelayCommand(ImportFromUIGFWAsync);
             ExportToUIGFWCommand = new AsyncRelayCommand(ExportToUIGFWAsync);
             ExportToUIGFJCommand = new AsyncRelayCommand(ExportToUIGFJAsync);
-            OpenGachaStatisticFolderCommand= new RelayCommand(OpenGachaStatisticFolder);
+            OpenGachaStatisticFolderCommand = new RelayCommand(OpenGachaStatisticFolder);
         }
 
         private async Task RefreshByAutoFindModeAsync()

@@ -3,7 +3,6 @@ using DGP.Genshin.Controls.TitleBarButtons;
 using DGP.Genshin.DataModels.Launching;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;

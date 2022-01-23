@@ -32,7 +32,7 @@ namespace DGP.Genshin.Core.Plugins
             //fix autorun fail issue
             string pluginPath = Path.GetFullPath(PluginFolder, AppContext.BaseDirectory);
             Directory.CreateDirectory(pluginPath);
-            IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.Plugin.dll", SearchOption.AllDirectories);
+            IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
             List<Assembly> plugins = new();
 
             foreach (string? pluginLocation in pluginsPaths)
@@ -42,7 +42,11 @@ namespace DGP.Genshin.Core.Plugins
                 try
                 {
                     Assembly? assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
-                    plugins.Add(assembly);
+                    if(assembly.GetCustomAttribute<SnapGenshinPluginAttribute>() is not null)
+                    {
+                        plugins.Add(assembly);
+                        this.Log($"plugin : {assembly.FullName} added to plugin collection");
+                    }
                 }
                 catch
                 {

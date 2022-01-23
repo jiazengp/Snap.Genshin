@@ -41,7 +41,7 @@ namespace DGP.Genshin
         public App()
         {
             pluginService = new PluginService();
-            serviceManager = new PluginSupportedServiceManager();
+            serviceManager = new SnapGenshinServiceManager();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace DGP.Genshin
                 {
                     ToastNotificationManagerCompat.History.Clear();
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentNullException or InvalidCastException) { }
+                catch { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);

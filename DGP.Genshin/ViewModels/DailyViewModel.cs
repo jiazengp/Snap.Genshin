@@ -2,7 +2,6 @@
 using DGP.Genshin.DataModels.Helpers;
 using DGP.Genshin.DataModels.Materials.Talents;
 using DGP.Genshin.DataModels.Weapons;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
@@ -47,7 +46,7 @@ namespace DGP.Genshin.ViewModels
 
         private async void TriggerPropertyChanged(params string[] cities)
         {
-            foreach(string city in cities)
+            foreach (string city in cities)
             {
                 ClearFieldValueOf($"today{city}Talent");
                 ClearFieldValueOf($"today{city}WeaponAscension");

@@ -8,7 +8,7 @@ namespace DGP.Genshin.Core
     /// <summary>
     /// 实现了注入插件的服务管理类
     /// </summary>
-    internal class PluginSupportedServiceManager : ServiceManagerBase
+    internal class SnapGenshinServiceManager : ServiceManagerBase
     {
         /// <summary>
         /// 重载探测程序集方法

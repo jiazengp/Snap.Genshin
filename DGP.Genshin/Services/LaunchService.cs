@@ -44,7 +44,7 @@ namespace DGP.Genshin.Services
         /// <summary>
         /// 定义了对注册表的操作
         /// </summary>
-        internal class GenshinRegistry
+        private class GenshinRegistry
         {
             private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
             private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";

@@ -34,7 +34,8 @@ namespace DGP.Genshin.ViewModels
             set => SetPropertyAndCallbackOnCompletion(ref isCookieVisible, value, TrySendCompletedMessage);
         }
 
-        [PropertyChangedCallback] private void TrySendCompletedMessage()
+        [PropertyChangedCallback]
+        private void TrySendCompletedMessage()
         {
             if (IsCookieVisible == false && integrityCheckService.IntegrityCheckCompleted)
             {

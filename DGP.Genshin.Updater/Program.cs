@@ -21,7 +21,7 @@ namespace DGP.Genshin.Updater
             switch ((hasArgs, hasPackage))
             {
                 case (true, true):
-                    ExtractPackage();
+                    AutoUpdate();
                     break;
                 case (false, true):
                     ManualUpdate();
@@ -39,11 +39,11 @@ namespace DGP.Genshin.Updater
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key is ConsoleKey.Y)
             {
-                ExtractPackage();
+                AutoUpdate();
             }
         }
 
-        private static void ExtractPackage()
+        private static void AutoUpdate()
         {
             Console.WriteLine("准备开始安装...");
             WaitForProcessExit("DGP.Genshin");

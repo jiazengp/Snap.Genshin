@@ -70,6 +70,7 @@ namespace DGP.Genshin
                 {
                     await SignInOnStartUp(splashViewModel);
                 }
+                //任务栏
                 if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true))
                 {
                     DoTaskbarFlow();
@@ -182,11 +183,15 @@ namespace DGP.Genshin
 
                     settingService[Setting.LastAutoSignInTime] = DateTime.Now;
                     bool isSignInSilently = settingService.GetOrDefault(Setting.SignInSilently, false);
-                    new ToastContentBuilder()
+                    try
+                    {
+                        new ToastContentBuilder()
                         .AddSignInHeader("米游社每日签到")
                         .AddText(role.ToString())
                         .AddText(result is null ? "签到失败" : "签到成功")
                         .Show(toast => { toast.SuppressPopup = isSignInSilently; });
+                    }
+                    catch (DllNotFoundException) { }
                 }
             }
             cookieService.CookiesLock.ExitReadLock();

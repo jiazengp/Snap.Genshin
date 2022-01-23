@@ -39,7 +39,8 @@ namespace DGP.Genshin.ViewModels
             get => selectedUserGameRole;
             set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarList);
         }
-        [PropertyChangedCallback] private async void UpdateAvatarList()
+        [PropertyChangedCallback]
+        private async void UpdateAvatarList()
         {
             if (SelectedUserGameRole is not null)
             {
@@ -59,7 +60,8 @@ namespace DGP.Genshin.ViewModels
             get => selectedAvatar;
             set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailDataAsync);
         }
-        [PropertyChangedCallback] private async void UpdateAvatarDetailDataAsync()
+        [PropertyChangedCallback]
+        private async void UpdateAvatarDetailDataAsync()
         {
             if (SelectedUserGameRole is not null && SelectedAvatar is not null)
             {

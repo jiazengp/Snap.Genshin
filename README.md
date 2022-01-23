@@ -99,4 +99,5 @@
 
 ## 参阅
 
+* [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
 * [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)

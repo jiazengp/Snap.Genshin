@@ -37,7 +37,11 @@ namespace DGP.Genshin.Pages
                     //managed
                 }
                 //WebView2 can still be null
-                WebView?.Dispose();
+                try
+                {
+                    WebView?.Dispose();
+                }
+                catch { }
 
                 disposed = true;
             }

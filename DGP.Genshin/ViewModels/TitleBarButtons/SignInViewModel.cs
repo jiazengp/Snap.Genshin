@@ -4,7 +4,6 @@ using DGP.Genshin.Messages;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Services.Abstratcions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -65,7 +64,8 @@ namespace DGP.Genshin.ViewModels.TitleBarButtons
             get => selectedRole;
             set => SetPropertyAndCallbackOnCompletion(ref selectedRole, value, OnSelectedRoleChanged);
         }
-        [PropertyChangedCallback] private async void OnSelectedRoleChanged()
+        [PropertyChangedCallback]
+        private async void OnSelectedRoleChanged()
         {
             if (SelectedRole is not null)
             {
