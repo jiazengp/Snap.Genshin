@@ -84,7 +84,7 @@ namespace DGP.Genshin.Services
             }
             //fix memory leak issue
             Frame?.RemoveBackEntry();
-            //|= 解决了导航失败使属性置为false
+            //导航失败时使属性保存为false
             HasEverNavigated |= result;
             return result;
         }

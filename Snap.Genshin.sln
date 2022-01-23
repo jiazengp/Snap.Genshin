@@ -22,8 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Sample.Plugin",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.FPSUnlocking", "DGP.Genshin.FPSUnlocking\DGP.Genshin.FPSUnlocking.csproj", "{EFCF358C-AD56-4411-B0ED-81F0E612CCAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Snap.SGInstaller", "DGP.Snap.SGInstaller\DGP.Snap.SGInstaller.csproj", "{8B194AA0-04CB-41FE-B288-407B82CBA0E0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{53FDC0C8-F43F-4957-89B7-D9D35D335936}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.DependencyInjection", "Common\Snap.Core.DependencyInjection\Snap.Core.DependencyInjection.csproj", "{AD9E2A98-41C6-4AF3-B4F5-298405D88EA8}"
@@ -52,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Data.Json", "Common\Sn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Extension.Enumerable", "Common\Snap.Extension.Enumerable\Snap.Extension.Enumerable.csproj", "{B2759794-FDCD-4F6B-A24A-D2A35203EBD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Core.Mvvm", "Common\Snap.Core.Mvvm\Snap.Core.Mvvm.csproj", "{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.Mvvm", "Common\Snap.Core.Mvvm\Snap.Core.Mvvm.csproj", "{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,14 +108,6 @@ Global
 		{EFCF358C-AD56-4411-B0ED-81F0E612CCAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFCF358C-AD56-4411-B0ED-81F0E612CCAB}.Release|x64.ActiveCfg = Release|x64
 		{EFCF358C-AD56-4411-B0ED-81F0E612CCAB}.Release|x64.Build.0 = Release|x64
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Debug|x64.Build.0 = Debug|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Release|x64.ActiveCfg = Release|Any CPU
-		{8B194AA0-04CB-41FE-B288-407B82CBA0E0}.Release|x64.Build.0 = Release|Any CPU
 		{AD9E2A98-41C6-4AF3-B4F5-298405D88EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD9E2A98-41C6-4AF3-B4F5-298405D88EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD9E2A98-41C6-4AF3-B4F5-298405D88EA8}.Debug|x64.ActiveCfg = Debug|Any CPU

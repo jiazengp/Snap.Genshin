@@ -3,6 +3,7 @@ using DGP.Genshin.FPSUnlocking;
 using DGP.Genshin.Helpers;
 using DGP.Genshin.Services.Abstratcions;
 using IniParser;
+using IniParser.Exceptions;
 using IniParser.Model;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
@@ -39,6 +40,7 @@ namespace DGP.Genshin.Services
         private const string GameInstallPath = "game_install_path";
         private const string ConfigFileName = "config.ini";
         private const string LauncherExecutable = "launcher.exe";
+
         private readonly ISettingService settingService;
 
         /// <summary>
@@ -125,6 +127,8 @@ namespace DGP.Genshin.Services
                     string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
                     gameConfig = GetIniData(Path.Combine(unescapedGameFolder, ConfigFileName));
                 }
+                catch (ParsingException) { return false; }
+                catch (ArgumentNullException) { return false; }
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
@@ -232,7 +236,6 @@ namespace DGP.Genshin.Services
         private string GetUnescapedGameFolderFromLauncherConfig()
         {
             string gameInstallPath = LauncherConfig[LauncherSection][GameInstallPath];
-            this.Log($"Game install path in launcher config:{gameInstallPath}");
             string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
             return Regex.Unescape(hex4Result);
         }

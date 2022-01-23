@@ -1,14 +1,23 @@
 # 教程：插件开发
 
+## 开始之前
+
+* 我们假定你已经掌握了基本的WPF开发知识与技巧
+* 对 依赖注入/控制反转 有一定的了解
+
+## 开发适用于 Snap Genshin 的插件程序集
 Snap Genshin 的插件系统设计 使得开发者能够开发权限极高的插件  
 可以调整 Snap Genshin 的默认行为，修改已经存在的服务与视图  
 可以进行任何类型的 服务/视图模型 注册  
 
 开发插件前，你需要 `Clone` 整个 `Snap Genshin` 仓库到本地  
-我们推荐你在 `Folk` 后再进行 `Clone`  
+``` shell
+git clone --recurse-submodules --depth 1 https://github.com/DGP-Studio/Snap.Genshin.git 
+```
+我们推荐你在 `Fork` 后再进行 `Clone`  
 `Clone` 完成后，使用 `Visual Studio 2022` 打开 `Snap.Genshin.sln` 文件
 
-## 新建 .NET 6 类库
+## 新建 `.NET 6` 类库
 
 我们推荐你在 `Plugins` 文件夹下新建项目，这样可以与我们的教程高度匹配  
 否则，可能需要按要求修改一些相对路径
@@ -58,7 +67,7 @@ Snap Genshin 的插件系统设计 使得开发者能够开发权限极高的插
 * 由于 Snap Genshin 使用了 Windows Runtimes API  
 插件的目标框架需要基于 `net6.0-windows10.0.18362` 才能使插件正常通过编译
 
-## 添加 `SnapGenshinPlugin`特性
+## 添加 `SnapGenshinPlugin` 特性
 
 Snap Genshin 凭借 
 ``` c#
@@ -108,7 +117,7 @@ namespace DGP.Genshin.Sample.Plugin
 
 此时若生成项目，则 Snap Genshin 已经能在插件管理页面中发现新的插件
 
-## 添加导航页面
+## `ImportPage` 添加导航页面
 
 如果需要添加可导航的新页面则需要准备好一个新的Page  
 对应的 xaml 文件中的代码在此省略

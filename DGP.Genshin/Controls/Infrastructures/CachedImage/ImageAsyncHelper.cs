@@ -28,7 +28,7 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
         }
 
         private static int imageUrlHittingCount = 0;
-        private static readonly object compareLocker = new();
+        private static readonly object sendMessageLocker = new();
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
             "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
@@ -42,19 +42,25 @@ namespace DGP.Genshin.Controls.Infrastructures.CachedImage
                     }
                     else
                     {
-                        lock (compareLocker)
+                        lock (sendMessageLocker)
                         {
                             if (++imageUrlHittingCount == 1)
                             {
-                                App.Messenger.Send(new ImageHitBeginMessage());
+                                lock (sendMessageLocker)
+                                {
+                                    App.Messenger.Send(new ImageHitBeginMessage());
+                                }
                             }
                         }
                         memoryStream = await FileCache.HitAsync((string)e.NewValue);
-                        lock (compareLocker)
+                        lock (sendMessageLocker)
                         {
                             if (--imageUrlHittingCount == 0)
                             {
-                                App.Messenger.Send(new ImageHitEndMessage());
+                                lock (sendMessageLocker)
+                                {
+                                    App.Messenger.Send(new ImageHitEndMessage());
+                                }
                             }
                         }
                     }
