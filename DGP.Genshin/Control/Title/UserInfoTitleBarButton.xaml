@@ -1,0 +1,84 @@
+﻿<ui:TitleBarButton x:Class="DGP.Genshin.Control.Title.UserInfoTitleBarButton"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                   xmlns:ui="http://schemas.modernwpf.com/2019"
+                   xmlns:local="clr-namespace:DGP.Genshin.Control.Title"
+                   xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer" 
+                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                   mc:Ignorable="d" 
+                   IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
+                   Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
+                   x:Name="UserInfoTitleBarButtonRoot"
+                   Command="{Binding OpenUICommand}"
+                   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                   Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay,FallbackValue=未登录,TargetNullValue=未登录}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=UserInfoTitleBarButtonRoot}">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <ui:TitleBarButton.Resources>
+        <Style TargetType="ui:ListViewItem">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </ui:TitleBarButton.Resources>
+    <ui:FlyoutBase.AttachedFlyout>
+        <ui:Flyout Placement="Bottom">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <s:SmoothScrollViewer Grid.Row="0" MaxHeight="272">
+                    <ui:ListView Padding="0" 
+                         ItemsSource="{Binding CookieUserInfos}" 
+                         SelectedItem="{Binding SelectedCookieUserInfo}" 
+                         SelectionMode="Single"
+                             HorizontalContentAlignment="Left">
+                        <ui:ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid RenderOptions.BitmapScalingMode="Fant">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="50" Height="50" Margin="6,6,12,6">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="64" Height="64" Margin="6,6,12,6">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding UserInfo.Uid}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ui:ListView.ItemTemplate>
+                    </ui:ListView>
+                </s:SmoothScrollViewer>
+                <ui:CommandBar Grid.Row="1">
+                    <ui:AppBarButton Label="添加一个新用户" Command="{Binding AddUserCommand}">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE8FA;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                    <ui:AppBarButton Label="删除选中的用户" Command="{Binding RemoveUserCommand}">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xE74D;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                </ui:CommandBar>
+            </Grid>
+        </ui:Flyout>
+    </ui:FlyoutBase.AttachedFlyout>
+</ui:TitleBarButton>

@@ -9,111 +9,111 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Controls\ExceptionWindow.xaml.cs">
+    <Compile Update="Control\ExceptionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\GenshinElements\AnnouncementWindow.xaml.cs">
+    <Compile Update="Control\GenshinElement\AnnouncementWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\GenshinElements\DailyNoteWindow.xaml.cs">
+    <Compile Update="Control\GenshinElement\DailyNoteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml.cs">
+    <Compile Update="Control\Title\DailyNoteTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TitleBarButtons\JourneyLogTitleBarButton.xaml.cs">
+    <Compile Update="Control\Title\JourneyLogTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TitleBarButtons\LaunchTitleBarButton.xaml.cs">
+    <Compile Update="Control\Title\LaunchTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TitleBarButtons\SignInTitleBarButton.xaml.cs">
+    <Compile Update="Control\Title\SignInTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml.cs">
+    <Compile Update="Control\Title\UserInfoTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml.cs">
+    <Compile Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\WebView2RuntimeWindow.xaml.cs">
+    <Compile Update="Control\WebView2RuntimeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\WhatsNewWindow.xaml.cs">
+    <Compile Update="Control\WhatsNewWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Pages\PluginPage.xaml.cs">
+    <Compile Update="Page\PluginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Pages\PromotionCalculatePage.xaml.cs">
+    <Compile Update="Page\PromotionCalculatePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Launching\NameDialog.xaml.cs">
+    <Compile Update="Control\Launching\NameDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Pages\SponsorPage.xaml.cs">
+    <Compile Update="Page\SponsorPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\ExceptionWindow.xaml">
+    <Page Update="Control\ExceptionWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\GenshinElements\AnnouncementWindow.xaml">
+    <Page Update="Control\GenshinElement\AnnouncementWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\GenshinElements\DailyNoteWindow.xaml">
+    <Page Update="Control\GenshinElement\DailyNoteWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TitleBarButtons\DailyNoteTitleBarButton.xaml">
+    <Page Update="Control\Title\DailyNoteTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TitleBarButtons\JourneyLogTitleBarButton.xaml">
+    <Page Update="Control\Title\JourneyLogTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TitleBarButtons\LaunchTitleBarButton.xaml">
+    <Page Update="Control\Title\LaunchTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TitleBarButtons\SignInTitleBarButton.xaml">
+    <Page Update="Control\Title\SignInTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TitleBarButtons\UserInfoTitleBarButton.xaml">
+    <Page Update="Control\Title\UserInfoTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\WebView2RuntimeWindow.xaml">
+    <Page Update="Control\WebView2RuntimeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\WhatsNewWindow.xaml">
+    <Page Update="Control\WhatsNewWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\WPFUIStyle\Dark.xaml">
+    <Page Update="Control\WPFUIStyle\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\WPFUIStyle\Light.xaml">
+    <Page Update="Control\WPFUIStyle\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\WPFUIStyle\OverrideStyle.xaml">
+    <Page Update="Control\WPFUIStyle\OverrideStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\GenshinElements\CharacterGachaSplashWindow.xaml">
+    <Page Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\PluginPage.xaml">
+    <Page Update="Page\PluginPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\PromotionCalculatePage.xaml">
+    <Page Update="Page\PromotionCalculatePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Launching\NameDialog.xaml">
+    <Page Update="Control\Launching\NameDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TaskbarIconResources.xaml">
+    <Page Update="Control\TaskbarIconResources.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\SponsorPage.xaml">
+    <Page Update="Page\SponsorPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

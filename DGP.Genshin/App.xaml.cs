@@ -1,10 +1,10 @@
-﻿using DGP.Genshin.Controls;
+﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core;
 using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.Helpers;
-using DGP.Genshin.Helpers.Notifications;
+using DGP.Genshin.Helper;
+using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.MiHoYoAPI.Request;
-using DGP.Genshin.Services.Abstratcions;
+using DGP.Genshin.Service.Abstratcion;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -165,6 +165,10 @@ namespace DGP.Genshin
             }
             base.OnExit(e);
         }
+        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        {
+            Shutdown();
+        }
 
         private void ConfigureUnhandledException()
         {
@@ -178,7 +182,6 @@ namespace DGP.Genshin
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
             }
         }
-
         private void ConfigureRequester()
         {
             Requester.ResponseFailedAction = (ex, method, desc) =>

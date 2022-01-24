@@ -13,7 +13,7 @@
     <UseWPF>true</UseWPF>
     <!--不能生成为引用程序集-->
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <Platforms>AnyCPU</Platforms>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

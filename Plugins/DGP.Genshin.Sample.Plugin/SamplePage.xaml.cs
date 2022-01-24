@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Sample.Plugin
 {
-    public partial class SamplePage : Page
+    public partial class SamplePage : System.Windows.Controls.Page
     {
         public SamplePage()
         {
