@@ -51,6 +51,12 @@
                                        UriSource="https://webstatic.mihoyo.com/upload/static-resource/2021/09/06/1ec1d1e2afbcc99f8f8c58eabb88a69d_3023852421646190619.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="胡桃数据库" helpers:NavHelper.NavigateTo="{x:Type pages:HutaoStatisticPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BtnIcon_Gacha.png"
+                            UriSource="pack://application:,,,/Resources/UI_BtnIcon_Gacha.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BtnIcon_Gacha.png"

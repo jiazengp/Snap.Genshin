@@ -247,7 +247,7 @@ namespace DGP.Genshin.Service
                 OpenFileDialog openFileDialog = new()
                 {
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    Filter = "启动器|launcher.exe|快捷方式|*.lnk",
+                    Filter = "启动器或快捷方式|launcher.exe;*.lnk",
                     Title = "选择启动器文件",
                     CheckPathExists = true,
                     DereferenceLinks = true,

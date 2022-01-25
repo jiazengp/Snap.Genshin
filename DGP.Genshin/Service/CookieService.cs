@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.Control.Cookie;
+using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.Helper.Converter;
 using DGP.Genshin.Message;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.AppCenter.Crashes;
@@ -314,6 +316,12 @@ namespace DGP.Genshin.Service
             }
             CookiesLock.ExitWriteLock();
             isInitialized = true;
+        }
+
+        public async Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOf(string cookie)
+        {
+            List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+            return userGameRoles.Select(u => new CookieUserGameRole(cookie, u));
         }
     }
 }

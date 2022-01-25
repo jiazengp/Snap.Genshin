@@ -74,6 +74,7 @@
     <ProjectReference Include="..\Common\Snap.Threading\Snap.Threading.csproj" />
     <ProjectReference Include="..\Common\Snap.Win32\Snap.Win32.csproj" />
     <ProjectReference Include="..\DGP.Genshin.FPSUnlocking\DGP.Genshin.FPSUnlocking.csproj" />
+    <ProjectReference Include="..\DGP.Genshin.HutaoAPI\DGP.Genshin.HutaoAPI.csproj" />
     <ProjectReference Include="..\DGP.Genshin.MiHoYoAPI\DGP.Genshin.MiHoYoAPI.csproj" />
   </ItemGroup>
 

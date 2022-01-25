@@ -42,6 +42,9 @@
     <Compile Update="Control\WhatsNewWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Page\HutaoStatisticPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Page\PluginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +102,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\HutaoStatisticPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\PluginPage.xaml">

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DGP.Genshin.DataModel.Cookie;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -94,5 +95,6 @@ namespace DGP.Genshin.Service.Abstratcion
         /// </summary>
         /// <returns></returns>
         Task InitializeAsync();
+        Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOf(string cookie);
     }
 }

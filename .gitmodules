@@ -46,3 +46,6 @@
 [submodule "Common/Snap.Core.Mvvm"]
 	path = Common/Snap.Core.Mvvm
 	url = https://github.com/DGP-Studio/Snap.Core.Mvvm.git
+[submodule "DGP.Genshin.HutaoAPI"]
+	path = DGP.Genshin.HutaoAPI
+	url = https://github.com/DGP-Studio/DGP.Genshin.HutaoAPI.git

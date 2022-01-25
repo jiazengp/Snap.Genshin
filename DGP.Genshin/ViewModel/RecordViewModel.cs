@@ -25,10 +25,7 @@ namespace DGP.Genshin.ViewModel
 
         public Record? CurrentRecord { get => currentRecord; set => SetProperty(ref currentRecord, value); }
         public string? StateDescription { get => stateDescription; set => SetProperty(ref stateDescription, value); }
-        public ICommand QueryCommand
-        {
-            get;
-        }
+        public ICommand QueryCommand { get; }
 
         public RecordViewModel(IRecordService recordService, IMessenger messenger) : base(messenger)
         {

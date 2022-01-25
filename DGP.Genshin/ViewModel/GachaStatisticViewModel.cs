@@ -45,7 +45,7 @@ namespace DGP.Genshin.ViewModel
         public UidGachaData? SelectedUserGachaData
         {
             get => selectedUserGachaData;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGachaData, value, SyncStatisticWithUid);
+            set => SetPropertyAndCallbackOverridePropertyState(ref selectedUserGachaData, value, SyncStatisticWithUid);
         }
         /// <summary>
         /// 同步统计数据与当前uid
@@ -55,10 +55,7 @@ namespace DGP.Genshin.ViewModel
         {
             if (SelectedUserGachaData is not null)
             {
-                string? currentUser = Statistic?.Uid;
-                string? targetUser = SelectedUserGachaData.Uid;
-                //移除相等判断是因为同一个uid刷新后无法更新
-                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, targetUser);
+                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, SelectedUserGachaData.Uid);
                 SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
         }
@@ -159,7 +156,7 @@ namespace DGP.Genshin.ViewModel
                 };
                 if (openFileDialog.ShowDialog() is true)
                 {
-                    if (await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName))
+                    if (!await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName))
                     {
                         await new ContentDialog()
                         {
@@ -168,6 +165,10 @@ namespace DGP.Genshin.ViewModel
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();
+                    }
+                    else
+                    {
+                        SyncStatisticWithUid();
                     }
                 }
                 taskPreventer.Release();
@@ -195,6 +196,10 @@ namespace DGP.Genshin.ViewModel
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();
+                    }
+                    else
+                    {
+                        SyncStatisticWithUid();
                     }
                 }
                 taskPreventer.Release();

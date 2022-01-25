@@ -8,6 +8,8 @@
          xmlns:r="clr-namespace:DGP.Genshin.Control.GenshinElement.Record"
          xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
          xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
+         xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+         xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800"
          Title="RecordPage">
@@ -706,18 +708,20 @@
 
         <Border Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}" 
                 Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityConverter}}"
-                d:Visibility="Collapsed">
+                d:Visibility="Visible">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ui:AutoSuggestBox Margin="0,0,0,0"
                                    MinWidth="240" 
                                    PlaceholderText="键入UID以查询" 
                                    QueryIcon="Find"
                                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
-                <TextBlock Text="{Binding StateDescription}" d:Text="Test" Margin="0,6,0,0" 
+                <TextBlock Text="{Binding StateDescription}" d:Text="Test String" Margin="0,6,0,0" 
                            HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"/>
                 <ui:ProgressBar Margin="0,6,0,0" Background="Transparent"
                                 d:IsIndeterminate="true"
                                 IsIndeterminate="{Binding QueryCommand.IsRunning}"/>
+                <!--<wu:CardAction helper:CardHelper.ActionTitle="查询当前账号信息"/>-->
+
             </StackPanel>
         </Border>
     </Grid>

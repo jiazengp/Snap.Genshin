@@ -53,8 +53,7 @@ namespace DGP.Genshin.ViewModel
             cookieService.CookiesLock.EnterReadLock();
             foreach (string cookie in cookieService.Cookies)
             {
-                List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                cookieUserGameRoles.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
+                cookieUserGameRoles.AddRange(await cookieService.GetCookieUserGameRolesOf(cookie));
             }
             cookieService.CookiesLock.ExitReadLock();
 
