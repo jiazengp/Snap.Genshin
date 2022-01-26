@@ -85,9 +85,10 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region import
 
         #region UIGF.W
-        public bool ImportFromUIGFW(string filePath, GachaDataCollection gachaData)
+        public (bool isOk, string uid) ImportFromUIGFW(string filePath, GachaDataCollection gachaData)
         {
             bool successful = true;
+            string uid = "";
             lock (processing)
             {
                 try
@@ -119,7 +120,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 columnIndex = DetectColumn(metadataSheet, columnIndex, propertyColumn);
                                 List<GachaLogItem> gachaLogs = EnumerateSheetData(metadataSheet, propertyColumn);
                                 ImportableGachaData importData = BuildImportableDataByList(gachaLogs);
-                                ImportImportableGachaData(importData, gachaData);
+                                uid = ImportImportableGachaData(importData, gachaData);
                             }
                             else
                             {
@@ -135,7 +136,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     successful = false;
                 }
             }
-            return successful;
+            return (successful, uid);
         }
 
         private ImportableGachaData BuildImportableDataByList(List<GachaLogItem> gachaLogs)
@@ -224,12 +225,13 @@ namespace DGP.Genshin.Service.GachaStatistic
         #endregion
 
         #region UIGF.J
-        public bool ImportFromUIGFJ(string filePath, GachaDataCollection gachaData)
+        public (bool isOk, string uid) ImportFromUIGFJ(string filePath, GachaDataCollection gachaData)
         {
             return ImportFromExternalData<UIGF>(filePath, gachaData, file =>
             {
                 _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
                 ImportableGachaData importData = new();
+                importData.Uid = file.Info!.Uid;
                 importData.Data = new();
                 if (file.List is not null)
                 {
@@ -262,15 +264,16 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="filePath"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public bool ImportFromExternalData<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
+        public (bool isOk, string uid) ImportFromExternalData<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
+            string uid = "";
             lock (processing)
             {
                 try
                 {
                     T? file = Json.FromFile<T>(filePath);
-                    ImportImportableGachaData(converter.Invoke(file), gachaData);
+                    uid = ImportImportableGachaData(converter.Invoke(file), gachaData);
                     SaveAll(gachaData);
                 }
                 catch (Exception ex)
@@ -279,7 +282,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     successful = false;
                 }
             }
-            return successful;
+            return (successful,uid);
         }
 
         private string ImportImportableGachaData(ImportableGachaData importable, GachaDataCollection gachaData)

@@ -22,7 +22,16 @@ namespace DGP.Genshin.Control.GenshinElement
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await WebView.EnsureCoreWebView2Async();
+            try
+            {
+                await WebView.EnsureCoreWebView2Async();
+            }
+            catch
+            {
+                Close();
+                return;
+            }
+            
             WebView.NavigateToString(targetContent);
         }
     }

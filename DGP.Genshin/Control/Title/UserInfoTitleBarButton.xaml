@@ -32,7 +32,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <s:SmoothScrollViewer Grid.Row="0" MaxHeight="272">
+                <TextBlock Text="选中用户以切换" Style="{StaticResource BaseTextBlockStyle}" HorizontalAlignment="Center"
+                           Margin="0,0,0,12"/>
+                <s:SmoothScrollViewer Grid.Row="1" MaxHeight="272">
                     <ui:ListView Padding="0" 
                          ItemsSource="{Binding CookieUserInfos}" 
                          SelectedItem="{Binding SelectedCookieUserInfo}" 
@@ -66,7 +68,7 @@
                         </ui:ListView.ItemTemplate>
                     </ui:ListView>
                 </s:SmoothScrollViewer>
-                <ui:CommandBar Grid.Row="1">
+                <ui:CommandBar Grid.Row="2">
                     <ui:AppBarButton Label="添加一个新用户" Command="{Binding AddUserCommand}">
                         <ui:AppBarButton.Icon>
                             <ui:FontIcon Glyph="&#xE8FA;"/>

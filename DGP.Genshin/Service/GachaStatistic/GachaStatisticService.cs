@@ -139,12 +139,12 @@ namespace DGP.Genshin.Service.GachaStatistic
             await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
         }
 
-        public async Task<bool> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
+        public async Task<(bool isOk, string uid)> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
         {
             return await Task.Run(() => localGachaLogWorker!.ImportFromUIGFW(path, gachaData));
         }
 
-        public async Task<bool> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
+        public async Task<(bool isOk, string uid)> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
         {
             return await Task.Run(() => localGachaLogWorker!.ImportFromUIGFJ(path, gachaData));
         }

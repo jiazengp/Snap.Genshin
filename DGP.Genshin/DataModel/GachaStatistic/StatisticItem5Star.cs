@@ -21,13 +21,27 @@ namespace DGP.Genshin.DataModel.GachaStatistic
         public bool IsBigGuarantee { get; set; }
         public bool IsUp { get; set; }
         public string? GachaTypeName { get; set; }
+
         public SolidColorBrush Background
         {
             get
             {
                 _ = Name ?? throw new UnexceptedNullException("Name 不应为 null");
                 byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name));
-                Color color = Color.FromRgb((byte)(codes[0] / 2 + 64), (byte)(codes[1] / 2 + 64), (byte)(codes[2] / 2 + 64));
+                Color color = Color.FromRgb(
+                    (byte)(codes[0] / 2 + 64),
+                    (byte)(codes[1] / 2 + 64),
+                    (byte)(codes[2] / 2 + 64));
+                return new SolidColorBrush(color);
+            }
+        }
+        public SolidColorBrush TranslucentBackground
+        {
+            get
+            {
+                _ = Name ?? throw new UnexceptedNullException("Name 不应为 null");
+                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name));
+                Color color = Color.FromArgb(102, (byte)(codes[0] / 2 + 64), (byte)(codes[1] / 2 + 64), (byte)(codes[2] / 2 + 64));
                 return new SolidColorBrush(color);
             }
         }

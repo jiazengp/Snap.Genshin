@@ -37,7 +37,7 @@
                     <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
                         <c:CachedImage ImageUrl="{Binding BadgeUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"/>
                     </Border>
-                    <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" Visibility="{Binding IsCountVisible,RelativeSource={RelativeSource FindAncestor,AncestorType=Button},Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Border CornerRadius="0,4,0,4" Background="#66000000" Height="16" Visibility="{Binding IsCountVisible,RelativeSource={RelativeSource FindAncestor,AncestorType=Button},Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <TextBlock x:Name="CountText" Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Count,FallbackValue=0}" FontSize="10"/>
                     </Border>
                     <Border CornerRadius="0,0,4,4" Height="20"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom">

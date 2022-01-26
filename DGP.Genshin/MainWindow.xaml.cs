@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,7 +60,7 @@ namespace DGP.Genshin
             initializingWindow.Wait();
             ISettingService settingService = App.GetService<ISettingService>();
             SplashViewModel splashViewModel = viewModelReference.Value;
-            PrepareTitleBarArea(splashViewModel);
+            PrepareTitleBarArea();
             AddAditionalNavigationViewItem();
             //preprocess
             if (!hasEverOpen)
@@ -141,14 +142,13 @@ namespace DGP.Genshin
         /// 准备标题栏按钮
         /// </summary>
         /// <param name="splashView"></param>
-        private void PrepareTitleBarArea(SplashViewModel splashView)
+        private void PrepareTitleBarArea()
         {
-            splashView.CurrentStateDescription = "初始化标题栏...";
-            TitleBarStackPanel.Children.Add(new UserInfoTitleBarButton());
             TitleBarStackPanel.Children.Add(new LaunchTitleBarButton());
+            TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
             TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
             TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
-            TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
+            TitleBarStackPanel.Children.Add(new UserInfoTitleBarButton());
         }
 
         /// <summary>
@@ -192,6 +192,7 @@ namespace DGP.Genshin
                         .Show(toast => { toast.SuppressPopup = isSignInSilently; });
                     }
                     catch (DllNotFoundException) { }
+                    catch (COMException) { }
                 }
             }
             cookieService.CookiesLock.ExitReadLock();

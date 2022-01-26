@@ -34,6 +34,7 @@
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resources\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resources\UI_BtnIcon_Gacha.png" />
+    <None Remove="Resources\UI_EmotionIcon66.png" />
     <None Remove="Resources\UI_EmotionIcon72.png" />
     <None Remove="Resources\UI_GachaSettlement_Bg2.png" />
     <None Remove="Resources\UI_ImgSign_ItemIcon.png" />
@@ -84,6 +85,7 @@
     <Resource Include="Resources\UI_BagTabIcon_Avatar.png" />
     <Resource Include="Resources\UI_BagTabIcon_Weapon.png" />
     <Resource Include="Resources\UI_BtnIcon_Gacha.png" />
+    <Resource Include="Resources\UI_EmotionIcon66.png" />
     <Resource Include="Resources\UI_EmotionIcon72.png" />
     <Resource Include="Resources\UI_GachaSettlement_Bg2.png" />
     <Resource Include="Resources\UI_ImgSign_ItemIcon.png" />

@@ -18,6 +18,9 @@
     <Compile Update="Control\GenshinElement\DailyNoteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\GenshinElement\GachaStatistic\StatisticCard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\Title\DailyNoteTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +69,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\GenshinElement\DailyNoteWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\GenshinElement\GachaStatistic\StatisticCard.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\Title\DailyNoteTitleBarButton.xaml">

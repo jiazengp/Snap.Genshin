@@ -10,9 +10,15 @@
          xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
          xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
          xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800"
          Title="RecordPage">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Page.Resources>
         <converters:HtmlStringConverter x:Key="HtmlStringConverter"/>
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
@@ -254,7 +260,7 @@
                                                         <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
                                                             <c:CachedImage ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}"/>
                                                         </Border>
-                                                        <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                        <Border CornerRadius="0,4,0,4" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                             <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ActivedConstellationNum}" FontSize="10"/>
                                                         </Border>
                                                         <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
@@ -288,7 +294,7 @@
                                                     c:ImageAsyncHelper.ImageUrl="{Binding Weapon.Icon}"
                                                     RenderOptions.BitmapScalingMode="HighQuality">
                                                     <Grid>
-                                                        <Border CornerRadius="0,4,0,0" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                        <Border CornerRadius="0,4,0,4" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                             <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.AffixLevel}" FontSize="10"/>
                                                         </Border>
                                                         <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
@@ -720,7 +726,15 @@
                 <ui:ProgressBar Margin="0,6,0,0" Background="Transparent"
                                 d:IsIndeterminate="true"
                                 IsIndeterminate="{Binding QueryCommand.IsRunning}"/>
-                <!--<wu:CardAction helper:CardHelper.ActionTitle="查询当前账号信息"/>-->
+                <ItemsControl ItemsSource="{Binding UserGameRoles}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <wu:CardAction Margin="0,12,0,0" helper:CardHelper.ActionTitle="{Binding Nickname}" 
+                                           helper:CardHelper.ActionSubtitle="{Binding GameUid}"
+                                           Click="CardAction_Click" CommandParameter="{Binding GameUid}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
             </StackPanel>
         </Border>

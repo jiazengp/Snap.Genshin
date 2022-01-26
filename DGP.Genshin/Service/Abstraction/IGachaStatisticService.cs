@@ -96,14 +96,14 @@ namespace DGP.Genshin.Service.Abstratcion
         /// </summary>
         /// <param name="gachaData"></param>
         /// <param name="path"></param>
-        Task<bool> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path);
+        Task<(bool isOk,string uid)> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 异步从Json导入记录
         /// </summary>
         /// <param name="gachaData"></param>
         /// <param name="path"></param>
-        Task<bool> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path);
+        Task<(bool isOk, string uid)> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 加载本地储存的记录数据

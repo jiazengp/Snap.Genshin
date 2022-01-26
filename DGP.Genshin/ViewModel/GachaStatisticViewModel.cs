@@ -156,7 +156,8 @@ namespace DGP.Genshin.ViewModel
                 };
                 if (openFileDialog.ShowDialog() is true)
                 {
-                    if (!await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName))
+                    (bool isOk, string uid) = await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName);
+                    if (!isOk)
                     {
                         await new ContentDialog()
                         {
@@ -168,7 +169,7 @@ namespace DGP.Genshin.ViewModel
                     }
                     else
                     {
-                        SyncStatisticWithUid();
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
                 taskPreventer.Release();
@@ -187,7 +188,8 @@ namespace DGP.Genshin.ViewModel
                 };
                 if (openFileDialog.ShowDialog() is true)
                 {
-                    if (!await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName))
+                    (bool isOk, string uid) = await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName);
+                    if (!isOk)
                     {
                         await new ContentDialog()
                         {
@@ -199,7 +201,7 @@ namespace DGP.Genshin.ViewModel
                     }
                     else
                     {
-                        SyncStatisticWithUid();
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
                 taskPreventer.Release();
