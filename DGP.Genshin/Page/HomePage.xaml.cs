@@ -10,7 +10,7 @@ namespace DGP.Genshin.Page
     {
         public HomePage()
         {
-            DataContext = App.GetViewModel<HomeViewModel>();
+            DataContext = App.AutoWired<HomeViewModel>();
             InitializeComponent();
         }
     }

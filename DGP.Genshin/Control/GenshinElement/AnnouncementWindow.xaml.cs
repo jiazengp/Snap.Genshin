@@ -31,7 +31,7 @@ namespace DGP.Genshin.Control.GenshinElement
                 Close();
                 return;
             }
-            
+
             WebView.NavigateToString(targetContent);
         }
     }

@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.ViewModel;
-using ModernWpf.Controls;
 
 namespace DGP.Genshin.Page
 {
@@ -7,7 +6,7 @@ namespace DGP.Genshin.Page
     {
         public GachaStatisticPage()
         {
-            DataContext = App.GetViewModel<GachaStatisticViewModel>();
+            DataContext = App.AutoWired<GachaStatisticViewModel>();
             InitializeComponent();
         }
     }

@@ -10,7 +10,7 @@ namespace DGP.Genshin.Page
     {
         public PromotionCalculatePage()
         {
-            DataContext = App.GetViewModel<PromotionCalculateViewModel>();
+            DataContext = App.AutoWired<PromotionCalculateViewModel>();
             InitializeComponent();
         }
 

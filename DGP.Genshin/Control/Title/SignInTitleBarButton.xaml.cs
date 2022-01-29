@@ -7,7 +7,7 @@ namespace DGP.Genshin.Control.Title
     {
         public SignInTitleBarButton()
         {
-            DataContext = App.GetViewModel<SignInViewModel>();
+            DataContext = App.AutoWired<SignInViewModel>();
             InitializeComponent();
         }
     }

@@ -10,7 +10,7 @@ namespace DGP.Genshin.Control.Title
     {
         public UserInfoTitleBarButton()
         {
-            DataContext = App.GetViewModel<UserInfoViewModel>();
+            DataContext = App.AutoWired<UserInfoViewModel>();
             InitializeComponent();
         }
 

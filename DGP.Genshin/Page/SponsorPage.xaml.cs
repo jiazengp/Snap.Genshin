@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.ViewModel;
-using System.Windows.Controls;
 
 namespace DGP.Genshin.Page
 {
@@ -10,7 +9,7 @@ namespace DGP.Genshin.Page
     {
         public SponsorPage()
         {
-            DataContext = App.GetViewModel<SponsorViewModel>();
+            DataContext = App.AutoWired<SponsorViewModel>();
             InitializeComponent();
         }
     }

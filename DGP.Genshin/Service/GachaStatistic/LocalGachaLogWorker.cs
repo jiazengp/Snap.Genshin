@@ -282,7 +282,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     successful = false;
                 }
             }
-            return (successful,uid);
+            return (successful, uid);
         }
 
         private string ImportImportableGachaData(ImportableGachaData importable, GachaDataCollection gachaData)

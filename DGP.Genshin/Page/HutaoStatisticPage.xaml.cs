@@ -6,7 +6,7 @@ namespace DGP.Genshin.Page
     {
         public HutaoStatisticPage()
         {
-            DataContext = App.GetViewModel<HutaoStatisticViewModel>();
+            DataContext = App.AutoWired<HutaoStatisticViewModel>();
             InitializeComponent();
         }
     }

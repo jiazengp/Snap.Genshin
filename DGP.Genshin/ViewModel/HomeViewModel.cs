@@ -46,11 +46,11 @@ namespace DGP.Genshin.ViewModel
             AnnouncementProvider provider = new();
             AnnouncementWrapper? wrapper = await provider.GetAnnouncementWrapperAsync();
             List<AnnouncementContent> contents = new();
-            try 
+            try
             {
                 contents = await provider.GetAnnouncementContentsAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Log(ex.Message);
             }

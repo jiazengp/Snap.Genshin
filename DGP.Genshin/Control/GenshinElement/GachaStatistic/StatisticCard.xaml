@@ -218,23 +218,6 @@
                     CornerRadius="{StaticResource SmallCompatCornerRadius}"
                     BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
                     BorderThickness="1" Margin="0,12,0,4" Padding="4" Opacity="0.8">
-                    <Grid >
-                        <TextBlock 
-                        FontFamily="Consolas,MicroSoft YaHei UI" 
-                        Text="五星平均抽数"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock 
-                        
-                        HorizontalAlignment="Right"
-                        FontFamily="Consolas" 
-                        Text="{Binding AverageGetStar5,StringFormat={}{0:f2} 抽}"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                    </Grid>
-                </Border>
-                <Border 
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                    BorderThickness="1" Margin="0,0,0,4" Padding="4" Opacity="0.8">
                     <Grid>
                         <TextBlock 
                         FontFamily="Consolas,MicroSoft YaHei UI" 
@@ -251,6 +234,24 @@
                         </TextBlock>
                     </Grid>
                 </Border>
+                <Border 
+                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                    BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
+                    BorderThickness="1" Margin="0,0,0,4" Padding="4" Opacity="0.8">
+                    <Grid >
+                        <TextBlock 
+                        FontFamily="Consolas,MicroSoft YaHei UI" 
+                        Text="五星平均抽数"
+                        Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock 
+                        
+                        HorizontalAlignment="Right"
+                        FontFamily="Consolas" 
+                        Text="{Binding AverageGetStar5,StringFormat={}{0:f2} 抽}"
+                        Style="{StaticResource BodyTextBlockStyle}"/>
+                    </Grid>
+                </Border>
+                
                 <Border 
                     CornerRadius="{StaticResource SmallCompatCornerRadius}"
                     BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 

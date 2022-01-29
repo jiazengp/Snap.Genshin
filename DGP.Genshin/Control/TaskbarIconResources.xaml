@@ -2,27 +2,30 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar">
 
-    <tb:TaskbarIcon x:Key="TaskbarIcon"
-                    IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
-                    ToolTipText="Snap Genshin"
-                    PopupActivation="All" LeftClickCommand="{Binding ShowMainWindowCommand}">
-        <tb:TaskbarIcon.ContextMenu>
-            <ContextMenu Style="{DynamicResource DefaultContextMenuStyle}">
-                <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
-                <Separator/>
-                <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
-                    <MenuItem.ItemContainerStyle>
-                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
-                            <Setter Property="IsCheckable" Value="True"/>
-                            <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
-                            <Setter Property="Header" Value="{Binding Path=CookieUserGameRole.UserGameRole}"/>
-                        </Style>
-                    </MenuItem.ItemContainerStyle>
-                </MenuItem>
-                <MenuItem Header="立即刷新" Command="{Binding UpdateWidgetsCommand}"/>
-                <Separator/>
-                <MenuItem Header="退出" Command="{Binding ExitCommand}" />
-            </ContextMenu>
-        </tb:TaskbarIcon.ContextMenu>
-    </tb:TaskbarIcon>
+    <ContextMenu x:Shared="false" x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}">
+        <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
+        <Separator/>
+        <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
+                    <Setter Property="IsCheckable" Value="True"/>
+                    <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
+                    <Setter Property="Header" Value="{Binding Path=CookieUserGameRole.UserGameRole}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <MenuItem Header="立即刷新" Command="{Binding UpdateWidgetsCommand}"/>
+        <Separator/>
+        <MenuItem Header="退出" Command="{Binding ExitCommand}" />
+    </ContextMenu>
+
+    <tb:TaskbarIcon 
+        x:Key="TaskbarIcon"
+        x:Shared="false"
+        IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
+        ToolTipText="单击以切换主界面显示"
+        PopupActivation="All"
+        LeftClickCommand="{Binding ShowMainWindowCommand}"
+        ContextMenu="{StaticResource SysTrayMenu}"/>
+
 </ResourceDictionary>

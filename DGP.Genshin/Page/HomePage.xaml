@@ -21,11 +21,6 @@
     </Page.Resources>
     <Grid>
         <smoothscrollviewer:SmoothScrollViewer Padding="0,0,4,0">
-            <smoothscrollviewer:SmoothScrollViewer.Resources>
-                <Style x:Key="NavigateButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
-                    <Setter Property="Command" Value="{Binding OpenAnnouncementUICommand}"/>
-                </Style>
-            </smoothscrollviewer:SmoothScrollViewer.Resources>
             <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding Announcement.List}" 
                                   Padding="0" Margin="12,12,0,-24" SnapsToDevicePixels="True">
                 <ItemsControl.ItemTemplate>
@@ -54,22 +49,31 @@
                                                     <Border.Background>
                                                         <ImageBrush ImageSource="{Binding Banner}" Stretch="UniformToFill"/>
                                                     </Border.Background>
-                                                    <Border CornerRadius="0,4,0,11.5" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    <Grid>
+                                                        <Border CornerRadius="0,4,0,11.5" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                             Background="{StaticResource SystemControlBackgroundAltMediumBrush}" Padding="8,4" 
                                                             Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding TimeDescription}" />
-                                                    </Border>
+                                                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding TimeDescription}" />
+                                                        </Border>
+                                                        <ui:ProgressBar 
+                                                            Height="2" MinHeight="2" Value="{Binding TimePercent,Mode=OneWay}" ui:ControlHelper.CornerRadius="0"
+                                                            Visibility="{Binding ShouldShowTimePrecent,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                            Maximum="1" VerticalAlignment="Bottom" Background="Transparent"/>
+                                                    </Grid>
+                                                    
                                                 </Border>
                                                 <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
-                                                    <StackPanel  Margin="4" VerticalAlignment="Bottom">
-                                                        <Grid Margin="2,6,0,0">
+                                                    <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                                        <Grid Margin="2,6,0,0" HorizontalAlignment="Stretch">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition/>
                                                                 <ColumnDefinition Width="auto"/>
                                                             </Grid.ColumnDefinitions>
+                                                            
                                                             <TextBlock Text="{Binding Subtitle}" Style="{StaticResource SubtitleTextBlockStyle}"
                                                                TextWrapping="NoWrap" TextTrimming="WordEllipsis" />
-                                                            <Button x:Name="OpenAnnouncementButton" Content="&#xE8A7;" FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                            <Button x:Name="OpenAnnouncementButton" Content="&#xE8A7;" 
+                                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                                                     Grid.Column="1" Background="Transparent"
                                                                     Visibility="Hidden"

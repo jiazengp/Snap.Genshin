@@ -180,13 +180,13 @@ namespace DGP.Genshin.Service.GachaStatistic
                             };
                             if (itemType == "武器")
                             {
-                                Weapon? weapon = App.GetViewModel<MetadataViewModel>().Weapons?.First(w => w.Name == i.Name);
+                                Weapon? weapon = App.AutoWired<MetadataViewModel>().Weapons?.First(w => w.Name == i.Name);
                                 counter[i.Name].Source = weapon?.Source;
                                 counter[i.Name].Badge = weapon?.Type;
                             }
                             else if (itemType == "角色")
                             {
-                                Character? character = App.GetViewModel<MetadataViewModel>().Characters?.First(c => c.Name == i.Name);
+                                Character? character = App.AutoWired<MetadataViewModel>().Characters?.First(c => c.Name == i.Name);
                                 counter[i.Name].Source = character?.Source;
                                 counter[i.Name].Badge = character?.Element;
                             }
@@ -240,7 +240,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
-                SpecificBanner? matchedBanner = App.GetViewModel<MetadataViewModel>().SpecificBanners?.Find(b =>
+                SpecificBanner? matchedBanner = App.AutoWired<MetadataViewModel>().SpecificBanners?.Find(b =>
                     //match type first
                     b.Type == currentStar5.GachaType &&
                     currentStar5.Time >= b.StartTime &&
@@ -250,7 +250,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 counter.Add(new StatisticItem5Star()
                 {
                     GachaTypeName = gType is null ? gType : ConfigType.Known[gType],
-                    Source = App.GetViewModel<MetadataViewModel>().FindSourceByName(currentStar5.Name),
+                    Source = App.AutoWired<MetadataViewModel>().FindSourceByName(currentStar5.Name),
                     Name = currentStar5.Name,
                     Count = count,
                     Time = currentStar5.Time,
@@ -297,7 +297,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             //clone from metadata
-            List<SpecificBanner>? clonedBanners = App.GetViewModel<MetadataViewModel>().SpecificBanners?.ClonePartially();
+            List<SpecificBanner>? clonedBanners = App.AutoWired<MetadataViewModel>().SpecificBanners?.ClonePartially();
             _ = clonedBanners ?? throw new SnapGenshinInternalException("无可用的卡池信息");
 
             clonedBanners.ForEach(b => b.ClearItemAndStar5List());
@@ -343,8 +343,8 @@ namespace DGP.Genshin.Service.GachaStatistic
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            Character? isc = App.GetViewModel<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
-            Weapon? isw = App.GetViewModel<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
+            Character? isc = App.AutoWired<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
+            Weapon? isw = App.AutoWired<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
             SpecificItem ni = new()
             {
                 Time = item.Time

@@ -9,7 +9,7 @@ namespace DGP.Genshin.Page
     {
         public CharactersPage()
         {
-            DataContext = App.GetViewModel<MetadataViewModel>();
+            DataContext = App.AutoWired<MetadataViewModel>();
             InitializeComponent();
         }
     }

@@ -33,7 +33,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0,0,4,4"
-                                    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
+                                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}" 
                                     Opacity="{Binding Opacity}">
                                 <StackPanel Width="40">
                                     <Border Width="40" Height="40">

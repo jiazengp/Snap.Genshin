@@ -10,7 +10,7 @@ namespace DGP.Genshin.Control.Title
     {
         public JourneyLogTitleBarButton()
         {
-            DataContext = App.GetViewModel<JourneyViewModel>();
+            DataContext = App.AutoWired<JourneyViewModel>();
             InitializeComponent();
         }
     }

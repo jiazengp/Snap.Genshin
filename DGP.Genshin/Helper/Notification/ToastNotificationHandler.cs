@@ -17,7 +17,7 @@ namespace DGP.Genshin.Helper.Notification
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
             if (args.TryGetValue("action", out string value) && value == "update")
             {
-                IUpdateService updateService = App.GetService<IUpdateService>();
+                IUpdateService updateService = App.AutoWired<IUpdateService>();
                 if (updateService.Release is not null)
                 {
                     await updateService.DownloadAndInstallPackageAsync();

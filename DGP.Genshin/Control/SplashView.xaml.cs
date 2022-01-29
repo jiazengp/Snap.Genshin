@@ -7,7 +7,7 @@ namespace DGP.Genshin.Control
     {
         public SplashView()
         {
-            DataContext = App.GetViewModel<SplashViewModel>();
+            DataContext = App.AutoWired<SplashViewModel>();
             InitializeComponent();
         }
     }

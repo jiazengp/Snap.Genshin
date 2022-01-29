@@ -10,7 +10,7 @@ namespace DGP.Genshin.Control.Title
     {
         public LaunchTitleBarButton()
         {
-            DataContext = App.GetViewModel<LaunchViewModel>();
+            DataContext = App.AutoWired<LaunchViewModel>();
             InitializeComponent();
         }
 

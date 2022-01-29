@@ -11,7 +11,7 @@ namespace DGP.Genshin.Page
     {
         public RecordPage()
         {
-            DataContext = App.GetViewModel<RecordViewModel>();
+            DataContext = App.AutoWired<RecordViewModel>();
             InitializeComponent();
         }
 

@@ -2,7 +2,6 @@
 using DGP.Genshin.Helper;
 using Snap.Exception;
 using System;
-using System.Windows.Controls;
 
 namespace DGP.Genshin.Page
 {

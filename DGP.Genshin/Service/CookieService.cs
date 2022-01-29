@@ -86,15 +86,12 @@ namespace DGP.Genshin.Service
             public new bool Remove(string cookie)
             {
                 cookieService.CookiesLock.EnterWriteLock();
-
                 string id = GetCookiePairs(cookie)["account_id"];
                 AccountIds.Remove(id);
                 bool result = base.Remove(cookie);
                 App.Messenger.Send(new CookieRemovedMessage(cookie));
                 cookieService.SaveCookies();
-
                 cookieService.CookiesLock.ExitWriteLock();
-
                 return result;
             }
 
@@ -173,10 +170,7 @@ namespace DGP.Genshin.Service
                 Cookies = new CookiePool(this, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
             catch (FileNotFoundException) { }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            catch (Exception ex) { Crashes.TrackError(ex); }
             Cookies ??= new CookiePool(this, new List<string>());
 
             CookiesLock.ExitWriteLock();
@@ -297,7 +291,6 @@ namespace DGP.Genshin.Service
         public async Task InitializeAsync()
         {
             CookiesLock.EnterWriteLock();
-
             //enumerate the shallow copied list to remove item in foreach loop
             //prevent InvalidOperationException
             foreach (string cookie in Cookies.ToList())

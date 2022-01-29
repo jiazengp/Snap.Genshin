@@ -3,6 +3,7 @@ using DGP.Genshin.Core;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
+using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstratcion;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -68,26 +69,15 @@ namespace DGP.Genshin
         public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
 
         /// <summary>
-        /// 获取应注入的服务
-        /// 获取时应使用服务的接口类型
+        /// 获取注入的类型
         /// </summary>
-        /// <typeparam name="TService"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
-        public static TService GetService<TService>()
+        public static T AutoWired<T>()
         {
-            return Current.serviceManager.Services!.GetService<TService>()
-                ?? throw new SnapGenshinInternalException($"无法找到 {typeof(TService)} 类型的服务");
-        }
-
-        /// <summary>
-        /// 获取应注入的视图模型
-        /// </summary>
-        /// <typeparam name="TViewModel"></typeparam>
-        /// <returns></returns>
-        public static TViewModel GetViewModel<TViewModel>()
-        {
-            return GetService<TViewModel>();
+            return Current.serviceManager.Services!.GetService<T>()
+                ?? throw new SnapGenshinInternalException($"无法找到 {typeof(T)} 类型的对象。");
         }
 
         /// <summary>
@@ -106,6 +96,11 @@ namespace DGP.Genshin
             {
                 TWindow newWindow = new();
                 newWindow.Show();
+
+                newWindow.Activate();
+                newWindow.Topmost = true;
+                newWindow.Topmost = false;
+                newWindow.Focus();
             }
         }
 
@@ -141,21 +136,23 @@ namespace DGP.Genshin
             //handle notification activation
             ConfigureToastNotification();
             singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
-            GetService<ISettingService>().Initialize();
-            //app theme
-            UpdateAppTheme();
             //app center services
             ConfigureAppCenter(true);
             //global requester callback
             ConfigureRequester();
+            //services
+            AutoWired<ISettingService>().Initialize();
             //open main window
             base.OnStartup(e);
+            //app theme
+            UpdateAppTheme();
         }
         protected override void OnExit(ExitEventArgs e)
         {
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
-                GetService<ISettingService>().UnInitialize();
+                Messenger.Send(new AppExitingMessage());
+                AutoWired<ISettingService>().UnInitialize();
                 try
                 {
                     ToastNotificationManagerCompat.History.Clear();
@@ -219,7 +216,8 @@ namespace DGP.Genshin
         private void UpdateAppTheme()
         {
             ThemeManager.Current.ApplicationTheme =
-                GetService<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+                AutoWired<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
+            //ThemeManager.Current.AccentColor = ThemeManager.Current.ActualAccentColor;
         }
         #endregion
     }

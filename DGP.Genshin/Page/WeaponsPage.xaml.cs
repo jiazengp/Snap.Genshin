@@ -6,7 +6,7 @@ namespace DGP.Genshin.Page
     {
         public WeaponsPage()
         {
-            DataContext = App.GetViewModel<MetadataViewModel>();
+            DataContext = App.AutoWired<MetadataViewModel>();
             InitializeComponent();
         }
     }

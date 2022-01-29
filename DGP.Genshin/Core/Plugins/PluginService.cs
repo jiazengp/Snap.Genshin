@@ -42,7 +42,7 @@ namespace DGP.Genshin.Core.Plugins
                 try
                 {
                     Assembly? assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
-                    if(assembly.GetCustomAttribute<SnapGenshinPluginAttribute>() is not null)
+                    if (assembly.GetCustomAttribute<SnapGenshinPluginAttribute>() is not null)
                     {
                         plugins.Add(assembly);
                         this.Log($"plugin : {assembly.FullName} added to plugin collection");

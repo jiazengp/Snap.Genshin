@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.ViewModel;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace DGP.Genshin.Page
 {
@@ -17,7 +16,7 @@ namespace DGP.Genshin.Page
         private async void PageLoadedAsync(object sender, System.Windows.RoutedEventArgs e)
         {
             await Task.Delay(1000);
-            DataContext = App.GetViewModel<WeeklyViewModel>();
+            DataContext = App.AutoWired<WeeklyViewModel>();
         }
     }
 }

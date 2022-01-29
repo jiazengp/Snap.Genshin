@@ -3,7 +3,7 @@ using WPFUI.Controls;
 
 namespace DGP.Genshin.Control.Helper
 {
-    internal class CardHelper
+    public class CardHelper
     {
         #region CardAction Attach
         public static string GetActionTitle(CardAction obj)

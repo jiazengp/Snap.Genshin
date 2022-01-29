@@ -41,7 +41,7 @@ namespace DGP.Genshin
         {
             InitializeComponent();
 
-            navigationService = App.GetService<INavigationService>();
+            navigationService = App.AutoWired<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
 
@@ -58,7 +58,7 @@ namespace DGP.Genshin
         public async void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
             initializingWindow.Wait();
-            ISettingService settingService = App.GetService<ISettingService>();
+            ISettingService settingService = App.AutoWired<ISettingService>();
             SplashViewModel splashViewModel = viewModelReference.Value;
             PrepareTitleBarArea();
             AddAditionalNavigationViewItem();
@@ -108,7 +108,7 @@ namespace DGP.Genshin
             base.OnClosing(e);
             initializingWindow.Release();
 
-            bool isTaskbarIconEnabled = App.GetService<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false);
+            bool isTaskbarIconEnabled = App.AutoWired<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false);
             if (!hasInitializeCompleted || !isTaskbarIconEnabled)
             {
                 App.Current.Shutdown();
@@ -120,7 +120,7 @@ namespace DGP.Genshin
             App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
             if (App.Current.NotifyIcon is not null)
             {
-                App.Current.NotifyIcon.DataContext = App.GetViewModel<TaskbarIconViewModel>();
+                App.Current.NotifyIcon.DataContext = App.AutoWired<TaskbarIconViewModel>();
             }
         }
 
@@ -158,7 +158,7 @@ namespace DGP.Genshin
         /// <returns></returns>
         private async Task SignInOnStartUp(SplashViewModel splashView)
         {
-            DateTime? latsSignInTime = App.GetService<ISettingService>().GetOrDefault(
+            DateTime? latsSignInTime = App.AutoWired<ISettingService>().GetOrDefault(
                 Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), Setting.NullableDataTimeConverter);
 
             if (latsSignInTime < DateTime.Today)
@@ -170,8 +170,8 @@ namespace DGP.Genshin
 
         public static async Task SignInAllAccountsRolesAsync()
         {
-            ICookieService cookieService = App.GetService<ICookieService>();
-            ISettingService settingService = App.GetService<ISettingService>();
+            ICookieService cookieService = App.AutoWired<ICookieService>();
+            ISettingService settingService = App.AutoWired<ISettingService>();
 
             cookieService.CookiesLock.EnterReadLock();
             foreach (string cookie in cookieService.Cookies)
@@ -193,6 +193,7 @@ namespace DGP.Genshin
                     }
                     catch (DllNotFoundException) { }
                     catch (COMException) { }
+                    catch (InvalidCastException) { }
                 }
             }
             cookieService.CookiesLock.ExitReadLock();
@@ -202,8 +203,8 @@ namespace DGP.Genshin
         private async void DoUpdateFlowAsync()
         {
             await CheckUpdateAsync();
-            ISettingService settingService = App.GetService<ISettingService>();
-            IUpdateService updateService = App.GetService<IUpdateService>();
+            ISettingService settingService = App.AutoWired<ISettingService>();
+            IUpdateService updateService = App.AutoWired<IUpdateService>();
             Version? lastLaunchAppVersion = settingService.GetOrDefault(Setting.AppVersion, updateService.CurrentVersion, Setting.VersionConverter);
             //first launch after update
             if (lastLaunchAppVersion < updateService.CurrentVersion)
@@ -214,7 +215,7 @@ namespace DGP.Genshin
         }
         private async Task CheckUpdateAsync()
         {
-            UpdateState result = await App.GetService<IUpdateService>().CheckUpdateStateAsync();
+            UpdateState result = await App.AutoWired<IUpdateService>().CheckUpdateStateAsync();
             //force-update, debug code
             //result = UpdateState.NeedUpdate;
             switch (result)
@@ -223,7 +224,7 @@ namespace DGP.Genshin
                     {
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
-                            .AddText(App.GetService<IUpdateService>().NewVersion?.ToString())
+                            .AddText(App.AutoWired<IUpdateService>().NewVersion?.ToString())
                             .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
                             .Show();

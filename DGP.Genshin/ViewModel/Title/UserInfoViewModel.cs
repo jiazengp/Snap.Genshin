@@ -62,8 +62,6 @@ namespace DGP.Genshin.ViewModel.Title
         {
             View?.HideAttachedFlyout();
 
-            cookieService.CookiesLock.EnterWriteLock();
-
             if (cookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
@@ -76,17 +74,16 @@ namespace DGP.Genshin.ViewModel.Title
                 return;
             }
 
-            cookieService.CookiesLock.ExitWriteLock();
-
             if (SelectedCookieUserInfo is not null)
             {
                 ContentDialogResult result = await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "确定要删除该用户吗?",
-                    Content = "删除用户操作不可撤销。",
+                    Content = "删除用户的操作不可撤销。",
                     PrimaryButtonText = "确定",
                     SecondaryButtonText = "取消"
                 }.ShowAsync).Task.Unwrap();
+
                 if (result is ContentDialogResult.Primary)
                 {
                     cookieService.Cookies.Remove(SelectedCookieUserInfo.Cookie);

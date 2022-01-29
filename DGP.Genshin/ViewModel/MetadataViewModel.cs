@@ -19,8 +19,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
-using WeaponMaterial = DGP.Genshin.DataModel.Material.Weapon;
 using DataModelWeapon = DGP.Genshin.DataModel.Weapon;
+using WeaponMaterial = DGP.Genshin.DataModel.Material.Weapon;
 
 namespace DGP.Genshin.ViewModel
 {

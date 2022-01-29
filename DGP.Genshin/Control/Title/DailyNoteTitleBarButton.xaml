@@ -19,7 +19,7 @@
                         <DataTemplate>
                             <StackPanel Width="300">
                                 <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
@@ -44,7 +44,7 @@
                                     </Grid>
                                 </Border>
                                 <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
@@ -69,7 +69,7 @@
                                     </Grid>
                                 </Border>
                                 <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
@@ -93,7 +93,7 @@
                                     </Grid>
                                 </Border>
                                 <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
@@ -117,7 +117,7 @@
                                     </Grid>
                                 </Border>
                                 <Border Margin="0,12,0,0" CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                                        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+                                        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>

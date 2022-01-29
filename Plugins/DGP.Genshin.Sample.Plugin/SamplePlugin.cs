@@ -2,7 +2,7 @@
 using DGP.Genshin.Service.Abstratcion;
 using System;
 
-[assembly:SnapGenshinPlugin]
+[assembly: SnapGenshinPlugin]
 
 namespace DGP.Genshin.Sample.Plugin
 {
@@ -24,8 +24,8 @@ namespace DGP.Genshin.Sample.Plugin
         /// </summary>
         public bool IsEnabled
         {
-            get => App.GetService<ISettingService>().GetOrDefault(IsSamplePluginEnabled, false);
-            set => App.GetService<ISettingService>()[IsSamplePluginEnabled] = value;
+            get => App.AutoWired<ISettingService>().GetOrDefault(IsSamplePluginEnabled, false);
+            set => App.AutoWired<ISettingService>()[IsSamplePluginEnabled] = value;
         }
     }
 }

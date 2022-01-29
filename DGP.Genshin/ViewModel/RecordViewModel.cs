@@ -33,7 +33,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand QueryCommand { get; }
         public ICommand OpenUICommand { get; }
 
-        public RecordViewModel(IRecordService recordService, ICookieService cookieService,IMessenger messenger) : base(messenger)
+        public RecordViewModel(IRecordService recordService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.recordService = recordService;
             this.cookieService = cookieService;

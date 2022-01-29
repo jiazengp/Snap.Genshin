@@ -6,6 +6,7 @@ using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,10 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class TaskbarIconViewModel : ObservableRecipient2, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
+    internal class TaskbarIconViewModel : ObservableRecipient2,
+        IRecipient<CookieAddedMessage>,
+        IRecipient<CookieRemovedMessage>,
+        IRecipient<AppExitingMessage>
     {
         private readonly ICookieService cookieService;
         private readonly ISettingService settingService;
@@ -84,23 +88,11 @@ namespace DGP.Genshin.ViewModel
         }
         private void OpenMainWindow()
         {
-            App.ShowOrCloseWindow<MainWindow>();
+            App.Current.Dispatcher.Invoke(() => App.BringWindowToFront<MainWindow>());
         }
         private void ExitApp()
         {
-            SaveResinWidgetConfigrations();
             App.Current.Shutdown();
-        }
-        private void SaveResinWidgetConfigrations()
-        {
-            if (ResinWidgets is not null)
-            {
-                foreach (ResinWidgetConfigration? widget in ResinWidgets)
-                {
-                    widget.UpdatePropertyState();
-                }
-                settingService[Setting.ResinWidgetConfigrations] = ResinWidgets;
-            }
         }
         private void UpdateWidgets()
         {
@@ -120,12 +112,28 @@ namespace DGP.Genshin.ViewModel
         }
         public void Receive(CookieRemovedMessage message)
         {
-            IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!.Where(u => u.CookieUserGameRole!.Cookie == message.Value);
+            IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!
+                .Where(u => u.CookieUserGameRole!.Cookie == message.Value);
 
             foreach (ResinWidgetConfigration target in targets)
             {
                 target.IsChecked = false;
                 ResinWidgets?.Remove(target);
+            }
+        }
+        public void Receive(AppExitingMessage message)
+        {
+            if (ResinWidgets is not null)
+            {
+                foreach (ResinWidgetConfigration? widget in ResinWidgets)
+                {
+                    widget.UpdatePropertyState();
+                }
+                settingService[Setting.ResinWidgetConfigrations] = ResinWidgets;
+            }
+            else
+            {
+                this.Log("no resin widget saved,collection is null");
             }
         }
     }
