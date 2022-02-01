@@ -248,7 +248,7 @@ namespace DGP.Genshin.Service
             }
             catch (IOException)
             {
-                throw new SnapGenshinInternalException("cooie.dat 文件被占用，保存cookie失败");
+                throw new SnapGenshinInternalException("cookie.dat 文件被占用，保存cookie失败");
             }
         }
 

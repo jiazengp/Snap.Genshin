@@ -262,37 +262,37 @@ namespace DGP.Genshin.Service.GachaStatistic
             counter.Reverse();
             return counter;
         }
-        private int RestrictPredicatedCount5(int predicatedCount, StatisticBanner banner, int granteeCount)
+        private int RestrictPredicatedCount5(int predictedCount, StatisticBanner banner, int granteeCount)
         {
-            if (predicatedCount < 1)
+            if (predictedCount < 1)
             {
                 banner.Appraise = "非";
                 return 1;
             }
-            int predicatedSum = predicatedCount + banner.CountSinceLastStar5;
+            int predicatedSum = predictedCount + banner.CountSinceLastStar5;
             if (predicatedSum > granteeCount)
             {
                 banner.Appraise = "欧";
-                predicatedCount = granteeCount - banner.CountSinceLastStar5;
+                predictedCount = granteeCount - banner.CountSinceLastStar5;
             }
             else
             {
                 banner.Appraise = "正";
             }
-            return predicatedCount;
+            return predictedCount;
         }
-        private int RestrictPredicatedCount4(int predicatedCount, StatisticBanner banner, int granteeCount = 10)
+        private int RestrictPredicatedCount4(int predictedCount, StatisticBanner banner, int granteeCount = 10)
         {
-            if (predicatedCount < 1)
+            if (predictedCount < 1)
             {
                 return 1;
             }
-            int predicatedSum = predicatedCount + banner.CountSinceLastStar4;
-            if (predicatedSum > granteeCount)
+            int predictedSum = predictedCount + banner.CountSinceLastStar4;
+            if (predictedSum > granteeCount)
             {
-                predicatedCount = granteeCount - banner.CountSinceLastStar4;
+                predictedCount = granteeCount - banner.CountSinceLastStar4;
             }
-            return predicatedCount;
+            return predictedCount;
         }
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {

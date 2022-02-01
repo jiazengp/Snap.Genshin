@@ -318,16 +318,16 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        private readonly BlockingDialog uiBlockingDaialog = new();
+        private readonly BlockingDialog uiBlockingDialog = new();
 
         public async void Receive(ImageHitBeginMessage message)
         {
-            await uiBlockingDaialog.ShowAsync();
+            await uiBlockingDialog.ShowAsync();
         }
 
         public void Receive(ImageHitEndMessage message)
         {
-            uiBlockingDaialog.Hide();
+            uiBlockingDialog.Hide();
         }
 
         #region Helper

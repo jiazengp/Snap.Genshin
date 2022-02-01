@@ -91,15 +91,15 @@
                     <ItemsControl ItemsSource="{Binding AvatarDetailData.SkillList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="44"/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
-                                                     ImageUrl="{Binding Icon}"/>
+                                        <cachedimage:CachedBitmapIcon Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     UriSource="{Binding Icon}" RenderOptions.BitmapScalingMode="Fant"/>
                                         <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
                                        Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                         <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
@@ -167,7 +167,7 @@
                                   Visibility="{Binding Consumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="36"/>
@@ -191,7 +191,7 @@
                                   Visibility="{Binding Consumption.AvatarSkillConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="36"/>
@@ -215,7 +215,7 @@
                                   Visibility="{Binding Consumption.WeaponConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="36"/>
@@ -242,7 +242,7 @@
                                 <ItemsControl ItemsSource="{Binding IdConsumeList}" Margin="0,8,0,0">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="36"/>

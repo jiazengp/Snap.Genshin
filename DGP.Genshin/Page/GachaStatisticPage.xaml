@@ -84,14 +84,15 @@
                                 </ui:AppBarButton.Icon>
                             </ui:AppBarButton>
                             <ui:AppBarSeparator/>
-                            <ui:AppBarButton Icon="Import" Label="从 UIGF 2.0 Json 文件导入"  Command="{Binding ImportFromUIGFJCommand}"/>
-                            <ui:AppBarButton Icon="Import" Label="从 UIGF 2.0 Excel 表格 导入" Command="{Binding ImportFromUIGFWCommand}"/>
-                            <ui:AppBarButton Label="导出到 UIGF 2.0 Excel 表格" Command="{Binding ExportToUIGFWCommand}">
+                            <ui:AppBarButton Icon="Import" Label="导入 UIGF 2.2 Excel 文件" Command="{Binding ImportFromUIGFWCommand}"/>
+                            <ui:AppBarButton Label="导出 UIGF 2.2 Excel 文件" Command="{Binding ExportToUIGFWCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>
                             </ui:AppBarButton>
-                            <ui:AppBarButton Label="导出到 UIGF 2.0 Json 文件" Command="{Binding ExportToUIGFJCommand}">
+                            <ui:AppBarSeparator/>
+                            <ui:AppBarButton Icon="Import" Label="导入 UIGF 2.2 Json 文件"  Command="{Binding ImportFromUIGFJCommand}"/>
+                            <ui:AppBarButton Label="导出 UIGF 2.2 Json 文件" Command="{Binding ExportToUIGFJCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>

@@ -248,7 +248,14 @@ namespace DGP.Genshin.Service.GachaStatistic
                             {
                                 importData.Data.Add(type, new());
                             }
-                            importData.Data[type]!.Insert(0, item);
+                            importData.Data[type]!.Add(item);
+                        }
+                    }
+                    foreach (KeyValuePair<string, List<GachaLogItem>?> kvp in importData.Data)
+                    {
+                        if(kvp.Value is List<GachaLogItem> gachaList)
+                        {
+                            gachaList = gachaList.OrderByDescending(x => x.TimeId).ToList();
                         }
                     }
                 }
@@ -391,9 +398,11 @@ namespace DGP.Genshin.Service.GachaStatistic
                     ExportTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     ExportApp = "Snap Genshin",
                     ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
-                    UIGFVersion = "2.0"
+                    UIGFVersion = "v2.2"
                 },
-                List = gachaData[uid]!.SelectMany(pair => pair.Value!.Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
+                List = gachaData[uid]!
+                .SelectMany(pair => pair.Value!
+                .Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
             };
             Json.ToFile(fileName, exportData);
         }

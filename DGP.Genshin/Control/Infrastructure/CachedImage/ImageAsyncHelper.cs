@@ -42,22 +42,25 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                     }
                     else
                     {
-                        lock (sendMessageLocker)
+                        //不存在图片，所以需要下载额外的资源
+                        if (++imageUrlHittingCount == 1)
                         {
-                            if (++imageUrlHittingCount == 1)
+                            lock (sendMessageLocker)
                             {
-                                lock (sendMessageLocker)
+                                if (imageUrlHittingCount == 1)
                                 {
                                     App.Messenger.Send(new ImageHitBeginMessage());
                                 }
                             }
                         }
+
                         memoryStream = await FileCache.HitAsync((string)e.NewValue);
-                        lock (sendMessageLocker)
+
+                        if (--imageUrlHittingCount == 0)
                         {
-                            if (--imageUrlHittingCount == 0)
+                            lock (sendMessageLocker)
                             {
-                                lock (sendMessageLocker)
+                                if (imageUrlHittingCount == 0)
                                 {
                                     App.Messenger.Send(new ImageHitEndMessage());
                                 }

@@ -196,11 +196,14 @@ namespace DGP.Genshin.Service
             //Updater自带工作路径纠正
             Process.Start(new ProcessStartInfo()
             {
+                //fix auth exception
+                Verb = "runas",
+                UseShellExecute = true,
                 FileName = @"Updater/DGP.Genshin.Updater.exe",
                 Arguments = "UpdateInstall"
             });
 
-            App.Current.Shutdown();
+            App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
         }
     }
 }

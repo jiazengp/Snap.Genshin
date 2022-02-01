@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.GachaStatistic
 {
-
     /// <summary>
     /// 联机抽卡记录工作器
     /// </summary>
@@ -21,7 +20,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private readonly int batchSize;
         private readonly string gachaLogUrl;
         private Config? gachaConfig;
-        private (int min, int max) delay = (1000, 1500);
+        private (int min, int max) delay = (500, 1000);
         public int GetRandomDelay()
         {
             return Delay.min + random.Next(Delay.max - Delay.min, Delay.max);

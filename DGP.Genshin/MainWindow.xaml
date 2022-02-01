@@ -12,14 +12,15 @@
         mc:Ignorable="d"
         x:Name="Window"
         Title="Snap 原神" 
-        MinWidth="1075"
+        MinWidth="1024"
         MinHeight="750"
-        Width="1050"
+        Width="1000"
         Height="750" 
+        
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-         ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
         >
     <Window.Resources>
@@ -216,7 +217,9 @@
             OpenPaneLength="172" 
             CompactPaneLength="48"
             IsBackButtonVisible="Collapsed" 
-            PaneDisplayMode="Auto">
+            PaneDisplayMode="Left"
+            CompactModeThresholdWidth="21600"
+            ExpandedModeThresholdWidth="21600">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">

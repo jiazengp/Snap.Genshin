@@ -183,17 +183,12 @@ namespace DGP.Genshin
 
                     settingService[Setting.LastAutoSignInTime] = DateTime.Now;
                     bool isSignInSilently = settingService.GetOrDefault(Setting.SignInSilently, false);
-                    try
-                    {
-                        new ToastContentBuilder()
+                    SecureToastNotificationContext.TryCatch(() =>
+                    new ToastContentBuilder()
                         .AddSignInHeader("米游社每日签到")
                         .AddText(role.ToString())
                         .AddText(result is null ? "签到失败" : "签到成功")
-                        .Show(toast => { toast.SuppressPopup = isSignInSilently; });
-                    }
-                    catch (DllNotFoundException) { }
-                    catch (COMException) { }
-                    catch (InvalidCastException) { }
+                        .Show(toast => { toast.SuppressPopup = isSignInSilently; }));
                 }
             }
             cookieService.CookiesLock.ExitReadLock();
@@ -222,19 +217,21 @@ namespace DGP.Genshin
             {
                 case UpdateState.NeedUpdate:
                     {
+                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
                             .AddText(App.AutoWired<IUpdateService>().NewVersion?.ToString())
                             .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
-                            .Show();
+                            .Show());
                         break;
                     }
                 case UpdateState.NotAvailable:
                     {
+                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("检查更新失败")
-                            .Show();
+                            .Show());
                         break;
                     }
                 case UpdateState.IsNewestRelease:
