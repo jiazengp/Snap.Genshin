@@ -49,3 +49,6 @@
 [submodule "DGP.Genshin.HutaoAPI"]
 	path = DGP.Genshin.HutaoAPI
 	url = https://github.com/DGP-Studio/DGP.Genshin.HutaoAPI.git
+[submodule "Plugins/SG.Plugin.Injury.Calculator"]
+	path = Plugins/SG.Plugin.Injury.Calculator
+	url = https://github.com/DawnFz/SG.Plugin.Injury.Calculator.git

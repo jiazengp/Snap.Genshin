@@ -52,7 +52,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Extension.Enumerable",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.Mvvm", "Common\Snap.Core.Mvvm\Snap.Core.Mvvm.csproj", "{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.HutaoAPI", "DGP.Genshin.HutaoAPI\DGP.Genshin.HutaoAPI.csproj", "{E9551BCB-5788-4755-8901-CD579A524A4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.HutaoAPI", "DGP.Genshin.HutaoAPI\DGP.Genshin.HutaoAPI.csproj", "{E9551BCB-5788-4755-8901-CD579A524A4D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injury.Calculator.Plugin", "Plugins\SG.Plugin.Injury.Calculator\Injury.Calculator.Plugin.csproj", "{FD3097D5-7482-49A4-887A-21912B0EC84D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -230,6 +232,14 @@ Global
 		{E9551BCB-5788-4755-8901-CD579A524A4D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9551BCB-5788-4755-8901-CD579A524A4D}.Release|x64.ActiveCfg = Release|Any CPU
 		{E9551BCB-5788-4755-8901-CD579A524A4D}.Release|x64.Build.0 = Release|Any CPU
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Debug|x64.ActiveCfg = Debug|x64
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Debug|x64.Build.0 = Debug|x64
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|x64.ActiveCfg = Release|x64
+		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -250,6 +260,7 @@ Global
 		{D09A8D83-7406-4328-9953-BBCF0E5FFDA1} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
+		{FD3097D5-7482-49A4-887A-21912B0EC84D} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

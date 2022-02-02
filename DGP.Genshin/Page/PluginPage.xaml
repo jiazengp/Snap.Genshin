@@ -7,6 +7,7 @@
       mc:Ignorable="d" 
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
+      xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PluginPage">
     <Grid>
@@ -15,19 +16,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ui:CommandBar>
+            <ui:CommandBar.Content>
+                <TextBlock Margin="12,12,0,0" Text="Snap Genshin 会在启动时加载插件"/>
+            </ui:CommandBar.Content>
             <ui:AppBarButton Label="打开插件文件夹" Command="{Binding OpenPluginFolderCommand}">
                 <ui:AppBarButton.Icon>
                     <ui:FontIcon Glyph="&#xED25;"/>
                 </ui:AppBarButton.Icon>
             </ui:AppBarButton>
         </ui:CommandBar>
-        <smoothscrollviewer:SmoothScrollViewer Grid.Row="1" Padding="12,0,16,0">
-            <ItemsControl Margin="0,12,0,0"
-            ItemsSource="{Binding Plugins}"
-                ItemsPanel="{StaticResource WrapPanelItemsPanel}">
+        <smoothscrollviewer:SmoothScrollViewer Grid.Row="1" Padding="12,0,4,0">
+            <ItemsControl Margin="0,12,0,0" VerticalAlignment="Top"
+                ItemsSource="{Binding Plugins}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="360"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Width="320" Height="160" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
+                        <Border Height="160" CornerRadius="{StaticResource CompatCornerRadius}" 
+                                Background="{StaticResource SystemControlBackgroundAltHighBrush}" Margin="0,0,12,12">
                             <Grid Margin="12">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
@@ -41,18 +50,14 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Name}" 
                                                Style="{StaticResource SubtitleTextBlockStyle}" FontSize="16"/>
-                                    <Grid Grid.Column="1">
-                                        <ui:ToggleSwitch IsOn="{Binding IsEnabled}" Height="26" Width="40" VerticalAlignment="Top" OnContent="" OffContent="">
-                                            <ui:ToggleSwitch.RenderTransform>
-                                                <TranslateTransform X="0" Y="-6"></TranslateTransform>
-                                            </ui:ToggleSwitch.RenderTransform>
-                                        </ui:ToggleSwitch>
-                                    </Grid>
                                 </Grid>
                                 <TextBlock Grid.Row="1" Margin="0,12,0,0" Text="{Binding Description}"
                                            TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Style="{StaticResource CaptionTextBlockStyle}"/>
                                 <Grid Grid.Row="2" Margin="0,6,0,0">
-                                    <TextBlock Text="{Binding Author}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}">
+                                        <Run Text="作者："/>
+                                        <Run Text="{Binding Author,Mode=OneWay}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                    </TextBlock>
                                     <TextBlock HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}" Text="{Binding Version}" Opacity="0.6"/>
                                 </Grid>
                             </Grid>
