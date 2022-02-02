@@ -31,27 +31,24 @@ namespace DGP.Genshin.Control.Cookie
 
         private void WebViewCoreWebView2ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
         {
-            ((IDisposable)WebView)?.Dispose();
+            WebView?.Dispose();
         }
 
         private async void ContinueButtonClick(object sender, RoutedEventArgs e)
         {
-            if (WebView.IsInitialized)
+            List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
+            string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();
+            Cookie = string.Concat(cookiesString);
+            if (Cookie.Contains("account_id"))
             {
-                List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
-                string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();
-                Cookie = string.Concat(cookiesString);
-                if (Cookie.Contains("account_id"))
-                {
-                    IsLoggedIn = true;
-                    Close();
-                }
+                IsLoggedIn = true;
+                Close();
             }
         }
 
         public void Dispose()
         {
-            ((IDisposable)WebView)?.Dispose();
+            WebView?.Dispose();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstratcion;
+using Microsoft.AppCenter.Crashes;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -133,6 +134,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 catch (Exception ex)
                 {
                     this.Log(ex);
+                    Crashes.TrackError(ex);
                     successful = false;
                 }
             }
@@ -253,7 +255,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                     foreach (KeyValuePair<string, List<GachaLogItem>?> kvp in importData.Data)
                     {
-                        if(kvp.Value is List<GachaLogItem> gachaList)
+                        if (kvp.Value is List<GachaLogItem> gachaList)
                         {
                             gachaList = gachaList.OrderByDescending(x => x.TimeId).ToList();
                         }
@@ -286,6 +288,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 catch (Exception ex)
                 {
                     this.Log(ex);
+                    Crashes.TrackError(ex);
                     successful = false;
                 }
             }

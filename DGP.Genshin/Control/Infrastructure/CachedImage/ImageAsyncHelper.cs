@@ -1,7 +1,9 @@
 ﻿using DGP.Genshin.Message;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Snap.Core.Logging;
 using System;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,7 +30,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         }
 
         private static int imageUrlHittingCount = 0;
-        private static readonly object sendMessageLocker = new();
+        private static readonly SemaphoreSlim sendMessageLocker = new(1, 1);
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
             "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
@@ -42,30 +44,26 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                     }
                     else
                     {
+                        ++imageUrlHittingCount;
+                        await sendMessageLocker.WaitAsync();
                         //不存在图片，所以需要下载额外的资源
-                        if (++imageUrlHittingCount == 1)
+                        if (imageUrlHittingCount == 1)
                         {
-                            lock (sendMessageLocker)
-                            {
-                                if (imageUrlHittingCount == 1)
-                                {
-                                    App.Messenger.Send(new ImageHitBeginMessage());
-                                }
-                            }
+                            App.Messenger.Send(new ImageHitBeginMessage());
                         }
+                        Logger.LogStatic(imageUrlHittingCount);
+                        sendMessageLocker.Release();
 
                         memoryStream = await FileCache.HitAsync((string)e.NewValue);
+                        --imageUrlHittingCount;
 
-                        if (--imageUrlHittingCount == 0)
+                        await sendMessageLocker.WaitAsync();
+                        if (imageUrlHittingCount == 0)
                         {
-                            lock (sendMessageLocker)
-                            {
-                                if (imageUrlHittingCount == 0)
-                                {
-                                    App.Messenger.Send(new ImageHitEndMessage());
-                                }
-                            }
+                            App.Messenger.Send(new ImageHitEndMessage());
                         }
+                        Logger.LogStatic(imageUrlHittingCount);
+                        sendMessageLocker.Release();
                     }
 
                     if (memoryStream == null)

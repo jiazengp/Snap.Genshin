@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataModel.Material
 
         public Talent()
         {
-            Star = StarHelper.FromRank(4);
+            Star = StarHelper.FromInt32Rank(4);
         }
 
         public bool IsTodaysTalent(DayOfWeek? dayOfWeek)

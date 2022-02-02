@@ -36,7 +36,7 @@ namespace DGP.Genshin.Helper
         /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
-        public void Ensure(Application app, Action multiInstancePresentAction)
+        public async void EnsureAsync(Application app, Action multiInstancePresentAction)
         {
             // check if it is already open.
             try
@@ -60,14 +60,13 @@ namespace DGP.Genshin.Helper
                 IsEnsureingSingleInstance = false;
             }
             // if this instance gets the signal to show the main window
-            new Task(() =>
+            await Task.Run(() =>
             {
                 while (eventWaitHandle.WaitOne())
                 {
                     app.Dispatcher.BeginInvoke(multiInstancePresentAction);
                 }
-            })
-            .Start();
+            });
         }
     }
 }

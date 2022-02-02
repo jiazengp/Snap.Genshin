@@ -1,10 +1,12 @@
 ﻿using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
+using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf;
+using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
@@ -12,6 +14,7 @@ using Snap.Data.Primitive;
 using Snap.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -30,6 +33,7 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ISettingService settingService;
         private readonly IUpdateService updateService;
+        private readonly ICookieService cookieService;
         private ISettingService SettingService => settingService;
 
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
@@ -166,12 +170,15 @@ namespace DGP.Genshin.ViewModel
         public ICommand CopyUserIdCommand { get; }
         public ICommand SignInImmediatelyCommand { get; }
         public ICommand SponsorUICommand { get; }
+        public ICommand OpenCacheFolderCommand { get; }
+        public ICommand EnableDailyNoteCommand { get; }
         #endregion
 
-        public SettingViewModel(ISettingService settingService, IUpdateService updateService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(ISettingService settingService, IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.settingService = settingService;
             this.updateService = updateService;
+            this.cookieService = cookieService;
 
             ApplicationTheme? theme = settingService.GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
             selectedTheme = Themes.First(x => x.Value == theme);
@@ -187,6 +194,8 @@ namespace DGP.Genshin.ViewModel
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
             SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
+            OpenCacheFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Cache")));
+            EnableDailyNoteCommand = new AsyncRelayCommand(EnableDailyNotePermissionAsync);
         }
 
         [MemberNotNull(nameof(versionString)), MemberNotNull(nameof(userId))]
@@ -231,6 +240,11 @@ namespace DGP.Genshin.ViewModel
                 default:
                     break;
             }
+        }
+        private async Task EnableDailyNotePermissionAsync()
+        {
+            await new DailyNoteProvider(cookieService.CurrentCookie).ChangeDailyNoteDataSwitchAsync(true);
+            await new ContentDialog() { Title = "操作完成", PrimaryButtonText = "确定" }.ShowAsync();
         }
 
         /// <summary>

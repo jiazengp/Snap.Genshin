@@ -25,6 +25,6 @@ namespace DGP.Genshin.Helper.Notification
             }
         }
 
-        
+
     }
 }

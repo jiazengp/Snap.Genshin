@@ -19,7 +19,7 @@ namespace DGP.Genshin.DataModel.Material
 
         public Weapon()
         {
-            Star = StarHelper.FromRank(5);
+            Star = StarHelper.FromInt32Rank(5);
         }
 
         public bool IsTodaysWeapon(DayOfWeek? dayOfWeek)

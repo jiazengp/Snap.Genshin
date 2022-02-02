@@ -6,7 +6,7 @@ namespace DGP.Genshin.DataModel.Material
     {
         public Boss()
         {
-            Star = StarHelper.FromRank(4);
+            Star = StarHelper.FromInt32Rank(4);
         }
     }
 }

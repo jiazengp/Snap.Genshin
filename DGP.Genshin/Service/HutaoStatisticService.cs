@@ -2,10 +2,12 @@
 using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
+using DGP.Genshin.HutaoAPI.PostModel;
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstratcion;
 using Snap.Core.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ using DataWeapon = DGP.Genshin.MiHoYoAPI.Calculation.Weapon;
 
 namespace DGP.Genshin.Service
 {
-    [Service(typeof(IHutaoStatisticService),InjectAs.Transient)]
+    [Service(typeof(IHutaoStatisticService), InjectAs.Transient)]
     internal class HutaoStatisticService : IHutaoStatisticService
     {
         private readonly PlayerRecordClient playerRecordClient = new();
@@ -52,7 +54,7 @@ namespace DGP.Genshin.Service
         public IEnumerable<IndexedListWrapper<Item<double>>> GetAvatarParticipations()
         {
             List<IndexedListWrapper<Item<double>>> avatarParticipationResults = new();
-            foreach (AvatarParticipation avatarParticipation in _avatarParticipations)
+            foreach (AvatarParticipation avatarParticipation in _avatarParticipations.Reverse())
             {
                 IEnumerable<Item<double>> result = avatarParticipation.AvatarUsage
                     .Join(avatars.DistinctBy(a => a.Id), rate => rate.Id, avatar => avatar.Id,
@@ -99,9 +101,9 @@ namespace DGP.Genshin.Service
             return weaponUsagesResults.OrderByDescending(x => x.Id);
         }
 
-        public async Task<List<Response>> GetAllRecordsAndUploadAsync(string cookie)
+        public async Task GetAllRecordsAndUploadAsync(string cookie, Func<PlayerRecord, Task<bool>> confirmFunc, Func<Response, Task> resultAsyncFunc)
         {
-            return await playerRecordClient.GetAllRecordsAndUploadAsync(cookie);
+            await playerRecordClient.GetAllRecordsAndUploadAsync(cookie, confirmFunc, resultAsyncFunc);
         }
     }
 }

@@ -73,11 +73,11 @@ namespace DGP.Genshin.Service.GachaStatistic
             Statistic statistic = new()
             {
                 Uid = uid,
-                Characters5 = characters.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
-                Characters4 = characters.Where(i => i.StarUrl?.ToRank() == 4).ToList(),
-                Weapons5 = weapons.Where(i => i.StarUrl?.ToRank() == 5).ToList(),
-                Weapons4 = weapons.Where(i => i.StarUrl?.ToRank() == 4).ToList(),
-                Weapons3 = weapons.Where(i => i.StarUrl?.ToRank() == 3).ToList(),
+                Characters5 = characters.Where(i => i.StarUrl?.ToInt32Rank() == 5).ToList(),
+                Characters4 = characters.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
+                Weapons5 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 5).ToList(),
+                Weapons4 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
+                Weapons3 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 3).ToList(),
                 SpecificBanners = ToSpecificBanners(data)
             };
             statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponInfo);
@@ -176,7 +176,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                             {
                                 Count = 0,
                                 Name = i.Name,
-                                StarUrl = StarHelper.FromRank(int.Parse(i.Rank))
+                                StarUrl = StarHelper.FromInt32Rank(int.Parse(i.Rank))
                             };
                             if (itemType == "武器")
                             {
@@ -199,7 +199,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                 }
             }
-            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToRank()).ThenByDescending(i => i.Count).ToList();
+            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToInt32Rank()).ThenByDescending(i => i.Count).ToList();
         }
         private List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
         {
@@ -225,7 +225,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 counter[i.Name].Count += 1;
             }
             return counter.Select(k => k.Value)
-                .OrderByDescending(i => i.StarUrl?.ToRank())
+                .OrderByDescending(i => i.StarUrl?.ToInt32Rank())
                 .ThenByDescending(i => i.Count).ToList();
         }
         private List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
@@ -327,7 +327,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                     foreach (GachaLogItem item in list)
                     {
                         //item.GachaType compat 2.3 gacha
-                        SpecificBanner? banner = clonedBanners.Find(b => b.Type == item.GachaType && item.Time >= b.StartTime && item.Time <= b.EndTime);
+                        SpecificBanner? banner = clonedBanners
+                            .Find(b => b.Type == item.GachaType && item.Time >= b.StartTime && item.Time <= b.EndTime);
                         AddItemToSpecificBanner(item, banner);
                     }
                 }
@@ -343,8 +344,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            Character? isc = App.AutoWired<MetadataViewModel>().Characters?.FirstOrDefault(c => c.Name == item.Name);
-            Weapon? isw = App.AutoWired<MetadataViewModel>().Weapons?.FirstOrDefault(w => w.Name == item.Name);
+            MetadataViewModel metadataViewModel = App.AutoWired<MetadataViewModel>();
+            Character? isc = metadataViewModel.Characters?.FirstOrDefault(c => c.Name == item.Name);
+            Weapon? isw = metadataViewModel.Weapons?.FirstOrDefault(w => w.Name == item.Name);
             SpecificItem ni = new()
             {
                 Time = item.Time
@@ -367,7 +369,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             else//both null
             {
                 ni.Name = item.Name;
-                ni.StarUrl = item.Rank is null ? null : StarHelper.FromRank(int.Parse(item.Rank));
+                ni.StarUrl = item.Rank is null ? null : StarHelper.FromInt32Rank(int.Parse(item.Rank));
                 new Event("Unsupported Item", item.Name ?? "No name").TrackAs(Event.GachaStatistic);
             }
             //? fix issue where crashes when no banner exists

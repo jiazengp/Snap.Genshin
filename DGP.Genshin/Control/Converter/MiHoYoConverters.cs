@@ -28,7 +28,7 @@ namespace DGP.Genshin.Control.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return StarHelper.FromRank((int)value);
+            return StarHelper.FromInt32Rank((int)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

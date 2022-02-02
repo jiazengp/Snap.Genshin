@@ -7,14 +7,17 @@ namespace DGP.Genshin.Helper.Notification
     {
         internal static void TryCatch(Action toastOperation)
         {
-            try
+            //exclude windows 7
+            if (Environment.OSVersion.Version.Major > 6)
             {
-                toastOperation.Invoke();
+                try
+                {
+                    toastOperation.Invoke();
+                }
+                catch (COMException) { }
+                catch (InvalidCastException) { }
+                catch (UnauthorizedAccessException) { }
             }
-            catch (DllNotFoundException) { }
-            catch (COMException) { }
-            catch (InvalidCastException) { }
-            catch (UnauthorizedAccessException) { }
         }
     }
 }

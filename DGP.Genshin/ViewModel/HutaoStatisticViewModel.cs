@@ -1,7 +1,7 @@
-﻿using DGP.Genshin.DataModel;
+﻿using DGP.Genshin.Control.GenshinElement.HutaoStatistic;
+using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
-using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -35,7 +35,7 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }
-        public HutaoStatisticViewModel(ICookieService cookieService,IHutaoStatisticService hutaoStatisticService)
+        public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService)
         {
             this.cookieService = cookieService;
             this.hutaoStatisticService = hutaoStatisticService;
@@ -68,17 +68,15 @@ namespace DGP.Genshin.ViewModel
             ShouldUIPresent = false;
             try
             {
-                List<Response> responses = await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie);
-                foreach (Response resp in responses)
-                {
-                    await new ContentDialog()
+                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie,
+                    async record => ContentDialogResult.Primary == await new UploadDialog(record).ShowAsync(),
+                    async resp => await new ContentDialog()
                     {
                         Title = "提交记录",
                         Content = resp.Message,
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync();
-                }
+                    }.ShowAsync());
             }
             catch
             {

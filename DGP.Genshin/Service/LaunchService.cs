@@ -170,7 +170,7 @@ namespace DGP.Genshin.Service
                 {
                     //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
                     string commandLine = new CommandLineBuilder()
-                        .AppendIf(option.IsBorderless, "-popupwindow")
+                        .AppendIf("-popupwindow", option.IsBorderless)
                         .Append("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
                         .Build();
 

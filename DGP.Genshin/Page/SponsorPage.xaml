@@ -22,13 +22,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Margin="12,12,16,0">
+        <Grid Margin="12,12,16,12">
             <wu:CardControl helper:IconHelper.Icon="&#xEB52;" Title="赞助者名单" Subtitle="所有的赞助者都会显示在这里 [按赞助时间从晚到早排序]">
                 <wu:Hyperlink Content="前往爱发电赞助" NavigateUri="https://afdian.net/@DismissedLight" Padding="4"/>
             </wu:CardControl>
         </Grid>
         <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Sponsors}" Margin="0,0,16,0" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding Sponsors}" Margin="12,0,4,0" VerticalAlignment="Top">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="240"/>
@@ -36,7 +36,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <wu:Card Margin="12,12,0,0">
+                        <wu:Card Margin="0,0,12,12">
                             <StackPanel Orientation="Horizontal">
                                 <ui:PersonPicture Height="48" ProfilePicture="{Binding User.Avatar}" RenderOptions.BitmapScalingMode="Fant"/>
                                 <StackPanel VerticalAlignment="Center" Margin="12,0,12,0">

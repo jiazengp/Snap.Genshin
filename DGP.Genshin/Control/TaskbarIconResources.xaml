@@ -23,9 +23,9 @@
         x:Key="TaskbarIcon"
         x:Shared="false"
         IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
-        ToolTipText="单击显示主界面"
+        ToolTipText="左键显示主界面&#10;右键执行更多操作"
         PopupActivation="All"
         LeftClickCommand="{Binding ShowMainWindowCommand}"
+        DoubleClickCommand="{Binding ShowMainWindowCommand}"
         ContextMenu="{StaticResource SysTrayMenu}"/>
-
 </ResourceDictionary>

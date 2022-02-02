@@ -6,7 +6,7 @@ namespace DGP.Genshin.DataModel.Material
     {
         public Monster()
         {
-            Star = StarHelper.FromRank(3);
+            Star = StarHelper.FromInt32Rank(3);
         }
     }
 }

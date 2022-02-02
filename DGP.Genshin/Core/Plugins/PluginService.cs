@@ -48,7 +48,7 @@ namespace DGP.Genshin.Core.Plugins
                         this.Log($"plugin : {assembly.FullName} added to plugin collection");
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     this.Log(e);
                     this.Log($"Failed to load plugin from: {pluginLocation}");

@@ -10,7 +10,7 @@ namespace DGP.Genshin.DataModel
     public abstract class Primitive : KeySource
     {
         public string? Name { get; set; }
-        public string? Star { get; set; } = StarHelper.FromRank(1);
+        public string? Star { get; set; } = StarHelper.FromInt32Rank(1);
         [JsonIgnore] public SolidColorBrush? StarSolid => StarHelper.ToSolid(Star);
     }
 }

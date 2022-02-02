@@ -1114,9 +1114,9 @@
     "GachaCard": "https://genshin.honeyhunterworld.com/img/char/yaemiko_gacha_card.png",
     "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/yaemiko_gacha_splash.png",
     "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
-    "BaseHP": "11284",
-    "BaseATK": "264",
-    "BaseDEF": "682",
+    "BaseHP": "10372",
+    "BaseATK": "340",
+    "BaseDEF": "569",
     "AscensionStat": "暴击率",
     "AscensionStatValue": "19.2%",
     "Talent": {

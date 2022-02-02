@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +29,7 @@ namespace DGP.Genshin
         //prevent System.NullReferenceException
         //cause we do have some async operation in initialization so we can't use lock
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
-        private static bool hasInitializeCompleted = false;
+        private bool hasInitializeCompleted = false;
         private static bool hasEverOpen = false;
         private readonly INavigationService navigationService;
 
@@ -80,16 +79,16 @@ namespace DGP.Genshin
             splashViewModel.CurrentStateDescription = "完成";
             splashViewModel.IsSplashNotVisible = true;
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+            //before call Close() in this method,must release initializingWindow.
             initializingWindow.Release();
             hasInitializeCompleted = true;
 
             if (!hasEverOpen)
             {
-                if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true))
+                if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true) && (App.Current.NotifyIcon is not null))
                 {
                     if (settingService.GetOrDefault(Setting.CloseMainWindowAfterInitializaion, false))
                     {
-                        //before call Close() in this method,must release initializingWindow.
                         Close();
                     }
                 }
@@ -108,8 +107,17 @@ namespace DGP.Genshin
             base.OnClosing(e);
             initializingWindow.Release();
 
-            bool isTaskbarIconEnabled = App.AutoWired<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false);
-            if (!hasInitializeCompleted || !isTaskbarIconEnabled)
+            bool isTaskbarIconEnabled =
+                App.AutoWired<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false)
+                && (App.Current.NotifyIcon is not null);
+            if (hasInitializeCompleted && isTaskbarIconEnabled)
+            {
+                SecureToastNotificationContext.TryCatch(() =>
+                new ToastContentBuilder()
+                .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
+                .Show());
+            }
+            else
             {
                 App.Current.Shutdown();
             }
@@ -221,7 +229,10 @@ namespace DGP.Genshin
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
                             .AddText(App.AutoWired<IUpdateService>().NewVersion?.ToString())
-                            .AddButton(new ToastButton().SetContent("更新").AddArgument("action", "update").SetBackgroundActivation())
+                            .AddButton(new ToastButton()
+                                .SetContent("更新")
+                                .AddArgument("action", "update")
+                                .SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
                             .Show());
                         break;

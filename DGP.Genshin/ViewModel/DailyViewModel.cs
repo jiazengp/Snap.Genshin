@@ -116,7 +116,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayMondstadtCharacter5 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 5
+                    .Where(c => c.Star.ToInt32Rank() == 5
                     && c.Talent is not null
                     && c.Talent.IsMondstadt()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -130,7 +130,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayMondstadtCharacter4 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 4
+                    .Where(c => c.Star.ToInt32Rank() == 4
                     && c.Talent is not null
                     && c.Talent.IsMondstadt()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -145,7 +145,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayMondstadtWeapon5 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 5
+                    && w.Star.ToInt32Rank() == 5
                     && w.Ascension.IsMondstadt()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayMondstadtWeapon5;
@@ -159,7 +159,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayMondstadtWeapon4 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 4
+                    && w.Star.ToInt32Rank() == 4
                     && w.Ascension.IsMondstadt()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayMondstadtWeapon4;
@@ -196,7 +196,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayLiyueCharacter5 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 5
+                    .Where(c => c.Star.ToInt32Rank() == 5
                     && c.Talent is not null
                     && c.Talent.IsLiyue()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -210,7 +210,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayLiyueCharacter4 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 4
+                    .Where(c => c.Star.ToInt32Rank() == 4
                     && c.Talent is not null
                     && c.Talent.IsLiyue()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -225,7 +225,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayLiyueWeapon5 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 5
+                    && w.Star.ToInt32Rank() == 5
                     && w.Ascension.IsLiyue()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayLiyueWeapon5;
@@ -239,7 +239,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayLiyueWeapon4 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 4
+                    && w.Star.ToInt32Rank() == 4
                     && w.Ascension.IsLiyue()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayLiyueWeapon4;
@@ -276,7 +276,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayInazumaCharacter5 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 5
+                    .Where(c => c.Star.ToInt32Rank() == 5
                     && c.Talent is not null
                     && c.Talent.IsInazuma()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -290,7 +290,7 @@ namespace DGP.Genshin.ViewModel
             get
             {
                 todayInazumaCharacter4 ??= dataViewModel.Characters?
-                    .Where(c => c.Star.ToRank() == 4
+                    .Where(c => c.Star.ToInt32Rank() == 4
                     && c.Talent is not null
                     && c.Talent.IsInazuma()
                     && c.Talent.IsTodaysTalent(SelectedDayOfWeek?.Value));
@@ -305,7 +305,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayInazumaWeapon5 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 5
+                    && w.Star.ToInt32Rank() == 5
                     && w.Ascension.IsInazuma()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayInazumaWeapon5;
@@ -321,7 +321,7 @@ namespace DGP.Genshin.ViewModel
             {
                 todayInazumaWeapon4 ??= dataViewModel.Weapons?
                     .Where(w => w.Ascension != null
-                    && w.Star.ToRank() == 4
+                    && w.Star.ToInt32Rank() == 4
                     && w.Ascension.IsInazuma()
                     && w.Ascension.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayInazumaWeapon4;

@@ -93,9 +93,9 @@ namespace DGP.Genshin.ViewModel
         public ICommand GachaLogAutoFindCommand { get; }
         public ICommand GachaLogManualCommand { get; }
         public ICommand ImportFromUIGFJCommand { get; }
+        public ICommand ExportToUIGFJCommand { get; }
         public ICommand ImportFromUIGFWCommand { get; }
         public ICommand ExportToUIGFWCommand { get; }
-        public ICommand ExportToUIGFJCommand { get; }
         public ICommand OpenGachaStatisticFolderCommand { get; }
 
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
@@ -162,7 +162,7 @@ namespace DGP.Genshin.ViewModel
                         await new ContentDialog()
                         {
                             Title = "导入祈愿记录失败",
-                            Content = "选择的Json文件不是标准的可交换格式",
+                            Content = "请联系开发组进一步确认问题",
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();
@@ -171,6 +171,36 @@ namespace DGP.Genshin.ViewModel
                     {
                         SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
+                }
+                taskPreventer.Release();
+            }
+        }
+        private async Task ExportToUIGFJAsync()
+        {
+            if (taskPreventer.ShouldExecute)
+            {
+                if (SelectedUserGachaData is null)
+                {
+                    return;
+                }
+                SaveFileDialog dialog = new()
+                {
+                    Filter = "JS对象简谱文件|*.json",
+                    Title = "保存到文件",
+                    ValidateNames = true,
+                    CheckPathExists = true,
+                    FileName = $"{SelectedUserGachaData.Uid}.json"
+                };
+                if (dialog.ShowDialog() is true)
+                {
+                    await gachaStatisticService.ExportDataToJsonAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
+                    await new ContentDialog
+                    {
+                        Title = "导出祈愿记录完成",
+                        Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
                 }
                 taskPreventer.Release();
             }
@@ -193,8 +223,8 @@ namespace DGP.Genshin.ViewModel
                     {
                         await new ContentDialog()
                         {
-                            Title = "导入祈愿记录失败",
-                            Content = "选择的Excel文件不是标准的可交换格式",
+                            Title = "导入失败",
+                            Content = "请联系开发组进一步确认问题",
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();
@@ -227,36 +257,6 @@ namespace DGP.Genshin.ViewModel
                 {
                     this.Log("try to export to excel");
                     await gachaStatisticService.ExportDataToExcelAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
-                    await new ContentDialog
-                    {
-                        Title = "导出祈愿记录完成",
-                        Content = $"祈愿记录已导出至 {dialog.SafeFileName}",
-                        PrimaryButtonText = "确定",
-                        DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync();
-                }
-                taskPreventer.Release();
-            }
-        }
-        private async Task ExportToUIGFJAsync()
-        {
-            if (taskPreventer.ShouldExecute)
-            {
-                if (SelectedUserGachaData is null)
-                {
-                    return;
-                }
-                SaveFileDialog dialog = new()
-                {
-                    Filter = "JS对象简谱文件|*.json",
-                    Title = "保存到文件",
-                    ValidateNames = true,
-                    CheckPathExists = true,
-                    FileName = $"{SelectedUserGachaData.Uid}.json"
-                };
-                if (dialog.ShowDialog() is true)
-                {
-                    await gachaStatisticService.ExportDataToJsonAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
                     await new ContentDialog
                     {
                         Title = "导出祈愿记录完成",

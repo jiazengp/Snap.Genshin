@@ -135,7 +135,7 @@ namespace DGP.Genshin
             ConfigureUnhandledException();
             //handle notification activation
             ConfigureToastNotification();
-            singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
+            singleInstanceChecker.EnsureAsync(Current, () => BringWindowToFront<MainWindow>());
             //app center services
             ConfigureAppCenter(true);
             //global requester callback
