@@ -31,6 +31,7 @@ namespace DGP.Genshin.Control.Cookie
 
         private void WebViewCoreWebView2ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
         {
+            ContinueButton.IsEnabled = false;
             WebView?.Dispose();
         }
 

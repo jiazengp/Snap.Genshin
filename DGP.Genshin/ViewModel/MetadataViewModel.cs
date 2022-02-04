@@ -3,11 +3,8 @@ using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
@@ -29,7 +26,7 @@ namespace DGP.Genshin.ViewModel
     /// 存有各类共享物品数据
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class MetadataViewModel : ObservableRecipient2, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
+    public class MetadataViewModel : ObservableObject2
     {
         #region Consts
         private const string BossesJson = "bosses.json";
@@ -289,45 +286,6 @@ namespace DGP.Genshin.ViewModel
                     Owner = App.Current.MainWindow
                 }.ShowDialog();
             });
-        }
-
-        /// <summary>
-        /// 用于在下载额外的角色图片资源时阻止用户与界面交互
-        /// </summary>
-        private class BlockingDialog : ContentDialog
-        {
-            public bool AllowHide { get; set; }
-            public BlockingDialog()
-            {
-                Title = "额外资源下载";
-                Content = "正在下载缺少的资源，请耐心等待...";
-                Closing += (s, e) =>
-                {
-                    if (!AllowHide)
-                    {
-                        e.Cancel = true;
-                    }
-                };
-            }
-
-            public new void Hide()
-            {
-                AllowHide = true;
-                base.Hide();
-                AllowHide = false;
-            }
-        }
-
-        private readonly BlockingDialog uiBlockingDialog = new();
-
-        public async void Receive(ImageHitBeginMessage message)
-        {
-            await uiBlockingDialog.ShowAsync();
-        }
-
-        public void Receive(ImageHitEndMessage message)
-        {
-            uiBlockingDialog.Hide();
         }
 
         #region Helper

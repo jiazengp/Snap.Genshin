@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Converter;
+using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -113,7 +114,7 @@ namespace DGP.Genshin.Service
         private void ShowDownloadToastNotification()
         {
             lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
-
+            SecureToastNotificationContext.TryCatch(() =>
             new ToastContentBuilder()
                 .AddText("下载更新中...")
                 .AddVisualChild(new AdaptiveProgressBar()
@@ -137,7 +138,7 @@ namespace DGP.Genshin.Service
                         //always update when it's 0
                         SequenceNumber = 0
                     };
-                });
+                }));
         }
 
         /// <summary>
@@ -193,17 +194,28 @@ namespace DGP.Genshin.Service
         {
             Directory.CreateDirectory("Updater");
             PathContext.MoveToFolderOrIgnore("DGP.Genshin.Updater.exe", "Updater");
-            //Updater自带工作路径纠正
-            Process.Start(new ProcessStartInfo()
+            string oldUpdaterPath = PathContext.Locate("Updater", "DGP.Genshin.Updater.exe");
+            if (File.Exists(oldUpdaterPath))
             {
-                //fix auth exception
-                Verb = "runas",
-                UseShellExecute = true,
-                FileName = @"Updater/DGP.Genshin.Updater.exe",
-                Arguments = "UpdateInstall"
-            });
-
-            App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
+                //Updater自带工作路径纠正
+                Process.Start(new ProcessStartInfo()
+                {
+                    //fix auth exception
+                    Verb = "runas",
+                    UseShellExecute = true,
+                    FileName = oldUpdaterPath,
+                    Arguments = "UpdateInstall"
+                });
+                App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
+            }
+            else 
+            {
+                SecureToastNotificationContext.TryCatch(() =>
+                new ToastContentBuilder()
+                .AddText("在默认路径上未找到更新器")
+                .AddText("请尝试手打解压安装包更新")
+                .Show());
+            }
         }
     }
 }

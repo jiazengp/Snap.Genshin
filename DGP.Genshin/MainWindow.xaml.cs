@@ -44,8 +44,8 @@ namespace DGP.Genshin
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
 
-            App.Messenger.Register<MainWindow, SplashInitializationCompletedMessage>(this, (r, m) => r.Receive(m));
-            App.Messenger.Register<MainWindow, NavigateRequestMessage>(this, (r, m) => r.Receive(m));
+            App.Messenger.Register<SplashInitializationCompletedMessage>(this);
+            App.Messenger.Register<NavigateRequestMessage>(this);
         }
 
         ~MainWindow()
@@ -93,7 +93,7 @@ namespace DGP.Genshin
                     }
                 }
             }
-
+            //设置已经打开过状态
             hasEverOpen = true;
         }
         public void Receive(NavigateRequestMessage message)
@@ -110,12 +110,16 @@ namespace DGP.Genshin
             bool isTaskbarIconEnabled =
                 App.AutoWired<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false)
                 && (App.Current.NotifyIcon is not null);
+
             if (hasInitializeCompleted && isTaskbarIconEnabled)
             {
-                SecureToastNotificationContext.TryCatch(() =>
-                new ToastContentBuilder()
-                .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
-                .Show());
+                if (!hasEverOpen)
+                {
+                    SecureToastNotificationContext.TryCatch(() =>
+                    new ToastContentBuilder()
+                    .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
+                    .Show());
+                }
             }
             else
             {

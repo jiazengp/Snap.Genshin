@@ -32,7 +32,7 @@ namespace DGP.Genshin.Service
                         await Task.Delay(TimeSpan.FromMinutes(minutes));
                         App.Messenger.Send(new TickScheduledMessage());
                     }
-                }, cancellationTokenSource.Token);
+                }, cancellationTokenSource.Token).ConfigureAwait(false);
             }
             catch (TaskCanceledException) { }
         }

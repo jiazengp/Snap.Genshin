@@ -17,6 +17,8 @@ namespace DGP.Genshin.Helper.Notification
                 catch (COMException) { }
                 catch (InvalidCastException) { }
                 catch (UnauthorizedAccessException) { }
+                //seems un catchable
+                catch (ArgumentException) { }
             }
         }
     }

@@ -66,7 +66,7 @@ namespace DGP.Genshin.Helper
                 {
                     app.Dispatcher.BeginInvoke(multiInstancePresentAction);
                 }
-            });
+            }).ConfigureAwait(false);
         }
     }
 }

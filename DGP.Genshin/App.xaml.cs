@@ -18,6 +18,7 @@ using Snap.Core.Logging;
 using Snap.Exception;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -204,8 +205,16 @@ namespace DGP.Genshin
                 //DEBUG INFO should send to Snap Genshin Debug kanban
                 AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
 #else
-                //RELEASE INFO should send to Snap Genshin kanban
-                AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
+                //开发测试人员请不要生成 Release 版本
+                if (!Debugger.IsAttached)
+                {
+                    //RELEASE INFO should send to Snap Genshin kanban
+                    AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
+                }
+                else
+                {
+                    throw new SnapGenshinInternalException("Snap Genshin 发行版拒绝调试");
+                }
 #endif
             }
         }

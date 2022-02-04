@@ -20,10 +20,9 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="12">
-                <TextBlock Text="*安装WebView2运行时后重启程序才能生效" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Text="在下方登录米游社账号，登录后点击右侧的继续按钮，我们会自动获取你的Cookie" Style="{StaticResource BodyTextBlockStyle}"/>
             </StackPanel>
-            <Button x:Name="ContinueButton" IsEnabled="False" Grid.Column="1" Margin="8" Content="继续" Width="80" Click="ContinueButtonClick"/>
+            <Button x:Name="ContinueButton" IsEnabled="False" Grid.Column="1" Margin="12" Content="继续" Width="80" Click="ContinueButtonClick"/>
         </Grid>
         <wv2:WebView2 Grid.Row="1" Name="WebView" Source="https://bbs.mihoyo.com/ys/"/>
     </Grid>

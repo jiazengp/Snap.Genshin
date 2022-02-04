@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.Cookie;
 using DGP.Genshin.DataModel.Cookie;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Converter;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -145,14 +146,15 @@ namespace DGP.Genshin.Service
         private void LoadCookie()
         {
             //load cookie
-            if (File.Exists(CookieFile))
+            string? cookieFile = PathContext.Locate(CookieFile);
+            if (File.Exists(cookieFile))
             {
-                CurrentCookie = File.ReadAllText(CookieFile);
+                CurrentCookie = File.ReadAllText(cookieFile);
             }
             else
             {
                 this.Log("无可用的Cookie");
-                File.Create(CookieFile).Dispose();
+                File.Create(cookieFile).Dispose();
             }
         }
 
@@ -212,7 +214,7 @@ namespace DGP.Genshin.Service
                 {
                     CurrentCookie = cookie;
                 }
-                File.WriteAllText(CookieFile, CurrentCookie);
+                File.WriteAllText(PathContext.Locate(CookieFile), CurrentCookie);
             }
         }
 
@@ -244,7 +246,7 @@ namespace DGP.Genshin.Service
         {
             try
             {
-                File.WriteAllText(CookieFile, cookie);
+                File.WriteAllText(PathContext.Locate(CookieFile), cookie);
             }
             catch (IOException)
             {

@@ -7,11 +7,14 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
         ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
-        Title="WebView2RuntimeWindow" Height="200" Width="400">
+        Title="WebView2RuntimeWindow" Height="280" Width="400">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="36">
         <TextBlock Text="在继续使用该功能前&#10;你首先需要安装&#10;WebView2运行时" TextAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <wu:Hyperlink Content="前往获取" Padding="4" NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+        <wu:Hyperlink Content="前往获取" Padding="4" Margin="0,12,0,0" HorizontalAlignment="Center"
+                      NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" />
+        <TextBlock Text="安装完成后需要重新启动&#10;Snap Genshin" TextAlignment="Center" Margin="0,24,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
     </StackPanel>
 </Window>
