@@ -15,9 +15,7 @@ namespace DGP.Genshin.DataModel.DailyNote
         [JsonProperty] public CookieUserGameRole? CookieUserGameRole { get; set; }
         [JsonProperty] public double Top { get; set; }
         [JsonProperty] public double Left { get; set; }
-
-        [JsonIgnore]
-        public DailyNoteWindow? DailyNoteWindow { get; set; }
+        [JsonIgnore] public DailyNoteWindow? DailyNoteWindow { get; set; }
 
         private bool isChecked;
         /// <summary>

@@ -66,7 +66,17 @@ namespace DGP.Genshin.Control.Cookie
         {
             //clear before copy
             Clipboard.Clear();
-            Clipboard2.SetText(cookieCode);
+            try
+            {
+                Clipboard.SetText(cookieCode);
+            }
+            catch
+            {
+                try
+                {
+                    Clipboard2.SetText(cookieCode);
+                } catch { }
+            }
         }
     }
 }

@@ -243,8 +243,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                         {
                             importData.Uid ??= item.Uid;
                             string? type = item.GachaType;
-                            //refactor 400 type here to prevent 400 list creation
-                            type = type == "400" ? "301" : type;
+                            //refactor 400 type here to prevent 400 list json file creation
+                            type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
                             _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
                             if (!importData.Data.ContainsKey(type))
                             {
@@ -257,7 +257,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                     {
                         if (kvp.Value is List<GachaLogItem> gachaList)
                         {
-                            gachaList = gachaList.OrderByDescending(x => x.TimeId).ToList();
+                            //importData.Data[kvp.Key] = ;Fix ordered list got ignored issue
+                            importData.Data[kvp.Key] = gachaList.OrderByDescending(x => x.TimeId).ToList();
                         }
                     }
                 }
@@ -392,29 +393,69 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region export
         public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
         {
-            UIGF? exportData = new()
+            lock (processing)
             {
-                Info = new()
+                EnsureGachaItemId(uid, gachaData);
+
+                UIGF? exportData = new()
                 {
-                    Uid = uid,
-                    Language = "zh-cn",
-                    ExportTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    ExportApp = "Snap Genshin",
-                    ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
-                    UIGFVersion = "v2.2"
-                },
-                List = gachaData[uid]!
-                .SelectMany(pair => pair.Value!
-                .Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
-            };
-            Json.ToFile(fileName, exportData);
+                    Info = new()
+                    {
+                        Uid = uid,
+                        Language = "zh-cn",
+                        ExportTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
+                        ExportTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                        ExportApp = "Snap Genshin",
+                        ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
+                        UIGFVersion = "v2.2"
+                    },
+                    List = gachaData[uid]!
+                    .SelectMany(pair => pair.Value!
+                    .Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
+                };
+                Json.ToFile(fileName, exportData);
+            }
+        }
+
+        private void EnsureGachaItemId(string uid, GachaDataCollection gachaData)
+        {
+            foreach (List<GachaLogItem>? banner in gachaData[uid]!.Values)
+            {
+                if (banner is not null)
+                {
+                    //seek last valid Id item index
+                    int index = 0;
+                    while (index < banner.Count && !string.IsNullOrEmpty(banner[index].Id))
+                    {
+                        index++;
+                    }
+                    if(index < banner.Count)
+                    {
+                        index--;
+                        //prepare id for generation,this id is separated for each banner
+                        long preparedId = 1612303200000000000L;
+                        if (index >= 0 && long.TryParse(banner[index].Id, out long lastValidId))
+                        {
+                            preparedId = lastValidId;
+                        }
+                        //fullfill empty id
+                        index++;
+                        for (int i = index; i < banner.Count; i++)
+                        {
+                            banner[i].Id = preparedId.ToString();
+                        }
+                    }
+                }
+            }
         }
 
         #region Excel
-        public void SaveLocalGachaDataToExcel(string uid, string fileName, GachaDataCollection gachaData)
+        public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaData)
         {
             lock (processing)
             {
+                EnsureGachaItemId(uid, gachaData);
+
                 if (gachaData[uid] is not null)
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -535,14 +576,14 @@ namespace DGP.Genshin.Service.GachaStatistic
                     sheet.Cells[j, 10].Value = item.Uid;
                     sheet.Cells[j, 11].Value = ConfigType.UIGFGachaTypeMap[item.GachaType!];
 
-                    using (ExcelRange range = sheet.Cells[j, 1, j, 10])
+                    using (ExcelRange range = sheet.Cells[j, 1, j, 11])
                     {
                         range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
                     }
                 }
             }
             //自适应
-            sheet.Cells[1, 1, j, 10].AutoFitColumns(0);
+            sheet.Cells[1, 1, j, 11].AutoFitColumns(0);
         }
         public System.Drawing.Color ToDrawingColor(int rank)
         {

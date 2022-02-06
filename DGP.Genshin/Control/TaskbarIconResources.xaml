@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar">
 
-    <ContextMenu x:Shared="false" x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}">
+    <ContextMenu x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}">
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
         <Separator/>
         <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
@@ -21,7 +21,6 @@
 
     <tb:TaskbarIcon 
         x:Key="TaskbarIcon"
-        x:Shared="false"
         IconSource="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"
         ToolTipText="左键显示主界面&#10;右键执行更多操作"
         PopupActivation="All"

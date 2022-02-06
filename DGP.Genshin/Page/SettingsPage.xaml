@@ -390,6 +390,9 @@
 
 
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://sgdocs.irain.in/"/>
+                </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE946;" Title="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
                     <Button Tag="Github" Content="检查更新并安装" Command="{Binding CheckUpdateCommand}"/>
                 </wu:CardControl>
@@ -407,7 +410,10 @@
                 <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit" Subtitle="使用 FastGit 代替 Github 下载更新，也许能改善下载速度，下一次下载开始生效" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
                 </wu:CardControl>
-
+                <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="最新版本 &amp; 更新日志" Subtitle="前往Github查看最新版本以及更新日志" Margin="12,4,16,0">
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest"/>
+                </wu:CardControl>
+                
                 <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
                                helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>

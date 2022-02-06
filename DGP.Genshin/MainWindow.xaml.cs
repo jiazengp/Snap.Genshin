@@ -34,7 +34,7 @@ namespace DGP.Genshin
         private readonly INavigationService navigationService;
 
         /// <summary>
-        /// do not set datacontext for mainwindow
+        /// do not set DataContext for mainwindow
         /// </summary>
         public MainWindow()
         {

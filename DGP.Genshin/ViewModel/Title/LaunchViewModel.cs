@@ -86,7 +86,13 @@ namespace DGP.Genshin.ViewModel.Title
         public double TargetFPS
         {
             get => targetFPS;
-            set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, v => settingService[Setting.TargetFPS] = v);
+            set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, OnTargetFPSChanged);
+        }
+
+        private void OnTargetFPSChanged(double value)
+        {
+            settingService[Setting.TargetFPS] = value;
+            launchService.SetTargetFPSDynamically((int)value);
         }
 
         private bool? isElevated;
@@ -152,7 +158,7 @@ namespace DGP.Genshin.ViewModel.Title
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "无法使用此功能",
-                    Content = "我们需要启动器的路径才能启动游戏。\n如果你已经选择了正确的文件夹但仍看到此提示，\n请联系开发者。",
+                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
             }

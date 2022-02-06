@@ -219,7 +219,18 @@ namespace DGP.Genshin.ViewModel
         private void CopyUserIdToClipBoard()
         {
             Clipboard.Clear();
-            Clipboard2.SetText(UserId);
+            try
+            {
+                Clipboard.SetText(UserId);
+            }
+            catch
+            {
+                try
+                {
+                    Clipboard2.SetText(UserId);
+                }
+                catch { }
+            }
         }
         private void NavigateToSponsorPage()
         {
@@ -228,8 +239,10 @@ namespace DGP.Genshin.ViewModel
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await updateService.CheckUpdateStateAsync();
+#if DEBUG
             //update debug code here
-            //result = UpdateState.NeedUpdate;
+            result = UpdateState.NeedUpdate;
+#endif
             switch (result)
             {
                 case UpdateState.NeedUpdate:

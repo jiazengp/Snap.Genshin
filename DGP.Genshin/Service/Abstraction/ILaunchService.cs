@@ -61,6 +61,7 @@ namespace DGP.Genshin.Service.Abstratcion
         ObservableCollection<GenshinAccount> LoadAllAccount();
         GenshinAccount? GetFromRegistry();
         bool SetToRegistry(GenshinAccount? account);
+        void SetTargetFPSDynamically(int targetFPS);
     }
 
     public class LaunchOption

@@ -275,6 +275,10 @@ namespace DGP.Genshin.ViewModel
 
         public MetadataViewModel()
         {
+            if (!Directory.Exists(PathContext.Locate(folderPath)))
+            {
+                throw new Snap.Exception.SnapGenshinInternalException("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
+            }
             CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
             WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
             FilterCharacterCommand = new RelayCommand(FilterCharacterAndWeapon);

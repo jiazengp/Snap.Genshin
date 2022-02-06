@@ -131,7 +131,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region Im/Export
         public async Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path)
         {
-            await Task.Run(() => localGachaLogWorker!.SaveLocalGachaDataToExcel(uid, path, gachaData));
+            await Task.Run(() => localGachaLogWorker!.ExportToUIGFW(uid, path, gachaData));
         }
 
         public async Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path)

@@ -9,7 +9,6 @@
     xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
     xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
     x:Class="DGP.Genshin.App"
-    StartupUri="MainWindow.xaml"
     ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>

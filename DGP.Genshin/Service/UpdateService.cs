@@ -104,6 +104,14 @@ namespace DGP.Genshin.Service
                 {
                     StartInstallUpdate();
                 }
+                else
+                {
+                    SecureToastNotificationContext.TryCatch(() =>
+                    new ToastContentBuilder()
+                    .AddText("下载更新时遇到问题")
+                    .AddText("请重启程序再次尝试")
+                    .Show());
+                }
                 updateTaskPreventer.Release();
             }
         }
@@ -189,7 +197,6 @@ namespace DGP.Genshin.Service
         /// <summary>
         /// 开始安装更新
         /// </summary>
-        [Conditional("RELEASE")]
         private void StartInstallUpdate()
         {
             Directory.CreateDirectory("Updater");
@@ -208,12 +215,12 @@ namespace DGP.Genshin.Service
                 });
                 App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
             }
-            else 
+            else
             {
                 SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                 .AddText("在默认路径上未找到更新器")
-                .AddText("请尝试手打解压安装包更新")
+                .AddText("请尝试手动解压安装包更新")
                 .Show());
             }
         }

@@ -4,20 +4,23 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:ui="http://schemas.modernwpf.com/2019" 
-                   xmlns:c="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
+                   xmlns:c="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage" xmlns:sys="clr-namespace:System;assembly=System.Runtime"
                    mc:Ignorable="d" 
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" 
                    Content="实时便笺"
                    Command="{Binding OpenUICommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+    <ui:TitleBarButton.Resources>
+        <sys:Double x:Key="FlyoutThemeMaxWidth">328</sys:Double>
+    </ui:TitleBarButton.Resources>
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
-            <Grid >
-                <ItemsControl ItemsSource="{Binding DailyNotes}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+            <Grid>
+                <ItemsControl ItemsSource="{Binding DailyNotes}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}" Margin="0,0,-12,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Width="300">
+                            <StackPanel Width="300" Margin="0,0,12,0">
                                 <Border CornerRadius="{StaticResource SmallCompatCornerRadius}"
                                         Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                                     <Grid>

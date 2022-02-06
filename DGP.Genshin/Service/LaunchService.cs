@@ -154,6 +154,8 @@ namespace DGP.Genshin.Service
             return parser.ReadFile(file);
         }
 
+        private Unlocker? unlocker;
+
         public async Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option)
         {
             if (scheme is null)
@@ -188,7 +190,7 @@ namespace DGP.Genshin.Service
 
                     if (option.UnlockFPS)
                     {
-                        Unlocker unlocker = new(game, option.TargetFPS);
+                        unlocker = new(game, option.TargetFPS);
                         UnlockResult result = await unlocker.StartProcessAndUnlockAsync();
                         this.Log(result);
                     }
@@ -204,6 +206,18 @@ namespace DGP.Genshin.Service
                 {
                     failAction.Invoke(ex);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 动态更改FPS，仅在使用解锁帧率后有效
+        /// </summary>
+        /// <param name="targetFPS"></param>
+        public void SetTargetFPSDynamically(int targetFPS)
+        {
+            if(unlocker is not null)
+            {
+                unlocker.TargetFPS = targetFPS;
             }
         }
 
@@ -237,6 +251,11 @@ namespace DGP.Genshin.Service
         {
             string gameInstallPath = LauncherConfig[LauncherSection][GameInstallPath];
             string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
+            if (!hex4Result.Contains(@"\u"))//不包含中文
+            {
+                //fix path with \
+                hex4Result = hex4Result.Replace(@"\", @"\\");
+            }
             return Regex.Unescape(hex4Result);
         }
 

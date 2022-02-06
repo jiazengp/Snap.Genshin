@@ -1,10 +1,7 @@
 ﻿using DGP.Genshin.Message;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace DGP.Genshin.Control
 {

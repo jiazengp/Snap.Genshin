@@ -20,11 +20,7 @@
     ui:WindowHelper.UseModernWindowStyle="True"
     ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
-    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
-    
-    KeyboardNavigation.DirectionalNavigation="None"
-    KeyboardNavigation.TabNavigation="None"
-    KeyboardNavigation.ControlTabNavigation="None">
+    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Window.Resources>
         <system:String x:Key="ChromeClose">&#xe8bb;</system:String>
         <system:String x:Key="ChromeMinimize">&#xe921;</system:String>
