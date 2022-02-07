@@ -5,7 +5,7 @@
 |![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)|
 |-|-|-|-|
 
-## [主页]()
+## [主页](https://snapgenshin.vercel.app/)
 
 |如果你觉得我们的软件做的还不错，欢迎对我们投喂|[爱发电](https://afdian.net/@DismissedLight)|
 |-|-|
