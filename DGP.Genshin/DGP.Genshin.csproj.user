@@ -66,6 +66,9 @@
     <Compile Update="Page\SponsorPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Page\WebViewLobbyPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\BlockingView.xaml">
@@ -138,6 +141,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\SponsorPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\WebViewLobbyPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

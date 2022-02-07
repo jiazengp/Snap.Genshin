@@ -251,6 +251,11 @@
                 </ui:NavigationViewItem>
 
                 <ui:NavigationViewItemHeader Content="工具"/>
+                <ui:NavigationViewItem Content="自定义网页" helpers:NavHelper.NavigateTo="{x:Type pages:WebViewLobbyPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE774;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="大地图" helpers:NavHelper.NavigateTo="{x:Type pages:MapPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon ShowAsMonochrome="False" 

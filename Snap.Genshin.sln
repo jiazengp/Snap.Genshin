@@ -56,7 +56,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.HutaoAPI", "DGP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injury.Calculator.Plugin", "Plugins\SG.Plugin.Injury.Calculator\Injury.Calculator.Plugin.csproj", "{FD3097D5-7482-49A4-887A-21912B0EC84D}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DGP.Genshin.Secret", "Common\DGP.Genshin.Secret\DGP.Genshin.Secret.shproj", "{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{bff58b44-5e4a-4f3c-9d7a-0733c0d798b8}*SharedItemsImports = 13
+		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{e4fac04f-49b9-42aa-b31e-6c7a0dbeb1fd}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -261,6 +267,7 @@ Global
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{FD3097D5-7482-49A4-887A-21912B0EC84D} = {402B9B12-B187-47C3-9726-34B4931E77D7}
+		{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

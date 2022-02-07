@@ -7,8 +7,6 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstratcion;
 using Hardcodet.Wpf.TaskbarNotification;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -175,7 +173,6 @@ namespace DGP.Genshin
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
             Messenger.Send(new AppExitingMessage());
-            Shutdown();
         }
 
         private void ConfigureUnhandledException()
@@ -202,32 +199,7 @@ namespace DGP.Genshin
                 Environment.CurrentDirectory = workingPath;
             }
         }
-//        private void ConfigureAppCenter(bool enabled)
-//        {
-//            if (enabled)
-//            {
-//                AppCenter.SetUserId(User.Id);
-//                //AppCenter.LogLevel = LogLevel.Verbose;
-
-//                //cause the version of debug is always higher than normal release
-//                //we need to send debug info to separate kanban
-//#if DEBUG
-//                //DEBUG INFO should send to Snap Genshin Debug kanban
-//                AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
-//#else
-//                //开发测试人员请不要生成 Release 版本
-//                if (!System.Diagnostics.Debugger.IsAttached)
-//                {
-//                    //RELEASE INFO should send to Snap Genshin kanban
-//                    AppCenter.Start("031f6319-175f-475a-a2a6-6e13eaf9bb08", typeof(Analytics), typeof(Crashes));
-//                }
-//                else
-//                {
-//                    throw new SnapGenshinInternalException("请不要生成 Release 版本");
-//                }
-//#endif
-//            }
-//        }
+        private partial void ConfigureAppCenter(bool enabled);
         private void ConfigureToastNotification()
         {
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
