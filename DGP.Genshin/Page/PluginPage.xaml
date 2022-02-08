@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <ui:CommandBar>
             <ui:CommandBar.Content>
-                <TextBlock Margin="12,12,0,0" Text="Snap Genshin 会在启动时加载插件"/>
+                <TextBlock Margin="12,12,0,0" Text="我们会在启动时加载插件"/>
             </ui:CommandBar.Content>
             <ui:AppBarButton Label="打开插件文件夹" Command="{Binding OpenPluginFolderCommand}">
                 <ui:AppBarButton.Icon>

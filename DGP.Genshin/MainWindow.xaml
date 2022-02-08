@@ -16,6 +16,7 @@
     MinWidth="1024" MinHeight="750"
     Width="1000" Height="750" 
     
+    SizeChanged="MainWindowSizeChanged"
     WindowStartupLocation="CenterScreen"
     ui:WindowHelper.UseModernWindowStyle="True"
     ui:TitleBar.ExtendViewIntoTitleBar="True"
@@ -251,19 +252,15 @@
                 </ui:NavigationViewItem>
 
                 <ui:NavigationViewItemHeader Content="工具"/>
+                <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
+                <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
+
+                <ui:NavigationViewItemHeader Content="网页" Visibility="Collapsed"/>
                 <ui:NavigationViewItem Content="自定义网页" helpers:NavHelper.NavigateTo="{x:Type pages:WebViewLobbyPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE774;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="大地图" helpers:NavHelper.NavigateTo="{x:Type pages:MapPage}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon ShowAsMonochrome="False" 
-                                       UriSource="https://webstatic.mihoyo.com/upload/static-resource/2021/09/06/1ec1d1e2afbcc99f8f8c58eabb88a69d_3023852421646190619.png"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
-                <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 
                 <ui:NavigationViewItemHeader Content="插件"/>
                 <ui:NavigationViewItem Content="插件管理" helpers:NavHelper.NavigateTo="{x:Type pages:PluginPage}">
@@ -612,13 +609,13 @@
                                 IsTabStop="False"
                                 OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                 PaneBackground="{DynamicResource NavigationViewDefaultPaneBackground}"
-                            
                                 Grid.Row="1">
 
                                 <ui:SplitView.Pane>
                                     <Grid 
                                         x:Name="PaneContentGrid"
                                         HorizontalAlignment="Left"
+                                        RenderOptions.BitmapScalingMode="Fant"
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.LeftPaneVisibility}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>

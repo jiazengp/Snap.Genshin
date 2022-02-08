@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Control.Title;
 using DGP.Genshin.Core.Plugins;
+using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -13,6 +14,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
@@ -31,6 +33,7 @@ namespace DGP.Genshin
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private bool hasInitializeCompleted = false;
         private static bool hasEverOpen = false;
+        private static bool hasEverClose = false;
         private readonly INavigationService navigationService;
 
         /// <summary>
@@ -38,14 +41,25 @@ namespace DGP.Genshin
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
-
+            InitializeContent();
+            //initialize NavigationService
             navigationService = App.AutoWired<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
-
+            //register messages
             App.Messenger.Register<SplashInitializationCompletedMessage>(this);
             App.Messenger.Register<NavigateRequestMessage>(this);
+        }
+
+        private void InitializeContent()
+        {
+            InitializeComponent();
+            //restore width and height from setting
+            ISettingService settingService = App.AutoWired<ISettingService>();
+            Width = settingService.GetOrDefault(Setting.MainWindowWidth, 0D);
+            Height = settingService.GetOrDefault(Setting.MainWindowHeight, 0D);
+            //restore pane state
+            NavView.IsPaneOpen = settingService.GetOrDefault(Setting.IsNavigationViewPaneOpen, true);
         }
 
         ~MainWindow()
@@ -60,7 +74,8 @@ namespace DGP.Genshin
             ISettingService settingService = App.AutoWired<ISettingService>();
             SplashViewModel splashViewModel = viewModelReference.Value;
             PrepareTitleBarArea();
-            AddAditionalNavigationViewItem();
+            AddAditionalWebViewNavigationViewItems();
+            AddAditionalPluginsNavigationViewItems();
             //preprocess
             if (!hasEverOpen)
             {
@@ -103,22 +118,24 @@ namespace DGP.Genshin
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            ISettingService settingService = App.AutoWired<ISettingService>();
+            settingService[Setting.IsNavigationViewPaneOpen] = NavView.IsPaneOpen;
             initializingWindow.Wait();
             base.OnClosing(e);
             initializingWindow.Release();
 
-            bool isTaskbarIconEnabled =
-                App.AutoWired<ISettingService>().GetOrDefault(Setting.IsTaskBarIconEnabled, false)
+            bool isTaskbarIconEnabled = settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, false)
                 && (App.Current.NotifyIcon is not null);
 
             if (hasInitializeCompleted && isTaskbarIconEnabled)
             {
-                if (!hasEverOpen)
+                if (!hasEverClose)
                 {
                     SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
                     .Show());
+                    hasEverClose = true;
                 }
             }
             else
@@ -137,9 +154,9 @@ namespace DGP.Genshin
         }
 
         /// <summary>
-        /// 添加从插件引入的额外的导航页面
+        /// 添加从插件引入的额外的导航页签
         /// </summary>
-        private void AddAditionalNavigationViewItem()
+        private void AddAditionalPluginsNavigationViewItems()
         {
             foreach (IPlugin? plugin in App.Current.PluginService.Plugins)
             {
@@ -148,6 +165,14 @@ namespace DGP.Genshin
                     navigationService.AddToNavigation(importPage);
                 }
             }
+        }
+        /// <summary>
+        /// 添加额外的网页导航页签
+        /// </summary>
+        private void AddAditionalWebViewNavigationViewItems()
+        {
+            ObservableCollection<WebViewEntry>? entries = App.AutoWired<WebViewLobbyViewModel>().Entries;
+            navigationService.AddWebViewEntries(entries);
         }
 
         /// <summary>
@@ -163,6 +188,7 @@ namespace DGP.Genshin
             TitleBarStackPanel.Children.Add(new UserInfoTitleBarButton());
         }
 
+        #region Sign In
         /// <summary>
         /// 对Cookie列表内的所有角色签到
         /// </summary>
@@ -205,6 +231,7 @@ namespace DGP.Genshin
             }
             cookieService.CookiesLock.ExitReadLock();
         }
+        #endregion
 
         #region Update
         private async void DoUpdateFlowAsync()
@@ -256,5 +283,15 @@ namespace DGP.Genshin
             }
         }
         #endregion
+
+        private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ISettingService settingService = App.AutoWired<ISettingService>();
+            if (WindowState == WindowState.Normal)
+            {
+                settingService[Setting.MainWindowWidth] = Width;
+                settingService[Setting.MainWindowHeight] = Height;
+            }
+        }
     }
 }

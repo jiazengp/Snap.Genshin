@@ -88,6 +88,9 @@ namespace DGP.Genshin.Service.Abstratcion
         public const string ResinWidgetConfigrations = "ResinWidgetConfigrations";
         public const string IsTaskBarIconEnabled = "IsTaskBarIconEnabled";
         public const string CloseMainWindowAfterInitializaion = "CloseMainWindowAfterInitializaion";
+        public const string MainWindowWidth = "MainWindowWidth";
+        public const string MainWindowHeight = "MainWindowHeight";
+        public const string IsNavigationViewPaneOpen = "IsNavigationViewPaneOpen";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

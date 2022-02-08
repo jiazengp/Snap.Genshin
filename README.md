@@ -29,11 +29,17 @@
 
 ### 最低系统要求
 
-> **最低：Windows 10 1903 - 10.0.18362  
+> **最低：Windows 10 1903 - 10.0.18362**  
 > 推荐：Windows 11 21H1 - 10.0.22000  
 > 运行时：.NET 6 [WebView2 Runtime 可选]  
 
 </div>
+
+# 可用插件
+|插件|
+|-|
+|[DawnFz/SG.Plugin.Injury.Calculator](https://github.com/DawnFz/SG.Plugin.Injury.Calculator)|
+
 
 # 反馈问题
 
@@ -41,21 +47,18 @@
 
 如果你需要反馈的信息包含大量的图片  
 或任何不便于在issue中提供的信息  
-可以加入我们的QQ群
-
-> 反馈用QQ群：**910780153**
+可以加入我们的反馈QQ群
 
 # 开发人员
 
-开发者QQ群：**982424236**
+## **在调试项目前，请务必仔细阅读开发人员指南**
 
-如果你是一位正在编写原神相关程序的开发者，可以加入我们的QQ群  
-群内有很多拥有相关开发经验的大佬，可以一起探讨
+* [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)
+* [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
+
+如果你是一位正在编写原神相关程序的开发者，可以加入我们的开发QQ群  
 
 * Snap Genshin 正在进行实验性的插件功能测试  
 欢迎有能力、感兴趣的开发者进行插件的开发
 
-## 参阅
 
-* [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
-* [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)

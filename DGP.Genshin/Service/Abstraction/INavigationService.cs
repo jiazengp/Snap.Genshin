@@ -1,7 +1,9 @@
 ﻿using DGP.Genshin.Core.Plugins;
+using DGP.Genshin.DataModel.WebViewLobby;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
+using System.Collections.ObjectModel;
 
 namespace DGP.Genshin.Service.Abstratcion
 {
@@ -63,5 +65,6 @@ namespace DGP.Genshin.Service.Abstratcion
         /// <param name="pageType">同步的页面类型</param>
         /// <returns>是否同步成功</returns>
         bool SyncTabWith(Type pageType);
+        void AddWebViewEntries(ObservableCollection<WebViewEntry>? entries);
     }
 }

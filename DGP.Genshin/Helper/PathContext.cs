@@ -11,6 +11,16 @@ namespace DGP.Genshin.Helper
     internal static class PathContext
     {
         /// <summary>
+        /// 检查文件是否存在
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        internal static bool FileExists(string file)
+        {
+            return File.Exists(Locate(file));
+        }
+
+        /// <summary>
         /// 定位根目录中的文件
         /// </summary>
         /// <param name="folder"></param>

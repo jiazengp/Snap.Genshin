@@ -48,6 +48,9 @@
     <Compile Update="Control\WebView2RuntimeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\WebViewLobby\WebViewEntryDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\WhatsNewWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\SponsorPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Page\WebViewHostPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\WebViewLobbyPage.xaml.cs">
@@ -107,6 +113,9 @@
     <Page Update="Control\WebView2RuntimeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Control\WebViewLobby\WebViewEntryDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Control\WhatsNewWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -141,6 +150,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\SponsorPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\WebViewHostPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\WebViewLobbyPage.xaml">

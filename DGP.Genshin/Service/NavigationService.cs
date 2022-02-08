@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.Helper;
 using DGP.Genshin.Core.Plugins;
+using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstratcion;
@@ -8,6 +9,7 @@ using ModernWpf.Media.Animation;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DGP.Genshin.Service
@@ -65,7 +67,9 @@ namespace DGP.Genshin.Service
 
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
-            if (pageType is null || Frame?.Content?.GetType() == pageType)
+            Type? currntType = Frame?.Content?.GetType();
+
+            if (pageType is null ||(currntType == pageType && currntType != typeof(WebViewHostPage)))
             {
                 return false;
             }
@@ -104,7 +108,7 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                Navigate(NavHelper.GetNavigateTo(Selected));
+                Navigate(NavHelper.GetNavigateTo(Selected),false,NavHelper.GetExtraData(Selected));
             }
         }
 
@@ -123,6 +127,43 @@ namespace DGP.Genshin.Service
             NavHelper.SetNavigateTo(item, pageType);
             this.Log($"Add {pageType} to NavigationView");
             return NavigationView.MenuItems.Add(item) != -1;
+        }
+
+        public void AddWebViewEntries(ObservableCollection<WebViewEntry>? entries)
+        {
+            if (NavigationView is null)
+            {
+                return;
+            }
+
+            if (entries is not null)
+            {
+                NavigationViewItemHeader? header = NavigationView.MenuItems
+                    .OfType<NavigationViewItemHeader>()
+                    .SingleOrDefault(header => header.Content.ToString() == "网页");
+                if(header is not null)
+                {
+                    int headerIndex = NavigationView.MenuItems.IndexOf(header);
+                    header.Visibility = System.Windows.Visibility.Visible;
+
+                    foreach (WebViewEntry entry in entries)
+                    {
+                        NavigationViewItem item = new()
+                        {
+                            Content = entry.Name,
+                            Icon = new BitmapIcon()
+                            {
+                                UriSource = new Uri(entry.IconUrl ?? "pack://application:,,,/SG_Logo.ico"),
+                                ShowAsMonochrome = false
+                            }
+                        };
+                        NavHelper.SetNavigateTo(item, typeof(WebViewHostPage));
+                        NavHelper.SetExtraData(item, entry);
+
+                        NavigationView.MenuItems.Insert(++headerIndex, item);
+                    }
+                }
+            }
         }
     }
 }
