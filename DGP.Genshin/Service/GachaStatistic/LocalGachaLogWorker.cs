@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
+using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.AppCenter.Crashes;
@@ -9,6 +10,7 @@ using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Utility;
 using Snap.Exception;
+using Snap.Reflection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -73,12 +75,11 @@ namespace DGP.Genshin.Service.GachaStatistic
 
         private void SaveLogOf(string uid, GachaDataCollection gachaData)
         {
-            Directory.CreateDirectory($@"{localFolder}\{uid}");
+            string uidFolder = PathContext.Locate(localFolder, uid);
+            Directory.CreateDirectory(uidFolder);
             foreach (KeyValuePair<string, List<GachaLogItem>?> entry in gachaData[uid]!)
             {
-
-                Json.ToFile($@"{localFolder}\{uid}\{entry.Key}.json", entry.Value);
-
+                Json.ToFile($@"{uidFolder}\{entry.Key}.json", entry.Value);
             }
         }
         #endregion
@@ -116,10 +117,11 @@ namespace DGP.Genshin.Service.GachaStatistic
                                     { "lang", 0 },
                                     { "item_type", 0 },
                                     { "rank_type", 0 },
-                                    { "id", 0 }
+                                    { "id", 0 },
+                                    { "uigf_gacha_type", 0 }
                                 };
                                 columnIndex = DetectColumn(metadataSheet, columnIndex, propertyColumn);
-                                List<GachaLogItem> gachaLogs = EnumerateSheetData(metadataSheet, propertyColumn);
+                                List<UIGFItem> gachaLogs = EnumerateSheetData(metadataSheet, propertyColumn);
                                 ImportableGachaData importData = BuildImportableDataByList(gachaLogs);
                                 uid = ImportImportableGachaData(importData, gachaData);
                             }
@@ -141,7 +143,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             return (successful, uid);
         }
 
-        private ImportableGachaData BuildImportableDataByList(List<GachaLogItem> gachaLogs)
+        private ImportableGachaData BuildImportableDataByList(List<UIGFItem> gachaLogs)
         {
             ImportableGachaData importData = new();
             importData.Data = new();
@@ -166,10 +168,10 @@ namespace DGP.Genshin.Service.GachaStatistic
             return importData;
         }
 
-        private List<GachaLogItem> EnumerateSheetData(ExcelWorksheet metadataSheet, Dictionary<string, int> propertyColumn)
+        private List<UIGFItem> EnumerateSheetData(ExcelWorksheet metadataSheet, Dictionary<string, int> propertyColumn)
         {
             int row = 2;
-            List<GachaLogItem> gachaLogs = new();
+            List<UIGFItem> gachaLogs = new();
             //read data
             while (true)
             {
@@ -178,9 +180,10 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {
                     break;
                 }
-                GachaLogItem item = new();
+                UIGFItem item = new();
+                //有待测试
                 //reflection magic here.
-                foreach (PropertyInfo? itemProperty in item.GetType().GetProperties())
+                item.ForEachProperty(itemProperty => 
                 {
                     //match json property name
                     if (itemProperty.GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName is string jsonPropertyName)
@@ -188,18 +191,22 @@ namespace DGP.Genshin.Service.GachaStatistic
                         int matchedPropertyColumn = propertyColumn[jsonPropertyName];
                         if (matchedPropertyColumn != 0)
                         {
-                            if (itemProperty.Name == nameof(item.Time))
+                            switch (itemProperty.Name)
                             {
-                                DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
-                                itemProperty.SetValue(item, value);
-                            }
-                            else
-                            {
-                                itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
+                                case nameof(item.Time):
+                                    {
+                                        DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
+                                        itemProperty.SetValue(item, value);
+                                        break;
+                                    }
+                                default:
+                                    itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
+                                    break;
                             }
                         }
                     }
-                }
+                });
+
                 gachaLogs.Add(item);
                 row++;
             }

@@ -1,5 +1,7 @@
-﻿using Snap.Core.Logging;
+﻿using DGP.Genshin.Helper;
+using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
+using Snap.Reflection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +32,7 @@ namespace DGP.Genshin.Core.Plugins
         private IEnumerable<Assembly> LoadAllPluginDlls()
         {
             //fix autorun fail issue
-            string pluginPath = Path.GetFullPath(PluginFolder, AppContext.BaseDirectory);
+            string pluginPath = PathContext.Locate(PluginFolder);
             Directory.CreateDirectory(pluginPath);
             IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
             List<Assembly> plugins = new();
@@ -42,7 +44,7 @@ namespace DGP.Genshin.Core.Plugins
                 try
                 {
                     Assembly? assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
-                    if (assembly.GetCustomAttribute<SnapGenshinPluginAttribute>() is not null)
+                    if (assembly.HasAttribute<SnapGenshinPluginAttribute>())
                     {
                         plugins.Add(assembly);
                         this.Log($"plugin : {assembly.FullName} added to plugin collection");

@@ -68,12 +68,12 @@ namespace DGP.Genshin.Service
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
             Type? currntType = Frame?.Content?.GetType();
-
             if (pageType is null ||(currntType == pageType && currntType != typeof(WebViewHostPage)))
             {
                 return false;
             }
             _ = isSyncTabRequested && SyncTabWith(pageType);
+
             bool result = false;
             try
             {

@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Exception;
+using Snap.Reflection;
 using System;
 using System.Reflection;
 
@@ -35,7 +36,7 @@ namespace DGP.Genshin.Core
         private void RegisterService(ServiceCollection services, Type type)
         {
             //注册服务类型
-            if (type.GetCustomAttribute<ServiceAttribute>() is ServiceAttribute serviceAttr)
+            if (type.TryGetAttribute(out ServiceAttribute? serviceAttr))
             {
                 _ = serviceAttr.InjectAs switch
                 {
@@ -45,7 +46,7 @@ namespace DGP.Genshin.Core
                 };
             }
             //注册视图模型
-            if (type.GetCustomAttribute<ViewModelAttribute>() is ViewModelAttribute viewModelAttr)
+            if (type.TryGetAttribute(out ViewModelAttribute? viewModelAttr))
             {
                 _ = viewModelAttr.InjectAs switch
                 {
@@ -55,7 +56,7 @@ namespace DGP.Genshin.Core
                 };
             }
             //注册视图
-            if (type.GetCustomAttribute<ViewAttribute>() is ViewAttribute viewAttr)
+            if (type.TryGetAttribute(out ViewAttribute? viewAttr))
             {
                 _ = viewAttr.InjectAs switch
                 {

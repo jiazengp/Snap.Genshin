@@ -72,6 +72,7 @@
     <ProjectReference Include="..\Common\Snap.Net.Download\Snap.Net.Download.csproj" />
     <ProjectReference Include="..\Common\Snap.Net.Networking\Snap.Net.Networking.csproj" />
     <ProjectReference Include="..\Common\Snap.Net.QueryString\Snap.Net.QueryString.csproj" />
+    <ProjectReference Include="..\Common\Snap.Reflection\Snap.Reflection.csproj" />
     <ProjectReference Include="..\Common\Snap.Threading\Snap.Threading.csproj" />
     <ProjectReference Include="..\Common\Snap.Win32\Snap.Win32.csproj" />
     <ProjectReference Include="..\DGP.Genshin.FPSUnlocking\DGP.Genshin.FPSUnlocking.csproj" />

@@ -58,6 +58,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injury.Calculator.Plugin", 
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DGP.Genshin.Secret", "Common\DGP.Genshin.Secret\DGP.Genshin.Secret.shproj", "{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Reflection", "Common\Snap.Reflection\Snap.Reflection.csproj", "{A4020CA1-B975-437F-84A3-6FF46C195D4F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{bff58b44-5e4a-4f3c-9d7a-0733c0d798b8}*SharedItemsImports = 13
@@ -246,6 +248,14 @@ Global
 		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|x64.ActiveCfg = Release|x64
 		{FD3097D5-7482-49A4-887A-21912B0EC84D}.Release|x64.Build.0 = Release|x64
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Debug|x64.Build.0 = Debug|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Release|x64.ActiveCfg = Release|Any CPU
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +278,7 @@ Global
 		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{FD3097D5-7482-49A4-887A-21912B0EC84D} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 		{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
+		{A4020CA1-B975-437F-84A3-6FF46C195D4F} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}

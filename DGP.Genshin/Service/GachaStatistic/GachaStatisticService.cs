@@ -27,7 +27,8 @@ namespace DGP.Genshin.Service.GachaStatistic
             return url is null ? null : (new GachaLogWorker(url, gachaData));
         }
 
-        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
+        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode,
+            Action<FetchProgress> progressCallback, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
             if (!isOk)
@@ -77,7 +78,8 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         /// <param name="mode"></param>
         /// <returns>卡池配置是否可用</returns>
-        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
+        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaDataCollection gachaData, GachaLogUrlMode mode,
+            Action<FetchProgress> progressCallback, bool full = false)
         {
             IGachaLogWorker? worker = await GetGachaLogWorkerAsync(gachaData, mode);
             if (worker is null)
@@ -93,7 +95,8 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="worker">工作器对象</param>
         /// <param name="full">是否增量获取</param>
         /// <returns>是否获取成功</returns>
-        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaDataCollection gachaData, IGachaLogWorker worker, Action<FetchProgress> progressCallback, bool full = false)
+        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaDataCollection gachaData, IGachaLogWorker worker,
+            Action<FetchProgress> progressCallback, bool full = false)
         {
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
             if (gachaConfigTypes?.Types != null)
