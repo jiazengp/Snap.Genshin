@@ -6,7 +6,7 @@ using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 
 namespace DGP.Genshin.Service
@@ -19,7 +19,7 @@ namespace DGP.Genshin.Service
     {
         private readonly string settingFile = PathContext.Locate("settings.json");
 
-        private Dictionary<string, object?> settings = new();
+        private ConcurrentDictionary<string, object?> settings = new();
 
         public T? GetOrDefault<T>(string key, T? defaultValue)
         {
@@ -79,14 +79,13 @@ namespace DGP.Genshin.Service
         {
             if (File.Exists(settingFile))
             {
-                settings = Json.ToObjectOrNew<Dictionary<string, object?>>(File.ReadAllText(settingFile));
+                settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(settingFile));
             }
-            this.Log("initialized");
         }
 
         public void UnInitialize()
         {
-            File.WriteAllText(settingFile, Json.Stringify(settings));
+            Json.ToFile(settingFile, settings);
         }
     }
 }

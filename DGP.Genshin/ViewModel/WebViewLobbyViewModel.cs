@@ -33,7 +33,7 @@ namespace DGP.Genshin.ViewModel
         private async Task AddEntryAsync()
         {
             WebViewEntry? entry = await new WebViewEntryDialog().GetWebViewEntryAsync();
-            if(entry is not null)
+            if (entry is not null)
             {
                 entry.ModifyCommand = new AsyncRelayCommand<WebViewEntry>(ModifyEntryAsync);
                 entry.RemoveCommand = new RelayCommand<WebViewEntry>(RemoveEntry);

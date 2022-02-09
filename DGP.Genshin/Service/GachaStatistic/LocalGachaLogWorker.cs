@@ -175,34 +175,29 @@ namespace DGP.Genshin.Service.GachaStatistic
             //read data
             while (true)
             {
-                //判定首列的值，为空则记录已经到达末尾
+                //判定当前行首列的值，为空则记录已经到达末尾
                 if (metadataSheet.Cells[row, 1].Value == null)
                 {
                     break;
                 }
                 UIGFItem item = new();
-                //有待测试
                 //reflection magic here.
-                item.ForEachProperty(itemProperty => 
+                item.ForEachPropertyInfoWithAttribute<JsonPropertyAttribute>((itemProperty, attribute) =>
                 {
-                    //match json property name
-                    if (itemProperty.GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName is string jsonPropertyName)
+                    int matchedPropertyColumn = propertyColumn[attribute.PropertyName!];
+                    if (matchedPropertyColumn != 0)
                     {
-                        int matchedPropertyColumn = propertyColumn[jsonPropertyName];
-                        if (matchedPropertyColumn != 0)
+                        switch (itemProperty.Name)
                         {
-                            switch (itemProperty.Name)
-                            {
-                                case nameof(item.Time):
-                                    {
-                                        DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
-                                        itemProperty.SetValue(item, value);
-                                        break;
-                                    }
-                                default:
-                                    itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
+                            case nameof(item.Time):
+                                {
+                                    DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
+                                    itemProperty.SetValue(item, value);
                                     break;
-                            }
+                                }
+                            default:
+                                itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
+                                break;
                         }
                     }
                 });
@@ -214,7 +209,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             return gachaLogs;
         }
 
-        private int DetectColumn(ExcelWorksheet metadataSheet, int columnIndex, Dictionary<string, int> PropertyColumn)
+        private int DetectColumn(ExcelWorksheet metadataSheet, int columnIndex, Dictionary<string, int> propertyColumn)
         {
             //detect column property name
             while (true)
@@ -224,7 +219,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {
                     break;
                 }
-                PropertyColumn[header] = columnIndex;
+                propertyColumn[header] = columnIndex;
                 columnIndex++;
             }
 
@@ -436,7 +431,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     {
                         index++;
                     }
-                    if(index < banner.Count)
+                    if (index < banner.Count)
                     {
                         index--;
                         //prepare id for generation,this id is separated for each banner

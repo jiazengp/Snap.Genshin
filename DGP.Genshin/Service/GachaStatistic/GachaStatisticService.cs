@@ -21,14 +21,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             localGachaLogWorker.LoadAll(gachaData);
         }
 
-        public async Task<IGachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode)
-        {
-            (_, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            return url is null ? null : (new GachaLogWorker(url, gachaData));
-        }
-
-        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode,
-            Action<FetchProgress> progressCallback, bool full = false)
+        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
             if (!isOk)
@@ -48,7 +41,9 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
             else
             {
-                (bool isSuccess, string? uid) = await RefreshInternalAsync(gachaData, mode, progressCallback, full);
+                IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
+                (bool isSuccess, string? uid) = await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
+
                 if (!isSuccess)
                 {
                     await new ContentDialog()
@@ -71,22 +66,6 @@ namespace DGP.Genshin.Service.GachaStatistic
                 GachaLogUrlMode.ManualInput => "请重新输入有效的Url",
                 _ => string.Empty,
             };
-        }
-
-        /// <summary>
-        /// 按模式刷新
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <returns>卡池配置是否可用</returns>
-        private async Task<(bool isOk, string? uid)> RefreshInternalAsync(GachaDataCollection gachaData, GachaLogUrlMode mode,
-            Action<FetchProgress> progressCallback, bool full = false)
-        {
-            IGachaLogWorker? worker = await GetGachaLogWorkerAsync(gachaData, mode);
-            if (worker is null)
-            {
-                return (false, null);
-            }
-            return await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
         }
 
         /// <summary>

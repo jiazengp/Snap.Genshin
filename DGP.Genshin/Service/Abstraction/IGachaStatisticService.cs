@@ -68,14 +68,6 @@ namespace DGP.Genshin.Service.Abstratcion
         Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false);
 
         /// <summary>
-        /// 按模式异步获取<see cref="IGachaLogWorker"/>
-        /// </summary>
-        /// <param name="gachaData">抽卡源数据</param>
-        /// <param name="mode">模式</param>
-        /// <returns>如果无可用的 Url 则返回 <see cref="null"/></returns>
-        Task<IGachaLogWorker?> GetGachaLogWorkerAsync(GachaDataCollection gachaData, GachaLogUrlMode mode);
-
-        /// <summary>
         /// 异步导出记录到Excel
         /// </summary>
         /// <param name="gachaData">抽卡源数据</param>

@@ -215,7 +215,7 @@ namespace DGP.Genshin.Service
         /// <param name="targetFPS"></param>
         public void SetTargetFPSDynamically(int targetFPS)
         {
-            if(unlocker is not null)
+            if (unlocker is not null)
             {
                 unlocker.TargetFPS = targetFPS;
             }

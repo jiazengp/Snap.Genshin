@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
+using DGP.Genshin.Helper.Notification;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.Logging;
 using Snap.Exception;
 using System.Windows;
@@ -8,9 +10,6 @@ using System.Windows.Navigation;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// WebViewHostPage.xaml 的交互逻辑
-    /// </summary>
     public partial class WebViewHostPage : ModernWpf.Controls.Page
     {
         private WebViewEntry? entry;
@@ -44,9 +43,19 @@ namespace DGP.Genshin.Page
                 return;
             }
 
-            if(entry is not null)
+            if (entry is not null)
             {
-                WebView.CoreWebView2.Navigate(entry.NavigateUrl);
+                try
+                {
+                    WebView.CoreWebView2.Navigate(entry.NavigateUrl);
+                }
+                catch
+                {
+                    SecureToastNotificationContext.TryCatch(() =>
+                    new ToastContentBuilder()
+                    .AddText("无法导航到指定的网页")
+                    .Show());
+                }
             }
         }
 
@@ -55,7 +64,7 @@ namespace DGP.Genshin.Page
             if (entry?.JavaScript is not null)
             {
                 this.Log("开始执行页面脚本");
-                var result = await WebView.CoreWebView2.ExecuteScriptAsync(entry.JavaScript);
+                string? result = await WebView.CoreWebView2.ExecuteScriptAsync(entry.JavaScript);
                 this.Log(result);
             }
         }

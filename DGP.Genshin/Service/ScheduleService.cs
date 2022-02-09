@@ -30,7 +30,6 @@ namespace DGP.Genshin.Service
                     {
                         double minutes = settingService.GetOrDefault(Setting.ResinRefreshMinutes, 8d);
                         await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
-                        //await Task.Delay(20000, cancellationTokenSource.Token);
                         App.Messenger.Send(new TickScheduledMessage());
                     }
                 }, cancellationTokenSource.Token).ConfigureAwait(false);

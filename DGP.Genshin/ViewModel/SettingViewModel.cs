@@ -26,7 +26,6 @@ namespace DGP.Genshin.ViewModel
 {
     /// <summary>
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
-    /// 仅供 <see cref="Page.SettingsPage"/> 使用
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
     public class SettingViewModel : ObservableRecipient2, IRecipient<SettingChangedMessage>, IRecipient<UpdateProgressedMessage>
@@ -256,8 +255,13 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task EnableDailyNotePermissionAsync()
         {
-            await new DailyNoteProvider(cookieService.CurrentCookie).ChangeDailyNoteDataSwitchAsync(true);
-            await new ContentDialog() { Title = "操作完成", PrimaryButtonText = "确定" }.ShowAsync();
+            object? result = await new DailyNoteProvider(cookieService.CurrentCookie).ChangeDailyNoteDataSwitchAsync(true);
+            await new ContentDialog()
+            {
+                Title = result is null ? "操作失败" : "操作成功",
+                PrimaryButtonText = "确定",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
         }
 
         /// <summary>

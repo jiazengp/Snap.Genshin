@@ -4,11 +4,11 @@ using DGP.Genshin.Service.Abstratcion;
 using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
+using Snap.Reflection;
 using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -124,15 +124,11 @@ namespace DGP.Genshin.Service
         private int GetTotalCount(MetadataViewModel metadata)
         {
             int totalCount = 0;
-            foreach (PropertyInfo? propInfo in metadata.GetType().GetProperties())
+            metadata.ForEachPropertyWithAttribute<IntegrityAwareAttribute>((prop, aware) =>
             {
-                if (propInfo.GetCustomAttribute<IntegrityAwareAttribute>() is IntegrityAwareAttribute aware)
-                {
-                    object prop = propInfo.GetValue(metadata)!;
-                    int count = (int)(prop.GetType().GetProperty("Count")!.GetValue(prop)!);
-                    totalCount += aware.IsCharacter ? count * 3 : count;
-                }
-            }
+                int count = prop.GetPropertyValueByName<int>("Count");
+                totalCount += aware.IsCharacter ? count * 3 : count;
+            });
             return totalCount;
         }
 
@@ -146,22 +142,19 @@ namespace DGP.Genshin.Service
         private List<Task> BuildIntegrityTasks(MetadataViewModel metadata, int totalCount, IProgress<IState> progress)
         {
             List<Task> tasks = new();
-            foreach (PropertyInfo? propInfo in metadata.GetType().GetProperties())
+            metadata.ForEachPropertyInfoWithAttribute<IntegrityAwareAttribute>((propInfo, aware) =>
             {
-                if (propInfo.GetCustomAttribute<IntegrityAwareAttribute>() is IntegrityAwareAttribute aware)
+                if (aware.IsCharacter)
                 {
-                    if (aware.IsCharacter)
-                    {
-                        IEnumerable<Character> characters = (IEnumerable<Character>)propInfo.GetValue(metadata)!;
-                        tasks.Add(CheckCharacterIntegrityAsync(characters, totalCount, progress));
-                    }
-                    else
-                    {
-                        IEnumerable<KeySource> keySources = (IEnumerable<KeySource>)propInfo.GetValue(metadata)!;
-                        tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
-                    }
+                    IEnumerable<Character> characters = metadata.GetPropertyByInfo<IEnumerable<Character>>(propInfo)!;
+                    tasks.Add(CheckCharacterIntegrityAsync(characters, totalCount, progress));
                 }
-            }
+                else
+                {
+                    IEnumerable<KeySource> keySources = metadata.GetPropertyByInfo<IEnumerable<KeySource>>(propInfo)!;
+                    tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
+                }
+            });
             return tasks;
         }
 

@@ -26,7 +26,7 @@ namespace DGP.Genshin.Control.WebViewLobby
             DataContext = this;
             InitializeComponent();
         }
-        
+
         public string NavigateUrl
         {
             get { return (string)GetValue(NavigateUrlProperty); }
@@ -42,7 +42,7 @@ namespace DGP.Genshin.Control.WebViewLobby
         }
         public static readonly DependencyProperty EntryNameProperty =
             DependencyProperty.Register(nameof(EntryName), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
-        
+
         [AllowNull]
         public string IconUrl
         {
@@ -67,7 +67,7 @@ namespace DGP.Genshin.Control.WebViewLobby
             {
                 if (NavigateUrl is not null)
                 {
-                    if(JavaScript is not null)
+                    if (JavaScript is not null)
                     {
                         JavaScript = new Regex("(\r\n|\r|\n)").Replace(JavaScript, " ");
                         JavaScript = new Regex(@"\s+").Replace(JavaScript, " ");
@@ -84,23 +84,39 @@ namespace DGP.Genshin.Control.WebViewLobby
             {
                 using (HttpClient client = new())
                 {
-                    string response = await client.GetStringAsync(NavigateUrl);
-                    Match m;
-                    //匹配标题
-                    m = new Regex("(?<=<title>)(.*)(?=</title>)").Match(response);
-                    EntryName = m.Success ? m.Value : "获取失败";
-                    //匹配图标
-                    m = new Regex("(?<=rel[ =]+\"[shortcut icon]+\" href=\")(.*?)(?=\")").Match(response);
-                    if (m.Success)
+                    if (Uri.TryCreate(NavigateUrl, UriKind.Absolute, out Uri? navigateUri))
                     {
-                        string? path = m.Value;
-                        if(Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out Uri? pathUri))
+                        string response;
+                        try
                         {
-                            Uri iconUri = pathUri.IsAbsoluteUri 
-                                ? pathUri 
-                                : new Uri(new Uri(NavigateUrl), pathUri);
-                            IconUrl = iconUri.ToString();
+                            response = await client.GetStringAsync(navigateUri);
                         }
+                        catch
+                        {
+                            response = string.Empty;
+                        }
+
+                        Match m;
+                        //匹配标题
+                        m = new Regex("(?<=<title>)(.*)(?=</title>)").Match(response);
+                        EntryName = m.Success ? m.Value : "自动获取失败";
+                        //匹配图标
+                        m = new Regex("(?<=rel[ =]+\"[shortcut icon]+\" href=\")(.*?)(?=\")").Match(response);
+                        if (m.Success)
+                        {
+                            string? path = m.Value;
+                            if (Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out Uri? pathUri))
+                            {
+                                Uri iconUri = pathUri.IsAbsoluteUri
+                                    ? pathUri
+                                    : new Uri(new Uri(NavigateUrl), pathUri);
+                                IconUrl = iconUri.ToString();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        NavigateUrl = "该Url无效";
                     }
                 }
             }

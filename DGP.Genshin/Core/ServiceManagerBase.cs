@@ -4,7 +4,6 @@ using Snap.Core.DependencyInjection;
 using Snap.Exception;
 using Snap.Reflection;
 using System;
-using System.Reflection;
 
 namespace DGP.Genshin.Core
 {

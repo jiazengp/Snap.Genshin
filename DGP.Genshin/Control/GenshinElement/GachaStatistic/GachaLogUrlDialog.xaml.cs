@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
 {
-    /// <summary>
-    /// GachaLogUrlDialog.xaml 的交互逻辑
-    /// </summary>
     public partial class GachaLogUrlDialog : ContentDialog
     {
         public GachaLogUrlDialog()

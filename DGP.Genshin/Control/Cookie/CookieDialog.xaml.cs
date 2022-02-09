@@ -75,7 +75,8 @@ namespace DGP.Genshin.Control.Cookie
                 try
                 {
                     Clipboard2.SetText(cookieCode);
-                } catch { }
+                }
+                catch { }
             }
         }
     }

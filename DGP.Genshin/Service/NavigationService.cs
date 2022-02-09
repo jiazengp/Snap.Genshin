@@ -68,7 +68,7 @@ namespace DGP.Genshin.Service
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
             Type? currntType = Frame?.Content?.GetType();
-            if (pageType is null ||(currntType == pageType && currntType != typeof(WebViewHostPage)))
+            if (pageType is null || (currntType == pageType && currntType != typeof(WebViewHostPage)))
             {
                 return false;
             }
@@ -108,7 +108,7 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                Navigate(NavHelper.GetNavigateTo(Selected),false,NavHelper.GetExtraData(Selected));
+                Navigate(NavHelper.GetNavigateTo(Selected), false, NavHelper.GetExtraData(Selected));
             }
         }
 
@@ -141,22 +141,25 @@ namespace DGP.Genshin.Service
                 NavigationViewItemHeader? header = NavigationView.MenuItems
                     .OfType<NavigationViewItemHeader>()
                     .SingleOrDefault(header => header.Content.ToString() == "网页");
-                if(header is not null)
+                if (header is not null)
                 {
                     int headerIndex = NavigationView.MenuItems.IndexOf(header);
                     header.Visibility = System.Windows.Visibility.Visible;
 
                     foreach (WebViewEntry entry in entries)
                     {
+                        BitmapIcon icon = new() { ShowAsMonochrome = false };
+
+                        icon.UriSource = Uri.TryCreate(entry.IconUrl, UriKind.Absolute, out Uri? iconUri)
+                            ? iconUri
+                            : new Uri("pack://application:,,,/SG_Logo.ico");
+
                         NavigationViewItem item = new()
                         {
+                            Icon = icon,
                             Content = entry.Name,
-                            Icon = new BitmapIcon()
-                            {
-                                UriSource = new Uri(entry.IconUrl ?? "pack://application:,,,/SG_Logo.ico"),
-                                ShowAsMonochrome = false
-                            }
                         };
+
                         NavHelper.SetNavigateTo(item, typeof(WebViewHostPage));
                         NavHelper.SetExtraData(item, entry);
 

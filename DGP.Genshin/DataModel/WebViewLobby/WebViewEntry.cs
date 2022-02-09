@@ -5,7 +5,7 @@ namespace DGP.Genshin.DataModel.WebViewLobby
 {
     public class WebViewEntry
     {
-        public WebViewEntry(string name, string navigateUrl,string? iconUrl, string? javaScript)
+        public WebViewEntry(string name, string navigateUrl, string? iconUrl, string? javaScript)
         {
             Name = name;
             NavigateUrl = navigateUrl;

@@ -12,7 +12,5 @@ namespace DGP.Genshin.Page
             DataContext = App.AutoWired<SettingViewModel>();
             InitializeComponent();
         }
-
-        public SettingViewModel ViewModel => (SettingViewModel)DataContext;
     }
 }
