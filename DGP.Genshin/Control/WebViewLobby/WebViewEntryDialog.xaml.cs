@@ -22,6 +22,7 @@ namespace DGP.Genshin.Control.WebViewLobby
                 EntryName = entry.Name;
                 IconUrl = entry.IconUrl;
                 JavaScript = entry.JavaScript;
+                ShowInNavView = entry.ShowInNavView;
             }
             DataContext = this;
             InitializeComponent();
@@ -61,6 +62,14 @@ namespace DGP.Genshin.Control.WebViewLobby
         public static readonly DependencyProperty JavaScriptProperty =
             DependencyProperty.Register(nameof(JavaScript), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
 
+        public bool ShowInNavView
+        {
+            get { return (bool)GetValue(ShowInNavViewProperty); }
+            set { SetValue(ShowInNavViewProperty, value); }
+        }
+        public static readonly DependencyProperty ShowInNavViewProperty =
+            DependencyProperty.Register("ShowInNavView", typeof(bool), typeof(WebViewEntryDialog), new PropertyMetadata(true));
+
         public async Task<WebViewEntry?> GetWebViewEntryAsync()
         {
             if (ContentDialogResult.Secondary != await ShowAsync())
@@ -72,7 +81,7 @@ namespace DGP.Genshin.Control.WebViewLobby
                         JavaScript = new Regex("(\r\n|\r|\n)").Replace(JavaScript, " ");
                         JavaScript = new Regex(@"\s+").Replace(JavaScript, " ");
                     }
-                    return new WebViewEntry(EntryName, NavigateUrl, IconUrl, JavaScript);
+                    return new WebViewEntry(EntryName, NavigateUrl, IconUrl, JavaScript, ShowInNavView);
                 }
             }
             return null;

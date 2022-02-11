@@ -32,11 +32,12 @@ namespace DGP.Genshin.Page
             base.OnNavigatedTo(e);
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void PageLoaded(object sender, RoutedEventArgs e)
         {
             try
             {
                 await WebView.EnsureCoreWebView2Async();
+                WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
             }
             catch
             {

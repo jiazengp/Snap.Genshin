@@ -161,18 +161,20 @@ namespace DGP.Genshin
             {
                 Messenger.Send(new AppExitingMessage());
                 AutoWired<ISettingService>().UnInitialize();
-                try
-                {
-                    ToastNotificationManagerCompat.History.Clear();
-                }
-                catch { }
+                try { ToastNotificationManagerCompat.History.Clear(); } catch { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
             base.OnExit(e);
         }
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
-            Messenger.Send(new AppExitingMessage());
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
+            {
+                Messenger.Send(new AppExitingMessage());
+                AutoWired<ISettingService>().UnInitialize();
+                try { ToastNotificationManagerCompat.History.Clear(); } catch { }
+            }
+            base.OnSessionEnding(e);
         }
 
         private void ConfigureUnhandledException()

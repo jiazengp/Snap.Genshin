@@ -29,7 +29,7 @@ namespace DGP.Genshin
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
-        //cause we do have some async operation in initialization so we can't use lock
+        //cause we have some async operation in initialization so we can't use lock
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private bool hasInitializeCompleted = false;
         private static bool hasEverOpen = false;
@@ -113,7 +113,7 @@ namespace DGP.Genshin
         }
         public void Receive(NavigateRequestMessage message)
         {
-            navigationService.Navigate(message.Value, message.IsSyncTabRequested);
+            navigationService.Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -144,13 +144,10 @@ namespace DGP.Genshin
             }
         }
 
-        private static void DoTaskbarFlow()
+        private void DoTaskbarFlow()
         {
             App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
-            if (App.Current.NotifyIcon is not null)
-            {
-                App.Current.NotifyIcon.DataContext = App.AutoWired<TaskbarIconViewModel>();
-            }
+            App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -266,10 +267,9 @@ namespace DGP.Genshin.Service
                 OpenFileDialog openFileDialog = new()
                 {
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    Filter = "启动器或快捷方式|launcher.exe;*.lnk",
+                    Filter = "启动器|launcher.exe",
                     Title = "选择启动器文件",
                     CheckPathExists = true,
-                    DereferenceLinks = true,
                     FileName = LauncherExecutable
                 };
 
@@ -309,7 +309,8 @@ namespace DGP.Genshin.Service
 
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
-            Json.ToFile(AccountsFileName, accounts);
+            //trim account with same id
+            Json.ToFile(AccountsFileName, accounts.DistinctBy(account => account.GeneralData));
         }
 
         public GenshinAccount? GetFromRegistry()

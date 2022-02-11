@@ -148,22 +148,25 @@ namespace DGP.Genshin.Service
 
                     foreach (WebViewEntry entry in entries)
                     {
-                        BitmapIcon icon = new() { ShowAsMonochrome = false };
-
-                        icon.UriSource = Uri.TryCreate(entry.IconUrl, UriKind.Absolute, out Uri? iconUri)
-                            ? iconUri
-                            : new Uri("pack://application:,,,/SG_Logo.ico");
-
-                        NavigationViewItem item = new()
+                        if (entry.ShowInNavView)
                         {
-                            Icon = icon,
-                            Content = entry.Name,
-                        };
+                            BitmapIcon icon = new() { ShowAsMonochrome = false };
 
-                        NavHelper.SetNavigateTo(item, typeof(WebViewHostPage));
-                        NavHelper.SetExtraData(item, entry);
+                            icon.UriSource = Uri.TryCreate(entry.IconUrl, UriKind.Absolute, out Uri? iconUri)
+                                ? iconUri
+                                : new Uri("pack://application:,,,/SG_Logo.ico");
 
-                        NavigationView.MenuItems.Insert(++headerIndex, item);
+                            NavigationViewItem item = new()
+                            {
+                                Icon = icon,
+                                Content = entry.Name,
+                            };
+
+                            NavHelper.SetNavigateTo(item, typeof(WebViewHostPage));
+                            NavHelper.SetExtraData(item, entry);
+
+                            NavigationView.MenuItems.Insert(++headerIndex, item);
+                        }
                     }
                 }
             }

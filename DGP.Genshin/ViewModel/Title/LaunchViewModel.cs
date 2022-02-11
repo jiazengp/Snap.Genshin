@@ -2,8 +2,10 @@
 using DGP.Genshin.Control.Title;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.Helper;
+using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
@@ -155,10 +157,11 @@ namespace DGP.Genshin.ViewModel.Title
             }
             else
             {
+                settingService[Setting.LauncherPath] = null;
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "无法使用此功能",
-                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
+                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败\n请尝试重新选择启动器路径",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
             }
@@ -229,23 +232,34 @@ namespace DGP.Genshin.ViewModel.Title
             //注册表内有账号信息
             if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
             {
-                GenshinAccount? matched = Accounts.FirstOrDefault(
-                    a => a.GeneralData == currentRegistryAccount.GeneralData
-                    && a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
+                GenshinAccount? matched = Accounts.FirstOrDefault(a => a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
                 //账号列表内无匹配项
-                if (matched is null)
+                if (matched is not null)
+                {
+                    //账号信息相同但设置不同，优先选择注册表内的设置
+                    if (matched.GeneralData != currentRegistryAccount.GeneralData)
+                    {
+                        matched.GeneralData = currentRegistryAccount.GeneralData;
+                    }
+                    selectedAccount = matched;
+                }
+                else
                 {
                     //命名
                     currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
                     Accounts.Add(currentRegistryAccount);
                     selectedAccount = currentRegistryAccount;
                 }
-                else
-                {
-                    selectedAccount = matched;
-                }
                 //prevent registry set
                 OnPropertyChanged(nameof(SelectedAccount));
+            }
+            else
+            {
+                SecureToastNotificationContext.TryCatch(() =>
+                new ToastContentBuilder()
+                .AddText("从注册表获取账号信息失败")
+                .AddText("已为您切换到第一个账号")
+                .Show());
             }
         }
     }

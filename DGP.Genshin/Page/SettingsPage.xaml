@@ -342,7 +342,7 @@
                 </wu:CardControl>
 
                 <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xF71C;" Title="开机时启动" Subtitle="启用此项以便执行某些自动化操作" Margin="12,12,16,0">
+                <wu:CardControl helper:IconHelper.Icon="&#xF71C;" Title="开机时启动" Subtitle="启用此项以便执行某些自动化操作,若设置了始终以管理员模式启动则不会生效" Margin="12,12,16,0">
                     <ui:ToggleSwitch IsOn="{Binding AutoRun.IsAutoRun}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xED1A;" Title="隐式初始化" Subtitle="首次初始化完成后立即关闭主窗口，仅在启用托盘图标后有效" Margin="12,12,16,0">
@@ -388,10 +388,9 @@
                                Command="{Binding OpenCacheFolderCommand}"
                                Margin="12,12,16,0"/>
 
-
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
-                    <wu:Hyperlink Content="前往查看" NavigateUri="https://sgdocs.irain.in/"/>
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://www.snapgenshin.com/home/"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE946;" Title="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
                     <Button Tag="Github" Content="检查更新并安装" Command="{Binding CheckUpdateCommand}"/>
@@ -422,9 +421,9 @@
                     <UniformGrid Columns="4" Margin="12">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                             Content="前往 Github 提交 Issue" Padding="4"/>
-                        <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=MHLNhhYJ" 
+                        <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=MHLNhhYJ"
                                             Content="反馈群 910780153" Padding="4"/>
-                        <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=cgh9S2XW" 
+                        <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=cgh9S2XW"
                                             Content="闲聊群 547288075" Padding="4"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=Wpcad0lD"
                                             Content="开发群 982424236" Padding="4"/>

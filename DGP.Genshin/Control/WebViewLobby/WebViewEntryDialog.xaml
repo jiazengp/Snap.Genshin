@@ -15,8 +15,9 @@
         <TextBox ui:ControlHelper.Header="标题" Text="{Binding EntryName}" Margin="0,12,0,0"/>
         <TextBox ui:ControlHelper.Header="图标Url" Text="{Binding IconUrl}" Margin="0,6,0,0"/>
         <Button Content="自动获取标题与图标" Margin="0,6,0,0" HorizontalAlignment="Stretch" Click="AutoTitleIconButtonClick"/>
-        <TextBox ui:ControlHelper.Header="JavaScript 脚本" Height="120" ui:ControlHelper.PlaceholderText="页面加载完成后执行" 
+        <TextBox ui:ControlHelper.Header="JavaScript 脚本" Height="120" ui:ControlHelper.PlaceholderText="页面加载完成后执行,可以留空" 
                  TextWrapping="Wrap" MaxLines="128" AcceptsReturn="True"
                  Text="{Binding JavaScript}" Margin="0,12,0,0"/>
+        <CheckBox IsChecked="{Binding ShowInNavView}" Content="添加到导航栏"/>
     </StackPanel>
 </ui:ContentDialog>

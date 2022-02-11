@@ -131,21 +131,56 @@
             <ui:CommandBar.Content>
                 <TextBlock Text="下次打开主界面时生效" Margin="12,12,0,0"/>
             </ui:CommandBar.Content>
+
+            <ui:AppBarButton Label="常用脚本" Command="{Binding CommonScriptCommand}">
+                <ui:AppBarButton.Icon>
+                    <ui:FontIcon Glyph="&#xE8A7;"/>
+                </ui:AppBarButton.Icon>
+            </ui:AppBarButton>
             <ui:AppBarButton Label="添加新页签" Icon="Add" Command="{Binding AddEntryCommand}"/>
         </ui:CommandBar>
         <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding Entries}" Margin="12,12,4,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="320"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <wu:CardControl 
+                        <Button
                             VerticalAlignment="Top" Margin="0,0,12,12" Padding="6" 
                             helper:IconHelper.Icon="{Binding IconUrl}"
-                            Title="{Binding Name}" Subtitle="{Binding JavaScript,TargetNullValue=该页面没有要执行的脚本}">
-                            <StackPanel Orientation="Horizontal">
-                                <Button Margin="16,0,0,0" Content="修改" Command="{Binding ModifyCommand}" CommandParameter="{Binding}"/>
-                                <Button Margin="16,0,0,0" Content="删除" Command="{Binding RemoveCommand}" CommandParameter="{Binding}"/>
-                            </StackPanel>
-                        </wu:CardControl>
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Command="{Binding NavigateCommand}" CommandParameter="{Binding}">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="编辑" Command="{Binding ModifyCommand}" CommandParameter="{Binding}">
+                                        <MenuItem.Icon>
+                                            <ui:SymbolIcon Symbol="Edit"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="删除" Command="{Binding RemoveCommand}" CommandParameter="{Binding}">
+                                        <MenuItem.Icon>
+                                            <ui:SymbolIcon Symbol="Delete"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ui:BitmapIcon 
+                                        Height="40" Width="40" UriSource="{Binding IconUrl}"
+                                        ShowAsMonochrome="False" RenderOptions.BitmapScalingMode="Fant"/>
+                                <TextBlock 
+                                        Grid.Column="1" Text="{Binding Name}" Margin="12,0,0,0"
+                                        Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
