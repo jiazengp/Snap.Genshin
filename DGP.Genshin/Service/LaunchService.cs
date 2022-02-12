@@ -304,13 +304,14 @@ namespace DGP.Genshin.Service
 
         public ObservableCollection<GenshinAccount> LoadAllAccount()
         {
-            return Json.FromFileOrNew<ObservableCollection<GenshinAccount>>(AccountsFileName);
+            //fix load file failure while launched by updater in admin
+            return Json.FromFileOrNew<ObservableCollection<GenshinAccount>>(PathContext.Locate(AccountsFileName));
         }
 
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
             //trim account with same id
-            Json.ToFile(AccountsFileName, accounts.DistinctBy(account => account.GeneralData));
+            Json.ToFile(PathContext.Locate(AccountsFileName), accounts.DistinctBy(account => account.GeneralData));
         }
 
         public GenshinAccount? GetFromRegistry()

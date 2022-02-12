@@ -114,8 +114,8 @@ namespace DGP.Genshin.ViewModel
         {
             IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!
                 .Where(u => u.CookieUserGameRole!.Cookie == message.Value);
-
-            foreach (ResinWidgetConfigration target in targets)
+            //.ToList() fix exception with enumrate a modified collection.
+            foreach (ResinWidgetConfigration target in targets.ToList())
             {
                 target.IsChecked = false;
                 ResinWidgets?.Remove(target);

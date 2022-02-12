@@ -86,13 +86,11 @@ namespace DGP.Genshin.Service
 
             public new bool Remove(string cookie)
             {
-                cookieService.CookiesLock.EnterWriteLock();
                 string id = GetCookiePairs(cookie)["account_id"];
                 AccountIds.Remove(id);
                 bool result = base.Remove(cookie);
                 App.Messenger.Send(new CookieRemovedMessage(cookie));
                 cookieService.SaveCookies();
-                cookieService.CookiesLock.ExitWriteLock();
                 return result;
             }
 
@@ -257,7 +255,7 @@ namespace DGP.Genshin.Service
         public void SaveCookies()
         {
             IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
-            Json.ToFile(CookieListFile, encodedCookies);
+            Json.ToFile(PathContext.Locate(CookieListFile), encodedCookies);
         }
 
         /// <summary>

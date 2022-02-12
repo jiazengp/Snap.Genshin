@@ -201,7 +201,7 @@ namespace DGP.Genshin
                 Environment.CurrentDirectory = workingPath;
             }
         }
-        private partial void ConfigureAppCenter(bool enabled);
+        partial void ConfigureAppCenter(bool enabled);
         private void ConfigureToastNotification()
         {
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;

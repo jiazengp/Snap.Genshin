@@ -11,10 +11,7 @@ Snap Genshin 的插件系统设计 使得开发者能够开发权限极高的插
 可以进行任何类型的 服务/视图模型 注册  
 
 开发插件前，你需要 `Clone` 整个 `Snap Genshin` 仓库到本地  
-``` shell
-git clone --recurse-submodules --depth 1 https://github.com/DGP-Studio/Snap.Genshin.git 
-```
-我们推荐你在 `Fork` 后再进行 `Clone`  
+完整克隆的方法请参阅 [开发人员文档](DeveloperGuide)  
 `Clone` 完成后，使用 `Visual Studio 2022` 打开 `Snap.Genshin.sln` 文件
 
 ## 新建 `.NET 6` 类库
@@ -41,7 +38,7 @@ git clone --recurse-submodules --depth 1 https://github.com/DGP-Studio/Snap.Gens
     <UseWPF>true</UseWPF>
     <!--不能生成为引用程序集-->
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <Platforms>AnyCPU</Platforms>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -64,8 +61,6 @@ git clone --recurse-submodules --depth 1 https://github.com/DGP-Studio/Snap.Gens
 
 </Project>
 ```
-* 由于 Snap Genshin 使用了 Windows Runtimes API  
-插件的目标框架需要基于 `net6.0-windows10.0.18362` 才能使插件正常通过编译
 
 ## 添加 `SnapGenshinPlugin` 特性
 
@@ -106,11 +101,7 @@ namespace DGP.Genshin.Sample.Plugin
         public string Description => "插件描述";
         public string Author => "DGP Studio";
         public Version Version => new("0.0.0.1");
-        public bool IsEnabled
-        {
-            get;
-            set;
-        }
+        [Obsolete] public bool IsEnabled { get; set; }
     }
 }
 ```
@@ -165,15 +156,18 @@ DGP.Genshin.Core.Plugins.ImportPageAttribute
 [ImportPage(typeof(SamplePage), "插件页面名称", "\uE734")]
 ```
 
-第三个参数是图标的字符串形式，详见 [segoe-fluent-icons-font](https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font)
+第三个参数是图标的字符串形式，详见 [segoe-fluent-icons-font](https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font)  
+也可以使用另一个 `ImportPage` 的构造函数，采用了 `IconElement` 类作为第三个参数
 
 此时生成程序集可以发现 Snap Genshin 的左侧导航栏已经包含了新的导航页面入口
 
 ## 依赖关系注入
 
-由于 Snap Genshin 实现了依赖注入，你也完全可以依赖于这一套系统来注入服务或视图模型
-
-例如：可以在服务类上添加 `[Service]` 特性 在视图模型上添加 `[ViewModel]` 特性  
+由于 Snap Genshin 实现了依赖注入，你也完全可以依赖于这一套系统来注入服务或视图模型  
+例如：
+* 可以在服务类上添加 `[Service]` 特性 
+* 在视图模型上添加 `[ViewModel]` 特性  
+* 在页面上添加 `[Page]` 特性（暂时不起作用）
 
 ``` c#
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -192,23 +186,7 @@ namespace DGP.Genshin.Sample.Plugin
 
         public SampleViewModel()
         {
-            List<object>? list = new();
-            ICollection<FontFamily>? families = Fonts.GetFontFamilies(@"C:\Windows\Fonts\segmdl2.ttf");
-            foreach (FontFamily family in families)
-            {
-                ICollection<Typeface>? typefaces = family.GetTypefaces();
-                foreach (Typeface typeface in typefaces)
-                {
-                    typeface.TryGetGlyphTypeface(out GlyphTypeface glyph);
-                    IDictionary<int, ushort> characterMap = glyph.CharacterToGlyphMap;
-
-                    foreach (KeyValuePair<int, ushort> kvp in characterMap)
-                    {
-                        list.Add(new { Glyph = (char)kvp.Key, Data = kvp.Key });
-                    }
-                }
-            }
-            icons = list;
+            icons = new();
         }
     }
 }
@@ -216,4 +194,4 @@ namespace DGP.Genshin.Sample.Plugin
 
 ## 项目示例
 
-关于详细的项目示例，请参考[此处](https://github.com/DGP-Studio/Snap.Genshin/tree/main/Plugins/DGP.Genshin.Sample.Plugin)
+关于详细的项目示例，请参考[此处](https://github.com/DGP-Studio/Snap.Genshin/tree/main/Plugins)

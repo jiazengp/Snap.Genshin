@@ -81,7 +81,8 @@ namespace DGP.Genshin.ViewModel.Title
                     Title = "确定要删除该用户吗?",
                     Content = "删除用户的操作不可撤销。",
                     PrimaryButtonText = "确定",
-                    SecondaryButtonText = "取消"
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync).Task.Unwrap();
 
                 if (result is ContentDialogResult.Primary)
