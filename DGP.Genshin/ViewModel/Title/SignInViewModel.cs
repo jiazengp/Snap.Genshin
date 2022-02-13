@@ -113,7 +113,7 @@ namespace DGP.Genshin.ViewModel.Title
         {
             if (SelectedRole is null)
             {
-                throw new UnexceptedNullException("无角色信息时不能签到");
+                throw new UnexpectedNullException("无角色信息时不能签到");
             }
 
             SignInResult? result = await new SignInProvider(cookieService.CurrentCookie).SignInAsync(SelectedRole);

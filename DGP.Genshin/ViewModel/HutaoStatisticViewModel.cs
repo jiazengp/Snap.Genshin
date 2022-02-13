@@ -2,11 +2,15 @@
 using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
+using DGP.Genshin.HutaoAPI.PostModel;
 using DGP.Genshin.Service.Abstratcion;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
+using Snap.Data.Primitive;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,19 +23,31 @@ namespace DGP.Genshin.ViewModel
         private readonly ICookieService cookieService;
         private readonly IHutaoStatisticService hutaoStatisticService;
 
+        private bool shouldUIPresent;
         private Overview? overview;
         private IEnumerable<IndexedListWrapper<Item<double>>>? avatarParticipations;
-        //private IEnumerable<Item>? avatarReliquaryUsages;
+        private IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? avatarReliquaryUsages;
         private IEnumerable<Item<IEnumerable<Item<double>>>>? teamCollocations;
         private IEnumerable<Item<IEnumerable<Item<double>>>>? weaponUsages;
-        private bool shouldUIPresent;
+        private IEnumerable<Item<IEnumerable<NamedValue<double>>>>? avatarConstellations;
+        private IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>>? teamCombinations;
 
-        public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
-        public IEnumerable<IndexedListWrapper<Item<double>>>? AvatarParticipations { get => avatarParticipations; set => SetProperty(ref avatarParticipations, value); }
-        //public IEnumerable<Item>? AvatarReliquaryUsages { get => avatarReliquaryUsages; set => SetProperty(ref avatarReliquaryUsages, value); }
-        public IEnumerable<Item<IEnumerable<Item<double>>>>? TeamCollocations { get => teamCollocations; set => SetProperty(ref teamCollocations, value); }
-        public IEnumerable<Item<IEnumerable<Item<double>>>>? WeaponUsages { get => weaponUsages; set => SetProperty(ref weaponUsages, value); }
-        public bool ShouldUIPresent { get => shouldUIPresent; set => SetProperty(ref shouldUIPresent, value); }
+        public bool ShouldUIPresent
+        { get => shouldUIPresent; set => SetProperty(ref shouldUIPresent, value); }
+        public Overview? Overview
+        { get => overview; set => SetProperty(ref overview, value); }
+        public IEnumerable<IndexedListWrapper<Item<double>>>? AvatarParticipations
+        { get => avatarParticipations; set => SetProperty(ref avatarParticipations, value); }
+        public IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? AvatarReliquaryUsages
+        { get => avatarReliquaryUsages; set => SetProperty(ref avatarReliquaryUsages, value); }
+        public IEnumerable<Item<IEnumerable<Item<double>>>>? TeamCollocations
+        { get => teamCollocations; set => SetProperty(ref teamCollocations, value); }
+        public IEnumerable<Item<IEnumerable<Item<double>>>>? WeaponUsages
+        { get => weaponUsages; set => SetProperty(ref weaponUsages, value); }
+        public IEnumerable<Item<IEnumerable<NamedValue<double>>>>? AvatarConstellations
+        { get => avatarConstellations; set => SetProperty(ref avatarConstellations, value); }
+        public IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>>? TeamCombinations
+        { get => teamCombinations; set => SetProperty(ref teamCombinations, value); }
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }
@@ -49,17 +65,29 @@ namespace DGP.Genshin.ViewModel
             try
             {
                 await hutaoStatisticService.InitializeAsync();
+
+                Overview = await hutaoStatisticService.GetOverviewAsync();
+                //V1
+                AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
+                TeamCollocations = hutaoStatisticService.GetTeamCollocations();
+                WeaponUsages = hutaoStatisticService.GetWeaponUsages();
+                //V2
+                AvatarReliquaryUsages = hutaoStatisticService.GetReliquaryUsages();
+                AvatarConstellations = hutaoStatisticService.GetAvatarConstellations();
+                TeamCombinations = hutaoStatisticService.GetTeamCombinations();
             }
-            catch
+            catch(Exception e)
             {
+                this.Log(e);
+                await App.Current.Dispatcher.InvokeAsync(async () => await new ContentDialog()
+                {
+                    Title = "加载失败",
+                    Content = e.Message,
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync()).Task.Unwrap();
                 return;
             }
-
-            Overview = await hutaoStatisticService.GetOverviewAsync();
-
-            AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
-            TeamCollocations = hutaoStatisticService.GetTeamCollocations();
-            WeaponUsages = hutaoStatisticService.GetWeaponUsages();
 
             ShouldUIPresent = true;
         }
@@ -83,7 +111,7 @@ namespace DGP.Genshin.ViewModel
                 await new ContentDialog()
                 {
                     Title = "提交记录失败",
-                    Content = "在获取数据时发生了致命错误。",
+                    Content = "发生了致命错误",
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();

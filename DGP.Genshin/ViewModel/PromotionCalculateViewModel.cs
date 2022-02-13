@@ -44,8 +44,8 @@ namespace DGP.Genshin.ViewModel
         {
             if (SelectedUserGameRole is not null)
             {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
+                string uid = SelectedUserGameRole.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
+                string region = SelectedUserGameRole.Region ?? throw new UnexpectedNullException("region 不应为 null");
                 Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
                 SelectedAvatar = Avatars?.FirstOrDefault();
             }
@@ -65,8 +65,8 @@ namespace DGP.Genshin.ViewModel
         {
             if (SelectedUserGameRole is not null && SelectedAvatar is not null)
             {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexceptedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexceptedNullException("region 不应为 null");
+                string uid = SelectedUserGameRole.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
+                string region = SelectedUserGameRole.Region ?? throw new UnexpectedNullException("region 不应为 null");
                 int avatarId = SelectedAvatar.Id;
 
                 AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region);

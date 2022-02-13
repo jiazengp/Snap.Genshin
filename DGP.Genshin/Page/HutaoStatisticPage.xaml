@@ -91,6 +91,63 @@
                     </ItemsControl>
                 </smoothscrollviewer:SmoothScrollViewer>
             </TabItem>
+            <TabItem Header="角色命座">
+                <smoothscrollviewer:SmoothScrollViewer>
+                    <!-- IEnumerable<Item<IEnumerable<NamedValue<double>>>> -->
+                    <ItemsControl 
+                        ItemsSource="{Binding AvatarConstellations}" 
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        Margin="0,0,0,12">
+                        <ItemsControl.ItemTemplate>
+                            <!-- Item<IEnumerable<NamedValue<double>>> -->
+                            <DataTemplate>
+                                <wu:Card Margin="12,12,16,0" Padding="6,6,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="8*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="24" Height="24" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        </Grid>
+                                        <!-- IEnumerable<NamedValue<double>> -->
+                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="1" Margin="12,0,0,0">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="7" SnapsToDevicePixels="True"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <wu:Card Padding="6" Margin="0,0,6,0">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Name}" Style="{StaticResource CaptionTextBlockStyle}"
+                                                                       Opacity="0.6" TextWrapping="NoWrap" Grid.Column="0" 
+                                                                       VerticalAlignment="Center" Margin="6,0,0,0" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Column="1" HorizontalAlignment="Right"
+                                                                           VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                        </Grid>
+                                                    </wu:Card>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </wu:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </smoothscrollviewer:SmoothScrollViewer>
+            </TabItem>
             <TabItem Header="角色搭配">
                 <smoothscrollviewer:SmoothScrollViewer>
                     <ItemsControl 
@@ -103,15 +160,18 @@
                                 <wu:Card Margin="12,12,16,0" Padding="6,6,0,6">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" MinWidth="100"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="8*"/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="70" Height="70"/>
-                                            <TextBlock Text="{Binding Name}" Margin="0,12,0,0" HorizontalAlignment="Center"/>
-                                        </StackPanel>
-                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="2" Margin="12,0,0,0">
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="24" Height="24" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        </Grid>
+                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="1" Margin="12,0,0,0">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <UniformGrid Columns="8" SnapsToDevicePixels="True"/>
@@ -121,15 +181,17 @@
                                                 <DataTemplate>
                                                     <wu:Card Padding="6" Margin="0,0,6,0">
                                                         <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="auto"/>
-                                                                <RowDefinition Height="auto"/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="48"  Height="48"/>
-                                                            <TextBlock Text="{Binding Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                                                            <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Row="2"
-                                                                           HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="20"  Height="20"/>
+                                                            <TextBlock Text="{Binding Name}" Style="{StaticResource CaptionTextBlockStyle}"
+                                                                       Opacity="0.6" TextWrapping="NoWrap" Grid.Column="1" 
+                                                                       VerticalAlignment="Center" Margin="6,0,0,0" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Column="2" HorizontalAlignment="Right"
+                                                                           VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
                                                         </Grid>
                                                     </wu:Card>
                                                 </DataTemplate>
@@ -150,33 +212,38 @@
                                 <wu:Card Margin="12,12,16,0" Padding="6,6,0,6">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" MinWidth="100"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="8*"/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="70" Height="70"/>
-                                            <TextBlock Text="{Binding Name}" Margin="0,12,0,0" HorizontalAlignment="Center"/>
-                                        </StackPanel>
-                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="2" Margin="12,0,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="24" Height="24"/>
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="1" Margin="12,0,0,0">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <UniformGrid Columns="8"/>
+                                                    <UniformGrid Columns="8" SnapsToDevicePixels="True"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <wu:Card Padding="6" Margin="0,0,6,0">
                                                         <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="auto"/>
-                                                                <RowDefinition Height="auto"/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="48" Height="48"/>
-                                                            <TextBlock Text="{Binding Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                                                            <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Row="2"
-                                                                           HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="20"  Height="20"/>
+                                                            <TextBlock Text="{Binding Name}" Style="{StaticResource CaptionTextBlockStyle}"
+                                                                       Opacity="0.6" TextWrapping="NoWrap" Grid.Column="1" 
+                                                                       VerticalAlignment="Center" Margin="6,0,0,0" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Column="2" HorizontalAlignment="Right"
+                                                                           VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
                                                         </Grid>
                                                     </wu:Card>
                                                 </DataTemplate>
@@ -189,8 +256,155 @@
                     </ItemsControl>
                 </smoothscrollviewer:SmoothScrollViewer>
             </TabItem>
-            <TabItem Header="圣遗物搭配" IsEnabled="False">
-
+            <TabItem Header="圣遗物搭配">
+                <smoothscrollviewer:SmoothScrollViewer>
+                    <!-- IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>> -->
+                    <ItemsControl 
+                        ItemsSource="{Binding AvatarReliquaryUsages}" 
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        Margin="0,0,0,12">
+                        <ItemsControl.ItemTemplate>
+                            <!-- Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>> -->
+                            <DataTemplate>
+                                <wu:Card Margin="12,12,16,0" Padding="6,6,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="8*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="24" Height="24" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        </Grid>
+                                        <!-- IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>> -->
+                                        <ItemsControl ItemsSource="{Binding Value}" Grid.Column="1" Margin="12,0,0,-6">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <!-- NamedValue<Rate<IEnumerable<Item<int>>>> -->
+                                                    <wu:Card Padding="6" Margin="0,0,6,6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20"/>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <!-- IEnumerable<Item<int>> -->
+                                                            <ItemsControl ItemsSource="{Binding Value.Id}" ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <!-- Item<int> -->
+                                                                    <DataTemplate>
+                                                                        <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="20"  Height="20" Margin="0,0,-10,0"/>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                           
+                                                            <TextBlock Text="{Binding Name}" Style="{StaticResource CaptionTextBlockStyle}"
+                                                                       Opacity="0.6" TextWrapping="NoWrap" Grid.Column="1" 
+                                                                       VerticalAlignment="Center" Margin="12,0,0,0" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Value.Value,StringFormat={}{0:p}}" Grid.Column="2" HorizontalAlignment="Right"
+                                                                           VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                        </Grid>
+                                                    </wu:Card>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </wu:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </smoothscrollviewer:SmoothScrollViewer>
+            </TabItem>
+            <TabItem Header="队伍出场">
+                <smoothscrollviewer:SmoothScrollViewer>
+                    <!-- IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>> -->
+                    <ItemsControl 
+                        ItemsSource="{Binding TeamCombinations}" 
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        Margin="0,0,0,12">
+                        <ItemsControl.ItemTemplate>
+                            <!-- IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>> -->
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock 
+                                        Margin="12,0,0,0"
+                                        Text="{Binding Index}"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    <!-- IEnumerable<Rate<Two<IEnumerable<GenshinItem>>>> -->
+                                    <ItemsControl ItemsSource="{Binding List}" Grid.Row="1" Margin="12,0,4,0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <!-- Rate<Two<IEnumerable<GenshinItem>>> -->
+                                            <DataTemplate>
+                                                <wu:Card Margin="0,0,12,12" Padding="6,6,0,6" >
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="4*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Value,StringFormat={}{0}次}"
+                                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="1">
+                                                            <!-- IEnumerable<GenshinItem> -->
+                                                            <ItemsControl ItemsSource="{Binding Id.First}" Margin="0,0,0,0">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <!-- GenshinItem -->
+                                                                    <DataTemplate>
+                                                                        <cachedimage:CachedImage Width="24" Height="24" ImageUrl="{Binding Url}"/>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                            <!-- IEnumerable<GenshinItem> -->
+                                                            <ItemsControl ItemsSource="{Binding Id.Second}" Margin="0,6,0,0">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <!-- GenshinItem -->
+                                                                    <DataTemplate>
+                                                                        <cachedimage:CachedImage Width="24" Height="24" ImageUrl="{Binding Url}"/>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                        
+                                                    </Grid>
+                                                </wu:Card>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </smoothscrollviewer:SmoothScrollViewer>
             </TabItem>
         </TabControl>
         <Border d:Visibility="Visible"

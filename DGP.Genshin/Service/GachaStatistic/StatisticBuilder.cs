@@ -163,15 +163,15 @@ namespace DGP.Genshin.Service.GachaStatistic
             CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                _ = list ?? throw new UnexceptedNullException("卡池列表不应为 null");
+                _ = list ?? throw new UnexpectedNullException("卡池列表不应为 null");
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
-                        _ = i.Name ?? throw new UnexceptedNullException("卡池物品名称不应为 null");
+                        _ = i.Name ?? throw new UnexpectedNullException("卡池物品名称不应为 null");
                         if (!counter.ContainsKey(i.Name))
                         {
-                            _ = i.Rank ?? throw new UnexceptedNullException("卡池物品稀有度不应为 null");
+                            _ = i.Rank ?? throw new UnexpectedNullException("卡池物品稀有度不应为 null");
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,

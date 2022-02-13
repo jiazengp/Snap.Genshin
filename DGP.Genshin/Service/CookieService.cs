@@ -178,7 +178,7 @@ namespace DGP.Genshin.Service
 
         public string CurrentCookie
         {
-            get => currentCookie ?? throw new UnexceptedNullException("Cookie 不应为 null");
+            get => currentCookie ?? throw new UnexpectedNullException("Cookie 不应为 null");
             private set
             {
                 if (currentCookie == value)

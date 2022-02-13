@@ -153,7 +153,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 string? type = item.GachaType;
                 //refactor 400 type here to redirect list addition
                 type = type == "400" ? "301" : type;
-                _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
+                _ = type ?? throw new UnexpectedNullException("卡池类型不应为 null");
                 if (!importData.Data.ContainsKey(type))
                 {
                     importData.Data.Add(type, new());
@@ -247,7 +247,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                             string? type = item.GachaType;
                             //refactor 400 type here to prevent 400 list json file creation
                             type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
-                            _ = type ?? throw new UnexceptedNullException("卡池类型不应为 null");
+                            _ = type ?? throw new UnexpectedNullException("卡池类型不应为 null");
                             if (!importData.Data.ContainsKey(type))
                             {
                                 importData.Data.Add(type, new());
