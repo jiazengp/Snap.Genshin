@@ -77,200 +77,195 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <TextBlock 
-                    Margin="12"
-                    VerticalAlignment="Center"
-                    Text="{Binding CurrentName}" 
-                    Style="{StaticResource SubtitleTextBlockStyle}"/>
-                <Border
-                    BorderThickness="1" 
-                    Padding="4,0" 
-                    Margin="12"
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}" 
-                    BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}"
-                    HorizontalAlignment="Right">
-                    <TextBlock 
-                        Text="{Binding Appraise}" 
-                        Style="{StaticResource SubtitleTextBlockStyle}"/>
-                </Border>
-            </Grid>
-            <StackPanel Grid.Row="1" Margin="12,0,12,12">
-                <Separator Margin="-12,0"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,4,0,4" FontFamily="Consolas" Text="{Binding TotalCount,StringFormat={}{0}}" FontSize="48"/>
-                    <TextBlock Margin="12,0,0,12" Text="抽" VerticalAlignment="Bottom"/>
-                </StackPanel>
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}">
-                    <Run Text="已垫"/>
-                    <Run Text="{Binding CountSinceLastStar5}" 
-                         FontFamily="Consolas" Foreground="{StaticResource Star5Brush}"/>
-                    <Run Text="|"/>
-                    <Run Text="{Binding CountSinceLastStar4}" 
-                         FontFamily="Consolas" Foreground="{StaticResource Star4Brush}"/>
-                </TextBlock>
-                
-                <ui:ProgressBar 
-                    Margin="0,6,0,0" 
-                    Value="{Binding CountSinceLastStar5}"
-                    Maximum="90"
-                    Foreground="{StaticResource Star5Brush}"/>
-                <ui:ProgressBar
-                    Margin="0,6,0,0"
-                    Value="{Binding CountSinceLastStar4}"
-                    Maximum="10"
-                    Foreground="{StaticResource Star4Brush}"/>
-                <Grid Margin="0,8,0,0">
-                    <TextBlock 
-                        Text="记录时间" 
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                    <TextBlock 
-                        FontFamily="Consolas"
-                        HorizontalAlignment="Right"
-                        Style="{StaticResource BodyTextBlockStyle}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                <Binding Path="StartTime"/>
-                                <Binding Path="EndTime"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Grid>
-                <Separator Margin="-12,6,-12,0"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="3" Margin="12,0,12,12">
-                <Border
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource TranslucentStar5Brush}"
-                    BorderThickness="1" Padding="4" Margin="0,0,0,4">
-                    <Grid>
+            <Expander Background="Transparent" Padding="0,0,12,0" IsExpanded="True">
+                <Expander.Header>
+                    <Grid Grid.Row="0">
                         <TextBlock 
-                            Text="五星" 
-                            Style="{StaticResource BaseTextBlockStyle}"
+                            Margin="12"
+                            VerticalAlignment="Center"
+                            Text="{Binding CurrentName}" 
+                            Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <Border
+                            BorderThickness="1" 
+                            Padding="4,0" 
+                            Margin="12"
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}" 
+                            BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}"
+                            HorizontalAlignment="Right">
+                            <TextBlock 
+                                Text="{Binding Appraise}" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        </Border>
+                    </Grid>
+                </Expander.Header>
+                <StackPanel>
+                    <StackPanel Grid.Row="1" Margin="12,0,0,12">
+                        <Separator Margin="-12,0,-12,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0,4,0,4" FontFamily="Consolas" Text="{Binding TotalCount,StringFormat={}{0}}" FontSize="48"/>
+                            <TextBlock Margin="12,0,0,12" Text="抽" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+
+                        <ui:ProgressBar 
+                            Margin="0,0,0,0" Height="1" MinHeight="1"
+                            Value="{Binding CountSinceLastStar5}"
+                            Maximum="90"
                             Foreground="{StaticResource Star5Brush}"/>
-                        <TextBlock 
-                            HorizontalAlignment="Right"
-                            FontFamily="Consolas" 
-                            Foreground="{StaticResource Star5Brush}" 
-                            Style="{StaticResource BodyTextBlockStyle}">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
-                                    <Binding Path="Star5Count"/>
-                                    <Binding Path="Star5Prob"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <Border
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource TranslucentStar4Brush}"
-                    BorderThickness="1" Padding="4" Margin="0,0,0,4">
-                    <Grid>
-                        <TextBlock 
-                            Text="四星" 
-                            Style="{StaticResource BaseTextBlockStyle}"
+                        <ui:ProgressBar
+                            Margin="0,6,0,0" Height="1" MinHeight="1"
+                            Value="{Binding CountSinceLastStar4}"
+                            Maximum="10"
                             Foreground="{StaticResource Star4Brush}"/>
-                        <TextBlock 
-                            HorizontalAlignment="Right"
-                            FontFamily="Consolas" 
-                            Foreground="{StaticResource Star4Brush}" 
-                            Style="{StaticResource BodyTextBlockStyle}">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
-                                    <Binding Path="Star4Count"/>
-                                    <Binding Path="Star4Prob"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <Border
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource TranslucentStar3Brush}"
-                    BorderThickness="1" Padding="4" Margin="0,0,0,4">
-                    <Grid>
-                        <TextBlock 
-                        Text="三星" 
-                        Foreground="{StaticResource Star3Brush}"/>
-                        <TextBlock 
-                        HorizontalAlignment="Right"
-                        FontFamily="Consolas" 
-                        Foreground="{StaticResource Star3Brush}" 
-                        Style="{StaticResource BodyTextBlockStyle}">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
-                                    <Binding Path="Star3Count"/>
-                                    <Binding Path="Star3Prob"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                
-                <Border 
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                    BorderThickness="1" Margin="0,12,0,4" Padding="4" Opacity="0.8">
-                    <Grid>
-                        <TextBlock 
-                        FontFamily="Consolas,MicroSoft YaHei UI" 
-                        Text="预计下个五|四星"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Style="{StaticResource BodyTextBlockStyle}">
-                            <Run Text="{Binding NextStar5PredictCount}" Foreground="{StaticResource Star5Brush}" FontFamily="Consolas"/>
-                            <Run Text="{Binding NextGuaranteeType,StringFormat={}[{0}]}" Foreground="{StaticResource Star5Brush}"/>
-                            <Run Text="|"/>
-                            <Run Text="{Binding NextStar4PredictCount}" Foreground="{StaticResource Star4Brush}" FontFamily="Consolas"/>
-                            <Run Text="抽"/>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <Border 
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                    BorderThickness="1" Margin="0,0,0,4" Padding="4" Opacity="0.8">
-                    <Grid >
-                        <TextBlock 
-                        FontFamily="Consolas,MicroSoft YaHei UI" 
-                        Text="五星平均抽数"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock 
-                        
-                        HorizontalAlignment="Right"
-                        FontFamily="Consolas" 
-                        Text="{Binding AverageGetStar5,StringFormat={}{0:f2} 抽}"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                    </Grid>
-                </Border>
-                
-                <Border 
-                    CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                    BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                    BorderThickness="1" Padding="4" Opacity="0.8">
-                    <Grid>
-                        <TextBlock HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" 
-                                               Text="{Binding MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" 
-                                               Text="{Binding MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
-                    </Grid>
-                </Border>
-                
-                <Separator Margin="-12,12,-12,0"/>
-            </StackPanel>
+                        <Grid Margin="0,8,0,0">
+                            <TextBlock 
+                                Text="记录时间" 
+                                Style="{StaticResource BodyTextBlockStyle}"/>
+                            <TextBlock 
+                                FontFamily="Consolas"
+                                HorizontalAlignment="Right"
+                                Style="{StaticResource BodyTextBlockStyle}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                        <Binding Path="StartTime"/>
+                                        <Binding Path="EndTime"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                        <Separator Margin="-12,6,-12,0"/>
+                    </StackPanel>
 
-            <s:SmoothScrollViewer Grid.Row="5" Margin="12,0,12,8" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Grid.Row="3" Margin="12,0,0,12">
+                        <Border
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource TranslucentStar5Brush}"
+                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            <Grid>
+                                <TextBlock 
+                                Text="五星" 
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Foreground="{StaticResource Star5Brush}"/>
+                                <TextBlock 
+                                    HorizontalAlignment="Right"
+                                    FontFamily="Consolas" 
+                                    Foreground="{StaticResource Star5Brush}" 
+                                    Style="{StaticResource BodyTextBlockStyle}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
+                                            <Binding Path="Star5Count"/>
+                                            <Binding Path="Star5Prob"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <Border
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource TranslucentStar4Brush}"
+                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            <Grid>
+                                <TextBlock 
+                                    Text="四星" 
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Foreground="{StaticResource Star4Brush}"/>
+                                <TextBlock 
+                                    HorizontalAlignment="Right"
+                                    FontFamily="Consolas" 
+                                    Foreground="{StaticResource Star4Brush}" 
+                                    Style="{StaticResource BodyTextBlockStyle}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
+                                            <Binding Path="Star4Count"/>
+                                            <Binding Path="Star4Prob"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <Border
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource TranslucentStar3Brush}"
+                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            <Grid>
+                                <TextBlock 
+                                    Text="三星" 
+                                    Foreground="{StaticResource Star3Brush}"/>
+                                <TextBlock 
+                                    HorizontalAlignment="Right"
+                                    FontFamily="Consolas" 
+                                    Foreground="{StaticResource Star3Brush}" 
+                                    Style="{StaticResource BodyTextBlockStyle}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0,8} [{1,6:p2}]">
+                                            <Binding Path="Star3Count"/>
+                                            <Binding Path="Star3Prob"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+
+                        <Border 
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
+                            BorderThickness="1" Margin="0,12,0,4" Padding="4" Opacity="0.8">
+                            <Grid>
+                                <TextBlock 
+                                    FontFamily="Consolas,MicroSoft YaHei UI" 
+                                    Text="据上一个五|四星"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
+
+                                <TextBlock 
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource BodyTextBlockStyle}">
+                                    <Run Text="{Binding CountSinceLastStar5}" 
+                                         FontFamily="Consolas" Foreground="{StaticResource Star5Brush}"/>
+                                    <Run Text="|"/>
+                                    <Run Text="{Binding CountSinceLastStar4}" 
+                                         FontFamily="Consolas" Foreground="{StaticResource Star4Brush}"/>
+                                    <Run Text="抽"/>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <Border 
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
+                            BorderThickness="1" Margin="0,0,0,4" Padding="4" Opacity="0.8">
+                            <Grid >
+                                <TextBlock 
+                                    FontFamily="Consolas,MicroSoft YaHei UI" 
+                                    Text="五星平均抽数"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock 
+                                    HorizontalAlignment="Right"
+                                    FontFamily="Consolas" 
+                                    Text="{Binding AverageGetStar5,StringFormat={}{0:f2} 抽}"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                            </Grid>
+                        </Border>
+
+                        <Border 
+                            CornerRadius="{StaticResource SmallCompatCornerRadius}"
+                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
+                            BorderThickness="1" Padding="4" Opacity="0.8">
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" 
+                                               Text="{Binding MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock HorizontalAlignment="Right" FontFamily="Consolas,MicroSoft YaHei UI" 
+                                               Text="{Binding MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </Grid>
+                        </Border>
+                        
+                    </StackPanel>
+                </StackPanel>
+            </Expander>
+            <Separator Grid.Row="1" Margin="0,0,0,12"/>
+            <s:SmoothScrollViewer Grid.Row="2" Margin="12,0,12,8" VerticalScrollBarVisibility="Hidden">
                 <ItemsControl 
-                    ItemsSource="{Binding Star5List}" 
-                    ItemTemplate="{StaticResource Star5ListTemplate}"/>
+                        ItemsSource="{Binding Star5List}" 
+                        ItemTemplate="{StaticResource Star5ListTemplate}"/>
             </s:SmoothScrollViewer>
         </Grid>
     </Border>

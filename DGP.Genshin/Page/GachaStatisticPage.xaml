@@ -78,21 +78,21 @@
                                 <ui:ToggleSwitch x:Name="FullSwitch" IsOn="{Binding IsFullFetch}" Header="启用全量刷新数据" OnContent="全量" OffContent="仅增量"/>
                             </ui:AppBarElementContainer>
                             <ui:AppBarSeparator/>
-                            <ui:AppBarButton Label="打开祈愿记录数据文件夹"  Command="{Binding OpenGachaStatisticFolderCommand}">
+                            <ui:AppBarButton Label="打开数据文件夹"  Command="{Binding OpenGachaStatisticFolderCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xE8B7;"/>
                                 </ui:AppBarButton.Icon>
                             </ui:AppBarButton>
                             <ui:AppBarSeparator/>
-                            <ui:AppBarButton Icon="Import" Label="导入 UIGF 2.2 Excel 文件" Command="{Binding ImportFromUIGFWCommand}"/>
-                            <ui:AppBarButton Label="导出 UIGF 2.2 Excel 文件" Command="{Binding ExportToUIGFWCommand}">
+                            <ui:AppBarButton Icon="Import" Label="导入 UIGF Excel 文件" Command="{Binding ImportFromUIGFWCommand}"/>
+                            <ui:AppBarButton Label="导出 UIGF Excel 文件" Command="{Binding ExportToUIGFWCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>
                             </ui:AppBarButton>
                             <ui:AppBarSeparator/>
-                            <ui:AppBarButton Icon="Import" Label="导入 UIGF 2.2 Json 文件"  Command="{Binding ImportFromUIGFJCommand}"/>
-                            <ui:AppBarButton Label="导出 UIGF 2.2 Json 文件" Command="{Binding ExportToUIGFJCommand}">
+                            <ui:AppBarButton Icon="Import" Label="导入 UIGF Json 文件"  Command="{Binding ImportFromUIGFJCommand}"/>
+                            <ui:AppBarButton Label="导出 UIGF Json 文件" Command="{Binding ExportToUIGFJCommand}">
                                 <ui:AppBarButton.Icon>
                                     <ui:FontIcon Glyph="&#xEDE1;"/>
                                 </ui:AppBarButton.Icon>

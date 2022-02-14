@@ -241,6 +241,7 @@ namespace DGP.Genshin
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
                 settingService[Setting.AppVersion] = updateService.CurrentVersion;
+                //App.Current.Dispatcher.InvokeAsync
                 new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
             }
         }

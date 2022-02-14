@@ -140,7 +140,7 @@
             <ui:AppBarButton Label="添加新页签" Icon="Add" Command="{Binding AddEntryCommand}"/>
         </ui:CommandBar>
         <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Entries}" Margin="12,12,4,0">
+            <ItemsControl ItemsSource="{Binding Entries}" Margin="12,12,4,0" VerticalAlignment="Top">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="320"/>

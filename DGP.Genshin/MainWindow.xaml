@@ -15,7 +15,6 @@
     Title="Snap 原神" 
     MinWidth="1024" MinHeight="750"
     Width="1000" Height="750" 
-    
     SizeChanged="MainWindowSizeChanged"
     WindowStartupLocation="CenterScreen"
     ui:WindowHelper.UseModernWindowStyle="True"
@@ -229,9 +228,8 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="胡桃数据库" helpers:NavHelper.NavigateTo="{x:Type pages:HutaoStatisticPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon ShowAsMonochrome="False" 
-                                       d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_EmotionIcon66.png"
-                                       UriSource="pack://application:,,,/Resources/UI_EmotionIcon66.png"/>
+                        <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_ChapterIcon_Hutao.png"
+                                       UriSource="pack://application:,,,/Resources/UI_ChapterIcon_Hutao.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 

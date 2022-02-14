@@ -3,21 +3,19 @@ using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
-    /// <summary>
-    /// AnnouncementWindow.xaml 的交互逻辑
-    /// </summary>
     public sealed partial class AnnouncementWindow : Window, IDisposable
     {
         private readonly string? targetContent;
         public AnnouncementWindow(string? content)
         {
+            //不需要在此处检查WebView2可用性，由使用方代为检查
             targetContent = content;
             InitializeComponent();
         }
 
         public void Dispose()
         {
-            ((IDisposable)WebView).Dispose();
+            WebView?.Dispose();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -25,6 +23,7 @@ namespace DGP.Genshin.Control.GenshinElement
             try
             {
                 await WebView.EnsureCoreWebView2Async();
+                WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
             }
             catch
             {

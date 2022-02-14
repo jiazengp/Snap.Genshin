@@ -2198,5 +2198,91 @@
     "StartTime": "2022-01-25 18:00:00",
     "EndTime": "2022-02-15 14:59:59",
     "CurrentName": "神铸赋形"
+  },
+  {
+    "Type": "301",
+    "UpStar5List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/yaemiko_face.png",
+        "Name": "八重神子",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png"
+      }
+    ],
+    "UpStar4List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/thoma_face.png",
+        "Name": "托马",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/fischl_face.png",
+        "Name": "菲谢尔",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/electro.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/char/diona_face.png",
+        "Name": "迪奥娜",
+        "Badge": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"
+      }
+    ],
+    "StartTime": "2022-02-16 06:00:00",
+    "EndTime": "2022-03-08 17:59:59",
+    "CurrentName": "华紫樱绯"
+  },
+  {
+    "Type": "302",
+    "UpStar5List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1404.png",
+        "Name": "磐岩结绿",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5407.png",
+        "Name": "神乐之真意",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png"
+      }
+    ],
+    "UpStar4List": [
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1307.png",
+        "Name": "祭礼剑",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_2305.png",
+        "Name": "雨裁",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_163101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5310.png",
+        "Name": "昭心",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_4301.png",
+        "Name": "绝弦",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_213101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_3312.png",
+        "Name": "断浪长鳍",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_233101.png"
+      }
+    ],
+    "StartTime": "2022-02-16 06:00:00",
+    "EndTime": "2022-03-08 17:59:59",
+    "CurrentName": "神铸赋形"
   }
 ]

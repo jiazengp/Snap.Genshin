@@ -332,7 +332,7 @@
                         ItemsSource="{Binding TeamCombinations}" 
                         VirtualizingStackPanel.IsVirtualizing="True"
                         VirtualizingStackPanel.VirtualizationMode="Recycling"
-                        Margin="0,0,0,12">
+                        Margin="0,0,0,0">
                         <ItemsControl.ItemTemplate>
                             <!-- IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>> -->
                             <DataTemplate>
@@ -342,12 +342,12 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <TextBlock 
-                                        Margin="12,0,0,0"
+                                        Margin="12,0,0,12"
                                         Text="{Binding Index}"
                                         HorizontalAlignment="Left"
                                         Style="{StaticResource SubtitleTextBlockStyle}"/>
                                     <!-- IEnumerable<Rate<Two<IEnumerable<GenshinItem>>>> -->
-                                    <ItemsControl ItemsSource="{Binding List}" Grid.Row="1" Margin="12,0,4,0">
+                                    <ItemsControl ItemsSource="{Binding List}" Grid.Row="1" Margin="12,0,4,12">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
