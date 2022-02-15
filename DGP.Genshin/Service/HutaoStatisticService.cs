@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.DataModel;
-using DGP.Genshin.DataModel.HutaoAPI;
+﻿using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;

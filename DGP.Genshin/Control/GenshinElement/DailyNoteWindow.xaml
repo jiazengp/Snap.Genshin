@@ -226,7 +226,7 @@
             <StackPanel Margin="0" Grid.Row="1">
                 <Border CornerRadius="{StaticResource WindowCornerRadius}">
                     <Grid>
-                        <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="{StaticResource WindowCornerRadius}" 
+                        <ProgressBar VerticalAlignment="Stretch" Opacity="0.4" ui:ControlHelper.CornerRadius="0" 
                                      Background="Transparent" Value="{Binding DailyNote.CurrentResin}" Minimum="0" Maximum="{Binding DailyNote.MaxResin}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>

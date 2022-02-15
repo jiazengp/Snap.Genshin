@@ -31,6 +31,11 @@ namespace DGP.Genshin.Page
             entry = e.ExtraData as WebViewEntry;
             base.OnNavigatedTo(e);
         }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            WebView?.Dispose();
+            base.OnNavigatedFrom(e);
+        }
 
         private async void PageLoaded(object sender, RoutedEventArgs e)
         {

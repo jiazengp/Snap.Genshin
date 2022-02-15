@@ -214,7 +214,7 @@
                             <Grid>
                                 <TextBlock 
                                     FontFamily="Consolas,MicroSoft YaHei UI" 
-                                    Text="据上一个五|四星"
+                                    Text="距上一个五|四星"
                                     Style="{StaticResource BodyTextBlockStyle}"/>
 
                                 <TextBlock 

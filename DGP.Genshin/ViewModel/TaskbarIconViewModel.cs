@@ -71,7 +71,8 @@ namespace DGP.Genshin.ViewModel
             {
                 foreach (ResinWidgetConfigration widget in ResinWidgets)
                 {
-                    ResinWidgetConfigration? matched = storedResinWidgets.FirstOrDefault(stored => stored.CookieUserGameRole == widget.CookieUserGameRole);
+                    ResinWidgetConfigration? matched = storedResinWidgets
+                        .FirstOrDefault(stored => stored.CookieUserGameRole?.Equals(widget.CookieUserGameRole) == true);
                     if (matched != null)
                     {
                         widget.IsPresent = matched.IsPresent;

@@ -38,9 +38,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ui:TitleBarControl">
                         <Grid
-                        x:Name="LayoutRoot"
-                        Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True">
+                            x:Name="LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -71,9 +71,9 @@
                             </StackPanel>
 
                             <StackPanel
-                            x:Name="IconTitlePanel"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
+                                x:Name="IconTitlePanel"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
                                 <Image
                                 x:Name="Icon"
                                 Source="{TemplateBinding ActualIcon}"
@@ -84,14 +84,14 @@
                                 Visibility="Collapsed" />
 
                                 <TextBlock
-                                x:Name="Title"
-                                Margin="12,0,12,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Background="{x:Null}"
-                                Foreground="{TemplateBinding Foreground}"
-                                Text="{TemplateBinding Title}"
-                                TextTrimming="CharacterEllipsis">
+                                    x:Name="Title"
+                                    Margin="12,0,12,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Background="{x:Null}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Title}"
+                                    TextTrimming="CharacterEllipsis">
                                     <TextBlock.RenderTransform>
                                         <TranslateTransform Y="-1" />
                                     </TextBlock.RenderTransform>
@@ -208,13 +208,16 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid RenderOptions.BitmapScalingMode="Fant">
+        <!--<Grid.Background>
+            <ImageBrush ImageSource="{x:Null}" Stretch="UniformToFill" Opacity="0.4"/>
+        </Grid.Background>-->
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"
             x:Name="NavView" 
             OpenPaneLength="172" 
             CompactPaneLength="48"
-            IsBackButtonVisible="Collapsed" 
+            IsBackButtonVisible="Collapsed"
             PaneDisplayMode="Left"
             CompactModeThresholdWidth="21600"
             ExpandedModeThresholdWidth="21600">

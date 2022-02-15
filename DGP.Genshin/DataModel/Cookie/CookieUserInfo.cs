@@ -12,7 +12,7 @@ namespace DGP.Genshin.DataModel.Cookie
             Cookie = cookie;
             UserInfo = userInfo;
         }
-        public string Cookie { get; set; }
-        public UserInfo UserInfo { get; set; }
+        public string Cookie { get; init; }
+        public UserInfo UserInfo { get; init; }
     }
 }

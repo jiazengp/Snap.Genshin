@@ -10,7 +10,7 @@ namespace DGP.Genshin.DataModel
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string? ToFileName(this string source)
+        public static string? ToShortFileName(this string source)
         {
             if (!string.IsNullOrEmpty(source))
             {

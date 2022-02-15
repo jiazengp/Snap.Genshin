@@ -15,6 +15,7 @@ namespace DGP.Genshin.Helper
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool FileExists(string file)
         {
             return File.Exists(Locate(file));
@@ -26,6 +27,7 @@ namespace DGP.Genshin.Helper
         /// <param name="folder"></param>
         /// <param name="file"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static string Locate(string file)
         {
             return Path.GetFullPath(file, AppContext.BaseDirectory);
@@ -37,6 +39,7 @@ namespace DGP.Genshin.Helper
         /// <param name="folder"></param>
         /// <param name="file"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static string Locate(string folder, string file)
         {
             return Path.GetFullPath(Path.Combine(folder, file), AppContext.BaseDirectory);
@@ -49,6 +52,7 @@ namespace DGP.Genshin.Helper
         /// <param name="folder"></param>
         /// <param name="overwrite"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool MoveToFolderOrIgnore(string file, string folder, bool overwrite = true)
         {
             string target = Locate(folder, file);

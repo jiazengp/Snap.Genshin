@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
+using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstratcion;

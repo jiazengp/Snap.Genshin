@@ -173,7 +173,7 @@ namespace DGP.Genshin.Service
             {
                 CurrentCount = count;
                 TotalCount = totalCount;
-                Info = ks?.Source?.ToFileName();
+                Info = ks?.Source?.ToShortFileName();
             }
             public int CurrentCount { get; set; }
             public int TotalCount { get; set; }

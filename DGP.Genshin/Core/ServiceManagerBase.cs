@@ -74,10 +74,7 @@ namespace DGP.Genshin.Core
         /// <exception cref="SnapGenshinInternalException">注册的类型为非已知类型</exception>
         protected void RegisterServices(ServiceCollection services, Type entryType)
         {
-            foreach (Type type in entryType.Assembly.GetTypes())
-            {
-                RegisterService(services, type);
-            }
+            entryType.Assembly.ForEachType(type => RegisterService(services, type));
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.GachaStatistic;
+using DGP.Genshin.DataModel.GachaStatistic.Banner;
+using DGP.Genshin.DataModel.GachaStatistic.Item;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
@@ -300,7 +302,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             List<SpecificBanner>? clonedBanners = App.AutoWired<MetadataViewModel>().SpecificBanners?.ClonePartially();
             _ = clonedBanners ?? throw new SnapGenshinInternalException("无可用的卡池信息");
 
-            clonedBanners.ForEach(b => b.ClearItemAndStar5List());
+            clonedBanners.ForEach(b => b.ClearItemsAndStar5List());
             //Type = ConfigType.PermanentWish fix order crash
             SpecificBanner permanent = new() { CurrentName = "奔行世间", Type = ConfigType.PermanentWish };
             clonedBanners.Add(permanent);
@@ -385,14 +387,14 @@ namespace DGP.Genshin.Service.GachaStatistic
                     continue;
                 }
 
-                banner.Star5Count = banner.Items.Count(i => i.StarUrl.IsOfRank(5));
-                banner.Star4Count = banner.Items.Count(i => i.StarUrl.IsOfRank(4));
-                banner.Star3Count = banner.Items.Count(i => i.StarUrl.IsOfRank(3));
+                banner.Star5Count = banner.Items.Count(i => i.StarUrl.IsRankAs(5));
+                banner.Star4Count = banner.Items.Count(i => i.StarUrl.IsRankAs(4));
+                banner.Star3Count = banner.Items.Count(i => i.StarUrl.IsRankAs(3));
 
                 List<StatisticItem> statisticList = ToSpecificTotalCountList(banner.Items);
-                banner.StatisticList5 = statisticList.Where(i => i.StarUrl.IsOfRank(5)).ToList();
-                banner.StatisticList4 = statisticList.Where(i => i.StarUrl.IsOfRank(4)).ToList();
-                banner.StatisticList3 = statisticList.Where(i => i.StarUrl.IsOfRank(3)).ToList();
+                banner.StatisticList5 = statisticList.Where(i => i.StarUrl.IsRankAs(5)).ToList();
+                banner.StatisticList4 = statisticList.Where(i => i.StarUrl.IsRankAs(4)).ToList();
+                banner.StatisticList3 = statisticList.Where(i => i.StarUrl.IsRankAs(3)).ToList();
             }
         }
     }

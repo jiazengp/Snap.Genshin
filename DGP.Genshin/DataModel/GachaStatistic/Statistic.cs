@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DGP.Genshin.DataModel.GachaStatistic.Banner;
+using DGP.Genshin.DataModel.GachaStatistic.Item;
+using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModel.GachaStatistic
 {

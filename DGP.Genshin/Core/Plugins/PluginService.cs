@@ -34,16 +34,16 @@ namespace DGP.Genshin.Core.Plugins
             //fix autorun fail issue
             string pluginPath = PathContext.Locate(PluginFolder);
             Directory.CreateDirectory(pluginPath);
-            IEnumerable<string>? pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
+            IEnumerable<string> pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
             List<Assembly> plugins = new();
 
-            foreach (string? pluginLocation in pluginsPaths)
+            foreach (string pluginLocation in pluginsPaths)
             {
                 this.Log($"Loading plugin from: {pluginLocation}");
                 PluginLoadContext loadContext = new(pluginLocation);
                 try
                 {
-                    Assembly? assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
+                    Assembly assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
                     if (assembly.HasAttribute<SnapGenshinPluginAttribute>())
                     {
                         plugins.Add(assembly);
@@ -61,14 +61,8 @@ namespace DGP.Genshin.Core.Plugins
 
         public IPlugin? InstantiatePlugin(Assembly assembly)
         {
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (typeof(IPlugin).IsAssignableFrom(type))
-                {
-                    return Activator.CreateInstance(type) as IPlugin;
-                }
-            }
-            return null;
+            Type? type = assembly.GetTypes().FirstOrDefault(type => typeof(IPlugin).IsAssignableFrom(type));
+            return type is null ? null : Activator.CreateInstance(type) as IPlugin;
         }
     }
 }

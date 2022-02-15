@@ -1,8 +1,14 @@
 ﻿using DGP.Genshin.MiHoYoAPI.GameRole;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DGP.Genshin.DataModel.Cookie
 {
+    /// <summary>
+    /// Cookie与对应的某个角色信息
+    /// 在进行相等比较时需要使用 <see cref="Equals"/> 方法
+    /// </summary>
+    [SuppressMessage("","CA1067")]
     public class CookieUserGameRole : IEquatable<CookieUserGameRole>
     {
         public CookieUserGameRole(string cookie, UserGameRole userGameRole)
@@ -10,8 +16,8 @@ namespace DGP.Genshin.DataModel.Cookie
             Cookie = cookie;
             UserGameRole = userGameRole;
         }
-        public string Cookie { get; set; }
-        public UserGameRole UserGameRole { get; set; }
+        public string Cookie { get; init; }
+        public UserGameRole UserGameRole { get; init; }
 
         public bool Equals(CookieUserGameRole? other)
         {
@@ -20,54 +26,6 @@ namespace DGP.Genshin.DataModel.Cookie
                 return false;
             }
             return Cookie == other.Cookie && UserGameRole == other.UserGameRole;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as CookieUserGameRole);
-        }
-
-        /// <summary>
-        /// 比较两个 <see cref="CookieUserGameRole"/> 是否相同
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(CookieUserGameRole? left, CookieUserGameRole? right)
-        {
-            if (left is null || right is null)
-            {
-                if (left is null && right is null)
-                {
-                    return true;
-                }
-                return false;
-            }
-            else
-            {
-                return left.Equals(right);
-            }
-        }
-
-        public static bool operator !=(CookieUserGameRole? left, CookieUserGameRole? right)
-        {
-            if (left is null || right is null)
-            {
-                if (left is null && right is null)
-                {
-                    return false;
-                }
-                return true;
-            }
-            else
-            {
-                return !left.Equals(right);
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }
