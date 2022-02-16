@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
@@ -24,6 +26,7 @@ namespace DGP.Genshin.Control.GenshinElement
             {
                 await WebView.EnsureCoreWebView2Async();
                 WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
+                await MockMiHoYoGameJSSDK();
             }
             catch
             {
@@ -32,6 +35,26 @@ namespace DGP.Genshin.Control.GenshinElement
             }
 
             WebView.NavigateToString(targetContent);
+        }
+
+        private async Task MockMiHoYoGameJSSDK()
+        {
+            WebView.CoreWebView2.WebMessageReceived += (o, args) =>
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo(new Uri(args.TryGetWebMessageAsString()).AbsoluteUri)
+                    {
+                        UseShellExecute = true
+                    });
+                }
+                catch
+                {
+                    // ignored
+                }
+            };
+            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
+                "window.miHoYoGameJSSDK = {openInBrowser: function(url){ window.chrome.webview.postMessage(url); }}");
         }
     }
 }
