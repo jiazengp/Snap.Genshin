@@ -39,5 +39,10 @@ namespace DGP.Genshin.DataModel
         public Local? Local { get; set; }
         public Monster? Monster { get; set; }
         public Weekly? Weekly { get; set; }
+
+        public override string? GetBadge()
+        {
+            return Element;
+        }
     }
 }

@@ -8,8 +8,10 @@
         xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
         SizeToContent="Height" WindowStartupLocation="CenterScreen"
-        Title="更新日志" Width="600" ResizeMode="NoResize">
+        Title="更新日志" Width="600" ResizeMode="NoResize"
+        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Window.Resources>
         <markdown:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" Markdown="{DynamicResource MarkDown}"/>
     </Window.Resources>

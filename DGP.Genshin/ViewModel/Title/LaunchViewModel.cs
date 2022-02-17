@@ -145,7 +145,7 @@ namespace DGP.Genshin.ViewModel.Title
         private async Task OpenUIAsync(TitleBarButton? t)
         {
             string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
-            launcherPath = launchService.SelectLaunchDirectoryIfNull(launcherPath);
+            launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
             bool result = false;
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {

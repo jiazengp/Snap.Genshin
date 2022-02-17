@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DGP.Genshin.Control"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:ui="http://schemas.modernwpf.com/2019" 
+             xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ui:CubicBezierEase x:Key="CubicBezierEase" EasingMode="EaseIn"/>
@@ -63,7 +64,7 @@
         <StackPanel 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <ui:ProgressRing IsActive="True" Width="48" Height="48"/>
+            <genshinelement:ElementsProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Margin="0,24,0,0"
             Text="正在下载额外的图片资源，请耐心等待" 
             HorizontalAlignment="Center"

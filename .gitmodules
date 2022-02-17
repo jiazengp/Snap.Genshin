@@ -58,3 +58,6 @@
 [submodule "Common/DGP.Genshin.Secret"]
 	path = Common/DGP.Genshin.Secret
 	url = https://github.com/DGP-Studio/DGP.Genshin.Secret.git
+[submodule "Plugins/SG.Plugin.Drop.Wish"]
+	path = Plugins/SG.Plugin.Drop.Wish
+	url = https://github.com/emako/SG.Plugin.Drop.Wish.git

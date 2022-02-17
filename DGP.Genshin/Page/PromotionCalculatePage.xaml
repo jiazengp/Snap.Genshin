@@ -47,14 +47,15 @@
             </ui:AppBarButton>
         </ui:CommandBar>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="320"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition MaxWidth="480"/>
-                <ColumnDefinition Width="0"/>
+                <ColumnDefinition MaxWidth="320"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
                 <ui:GridView Margin="12,12,0,0" SelectionMode="Single" ItemsSource="{Binding Avatars}" SelectedItem="{Binding SelectedAvatar}">
                     <ui:GridView.ItemTemplate>
                         <DataTemplate>
@@ -67,7 +68,7 @@
                     </ui:GridView.ItemTemplate>
                 </ui:GridView>
             </smoothscrollviewer:SmoothScrollViewer>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Margin="-12,12,4,12">
                     <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,0" Background="{Binding SelectedAvatar.AvatarLevel,Converter = {StaticResource StarSolidConverter}}">
                         <Grid>
@@ -159,7 +160,7 @@
                     </ItemsControl>
                 </StackPanel>
             </smoothscrollviewer:SmoothScrollViewer>
-            <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
+            <smoothscrollviewer:SmoothScrollViewer Grid.Column="3" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Margin="-12,12,0,12">
                     <TextBlock Text="角色消耗" Margin="12,0,0,0" Style="{StaticResource SubtitleTextBlockStyle}"
                                Visibility="{Binding Consumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}"/>

@@ -9,7 +9,9 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         Height="576" Width="1024" ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
+        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"/>

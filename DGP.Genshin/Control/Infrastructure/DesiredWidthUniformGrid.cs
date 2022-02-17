@@ -28,7 +28,10 @@ namespace DGP.Genshin.Control.Infrastructure
 
         private void SetCorrectColumn()
         {
-            Columns = (int)Math.Round(ActualWidth / ColumnDesiredWidth);
+            if (ColumnDesiredWidth > 0)
+            {
+                Columns = (int)Math.Round(ActualWidth / ColumnDesiredWidth);
+            }
         }
     }
 }

@@ -119,10 +119,11 @@
                         ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"
                         Stretch="UniformToFill"/>
                     </Border.Background>
-                    <Border
+                    <Border 
+                        CornerRadius="{StaticResource CompatCornerRadius}"
                         RenderOptions.BitmapScalingMode="Fant"
-                            ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.GachaSplash}" 
-                            ci:ImageAsyncHelper.StretchMode="UniformToFill" MinHeight="320" Padding="6,0">
+                        ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.GachaSplash}" 
+                        ci:ImageAsyncHelper.StretchMode="UniformToFill" MinHeight="320" Padding="6,0">
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" 
                                 ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
                             <ui:FontIcon Glyph="&#xE78B;" Foreground="White"/>
@@ -173,7 +174,7 @@
                 ItemsSource="{Binding Characters}" 
                 SelectedItem="{Binding SelectedCharacter}"
                 SelectionMode="Single"
-                Margin="0,0,0,8"
+                Margin="0,0,0,0"
                     IsSynchronizedWithCurrentItem="True">
                     <ui:GridView.ItemTemplate>
                         <DataTemplate>

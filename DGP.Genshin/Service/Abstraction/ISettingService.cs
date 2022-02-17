@@ -57,7 +57,7 @@ namespace DGP.Genshin.Service.Abstratcion
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        void SetValueNoNotify(string key, object value);
+        void SetValueNoNotify(string key, object value, bool log = true);
 
         /// <summary>
         /// 卸载设置数据
@@ -91,6 +91,7 @@ namespace DGP.Genshin.Service.Abstratcion
         public const string MainWindowWidth = "MainWindowWidth";
         public const string MainWindowHeight = "MainWindowHeight";
         public const string IsNavigationViewPaneOpen = "IsNavigationViewPaneOpen";
+        public const string BackgroundOpacity = "BackgroundOpacity";
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {

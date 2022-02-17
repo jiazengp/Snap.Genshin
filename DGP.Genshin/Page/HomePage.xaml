@@ -7,7 +7,7 @@
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
       xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter" 
       xmlns:infrastructures="clr-namespace:DGP.Genshin.Control.Infrastructure"
-      xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
@@ -18,9 +18,12 @@
     </i:Interaction.Triggers>
     <Page.Resources>
         <converters:PercentageToHeightConverter x:Key="PercentageToHeightConverter" TargetWidth="1080" TargetHeight="390"/>
+        <converters:BooleanToVisibilityRevertConverter x:Key="BooleanToVisibilityRevertConverter"/>
     </Page.Resources>
     <Grid>
-        <smoothscrollviewer:SmoothScrollViewer Padding="0,0,4,0">
+        <smoothscrollviewer:SmoothScrollViewer 
+            Padding="0,0,4,0"
+            Visibility="{Binding IsOpeningUI,Converter={StaticResource BooleanToVisibilityRevertConverter}}">
             <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding Announcement.List}" 
                                   Padding="0" Margin="12,12,0,-24" SnapsToDevicePixels="True">
                 <ItemsControl.ItemTemplate>
@@ -134,13 +137,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </smoothscrollviewer:SmoothScrollViewer>
-        <Border Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}"
-                Visibility="{Binding IsOpeningUI,Converter={StaticResource BooleanToVisibilityConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="加载中" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center"/>
-                <ui:ProgressBar Width="240" IsIndeterminate="True" Margin="0,12,0,0"/>
-            </StackPanel>
-            
+        <Border Visibility="{Binding IsOpeningUI,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <genshinelement:ElementsProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </Grid>
 </Page>

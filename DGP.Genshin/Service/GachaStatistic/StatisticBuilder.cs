@@ -347,36 +347,33 @@ namespace DGP.Genshin.Service.GachaStatistic
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
             MetadataViewModel metadataViewModel = App.AutoWired<MetadataViewModel>();
-            Character? isc = metadataViewModel.Characters?.FirstOrDefault(c => c.Name == item.Name);
-            Weapon? isw = metadataViewModel.Weapons?.FirstOrDefault(w => w.Name == item.Name);
-            SpecificItem ni = new()
-            {
-                Time = item.Time
-            };
 
-            if (isc is not null)
+            Primitive? matched = metadataViewModel.Characters?.FirstOrDefault(c => c.Name == item.Name)
+                ?? metadataViewModel.Weapons?.FirstOrDefault(w => w.Name == item.Name) as Primitive;
+
+            SpecificItem newItem = new() { Time = item.Time };
+
+            if (matched is not null)
             {
-                ni.StarUrl = isc.Star;
-                ni.Source = isc.Source;
-                ni.Name = isc.Name;
-                ni.Badge = isc.Element;
-            }
-            else if (isw is not null)
-            {
-                ni.StarUrl = isw.Star;
-                ni.Source = isw.Source;
-                ni.Name = isw.Name;
-                ni.Badge = isw.Type;
+                newItem.StarUrl = matched.Star;
+                newItem.Source = matched.Source;
+                newItem.Name = matched.Name;
+                newItem.Badge = matched.GetBadge();
             }
             else//both null
             {
-                ni.Name = item.Name;
-                ni.StarUrl = item.Rank is null ? null : StarHelper.FromInt32Rank(int.Parse(item.Rank));
+                newItem.Name = item.Name;
+                newItem.StarUrl = item.Rank is null ? null : StarHelper.FromInt32Rank(int.Parse(item.Rank));
                 new Event("Unsupported Item", item.Name ?? "No name").TrackAs(Event.GachaStatistic);
             }
             //? fix issue where crashes when no banner exists
-            banner?.Items.Add(ni);
+            banner?.Items.Add(newItem);
         }
+
+        /// <summary>
+        /// 统计特定卡池的总数、345星数
+        /// </summary>
+        /// <param name="specificBanners"></param>
         private void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
         {
             foreach (SpecificBanner banner in specificBanners)

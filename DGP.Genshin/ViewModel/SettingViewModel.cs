@@ -63,6 +63,7 @@ namespace DGP.Genshin.ViewModel
         private bool isTaskBarIconEnabled;
         private bool closeMainWindowAfterInitializaion;
         private UpdateProgressedMessage updateInfo;
+        private double backgroundOpacity;
 
         #region Need Initalize
         //需要在 Initalize Receive 中添加字段的初始化
@@ -124,6 +125,16 @@ namespace DGP.Genshin.ViewModel
                 SetProperty(ref closeMainWindowAfterInitializaion, value);
             }
         }
+        public double BackgroundOpacity
+        {
+            get => backgroundOpacity;
+            set
+            {
+                SettingService.SetValueNoNotify(Setting.BackgroundOpacity, value, false);
+                App.Messenger.Send(new BackgroundOpacityChangedMessage(value));
+                SetProperty(ref backgroundOpacity, value);
+            }
+        }
         #endregion
 
         #region Not Need
@@ -164,14 +175,15 @@ namespace DGP.Genshin.ViewModel
             [MemberNotNull(nameof(updateInfo))]
             set => SetProperty(ref updateInfo, value);
         }
+        #endregion
 
         public ICommand CheckUpdateCommand { get; }
         public ICommand CopyUserIdCommand { get; }
         public ICommand SignInImmediatelyCommand { get; }
         public ICommand SponsorUICommand { get; }
         public ICommand OpenCacheFolderCommand { get; }
+        public ICommand OpenBackgroundFolderCommand { get; }
         public ICommand EnableDailyNoteCommand { get; }
-        #endregion
 
         public SettingViewModel(ISettingService settingService, IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -193,6 +205,7 @@ namespace DGP.Genshin.ViewModel
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
             SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
+            OpenBackgroundFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Cache")));
             EnableDailyNoteCommand = new AsyncRelayCommand(EnableDailyNotePermissionAsync);
         }
@@ -208,6 +221,7 @@ namespace DGP.Genshin.ViewModel
             updateUseFastGit = SettingService.GetOrDefault(Setting.UpdateUseFastGit, false);
             isTaskBarIconEnabled = SettingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true);
             closeMainWindowAfterInitializaion = SettingService.GetOrDefault(Setting.CloseMainWindowAfterInitializaion, false);
+            backgroundOpacity = SettingService.GetOrDefault(Setting.BackgroundOpacity, 0.4);
 
             //version
             Version v = Assembly.GetExecutingAssembly().GetName().Version!;
@@ -297,6 +311,9 @@ namespace DGP.Genshin.ViewModel
                     break;
                 case Setting.CloseMainWindowAfterInitializaion:
                     CloseMainWindowAfterInitializaion = value is not null && (bool)value;
+                    break;
+                case Setting.BackgroundOpacity:
+                    BackgroundOpacity = value is not null ? (double)value : BackgroundOpacity;
                     break;
                 default:
                     break;

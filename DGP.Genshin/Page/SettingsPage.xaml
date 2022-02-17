@@ -335,10 +335,21 @@
     </Page.Resources>
     <Grid>
         <s:SmoothScrollViewer Margin="0,0,0,0">
-            <StackPanel Margin="0,0,0,12">
+            <StackPanel Margin="0,0,0,12" MinWidth="800" MaxWidth="1000">
                 <TextBlock Text="外观" Style="{StaticResource BaseTextBlockStyle}" Margin="12,0,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE790;" Icon="DarkTheme24" Title="主题" Subtitle="更改应用的主题颜色" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" DisplayMemberPath="Name"/>
+                </wu:CardControl>
+                <wu:CardAction helper:IconHelper.Icon="&#xE838;" 
+                               helper:CardHelper.ActionTitle="打开背景图片文件夹" 
+                               helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时在每次打开主界面时会随机一张作为背景"
+                               Command="{Binding OpenBackgroundFolderCommand}"
+                               Margin="12,12,16,0"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Slider MinWidth="220" Maximum="1" Value="{Binding BackgroundOpacity}"/>
+                        <TextBlock Text="{Binding BackgroundOpacity,StringFormat={}{0:p0}}" VerticalAlignment="Center" Margin="12,0,0,0" Width="40"/>
+                    </StackPanel>
                 </wu:CardControl>
 
                 <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
@@ -420,13 +431,13 @@
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="联系我们" Subtitle="如果你在使用软件的过程中遇到问题，或是单纯的想聊聊天，可以看看这里" Margin="12,12,16,0">
                     <UniformGrid Columns="4" Margin="12">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
-                                            Content="前往 Github 提交 Issue" Padding="4"/>
+                                      Content="前往 Github 提交 Issue" Padding="4"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=MHLNhhYJ"
-                                            Content="反馈群 910780153" Padding="4"/>
+                                      Content="反馈群 910780153" Padding="4"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=cgh9S2XW"
-                                            Content="闲聊群 547288075" Padding="4"/>
+                                      Content="闲聊群 547288075" Padding="4"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=Wpcad0lD"
-                                            Content="开发群 982424236" Padding="4"/>
+                                      Content="开发群 982424236" Padding="4"/>
                     </UniformGrid>
                 </wu:CardExpander>
                 <wu:CardControl helper:IconHelper.Icon="&#xE772;" Title="用户设备ID" Subtitle="{Binding UserId}" Margin="12,4,16,0">

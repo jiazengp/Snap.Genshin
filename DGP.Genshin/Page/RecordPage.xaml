@@ -10,7 +10,7 @@
          xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
          xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
          xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
-         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800"
          Title="RecordPage">
@@ -25,11 +25,14 @@
         <converters:ElementConverter x:Key="ElementConverter"/>
         <converters:RarityConverter x:Key="RarityConverter"/>
         <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
+        <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>
     </Page.Resources>
     <Grid>
-        <TabControl Style="{StaticResource TabControlPivotStyle}">
+        <TabControl 
+            Style="{StaticResource TabControlPivotStyle}"
+            Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityRevertConverter}}">
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="{Binding StateDescription}"
@@ -716,10 +719,10 @@
             </TabItem>
         </TabControl>
 
-        <Border Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}" 
-                Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityConverter}}"
-                d:Visibility="Visible">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border 
+            Visibility="{Binding CurrentRecord,Converter={StaticResource DataVisibilityConverter}}"
+            d:Visibility="Visible">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="480">
                 <ui:AutoSuggestBox Margin="0,0,0,0"
                                    MinWidth="240" 
                                    PlaceholderText="键入UID以查询" 
@@ -727,9 +730,10 @@
                                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
                 <TextBlock Text="{Binding StateDescription}" d:Text="Test String" Margin="0,6,0,0" 
                            HorizontalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"/>
-                <ui:ProgressBar Margin="0,6,0,0" Background="Transparent"
-                                d:IsIndeterminate="true"
-                                IsIndeterminate="{Binding QueryCommand.IsRunning}"/>
+                <genshinelement:ElementsProgressBar
+                    Visibility="{Binding QueryCommand.IsRunning,Converter={StaticResource BooleanToVisibilityConverter}}"
+                    IsIndeterminate="{Binding QueryCommand.IsRunning}"
+                    Margin="0,6,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ItemsControl ItemsSource="{Binding UserGameRoles}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -739,7 +743,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </StackPanel>
         </Border>
     </Grid>

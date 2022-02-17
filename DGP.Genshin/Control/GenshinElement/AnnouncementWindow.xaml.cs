@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Web.WebView2.Core;
+using Snap.Data.Utility;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,6 +9,10 @@ namespace DGP.Genshin.Control.GenshinElement
 {
     public sealed partial class AnnouncementWindow : Window, IDisposable
     {
+        private const string mihoyoSDKDefinition = 
+            "window.miHoYoGameJSSDK = {" +
+            "openInBrowser: function(url){ window.chrome.webview.postMessage(url); }," +
+            "openInWebview: function(url){ location.href = url }}";
         private readonly string? targetContent;
         public AnnouncementWindow(string? content)
         {
@@ -26,7 +32,9 @@ namespace DGP.Genshin.Control.GenshinElement
             {
                 await WebView.EnsureCoreWebView2Async();
                 WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
-                await MockMiHoYoGameJSSDK();
+                //support click open browser.
+                await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mihoyoSDKDefinition);
+                WebView.CoreWebView2.WebMessageReceived += (s, e) => Browser.Open(e.TryGetWebMessageAsString);
             }
             catch
             {
@@ -35,26 +43,6 @@ namespace DGP.Genshin.Control.GenshinElement
             }
 
             WebView.NavigateToString(targetContent);
-        }
-
-        private async Task MockMiHoYoGameJSSDK()
-        {
-            WebView.CoreWebView2.WebMessageReceived += (o, args) =>
-            {
-                try
-                {
-                    Process.Start(new ProcessStartInfo(new Uri(args.TryGetWebMessageAsString()).AbsoluteUri)
-                    {
-                        UseShellExecute = true
-                    });
-                }
-                catch
-                {
-                    // ignored
-                }
-            };
-            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
-                "window.miHoYoGameJSSDK = {openInBrowser: function(url){ window.chrome.webview.postMessage(url); }}");
         }
     }
 }

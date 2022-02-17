@@ -134,7 +134,7 @@
                 ItemsSource="{Binding Weapons}" 
                 SelectedItem="{Binding SelectedWeapon}"
                 ItemsPanel="{StaticResource WrapPanelItemsPanel}"
-                Margin="0,0,0,8"
+                Margin="0,0,0,0"
                     IsSynchronizedWithCurrentItem="True">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

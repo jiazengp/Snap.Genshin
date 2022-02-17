@@ -56,7 +56,7 @@ namespace DGP.Genshin.Service.Abstratcion
         /// </summary>
         /// <param name="launcherPath">待检验的启动器路径</param>
         /// <returns>启动器路径</returns>
-        string? SelectLaunchDirectoryIfNull(string? launcherPath);
+        string? SelectLaunchDirectoryIfIncorrect(string? launcherPath);
         void SaveAllAccounts(IEnumerable<GenshinAccount> accounts);
         ObservableCollection<GenshinAccount> LoadAllAccount();
         GenshinAccount? GetFromRegistry();

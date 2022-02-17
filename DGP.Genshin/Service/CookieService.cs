@@ -288,8 +288,15 @@ namespace DGP.Genshin.Service
         }
 
         private bool isInitialized = false;
+        private bool isInitializing = false;
         public async Task InitializeAsync()
         {
+            if (isInitialized || isInitializing)
+            {
+                return;
+            }
+
+            isInitializing = true;
             CookiesLock.EnterWriteLock();
             //enumerate the shallow copied list to remove item in foreach loop
             //prevent InvalidOperationException
@@ -309,6 +316,7 @@ namespace DGP.Genshin.Service
             }
             CookiesLock.ExitWriteLock();
             isInitialized = true;
+            isInitializing = false;
         }
 
         public async Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOf(string cookie)

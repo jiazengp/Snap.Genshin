@@ -26,6 +26,7 @@
 
 [![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza)
 [![GenShin-LauncherDIY](https://img.shields.io/badge/DawnFz-GenShin_LauncherDIY-red/total?style=flat-square)](https://github.com/DawnFz/GenShin-LauncherDIY)
+[![PaimonsNotebook](https://img.shields.io/badge/QooLianyi-PaimonsNotebook-red/total?style=flat-square)](https://github.com/QooLianyi/PaimonsNotebook)
 
 ### 最低系统要求
 

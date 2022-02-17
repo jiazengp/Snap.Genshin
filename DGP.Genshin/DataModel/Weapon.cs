@@ -13,5 +13,10 @@ namespace DGP.Genshin.DataModel
         public Material.Weapon? Ascension { get; set; }
         public Elite? Elite { get; set; }
         public Monster? Monster { get; set; }
+
+        public override string? GetBadge()
+        {
+            return Type;
+        }
     }
 }

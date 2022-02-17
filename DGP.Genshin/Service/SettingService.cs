@@ -69,9 +69,12 @@ namespace DGP.Genshin.Service
             }
         }
 
-        public void SetValueNoNotify(string key, object value)
+        public void SetValueNoNotify(string key, object value,bool log)
         {
-            this.Log($"setting {key} to {value} internally without notify");
+            if (log)
+            {
+                this.Log($"setting {key} to {value} internally without notify");
+            }
             settings[key] = value;
         }
 

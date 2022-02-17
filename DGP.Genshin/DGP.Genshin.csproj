@@ -30,8 +30,8 @@
 
   <ItemGroup>
     <None Remove="Resources\Eff_Sc_StarSky01.png" />
+    <None Remove="Resources\ElementProgress.png" />
     <None Remove="Resources\Segoe Fluent Icons.ttf" />
-    <None Remove="Resources\test-background.jpg" />
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resources\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resources\UI_BtnIcon_Gacha.png" />
@@ -83,8 +83,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\Eff_Sc_StarSky01.png" />
+    <Resource Include="Resources\ElementProgress.png" />
     <Resource Include="Resources\Segoe Fluent Icons.ttf" />
-    <Resource Include="Resources\test-background.jpg" />
     <Resource Include="Resources\UI_BagTabIcon_Avatar.png" />
     <Resource Include="Resources\UI_BagTabIcon_Weapon.png" />
     <Resource Include="Resources\UI_BtnIcon_Gacha.png" />

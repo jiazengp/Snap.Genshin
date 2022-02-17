@@ -12,5 +12,10 @@ namespace DGP.Genshin.DataModel
         public string? Name { get; set; }
         public string? Star { get; set; } = StarHelper.FromInt32Rank(1);
         [JsonIgnore] public SolidColorBrush? StarSolid => StarHelper.ToSolid(Star);
+
+        public virtual string? GetBadge()
+        {
+            return null;
+        }
     }
 }

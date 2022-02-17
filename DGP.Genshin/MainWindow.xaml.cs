@@ -2,6 +2,7 @@
 using DGP.Genshin.Control.Title;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.DataModel.WebViewLobby;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -20,20 +21,24 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DGP.Genshin
 {
     public partial class MainWindow : Window,
         IRecipient<SplashInitializationCompletedMessage>,
-        IRecipient<NavigateRequestMessage>
+        IRecipient<NavigateRequestMessage>,
+        IRecipient<BackgroundOpacityChangedMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
         //cause we have some async operation in initialization so we can't use lock
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private bool hasInitializeCompleted = false;
+
         private static bool hasEverOpen = false;
         private static bool hasEverClose = false;
+
         private readonly INavigationService navigationService;
 
         /// <summary>
@@ -49,23 +54,27 @@ namespace DGP.Genshin
             //register messages
             App.Messenger.Register<SplashInitializationCompletedMessage>(this);
             App.Messenger.Register<NavigateRequestMessage>(this);
+            App.Messenger.Register<BackgroundOpacityChangedMessage>(this);
         }
 
         private void InitializeContent()
         {
             InitializeComponent();
-            //restore width and height from setting
             ISettingService settingService = App.AutoWired<ISettingService>();
+            //restore width and height from setting
             Width = settingService.GetOrDefault(Setting.MainWindowWidth, 0D);
             Height = settingService.GetOrDefault(Setting.MainWindowHeight, 0D);
             //restore pane state
             NavView.IsPaneOpen = settingService.GetOrDefault(Setting.IsNavigationViewPaneOpen, true);
+            //randomly load a image as background
+            new BackgroundLoader(this, settingService).LoadWallpaper();
         }
 
         ~MainWindow()
         {
             App.Messenger.Unregister<SplashInitializationCompletedMessage>(this);
             App.Messenger.Unregister<NavigateRequestMessage>(this);
+            App.Messenger.Unregister<BackgroundOpacityChangedMessage>(this);
         }
 
         public async void Receive(SplashInitializationCompletedMessage viewModelReference)
@@ -74,8 +83,8 @@ namespace DGP.Genshin
             ISettingService settingService = App.AutoWired<ISettingService>();
             SplashViewModel splashViewModel = viewModelReference.Value;
             PrepareTitleBarArea();
-            AddAditionalWebViewNavigationViewItems();
-            AddAditionalPluginsNavigationViewItems();
+            AddAdditionalWebViewNavigationViewItems();
+            AddAdditionalPluginsNavigationViewItems();
             //preprocess
             if (!hasEverOpen)
             {
@@ -115,6 +124,13 @@ namespace DGP.Genshin
         {
             navigationService.Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
         }
+        public void Receive(BackgroundOpacityChangedMessage message)
+        {
+            if (BackgroundGrid.Background is ImageBrush brush)
+            {
+                brush.Opacity = message.Value;
+            }
+        }
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -143,6 +159,15 @@ namespace DGP.Genshin
                 App.Current.Shutdown();
             }
         }
+        private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ISettingService settingService = App.AutoWired<ISettingService>();
+            if (WindowState == WindowState.Normal)
+            {
+                settingService[Setting.MainWindowWidth] = Width;
+                settingService[Setting.MainWindowHeight] = Height;
+            }
+        }
 
         private void DoTaskbarFlow()
         {
@@ -150,10 +175,11 @@ namespace DGP.Genshin
             App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
         }
 
+        #region Aditional NavigationViewItems
         /// <summary>
         /// 添加从插件引入的额外的导航页签
         /// </summary>
-        private void AddAditionalPluginsNavigationViewItems()
+        private void AddAdditionalPluginsNavigationViewItems()
         {
             foreach (IPlugin? plugin in App.Current.PluginService.Plugins)
             {
@@ -166,11 +192,12 @@ namespace DGP.Genshin
         /// <summary>
         /// 添加额外的网页导航页签
         /// </summary>
-        private void AddAditionalWebViewNavigationViewItems()
+        private void AddAdditionalWebViewNavigationViewItems()
         {
             ObservableCollection<WebViewEntry>? entries = App.AutoWired<WebViewLobbyViewModel>().Entries;
             navigationService.AddWebViewEntries(entries);
         }
+        #endregion
 
         /// <summary>
         /// 准备标题栏按钮
@@ -281,15 +308,5 @@ namespace DGP.Genshin
             }
         }
         #endregion
-
-        private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ISettingService settingService = App.AutoWired<ISettingService>();
-            if (WindowState == WindowState.Normal)
-            {
-                settingService[Setting.MainWindowWidth] = Width;
-                settingService[Setting.MainWindowHeight] = Height;
-            }
-        }
     }
 }

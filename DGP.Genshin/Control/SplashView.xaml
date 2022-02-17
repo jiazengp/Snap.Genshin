@@ -11,7 +11,8 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="540" d:DesignWidth="800"
              xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
-             xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper">
+             xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+             xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement" xmlns:converter="clr-namespace:DGP.Genshin.Control.Converter">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
@@ -48,9 +49,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <converter:BooleanRevertConverter x:Key="BooleanRevertConverter"/>
     </UserControl.Resources>
-    <Grid Background="{StaticResource SystemControlBackgroundAltHighBrush}">
+    <Grid Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,12">
             <StackPanel Margin="12" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Image Width="80" Height="80" RenderOptions.BitmapScalingMode="HighQuality" 
@@ -74,7 +75,8 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ProgressBar Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Stretch" Value="{Binding Percent,TargetNullValue=1}" Visibility="{Binding IsCheckingIntegrity,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <genshinelement:ElementsProgressBar IsIndeterminate="{Binding IsCheckingIntegrity,Converter={StaticResource BooleanRevertConverter}}"
+                Margin="0,12,0,0" Maximum="1" HorizontalAlignment="Center" Value="{Binding Percent,TargetNullValue=1}"/>
         </StackPanel>
     </Grid>
 </UserControl>

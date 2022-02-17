@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="登录到米游社" Height="720" Width="1280">
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
+        Title="登录到米游社" Height="720" Width="1280"
+        Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

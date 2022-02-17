@@ -21,6 +21,9 @@
     <Compile Update="Control\GenshinElement\DailyNoteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\GenshinElement\ElementsProgressBar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\GenshinElement\GachaStatistic\StatisticCard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,10 +92,19 @@
     <Page Update="Control\GenshinElement\DailyNoteWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Control\GenshinElement\ElementsProgressBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Control\GenshinElement\GachaStatistic\StatisticCard.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\GenshinElement\HutaoStatistic\UploadDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\ModernStyle\Dark.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\ModernStyle\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\Title\DailyNoteTitleBarButton.xaml">

@@ -260,7 +260,7 @@ namespace DGP.Genshin.Service
             return Regex.Unescape(hex4Result);
         }
 
-        public string? SelectLaunchDirectoryIfNull(string? launcherPath)
+        public string? SelectLaunchDirectoryIfIncorrect(string? launcherPath)
         {
             if (!File.Exists(launcherPath) || Path.GetFileName(launcherPath) != LauncherExecutable)
             {
@@ -276,7 +276,7 @@ namespace DGP.Genshin.Service
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string fileName = openFileDialog.FileName;
-                    if (Path.GetFileNameWithoutExtension(fileName) == LauncherSection)
+                    if (Path.GetFileName(fileName) == LauncherExecutable)
                     {
                         launcherPath = openFileDialog.FileName;
                         settingService[Setting.LauncherPath] = launcherPath;
@@ -311,7 +311,7 @@ namespace DGP.Genshin.Service
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
             //trim account with same id
-            Json.ToFile(PathContext.Locate(AccountsFileName), accounts.DistinctBy(account => account.GeneralData));
+            Json.ToFile(PathContext.Locate(AccountsFileName), accounts.DistinctBy(account => account.MihoyoSDK));
         }
 
         public GenshinAccount? GetFromRegistry()
