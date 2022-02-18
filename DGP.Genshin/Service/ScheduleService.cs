@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Message;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using System;

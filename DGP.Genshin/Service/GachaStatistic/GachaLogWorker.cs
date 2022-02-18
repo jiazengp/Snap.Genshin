@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.MiHoYoAPI.Response;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Snap.Core.Logging;
 using Snap.Net.QueryString;
 using System;

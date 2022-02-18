@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.FPSUnlocking;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using IniParser;
 using IniParser.Exceptions;
 using IniParser.Model;

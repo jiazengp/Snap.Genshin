@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Service.Abstratcion;
+﻿using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.Logging;
 using Snap.Data.Json;

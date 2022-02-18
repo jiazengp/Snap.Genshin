@@ -2,7 +2,7 @@
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Page;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf;

@@ -5,7 +5,7 @@ using DGP.Genshin.Helper.Converter;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;

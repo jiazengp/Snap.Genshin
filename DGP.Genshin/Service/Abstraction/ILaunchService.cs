@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 游戏启动服务

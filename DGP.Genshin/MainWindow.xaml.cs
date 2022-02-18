@@ -8,7 +8,7 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Page;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.ViewModel;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;

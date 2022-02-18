@@ -1,4 +1,4 @@
-﻿namespace DGP.Genshin.Service.Abstratcion
+﻿namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 计划服务

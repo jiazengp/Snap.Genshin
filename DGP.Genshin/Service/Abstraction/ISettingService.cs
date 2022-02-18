@@ -2,7 +2,7 @@
 using ModernWpf;
 using System;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 设置服务

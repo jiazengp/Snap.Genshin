@@ -3,7 +3,7 @@ using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Page;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Snap.Core.DependencyInjection;

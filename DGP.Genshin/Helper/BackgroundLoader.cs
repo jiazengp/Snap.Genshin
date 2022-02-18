@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.Service.Abstratcion;
+﻿using DGP.Genshin.Service.Abstraction;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;

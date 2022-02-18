@@ -2,7 +2,7 @@
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.GachaStatistic;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;

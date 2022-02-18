@@ -5,7 +5,7 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;

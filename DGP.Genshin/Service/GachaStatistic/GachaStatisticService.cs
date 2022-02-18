@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using System;

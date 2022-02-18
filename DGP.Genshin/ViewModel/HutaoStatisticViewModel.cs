@@ -2,7 +2,7 @@
 using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf.Controls;
@@ -24,18 +24,18 @@ namespace DGP.Genshin.ViewModel
 
         private bool shouldUIPresent;
         private Overview? overview;
-        private IEnumerable<IndexedListWrapper<Item<double>>>? avatarParticipations;
+        private IEnumerable<Indexed<int, Item<double>>>? avatarParticipations;
         private IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? avatarReliquaryUsages;
         private IEnumerable<Item<IEnumerable<Item<double>>>>? teamCollocations;
         private IEnumerable<Item<IEnumerable<Item<double>>>>? weaponUsages;
-        private IEnumerable<Item<IEnumerable<NamedValue<double>>>>? avatarConstellations;
-        private IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>>? teamCombinations;
+        private IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>>? avatarConstellations;
+        private IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? teamCombinations;
 
         public bool ShouldUIPresent
         { get => shouldUIPresent; set => SetProperty(ref shouldUIPresent, value); }
         public Overview? Overview
         { get => overview; set => SetProperty(ref overview, value); }
-        public IEnumerable<IndexedListWrapper<Item<double>>>? AvatarParticipations
+        public IEnumerable<Indexed<int, Item<double>>>? AvatarParticipations
         { get => avatarParticipations; set => SetProperty(ref avatarParticipations, value); }
         public IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? AvatarReliquaryUsages
         { get => avatarReliquaryUsages; set => SetProperty(ref avatarReliquaryUsages, value); }
@@ -43,9 +43,9 @@ namespace DGP.Genshin.ViewModel
         { get => teamCollocations; set => SetProperty(ref teamCollocations, value); }
         public IEnumerable<Item<IEnumerable<Item<double>>>>? WeaponUsages
         { get => weaponUsages; set => SetProperty(ref weaponUsages, value); }
-        public IEnumerable<Item<IEnumerable<NamedValue<double>>>>? AvatarConstellations
+        public IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>>? AvatarConstellations
         { get => avatarConstellations; set => SetProperty(ref avatarConstellations, value); }
-        public IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>>? TeamCombinations
+        public IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? TeamCombinations
         { get => teamCombinations; set => SetProperty(ref teamCombinations, value); }
 
         public ICommand OpenUICommand { get; }

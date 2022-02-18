@@ -2,7 +2,7 @@
 using DGP.Genshin.Helper.Converter;
 using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;

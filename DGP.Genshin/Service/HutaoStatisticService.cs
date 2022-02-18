@@ -3,7 +3,7 @@ using DGP.Genshin.HutaoAPI;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;
 using DGP.Genshin.MiHoYoAPI.Response;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Primitive;
 using Snap.Extenion.Enumerable;
@@ -20,9 +20,9 @@ namespace DGP.Genshin.Service
     {
         private readonly PlayerRecordClient playerRecordClient = new();
 
-        private IEnumerable<GenshinItem> avatarMap = null!;
-        private IEnumerable<GenshinItem> weaponMap = null!;
-        private IEnumerable<GenshinItem> reliquaryMap = null!;
+        private IEnumerable<HutaoItem> avatarMap = null!;
+        private IEnumerable<HutaoItem> weaponMap = null!;
+        private IEnumerable<HutaoItem> reliquaryMap = null!;
 
         private IEnumerable<AvatarParticipation> _avatarParticipations = null!;
         private IEnumerable<AvatarConstellationNum> _avatarConstellationNums = null!;
@@ -52,42 +52,42 @@ namespace DGP.Genshin.Service
             return await playerRecordClient.GetOverviewAsync();
         }
 
-        public IEnumerable<IndexedListWrapper<Item<double>>> GetAvatarParticipations()
+        public IEnumerable<Indexed<int, Item<double>>> GetAvatarParticipations()
         {
-            List<IndexedListWrapper<Item<double>>> avatarParticipationResults = new();
+            List<Indexed<int, Item<double>>> avatarParticipationResults = new();
             //保证 12层在前
             foreach (AvatarParticipation avatarParticipation in _avatarParticipations.OrderByDescending(x => x.Floor))
             {
                 IEnumerable<Item<double>> result = avatarParticipation.AvatarUsage
-                    .Join(avatarMap.DistinctBy(a => a.Id), rate => rate.Id, avatar => avatar.Id,
-                    (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value));
+                    .Join(avatarMap, rate => rate.Id, avatar => avatar.Id,
+                    (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value))
+                    .OrderByDescending(x => x.Value);
 
                 avatarParticipationResults
-                    .Add(new IndexedListWrapper<Item<double>>(
-                        avatarParticipation.Floor, 
-                        result.OrderByDescending(x => x.Value)));
+                    .Add(new Indexed<int, Item<double>>(avatarParticipation.Floor,result));
             }
             return avatarParticipationResults;
         }
 
-        public IEnumerable<Item<IEnumerable<NamedValue<double>>>> GetAvatarConstellations()
+        public IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>> GetAvatarConstellations()
         {
-            List<Item<IEnumerable<NamedValue<double>>>> teamCollocationsResults = new();
+            List<Rate<Item<IEnumerable<NamedValue<double>>>>> avatarConstellationsResults = new();
             foreach (AvatarConstellationNum avatarConstellationNum in _avatarConstellationNums)
             {
-                GenshinItem? matched = avatarMap.FirstOrDefault(x => x.Id == avatarConstellationNum.Avatar);
+                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == avatarConstellationNum.Avatar);
                 if (matched != null)
                 {
                     IEnumerable<NamedValue<double>> result = avatarConstellationNum.Rate
                         .Select(rate => new NamedValue<double>($"{rate.Id} 命", rate.Value));
 
-                    teamCollocationsResults
-                        .Add(new Item<IEnumerable<NamedValue<double>>>(
-                            matched.Id, matched.Name, matched.Url,
-                            result));
+                    avatarConstellationsResults.Add(new()
+                    {
+                        Id = new(matched.Id, matched.Name, matched.Url, result),
+                        Value = avatarConstellationNum.HoldingRate
+                    });
                 }
             }
-            return teamCollocationsResults.OrderByDescending(x => x.Id);
+            return avatarConstellationsResults.OrderByDescending(x => x.Id!.Id);
         }
 
         public IEnumerable<Item<IEnumerable<Item<double>>>> GetTeamCollocations()
@@ -95,7 +95,7 @@ namespace DGP.Genshin.Service
             List<Item<IEnumerable<Item<double>>>> teamCollocationsResults = new();
             foreach (TeamCollocation teamCollocation in _teamCollocations)
             {
-                GenshinItem? matched = avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avater);
+                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avater);
                 if (matched != null)
                 {
                     IEnumerable<Item<double>> result = teamCollocation.Collocations
@@ -116,7 +116,7 @@ namespace DGP.Genshin.Service
             List<Item<IEnumerable<Item<double>>>> weaponUsagesResults = new();
             foreach (WeaponUsage weaponUsage in _weaponUsages)
             {
-                GenshinItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == weaponUsage.Avatar);
+                HutaoItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == weaponUsage.Avatar);
                 if (matchedAvatar != null)
                 {
                     IEnumerable<Item<double>> result = weaponUsage.Weapons
@@ -137,7 +137,7 @@ namespace DGP.Genshin.Service
             List<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>> reliquaryUsagesResults = new();
             foreach (AvatarReliquaryUsage reliquaryUsage in _avatarReliquaryUsages)
             {
-                GenshinItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == reliquaryUsage.Avatar);
+                HutaoItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == reliquaryUsage.Avatar);
                 if (matchedAvatar != null)
                 {
                     List<NamedValue<Rate<IEnumerable<Item<int>>>>> result = new();
@@ -151,7 +151,7 @@ namespace DGP.Genshin.Service
                         {
                             //0 id 1 count
                             string[]? relicSetIdAndCount = relicAndCount.Split('-');
-                            GenshinItem? matchedRelic = reliquaryMap.FirstOrDefault(x => x.Id == int.Parse(relicSetIdAndCount[0]));
+                            HutaoItem? matchedRelic = reliquaryMap.FirstOrDefault(x => x.Id == int.Parse(relicSetIdAndCount[0]));
                             if(matchedRelic != null)
                             {
                                 string count = relicSetIdAndCount[1];
@@ -177,13 +177,13 @@ namespace DGP.Genshin.Service
             return reliquaryUsagesResults.OrderByDescending(x => x.Id);
         }
 
-        public IEnumerable<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>> GetTeamCombinations()
+        public IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>> GetTeamCombinations()
         {
-            List<IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>> teamCombinationResults = new();
+            List<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>> teamCombinationResults = new();
             foreach (TeamCombination temaCombination in _teamCombinations.OrderByDescending(x => x.Level.Floor).ThenByDescending(x => x.Level.Index))
             {
-                IEnumerable<Rate<Two<IEnumerable<GenshinItem>>>> teamRates = temaCombination.Teams
-                .Select(team => new Rate<Two<IEnumerable<GenshinItem>>>
+                IEnumerable<Rate<Two<IEnumerable<HutaoItem>>>> teamRates = temaCombination.Teams
+                .Select(team => new Rate<Two<IEnumerable<HutaoItem>>>
                 {
                     Value = team.Value,
                     Id = new( team.Id!.GetUp().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull(),
@@ -191,7 +191,7 @@ namespace DGP.Genshin.Service
                 });
 
                 teamCombinationResults
-                    .Add(new IndexedListWrapper<string, Rate<Two<IEnumerable<GenshinItem>>>>(
+                    .Add(new Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>(
                         $"{temaCombination.Level.Floor}-{temaCombination.Level.Index}",
                         teamRates.OrderByDescending(x => x.Value).Take(16)));
             }

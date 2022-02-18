@@ -3,7 +3,7 @@ using DGP.Genshin.Control.Title;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;

@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.MiHoYo2;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 玩家查询服务

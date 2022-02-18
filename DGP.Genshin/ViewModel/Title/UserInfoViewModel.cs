@@ -3,7 +3,7 @@ using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
-using DGP.Genshin.Service.Abstratcion;
+using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;

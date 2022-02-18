@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 更新服务

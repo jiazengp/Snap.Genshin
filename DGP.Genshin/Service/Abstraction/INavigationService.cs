@@ -5,7 +5,7 @@ using ModernWpf.Media.Animation;
 using System;
 using System.Collections.ObjectModel;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     /// <summary>
     /// 导航服务

@@ -4,7 +4,7 @@ using DGP.Genshin.Service.GachaStatistic;
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstratcion
+namespace DGP.Genshin.Service.Abstraction
 {
     public interface IGachaLogWorker
     {
