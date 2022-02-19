@@ -52,5 +52,11 @@
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
     "Key": "Elite_Concealed",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_176.png"
+  },
+  {
+    "Name": "刻像",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+    "Key": "Elite_Statuette",
+    "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_153.png"
   }
 ]

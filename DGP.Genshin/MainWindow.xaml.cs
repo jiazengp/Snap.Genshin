@@ -13,11 +13,14 @@ using DGP.Genshin.ViewModel;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using ModernWpf.Controls.Primitives;
+using Snap.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
+using System.Linq;
+//using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -102,6 +105,7 @@ namespace DGP.Genshin
             }
             splashViewModel.CurrentStateDescription = "完成";
             splashViewModel.IsSplashNotVisible = true;
+            await Task.Delay(500);
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             //before call Close() in this method,must release initializingWindow.
             initializingWindow.Release();
@@ -181,12 +185,9 @@ namespace DGP.Genshin
         /// </summary>
         private void AddAdditionalPluginsNavigationViewItems()
         {
-            foreach (IPlugin? plugin in App.Current.PluginService.Plugins)
+            foreach (IPlugin plugin in App.Current.PluginService.Plugins)
             {
-                foreach (ImportPageAttribute? importPage in plugin.GetType().GetCustomAttributes<ImportPageAttribute>())
-                {
-                    navigationService.AddToNavigation(importPage);
-                }
+                plugin.ForEachAttribute<ImportPageAttribute>(importPage => navigationService.AddToNavigation(importPage));
             }
         }
         /// <summary>
@@ -200,16 +201,37 @@ namespace DGP.Genshin
         #endregion
 
         /// <summary>
+        /// 描述了自带的标题栏定义
+        /// </summary>
+        [ImportTitle(typeof(LaunchTitleBarButton), 200)]
+        [ImportTitle(typeof(DailyNoteTitleBarButton), 150)]
+        [ImportTitle(typeof(SignInTitleBarButton), 100)]
+        [ImportTitle(typeof(JourneyLogTitleBarButton), 50)]
+        [ImportTitle(typeof(UserInfoTitleBarButton), 0)]
+        private class TitleDefinition { }
+
+        /// <summary>
         /// 准备标题栏按钮
         /// </summary>
         /// <param name="splashView"></param>
         private void PrepareTitleBarArea()
         {
-            TitleBarStackPanel.Children.Add(new LaunchTitleBarButton());
-            TitleBarStackPanel.Children.Add(new DailyNoteTitleBarButton());
-            TitleBarStackPanel.Children.Add(new SignInTitleBarButton());
-            TitleBarStackPanel.Children.Add(new JourneyLogTitleBarButton());
-            TitleBarStackPanel.Children.Add(new UserInfoTitleBarButton());
+            List<ImportTitleAttribute> titleBarButtons = new();
+
+            foreach (IPlugin plugin in App.Current.PluginService.Plugins)
+            {
+                plugin.ForEachAttribute<ImportTitleAttribute>(importTitle => titleBarButtons.Add(importTitle));
+            }
+            new TitleDefinition().ForEachAttribute<ImportTitleAttribute>(title => titleBarButtons.Add(title));
+
+            IOrderedEnumerable<ImportTitleAttribute> filtered = titleBarButtons
+                .Where(title => typeof(TitleBarButton).IsAssignableFrom(title.ButtonType))
+                .OrderByDescending(title => title.Order);
+
+            foreach(ImportTitleAttribute titleBarButton in filtered)
+            {
+                TitleBarStackPanel.Children.Add(Activator.CreateInstance(titleBarButton.ButtonType) as TitleBarButton);
+            }
         }
 
         #region Sign In
@@ -309,4 +331,6 @@ namespace DGP.Genshin
         }
         #endregion
     }
+
+
 }

@@ -28,8 +28,12 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <ItemsControl Grid.Row="1" Margin="0,0,-4,0" MaxWidth="310" 
-                              ItemsSource="{Binding SignInReward.Awards}"
-                              ItemsPanel="{StaticResource WrapPanelItemsPanel}">
+                              ItemsSource="{Binding SignInReward.Awards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0,0,4,4"
@@ -50,9 +54,15 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}"/>
-                        <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" Grid.Column="1" Content="签到" Command="{Binding SignInCommand}" IsEnabled="{Binding SignInInfo.IsNotSign}"/>
+                        <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Grid.Column="1" Content="签到" Command="{Binding SignInCommand}"
+                                IsEnabled="{Binding SignInInfo.IsNotSign}"/>
+                        <Button Margin="12,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Grid.Column="2" Content="&#xE72C;" Command="{Binding RefreshCommand}"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"/>
                     </Grid>
                 </Grid>
             </Grid>

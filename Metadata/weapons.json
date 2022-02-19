@@ -1,6 +1,37 @@
 [
   {
     "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png",
+    "ATK": "608",
+    "SubStat": "暴击率",
+    "SubStatValue": "33.1%",
+    "Passive": "雾切御腰物",
+    "PassiveDescription": "获得12%/15%/18%/21%/24%所有元素伤害加成；队伍中附近的其他角色在普通攻击命中敌人时，会为装备该武器的角色产生1层「波穗」效果，至多叠加5层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升8%普通攻击伤害，持续8秒。",
+    "Ascension": {
+      "City": "Inazuma",
+      "Name": "鸣神御灵",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weapon_Narukami",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/weapon/i_574.png"
+    },
+    "Elite": {
+      "Name": "刻像",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Elite_Statuette",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_153.png"
+    },
+    "Monster": {
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
+    },
+    "Name": "波乱月白经津",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "HaranTsukishiroFutsu",
+    "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1408.png"
+  },
+  {
+    "Type": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png",
     "ATK": "674",
     "SubStat": "暴击伤害",
     "SubStatValue": "44.1%",

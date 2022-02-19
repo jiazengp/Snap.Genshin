@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Service.Abstraction;
+using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace DGP.Genshin.Helper
                     Stretch = Stretch.UniformToFill,
                     Opacity = settingService.GetOrDefault(Setting.BackgroundOpacity, 0.4)
                 };
+                this.Log($"Load background wallpaper from {randomPath}");
             }
         }
     }

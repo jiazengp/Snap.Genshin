@@ -90,7 +90,6 @@ namespace DGP.Genshin
         /// <summary>
         /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
-        /// <returns>返回唯一的窗口，未找到返回新实例</returns>
         public static void ShowOrCloseWindow<TWindow>(string? name = null) where TWindow : Window, new()
         {
             TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
@@ -114,7 +113,6 @@ namespace DGP.Genshin
         /// <summary>
         /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
-        /// <returns>返回唯一的窗口，未找到返回新实例</returns>
         public static void BringWindowToFront<TWindow>() where TWindow : Window, new()
         {
             TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();

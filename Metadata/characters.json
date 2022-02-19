@@ -1150,16 +1150,69 @@
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
     },
     "Weekly": {
-      "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
-      "Name": "？？？",
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+      "Name": "万劫之真意",
       "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-      "Key": "Weekly_Unknown_3",
+      "Key": "Weekly_TheMeaningofAeons",
       "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png"
     },
     "Name": "八重神子",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
     "Key": "YaeMiko",
     "Source": "https://genshin.honeyhunterworld.com/img/char/yaemiko_face.png"
+  },
+  {
+    "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png",
+    "Element": "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png",
+    "Profile": "https://genshin.honeyhunterworld.com/img/cardicon/i_7110_party_135.png",
+    "GachaCard": "https://genshin.honeyhunterworld.com/img/char/ayato_gacha_card.png",
+    "GachaSplash": "https://genshin.honeyhunterworld.com/img/char/ayato_gacha_splash.png",
+    "City": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png",
+    "BaseHP": "13446",
+    "BaseATK": "285",
+    "BaseDEF": "815",
+    "AscensionStat": "暴击伤害",
+    "AscensionStatValue": "38.4%",
+    "Talent": {
+      "City": "Inazuma",
+      "Name": "风雅",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/4star.png",
+      "Key": "Talent_Elegance",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_418.png"
+    },
+    "Boss": {
+      "Name": "排异之露",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Boss_DewofRepudiation",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_213.png"
+    },
+    "GemStone": {
+      "Name": "涤净青金",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_324.png"
+    },
+    "Local": {
+      "Name": "绯樱绣球",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/1star.png",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/gem/i_678.png"
+    },
+    "Monster": {
+      "Name": "刀镡",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/3star.png",
+      "Key": "Monster_Handguard",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/material/i_163.png"
+    },
+    "Weekly": {
+      "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
+      "Name": "凶将之手眼",
+      "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+      "Key": "Weekly_MudraoftheMaleficGeneral",
+      "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_483.png"
+    },
+    "Name": "神里绫人",
+    "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+    "Key": "Ayato",
+    "Source": "https://genshin.honeyhunterworld.com/img/char/ayato_face_70.png"
   },
   {
     "Weapon": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png",

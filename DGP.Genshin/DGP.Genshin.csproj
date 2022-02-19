@@ -9,6 +9,7 @@
     <ApplicationIcon>SG_Logo.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
     <DebugType>embedded</DebugType>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

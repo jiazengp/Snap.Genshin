@@ -106,23 +106,23 @@
   },
   {
     "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
-    "Name": "？？？",
+    "Name": "凶将之手眼",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-    "Key": "Weekly_Unknow_1",
+    "Key": "Weekly_MudraoftheMaleficGeneral",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_483.png"
   },
   {
     "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
-    "Name": "？？？",
+    "Name": "祸神之禊泪",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-    "Key": "Weekly_Unknow_2",
+    "Key": "Weekly_TearsoftheCalamitousGod",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_484.png"
   },
   {
     "City": "https://genshin.honeyhunterworld.com/img/rep/inazuma_rep.png",
-    "Name": "？？？",
+    "Name": "万劫之真意",
     "Star": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-    "Key": "Weekly_Unknown_3",
+    "Key": "Weekly_TheMeaningofAeons",
     "Source": "https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png"
   }
 ]

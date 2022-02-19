@@ -205,24 +205,24 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding Unknow1[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding Unknow1[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding MudraoftheMaleficGeneral[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding MudraoftheMaleficGeneral[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding Unknow1}" 
+                <ItemsControl Grid.Column="0" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding MudraoftheMaleficGeneral}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding Unknow2[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding Unknow2[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TearsoftheCalamitousGod[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding TearsoftheCalamitousGod[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding Unknow2}" 
+                <ItemsControl Grid.Column="1" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TearsoftheCalamitousGod}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
 
                 <StackPanel Grid.Column="2" Grid.Row="0" Margin="4,0" Orientation="Horizontal">
-                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding Unknow3[0].Weekly.Source}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding Unknow3[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <c:CachedImage VerticalAlignment="Center" Width="24" Height="24" ImageUrl="{Binding TheMeaningofAeons[0].Weekly.Source}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding TheMeaningofAeons[0].Weekly.Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding Unknow3}" 
+                <ItemsControl Grid.Column="2" Grid.Row="1" Margin="4,6,4,0" ItemsSource="{Binding TheMeaningofAeons}" 
                               ItemTemplate="{StaticResource CharacterTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
             </Grid>
         </StackPanel>

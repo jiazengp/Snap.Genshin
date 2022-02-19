@@ -56,14 +56,14 @@
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
                         <TextBlock Text="{Binding ExceptionObject.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
 
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
                         <TextBlock Text="{Binding ExceptionObject.InnerException.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject.InnerException.StackTrace}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.InnerException}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

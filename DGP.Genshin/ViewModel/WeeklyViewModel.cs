@@ -231,45 +231,45 @@ namespace DGP.Genshin.ViewModel
         #endregion
 
         #region 雷电将军
-        private IEnumerable<Character>? unknow1;
-        public IEnumerable<Character>? Unknown1
+        private IEnumerable<Character>? mudraoftheMaleficGeneral;
+        public IEnumerable<Character>? MudraoftheMaleficGeneral
         {
             get
             {
-                if (unknow1 == null)
+                if (mudraoftheMaleficGeneral == null)
                 {
-                    unknow1 = dataService.Characters?
+                    mudraoftheMaleficGeneral = dataService.Characters?
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_483.png").ToList();
                 }
-                return unknow1;
+                return mudraoftheMaleficGeneral;
             }
         }
 
-        private IEnumerable<Character>? unknow2;
-        public IEnumerable<Character>? Unkonw2
+        private IEnumerable<Character>? tearsoftheCalamitousGod;
+        public IEnumerable<Character>? TearsoftheCalamitousGod
         {
             get
             {
-                if (unknow2 == null)
+                if (tearsoftheCalamitousGod == null)
                 {
-                    unknow2 = dataService.Characters?
+                    tearsoftheCalamitousGod = dataService.Characters?
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_484.png").ToList();
                 }
-                return unknow2;
+                return tearsoftheCalamitousGod;
             }
         }
 
-        private IEnumerable<Character>? unknown3;
-        public IEnumerable<Character>? Unknow3
+        private IEnumerable<Character>? theMeaningofAeons;
+        public IEnumerable<Character>? TheMeaningofAeons
         {
             get
             {
-                if (unknown3 == null)
+                if (theMeaningofAeons == null)
                 {
-                    unknown3 = dataService.Characters?
+                    theMeaningofAeons = dataService.Characters?
                         .Where(c => c.Weekly?.Source == @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_485.png").ToList();
                 }
-                return unknown3;
+                return theMeaningofAeons;
             }
         }
         #endregion

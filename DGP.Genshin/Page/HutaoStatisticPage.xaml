@@ -157,13 +157,18 @@
                                                                        Opacity="0.6" TextWrapping="NoWrap" Grid.Column="1" 
                                                                        VerticalAlignment="Center" Margin="6,0,0,0" TextTrimming="CharacterEllipsis"/>
                                                             <TextBlock Text="{Binding Value,StringFormat={}{0:p}}" Grid.Column="2" HorizontalAlignment="Right"
-                                                                           VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                                       x:Name="PercentText" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
                                                         </Grid>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding Value}" Value="0">
+                                                                <Setter TargetName="PercentText" Property="Opacity" Value="0.4"/>
+                                                                <Setter TargetName="PercentText" Property="Foreground" Value="Red"/>
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
                                         </Grid>
-                                        
                                     </Grid>
                                 </wu:Card>
                             </DataTemplate>

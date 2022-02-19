@@ -91,6 +91,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     {
                         uid = await worker.FetchGachaLogIncrementAsync(pool, progressCallback);
                     }
+
                     if (worker.IsFetchDelayEnabled)
                     {
                         await Task.Delay(worker.GetRandomDelay());

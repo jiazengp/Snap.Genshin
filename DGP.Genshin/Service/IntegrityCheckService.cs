@@ -58,7 +58,7 @@ namespace DGP.Genshin.Service
                 {
                     using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
                 }
-                progress.Report(new IntegrityState(Interlocked.Increment(ref cumulatedCount), totalCount, t));
+                progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
             });
         }
 
@@ -81,7 +81,7 @@ namespace DGP.Genshin.Service
                 {
                     using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
                 }
-                progress.Report(new IntegrityState(Interlocked.Increment(ref cumulatedCount), totalCount, t));
+                progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
             });
             Task profileTask = collection.ParallelForEachAsync(async (t) =>
             {

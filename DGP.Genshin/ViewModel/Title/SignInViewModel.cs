@@ -89,6 +89,7 @@ namespace DGP.Genshin.ViewModel.Title
 
         public ICommand OpenUICommand { get; }
         public ICommand SignInCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         public SignInViewModel(ISettingService settingService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -97,6 +98,7 @@ namespace DGP.Genshin.ViewModel.Title
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             SignInCommand = new AsyncRelayCommand(SignInAsync);
+            RefreshCommand = new AsyncRelayCommand(RefreshAsync);
         }
 
         //prevent multiple signin task
@@ -152,6 +154,14 @@ namespace DGP.Genshin.ViewModel.Title
                 Roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
                 SelectedRole = Roles.MatchedOrFirst(i => i.IsChosen);
             }
+        }
+
+        private async Task RefreshAsync()
+        {
+            SignInReward = await new SignInProvider(cookieService.CurrentCookie).GetSignInRewardAsync();
+            SignInInfo = null;
+            Roles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
+            SelectedRole = Roles.MatchedOrFirst(i => i.IsChosen);
         }
 
         /// <summary>
