@@ -25,7 +25,7 @@ jobs:
       - name: Download Release
         uses: robinraju/release-downloader@v1.3
         with: 
-          repository: "DGP-Studio/Snap.Genshin.Docs"
+          repository: "DGP-Studio/Snap.Genshin"
           latest: true
           fileName: Publish.zip
           out-file-path: ./release-download
@@ -35,7 +35,7 @@ jobs:
         uses: abatilo/release-info-action@v1.3.0
         with:
           owner: DGP-Studio
-          repo: Snap.Genshin.Docs
+          repo: Snap.Genshin
           
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
