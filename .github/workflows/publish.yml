@@ -31,19 +31,11 @@ jobs:
           fileName: Publish.zip
           out-file-path: ./release-download
           
-      # 获取最新的 Release 的信息
-      - name: Get Latest Release Info
-        id: latest_version
-        uses: abatilo/release-info-action@v1.3.0
-        with:
-          owner: DGP-Studio
-          repo: Snap.Genshin
-          
       # 将更改上传到腾讯云对象存储
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: upload -rs --delete ./release-download latest -f & upload -rs --delete ./release-download ${{ steps.latest_version.outputs.latest_tag }} -f
+          args: upload -rs --delete ./release-download / -f
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
           bucket: ${{ secrets.BUCKET }}
