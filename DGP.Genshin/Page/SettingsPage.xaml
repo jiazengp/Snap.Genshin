@@ -347,9 +347,12 @@
                                Margin="12,12,16,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
                     <StackPanel Orientation="Horizontal">
-                        <Slider MinWidth="200" Maximum="1" Value="{Binding BackgroundOpacity}"/>
+                        <Slider MinWidth="200" Maximum="1" Value="{Binding BackgroundOpacity,Mode=TwoWay}" TickFrequency="0.01" IsSnapToTickEnabled="True" TickPlacement="None"/>
                         <TextBlock Text="{Binding BackgroundOpacity,StringFormat={}{0:p0}}" VerticalAlignment="Center" Margin="12,0,0,0" Width="40"/>
                     </StackPanel>
+                </wu:CardControl>
+                <wu:CardControl helper:IconHelper.Icon="&#xF08C;" Title="自动调整" Subtitle="根据背景图片亮度自动调整不透明度" Margin="12,4,16,0">
+                    <ui:ToggleSwitch IsOn="{Binding IsBackgroundOpacityAdaptive}"/>
                 </wu:CardControl>
 
                 <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
@@ -401,7 +404,7 @@
 
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
-                    <wu:Hyperlink Content="前往查看" NavigateUri="https://www.snapgenshin.com/home/"/>
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://www.snapgenshin.com/home/" Padding="4"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE946;" Title="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
                     <Button Tag="Github" Content="检查更新并安装" Command="{Binding CheckUpdateCommand}"/>
@@ -421,7 +424,7 @@
                     <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="最新版本 &amp; 更新日志" Subtitle="前往Github查看最新版本以及更新日志" Margin="12,4,16,0">
-                    <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest"/>
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest" Padding="4"/>
                 </wu:CardControl>
                 
                 <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"

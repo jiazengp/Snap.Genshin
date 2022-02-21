@@ -29,9 +29,7 @@ namespace DGP.Genshin.Control.Title
         /// <summary>
         /// 关闭关联的 <see cref="Flyout"/> 控件
         /// </summary>
-        /// <typeparam name="TContentType"></typeparam>
-        /// <param name="button">我们假定你传入了正确的类型</param>
-        /// <param name="dataContext"></param>
+        /// <param name="button">待关闭的浮出控件</param>
         public static void HideAttachedFlyout(this TitleBarButton button)
         {
             if (FlyoutBase.GetAttachedFlyout(button) is Flyout flyout)

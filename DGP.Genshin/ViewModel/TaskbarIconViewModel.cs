@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.DataModel.DailyNote;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Service.Abstraction;
@@ -10,6 +11,7 @@ using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
@@ -22,7 +24,6 @@ namespace DGP.Genshin.ViewModel
         IRecipient<AppExitingMessage>
     {
         private readonly ICookieService cookieService;
-        private readonly ISettingService settingService;
 
         private ObservableCollection<ResinWidgetConfigration>? resinWidget;
 
@@ -35,12 +36,12 @@ namespace DGP.Genshin.ViewModel
         public ICommand ShowMainWindowCommand { get; }
         public ICommand ExitCommand { get; }
         public ICommand UpdateWidgetsCommand { get; }
+        public ICommand RestartElevatedCommand { get; }
 
-        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, ISettingService settingService, IMessenger messenger)
+        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, IMessenger messenger)
             : base(messenger)
         {
             this.cookieService = cookieService;
-            this.settingService = settingService;
 
             scheduleService.Initialize();
             InitializeResinWidgetsAsync();
@@ -48,6 +49,7 @@ namespace DGP.Genshin.ViewModel
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
             UpdateWidgetsCommand = new RelayCommand(UpdateWidgets);
+            RestartElevatedCommand = new RelayCommand(RestartElevated);
         }
 
         private async void InitializeResinWidgetsAsync()
@@ -98,7 +100,16 @@ namespace DGP.Genshin.ViewModel
         {
             App.Messenger.Send<TickScheduledMessage>();
         }
-
+        private void RestartElevated()
+        {
+            Process.Start(new ProcessStartInfo()
+            {
+                Verb = "runas",
+                UseShellExecute = true,
+                FileName = PathContext.Locate("DGP.Genshin.exe"),
+            });
+            App.Current.Shutdown();
+        }
         public async void Receive(CookieAddedMessage message)
         {
             string cookie = message.Value;

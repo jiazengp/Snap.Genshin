@@ -4,6 +4,7 @@
 
     <ContextMenu x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}">
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
+        <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
         <Separator/>
         <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
             <MenuItem.ItemContainerStyle>

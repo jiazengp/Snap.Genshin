@@ -42,8 +42,6 @@ namespace DGP.Genshin.Service
         private const string ConfigFileName = "config.ini";
         private const string LauncherExecutable = "launcher.exe";
 
-        private readonly ISettingService settingService;
-
         /// <summary>
         /// 定义了对注册表的操作
         /// </summary>
@@ -105,9 +103,8 @@ namespace DGP.Genshin.Service
             }
         }
 
-        public LaunchService(ISettingService settingService)
+        public LaunchService()
         {
-            this.settingService = settingService;
             PathContext.CreateOrIgnore(AccountsFileName);
             string? launcherPath = Setting2.LauncherPath.Get();
             TryLoadIniData(launcherPath);
@@ -173,6 +170,8 @@ namespace DGP.Genshin.Service
                     string commandLine = new CommandLineBuilder()
                         .AppendIf("-popupwindow", option.IsBorderless)
                         .Append("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
+                        .Append("-screen-width", option.ScreenWidth)
+                        .Append("-screen-height", option.ScreenHeight)
                         .Build();
 
                     Process? game = new()

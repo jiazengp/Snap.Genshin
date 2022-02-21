@@ -1,4 +1,6 @@
-﻿using DGP.Genshin.Service.Abstraction;
+﻿using DGP.Genshin.Helper.Extension;
+using DGP.Genshin.Service.Abstraction;
+using ModernWpf;
 using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
 using System;
@@ -10,19 +12,23 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Helper
 {
+    /// <summary>
+    /// TODO: impl change opacity while switch app theme
+    /// </summary>
     internal class BackgroundLoader
     {
         private const string BackgroundFolder = "Background";
-        private readonly IEnumerable<string> supportedExtensions = new List<string>() { ".png", ".jpg", ".bmp" };
+        private readonly IEnumerable<string> supportedExtensions =
+            new List<string>() { ".png", ".jpg", ".jpeg", ".bmp" };
 
         private readonly MainWindow mainWindow;
-        private readonly ISettingService settingService;
 
-        public BackgroundLoader(MainWindow mainWindow, ISettingService settingService)
+        public BackgroundLoader(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            this.settingService = settingService;
         }
+
+        public double Lightness { get; set; }
 
         public void LoadWallpaper()
         {
@@ -34,13 +40,32 @@ namespace DGP.Genshin.Helper
 
             if (supportedFiles.GetRandom() is string randomPath)
             {
+                this.Log($"Loading background wallpaper from {randomPath}");
+                BitmapImage image = new(new(randomPath));
+                Pixel[,] pixels = image.GetPixels();
+                Lightness = pixels
+                    .Cast<Pixel>()
+                    .Select(p => (p.Red * 0.299 + p.Green * 0.587 + p.Blue * 0.114) * (p.Alpha / 255D) / 255)
+                    .Average();
+                this.Log($"Lightness: {Lightness}");
+                SetAdaptiveBackgroundOpacityValue();
                 mainWindow.BackgroundGrid.Background = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new(randomPath)),
+                    ImageSource = image,
                     Stretch = Stretch.UniformToFill,
                     Opacity = Setting2.BackgroundOpacity.Get()
                 };
-                this.Log($"Load background wallpaper from {randomPath}");
+            }
+        }
+
+        private void SetAdaptiveBackgroundOpacityValue()
+        {
+            if (Setting2.IsBackgroundOpacityAdaptive.Get())
+            {
+                bool isDarkMode = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
+                double targetOpacity = isDarkMode ? (1 - Lightness) * 0.4 : Lightness * 0.6;
+                this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
+                Setting2.BackgroundOpacity.Set(targetOpacity);
             }
         }
     }

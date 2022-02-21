@@ -1,7 +1,7 @@
 ﻿namespace DGP.Genshin.Message
 {
-    public class BackgroundOpacityChangedMessage : TypedMessage<double> 
+    public class BackgroundOpacityChangedMessage : TypedMessage<double>
     {
-        public BackgroundOpacityChangedMessage(double value):base(value) { }
+        public BackgroundOpacityChangedMessage(double value) : base(value) { }
     }
 }

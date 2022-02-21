@@ -33,7 +33,7 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                return converter is null 
+                return converter is null
                     ? (T)value!
                     : converter.Invoke(value!);
             }

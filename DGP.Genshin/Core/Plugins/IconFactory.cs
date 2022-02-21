@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Core.Plugins
 {
-    public abstract class IconFactory 
+    public abstract class IconFactory
     {
         public abstract IconElement? GetIcon();
     }

@@ -23,7 +23,6 @@ namespace DGP.Genshin.ViewModel.Title
     public class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;
-        private readonly ISettingService settingService;
 
         private TitleBarButton? View;
 
@@ -41,6 +40,9 @@ namespace DGP.Genshin.ViewModel.Title
         private GenshinAccount? selectedAccount;
         private bool unlockFPS;
         private double targetFPS;
+        private bool? isElevated;
+        private long screenWidth;
+        private long screenHeight;
 
         /// <summary>
         /// 已知的启动方案
@@ -90,14 +92,21 @@ namespace DGP.Genshin.ViewModel.Title
             get => targetFPS;
             set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, OnTargetFPSChanged);
         }
-
         private void OnTargetFPSChanged(double value)
         {
             Setting2.TargetFPS.Set(value);
             launchService.SetTargetFPSDynamically((int)value);
         }
-
-        private bool? isElevated;
+        public long ScreenWidth
+        {
+            get => screenWidth;
+            set => SetPropertyAndCallbackOnCompletion(ref screenWidth, value, v => Setting2.ScreenWidth.Set(v));
+        }
+        public long ScreenHeight
+        {
+            get => screenHeight;
+            set => SetPropertyAndCallbackOnCompletion(ref screenHeight, value, v => Setting2.ScreenHeight.Set(v));
+        }
         public bool IsElevated
         {
             get
@@ -123,10 +132,9 @@ namespace DGP.Genshin.ViewModel.Title
         public ICommand DeleteAccountCommand { get; }
         #endregion
 
-        public LaunchViewModel(ILaunchService launchService, ISettingService settingService)
+        public LaunchViewModel(ILaunchService launchService)
         {
             this.launchService = launchService;
-            this.settingService = settingService;
 
             Accounts = launchService.LoadAllAccount();
             SelectedAccount = Accounts.FirstOrDefault();
@@ -135,6 +143,8 @@ namespace DGP.Genshin.ViewModel.Title
             IsFullScreen = Setting2.IsFullScreen.Get();
             UnlockFPS = Setting2.UnlockFPS.Get();
             TargetFPS = Setting2.TargetFPS.Get();
+            ScreenWidth = Setting2.ScreenWidth.Get();
+            ScreenHeight = Setting2.ScreenHeight.Get();
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             LaunchCommand = new AsyncRelayCommand<string>(LaunchByOption);
@@ -150,7 +160,8 @@ namespace DGP.Genshin.ViewModel.Title
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
                 await MatchAccountAsync();
-                CurrentScheme = KnownSchemes.First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+                CurrentScheme = KnownSchemes
+                    .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
                 t?.ShowAttachedFlyout<Grid>(this);
                 View = t;
                 result = true;

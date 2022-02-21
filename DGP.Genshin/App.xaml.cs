@@ -206,9 +206,9 @@ namespace DGP.Genshin
         }
         private void UpdateAppTheme()
         {
-            ThemeManager.Current.ActualAccentColorChanged += (s, e) => 
+            ThemeManager.Current.ActualAccentColorChanged += (s, e) =>
             {
-                SecureToastNotificationContext.TryCatch(()=> 
+                SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                 .AddText("检测到系统强调色已更改")
                 .AddText("重启程序以正常显示颜色")

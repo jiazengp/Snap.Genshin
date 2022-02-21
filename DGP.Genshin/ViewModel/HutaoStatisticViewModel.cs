@@ -75,7 +75,7 @@ namespace DGP.Genshin.ViewModel
                 AvatarConstellations = hutaoStatisticService.GetAvatarConstellations();
                 TeamCombinations = hutaoStatisticService.GetTeamCombinations();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 this.Log(e);
                 await App.Current.Dispatcher.InvokeAsync(async () => await new ContentDialog()

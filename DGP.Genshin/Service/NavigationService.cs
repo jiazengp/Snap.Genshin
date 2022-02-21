@@ -108,14 +108,8 @@ namespace DGP.Genshin.Service
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Selected = NavigationView?.SelectedItem as NavigationViewItem;
-            if (args.IsSettingsInvoked)
-            {
-                Navigate<SettingsPage>();
-            }
-            else
-            {
-                Navigate(NavHelper.GetNavigateTo(Selected), false, NavHelper.GetExtraData(Selected));
-            }
+            Type? targetType = args.IsSettingsInvoked ? typeof(SettingsPage) : NavHelper.GetNavigateTo(Selected);
+            Navigate(targetType, false, NavHelper.GetExtraData(Selected));
         }
 
         public bool AddToNavigation(ImportPageAttribute importPage)
@@ -150,7 +144,11 @@ namespace DGP.Genshin.Service
                 if (header is not null)
                 {
                     int headerIndex = NavigationView.MenuItems.IndexOf(header);
-                    header.Visibility = System.Windows.Visibility.Visible;
+
+                    if (entries.Count > 0)
+                    {
+                        header.Visibility = System.Windows.Visibility.Visible;
+                    }
 
                     foreach (WebViewEntry entry in entries)
                     {

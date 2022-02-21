@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.Service.Abstraction;
 using System;
 
 [assembly: SnapGenshinPlugin]

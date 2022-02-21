@@ -498,13 +498,13 @@
                                Command="{Binding GachaLogManualCommand}" Margin="0,4,0,0"/>
                 <wu:CardAction helper:IconHelper.Icon="&#xE8B6;"
                                helper:CardHelper.ActionTitle="Json 文件" 
-                               helper:CardHelper.ActionSubtitle="从 UIGF 2.0 格式 Json 文件导入"
+                               helper:CardHelper.ActionSubtitle="从 UIGF Json 文件导入"
                                Command="{Binding ImportFromUIGFJCommand}" Margin="0,12,0,0"/>
                 <wu:CardAction helper:IconHelper.Icon="&#xE8B5;"
                                helper:CardHelper.ActionTitle="Excel 文件" 
-                               helper:CardHelper.ActionSubtitle="从 UIGF 2.0 格式 Excel 表格导入"
+                               helper:CardHelper.ActionSubtitle="从 UIGF Excel 表格导入"
                                Command="{Binding ImportFromUIGFWCommand}" Margin="0,4,0,0"/>
-                <ui:HyperlinkButton HorizontalAlignment="Center" Margin="0,36,0,0" Content="什么是 UIGF 格式?" 
+                <wu:Hyperlink HorizontalAlignment="Center" Margin="0,36,0,0" Padding="4" Content="什么是 UIGF 格式?" 
                                     NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat"/>
             </StackPanel>
         </Border>

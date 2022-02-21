@@ -87,7 +87,10 @@ namespace DGP.Genshin.ViewModel
                             }
                         });
 
-                        wrapper.List[0].List = activities.OrderBy(i => i.StartTime).ThenBy(i => i.EndTime).ToList();
+                        wrapper.List[0].List = activities
+                            .OrderBy(i => i.StartTime)
+                            .ThenBy(i => i.EndTime)
+                            .ToList();
                     }
 
                     Announcement = wrapper;

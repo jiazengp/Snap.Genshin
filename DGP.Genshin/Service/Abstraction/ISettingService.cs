@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.DataModel.DailyNote;
-using DGP.Genshin.Message;
 using ModernWpf;
 using Snap.Data.Json;
 using System;
@@ -42,28 +41,43 @@ namespace DGP.Genshin.Service.Abstraction
         void UnInitialize();
     }
 
+    /// <summary>
+    /// 全新的设置接口
+    /// </summary>
     public static class Setting2
     {
+        //APP setting
         public static readonly SettingDefinition<ApplicationTheme?> AppTheme = new("AppTheme", null, ApplicationThemeConverter);
+        public static readonly SettingDefinition<Version?> AppVersion = new("AppVersion", null, VersionConverter);
+        //sign in
+        public static readonly SettingDefinition<DateTime?> LastAutoSignInTime = new("LastAutoSignInTime", DateTime.Today.AddDays(-1), NullableDataTimeConverter);
         public static readonly SettingDefinition<bool> AutoDailySignInOnLaunch = new("AutoDailySignInOnLaunch", false);
         public static readonly SettingDefinition<bool> SignInSilently = new("SignInSilently", false);
+        //launch
         public static readonly SettingDefinition<string?> LauncherPath = new("LauncherPath", null);
         public static readonly SettingDefinition<bool> IsFullScreen = new("IsFullScreenLaunch", true);
         public static readonly SettingDefinition<bool> IsBorderless = new("IsBorderlessLaunch", true);
         public static readonly SettingDefinition<bool> UnlockFPS = new("FPSUnlockingEnabled", false);
         public static readonly SettingDefinition<double> TargetFPS = new("FPSUnlockingTarget", 60D);
-        public static readonly SettingDefinition<DateTime?> LastAutoSignInTime = new("LastAutoSignInTime", DateTime.Today.AddDays(-1), NullableDataTimeConverter);
-        public static readonly SettingDefinition<Version?> AppVersion = new("AppVersion", null, VersionConverter);
+        public static readonly SettingDefinition<long> ScreenWidth = new("LaunchScreenWidth", 1920);
+        public static readonly SettingDefinition<long> ScreenHeight = new("LaunchScreenHeight", 1080);
+        //boot up
         public static readonly SettingDefinition<bool> SkipCacheCheck = new("SkipCacheCheck", false);
+        //update
         public static readonly SettingDefinition<bool> UpdateUseFastGit = new("UpdateUseFastGit", false);
+        //resin
         public static readonly SettingDefinition<double> ResinRefreshMinutes = new("ResinRefreshMinutes", 8D);
         public static readonly SettingDefinition<List<ResinWidgetConfigration>?> ResinWidgetConfigrations = new("ResinWidgetConfigrations", null, ComplexConverter<List<ResinWidgetConfigration>>);
+        //taskbar
         public static readonly SettingDefinition<bool> IsTaskBarIconEnabled = new("IsTaskBarIconEnabled", true);
+        //main window
         public static readonly SettingDefinition<bool> CloseMainWindowAfterInitializaion = new("CloseMainWindowAfterInitializaion", false);
         public static readonly SettingDefinition<double> MainWindowWidth = new("MainWindowWidth", 0D);
         public static readonly SettingDefinition<double> MainWindowHeight = new("MainWindowHeight", 0D);
         public static readonly SettingDefinition<bool> IsNavigationViewPaneOpen = new("IsNavigationViewPaneOpen", true);
+        //background
         public static readonly SettingDefinition<double> BackgroundOpacity = new("BackgroundOpacity", 0.4);
+        public static readonly SettingDefinition<bool> IsBackgroundOpacityAdaptive = new("IsBackgroundOpacityAdaptive", false);
 
         public static ApplicationTheme? ApplicationThemeConverter(object? n)
         {
@@ -83,6 +97,10 @@ namespace DGP.Genshin.Service.Abstraction
         }
     }
 
+    /// <summary>
+    /// 设置入口定义
+    /// </summary>
+    /// <typeparam name="T">设置项定义</typeparam>
     public class SettingDefinition<T>
     {
         public static readonly ISettingService settingService;

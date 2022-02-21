@@ -130,6 +130,7 @@
     <SolidColorBrush x:Key="SystemControlHyperlinkBaseMediumHighBrush" Color="{ui:StaticColor SystemBaseMediumHighColor}" />
     <SolidColorBrush x:Key="SystemControlPageBackgroundAltMediumBrush" Color="{ui:StaticColor SystemAltMediumColor}" />
     <SolidColorBrush x:Key="SystemControlPageBackgroundAltHighBrush" Color="{ui:StaticColor SystemAltHighColor}" Opacity="0.7"/>
+    <SolidColorBrush x:Key="SystemControlPageBackgroundAltHighBrushSolid" Color="{ui:StaticColor SystemAltHighColor}"/>
     <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{ui:StaticColor SystemAltMediumColor}" />
     <SolidColorBrush x:Key="SystemControlPageBackgroundBaseLowBrush" Color="{ui:StaticColor SystemBaseLowColor}" />
     <SolidColorBrush x:Key="SystemControlPageBackgroundBaseMediumBrush" Color="{ui:StaticColor SystemBaseMediumColor}" />
@@ -573,7 +574,7 @@
     <Thickness x:Key="ContentDialogTitleMargin">0,0,0,12</Thickness>
     <Thickness x:Key="ContentDialogPadding">24,18,24,24</Thickness>
     <ui:StaticResource x:Key="ContentDialogForeground" ResourceKey="SystemControlPageTextBaseHighBrush" />
-    <ui:StaticResource x:Key="ContentDialogBackground" ResourceKey="SystemControlPageBackgroundAltHighBrush" />
+    <ui:StaticResource x:Key="ContentDialogBackground" ResourceKey="SystemControlPageBackgroundAltHighBrushSolid" />
     <ui:StaticResource x:Key="ContentDialogBorderBrush" ResourceKey="SystemControlBackgroundBaseLowBrush" />
     <ui:StaticResource x:Key="ContentDialogLightDismissOverlayBackground" ResourceKey="SystemControlPageBackgroundMediumAltMediumBrush" />
 

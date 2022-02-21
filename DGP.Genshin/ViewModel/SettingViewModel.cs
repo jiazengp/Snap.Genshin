@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using Snap.Win32;
@@ -27,14 +26,13 @@ namespace DGP.Genshin.ViewModel
     /// <summary>
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
     /// </summary>
-    [ViewModel(InjectAs.Singleton)]
+    [ViewModel(InjectAs.Transient)]
     public class SettingViewModel : ObservableRecipient2, IRecipient<UpdateProgressedMessage>
     {
-        private readonly ISettingService settingService;
         private readonly IUpdateService updateService;
         private readonly ICookieService cookieService;
-        private ISettingService SettingService => settingService;
 
+        #region Observable
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
         {
             new("浅色", ApplicationTheme.Light),
@@ -53,7 +51,6 @@ namespace DGP.Genshin.ViewModel
         private bool skipCacheCheck;
         private bool signInSilently;
         private bool updateUseFastGit;
-
         private string versionString;
         private string userId;
         private AutoRun autoRun = new();
@@ -63,9 +60,8 @@ namespace DGP.Genshin.ViewModel
         private bool closeMainWindowAfterInitializaion;
         private UpdateProgressedMessage updateInfo;
         private double backgroundOpacity;
+        private bool isBackgroundOpacityAdaptive;
 
-        #region Need Initalize
-        //需要在 Initalize Receive 中添加字段的初始化
         public bool AutoDailySignInOnLaunch
         {
             get => autoDailySignInOnLaunch; set
@@ -126,10 +122,15 @@ namespace DGP.Genshin.ViewModel
                 SetProperty(ref backgroundOpacity, value);
             }
         }
-        #endregion
-
-        #region Not Need
-        //不需要显式初始化的字段
+        public bool IsBackgroundOpacityAdaptive
+        {
+            get => isBackgroundOpacityAdaptive;
+            set
+            {
+                Setting2.IsBackgroundOpacityAdaptive.Set(value, false);
+                SetProperty(ref isBackgroundOpacityAdaptive, value);
+            }
+        }
         public string VersionString
         {
             get => versionString;
@@ -176,9 +177,8 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenBackgroundFolderCommand { get; }
         public ICommand EnableDailyNoteCommand { get; }
 
-        public SettingViewModel(ISettingService settingService, IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
-            this.settingService = settingService;
             this.updateService = updateService;
             this.cookieService = cookieService;
 
@@ -188,7 +188,20 @@ namespace DGP.Genshin.ViewModel
             double minutes = Setting2.ResinRefreshMinutes.Get();
             selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == minutes)!;
 
-            Initialize();
+            //不能直接设置属性 会导致触发通知操作进而造成死循环
+            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
+            SkipCacheCheck = Setting2.SkipCacheCheck.Get();
+            SignInSilently = Setting2.SignInSilently.Get();
+            UpdateUseFastGit = Setting2.UpdateUseFastGit.Get();
+            IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled.Get();
+            CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion.Get();
+            BackgroundOpacity = Setting2.BackgroundOpacity.Get();
+            IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive.Get();
+
+            //version
+            Version v = Assembly.GetExecutingAssembly().GetName().Version!;
+            VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            UserId = User.Id;
 
             UpdateInfo = UpdateProgressedMessage.Default;
 
@@ -199,24 +212,6 @@ namespace DGP.Genshin.ViewModel
             OpenBackgroundFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Cache")));
             EnableDailyNoteCommand = new AsyncRelayCommand(EnableDailyNotePermissionAsync);
-        }
-
-        [MemberNotNull(nameof(versionString)), MemberNotNull(nameof(userId))]
-        private void Initialize()
-        {
-            //不能直接设置属性 会导致触发通知操作进而造成死循环
-            autoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
-            skipCacheCheck = Setting2.SkipCacheCheck.Get();
-            signInSilently = Setting2.SignInSilently.Get();
-            updateUseFastGit = Setting2.UpdateUseFastGit.Get();
-            isTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled.Get();
-            closeMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion.Get();
-            backgroundOpacity = Setting2.BackgroundOpacity.Get();
-
-            //version
-            Version v = Assembly.GetExecutingAssembly().GetName().Version!;
-            VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
-            UserId = User.Id;
         }
 
         private void CopyUserIdToClipBoard()

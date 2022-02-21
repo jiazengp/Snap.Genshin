@@ -4,6 +4,7 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
@@ -114,10 +115,17 @@ namespace DGP.Genshin.ViewModel.Title
 
         public async void Receive(CookieAddedMessage message)
         {
-            string newCookie = message.Value;
-            if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
+            try
             {
-                CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
+                string newCookie = message.Value;
+                if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
+                {
+                    CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
         public void Receive(CookieRemovedMessage message)

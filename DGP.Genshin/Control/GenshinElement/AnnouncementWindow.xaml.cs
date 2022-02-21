@@ -1,15 +1,12 @@
-﻿using Microsoft.Web.WebView2.Core;
-using Snap.Data.Utility;
+﻿using Snap.Data.Utility;
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
     public sealed partial class AnnouncementWindow : Window, IDisposable
     {
-        private const string mihoyoSDKDefinition = 
+        private const string mihoyoSDKDefinition =
             "window.miHoYoGameJSSDK = {" +
             "openInBrowser: function(url){ window.chrome.webview.postMessage(url); }," +
             "openInWebview: function(url){ location.href = url }}";

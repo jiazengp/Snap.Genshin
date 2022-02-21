@@ -43,7 +43,8 @@ namespace DGP.Genshin.Core.Plugins
                 PluginLoadContext loadContext = new(pluginLocation);
                 try
                 {
-                    Assembly assembly = loadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(pluginLocation)));
+                    AssemblyName pluginAssemblyName = new(Path.GetFileNameWithoutExtension(pluginLocation));
+                    Assembly assembly = loadContext.LoadFromAssemblyName(pluginAssemblyName);
                     if (assembly.HasAttribute<SnapGenshinPluginAttribute>())
                     {
                         plugins.Add(assembly);
@@ -52,6 +53,7 @@ namespace DGP.Genshin.Core.Plugins
                 }
                 catch (Exception e)
                 {
+                    loadContext.Unload();
                     this.Log(e);
                     this.Log($"Failed to load plugin from: {pluginLocation}");
                 }

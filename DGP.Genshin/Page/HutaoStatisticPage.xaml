@@ -67,7 +67,7 @@
                                     <ItemsControl Grid.Row="1" ItemsSource="{Binding List}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="200"/>
+                                                <infrastructure:DesiredWidthUniformGrid ColumnDesiredWidth="240"/>
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
@@ -78,7 +78,7 @@
                                                             <ColumnDefinition Width="auto"/>
                                                             <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
-                                                        <cachedimage:CachedImage Width="24" Height="24" ImageUrl="{Binding Icon}"/>
+                                                        <cachedimage:CachedImage Width="32" Height="32" ImageUrl="{Binding Icon}"/>
                                                         <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="1"
                                                                        Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}"/>
                                                         <TextBlock Margin="0,0,6,0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Right"
@@ -331,7 +331,7 @@
                                                                 <ItemsControl.ItemTemplate>
                                                                     <!-- Item<int> -->
                                                                     <DataTemplate>
-                                                                        <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="20"  Height="20" Margin="0,0,-10,0"/>
+                                                                        <cachedimage:CachedImage ImageUrl="{Binding Icon}" Width="20"  Height="20" Margin="0,0,-15,0"/>
                                                                     </DataTemplate>
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>
@@ -403,7 +403,7 @@
                                                                 <ItemsControl.ItemTemplate>
                                                                     <!-- GenshinItem -->
                                                                     <DataTemplate>
-                                                                        <cachedimage:CachedImage Width="24" Height="24" ImageUrl="{Binding Url}"/>
+                                                                        <cachedimage:CachedImage Width="32" Height="32" ImageUrl="{Binding Url}"/>
                                                                     </DataTemplate>
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>
@@ -417,7 +417,7 @@
                                                                 <ItemsControl.ItemTemplate>
                                                                     <!-- GenshinItem -->
                                                                     <DataTemplate>
-                                                                        <cachedimage:CachedImage Width="24" Height="24" ImageUrl="{Binding Url}"/>
+                                                                        <cachedimage:CachedImage Width="32" Height="32" ImageUrl="{Binding Url}"/>
                                                                     </DataTemplate>
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>

@@ -8,6 +8,7 @@
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
+      xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PluginPage">
     <Grid>
@@ -19,6 +20,12 @@
             <ui:CommandBar.Content>
                 <TextBlock Margin="12,12,0,0" Text="我们会在启动时加载插件"/>
             </ui:CommandBar.Content>
+            <ui:AppBarButton Label="可用插件列表" Command="{Binding OpenPluginListLinkCommand}">
+                <ui:AppBarButton.Icon>
+                    <ui:FontIcon Glyph="&#xE8A7;"/>
+                </ui:AppBarButton.Icon>
+            </ui:AppBarButton>
+                             
             <ui:AppBarButton Label="打开插件文件夹" Command="{Binding OpenPluginFolderCommand}">
                 <ui:AppBarButton.Icon>
                     <ui:FontIcon Glyph="&#xED25;"/>
@@ -54,11 +61,11 @@
                                 <TextBlock Grid.Row="1" Margin="0,12,0,0" Text="{Binding Description}"
                                            TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Style="{StaticResource CaptionTextBlockStyle}"/>
                                 <Grid Grid.Row="2" Margin="0,6,0,0">
-                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}">
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center">
                                         <Run Text="作者："/>
                                         <Run Text="{Binding Author,Mode=OneWay}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                                     </TextBlock>
-                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}" Text="{Binding Version}" Opacity="0.6"/>
+                                    <wu:Hyperlink HorizontalAlignment="Right" Content="插件详情"/>
                                 </Grid>
                             </Grid>
                         </Border>

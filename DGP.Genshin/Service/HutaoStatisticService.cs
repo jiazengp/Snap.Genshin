@@ -64,7 +64,7 @@ namespace DGP.Genshin.Service
                     .OrderByDescending(x => x.Value);
 
                 avatarParticipationResults
-                    .Add(new Indexed<int, Item<double>>(avatarParticipation.Floor,result));
+                    .Add(new Indexed<int, Item<double>>(avatarParticipation.Floor, result));
             }
             return avatarParticipationResults;
         }
@@ -104,7 +104,7 @@ namespace DGP.Genshin.Service
 
                     teamCollocationsResults
                         .Add(new Item<IEnumerable<Item<double>>>(
-                            matched.Id, matched.Name, matched.Url, 
+                            matched.Id, matched.Name, matched.Url,
                             result.OrderByDescending(x => x.Value)));
                 }
             }
@@ -141,25 +141,25 @@ namespace DGP.Genshin.Service
                 if (matchedAvatar != null)
                 {
                     List<NamedValue<Rate<IEnumerable<Item<int>>>>> result = new();
-                    
-                    foreach(Rate<string> usage in reliquaryUsage.ReliquaryUsage)
+
+                    foreach (Rate<string> usage in reliquaryUsage.ReliquaryUsage)
                     {
                         List<Item<int>> relicList = new();
                         StringBuilder nameBuilder = new();
                         string[] relicWithCountArray = usage.Id!.Split(';');
-                        foreach(var relicAndCount in relicWithCountArray)
+                        foreach (var relicAndCount in relicWithCountArray)
                         {
                             //0 id 1 count
                             string[]? relicSetIdAndCount = relicAndCount.Split('-');
                             HutaoItem? matchedRelic = reliquaryMap.FirstOrDefault(x => x.Id == int.Parse(relicSetIdAndCount[0]));
-                            if(matchedRelic != null)
+                            if (matchedRelic != null)
                             {
                                 string count = relicSetIdAndCount[1];
                                 nameBuilder.Append($"{count}×{matchedRelic.Name} ");
                                 relicList.Add(new Item<int>(matchedRelic.Id, matchedRelic.Name, matchedRelic.Url, int.Parse(count)));
                             }
                         }
-                        if(nameBuilder.Length > 0)
+                        if (nameBuilder.Length > 0)
                         {
                             Rate<IEnumerable<Item<int>>> rate = new() { Id = relicList, Value = usage.Value };
                             //remove last space
@@ -186,7 +186,7 @@ namespace DGP.Genshin.Service
                 .Select(team => new Rate<Two<IEnumerable<HutaoItem>>>
                 {
                     Value = team.Value,
-                    Id = new( team.Id!.GetUp().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull(),
+                    Id = new(team.Id!.GetUp().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull(),
                     team.Id!.GetDown().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull())
                 });
 

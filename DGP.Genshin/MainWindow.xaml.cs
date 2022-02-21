@@ -42,6 +42,7 @@ namespace DGP.Genshin
         private static bool hasEverClose = false;
 
         private readonly INavigationService navigationService;
+        private readonly BackgroundLoader backgroundLoader;
 
         /// <summary>
         /// do not set DataContext for mainwindow
@@ -49,6 +50,9 @@ namespace DGP.Genshin
         public MainWindow()
         {
             InitializeContent();
+            //randomly load a image as background
+            backgroundLoader = new(this);
+            backgroundLoader.LoadWallpaper();
             //initialize NavigationService
             navigationService = App.AutoWired<INavigationService>();
             navigationService.NavigationView = NavView;
@@ -68,8 +72,6 @@ namespace DGP.Genshin
             Height = Setting2.MainWindowHeight.Get();
             //restore pane state
             NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen.Get();
-            //randomly load a image as background
-            new BackgroundLoader(this, settingService).LoadWallpaper();
         }
 
         ~MainWindow()
@@ -226,7 +228,7 @@ namespace DGP.Genshin
                 .Where(title => typeof(TitleBarButton).IsAssignableFrom(title.ButtonType))
                 .OrderByDescending(title => title.Order);
 
-            foreach(ImportTitleAttribute titleBarButton in filtered)
+            foreach (ImportTitleAttribute titleBarButton in filtered)
             {
                 TitleBarStackPanel.Children.Add(Activator.CreateInstance(titleBarButton.ButtonType) as TitleBarButton);
             }
