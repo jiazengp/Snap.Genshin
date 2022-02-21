@@ -2,7 +2,9 @@
 
 ## 开始之前
 
-* 我们假定你已经掌握了基本的WPF开发知识与技巧
+我们假定你已经
+
+* 掌握了基本的WPF开发知识与技巧
 * 对 依赖注入/控制反转 有一定的了解
 
 ## 开发适用于 Snap Genshin 的插件程序集
@@ -13,6 +15,17 @@ Snap Genshin 的插件系统设计 使得开发者能够开发权限极高的插
 开发插件前，你需要 `Clone` 整个 `Snap Genshin` 仓库到本地  
 完整克隆的方法请参阅 [开发人员文档](DeveloperGuide)  
 `Clone` 完成后，使用 `Visual Studio 2022` 打开 `Snap.Genshin.sln` 文件
+
+## 修改主项目的生成行为
+
+* 由于主项目使用了自动递增版本号行为  
+可能会导致插件程序集引用了相比 Snap Genshin 发行版更高的版本  
+进而使插件程序集无法被加载到 Snap Genshin 中
+* 需要将 `DGP.Genshin` 项目的`预生成事件`清空
+* 找到 `DGP.Genshin\Properties\AssemblyInfo.cs` 文件  
+将 `[assembly: AssemblyVersion("*.*.*.*")]`  
+修改为 `[assembly: AssemblyVersion("0.0.0.0")]`
+* 也可以修改为指定的发行版本号以屏蔽较低版本的 Snap Genshin 加载你的插件
 
 ## 新建 `.NET 6` 类库
 
@@ -157,7 +170,7 @@ DGP.Genshin.Core.Plugins.ImportPageAttribute
 ```
 
 第三个参数是图标的字符串形式，详见 [segoe-fluent-icons-font](https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font)  
-也可以使用另一个 `ImportPage` 的构造函数，采用了 `IconElement` 类作为第三个参数
+也可以使用另一个 `ImportPage` 的构造函数，采用了 `IconFactory` 类作为第三个参数
 
 此时生成程序集可以发现 Snap Genshin 的左侧导航栏已经包含了新的导航页面入口
 

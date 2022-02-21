@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-//using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,10 +64,10 @@ namespace DGP.Genshin
             InitializeComponent();
             ISettingService settingService = App.AutoWired<ISettingService>();
             //restore width and height from setting
-            Width = settingService.GetOrDefault(Setting.MainWindowWidth, 0D);
-            Height = settingService.GetOrDefault(Setting.MainWindowHeight, 0D);
+            Width = Setting2.MainWindowWidth.Get();
+            Height = Setting2.MainWindowHeight.Get();
             //restore pane state
-            NavView.IsPaneOpen = settingService.GetOrDefault(Setting.IsNavigationViewPaneOpen, true);
+            NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen.Get();
             //randomly load a image as background
             new BackgroundLoader(this, settingService).LoadWallpaper();
         }
@@ -93,12 +92,12 @@ namespace DGP.Genshin
             {
                 DoUpdateFlowAsync();
                 //签到
-                if (settingService.GetOrDefault(Setting.AutoDailySignInOnLaunch, false))
+                if (Setting2.AutoDailySignInOnLaunch.Get())
                 {
                     await SignInOnStartUp(splashViewModel);
                 }
                 //任务栏
-                if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true))
+                if (Setting2.IsTaskBarIconEnabled.Get())
                 {
                     DoTaskbarFlow();
                 }
@@ -113,9 +112,9 @@ namespace DGP.Genshin
 
             if (!hasEverOpen)
             {
-                if (settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, true) && (App.Current.NotifyIcon is not null))
+                if (Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null))
                 {
-                    if (settingService.GetOrDefault(Setting.CloseMainWindowAfterInitializaion, false))
+                    if (Setting2.CloseMainWindowAfterInitializaion.Get())
                     {
                         Close();
                     }
@@ -126,7 +125,7 @@ namespace DGP.Genshin
         }
         public void Receive(NavigateRequestMessage message)
         {
-            navigationService.Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
+            navigationService.Navigate(message);
         }
         public void Receive(BackgroundOpacityChangedMessage message)
         {
@@ -139,13 +138,12 @@ namespace DGP.Genshin
         protected override void OnClosing(CancelEventArgs e)
         {
             ISettingService settingService = App.AutoWired<ISettingService>();
-            settingService[Setting.IsNavigationViewPaneOpen] = NavView.IsPaneOpen;
+            Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
             initializingWindow.Wait();
             base.OnClosing(e);
             initializingWindow.Release();
 
-            bool isTaskbarIconEnabled = settingService.GetOrDefault(Setting.IsTaskBarIconEnabled, false)
-                && (App.Current.NotifyIcon is not null);
+            bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
             if (hasInitializeCompleted && isTaskbarIconEnabled)
             {
@@ -168,8 +166,8 @@ namespace DGP.Genshin
             ISettingService settingService = App.AutoWired<ISettingService>();
             if (WindowState == WindowState.Normal)
             {
-                settingService[Setting.MainWindowWidth] = Width;
-                settingService[Setting.MainWindowHeight] = Height;
+                settingService.Set(Setting2.MainWindowWidth, Width);
+                settingService.Set(Setting2.MainWindowHeight, Height);
             }
         }
 
@@ -242,9 +240,7 @@ namespace DGP.Genshin
         /// <returns></returns>
         private async Task SignInOnStartUp(SplashViewModel splashView)
         {
-            DateTime? latsSignInTime = App.AutoWired<ISettingService>().GetOrDefault(
-                Setting.LastAutoSignInTime, DateTime.Today.AddDays(-1), Setting.NullableDataTimeConverter);
-
+            DateTime? latsSignInTime = Setting2.LastAutoSignInTime.Get();
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
@@ -265,8 +261,8 @@ namespace DGP.Genshin
                 {
                     SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
 
-                    settingService[Setting.LastAutoSignInTime] = DateTime.Now;
-                    bool isSignInSilently = settingService.GetOrDefault(Setting.SignInSilently, false);
+                    settingService.Set(Setting2.LastAutoSignInTime, DateTime.Now);
+                    bool isSignInSilently = Setting2.SignInSilently.Get();
                     SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                         .AddSignInHeader("米游社每日签到")
@@ -285,11 +281,11 @@ namespace DGP.Genshin
             await CheckUpdateAsync();
             ISettingService settingService = App.AutoWired<ISettingService>();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
-            Version? lastLaunchAppVersion = settingService.GetOrDefault(Setting.AppVersion, updateService.CurrentVersion, Setting.VersionConverter);
+            Version? lastLaunchAppVersion = Setting2.AppVersion.Get();
             //first launch after update
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
-                settingService[Setting.AppVersion] = updateService.CurrentVersion;
+                settingService.Set(Setting2.AppVersion, updateService.CurrentVersion);
                 //App.Current.Dispatcher.InvokeAsync
                 new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
             }

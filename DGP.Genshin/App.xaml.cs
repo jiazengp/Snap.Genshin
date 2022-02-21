@@ -206,9 +206,17 @@ namespace DGP.Genshin
         }
         private void UpdateAppTheme()
         {
-            ThemeManager.Current.ApplicationTheme =
-                AutoWired<ISettingService>().GetOrDefault(Setting.AppTheme, null, Setting.ApplicationThemeConverter);
-            //ThemeManager.Current.AccentColor = ThemeManager.Current.ActualAccentColor;
+            ThemeManager.Current.ActualAccentColorChanged += (s, e) => 
+            {
+                SecureToastNotificationContext.TryCatch(()=> 
+                new ToastContentBuilder()
+                .AddText("检测到系统强调色已更改")
+                .AddText("重启程序以正常显示颜色")
+                .Show());
+            };
+            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
+            //set app accent color to correct color.
+            WPFUI.Theme.Manager.ChangeAccentColor(ThemeManager.Current.ActualAccentColor, WPFUI.Theme.Style.Unknown);
         }
         #endregion
     }

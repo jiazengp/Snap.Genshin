@@ -107,7 +107,7 @@ namespace DGP.Genshin.Service
             this.Log("Integrity Check Start");
             IntegrityCheckCompleted = false;
 
-            if (settingService.GetOrDefault(Setting.SkipCacheCheck, false))
+            if (Setting2.SkipCacheCheck.Get())
             {
                 this.Log("Integrity Check Suppressed by User Settings");
                 IntegrityCheckCompleted = true;

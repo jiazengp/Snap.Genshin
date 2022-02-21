@@ -109,9 +109,7 @@ namespace DGP.Genshin.Service
         {
             this.settingService = settingService;
             PathContext.CreateOrIgnore(AccountsFileName);
-
-            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
-
+            string? launcherPath = Setting2.LauncherPath.Get();
             TryLoadIniData(launcherPath);
         }
 
@@ -163,7 +161,7 @@ namespace DGP.Genshin.Service
             {
                 return;
             }
-            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
+            string? launcherPath = Setting2.LauncherPath.Get();
             if (launcherPath is not null)
             {
                 string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
@@ -224,7 +222,7 @@ namespace DGP.Genshin.Service
 
         public void OpenOfficialLauncher(Action<Exception>? failAction)
         {
-            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
+            string? launcherPath = Setting2.LauncherPath.Get();
             try
             {
                 ProcessStartInfo info = new()
@@ -279,7 +277,7 @@ namespace DGP.Genshin.Service
                     if (Path.GetFileName(fileName) == LauncherExecutable)
                     {
                         launcherPath = openFileDialog.FileName;
-                        settingService[Setting.LauncherPath] = launcherPath;
+                        Setting2.LauncherPath.Set(launcherPath);
                     }
                 }
             }

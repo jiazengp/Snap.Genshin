@@ -76,7 +76,7 @@ namespace DGP.Genshin.Service
                 //unlikely to happen,unless a new release with no package is published
                 _ = PackageUri ?? throw new SnapGenshinInternalException("未找到更新包的下载地址");
 
-                if (settingService.GetOrDefault(Setting.UpdateUseFastGit, false))
+                if (Setting2.UpdateUseFastGit.Get())
                 {
                     //replace host with fastgit
                     PackageUri = new UriBuilder(PackageUri) { Host = "download.fastgit.org" }.Uri;

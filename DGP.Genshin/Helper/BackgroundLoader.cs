@@ -28,8 +28,7 @@ namespace DGP.Genshin.Helper
         {
             string folder = PathContext.Locate(BackgroundFolder);
             Directory.CreateDirectory(folder);
-            IEnumerable<string> paths = Directory.EnumerateFiles(folder);
-            List<string> supportedFiles = paths
+            List<string> supportedFiles = Directory.EnumerateFiles(folder)
                 .Where(path => supportedExtensions.Contains(Path.GetExtension(path)))
                 .ToList();
 
@@ -39,7 +38,7 @@ namespace DGP.Genshin.Helper
                 {
                     ImageSource = new BitmapImage(new(randomPath)),
                     Stretch = Stretch.UniformToFill,
-                    Opacity = settingService.GetOrDefault(Setting.BackgroundOpacity, 0.4)
+                    Opacity = Setting2.BackgroundOpacity.Get()
                 };
                 this.Log($"Load background wallpaper from {randomPath}");
             }

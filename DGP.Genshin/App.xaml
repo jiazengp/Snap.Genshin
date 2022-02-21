@@ -73,6 +73,21 @@
             <sys:Double x:Key="ContentDialogMaxHeight">640</sys:Double>
             <Thickness x:Key="PivotItemMargin">0</Thickness>
             <sys:Double x:Key="PivotHeaderItemFontSize">20</sys:Double>
+
+            <SolidColorBrush x:Key="SystemAccentColorDark1Brush" Color="{ui:DynamicColor SystemAccentColorLight1}" />
+            <SolidColorBrush x:Key="SystemAccentColorDark2Brush" Color="{ui:DynamicColor SystemAccentColorLight2}" />
+            <SolidColorBrush x:Key="SystemAccentColorDark3Brush" Color="{ui:DynamicColor SystemAccentColorLight3}" />
+            <SolidColorBrush x:Key="SystemAccentColorLight1Brush" Color="{ui:DynamicColor SystemAccentColorLight1}" />
+            <SolidColorBrush x:Key="SystemAccentColorLight2Brush" Color="{ui:DynamicColor SystemAccentColorLight2}" />
+            <SolidColorBrush x:Key="SystemAccentColorLight3Brush" Color="{ui:DynamicColor SystemAccentColorLight3}" />
+
+            <!--  Colors depending on the theme should be changed by the Manager  -->
+            <Color x:Key="SystemAccentColor">#3379d9</Color>
+
+            <!--  While the name remains Light to stay with the official nomenclature, it's made dark in Dark Theme  -->
+            <Color x:Key="SystemAccentColorLight1">#559ce4</Color>
+            <Color x:Key="SystemAccentColorLight2">#80b9ee</Color>
+            <Color x:Key="SystemAccentColorLight3">#add8ff</Color>
             <!--#endregion-->
             
             <!--#region Texts-->

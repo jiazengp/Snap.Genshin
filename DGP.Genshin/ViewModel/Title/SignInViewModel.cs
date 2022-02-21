@@ -121,7 +121,7 @@ namespace DGP.Genshin.ViewModel.Title
             SignInResult? result = await new SignInProvider(cookieService.CurrentCookie).SignInAsync(SelectedRole);
             if (result is not null)
             {
-                settingService[Setting.LastAutoSignInTime] = DateTime.Now;
+                Setting2.LastAutoSignInTime.Set(DateTime.Now);
             }
             new ToastContentBuilder()
                     .AddText(result is null ? "签到失败" : "签到成功")

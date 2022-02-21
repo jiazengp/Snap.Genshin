@@ -12,7 +12,6 @@ namespace DGP.Genshin.Sample.Plugin
     [ImportPage(typeof(SamplePage), "设计图标集", "\uE734")]
     public class SamplePlugin : IPlugin
     {
-        private const string IsSamplePluginEnabled = "IsSamplePluginEnabled";
         public string Name => "设计图标集";
         public string Description => "本插件用于在运行时查看所有的 Segoe Fluent Icons";
         public string Author => "DGP Studio";
@@ -24,8 +23,8 @@ namespace DGP.Genshin.Sample.Plugin
         /// </summary>
         public bool IsEnabled
         {
-            get => App.AutoWired<ISettingService>().GetOrDefault(IsSamplePluginEnabled, false);
-            set => App.AutoWired<ISettingService>()[IsSamplePluginEnabled] = value;
+            get;
+            set;
         }
     }
 }

@@ -5,7 +5,7 @@
 |![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)|
 |-|-|-|-|
 
-## [主页](https://www.snapgenshin.com/)
+# [点击进入主页](https://www.snapgenshin.com/home/)
 
 |如果你觉得我们的软件做的还不错，欢迎对我们投喂|[爱发电](https://afdian.net/@DismissedLight)|
 |-|-|
@@ -19,7 +19,8 @@
 |-|-|-|
 |910780153|问题反馈|1群|
 |547288075|闲聊吹水|2群|
-|982424236|开发交流|Tech群|
+|240095771|闲聊吹水|3群|
+|982424236|开发交流|开发群|
 
 
 ### 友情链接
@@ -34,13 +35,11 @@
 > 推荐：Windows 11 21H1 - 10.0.22000  
 > 运行时：.NET 6 [WebView2 Runtime 可选]  
 
+# 插件
+
+[Snap Genshin 插件列表](/Plugins/README.md)
+
 </div>
-
-# 可用插件
-|插件|
-|-|
-|[DawnFz/SG.Plugin.Injury.Calculator](https://github.com/DawnFz/SG.Plugin.Injury.Calculator)|
-
 
 # 反馈问题
 
@@ -56,10 +55,3 @@
 
 * [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)
 * [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
-
-如果你是一位正在编写原神相关程序的开发者，可以加入我们的开发QQ群  
-
-* Snap Genshin 正在进行实验性的插件功能测试  
-欢迎有能力、感兴趣的开发者进行插件的开发
-
-

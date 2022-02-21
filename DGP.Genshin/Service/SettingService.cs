@@ -21,8 +21,11 @@ namespace DGP.Genshin.Service
 
         private ConcurrentDictionary<string, object?> settings = new();
 
-        public T? GetOrDefault<T>(string key, T? defaultValue)
+        public T Get<T>(SettingDefinition<T> definition)
         {
+            string key = definition.Name;
+            T defaultValue = definition.DefaultValue;
+            Func<object, T>? converter = definition.Converter;
             if (!settings.TryGetValue(key, out object? value))
             {
                 settings[key] = defaultValue;
@@ -30,52 +33,24 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                return (T?)value;
+                return converter is null 
+                    ? (T)value!
+                    : converter.Invoke(value!);
             }
         }
 
-        public T GetOrDefault<T>(string key, T defaultValue, Func<object, T> converter)
+        public void Set<T>(SettingDefinition<T> definition, object? value, bool notify = true, bool log = false)
         {
-            if (!settings.TryGetValue(key, out object? value))
-            {
-                settings[key] = defaultValue;
-                return defaultValue;
-            }
-            else
-            {
-                return converter.Invoke(value!);
-            }
-        }
-
-        public T? GetComplexOrDefault<T>(string key, T? defaultValue) where T : class
-        {
-            if (!settings.TryGetValue(key, out object? value))
-            {
-                settings[key] = defaultValue;
-                return defaultValue;
-            }
-            else
-            {
-                return value is null ? null : Json.ToObject<T>(value.ToString()!);
-            }
-        }
-
-        public object? this[string key]
-        {
-            set
-            {
-                settings[key] = value;
-                App.Messenger.Send(new SettingChangedMessage(key, value));
-            }
-        }
-
-        public void SetValueNoNotify(string key, object value,bool log)
-        {
+            string key = definition.Name;
             if (log)
             {
                 this.Log($"setting {key} to {value} internally without notify");
             }
             settings[key] = value;
+            if (notify)
+            {
+                App.Messenger.Send(new SettingChangedMessage(key, value));
+            }
         }
 
         public void Initialize()
@@ -88,7 +63,9 @@ namespace DGP.Genshin.Service
 
         public void UnInitialize()
         {
-            Json.ToFile(settingFile, settings);
+            string settingString = Json.Stringify(settings);
+            this.Log(settingString);
+            File.WriteAllText(settingFile, settingString);
         }
     }
 }

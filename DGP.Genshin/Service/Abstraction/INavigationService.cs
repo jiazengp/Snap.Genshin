@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.DataModel.WebViewLobby;
+using DGP.Genshin.Message;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using System;
@@ -66,5 +67,6 @@ namespace DGP.Genshin.Service.Abstraction
         /// <returns>是否同步成功</returns>
         bool SyncTabWith(Type pageType);
         void AddWebViewEntries(ObservableCollection<WebViewEntry>? entries);
+        bool Navigate(NavigateRequestMessage message);
     }
 }

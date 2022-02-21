@@ -2,6 +2,7 @@
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
+using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using ModernWpf.Controls;
@@ -91,6 +92,11 @@ namespace DGP.Genshin.Service
             //导航失败时使属性保存为false
             HasEverNavigated |= result;
             return result;
+        }
+
+        public bool Navigate(NavigateRequestMessage message)
+        {
+            return Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
         }
 
         public bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)

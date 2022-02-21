@@ -8,9 +8,9 @@
     <CornerRadius x:Key="ControlCornerRadius">2,2,2,2</CornerRadius>
     <CornerRadius x:Key="OverlayCornerRadius">4,4,4,4</CornerRadius>
 
-    <SolidColorBrush x:Key="SystemAccentColorDark1Brush" Color="{ui:DynamicColor SystemAccentColorDark1}" />
-    <SolidColorBrush x:Key="SystemAccentColorDark2Brush" Color="{ui:DynamicColor SystemAccentColorDark2}" />
-    <SolidColorBrush x:Key="SystemAccentColorDark3Brush" Color="{ui:DynamicColor SystemAccentColorDark3}" />
+    <SolidColorBrush x:Key="SystemAccentColorDark1Brush" Color="{ui:DynamicColor SystemAccentColorLight1}" />
+    <SolidColorBrush x:Key="SystemAccentColorDark2Brush" Color="{ui:DynamicColor SystemAccentColorLight2}" />
+    <SolidColorBrush x:Key="SystemAccentColorDark3Brush" Color="{ui:DynamicColor SystemAccentColorLight3}" />
     <SolidColorBrush x:Key="SystemAccentColorLight1Brush" Color="{ui:DynamicColor SystemAccentColorLight1}" />
     <SolidColorBrush x:Key="SystemAccentColorLight2Brush" Color="{ui:DynamicColor SystemAccentColorLight2}" />
     <SolidColorBrush x:Key="SystemAccentColorLight3Brush" Color="{ui:DynamicColor SystemAccentColorLight3}" />

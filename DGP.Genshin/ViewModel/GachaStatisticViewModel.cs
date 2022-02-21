@@ -163,7 +163,7 @@ namespace DGP.Genshin.ViewModel
                         await new ContentDialog()
                         {
                             Title = "导入祈愿记录失败",
-                            Content = "请联系开发组进一步确认问题",
+                            Content = "文件不是UIGF格式，或支持的UIGF版本较低",
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();
@@ -225,7 +225,7 @@ namespace DGP.Genshin.ViewModel
                         await new ContentDialog()
                         {
                             Title = "导入失败",
-                            Content = "请联系开发组进一步确认问题",
+                            Content = "文件不是UIGF格式，或支持的UIGF版本较低",
                             PrimaryButtonText = "确定",
                             DefaultButton = ContentDialogButton.Primary
                         }.ShowAsync();

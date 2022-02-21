@@ -64,7 +64,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool IsFullScreen
         {
             get => isFullScreen;
-            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, v => settingService[Setting.IsFullScreen] = value);
+            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, v => Setting2.IsFullScreen.Set(value));
         }
         /// <summary>
         /// 是否无边框窗口
@@ -72,7 +72,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool IsBorderless
         {
             get => isBorderless;
-            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, v => settingService[Setting.IsBorderless] = value);
+            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, v => Setting2.IsBorderless.Set(value));
         }
         /// <summary>
         /// 是否解锁FPS上限
@@ -80,7 +80,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool UnlockFPS
         {
             get => unlockFPS;
-            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, v => settingService[Setting.UnlockFPS] = v);
+            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, v => Setting2.UnlockFPS.Set(v));
         }
         /// <summary>
         /// 目标帧率
@@ -93,7 +93,7 @@ namespace DGP.Genshin.ViewModel.Title
 
         private void OnTargetFPSChanged(double value)
         {
-            settingService[Setting.TargetFPS] = value;
+            Setting2.TargetFPS.Set(value);
             launchService.SetTargetFPSDynamically((int)value);
         }
 
@@ -131,10 +131,10 @@ namespace DGP.Genshin.ViewModel.Title
             Accounts = launchService.LoadAllAccount();
             SelectedAccount = Accounts.FirstOrDefault();
 
-            IsBorderless = settingService.GetOrDefault(Setting.IsBorderless, false);
-            IsFullScreen = settingService.GetOrDefault(Setting.IsFullScreen, false);
-            UnlockFPS = settingService.GetOrDefault(Setting.UnlockFPS, false);
-            TargetFPS = settingService.GetOrDefault(Setting.TargetFPS, 60.0);
+            IsBorderless = Setting2.IsBorderless.Get();
+            IsFullScreen = Setting2.IsFullScreen.Get();
+            UnlockFPS = Setting2.UnlockFPS.Get();
+            TargetFPS = Setting2.TargetFPS.Get();
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
             LaunchCommand = new AsyncRelayCommand<string>(LaunchByOption);
@@ -144,7 +144,7 @@ namespace DGP.Genshin.ViewModel.Title
 
         private async Task OpenUIAsync(TitleBarButton? t)
         {
-            string? launcherPath = settingService.GetOrDefault<string?>(Setting.LauncherPath, null);
+            string? launcherPath = Setting2.LauncherPath.Get();
             launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
             bool result = false;
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
@@ -157,7 +157,7 @@ namespace DGP.Genshin.ViewModel.Title
             }
             else
             {
-                settingService[Setting.LauncherPath] = null;
+                Setting2.LauncherPath.Set(null);
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
                     Title = "无法使用此功能",

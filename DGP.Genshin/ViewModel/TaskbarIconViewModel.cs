@@ -64,8 +64,7 @@ namespace DGP.Genshin.ViewModel
             //首先初始化可用的列表
             ResinWidgets = new(cookieUserGameRoles.Select(role => new ResinWidgetConfigration { CookieUserGameRole = role }));
             //读取储存的状态
-            List<ResinWidgetConfigration>? storedResinWidgets =
-                settingService.GetComplexOrDefault<List<ResinWidgetConfigration>>(Setting.ResinWidgetConfigrations, null);
+            List<ResinWidgetConfigration>? storedResinWidgets = Setting2.ResinWidgetConfigrations.Get();
             //开始恢复状态
             if (storedResinWidgets?.Count > 0)
             {
@@ -130,7 +129,7 @@ namespace DGP.Genshin.ViewModel
                 {
                     widget.UpdatePropertyState();
                 }
-                settingService[Setting.ResinWidgetConfigrations] = ResinWidgets;
+                Setting2.ResinWidgetConfigrations.Set(ResinWidgets);
             }
             else
             {
