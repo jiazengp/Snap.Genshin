@@ -66,7 +66,18 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="pageType">同步的页面类型</param>
         /// <returns>是否同步成功</returns>
         bool SyncTabWith(Type pageType);
+
+        /// <summary>
+        /// 添加自定义网页入口
+        /// </summary>
+        /// <param name="entries">入口集合</param>
         void AddWebViewEntries(ObservableCollection<WebViewEntry>? entries);
+
+        /// <summary>
+        /// 导航到指定的页面
+        /// </summary>
+        /// <param name="message">导航请求消息</param>
+        /// <returns>是否导航成功</returns>
         bool Navigate(NavigateRequestMessage message);
     }
 }

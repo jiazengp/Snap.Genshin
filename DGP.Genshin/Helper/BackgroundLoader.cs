@@ -2,6 +2,7 @@
 using DGP.Genshin.Service.Abstraction;
 using ModernWpf;
 using Snap.Core.Logging;
+using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,16 @@ namespace DGP.Genshin.Helper
             if (supportedFiles.GetRandom() is string randomPath)
             {
                 this.Log($"Loading background wallpaper from {randomPath}");
-                BitmapImage image = new(new(randomPath));
+                BitmapImage image;
+                try
+                {
+                    image = new(new(randomPath));
+                }
+                catch
+                {
+                    throw new SnapGenshinInternalException($"无法读取图片：{randomPath}");
+                }
+                
                 Pixel[,] pixels = image.GetPixels();
                 Lightness = pixels
                     .Cast<Pixel>()

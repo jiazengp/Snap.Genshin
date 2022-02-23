@@ -1,16 +1,14 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// TO-DO:
-    /// 实现Post的刷新
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class HomePage : System.Windows.Controls.Page
     {
-        public HomePage()
+        public HomePage(HomeViewModel vm)
         {
-            DataContext = App.AutoWired<HomeViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
     }

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
 
@@ -39,6 +40,8 @@ namespace DGP.Genshin
 
         public App()
         {
+            //prevent later call change executing assembly
+            _ = Version;
             pluginService = new PluginService();
             serviceManager = new SnapGenshinServiceManager();
         }
@@ -69,11 +72,29 @@ namespace DGP.Genshin
         }
         #endregion
 
+        #region Version
+        private Version? version;
+        public Version Version
+        {
+            get
+            {
+                version ??= Assembly.GetExecutingAssembly().GetName().Version!;
+                return version;
+            }
+        }
+        #endregion
+
         #region Dependency Injection Helper
         /// <summary>
         /// 全局消息交换器
         /// </summary>
         public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
+
+        public static object AutoWired(Type type)
+        {
+            return Current.serviceManager.Services!.GetService(type) 
+                ?? throw new SnapGenshinInternalException($"无法找到 {type} 类型的对象。");
+        }
 
         /// <summary>
         /// 获取注入的类型

@@ -4,9 +4,9 @@ using Snap.Core.DependencyInjection;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class HutaoStatisticPage : System.Windows.Controls.Page
+    public partial class SettingPage : System.Windows.Controls.Page
     {
-        public HutaoStatisticPage(HutaoStatisticViewModel vm)
+        public SettingPage(SettingViewModel vm)
         {
             DataContext = vm;
             InitializeComponent();

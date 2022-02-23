@@ -8,9 +8,9 @@
                    xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer" 
                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                    mc:Ignorable="d" 
+                   x:Name="UserInfoTitleBarButtonRoot"
                    IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
                    Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI"
-                   x:Name="UserInfoTitleBarButtonRoot"
                    Command="{Binding OpenUICommand}"
                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                    Content="{Binding SelectedCookieUserInfo.UserInfo.Nickname,Mode=OneWay,FallbackValue=未登录,TargetNullValue=未登录}">
@@ -19,14 +19,35 @@
             <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <ui:TitleBarButton.Resources>
-        <Style TargetType="ui:ListViewItem">
-            <Setter Property="Padding" Value="0"/>
-        </Style>
-    </ui:TitleBarButton.Resources>
     <ui:FlyoutBase.AttachedFlyout>
         <ui:Flyout Placement="Bottom">
             <Grid>
+                <Grid.Resources>
+                    <DataTemplate x:Key="UsersItemTemplate">
+                        <Grid Margin="-12,0" RenderOptions.BitmapScalingMode="Fant">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="50" Height="50" Margin="6,6,12,6">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        Width="64" Height="64" Margin="6,6,12,6">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding UserInfo.Pendant,FallbackValue={x:Null}}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock Text="{Binding UserInfo.Uid}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -35,37 +56,13 @@
                 <TextBlock Text="选中用户以切换" Style="{StaticResource BaseTextBlockStyle}" HorizontalAlignment="Center"
                            Margin="0,0,0,12"/>
                 <s:SmoothScrollViewer Grid.Row="1" MaxHeight="272">
-                    <ui:ListView Padding="0" 
-                         ItemsSource="{Binding CookieUserInfos}" 
-                         SelectedItem="{Binding SelectedCookieUserInfo}" 
-                         SelectionMode="Single"
-                             HorizontalContentAlignment="Left">
-                        <ui:ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid RenderOptions.BitmapScalingMode="Fant">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                        Width="50" Height="50" Margin="6,6,12,6">
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{Binding UserInfo.AvatarUrl}"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                    <Ellipse Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                        Width="64" Height="64" Margin="6,6,12,6">
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{Binding UserInfo.Pendant}"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding UserInfo.Nickname}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                        <TextBlock Text="{Binding UserInfo.Uid}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ui:ListView.ItemTemplate>
+                    <ui:ListView
+                        Padding="0" 
+                        ItemsSource="{Binding CookieUserInfos}" 
+                        SelectedItem="{Binding SelectedCookieUserInfo}" 
+                        SelectionMode="Single"
+                        HorizontalContentAlignment="Left"
+                        ItemTemplate="{StaticResource UsersItemTemplate}">
                     </ui:ListView>
                 </s:SmoothScrollViewer>
                 <ui:CommandBar Grid.Row="2">

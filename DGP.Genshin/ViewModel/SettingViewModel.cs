@@ -10,6 +10,7 @@ using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
+using Snap.Data.Utility;
 using Snap.Win32;
 using System;
 using System.Collections.Generic;
@@ -209,8 +210,8 @@ namespace DGP.Genshin.ViewModel
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
             SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
-            OpenBackgroundFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Background")));
-            OpenCacheFolderCommand = new RelayCommand(() => Process.Start("explorer.exe", PathContext.Locate("Cache")));
+            OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
+            OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
             EnableDailyNoteCommand = new AsyncRelayCommand(EnableDailyNotePermissionAsync);
         }
 

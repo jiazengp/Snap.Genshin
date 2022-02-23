@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace DGP.Genshin.Sample.Plugin
 {
     [ViewModel(InjectAs.Transient)]
-    internal class SampleViewModel : ObservableObject
+    public class SampleViewModel : ObservableObject
     {
         private IEnumerable<object> icons;
 

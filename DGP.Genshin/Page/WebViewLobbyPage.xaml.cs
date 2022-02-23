@@ -1,15 +1,14 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// WebViewLobbyPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class WebViewLobbyPage : System.Windows.Controls.Page
     {
-        public WebViewLobbyPage()
+        public WebViewLobbyPage(WebViewLobbyViewModel vm)
         {
-            DataContext = App.AutoWired<WebViewLobbyViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
     }

@@ -3,6 +3,7 @@ using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Exception;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Navigation;
 
 namespace DGP.Genshin.Page
 {
+    [View(InjectAs.Transient)]
     public partial class WebViewHostPage : ModernWpf.Controls.Page
     {
         private WebViewEntry? entry;

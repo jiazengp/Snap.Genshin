@@ -224,7 +224,7 @@ namespace DGP.Genshin
             }
             new TitleDefinition().ForEachAttribute<ImportTitleAttribute>(title => titleBarButtons.Add(title));
 
-            IOrderedEnumerable<ImportTitleAttribute> filtered = titleBarButtons
+            IEnumerable<ImportTitleAttribute> filtered = titleBarButtons
                 .Where(title => typeof(TitleBarButton).IsAssignableFrom(title.ButtonType))
                 .OrderByDescending(title => title.Order);
 
@@ -318,6 +318,7 @@ namespace DGP.Genshin
                         SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("检查更新失败")
+                            .AddText("无法连接到 Github")
                             .Show());
                         break;
                     }
@@ -329,6 +330,4 @@ namespace DGP.Genshin
         }
         #endregion
     }
-
-
 }

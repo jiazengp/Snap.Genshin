@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class SponsorViewModel : ObservableObject
+    public class SponsorViewModel : ObservableObject
     {
         private const string UserId = "8f9ed3e87f4911ebacb652540025c377";
         private const string Token = "Th98JamKvc5FHYyErgM4d6spAXGVwbPD";

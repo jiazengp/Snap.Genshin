@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Singleton)]
-    internal class WebViewLobbyViewModel : ObservableObject2
+    public class WebViewLobbyViewModel : ObservableObject2
     {
         private const string entriesFileName = "WebviewEntries.json";
         private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";

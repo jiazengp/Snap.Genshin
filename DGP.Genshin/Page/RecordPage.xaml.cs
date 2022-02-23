@@ -1,17 +1,16 @@
 ﻿using DGP.Genshin.ViewModel;
 using ModernWpf.Controls;
+using Snap.Core.DependencyInjection;
 using WPFUI.Controls;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// RecordPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class RecordPage : ModernWpf.Controls.Page
     {
-        public RecordPage()
+        public RecordPage(RecordViewModel vm)
         {
-            DataContext = App.AutoWired<RecordViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
 

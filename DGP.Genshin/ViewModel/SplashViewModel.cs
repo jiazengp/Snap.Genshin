@@ -19,6 +19,7 @@ namespace DGP.Genshin.ViewModel
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;
 
+        #region Observable
         private bool isCookieVisible = false;
         private bool isSplashNotVisible = false;
         private string currentStateDescription = "初始化...";
@@ -80,6 +81,7 @@ namespace DGP.Genshin.ViewModel
             get => isCheckingIntegrity;
             set => SetProperty(ref isCheckingIntegrity, value);
         }
+        #endregion
 
         public ICommand OpenUICommand { get; }
         public ICommand SetCookieCommand { get; }

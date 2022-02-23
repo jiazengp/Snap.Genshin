@@ -13,6 +13,7 @@ using Snap.Net.Download;
 using Snap.Threading;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -25,20 +26,17 @@ namespace DGP.Genshin.Service
     internal class UpdateService : IUpdateService
     {
         private const string UpdateNotificationTag = "snap_genshin_update";
+        private const string UpdaterExecutable = "DGP.Genshin.Updater.exe";
+        private const string UpdaterFolder = "Updater";
+
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
-        private readonly ISettingService settingService;
 
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
         public Release? Release { get; set; }
-        public Version? CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
+        public Version CurrentVersion => App.Current.Version;
 
         private Downloader? InnerDownloader { get; set; }
-
-        public UpdateService(ISettingService settingService)
-        {
-            this.settingService = settingService;
-        }
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
@@ -100,17 +98,18 @@ namespace DGP.Genshin.Service
                 {
                     App.Messenger.Send(UpdateProgressedMessage.Default);
                 }
-                if (!caught)
-                {
-                    StartInstallUpdate();
-                }
-                else
+
+                if (caught)
                 {
                     SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("下载更新时遇到问题")
-                    .AddText("请重启程序再次尝试")
+                    .AddText("点击检查更新再次尝试")
                     .Show());
+                }
+                else
+                {
+                    StartInstallUpdate();
                 }
                 updateTaskPreventer.Release();
             }
@@ -199,20 +198,32 @@ namespace DGP.Genshin.Service
         /// </summary>
         private void StartInstallUpdate()
         {
-            Directory.CreateDirectory("Updater");
-            PathContext.MoveToFolderOrIgnore("DGP.Genshin.Updater.exe", "Updater");
-            string oldUpdaterPath = PathContext.Locate("Updater", "DGP.Genshin.Updater.exe");
+            Directory.CreateDirectory(UpdaterFolder);
+            PathContext.MoveToFolderOrIgnore(UpdaterExecutable, UpdaterFolder);
+            string oldUpdaterPath = PathContext.Locate(UpdaterFolder, UpdaterExecutable);
             if (File.Exists(oldUpdaterPath))
             {
-                //Updater自带工作路径纠正
-                Process.Start(new ProcessStartInfo()
+                try
                 {
-                    //fix auth exception
-                    Verb = "runas",
-                    UseShellExecute = true,
-                    FileName = oldUpdaterPath,
-                    Arguments = "UpdateInstall"
-                });
+                    //Updater自带工作路径纠正
+                    Process.Start(new ProcessStartInfo()
+                    {
+                        //fix auth exception
+                        Verb = "runas",
+                        UseShellExecute = true,
+                        FileName = oldUpdaterPath,
+                        Arguments = "UpdateInstall"
+                    });
+                }
+                catch (Win32Exception)
+                {
+                    SecureToastNotificationContext.TryCatch(() =>
+                    new ToastContentBuilder()
+                    .AddText("已经取消更新")
+                    .AddText("下次更新需要重新下载安装包")
+                    .Show());
+                }
+                
                 App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
             }
             else

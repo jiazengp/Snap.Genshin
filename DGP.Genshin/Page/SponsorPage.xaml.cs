@@ -1,15 +1,14 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// SponsorPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class SponsorPage : System.Windows.Controls.Page
     {
-        public SponsorPage()
+        public SponsorPage(SponsorViewModel vm)
         {
-            DataContext = App.AutoWired<SponsorViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
     }

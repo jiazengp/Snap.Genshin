@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
+using Snap.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,30 +49,25 @@ namespace DGP.Genshin.ViewModel
         {
             foreach (string city in cities)
             {
-                ClearFieldValueOf($"today{city}Talent");
-                ClearFieldValueOf($"today{city}WeaponAscension");
-                ClearFieldValueOf($"today{city}Character5");
-                ClearFieldValueOf($"today{city}Character4");
-                ClearFieldValueOf($"today{city}Weapon5");
-                ClearFieldValueOf($"today{city}Weapon4");
+                this.SetPrivateFieldValueByName($"today{city}Talent", null);
+                this.SetPrivateFieldValueByName($"today{city}WeaponAscension", null);
+                this.SetPrivateFieldValueByName($"today{city}Character5", null);
+                this.SetPrivateFieldValueByName($"today{city}Character4", null);
+                this.SetPrivateFieldValueByName($"today{city}Weapon5", null);
+                this.SetPrivateFieldValueByName($"today{city}Weapon4", null);
 
                 OnPropertyChanged($"Today{city}Talent");
-                await Task.Delay(100);
+                await Task.Delay(50);
                 OnPropertyChanged($"Today{city}Character5");
-                await Task.Delay(100);
+                await Task.Delay(50);
                 OnPropertyChanged($"Today{city}Character4");
-                await Task.Delay(100);
+                await Task.Delay(50);
                 OnPropertyChanged($"Today{city}WeaponAscension");
-                await Task.Delay(100);
+                await Task.Delay(50);
                 OnPropertyChanged($"Today{city}Weapon5");
-                await Task.Delay(100);
+                await Task.Delay(50);
                 OnPropertyChanged($"Today{city}Weapon4");
             }
-        }
-        private void ClearFieldValueOf(string name)
-        {
-            FieldInfo? fieldInfo = typeof(DailyViewModel).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
-            fieldInfo?.SetValue(this, null);
         }
 
         public DailyViewModel(MetadataViewModel metadataViewModel)

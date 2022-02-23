@@ -11,6 +11,7 @@ using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -102,12 +103,20 @@ namespace DGP.Genshin.ViewModel
         }
         private void RestartElevated()
         {
-            Process.Start(new ProcessStartInfo()
+            try
             {
-                Verb = "runas",
-                UseShellExecute = true,
-                FileName = PathContext.Locate("DGP.Genshin.exe"),
-            });
+                Process.Start(new ProcessStartInfo()
+                {
+                    Verb = "runas",
+                    UseShellExecute = true,
+                    FileName = PathContext.Locate("DGP.Genshin.exe"),
+                });
+            }
+            catch (Win32Exception)
+            {
+                return;
+            }
+            
             App.Current.Shutdown();
         }
         public async void Receive(CookieAddedMessage message)

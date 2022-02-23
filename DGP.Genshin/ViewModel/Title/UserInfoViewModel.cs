@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -23,7 +24,6 @@ namespace DGP.Genshin.ViewModel.Title
     public class UserInfoViewModel : ObservableRecipient2, IRecipient<CookieAddedMessage>, IRecipient<CookieRemovedMessage>
     {
         private readonly ICookieService cookieService;
-        private UserInfoTitleBarButton? View;
 
         private CookieUserInfo? selectedCookieUserInfo;
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
@@ -48,7 +48,7 @@ namespace DGP.Genshin.ViewModel.Title
         {
             this.cookieService = cookieService;
 
-            LoadCommand = new AsyncRelayCommand(OpenUIInternalAsync);
+            LoadCommand = new AsyncRelayCommand(LoadAsync);
             OpenUICommand = new RelayCommand<TitleBarButton>(OpenUI);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
             AddUserCommand = new AsyncRelayCommand(AddUserAsync);
@@ -56,13 +56,10 @@ namespace DGP.Genshin.ViewModel.Title
 
         private async Task AddUserAsync()
         {
-            View?.HideAttachedFlyout();
             await cookieService.AddCookieToPoolOrIgnoreAsync();
         }
         private async Task RemoveUserAsync()
         {
-            View?.HideAttachedFlyout();
-
             if (cookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
@@ -96,11 +93,10 @@ namespace DGP.Genshin.ViewModel.Title
         {
             if (t?.ShowAttachedFlyout<System.Windows.Controls.Grid>(this) == true)
             {
-                View = t as UserInfoTitleBarButton;
                 new Event(t.GetType(), true).TrackAs(Event.OpenTitle);
             }
         }
-        internal async Task OpenUIInternalAsync()
+        internal async Task LoadAsync()
         {
             foreach (string cookie in cookieService.Cookies)
             {
@@ -118,25 +114,38 @@ namespace DGP.Genshin.ViewModel.Title
             try
             {
                 string newCookie = message.Value;
+                this.Log("new Cookie added");
                 if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
                 {
                     CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
                 }
+                this.Log(cookieUserInfos.Count);
             }
             catch (Exception ex)
             {
+                this.Log(ex);
                 Crashes.TrackError(ex);
             }
         }
         public void Receive(CookieRemovedMessage message)
         {
+            this.Log("Cookie removed");
             CookieUserInfo? prevSelected = SelectedCookieUserInfo;
             CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == message.Value);
             CookieUserInfos.Remove(currentRemoved);
             if (prevSelected == currentRemoved)
             {
-                SelectedCookieUserInfo = CookieUserInfos.First();
+                try
+                {
+                    SelectedCookieUserInfo = CookieUserInfos.First();
+                }
+                catch (Exception ex)
+                {
+                    this.Log(ex);
+                }
+                
             }
+            this.Log(cookieUserInfos.Count);
         }
     }
 }

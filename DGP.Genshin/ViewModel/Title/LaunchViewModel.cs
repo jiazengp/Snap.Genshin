@@ -66,7 +66,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool IsFullScreen
         {
             get => isFullScreen;
-            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, v => Setting2.IsFullScreen.Set(value));
+            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, Setting2.IsFullScreen.Set);
         }
         /// <summary>
         /// 是否无边框窗口
@@ -74,7 +74,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool IsBorderless
         {
             get => isBorderless;
-            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, v => Setting2.IsBorderless.Set(value));
+            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, Setting2.IsBorderless.Set);
         }
         /// <summary>
         /// 是否解锁FPS上限
@@ -82,7 +82,7 @@ namespace DGP.Genshin.ViewModel.Title
         public bool UnlockFPS
         {
             get => unlockFPS;
-            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, v => Setting2.UnlockFPS.Set(v));
+            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, Setting2.UnlockFPS.Set);
         }
         /// <summary>
         /// 目标帧率
@@ -92,6 +92,7 @@ namespace DGP.Genshin.ViewModel.Title
             get => targetFPS;
             set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, OnTargetFPSChanged);
         }
+        [PropertyChangedCallback]
         private void OnTargetFPSChanged(double value)
         {
             Setting2.TargetFPS.Set(value);
@@ -100,12 +101,12 @@ namespace DGP.Genshin.ViewModel.Title
         public long ScreenWidth
         {
             get => screenWidth;
-            set => SetPropertyAndCallbackOnCompletion(ref screenWidth, value, v => Setting2.ScreenWidth.Set(v));
+            set => SetPropertyAndCallbackOnCompletion(ref screenWidth, value, Setting2.ScreenWidth.Set);
         }
         public long ScreenHeight
         {
             get => screenHeight;
-            set => SetPropertyAndCallbackOnCompletion(ref screenHeight, value, v => Setting2.ScreenHeight.Set(v));
+            set => SetPropertyAndCallbackOnCompletion(ref screenHeight, value, Setting2.ScreenHeight.Set);
         }
         public bool IsElevated
         {
@@ -204,7 +205,9 @@ namespace DGP.Genshin.ViewModel.Title
                             IsBorderless = IsBorderless,
                             IsFullScreen = IsFullScreen,
                             UnlockFPS = IsElevated && UnlockFPS,
-                            TargetFPS = (int)TargetFPS
+                            TargetFPS = (int)TargetFPS,
+                            ScreenWidth = (int)ScreenWidth,
+                            ScreenHeight = (int)ScreenHeight
                         };
 
                         await launchService.LaunchAsync(CurrentScheme, async ex =>

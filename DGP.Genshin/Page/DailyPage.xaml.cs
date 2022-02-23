@@ -1,15 +1,14 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// DailyPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class DailyPage : System.Windows.Controls.Page
     {
-        public DailyPage()
+        public DailyPage(DailyViewModel vm)
         {
-            DataContext = App.AutoWired<DailyViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
     }

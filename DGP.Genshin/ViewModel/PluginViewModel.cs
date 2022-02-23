@@ -3,8 +3,8 @@ using DGP.Genshin.Helper;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
+using Snap.Data.Utility;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 
@@ -31,17 +31,8 @@ namespace DGP.Genshin.ViewModel
         {
             Plugins = App.Current.PluginService.Plugins;
 
-            OpenPluginFolderCommand = new RelayCommand(OpenPluginsFolder);
-            OpenPluginListLinkCommand = new RelayCommand(OpenPluginListLink);
-        }
-
-        private void OpenPluginsFolder()
-        {
-            Process.Start("explorer.exe", PathContext.Locate(PluginFolder));
-        }
-        private void OpenPluginListLink()
-        {
-            Process.Start(new ProcessStartInfo() { FileName = pluginsLink, UseShellExecute = true });
+            OpenPluginFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate(PluginFolder)));
+            OpenPluginListLinkCommand = new RelayCommand(() => Browser.Open(pluginsLink));
         }
     }
 }

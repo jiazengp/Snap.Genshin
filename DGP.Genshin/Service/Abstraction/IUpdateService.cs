@@ -12,7 +12,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// <summary>
         /// 当前App版本
         /// </summary>
-        Version? CurrentVersion { get; }
+        Version CurrentVersion { get; }
 
         /// <summary>
         /// 更新API获取的App版本

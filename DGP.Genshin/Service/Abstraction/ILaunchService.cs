@@ -27,9 +27,6 @@ namespace DGP.Genshin.Service.Abstraction
         /// </summary>
         /// <param name="scheme">启动方案</param>
         /// <param name="failAction">启动失败回调</param>
-        /// <param name="isBorderless">是否启用无边框</param>
-        /// <param name="isFullScreen">是否启用全屏</param>
-        /// <param name="waitForExit">是否应等待游戏进程退出</param>
         Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option);
 
         /// <summary>
@@ -64,6 +61,9 @@ namespace DGP.Genshin.Service.Abstraction
         void SetTargetFPSDynamically(int targetFPS);
     }
 
+    /// <summary>
+    /// 封装启动参数
+    /// </summary>
     public class LaunchOption
     {
         public bool IsBorderless { get; set; }

@@ -129,5 +129,14 @@ namespace DGP.Genshin.Service.Abstraction
         {
             settingService.Set(this, value, notify, log);
         }
+
+        /// <summary>
+        /// 提供单参数重载以便 <see cref="Snap.Core.Mvvm.ObservableObject2"/> 方法调用
+        /// </summary>
+        /// <param name="value"></param>
+        public void Set(T value)
+        {
+            Set(value, true, false);
+        }
     }
 }

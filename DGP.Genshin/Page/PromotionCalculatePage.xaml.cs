@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,11 +7,12 @@ using System.Windows.Media;
 
 namespace DGP.Genshin.Page
 {
+    [View(InjectAs.Transient)]
     public partial class PromotionCalculatePage : System.Windows.Controls.Page
     {
-        public PromotionCalculatePage()
+        public PromotionCalculatePage(PromotionCalculateViewModel vm)
         {
-            DataContext = App.AutoWired<PromotionCalculateViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
 

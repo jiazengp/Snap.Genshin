@@ -232,10 +232,7 @@ namespace DGP.Genshin.Service
             {
                 if (await ValidateCookieAsync(newCookie))
                 {
-                    if (!string.IsNullOrEmpty(newCookie))
-                    {
-                        Cookies.AddOrIgnore(newCookie);
-                    }
+                    Cookies.AddOrIgnore(newCookie);
                 }
             }
         }

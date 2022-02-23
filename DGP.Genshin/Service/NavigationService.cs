@@ -51,7 +51,7 @@ namespace DGP.Genshin.Service
                 return false;
             }
 
-            if (pageType == typeof(SettingsPage))
+            if (pageType == typeof(SettingPage))
             {
                 NavigationView.SelectedItem = NavigationView.SettingsItem;
             }
@@ -68,8 +68,8 @@ namespace DGP.Genshin.Service
 
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
-            Type? currntType = Frame?.Content?.GetType();
-            if (pageType is null || (currntType == pageType && currntType != typeof(WebViewHostPage)))
+            Type? currentType = Frame?.Content?.GetType();
+            if (pageType is null || (currentType == pageType && currentType != typeof(WebViewHostPage)))
             {
                 return false;
             }
@@ -78,7 +78,7 @@ namespace DGP.Genshin.Service
             bool result = false;
             try
             {
-                result = Frame?.Navigate(pageType, data, new DrillInNavigationTransitionInfo()) ?? false;
+                result = Frame?.Navigate(App.AutoWired(pageType), data) ?? false;
             }
             catch { }
             this.Log($"Navigate to {pageType}:{(result ? "succeed" : "failed")}");
@@ -89,7 +89,7 @@ namespace DGP.Genshin.Service
             }
             //fix memory leak issue
             Frame?.RemoveBackEntry();
-            //导航失败时使属性保存为false
+            //首次导航失败时使属性持续保存为false
             HasEverNavigated |= result;
             return result;
         }
@@ -108,7 +108,7 @@ namespace DGP.Genshin.Service
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Selected = NavigationView?.SelectedItem as NavigationViewItem;
-            Type? targetType = args.IsSettingsInvoked ? typeof(SettingsPage) : NavHelper.GetNavigateTo(Selected);
+            Type? targetType = args.IsSettingsInvoked ? typeof(SettingPage) : NavHelper.GetNavigateTo(Selected);
             Navigate(targetType, false, NavHelper.GetExtraData(Selected));
         }
 

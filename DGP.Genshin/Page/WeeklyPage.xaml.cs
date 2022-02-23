@@ -1,22 +1,16 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// WeeklyPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class WeeklyPage : System.Windows.Controls.Page
     {
-        public WeeklyPage()
+        public WeeklyPage(WeeklyViewModel vm)
         {
+            DataContext = vm;
             InitializeComponent();
-        }
-
-        private async void PageLoadedAsync(object sender, System.Windows.RoutedEventArgs e)
-        {
-            await Task.Delay(1000);
-            DataContext = App.AutoWired<WeeklyViewModel>();
         }
     }
 }

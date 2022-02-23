@@ -1,15 +1,14 @@
 ﻿using DGP.Genshin.ViewModel;
+using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
-    /// <summary>
-    /// PluginPage.xaml 的交互逻辑
-    /// </summary>
+    [View(InjectAs.Transient)]
     public partial class PluginPage : System.Windows.Controls.Page
     {
-        public PluginPage()
+        public PluginPage(PluginViewModel vm)
         {
-            DataContext = App.AutoWired<PluginViewModel>();
+            DataContext = vm;
             InitializeComponent();
         }
     }
