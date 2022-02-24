@@ -6,16 +6,7 @@
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
         <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
         <Separator/>
-        <MenuItem Header="实时便笺" ItemsSource="{Binding ResinWidgets}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource DefaultMenuItemStyle}">
-                    <Setter Property="IsCheckable" Value="True"/>
-                    <Setter Property="IsChecked"  Value="{Binding Path=IsChecked}"/>
-                    <Setter Property="Header" Value="{Binding Path=CookieUserGameRole.UserGameRole}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <MenuItem Header="立即刷新" Command="{Binding UpdateWidgetsCommand}"/>
+        <MenuItem Header="启动游戏" Command="{Binding LaunchGameCommand}"/>
         <Separator/>
         <MenuItem Header="退出" Command="{Binding ExitCommand}" />
     </ContextMenu>

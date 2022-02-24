@@ -18,9 +18,6 @@
     <Compile Update="Control\GenshinElement\AnnouncementWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Control\GenshinElement\DailyNoteWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Control\GenshinElement\ElementsProgressBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,9 +27,6 @@
     <Compile Update="Control\GenshinElement\HutaoStatistic\UploadDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Control\Title\DailyNoteTitleBarButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Control\Title\JourneyLogTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,9 +34,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Control\Title\SignInTitleBarButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Control\Title\UserInfoTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml.cs">
@@ -72,6 +63,9 @@
     <Compile Update="Page\SponsorPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Page\UserPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Page\WebViewHostPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,9 +83,6 @@
     <Page Update="Control\GenshinElement\AnnouncementWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Control\GenshinElement\DailyNoteWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Control\GenshinElement\ElementsProgressBar.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -107,9 +98,6 @@
     <Page Update="Control\ModernStyle\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Control\Title\DailyNoteTitleBarButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Control\Title\JourneyLogTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -117,9 +105,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\Title\SignInTitleBarButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Control\Title\UserInfoTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\WebView2RuntimeWindow.xaml">
@@ -162,6 +147,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\SponsorPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\UserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\WebViewHostPage.xaml">

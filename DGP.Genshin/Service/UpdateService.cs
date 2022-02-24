@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
@@ -223,7 +222,7 @@ namespace DGP.Genshin.Service
                     .AddText("下次更新需要重新下载安装包")
                     .Show());
                 }
-                
+
                 App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
             }
             else

@@ -24,7 +24,6 @@ namespace DGP.Genshin.ViewModel.Title
     [ViewModel(InjectAs.Transient)]
     public class SignInViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
     {
-        private readonly ISettingService settingService;
         private readonly ICookieService cookieService;
 
         private SignInReward? signInReward;
@@ -91,9 +90,8 @@ namespace DGP.Genshin.ViewModel.Title
         public ICommand SignInCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public SignInViewModel(ISettingService settingService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public SignInViewModel(ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
-            this.settingService = settingService;
             this.cookieService = cookieService;
 
             OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);

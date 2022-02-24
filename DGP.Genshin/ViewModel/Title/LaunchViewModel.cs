@@ -210,7 +210,7 @@ namespace DGP.Genshin.ViewModel.Title
                             ScreenHeight = (int)ScreenHeight
                         };
 
-                        await launchService.LaunchAsync(CurrentScheme, async ex =>
+                        await launchService.LaunchAsync(launchOption, async ex =>
                         {
                             await new ContentDialog()
                             {
@@ -219,7 +219,7 @@ namespace DGP.Genshin.ViewModel.Title
                                 PrimaryButtonText = "确定",
                                 DefaultButton = ContentDialogButton.Primary
                             }.ShowAsync();
-                        }, launchOption);
+                        });
                         break;
                     }
             }

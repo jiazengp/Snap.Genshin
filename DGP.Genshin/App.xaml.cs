@@ -46,6 +46,8 @@ namespace DGP.Genshin
             serviceManager = new SnapGenshinServiceManager();
         }
 
+        #region Properties
+
         /// <summary>
         /// 覆盖默认类型的 Current
         /// </summary>
@@ -84,6 +86,12 @@ namespace DGP.Genshin
         }
         #endregion
 
+        #region IsLaunchedByUser
+        public static bool IsLaunchedByUser { get; set; } = true;
+        #endregion
+
+        #endregion
+
         #region Dependency Injection Helper
         /// <summary>
         /// 全局消息交换器
@@ -92,7 +100,7 @@ namespace DGP.Genshin
 
         public static object AutoWired(Type type)
         {
-            return Current.serviceManager.Services!.GetService(type) 
+            return Current.serviceManager.Services!.GetService(type)
                 ?? throw new SnapGenshinInternalException($"无法找到 {type} 类型的对象。");
         }
 
@@ -217,6 +225,7 @@ namespace DGP.Genshin
         {
             if (Path.GetDirectoryName(AppContext.BaseDirectory) is string workingPath)
             {
+                IsLaunchedByUser = (Environment.CurrentDirectory == workingPath);
                 Environment.CurrentDirectory = workingPath;
             }
         }
@@ -227,17 +236,21 @@ namespace DGP.Genshin
         }
         private void UpdateAppTheme()
         {
-            ThemeManager.Current.ActualAccentColorChanged += (s, e) =>
-            {
-                SecureToastNotificationContext.TryCatch(() =>
+            ThemeManager.Current.ActualAccentColorChanged += OnActualAccentColorChanged;
+            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
+            //set app accent color to correct color.
+            WPFUI.Theme.Manager.ChangeAccentColor(ThemeManager.Current.ActualAccentColor, WPFUI.Theme.Style.Unknown);
+        }
+        private void OnActualAccentColorChanged(ThemeManager sender, object e)
+        {
+            //only notify once
+            ThemeManager.Current.ActualAccentColorChanged -= OnActualAccentColorChanged;
+
+            SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                 .AddText("检测到系统强调色已更改")
                 .AddText("重启程序以正常显示颜色")
                 .Show());
-            };
-            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
-            //set app accent color to correct color.
-            WPFUI.Theme.Manager.ChangeAccentColor(ThemeManager.Current.ActualAccentColor, WPFUI.Theme.Style.Unknown);
         }
         #endregion
     }

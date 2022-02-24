@@ -66,7 +66,6 @@ namespace DGP.Genshin
         private void InitializeContent()
         {
             InitializeComponent();
-            ISettingService settingService = App.AutoWired<ISettingService>();
             //restore width and height from setting
             Width = Setting2.MainWindowWidth.Get();
             Height = Setting2.MainWindowHeight.Get();
@@ -84,7 +83,6 @@ namespace DGP.Genshin
         public async void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
             initializingWindow.Wait();
-            ISettingService settingService = App.AutoWired<ISettingService>();
             SplashViewModel splashViewModel = viewModelReference.Value;
             PrepareTitleBarArea();
             AddAdditionalWebViewNavigationViewItems();
@@ -103,6 +101,8 @@ namespace DGP.Genshin
                 {
                     DoTaskbarFlow();
                 }
+                //树脂服务
+                App.AutoWired<IDailyNoteService>().Initialize();
             }
             splashViewModel.CurrentStateDescription = "完成";
             splashViewModel.IsSplashNotVisible = true;
@@ -116,7 +116,7 @@ namespace DGP.Genshin
             {
                 if (Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null))
                 {
-                    if (Setting2.CloseMainWindowAfterInitializaion.Get())
+                    if ((!App.IsLaunchedByUser) && Setting2.CloseMainWindowAfterInitializaion.Get())
                     {
                         Close();
                     }
@@ -139,7 +139,6 @@ namespace DGP.Genshin
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            ISettingService settingService = App.AutoWired<ISettingService>();
             Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
             initializingWindow.Wait();
             base.OnClosing(e);
@@ -149,11 +148,15 @@ namespace DGP.Genshin
 
             if (hasInitializeCompleted && isTaskbarIconEnabled)
             {
-                if (!hasEverClose)
+                if (Setting2.IsTaskBarIconHintDisplay.Get() && (!hasEverClose))
                 {
                     SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
+                    .AddButton(new ToastButton()
+                        .SetContent("不再显示")
+                        .AddArgument("taskbarhint", "hide")
+                        .SetBackgroundActivation())
                     .Show());
                     hasEverClose = true;
                 }
@@ -165,11 +168,10 @@ namespace DGP.Genshin
         }
         private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ISettingService settingService = App.AutoWired<ISettingService>();
             if (WindowState == WindowState.Normal)
             {
-                settingService.Set(Setting2.MainWindowWidth, Width);
-                settingService.Set(Setting2.MainWindowHeight, Height);
+                Setting2.MainWindowWidth.Set(Width);
+                Setting2.MainWindowHeight.Set(Height);
             }
         }
 
@@ -203,11 +205,9 @@ namespace DGP.Genshin
         /// <summary>
         /// 描述了自带的标题栏定义
         /// </summary>
-        [ImportTitle(typeof(LaunchTitleBarButton), 200)]
-        [ImportTitle(typeof(DailyNoteTitleBarButton), 150)]
-        [ImportTitle(typeof(SignInTitleBarButton), 100)]
-        [ImportTitle(typeof(JourneyLogTitleBarButton), 50)]
-        [ImportTitle(typeof(UserInfoTitleBarButton), 0)]
+        [ImportTitle(typeof(LaunchTitleBarButton), 100)]
+        [ImportTitle(typeof(SignInTitleBarButton), 50)]
+        [ImportTitle(typeof(JourneyLogTitleBarButton), 0)]
         private class TitleDefinition { }
 
         /// <summary>
@@ -253,7 +253,6 @@ namespace DGP.Genshin
         public static async Task SignInAllAccountsRolesAsync()
         {
             ICookieService cookieService = App.AutoWired<ICookieService>();
-            ISettingService settingService = App.AutoWired<ISettingService>();
 
             cookieService.CookiesLock.EnterReadLock();
             foreach (string cookie in cookieService.Cookies)
@@ -263,7 +262,7 @@ namespace DGP.Genshin
                 {
                     SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
 
-                    settingService.Set(Setting2.LastAutoSignInTime, DateTime.Now);
+                    Setting2.LastAutoSignInTime.Set(DateTime.Now);
                     bool isSignInSilently = Setting2.SignInSilently.Get();
                     SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
@@ -281,13 +280,12 @@ namespace DGP.Genshin
         private async void DoUpdateFlowAsync()
         {
             await CheckUpdateAsync();
-            ISettingService settingService = App.AutoWired<ISettingService>();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
             Version? lastLaunchAppVersion = Setting2.AppVersion.Get();
             //first launch after update
             if (lastLaunchAppVersion < updateService.CurrentVersion)
             {
-                settingService.Set(Setting2.AppVersion, updateService.CurrentVersion);
+                Setting2.AppVersion.Set(updateService.CurrentVersion);
                 //App.Current.Dispatcher.InvokeAsync
                 new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
             }

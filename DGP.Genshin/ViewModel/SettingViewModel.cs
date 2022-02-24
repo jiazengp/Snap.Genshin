@@ -14,7 +14,6 @@ using Snap.Data.Utility;
 using Snap.Win32;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -42,6 +41,7 @@ namespace DGP.Genshin.ViewModel
         };
         public List<NamedValue<TimeSpan>> ResinAutoRefreshTime => new()
         {
+            new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
             new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
             new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
             new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),

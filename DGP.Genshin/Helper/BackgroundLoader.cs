@@ -36,7 +36,7 @@ namespace DGP.Genshin.Helper
             string folder = PathContext.Locate(BackgroundFolder);
             Directory.CreateDirectory(folder);
             List<string> supportedFiles = Directory.EnumerateFiles(folder)
-                .Where(path => supportedExtensions.Contains(Path.GetExtension(path)))
+                .Where(path => supportedExtensions.Contains(Path.GetExtension(path).ToLowerInvariant()))
                 .ToList();
 
             if (supportedFiles.GetRandom() is string randomPath)
@@ -51,7 +51,7 @@ namespace DGP.Genshin.Helper
                 {
                     throw new SnapGenshinInternalException($"无法读取图片：{randomPath}");
                 }
-                
+
                 Pixel[,] pixels = image.GetPixels();
                 Lightness = pixels
                     .Cast<Pixel>()

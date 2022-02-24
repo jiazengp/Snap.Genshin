@@ -22,12 +22,10 @@ namespace DGP.Genshin.Service
     [Service(typeof(IIntegrityCheckService), InjectAs.Transient)]
     internal class IntegrityCheckService : IIntegrityCheckService
     {
-        private readonly ISettingService settingService;
         private readonly MetadataViewModel metadataViewModel;
 
-        public IntegrityCheckService(ISettingService settingService, MetadataViewModel metadataViewModel)
+        public IntegrityCheckService(MetadataViewModel metadataViewModel)
         {
-            this.settingService = settingService;
             this.metadataViewModel = metadataViewModel;
         }
 
@@ -47,19 +45,17 @@ namespace DGP.Genshin.Service
         /// <param name="progress">进度</param>
         private async Task CheckIntegrityAsync<T>(IEnumerable<T>? collection, int totalCount, IProgress<IState> progress) where T : KeySource
         {
-            if (collection is null)
+            if (collection is not null)
             {
-                return;
-            }
-
-            await collection.ParallelForEachAsync(async (t) =>
-            {
-                if (!FileCache.Exists(t.Source))
+                await collection.ParallelForEachAsync(async (t) =>
                 {
-                    using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                }
-                progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
-            });
+                    if (!FileCache.Exists(t.Source))
+                    {
+                        using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                    }
+                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
+                });
+            }
         }
 
         /// <summary>

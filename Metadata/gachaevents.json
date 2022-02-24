@@ -2238,15 +2238,15 @@
     "UpStar5List": [
       {
         "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
-        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1404.png",
-        "Name": "磐岩结绿",
-        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
-      },
-      {
-        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
         "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_5407.png",
         "Name": "神乐之真意",
         "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_43101.png"
+      },
+      {
+        "StarUrl": "https://genshin.honeyhunterworld.com/img/back/item/5star.png",
+        "Source": "https://genshin.honeyhunterworld.com/img/weapon/w_1404.png",
+        "Name": "磐岩结绿",
+        "Badge": "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"
       }
     ],
     "UpStar4List": [

@@ -4,9 +4,9 @@ using Snap.Core.DependencyInjection;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class WeeklyPage : System.Windows.Controls.Page
+    public partial class UserPage : System.Windows.Controls.Page
     {
-        public WeeklyPage(WeeklyViewModel vm)
+        public UserPage(UserViewModel vm)
         {
             DataContext = vm;
             InitializeComponent();

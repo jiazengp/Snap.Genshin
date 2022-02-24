@@ -26,6 +26,7 @@ namespace DGP.Genshin.Service
             string key = definition.Name;
             T defaultValue = definition.DefaultValue;
             Func<object, T>? converter = definition.Converter;
+
             if (!settings.TryGetValue(key, out object? value))
             {
                 settings[key] = defaultValue;
@@ -33,9 +34,21 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                return converter is null
-                    ? (T)value!
-                    : converter.Invoke(value!);
+                if (value is T tValue)
+                {
+                    return tValue;
+                }
+                else
+                {
+                    if (converter is null)
+                    {
+                        return (T)value!;
+                    }
+                    else
+                    {
+                        return converter.Invoke(value!);
+                    }
+                }
             }
         }
 

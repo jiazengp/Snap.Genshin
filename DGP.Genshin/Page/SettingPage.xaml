@@ -342,7 +342,7 @@
                 </wu:CardControl>
                 <wu:CardAction helper:IconHelper.Icon="&#xE838;" 
                                helper:CardHelper.ActionTitle="打开背景图片文件夹" 
-                               helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时在每次打开主界面时会随机一张作为背景，仅支持 JPG PNG BMP 格式"
+                               helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时，在每次打开主界面时会随机一张作为背景，仅支持 JPG PNG BMP 格式"
                                Command="{Binding OpenBackgroundFolderCommand}"
                                Margin="12,12,16,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
@@ -390,8 +390,8 @@
                     <ui:ToggleSwitch IsOn="{Binding IsTaskBarIconEnabled}"/>
                 </wu:CardControl>
 
-                <TextBlock Text="桌面小组件" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="树脂小组件刷新时间" Subtitle="设置桌面上的树脂小组件（需要启用托盘图标）的刷新间隔时间" Margin="12,12,16,0">
+                <TextBlock Text="数据" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="实时便笺刷新时间" Subtitle="设置实时便笺后台的刷新间隔时间（退出程序后不会刷新）" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding ResinAutoRefreshTime,Mode=OneWay}" SelectedItem="{Binding SelectedResinAutoRefreshTime}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
 

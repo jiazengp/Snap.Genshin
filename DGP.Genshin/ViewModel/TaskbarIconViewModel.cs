@@ -1,94 +1,34 @@
-﻿using DGP.Genshin.DataModel.Cookie;
-using DGP.Genshin.DataModel.DailyNote;
-using DGP.Genshin.Helper;
-using DGP.Genshin.Message;
-using DGP.Genshin.MiHoYoAPI.GameRole;
+﻿using DGP.Genshin.Helper;
+using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using Snap.Core.Mvvm;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class TaskbarIconViewModel : ObservableRecipient2,
-        IRecipient<CookieAddedMessage>,
-        IRecipient<CookieRemovedMessage>,
-        IRecipient<AppExitingMessage>
+    internal class TaskbarIconViewModel : ObservableRecipient2
     {
-        private readonly ICookieService cookieService;
-
-        private ObservableCollection<ResinWidgetConfigration>? resinWidget;
-
-        public ObservableCollection<ResinWidgetConfigration>? ResinWidgets
-        {
-            get => resinWidget;
-            set => SetProperty(ref resinWidget, value);
-        }
-
         public ICommand ShowMainWindowCommand { get; }
         public ICommand ExitCommand { get; }
-        public ICommand UpdateWidgetsCommand { get; }
         public ICommand RestartElevatedCommand { get; }
+        public ICommand LaunchGameCommand { get; set; }
 
-        public TaskbarIconViewModel(ICookieService cookieService, IScheduleService scheduleService, IMessenger messenger)
-            : base(messenger)
+        public TaskbarIconViewModel(IMessenger messenger) : base(messenger)
         {
-            this.cookieService = cookieService;
-
-            scheduleService.Initialize();
-            InitializeResinWidgetsAsync();
-
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
-            UpdateWidgetsCommand = new RelayCommand(UpdateWidgets);
             RestartElevatedCommand = new RelayCommand(RestartElevated);
+            LaunchGameCommand = new AsyncRelayCommand(LaunchGameAsync);
         }
 
-        private async void InitializeResinWidgetsAsync()
-        {
-            List<CookieUserGameRole> cookieUserGameRoles = new();
-
-            cookieService.CookiesLock.EnterReadLock();
-            foreach (string cookie in cookieService.Cookies)
-            {
-                cookieUserGameRoles.AddRange(await cookieService.GetCookieUserGameRolesOf(cookie));
-            }
-            cookieService.CookiesLock.ExitReadLock();
-
-            //首先初始化可用的列表
-            ResinWidgets = new(cookieUserGameRoles.Select(role => new ResinWidgetConfigration { CookieUserGameRole = role }));
-            //读取储存的状态
-            List<ResinWidgetConfigration>? storedResinWidgets = Setting2.ResinWidgetConfigrations.Get();
-            //开始恢复状态
-            if (storedResinWidgets?.Count > 0)
-            {
-                foreach (ResinWidgetConfigration widget in ResinWidgets)
-                {
-                    ResinWidgetConfigration? matched = storedResinWidgets
-                        .FirstOrDefault(stored => stored.CookieUserGameRole?.Equals(widget.CookieUserGameRole) == true);
-                    if (matched != null)
-                    {
-                        widget.IsPresent = matched.IsPresent;
-                        widget.Top = matched.Top;
-                        widget.Left = matched.Left;
-                    }
-                }
-            }
-            //initialize widgets state
-            foreach (ResinWidgetConfigration widget in ResinWidgets)
-            {
-                widget.Initialize();
-            }
-        }
         private void OpenMainWindow()
         {
             App.Current.Dispatcher.Invoke(() => App.BringWindowToFront<MainWindow>());
@@ -96,10 +36,6 @@ namespace DGP.Genshin.ViewModel
         private void ExitApp()
         {
             App.Current.Shutdown();
-        }
-        private void UpdateWidgets()
-        {
-            App.Messenger.Send<TickScheduledMessage>();
         }
         private void RestartElevated()
         {
@@ -116,45 +52,28 @@ namespace DGP.Genshin.ViewModel
             {
                 return;
             }
-            
+
             App.Current.Shutdown();
         }
-        public async void Receive(CookieAddedMessage message)
+        private async Task LaunchGameAsync()
         {
-            string cookie = message.Value;
-            List<CookieUserGameRole> results = new();
-            List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-            results.AddRange(userGameRoles.Select(u => new CookieUserGameRole(cookie, u)));
-            foreach (CookieUserGameRole role in results)
+            LaunchOption? launchOption = new()
             {
-                ResinWidgets?.Add(new ResinWidgetConfigration { CookieUserGameRole = role });
-            }
-        }
-        public void Receive(CookieRemovedMessage message)
-        {
-            IEnumerable<ResinWidgetConfigration> targets = ResinWidgets!
-                .Where(u => u.CookieUserGameRole!.Cookie == message.Value);
-            //.ToList() fix exception with enumrate a modified collection.
-            foreach (ResinWidgetConfigration target in targets.ToList())
+                IsBorderless = Setting2.IsBorderless.Get(),
+                IsFullScreen = Setting2.IsFullScreen.Get(),
+                UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
+                TargetFPS = (int)Setting2.TargetFPS.Get(),
+                ScreenWidth = (int)Setting2.ScreenWidth.Get(),
+                ScreenHeight = (int)Setting2.ScreenHeight.Get()
+            };
+            await App.AutoWired<ILaunchService>().LaunchAsync(launchOption, ex =>
             {
-                target.IsChecked = false;
-                ResinWidgets?.Remove(target);
-            }
-        }
-        public void Receive(AppExitingMessage message)
-        {
-            if (ResinWidgets is not null)
-            {
-                foreach (ResinWidgetConfigration? widget in ResinWidgets)
-                {
-                    widget.UpdatePropertyState();
-                }
-                Setting2.ResinWidgetConfigrations.Set(ResinWidgets);
-            }
-            else
-            {
-                this.Log("no resin widget saved,collection is null");
-            }
+                SecureToastNotificationContext.TryCatch(() =>
+                new ToastContentBuilder()
+                    .AddText("启动游戏失败")
+                    .AddText(ex.Message)
+                    .Show());
+            });
         }
     }
 }

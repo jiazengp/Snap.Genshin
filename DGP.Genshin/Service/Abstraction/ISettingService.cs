@@ -2,7 +2,6 @@
 using ModernWpf;
 using Snap.Data.Json;
 using System;
-using System.Collections.Generic;
 
 namespace DGP.Genshin.Service.Abstraction
 {
@@ -67,9 +66,10 @@ namespace DGP.Genshin.Service.Abstraction
         public static readonly SettingDefinition<bool> UpdateUseFastGit = new("UpdateUseFastGit", false);
         //resin
         public static readonly SettingDefinition<double> ResinRefreshMinutes = new("ResinRefreshMinutes", 8D);
-        public static readonly SettingDefinition<List<ResinWidgetConfigration>?> ResinWidgetConfigrations = new("ResinWidgetConfigrations", null, ComplexConverter<List<ResinWidgetConfigration>>);
+        public static readonly SettingDefinition<DailyNoteNotifyConfiguration?> DailyNoteNotifyConfiguration = new("DailyNoteNotifyConfiguration", null, ComplexConverter<DailyNoteNotifyConfiguration>);
         //taskbar
         public static readonly SettingDefinition<bool> IsTaskBarIconEnabled = new("IsTaskBarIconEnabled", true);
+        public static readonly SettingDefinition<bool> IsTaskBarIconHintDisplay = new("IsTaskBarIconHintDisplay", true);
         //main window
         public static readonly SettingDefinition<bool> CloseMainWindowAfterInitializaion = new("CloseMainWindowAfterInitializaion", false);
         public static readonly SettingDefinition<double> MainWindowWidth = new("MainWindowWidth", 0D);

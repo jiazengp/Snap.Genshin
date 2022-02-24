@@ -27,7 +27,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// </summary>
         /// <param name="scheme">启动方案</param>
         /// <param name="failAction">启动失败回调</param>
-        Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option);
+        Task LaunchAsync(LaunchOption option, Action<Exception> failAction);
 
         /// <summary>
         /// 加载配置文件数据

@@ -152,12 +152,8 @@ namespace DGP.Genshin.Service
 
         private Unlocker? unlocker;
 
-        public async Task LaunchAsync(LaunchScheme? scheme, Action<Exception> failAction, LaunchOption option)
+        public async Task LaunchAsync(LaunchOption option, Action<Exception> failAction)
         {
-            if (scheme is null)
-            {
-                return;
-            }
             string? launcherPath = Setting2.LauncherPath.Get();
             if (launcherPath is not null)
             {

@@ -33,6 +33,11 @@
             ExpandedModeThresholdWidth="21600">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
+                <ui:NavigationViewItem Content="账号管理" helpers:NavHelper.NavigateTo="{x:Type pages:UserPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE748;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BtnIcon_Gacha.png"
@@ -51,13 +56,13 @@
                 <ui:NavigationViewItem Content="周常材料" helpers:NavHelper.NavigateTo="{x:Type pages:WeeklyPage}" Icon="CalendarWeek"/>
                 <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharacterPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Avatar.png" 
+                        <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Avatar.png" 
                                        UriSource="pack://application:,,,/Resources/UI_BagTabIcon_Avatar.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Weapon.png"  
+                        <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Weapon.png"  
                                        UriSource="pack://application:,,,/Resources/UI_BagTabIcon_Weapon.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
