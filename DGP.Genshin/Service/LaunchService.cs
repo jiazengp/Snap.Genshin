@@ -28,7 +28,7 @@ namespace DGP.Genshin.Service
     /// <summary>
     /// 启动服务的默认实现
     /// </summary>
-    [Service(typeof(ILaunchService), InjectAs.Transient)]
+    [Service(typeof(ILaunchService), InjectAs.Singleton)]
     internal class LaunchService : ILaunchService
     {
         private const string AccountsFileName = "accounts.json";

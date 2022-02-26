@@ -13,10 +13,16 @@ namespace DGP.Genshin.Service
     internal class ScheduleService : IScheduleService, IRecipient<AppExitingMessage>
     {
         private readonly CancellationTokenSource cancellationTokenSource = new();
+        private readonly IMessenger messenger;
+
+        public ScheduleService(IMessenger messenger)
+        {
+            this.messenger = messenger;
+        }
 
         public async void Initialize()
         {
-            App.Messenger.RegisterAll(this);
+            messenger.RegisterAll(this);
             try
             {
                 await Task.Run(async () =>
@@ -26,7 +32,7 @@ namespace DGP.Genshin.Service
                         double minutes = Setting2.ResinRefreshMinutes.Get();
                         await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
                         this.Log("Tick scheduled");
-                        App.Messenger.Send(new TickScheduledMessage());
+                        messenger.Send(new TickScheduledMessage());
                     }
                 }, cancellationTokenSource.Token)/*.ConfigureAwait(false)*/;
             }
@@ -35,7 +41,7 @@ namespace DGP.Genshin.Service
         public void UnInitialize()
         {
             cancellationTokenSource.Cancel();
-            App.Messenger.UnregisterAll(this);
+            messenger.UnregisterAll(this);
         }
         public void Receive(AppExitingMessage message)
         {

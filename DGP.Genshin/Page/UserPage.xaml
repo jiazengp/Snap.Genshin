@@ -19,6 +19,12 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Page.Resources>
+        <sys:Double x:Key="PivotHeaderItemFontSize">16</sys:Double>
+
+        <Style x:Key="PivotItemStyle" TargetType="TabItem" BasedOn="{StaticResource TabItemPivotStyle}">
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
         <sys:TimeSpan x:Key="RepositionDelay">0:0:0.033</sys:TimeSpan>
         <KeyTime x:Key="RepositionDuration">0:0:0.367</KeyTime>
         <KeySpline x:Key="RepositionKeySpline">0.1,0.9 0.2,1.0</KeySpline>
@@ -343,7 +349,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ui:CommandBar Grid.Row="0">
+            <ui:CommandBar Grid.Row="0" Background="Transparent">
                 <ui:AppBarButton Label="添加一个新账号" Command="{Binding AddUserCommand}">
                     <ui:AppBarButton.Icon>
                         <ui:FontIcon Glyph="&#xE8FA;"/>
@@ -631,229 +637,231 @@
                 </ui:ListView>
             </s:SmoothScrollViewer>
         </Grid>
-        <!--实时便笺-->
+        
         <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <ui:CommandBar>
-                <ui:CommandBar.Content>
+            <TabControl Style="{StaticResource TabControlPivotStyle}" 
+                        ItemContainerStyle="{StaticResource PivotItemStyle}">
+                <ui:PivotHelper.LeftHeader>
                     <StackPanel Orientation="Horizontal">
                         <ui:AppBarSeparator Margin="-10,0"/>
-                        <ComboBox
+                        
+                    </StackPanel>
+                </ui:PivotHelper.LeftHeader>
+                <ui:PivotHelper.RightHeader>
+                    <ui:CommandBar Background="Transparent">
+                        <ui:AppBarElementContainer>
+                            <ComboBox
                             ItemsSource="{Binding CookieUserGameRoles}"
                             SelectedItem="{Binding SelectedCookieGameRole,Mode=TwoWay}"
                             Margin="0,4,0,0"/>
-                    </StackPanel>
-                </ui:CommandBar.Content>
-                <ui:AppBarButton Label="立即刷新" Icon="Refresh" Command="{Binding RefreshDailyNoteCommand}"/>
-            </ui:CommandBar>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition MaxWidth="400"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Width="332" Margin="12,0" HorizontalAlignment="Left">
-                    <wu:Card Padding="0" Margin="0,12,0,0">
-                        <Grid>
+                        </ui:AppBarElementContainer>
+                        <ui:AppBarSeparator Margin="-10,0"/>
+                        <ui:AppBarButton Label="立即刷新" Icon="Refresh" Command="{Binding RefreshDailyNoteCommand}"/>
+                    </ui:CommandBar>
+                </ui:PivotHelper.RightHeader>
+                <TabItem Header="实时便笺">
+                    <s:SmoothScrollViewer>
+                        <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition MaxWidth="540"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <ui:ProgressBar 
-                            Grid.ColumnSpan="2"
-                            VerticalAlignment="Bottom" 
-                            Background="Transparent"
-                            Value="{Binding DailyNote.CurrentResin}"
-                            Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
-                            Maximum="{Binding DailyNote.MaxResin}"/>
+                            <StackPanel Margin="12,0,12,12" HorizontalAlignment="Stretch">
+                                <wu:Card Padding="0" Margin="0,12,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar 
+                                        Grid.ColumnSpan="2"
+                                        VerticalAlignment="Bottom" 
+                                        Background="Transparent"
+                                        Value="{Binding DailyNote.CurrentResin}"
+                                        Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
+                                        Maximum="{Binding DailyNote.MaxResin}"/>
 
-                            <StackPanel Grid.Column="0" Margin="8">
-                                <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.ResinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="原粹树脂" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.ResinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="DailyNote.CurrentResin"/>
-                                        <Binding Path="DailyNote.MaxResin"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                    </wu:Card>
-                    <wu:Card Padding="0" Margin="0,12,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <ui:ProgressBar
-                            Grid.ColumnSpan="2"
-                            VerticalAlignment="Bottom" 
-                            Background="Transparent"
-                            Value="{Binding DailyNote.CurrentHomeCoin}"
-                            Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
-                            Maximum="{Binding DailyNote.MaxHomeCoin}"/>
-                            <StackPanel Grid.Column="0" Margin="8">
-                                <TextBlock Text="洞天宝钱" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="DailyNote.CurrentResin"/>
+                                                    <Binding Path="DailyNote.MaxResin"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </wu:Card>
+                                <wu:Card Padding="0" Margin="0,12,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        VerticalAlignment="Bottom" 
+                                        Background="Transparent"
+                                        Value="{Binding DailyNote.CurrentHomeCoin}"
+                                        Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
+                                        Maximum="{Binding DailyNote.MaxHomeCoin}"/>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="洞天宝钱" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted,StringFormat={}将于 {0} 全部恢复}" 
                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="6">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="DailyNote.CurrentHomeCoin"/>
-                                        <Binding Path="DailyNote.MaxHomeCoin"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                    </wu:Card>
-                    <wu:Card Padding="0" Margin="0,12,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <ui:ProgressBar
-                            Grid.ColumnSpan="2"
-                            VerticalAlignment="Bottom" 
-                            Background="Transparent"
-                            Value="{Binding DailyNote.FinishedTaskNum}"
-                            Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
-                            Maximum="{Binding DailyNote.TotalTaskNum}"/>
-                            <StackPanel Grid.Column="0" Margin="8">
-                                <TextBlock Text="每日委托任务" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.ExtraTaskRewardDescription}" Style="{StaticResource CaptionTextBlockStyle}"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="DailyNote.FinishedTaskNum"/>
-                                        <Binding Path="DailyNote.TotalTaskNum"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                    </wu:Card>
-                    <wu:Card Padding="0" Margin="0,12,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <ui:ProgressBar
-                            Grid.ColumnSpan="2"
-                            VerticalAlignment="Bottom" 
-                            Background="Transparent"
-                            Value="{Binding DailyNote.ResinDiscountUsedNum,Mode=OneWay}"
-                            Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
-                            Maximum="{Binding DailyNote.ResinDiscountNumLimit}"/>
-                            <StackPanel Grid.Column="0" Margin="8">
-                                <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" Text="本周已使用消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="DailyNote.ResinDiscountUsedNum"/>
-                                        <Binding Path="DailyNote.ResinDiscountNumLimit"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                    </wu:Card>
-                    <wu:Card Padding="0" Margin="0,12,0,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Column="0" Margin="8">
-                                <TextBlock Text="探索派遣" Style="{StaticResource BaseTextBlockStyle}"/>
-                                <TextBlock Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}限制：{0}/{1}">
-                                            <Binding Path="DailyNote.CurrentExpeditionNum"/>
-                                            <Binding Path="DailyNote.MaxExpeditionNum"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </StackPanel>
-                            <ItemsControl Grid.Row="1" Margin="8,0,8,16" ItemsSource="{Binding DailyNote.Expeditions}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,8,0,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <c:CachedImage Width="32" Height="32" ImageUrl="{Binding AvatarSideIcon}"/>
-                                            <TextBlock Margin="0,0,6,0"
-                                            Grid.Column="1"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Right"
-                                            Text="{Binding RemainedTimeFormatted,StringFormat={}剩余探索时间：{0}}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </wu:Card>
-                </StackPanel>
-                <s:SmoothScrollViewer Grid.Column="1">
-                    <StackPanel  Margin="0,0,16,12" HorizontalAlignment="Stretch">
-                        <wu:CardExpander
-                            MaxWidth="400" MinWidth="280"
-                            Header="原粹树脂提醒" Subtitle="当原粹树脂到达或超过某一数值时提醒我" Margin="0,12,0,0">
-                            <StackPanel>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="6">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="DailyNote.CurrentHomeCoin"/>
+                                                    <Binding Path="DailyNote.MaxHomeCoin"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </wu:Card>
+                                <wu:Card Padding="0" Margin="0,12,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        VerticalAlignment="Bottom" 
+                                        Background="Transparent"
+                                        Value="{Binding DailyNote.FinishedTaskNum}"
+                                        Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
+                                        Maximum="{Binding DailyNote.TotalTaskNum}"/>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="每日委托任务" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.ExtraTaskRewardDescription}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="DailyNote.FinishedTaskNum"/>
+                                                    <Binding Path="DailyNote.TotalTaskNum"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </wu:Card>
+                                <wu:Card Padding="0" Margin="0,12,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        VerticalAlignment="Bottom" 
+                                        Background="Transparent"
+                                        Value="{Binding DailyNote.ResinDiscountUsedNum,Mode=OneWay}"
+                                        Minimum="0" Margin="6,0,6,4" MinHeight="2" Height="2"
+                                        Maximum="{Binding DailyNote.ResinDiscountNumLimit}"/>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="值得铭记的强敌" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="本周已使用消耗减半次数" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                    <Binding Path="DailyNote.ResinDiscountUsedNum"/>
+                                                    <Binding Path="DailyNote.ResinDiscountNumLimit"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </wu:Card>
+                                <wu:Card Padding="0" Margin="0,12,0,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="探索派遣" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}限制：{0}/{1}">
+                                                        <Binding Path="DailyNote.CurrentExpeditionNum"/>
+                                                        <Binding Path="DailyNote.MaxExpeditionNum"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <ItemsControl Grid.Row="1" Margin="8,0,8,16" ItemsSource="{Binding DailyNote.Expeditions}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,8,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <c:CachedImage Width="32" Height="32" ImageUrl="{Binding AvatarSideIcon}"/>
+                                                        <TextBlock Margin="0,0,6,0"
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Bottom"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding RemainedTimeFormatted,StringFormat={}剩余探索时间：{0}}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </wu:Card>
+                                <wu:CardExpander Header="原粹树脂提醒" Subtitle="当原粹树脂到达或超过某一数值时提醒我" Margin="0,12,0,0">
+                                    <StackPanel>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="20" Subtitle="当我的树脂到达或超过 20 时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach20}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach20}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="40" Subtitle="当原粹树脂到达或超过 40 时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach40}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach40}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="80" Subtitle="当原粹树脂到达或超过 80 时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach80}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach80}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="120" Subtitle="当原粹树脂到达或超过 120 时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach120}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach120}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="155" Subtitle="当原粹树脂到达或超过 155 时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach155}"/>
-                                </wu:CardControl>
-                            </StackPanel>
-                        </wu:CardExpander>
-                        <wu:CardExpander
-                            MaxWidth="400" MinWidth="280"
-                            Header="其他提醒" Subtitle="其他很有用的提醒" Margin="0,12,0,0">
-                            <StackPanel>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnResinReach155}"/>
+                                        </wu:CardControl>
+                                    </StackPanel>
+                                </wu:CardExpander>
+                                <wu:CardExpander Header="其他提醒" Subtitle="其他很有用的提醒" Margin="0,12,0,0">
+                                    <StackPanel>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="80%" Subtitle="当洞天宝钱到达或超过 80% 最大容量时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnHomeCoinReach80Percent}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnHomeCoinReach80Percent}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="每日任务" Subtitle="当每日任务未完成或完成但未领取奖励时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnDailyTasksIncomplete}"/>
-                                </wu:CardControl>
-                                <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnDailyTasksIncomplete}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="探索派遣" Subtitle="当探索派遣全部完成时提醒我">
-                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnExpeditionsComplete}"/>
-                                </wu:CardControl>
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnExpeditionsComplete}"/>
+                                        </wu:CardControl>
+                                    </StackPanel>
+                                </wu:CardExpander>
                             </StackPanel>
-                        </wu:CardExpander>
-                    </StackPanel>
-                </s:SmoothScrollViewer>
-            </Grid>
+                        </Grid>
+                    </s:SmoothScrollViewer>
+                </TabItem>
+                <TabItem Header="每日签到"/>
+                <TabItem Header="旅行札记"/>
+            </TabControl>
         </Grid>
     </Grid>
 </Page>

@@ -31,29 +31,52 @@ namespace DGP.Genshin.Helper.Notification
                         .Show());
                 }
             }
-            else if(args.TryGetValue("taskbarhint", out string taskbarhint) && taskbarhint == "hide")
+            else if (args.TryGetValue("taskbarhint", out string taskbarhint) && taskbarhint == "hide")
             {
                 Setting2.IsTaskBarIconHintDisplay.Set(false);
             }
             else if (args.TryGetValue("launch", out string launch) && launch == "game")
             {
-                LaunchOption? launchOption = new()
+                ILaunchService launchService = App.AutoWired<ILaunchService>();
+                switch (launch)
                 {
-                    IsBorderless = Setting2.IsBorderless.Get(),
-                    IsFullScreen = Setting2.IsFullScreen.Get(),
-                    UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
-                    TargetFPS = (int)Setting2.TargetFPS.Get(),
-                    ScreenWidth = (int)Setting2.ScreenWidth.Get(),
-                    ScreenHeight = (int)Setting2.ScreenHeight.Get()
-                };
-                await App.AutoWired<ILaunchService>().LaunchAsync(launchOption, ex =>
-                {
-                    SecureToastNotificationContext.TryCatch(() =>
-                    new ToastContentBuilder()
-                        .AddText("启动游戏失败")
-                        .AddText(ex.Message)
-                        .Show());
-                });
+                    case "game":
+                        {
+                            LaunchOption? launchOption = new()
+                            {
+                                IsBorderless = Setting2.IsBorderless.Get(),
+                                IsFullScreen = Setting2.IsFullScreen.Get(),
+                                UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
+                                TargetFPS = (int)Setting2.TargetFPS.Get(),
+                                ScreenWidth = (int)Setting2.ScreenWidth.Get(),
+                                ScreenHeight = (int)Setting2.ScreenHeight.Get()
+                            };
+                            await launchService.LaunchAsync(launchOption, ex =>
+                            {
+                                SecureToastNotificationContext.TryCatch(() =>
+                                new ToastContentBuilder()
+                                    .AddText("启动游戏失败")
+                                    .AddText(ex.Message)
+                                    .Show());
+                            });
+                            break;
+                        }
+                    case "launcher":
+                        {
+                            launchService.OpenOfficialLauncher(async ex =>
+                            {
+                                SecureToastNotificationContext.TryCatch(() =>
+                                new ToastContentBuilder()
+                                    .AddText("打开启动器失败")
+                                    .AddText(ex.Message)
+                                    .Show());
+                            });
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                
             }
         }
     }

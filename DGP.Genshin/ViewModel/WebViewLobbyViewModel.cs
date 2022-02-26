@@ -21,6 +21,9 @@ namespace DGP.Genshin.ViewModel
     {
         private const string entriesFileName = "WebviewEntries.json";
         private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
+
+        private readonly IMessenger messenger;
+
         private ObservableCollection<WebViewEntry>? entries;
 
         public ObservableCollection<WebViewEntry>? Entries { get => entries; set => SetProperty(ref entries, value); }
@@ -28,8 +31,10 @@ namespace DGP.Genshin.ViewModel
         public ICommand AddEntryCommand { get; }
         public ICommand CommonScriptCommand { get; }
 
-        public WebViewLobbyViewModel()
+        public WebViewLobbyViewModel(IMessenger messenger)
         {
+            this.messenger = messenger;
+
             LoadEntries();
 
             AddEntryCommand = new AsyncRelayCommand(AddEntryAsync);
@@ -75,7 +80,7 @@ namespace DGP.Genshin.ViewModel
         }
         private void Navigate(WebViewEntry? entry)
         {
-            App.Messenger.Send(new NavigateRequestMessage(typeof(WebViewHostPage), false, entry));
+            messenger.Send(new NavigateRequestMessage(typeof(WebViewHostPage), false, entry));
         }
         private void LoadEntries()
         {

@@ -187,6 +187,7 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
+                //make sure settings are saved last
                 AutoWired<ISettingService>().UnInitialize();
                 try { ToastNotificationManagerCompat.History.Clear(); } catch { }
                 this.Log($"Exit code : {e.ApplicationExitCode}");
@@ -195,6 +196,7 @@ namespace DGP.Genshin
         }
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
+            e.Cancel = true;
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());

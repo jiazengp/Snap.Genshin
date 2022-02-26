@@ -16,17 +16,23 @@ namespace DGP.Genshin.ViewModel
     [ViewModel(InjectAs.Transient)]
     internal class TaskbarIconViewModel : ObservableRecipient2
     {
+        private readonly ILaunchService launchService;
+
         public ICommand ShowMainWindowCommand { get; }
         public ICommand ExitCommand { get; }
         public ICommand RestartElevatedCommand { get; }
-        public ICommand LaunchGameCommand { get; set; }
+        public ICommand LaunchGameCommand { get; }
+        public ICommand OpenLauncherCommand { get; }
 
-        public TaskbarIconViewModel(IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ILaunchService launchService, IMessenger messenger) : base(messenger)
         {
+            this.launchService = launchService;
+
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
             RestartElevatedCommand = new RelayCommand(RestartElevated);
             LaunchGameCommand = new AsyncRelayCommand(LaunchGameAsync);
+            OpenLauncherCommand = new RelayCommand(OpenLauncher);
         }
 
         private void OpenMainWindow()
@@ -57,20 +63,22 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task LaunchGameAsync()
         {
-            LaunchOption? launchOption = new()
-            {
-                IsBorderless = Setting2.IsBorderless.Get(),
-                IsFullScreen = Setting2.IsFullScreen.Get(),
-                UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
-                TargetFPS = (int)Setting2.TargetFPS.Get(),
-                ScreenWidth = (int)Setting2.ScreenWidth.Get(),
-                ScreenHeight = (int)Setting2.ScreenHeight.Get()
-            };
-            await App.AutoWired<ILaunchService>().LaunchAsync(launchOption, ex =>
+            await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
             {
                 SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                     .AddText("启动游戏失败")
+                    .AddText(ex.Message)
+                    .Show());
+            });
+        }
+        private void OpenLauncher()
+        {
+            launchService.OpenOfficialLauncher(ex =>
+            {
+                SecureToastNotificationContext.TryCatch(() =>
+                new ToastContentBuilder()
+                    .AddText("打开启动器失败")
                     .AddText(ex.Message)
                     .Show());
             });

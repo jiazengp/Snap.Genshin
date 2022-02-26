@@ -30,12 +30,19 @@ namespace DGP.Genshin.Service
 
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
+        private readonly IMessenger messenger;
+
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
         public Release? Release { get; set; }
         public Version CurrentVersion => App.Current.Version;
 
         private Downloader? InnerDownloader { get; set; }
+
+        public UpdateService(IMessenger messenger)
+        {
+            this.messenger = messenger;
+        }
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
@@ -95,7 +102,7 @@ namespace DGP.Genshin.Service
                 }
                 finally
                 {
-                    App.Messenger.Send(UpdateProgressedMessage.Default);
+                    messenger.Send(UpdateProgressedMessage.Default);
                 }
 
                 if (caught)
@@ -157,7 +164,7 @@ namespace DGP.Genshin.Service
         {
             //message will be sent anyway.
             string valueString = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
-            App.Messenger.Send(new UpdateProgressedMessage(percent ?? 0, valueString, percent <= 1));
+            messenger.Send(new UpdateProgressedMessage(percent ?? 0, valueString, percent <= 1));
             //if user has dismissed the notification, we don't update it anymore
             if (lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
             {
@@ -189,7 +196,6 @@ namespace DGP.Genshin.Service
 
             // Update the existing notification's data
             lastNotificationUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
-            this.Log("UpdateNotificationValue called");
         }
 
         /// <summary>
@@ -200,6 +206,7 @@ namespace DGP.Genshin.Service
             Directory.CreateDirectory(UpdaterFolder);
             PathContext.MoveToFolderOrIgnore(UpdaterExecutable, UpdaterFolder);
             string oldUpdaterPath = PathContext.Locate(UpdaterFolder, UpdaterExecutable);
+
             if (File.Exists(oldUpdaterPath))
             {
                 try
@@ -213,6 +220,7 @@ namespace DGP.Genshin.Service
                         FileName = oldUpdaterPath,
                         Arguments = "UpdateInstall"
                     });
+                    App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
                 }
                 catch (Win32Exception)
                 {
@@ -222,8 +230,6 @@ namespace DGP.Genshin.Service
                     .AddText("下次更新需要重新下载安装包")
                     .Show());
                 }
-
-                App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
             }
             else
             {

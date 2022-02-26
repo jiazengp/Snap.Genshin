@@ -366,14 +366,6 @@
                     <ui:ToggleSwitch IsOn="{Binding SkipCacheCheck}"/>
                 </wu:CardControl>
 
-                <TextBlock Text="标题栏" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardAction 
-                    helper:IconHelper.Icon="&#xE8D7;"
-                    helper:CardHelper.ActionTitle="开启实时便笺权限"
-                    helper:CardHelper.ActionSubtitle="尝试开启当前账户的实时便笺权限"
-                    Command="{Binding EnableDailyNoteCommand}"
-                    Margin="12,12,16,0"/>
-
                 <TextBlock Text="米游社签到" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE73E;" Title="自动签到" Subtitle="每日首次启动时签到，如果存在多个账号，所有账户的均会签到" Margin="12,12,16,0">
                     <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>

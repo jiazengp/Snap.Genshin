@@ -7,6 +7,7 @@
         <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
         <Separator/>
         <MenuItem Header="启动游戏" Command="{Binding LaunchGameCommand}"/>
+        <MenuItem Header="打开启动器" Command="{Binding OpenLauncherCommand}"/>
         <Separator/>
         <MenuItem Header="退出" Command="{Binding ExitCommand}" />
     </ContextMenu>

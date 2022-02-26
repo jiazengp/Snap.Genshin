@@ -1,10 +1,12 @@
 ﻿using DGP.Genshin.Helper;
+using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
@@ -119,7 +121,7 @@ namespace DGP.Genshin.ViewModel
             set
             {
                 Setting2.BackgroundOpacity.Set(value, false, false);
-                App.Messenger.Send(new BackgroundOpacityChangedMessage(value));
+                Messenger.Send(new BackgroundOpacityChangedMessage(value));
                 SetProperty(ref backgroundOpacity, value);
             }
         }
@@ -176,7 +178,6 @@ namespace DGP.Genshin.ViewModel
         public ICommand SponsorUICommand { get; }
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
-        public ICommand EnableDailyNoteCommand { get; }
 
         public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
@@ -212,7 +213,6 @@ namespace DGP.Genshin.ViewModel
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
-            EnableDailyNoteCommand = new AsyncRelayCommand(EnableDailyNotePermissionAsync);
         }
 
         private void CopyUserIdToClipBoard()
@@ -233,15 +233,11 @@ namespace DGP.Genshin.ViewModel
         }
         private void NavigateToSponsorPage()
         {
-            App.Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
+            Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
         }
         private async Task CheckUpdateAsync()
         {
             UpdateState result = await updateService.CheckUpdateStateAsync();
-#if DEBUG
-            //update debug code here
-            result = UpdateState.NeedUpdate;
-#endif
             switch (result)
             {
                 case UpdateState.NeedUpdate:
@@ -249,19 +245,25 @@ namespace DGP.Genshin.ViewModel
                         await updateService.DownloadAndInstallPackageAsync();
                         break;
                     }
+                case UpdateState.IsNewestRelease:
+                    {
+                        SecureToastNotificationContext.TryCatch(() =>
+                        new ToastContentBuilder()
+                            .AddText("已是最新发行版")
+                            .Show());
+                        break;
+                    }
+                case UpdateState.IsInsiderVersion:
+                    {
+                        SecureToastNotificationContext.TryCatch(() =>
+                        new ToastContentBuilder()
+                            .AddText("当前为开发测试版")
+                            .Show());
+                        break;
+                    }
                 default:
                     break;
             }
-        }
-        private async Task EnableDailyNotePermissionAsync()
-        {
-            object? result = await new DailyNoteProvider(cookieService.CurrentCookie).ChangeDailyNoteDataSwitchAsync(true);
-            await new ContentDialog()
-            {
-                Title = result is null ? "操作失败" : "操作成功",
-                PrimaryButtonText = "确定",
-                DefaultButton = ContentDialogButton.Primary
-            }.ShowAsync();
         }
 
         public void Receive(UpdateProgressedMessage message)

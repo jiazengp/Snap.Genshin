@@ -18,8 +18,14 @@ namespace DGP.Genshin.Service
     internal class SettingService : ISettingService
     {
         private readonly string settingFile = PathContext.Locate("settings.json");
+        private readonly IMessenger messenger;
 
         private ConcurrentDictionary<string, object?> settings = new();
+
+        public SettingService(IMessenger messenger)
+        {
+            this.messenger = messenger;
+        }
 
         public T Get<T>(SettingDefinition<T> definition)
         {
@@ -62,7 +68,7 @@ namespace DGP.Genshin.Service
             settings[key] = value;
             if (notify)
             {
-                App.Messenger.Send(new SettingChangedMessage(key, value));
+                messenger.Send(new SettingChangedMessage(key, value));
             }
         }
 

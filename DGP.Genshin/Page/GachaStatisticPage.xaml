@@ -6,7 +6,6 @@
          xmlns:ui="http://schemas.modernwpf.com/2019" 
          xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
          xmlns:controls="clr-namespace:DGP.Genshin.Control.GenshinElement"
-         xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage" 
          xmlns:ci="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage" 
          xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
          xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
@@ -76,9 +75,11 @@
                         <ui:AppBarButton Icon="Refresh" Label="从 日志文件 刷新" Command="{Binding GachaLogAutoFindCommand}"/>
                         <ui:CommandBar.SecondaryCommands>
                             <ui:AppBarButton Icon="Rename" Label="从输入的 Url 刷新" Command="{Binding GachaLogManualCommand}"/>
-                            <ui:AppBarElementContainer Margin="12,12,0,0">
-                                <ui:ToggleSwitch x:Name="FullSwitch" IsOn="{Binding IsFullFetch}" Header="启用全量刷新数据" OnContent="全量" OffContent="仅增量"/>
-                            </ui:AppBarElementContainer>
+                            <ui:AppBarToggleButton Label="全量刷新祈愿数据" IsChecked="{Binding IsFullFetch}">
+                                <ui:AppBarToggleButton.Icon>
+                                    <ui:FontIcon Glyph="&#xF785;"/>
+                                </ui:AppBarToggleButton.Icon>
+                            </ui:AppBarToggleButton>
                             <ui:AppBarSeparator/>
                             <ui:AppBarButton Label="打开数据文件夹"  Command="{Binding OpenGachaStatisticFolderCommand}">
                                 <ui:AppBarButton.Icon>

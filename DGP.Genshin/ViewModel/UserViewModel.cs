@@ -191,15 +191,7 @@ namespace DGP.Genshin.ViewModel
             CookieUserInfos.Remove(currentRemoved);
             if (prevSelected == currentRemoved)
             {
-                try
-                {
-                    SelectedCookieUserInfo = CookieUserInfos.First();
-                }
-                catch (Exception ex)
-                {
-                    this.Log(ex);
-                }
-
+                SelectedCookieUserInfo = CookieUserInfos.First();
             }
             this.Log(cookieUserInfos.Count);
         }

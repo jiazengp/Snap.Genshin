@@ -138,7 +138,6 @@ namespace DGP.Genshin.ViewModel.Title
             this.launchService = launchService;
 
             Accounts = launchService.LoadAllAccount();
-            SelectedAccount = Accounts.FirstOrDefault();
 
             IsBorderless = Setting2.IsBorderless.Get();
             IsFullScreen = Setting2.IsFullScreen.Get();

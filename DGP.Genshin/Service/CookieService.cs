@@ -36,6 +36,8 @@ namespace DGP.Genshin.Service
 
         private static string? currentCookie;
 
+        private readonly IMessenger messenger;
+
         /// <summary>
         /// Cookie池的默认实现，提供Cookie操作事件支持
         /// </summary>
@@ -43,15 +45,17 @@ namespace DGP.Genshin.Service
         {
             private readonly List<string> AccountIds = new();
             private readonly ICookieService cookieService;
+            private readonly IMessenger messenger;
 
             /// <summary>
             /// 构造新的 Cookie 池的默认实例
             /// </summary>
             /// <param name="cookieService"></param>
             /// <param name="collection"></param>
-            public CookiePool(ICookieService cookieService, IEnumerable<string> collection) : base(collection)
+            public CookiePool(ICookieService cookieService, IMessenger messenger, IEnumerable<string> collection) : base(collection)
             {
                 this.cookieService = cookieService;
+                this.messenger = messenger;
                 AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
             }
 
@@ -60,7 +64,7 @@ namespace DGP.Genshin.Service
                 if (!string.IsNullOrEmpty(cookie))
                 {
                     base.Add(cookie);
-                    App.Messenger.Send(new CookieAddedMessage(cookie));
+                    messenger.Send(new CookieAddedMessage(cookie));
                     cookieService.SaveCookies();
                 }
             }
@@ -74,7 +78,7 @@ namespace DGP.Genshin.Service
                         cookieService.CookiesLock.EnterWriteLock();
 
                         AccountIds.Add(id);
-                        Add(cookie);
+                        this.Add(cookie);
 
                         cookieService.CookiesLock.ExitWriteLock();
 
@@ -89,7 +93,7 @@ namespace DGP.Genshin.Service
                 string id = GetCookiePairs(cookie)["account_id"];
                 AccountIds.Remove(id);
                 bool result = base.Remove(cookie);
-                App.Messenger.Send(new CookieRemovedMessage(cookie));
+                messenger.Send(new CookieRemovedMessage(cookie));
                 cookieService.SaveCookies();
                 return result;
             }
@@ -130,8 +134,9 @@ namespace DGP.Genshin.Service
 
         public ReaderWriterLockSlim CookiesLock { get; init; }
 
-        public CookieService()
+        public CookieService(IMessenger messenger)
         {
+            this.messenger = messenger;
             //支持递归调用使其可以重复进入读模式
             CookiesLock = new(LockRecursionPolicy.SupportsRecursion);
             LoadCookies();
@@ -167,11 +172,11 @@ namespace DGP.Genshin.Service
             try
             {
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
-                Cookies = new CookiePool(this, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+                Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
             catch (FileNotFoundException) { }
             catch (Exception ex) { Crashes.TrackError(ex); }
-            Cookies ??= new CookiePool(this, new List<string>());
+            Cookies ??= new CookiePool(this, messenger, new List<string>());
 
             CookiesLock.ExitWriteLock();
         }
@@ -191,7 +196,7 @@ namespace DGP.Genshin.Service
                 {
                     SaveCookie(value);
                     Cookies.AddOrIgnore(currentCookie);
-                    App.Messenger.Send(new CookieChangedMessage(currentCookie));
+                    messenger.Send(new CookieChangedMessage(currentCookie));
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -226,7 +231,9 @@ namespace DGP.Genshin.Service
 
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
-            (ContentDialogResult result, string newCookie) = await App.Current.Dispatcher.InvokeAsync(new CookieDialog().GetInputCookieAsync).Task.Unwrap();
+            (ContentDialogResult result, string newCookie) = 
+                await App.Current.Dispatcher.InvokeAsync(
+                    new CookieDialog().GetInputCookieAsync).Task.Unwrap();
 
             if (result is ContentDialogResult.Primary)
             {
@@ -284,6 +291,9 @@ namespace DGP.Genshin.Service
             }
         }
 
+        /// <summary>
+        /// prevent multiple times initializaion
+        /// </summary>
         private bool isInitialized = false;
         private bool isInitializing = false;
         public async Task InitializeAsync()

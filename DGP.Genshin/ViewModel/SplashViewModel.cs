@@ -18,6 +18,7 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;
+        private readonly IMessenger messenger;
 
         #region Observable
         private bool isCookieVisible = false;
@@ -40,7 +41,7 @@ namespace DGP.Genshin.ViewModel
         {
             if (IsCookieVisible == false && integrityCheckService.IntegrityCheckCompleted)
             {
-                App.Messenger.Send(new SplashInitializationCompletedMessage(this));
+                messenger.Send(new SplashInitializationCompletedMessage(this));
             }
         }
         /// <summary>
@@ -86,10 +87,11 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenUICommand { get; }
         public ICommand SetCookieCommand { get; }
 
-        public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService)
+        public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService, IMessenger messenger)
         {
             this.cookieService = cookieService;
             this.integrityCheckService = integrityCheckService;
+            this.messenger = messenger;
 
             SetCookieCommand = new AsyncRelayCommand(SetCookieAsync);
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);

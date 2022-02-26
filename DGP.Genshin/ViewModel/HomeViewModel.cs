@@ -61,23 +61,31 @@ namespace DGP.Genshin.ViewModel
                 {
                     //将活动公告置于上方
                     announcementListWrappers.Reverse();
+                    //匹配特殊的时间格式
+                    Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
+                    Regex timeTagInnerRegex = new("(?<=&lt;t.*?&gt;)(.*?)(?=&lt;/t&gt;)");
 
                     announcementListWrappers.ForEach(listWrapper =>
                     {
                         listWrapper.List?.ForEach(item =>
                         {
-                            item.Content = contentMap[item.AnnId];
+                            string? rawContent = contentMap[item.AnnId];
+                            if (rawContent != null)
+                            {
+                                rawContent = timeTagRegrex.Replace(rawContent, x => timeTagInnerRegex.Match(x.Value).Value);
+                            }
+                            item.Content = rawContent;
                             item.OpenAnnouncementUICommand = OpenAnnouncementUICommand;
                         });
                     });
 
                     if (announcementListWrappers[0].List is List<Announcement> activities)
                     {
-                        //Match d+/d+/d+ d+:d+:d+
-                        Regex regex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                        //Match d+/d+/d+ d+:d+:d+ time format
+                        Regex dateTimeRegex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
                         activities.ForEach(item =>
                         {
-                            Match matched = regex.Match(item.Content ?? "");
+                            Match matched = dateTimeRegex.Match(item.Content ?? "");
                             if (matched.Success && DateTime.TryParse(matched.Value, out DateTime time))
                             {
                                 if (time > item.StartTime && time < item.EndTime)

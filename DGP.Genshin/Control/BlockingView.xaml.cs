@@ -27,7 +27,7 @@ namespace DGP.Genshin.Control
             set { SetValue(ShouldPresentProperty, value); }
         }
         public static readonly DependencyProperty ShouldPresentProperty =
-            DependencyProperty.Register("ShouldPresent", typeof(bool), typeof(BlockingView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(ShouldPresent), typeof(bool), typeof(BlockingView), new PropertyMetadata(false));
 
         public void Receive(ImageHitBeginMessage message)
         {
