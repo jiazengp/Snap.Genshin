@@ -39,12 +39,13 @@ namespace DGP.Genshin.ViewModel
         public NamedValue<DayOfWeek>? SelectedDayOfWeek
         {
             get => selectedDayOfWeek;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, () => TriggerPropertyChanged("Mondstadt", "Liyue", "Inazuma"));
+            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, 
+                () => TriggerPropertyChangedAsync("Mondstadt", "Liyue", "Inazuma"));
         }
 
         public ICommand OpenUICommand { get; }
 
-        private async void TriggerPropertyChanged(params string[] cities)
+        private async Task TriggerPropertyChangedAsync(params string[] cities)
         {
             foreach (string city in cities)
             {

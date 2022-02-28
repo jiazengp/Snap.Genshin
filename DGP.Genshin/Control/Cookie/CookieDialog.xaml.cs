@@ -21,7 +21,9 @@ namespace DGP.Genshin.Control.Cookie
         public async Task<(ContentDialogResult result, string cookie)> GetInputCookieAsync()
         {
             ContentDialogResult result = await ShowAsync();
-            return (result, InputText.Text);
+
+            string cookie = App.Current.Dispatcher.Invoke(() => InputText.Text);
+            return (result, cookie);
         }
 
         private void AutoCookieButtonClick(object sender, RoutedEventArgs e)

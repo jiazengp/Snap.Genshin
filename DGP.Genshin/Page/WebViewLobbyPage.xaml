@@ -127,7 +127,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar>
+        <ui:CommandBar Background="Transparent">
             <ui:CommandBar.Content>
                 <TextBlock Text="下次打开程序时生效" Margin="12,12,0,0"/>
             </ui:CommandBar.Content>

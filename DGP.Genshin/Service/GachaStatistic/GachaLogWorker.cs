@@ -2,6 +2,7 @@
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using Snap.Net.QueryString;
 using System;
@@ -19,6 +20,8 @@ namespace DGP.Genshin.Service.GachaStatistic
         private readonly Random random = new();
         private readonly int batchSize;
         private readonly string gachaLogUrl;
+        private readonly JoinableTaskFactory joinableTaskFactory;
+
         private Config? gachaConfig;
         private (int min, int max) delay = (500, 1000);
         public int GetRandomDelay()
@@ -53,8 +56,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="gachaLogUrl">url</param>
         /// <param name="gachaData">需要操作的祈愿数据</param>
         /// <param name="batchSize">每次请求获取的批大小 最大20 默认20</param>
-        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, int batchSize = 20)
+        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData,JoinableTaskFactory joinableTaskFactory, int batchSize = 20)
         {
+            this.joinableTaskFactory = joinableTaskFactory;
             this.gachaLogUrl = gachaLogUrl;
             WorkingGachaData = gachaData;
             this.batchSize = batchSize;
@@ -111,7 +115,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                             }
                             else//already done the new item
                             {
-                                MergeIncrement(type, increment);
+                                await MergeIncrementAsync(type, increment);
                                 return WorkingUid;
                             }
                         }
@@ -134,7 +138,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
             } while (true);
             //first time fecth could go here
-            MergeIncrement(type, increment);
+            await MergeIncrementAsync(type, increment);
             return WorkingUid;
         }
         /// <summary>
@@ -180,7 +184,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
             } while (true);
             //first time fecth could go here
-            MergeFull(type, full);
+            await MergeFullAsync(type, full);
             return WorkingUid;
         }
 
@@ -189,12 +193,16 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         /// <param name="type">卡池类型</param>
         /// <param name="increment">增量</param>
-        private void MergeIncrement(ConfigType type, List<GachaLogItem> increment)
+        private async Task MergeIncrementAsync(ConfigType type, List<GachaLogItem> increment)
         {
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
-                WorkingGachaData.Add(WorkingUid, new GachaData());
+                await joinableTaskFactory.RunAsync(async () => 
+                {
+                    await joinableTaskFactory.SwitchToMainThreadAsync();
+                    WorkingGachaData.Add(WorkingUid, new GachaData());
+                });
             }
             //简单的将老数据插入到增量后侧，最后重置数据
             GachaData data = WorkingGachaData[WorkingUid]!;
@@ -217,13 +225,16 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 合并全量
         /// </summary>
         /// <param name="type">卡池类型</param>
-        /// <param name="increment">增量</param>
-        private void MergeFull(ConfigType type, List<GachaLogItem> full)
+        private async Task MergeFullAsync(ConfigType type, List<GachaLogItem> full)
         {
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
-                WorkingGachaData.Add(WorkingUid, new GachaData());
+                await joinableTaskFactory.RunAsync(async () =>
+                {
+                    await joinableTaskFactory.SwitchToMainThreadAsync();
+                    WorkingGachaData.Add(WorkingUid, new GachaData());
+                });
             }
             //将老数据插入到后侧，最后重置数据
             GachaData data = WorkingGachaData[WorkingUid]!;

@@ -16,7 +16,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar>
+        <ui:CommandBar Background="Transparent">
             <ui:CommandBar.Content>
                 <TextBlock Margin="12,12,0,0" Text="我们会在启动时加载插件"/>
             </ui:CommandBar.Content>

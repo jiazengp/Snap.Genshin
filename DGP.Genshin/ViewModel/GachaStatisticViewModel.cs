@@ -102,9 +102,9 @@ namespace DGP.Genshin.ViewModel
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
         {
             this.gachaStatisticService = gachaStatisticService;
-            gachaStatisticService.LoadLocalGachaData(UserGachaDataCollection);
+            
 
-            OpenUICommand = new RelayCommand(() => { SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(); });
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);
             GachaLogManualCommand = new AsyncRelayCommand(RefreshByManualAsync);
             ImportFromUIGFJCommand = new AsyncRelayCommand(ImportFromUIGFJAsync);
@@ -112,6 +112,11 @@ namespace DGP.Genshin.ViewModel
             ExportToUIGFWCommand = new AsyncRelayCommand(ExportToUIGFWAsync);
             ExportToUIGFJCommand = new AsyncRelayCommand(ExportToUIGFJAsync);
             OpenGachaStatisticFolderCommand = new RelayCommand(OpenGachaStatisticFolder);
+        }
+        private async Task OpenUIAsync()
+        {
+            await gachaStatisticService.LoadLocalGachaDataAsync(UserGachaDataCollection);
+            SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault();
         }
 
         private async Task RefreshByAutoFindModeAsync()

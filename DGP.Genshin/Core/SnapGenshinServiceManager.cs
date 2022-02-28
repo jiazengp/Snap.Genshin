@@ -1,7 +1,10 @@
 ﻿using DGP.Genshin.Core.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.VisualStudio.Threading;
+using Snap.Core.Logging;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace DGP.Genshin.Core
 {
@@ -19,10 +22,15 @@ namespace DGP.Genshin.Core
         {
             //default messager
             services.AddSingleton<IMessenger>(App.Messenger);
+            //JoinableTaskContext
+
+            this.Log(App.Current.Dispatcher.Thread.ManagedThreadId);
+            JoinableTaskContext context = new();
+            services.AddSingleton(new JoinableTaskContext());
+            services.AddSingleton(new JoinableTaskFactory(context));
 
             base.OnProbingServices(services);
             //insert plugins services here
-            //currently we don't allow dlls only contains services to inject
             RegisterPluginsServices(services, App.Current.PluginService.Plugins);
         }
 

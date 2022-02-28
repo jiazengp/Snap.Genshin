@@ -101,6 +101,6 @@ namespace DGP.Genshin.Service.Abstraction
         /// 加载本地储存的记录数据
         /// </summary>
         /// <param name="gachaData"></param>
-        void LoadLocalGachaData(GachaDataCollection gachaData);
+        Task LoadLocalGachaDataAsync(GachaDataCollection gachaData);
     }
 }

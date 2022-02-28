@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Cookie;
+using Microsoft.VisualStudio.Threading;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// <summary>
         /// 使用读写锁保证 <see cref="Cookies"/> 线程安全
         /// </summary>
-        ReaderWriterLockSlim CookiesLock { get; init; }
+        AsyncReaderWriterLock CookiesLock { get; init; }
 
         /// <summary>
         /// 向Cookie池异步添加Cookie,
@@ -95,6 +96,6 @@ namespace DGP.Genshin.Service.Abstraction
         /// </summary>
         /// <returns></returns>
         Task InitializeAsync();
-        Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOf(string cookie);
+        Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOfAsync(string cookie);
     }
 }

@@ -3,6 +3,7 @@ using DGP.Genshin.MiHoYoAPI.Gacha;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace DGP.Genshin.Service.GachaStatistic
 {
@@ -15,12 +16,14 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <summary>
         /// 向集合添加数据
         /// 触发uid增加事件，便于前台响应
+        /// <para/>
+        /// 该方法是线程不安全的 需要切换到主线程操作
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="data"></param>
         public void Add(string uid, GachaData data)
         {
-            App.Current.Dispatcher.Invoke(() => Add(new(uid, data)));
+            Add(new(uid, data));
         }
 
         public GachaData? this[string uid] => this.FirstOrDefault(x => x.Uid == uid)?.Data;

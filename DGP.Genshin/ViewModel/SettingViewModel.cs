@@ -1,14 +1,12 @@
 ﻿using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
-using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
-using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
@@ -18,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -32,7 +29,6 @@ namespace DGP.Genshin.ViewModel
     public class SettingViewModel : ObservableRecipient2, IRecipient<UpdateProgressedMessage>
     {
         private readonly IUpdateService updateService;
-        private readonly ICookieService cookieService;
 
         #region Observable
         public List<NamedValue<ApplicationTheme?>> Themes { get; } = new()
@@ -179,10 +175,9 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
 
-        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, ICookieService cookieService,ISignInService signInService, IMessenger messenger) : base(messenger)
         {
             this.updateService = updateService;
-            this.cookieService = cookieService;
 
             ApplicationTheme? theme = Setting2.AppTheme.Get();
             selectedTheme = Themes.First(x => x.Value == theme);
@@ -190,7 +185,6 @@ namespace DGP.Genshin.ViewModel
             double minutes = Setting2.ResinRefreshMinutes.Get();
             selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == minutes)!;
 
-            //不能直接设置属性 会导致触发通知操作进而造成死循环
             AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
             SkipCacheCheck = Setting2.SkipCacheCheck.Get();
             SignInSilently = Setting2.SignInSilently.Get();
@@ -200,8 +194,7 @@ namespace DGP.Genshin.ViewModel
             BackgroundOpacity = Setting2.BackgroundOpacity.Get();
             IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive.Get();
 
-            //version
-            Version v = Assembly.GetExecutingAssembly().GetName().Version!;
+            Version v = App.Current.Version;
             VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             UserId = User.Id;
 
@@ -209,7 +202,7 @@ namespace DGP.Genshin.ViewModel
 
             CheckUpdateCommand = new AsyncRelayCommand(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
-            SignInImmediatelyCommand = new AsyncRelayCommand(MainWindow.SignInAllAccountsRolesAsync);
+            SignInImmediatelyCommand = new AsyncRelayCommand(signInService.TrySignAllAccountsRolesInAsync);
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));

@@ -32,7 +32,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar>
+        <ui:CommandBar Background="Transparent">
             <ui:CommandBar.Content>
                 <ui:AppBarElementContainer>
                     <ComboBox Margin="12,4,0,0" Grid.Row="0" 

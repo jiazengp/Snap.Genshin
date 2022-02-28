@@ -4,6 +4,7 @@ using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
@@ -92,9 +93,9 @@ namespace DGP.Genshin.ViewModel
         {
             StateDescription = message.Value;
         }
-        public async void Receive(CookieChangedMessage message)
+        public void Receive(CookieChangedMessage message)
         {
-            await OpenUIAsync();
+            OpenUIAsync().Forget();
         }
     }
 }

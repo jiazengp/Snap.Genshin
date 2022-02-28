@@ -12,7 +12,13 @@ namespace DGP.Genshin.DataModel.DailyNote
         private bool notifyOnHomeCoinReach80Percent;
         private bool notifyOnDailyTasksIncomplete;
         private bool notifyOnExpeditionsComplete;
+        private bool keepNotificationFront;
 
+        public bool KeepNotificationFront
+        {
+            get => keepNotificationFront;
+            set => Set(ref keepNotificationFront, value);
+        }
         public bool NotifyOnResinReach20
         {
             get => notifyOnResinReach20;

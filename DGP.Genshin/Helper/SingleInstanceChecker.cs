@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Threading;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,7 +37,7 @@ namespace DGP.Genshin.Helper
         /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
-        public async void EnsureAsync(Application app, Action multiInstancePresentAction)
+        public void Ensure(Application app, JoinableTaskFactory joinableTaskFactory, Action multiInstancePresentAction)
         {
             // check if it is already open.
             try
@@ -59,14 +60,18 @@ namespace DGP.Genshin.Helper
             {
                 IsEnsureingSingleInstance = false;
             }
-            // if this instance gets the signal to show the main window
-            await Task.Run(() =>
+            new Task(() =>
             {
-                while (eventWaitHandle.WaitOne())
+                joinableTaskFactory.Run(async () =>
                 {
-                    app.Dispatcher.BeginInvoke(multiInstancePresentAction);
-                }
-            }).ConfigureAwait(false);
+                    // if this instance gets the signal
+                    while (eventWaitHandle.WaitOne())
+                    {
+                        await joinableTaskFactory.SwitchToMainThreadAsync();
+                        multiInstancePresentAction.Invoke();
+                    }
+                });
+            }).Start();
         }
     }
 }

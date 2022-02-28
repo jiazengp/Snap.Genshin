@@ -10,16 +10,11 @@ namespace DGP.Genshin.Service.GachaStatistic
     /// <summary>
     /// 联机抽卡Url提供器
     /// </summary>
-    internal class GachaLogUrlProvider
+    internal static class GachaLogUrlProvider
     {
         private const string gachaLogBaseUrl = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
         private static readonly string LocalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         private static readonly string logFilePath = $@"{LocalPath}Low\miHoYo\原神\output_log.txt";
-
-        /// <summary>
-        /// 防止从外部创建实例
-        /// </summary>
-        private GachaLogUrlProvider() { }
 
         /// <summary>
         /// 根据模式获取Url

@@ -3,16 +3,21 @@ using DGP.Genshin.DataModel.DailyNote;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
+using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
+using Snap.Exception;
 using Snap.Extenion.Enumerable;
+using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,11 +36,13 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ICookieService cookieService;
         private readonly IDailyNoteService dailynoteService;
+        private readonly JoinableTaskFactory joinableTaskFactory;
+        private readonly IMessenger messenger;
 
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
         private CookieUserInfo? selectedCookieUserInfo;
         private List<CookieUserGameRole>? cookieUserGameRoles;
-        private CookieUserGameRole? selectedCookieGameRole;
+        private CookieUserGameRole? selectedCookieUserGameRole;
         private DailyNote? dailyNote;
         private DailyNoteNotifyConfiguration dailyNoteNotifyConfiguration;
 
@@ -47,10 +54,10 @@ namespace DGP.Genshin.ViewModel
         public CookieUserInfo? SelectedCookieUserInfo
         {
             get => selectedCookieUserInfo;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserInfo, value, OnSelectedCookieUserInfoChanged);
+            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserInfo, value, OnSelectedCookieUserInfoChangedAsync);
         }
         [PropertyChangedCallback]
-        private async void OnSelectedCookieUserInfoChanged(CookieUserInfo? cookieUserInfo)
+        private async Task OnSelectedCookieUserInfoChangedAsync(CookieUserInfo? cookieUserInfo)
         {
             if (cookieUserInfo != null)
             {
@@ -60,18 +67,22 @@ namespace DGP.Genshin.ViewModel
                 CookieUserGameRoles = userGameRoles
                     .Select(role => new CookieUserGameRole(cookieUserInfo.Cookie, role))
                     .ToList();
-                SelectedCookieGameRole = CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
+                SelectedCookieUserGameRole = CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
             }
         }
 
-        public List<CookieUserGameRole>? CookieUserGameRoles { get => cookieUserGameRoles; set => SetProperty(ref cookieUserGameRoles, value); }
-        public CookieUserGameRole? SelectedCookieGameRole
+        public List<CookieUserGameRole>? CookieUserGameRoles
+        { 
+            get => cookieUserGameRoles; 
+            set => SetProperty(ref cookieUserGameRoles, value); 
+        }
+        public CookieUserGameRole? SelectedCookieUserGameRole
         {
-            get => selectedCookieGameRole;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieGameRole, value, OnSelectedCookieGameRoleChanged);
+            get => selectedCookieUserGameRole;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserGameRole, value, OnSelectedCookieUserGameRoleChanged);
         }
         [PropertyChangedCallback]
-        public void OnSelectedCookieGameRoleChanged(CookieUserGameRole? cookieUserGameRole)
+        public void OnSelectedCookieUserGameRoleChanged(CookieUserGameRole? cookieUserGameRole)
         {
             UpdateDailyNote(cookieUserGameRole);
         }
@@ -84,7 +95,11 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        public DailyNote? DailyNote { get => dailyNote; set => SetProperty(ref dailyNote, value); }
+        public DailyNote? DailyNote 
+        { 
+            get => dailyNote; 
+            set => SetProperty(ref dailyNote, value); 
+        }
         public DailyNoteNotifyConfiguration DailyNoteNotifyConfiguration
         {
             get => dailyNoteNotifyConfiguration;
@@ -95,12 +110,14 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenUICommand { get; }
         public ICommand RemoveUserCommand { get; }
         public ICommand AddUserCommand { get; }
-        public ICommand RefreshDailyNoteCommand { get; }
+        public ICommand RefreshCommand { get; }
 
-        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, IMessenger messenger) : base(messenger)
+        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, JoinableTaskFactory joinableTaskFactory, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             this.dailynoteService = dailyNoteService;
+            this.joinableTaskFactory = joinableTaskFactory;
+            this.messenger = messenger;
 
             //与设置项同步
             DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.Get() ?? new();
@@ -109,7 +126,7 @@ namespace DGP.Genshin.ViewModel
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
             AddUserCommand = new AsyncRelayCommand(AddUserAsync);
-            RefreshDailyNoteCommand = new RelayCommand(RequestDailyNoteRefresh);
+            RefreshCommand = new RelayCommand(RefreshUI);
         }
 
         private async Task OpenUIAsync()
@@ -160,21 +177,28 @@ namespace DGP.Genshin.ViewModel
                 }
             }
         }
-        private void RequestDailyNoteRefresh()
+        private void RefreshUI()
         {
-            App.Messenger.Send(new TickScheduledMessage());
+            messenger.Send(new UserRequestRefreshMessage());
         }
 
-        public async void Receive(CookieAddedMessage message)
+        public void Receive(CookieAddedMessage message)
+        {
+            string newCookie = message.Value;
+            AddCookieUserInfoAsync(newCookie).Forget();
+        }
+
+        private async Task AddCookieUserInfoAsync(string newCookie)
         {
             try
             {
-                string newCookie = message.Value;
                 this.Log("new Cookie added");
                 if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
                 {
-                    CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo));
+                    //Can't use JoinableTaskFactory.SwitchToMainThreadAsync here
+                    App.Current.Dispatcher.Invoke(() => CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo)));
                 }
+
                 this.Log(cookieUserInfos.Count);
             }
             catch (Exception ex)
@@ -183,22 +207,36 @@ namespace DGP.Genshin.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         public void Receive(CookieRemovedMessage message)
+        {
+            RemoveCookieUserInfoAsync(message).Forget();
+        }
+
+        private async Task RemoveCookieUserInfoAsync(CookieRemovedMessage message)
         {
             this.Log("Cookie removed");
             CookieUserInfo? prevSelected = SelectedCookieUserInfo;
             CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == message.Value);
-            CookieUserInfos.Remove(currentRemoved);
+
+            await joinableTaskFactory.RunAsync(async () =>
+            {
+                await joinableTaskFactory.SwitchToMainThreadAsync();
+                CookieUserInfos.Remove(currentRemoved);
+            });
+
             if (prevSelected == currentRemoved)
             {
+
                 SelectedCookieUserInfo = CookieUserInfos.First();
             }
             this.Log(cookieUserInfos.Count);
         }
+
         public void Receive(DailyNotesRefreshedMessage message)
         {
             this.Log("daily note updated");
-            UpdateDailyNote(SelectedCookieGameRole);
+            UpdateDailyNote(SelectedCookieUserGameRole);
         }
     }
 }

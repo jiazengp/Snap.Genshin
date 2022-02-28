@@ -5,6 +5,7 @@ using DGP.Genshin.HutaoAPI.PostModel;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
@@ -21,6 +22,7 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ICookieService cookieService;
         private readonly IHutaoStatisticService hutaoStatisticService;
+        private readonly JoinableTaskFactory joinableTaskFactory;
 
         private bool shouldUIPresent;
         private Overview? overview;
@@ -50,10 +52,12 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }
-        public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService)
+        public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService, JoinableTaskFactory joinableTaskFactory)
         {
+            this.joinableTaskFactory = joinableTaskFactory;
             this.cookieService = cookieService;
             this.hutaoStatisticService = hutaoStatisticService;
+
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             UploadCommand = new AsyncRelayCommand(UploadRecordsAsync);
@@ -78,13 +82,17 @@ namespace DGP.Genshin.ViewModel
             catch (Exception e)
             {
                 this.Log(e);
-                await App.Current.Dispatcher.InvokeAsync(async () => await new ContentDialog()
+                await joinableTaskFactory.RunAsync(async () =>
                 {
-                    Title = "加载失败",
-                    Content = e.Message,
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync()).Task.Unwrap();
+                    await joinableTaskFactory.SwitchToMainThreadAsync();
+                    await new ContentDialog()
+                    {
+                        Title = "加载失败",
+                        Content = e.Message,
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    }.ShowAsync();
+                });
                 return;
             }
 

@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using System;
@@ -14,11 +15,18 @@ namespace DGP.Genshin.Service.GachaStatistic
     [Service(typeof(IGachaStatisticService), InjectAs.Transient)]
     public class GachaStatisticService : IGachaStatisticService
     {
-        private readonly LocalGachaLogWorker localGachaLogWorker = new();
+        private readonly JoinableTaskFactory joinableTaskFactory;
+        private readonly LocalGachaLogWorker localGachaLogWorker;
 
-        public void LoadLocalGachaData(GachaDataCollection gachaData)
+        public GachaStatisticService(JoinableTaskFactory joinableTaskFactory)
         {
-            localGachaLogWorker.LoadAll(gachaData);
+            this.joinableTaskFactory = joinableTaskFactory;
+            localGachaLogWorker = new(joinableTaskFactory);
+        }
+
+        public async Task LoadLocalGachaDataAsync(GachaDataCollection gachaData)
+        {
+            await localGachaLogWorker.LoadAllAsync(gachaData);
         }
 
         public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
@@ -41,7 +49,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
             else
             {
-                IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
+                IGachaLogWorker worker = new GachaLogWorker(url, gachaData, joinableTaskFactory);
                 (bool isSuccess, string? uid) = await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
 
                 if (!isSuccess)
@@ -124,12 +132,12 @@ namespace DGP.Genshin.Service.GachaStatistic
 
         public async Task<(bool isOk, string uid)> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
         {
-            return await Task.Run(() => localGachaLogWorker!.ImportFromUIGFW(path, gachaData));
+            return await localGachaLogWorker!.ImportFromUIGFWAsync(path, gachaData);
         }
 
         public async Task<(bool isOk, string uid)> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
         {
-            return await Task.Run(() => localGachaLogWorker!.ImportFromUIGFJ(path, gachaData));
+            return await localGachaLogWorker!.ImportFromUIGFJAsync(path, gachaData);
         }
         #endregion
     }

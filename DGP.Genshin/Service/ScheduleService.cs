@@ -15,12 +15,14 @@ namespace DGP.Genshin.Service
         private readonly CancellationTokenSource cancellationTokenSource = new();
         private readonly IMessenger messenger;
 
+        private DateTime lastScheduledTime = DateTime.UtcNow;
+
         public ScheduleService(IMessenger messenger)
         {
             this.messenger = messenger;
         }
 
-        public async void Initialize()
+        public async Task InitializeAsync()
         {
             messenger.RegisterAll(this);
             try
@@ -31,10 +33,18 @@ namespace DGP.Genshin.Service
                     {
                         double minutes = Setting2.ResinRefreshMinutes.Get();
                         await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
+                        //await Task.Delay(10000, cancellationTokenSource.Token);
                         this.Log("Tick scheduled");
                         messenger.Send(new TickScheduledMessage());
+                        DateTime current = DateTime.UtcNow;
+                        if (current.Date > lastScheduledTime.Date)
+                        {
+                            this.Log("Date changed");
+                            messenger.Send(new DayChangedMessage());
+                        }
+                        lastScheduledTime = current;
                     }
-                }, cancellationTokenSource.Token)/*.ConfigureAwait(false)*/;
+                }, cancellationTokenSource.Token);
             }
             catch (TaskCanceledException) { }
         }
@@ -48,4 +58,5 @@ namespace DGP.Genshin.Service
             UnInitialize();
         }
     }
+
 }

@@ -63,7 +63,7 @@ namespace DGP.Genshin.Helper.Notification
                         }
                     case "launcher":
                         {
-                            launchService.OpenOfficialLauncher(async ex =>
+                            launchService.OpenOfficialLauncher(ex =>
                             {
                                 SecureToastNotificationContext.TryCatch(() =>
                                 new ToastContentBuilder()

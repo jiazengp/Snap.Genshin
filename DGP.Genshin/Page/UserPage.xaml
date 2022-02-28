@@ -652,11 +652,11 @@
                         <ui:AppBarElementContainer>
                             <ComboBox
                             ItemsSource="{Binding CookieUserGameRoles}"
-                            SelectedItem="{Binding SelectedCookieGameRole,Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedCookieUserGameRole,Mode=TwoWay}"
                             Margin="0,4,0,0"/>
                         </ui:AppBarElementContainer>
                         <ui:AppBarSeparator Margin="-10,0"/>
-                        <ui:AppBarButton Label="立即刷新" Icon="Refresh" Command="{Binding RefreshDailyNoteCommand}"/>
+                        <ui:AppBarButton Label="立即刷新" Icon="Refresh" Command="{Binding RefreshCommand}"/>
                     </ui:CommandBar>
                 </ui:PivotHelper.RightHeader>
                 <TabItem Header="实时便笺">
@@ -859,8 +859,70 @@
                         </Grid>
                     </s:SmoothScrollViewer>
                 </TabItem>
-                <TabItem Header="每日签到"/>
-                <TabItem Header="旅行札记"/>
+                <TabItem Header="旅行札记">
+                    <StackPanel Grid.Row="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                <StackPanel>
+                                    <TextBlock Margin="12,8,12,8" Text="今日共获取" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <c:CachedImage Margin="12,0,0,0" Height="24" Width="24" ImageUrl="https://webstatic.mihoyo.com/upload/event/2020/09/29/97a77a51901207ba1c4b167d7484742b_879413631620747219.png"/>
+                                        <TextBlock Margin="12,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{Binding JourneyInfo.DayData.CurrentPrimogems,StringFormat={}原石：{0}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <c:CachedImage Margin="12,0,0,0" Height="24" Width="24" ImageUrl="https://webstatic.mihoyo.com/upload/event/2020/09/29/65bb84b6cfe567a52495cbd814dc0729_3166173192087337217.png"/>
+                                        <TextBlock Margin="12,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{Binding JourneyInfo.DayData.CurrentMora,StringFormat={}摩拉：{0}}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="12,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                <StackPanel>
+                                    <TextBlock Margin="12,8,12,8" Text="当月共获取" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <c:CachedImage Margin="12,0,0,0" Height="24" Width="24" ImageUrl="https://webstatic.mihoyo.com/upload/event/2020/09/29/97a77a51901207ba1c4b167d7484742b_879413631620747219.png"/>
+                                        <TextBlock Margin="12,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{Binding JourneyInfo.MonthData.CurrentPrimogems,StringFormat={}原石：{0}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <c:CachedImage Margin="12,0,0,0" Height="24" Width="24" ImageUrl="https://webstatic.mihoyo.com/upload/event/2020/09/29/65bb84b6cfe567a52495cbd814dc0729_3166173192087337217.png"/>
+                                        <TextBlock Margin="12,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{Binding JourneyInfo.MonthData.CurrentMora,StringFormat={}摩拉：{0}}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                                Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                            <StackPanel>
+                                <TextBlock Margin="12,8,12,0" Text="原石收入组成" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <ItemsControl Margin="0,0,0,12" ItemsSource="{Binding JourneyInfo.MonthData.GroupBy}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Grid Margin="0,6,0,0">
+                                                    <TextBlock Text="{Binding Action}" Margin="12,4,12,0" HorizontalAlignment="Left"/>
+                                                    <TextBlock Margin="12,6,16,0" HorizontalAlignment="Right" FontFamily="Consolas">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0}{1,4}%">
+                                                                <Binding Path="Num"/>
+                                                                <Binding Path="Percent"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </Grid>
+                                                <ui:ProgressBar Margin="12,4,12,0" Value="{Binding Percent}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </TabItem>
             </TabControl>
         </Grid>
     </Grid>

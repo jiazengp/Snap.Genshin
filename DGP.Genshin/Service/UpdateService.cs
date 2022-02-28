@@ -5,6 +5,7 @@ using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using Octokit;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
@@ -30,6 +31,7 @@ namespace DGP.Genshin.Service
 
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
+        private JoinableTaskFactory joinableTaskFactory;
         private readonly IMessenger messenger;
 
         public Uri? PackageUri { get; set; }
@@ -39,8 +41,9 @@ namespace DGP.Genshin.Service
 
         private Downloader? InnerDownloader { get; set; }
 
-        public UpdateService(IMessenger messenger)
+        public UpdateService(JoinableTaskFactory joinableTaskFactory, IMessenger messenger)
         {
+            this.joinableTaskFactory = joinableTaskFactory;
             this.messenger = messenger;
         }
 
@@ -89,7 +92,12 @@ namespace DGP.Genshin.Service
                 InnerDownloader = new(PackageUri, destinationPath);
                 InnerDownloader.ProgressChanged += OnProgressChanged;
                 //toast can only be shown & updated by main thread
-                App.Current.Dispatcher.Invoke(ShowDownloadToastNotification);
+
+                await joinableTaskFactory.RunAsync(async () => 
+                {
+                    await joinableTaskFactory.SwitchToMainThreadAsync();
+                    ShowDownloadToastNotification();
+                });
 
                 bool caught = false;
                 try
@@ -115,7 +123,7 @@ namespace DGP.Genshin.Service
                 }
                 else
                 {
-                    StartInstallUpdate();
+                    await StartInstallUpdateAsync();
                 }
                 updateTaskPreventer.Release();
             }
@@ -160,7 +168,7 @@ namespace DGP.Genshin.Service
         /// <param name="totalBytesToReceive">总大小</param>
         /// <param name="bytesReceived">下载的大小</param>
         /// <param name="percent">进度</param>
-        private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
+        private async void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
             //message will be sent anyway.
             string valueString = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
@@ -171,7 +179,11 @@ namespace DGP.Genshin.Service
                 if (percent is not null)
                 {
                     //notification could only be updated by main thread.
-                    App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
+                    await joinableTaskFactory.RunAsync(async () =>
+                    {
+                        await joinableTaskFactory.SwitchToMainThreadAsync();
+                        UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent);
+                    });
                 }
             }
         }
@@ -201,7 +213,7 @@ namespace DGP.Genshin.Service
         /// <summary>
         /// 开始安装更新
         /// </summary>
-        private void StartInstallUpdate()
+        private async Task StartInstallUpdateAsync()
         {
             Directory.CreateDirectory(UpdaterFolder);
             PathContext.MoveToFolderOrIgnore(UpdaterExecutable, UpdaterFolder);
@@ -220,7 +232,11 @@ namespace DGP.Genshin.Service
                         FileName = oldUpdaterPath,
                         Arguments = "UpdateInstall"
                     });
-                    App.Current.Dispatcher.Invoke(() => App.Current.Shutdown());
+                    await joinableTaskFactory.RunAsync(async () =>
+                    {
+                        await joinableTaskFactory.SwitchToMainThreadAsync();
+                        App.Current.Shutdown();
+                    });
                 }
                 catch (Win32Exception)
                 {

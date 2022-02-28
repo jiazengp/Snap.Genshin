@@ -4,7 +4,9 @@ using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Exception;
 using System.Collections.Generic;
@@ -42,10 +44,10 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private async void UpdateAvatarList()
         {
-            if (SelectedUserGameRole is not null)
+            if (SelectedUserGameRole is UserGameRole selected)
             {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexpectedNullException("region 不应为 null");
+                string uid = selected.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
+                string region = selected.Region ?? throw new UnexpectedNullException("region 不应为 null");
                 Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
                 SelectedAvatar = Avatars?.FirstOrDefault();
             }
@@ -58,10 +60,10 @@ namespace DGP.Genshin.ViewModel
         public Avatar? SelectedAvatar
         {
             get => selectedAvatar;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailDataAsync);
+            set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailData);
         }
         [PropertyChangedCallback]
-        private async void UpdateAvatarDetailDataAsync()
+        private async void UpdateAvatarDetailData()
         {
             if (SelectedUserGameRole is not null && SelectedAvatar is not null)
             {
@@ -136,7 +138,12 @@ namespace DGP.Genshin.ViewModel
         /// Cookie 改变
         /// </summary>
         /// <param name="message"></param>
-        public async void Receive(CookieChangedMessage message)
+        public void Receive(CookieChangedMessage message)
+        {
+            UpdateUserGameRolesAsync().Forget();
+        }
+
+        private async Task UpdateUserGameRolesAsync()
         {
             calculator = new(cookieService.CurrentCookie);
             userGameRoleProvider = new(cookieService.CurrentCookie);

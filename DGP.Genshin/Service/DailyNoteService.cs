@@ -7,6 +7,7 @@ using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Threading;
@@ -19,11 +20,12 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Service
 {
     [Service(typeof(IDailyNoteService), InjectAs.Singleton)]
-    internal class DailyNoteService : IDailyNoteService, IRecipient<TickScheduledMessage>
+    internal class DailyNoteService : IDailyNoteService, IRecipient<TickScheduledMessage>, IRecipient<UserRequestRefreshMessage>
     {
         private readonly ICookieService cookieService;
         private readonly IScheduleService scheduleService;
         private readonly IMessenger messenger;
+        private readonly JoinableTaskFactory joinableTaskFactory;
 
         private ConcurrentDictionary<CookieUserGameRole, DailyNote?> DailyNotes { get; set; } = new();
 
@@ -32,18 +34,19 @@ namespace DGP.Genshin.Service
         private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyDailyTask { get; } = new();
         private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyExpedition { get; } = new();
 
-        public DailyNoteService(ICookieService cookieService, IScheduleService scheduleService, IMessenger messenger)
+        public DailyNoteService(ICookieService cookieService, IScheduleService scheduleService, JoinableTaskFactory joinableTaskFactory, IMessenger messenger)
         {
             this.messenger = messenger;
+            this.joinableTaskFactory = joinableTaskFactory;
             this.cookieService = cookieService;
             this.scheduleService = scheduleService;
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
             messenger.RegisterAll(this);
-            scheduleService.Initialize();
-            await UpdateDailyNotesAsync();
+            scheduleService.InitializeAsync().Forget();
+            UpdateDailyNotesAsync().Forget();
         }
 
         public void UnInitialize()
@@ -64,10 +67,15 @@ namespace DGP.Genshin.Service
             }
         }
 
-        public async void Receive(TickScheduledMessage message)
+        public void Receive(TickScheduledMessage message)
         {
-            this.Log("Tick received");
-            await UpdateDailyNotesAsync();
+            this.Log("scheduled tick received");
+            UpdateDailyNotesAsync().Forget();
+        }
+        public void Receive(UserRequestRefreshMessage message)
+        {
+            this.Log("user requested a refresh");
+            UpdateDailyNotesAsync().Forget();
         }
 
         private readonly TaskPreventer taskPreventer = new();
@@ -77,48 +85,57 @@ namespace DGP.Genshin.Service
             if (taskPreventer.ShouldExecute)
             {
                 ConcurrentDictionary<CookieUserGameRole, DailyNote?> dailyNotes = new();
-                cookieService.CookiesLock.EnterReadLock();
-                foreach (string cookie in cookieService.Cookies)
+                using (await cookieService.CookiesLock.ReadLockAsync())
                 {
-                    List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                    DailyNoteProvider dailyNoteProvider = new(cookie);
-                    foreach (UserGameRole userGameRole in userGameRoles)
+                    foreach (string cookie in cookieService.Cookies.ToList())
                     {
-                        DailyNote? dailyNote = await dailyNoteProvider.GetDailyNoteAsync(userGameRole);
-                        dailyNotes[new(cookie, userGameRole)] = dailyNote;
-                        App.Current.Dispatcher.Invoke(() => 
+                        List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
+                        DailyNoteProvider dailyNoteProvider = new(cookie);
+                        foreach (UserGameRole userGameRole in userGameRoles)
                         {
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyResin, 
-                                EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyHomeCoin,
-                                EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyDailyTask,
-                                EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyExpedition,
-                                EvaluateExpedition, dailyNote => "探索派遣已完成");
-                        });
+                            DailyNote? dailyNote = await dailyNoteProvider.GetDailyNoteAsync(userGameRole);
+                            dailyNotes[new(cookie, userGameRole)] = dailyNote;
+                            await joinableTaskFactory.RunAsync(async () =>
+                            {
+                                await joinableTaskFactory.SwitchToMainThreadAsync();
+
+                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyResin,
+                                    EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
+                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyHomeCoin,
+                                    EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
+                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyDailyTask,
+                                    EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
+                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyExpedition,
+                                    EvaluateExpedition, dailyNote => "探索派遣已完成");
+                            });
+                        }
                     }
                 }
-                cookieService.CookiesLock.ExitReadLock();
                 DailyNotes = dailyNotes;
                 messenger.Send(new DailyNotesRefreshedMessage());
                 taskPreventer.Release();
             }
         }
 
-        private void TrySendDailyNoteNotification(
-            UserGameRole userGameRole, DailyNote? dailyNote,
+        private void TrySendDailyNoteNotification(UserGameRole userGameRole, DailyNote? dailyNote,
             ConcurrentDictionary<UserGameRole, bool> notifyFlags,
             Func<DailyNoteNotifyConfiguration, DailyNote, bool> sendConditionEvaluator,
             Func<DailyNote, string> appendTextFunc)
         {
             if (dailyNote is not null)
             {
-                //fetch out notify settings
                 DailyNoteNotifyConfiguration? notify = Setting2.DailyNoteNotifyConfiguration.Get() ?? new();
                 Setting2.DailyNoteNotifyConfiguration.Set(notify);
-                //init toast builder
-                ToastContentBuilder builder = new ToastContentBuilder().AddAttributionText(userGameRole.ToString());
+
+                ToastContentBuilder builder = new ToastContentBuilder()
+                    .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
+                    .AddAttributionText(userGameRole.ToString());
+
+                if (notify.KeepNotificationFront)
+                {
+                    builder.SetToastScenario(ToastScenario.Reminder);
+                }
+
                 //prepare notify flag
                 if (!notifyFlags.ContainsKey(userGameRole))
                 {
@@ -126,7 +143,6 @@ namespace DGP.Genshin.Service
                 }
 
                 bool shouldSend = sendConditionEvaluator.Invoke(notify, dailyNote);
-
                 if (shouldSend)
                 {
                     builder.AddText(appendTextFunc.Invoke(dailyNote), hintMaxLines: 1);
@@ -134,19 +150,10 @@ namespace DGP.Genshin.Service
                 else
                 {
                     //condition not meet ,reset it.
-                    ContinueNotifyResin[userGameRole] = true;
+                    notifyFlags[userGameRole] = true;
                 }
 
-                builder
-                    .AddButton(new ToastButton()
-                        .SetContent("开始游戏")
-                        .AddArgument("launch", "game")
-                        .SetBackgroundActivation())
-                    .AddButton(new ToastButton()
-                        .SetContent("打开启动器")
-                        .AddArgument("launch", "launcher")
-                        .SetBackgroundActivation())
-                    .AddButton(new ToastButtonDismiss("我知道了"));
+                AddToastButtons(builder);
 
                 if (notifyFlags[userGameRole] && shouldSend)
                 {
@@ -155,6 +162,20 @@ namespace DGP.Genshin.Service
                     notifyFlags[userGameRole] = false;
                 }
             }
+        }
+
+        private static void AddToastButtons(ToastContentBuilder builder)
+        {
+            builder
+                .AddButton(new ToastButton()
+                    .SetContent("开始游戏")
+                    .AddArgument("launch", "game")
+                    .SetBackgroundActivation())
+                .AddButton(new ToastButton()
+                    .SetContent("打开启动器")
+                    .AddArgument("launch", "launcher")
+                    .SetBackgroundActivation())
+                .AddButton(new ToastButtonDismiss("我知道了"));
         }
 
         private bool EvaluateResin(DailyNoteNotifyConfiguration notify, DailyNote note)

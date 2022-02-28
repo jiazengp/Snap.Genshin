@@ -33,9 +33,6 @@
     <Compile Update="Control\Title\LaunchTitleBarButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Control\Title\SignInTitleBarButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,9 +99,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\Title\LaunchTitleBarButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Control\Title\SignInTitleBarButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\WebView2RuntimeWindow.xaml">

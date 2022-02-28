@@ -2,13 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar">
 
-    <ContextMenu x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}">
+    <ContextMenu x:Key="SysTrayMenu" Style="{DynamicResource DefaultContextMenuStyle}" 
+                 UseLayoutRounding="True" SnapsToDevicePixels="True">
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}"/>
-        <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
         <Separator/>
         <MenuItem Header="启动游戏" Command="{Binding LaunchGameCommand}"/>
         <MenuItem Header="打开启动器" Command="{Binding OpenLauncherCommand}"/>
         <Separator/>
+        <MenuItem Header="全部签到" Command="{Binding SignInCommand}"/>
+        <Separator/>
+        <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
         <MenuItem Header="退出" Command="{Binding ExitCommand}" />
     </ContextMenu>
 

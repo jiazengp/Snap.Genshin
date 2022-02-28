@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Snap.Data.Utility;
+using System.Text;
 
 namespace DGP.Genshin.Helper.Converter
 {

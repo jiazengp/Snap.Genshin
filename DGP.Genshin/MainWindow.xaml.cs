@@ -13,6 +13,7 @@ using DGP.Genshin.ViewModel;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls.Primitives;
 using Snap.Reflection;
 using System;
@@ -80,9 +81,14 @@ namespace DGP.Genshin
             App.Messenger.Unregister<BackgroundOpacityChangedMessage>(this);
         }
 
-        public async void Receive(SplashInitializationCompletedMessage viewModelReference)
+        public void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
-            initializingWindow.Wait();
+            PostInitializeAsync(viewModelReference).Forget();
+        }
+
+        private async Task PostInitializeAsync(SplashInitializationCompletedMessage viewModelReference)
+        {
+            await initializingWindow.WaitAsync();
             SplashViewModel splashViewModel = viewModelReference.Value;
             PrepareTitleBarArea();
             AddAdditionalWebViewNavigationViewItems();
@@ -90,11 +96,11 @@ namespace DGP.Genshin
             //preprocess
             if (!hasEverOpen)
             {
-                DoUpdateFlowAsync();
+                DoUpdateFlowAsync().Forget();
                 //签到
                 if (Setting2.AutoDailySignInOnLaunch.Get())
                 {
-                    await SignInOnStartUp(splashViewModel);
+                    await SignInOnStartUpAsync(splashViewModel);
                 }
                 //任务栏
                 if (Setting2.IsTaskBarIconEnabled.Get())
@@ -125,6 +131,7 @@ namespace DGP.Genshin
             //设置已经打开过状态
             hasEverOpen = true;
         }
+
         public void Receive(NavigateRequestMessage message)
         {
             navigationService.Navigate(message);
@@ -205,8 +212,7 @@ namespace DGP.Genshin
         /// <summary>
         /// 描述了自带的标题栏定义
         /// </summary>
-        [ImportTitle(typeof(LaunchTitleBarButton), 100)]
-        [ImportTitle(typeof(SignInTitleBarButton), 50)]
+        [ImportTitle(typeof(LaunchTitleBarButton), 50)]
         [ImportTitle(typeof(JourneyLogTitleBarButton), 0)]
         private class TitleDefinition { }
 
@@ -240,44 +246,19 @@ namespace DGP.Genshin
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
-        private async Task SignInOnStartUp(SplashViewModel splashView)
+        private async Task SignInOnStartUpAsync(SplashViewModel splashView)
         {
             DateTime? latsSignInTime = Setting2.LastAutoSignInTime.Get();
             if (latsSignInTime < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
-                await SignInAllAccountsRolesAsync();
+                await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
             }
-        }
-
-        public static async Task SignInAllAccountsRolesAsync()
-        {
-            ICookieService cookieService = App.AutoWired<ICookieService>();
-
-            cookieService.CookiesLock.EnterReadLock();
-            foreach (string cookie in cookieService.Cookies)
-            {
-                List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
-                foreach (UserGameRole role in roles)
-                {
-                    SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
-
-                    Setting2.LastAutoSignInTime.Set(DateTime.Now);
-                    bool isSignInSilently = Setting2.SignInSilently.Get();
-                    SecureToastNotificationContext.TryCatch(() =>
-                    new ToastContentBuilder()
-                        .AddSignInHeader("米游社每日签到")
-                        .AddText(role.ToString())
-                        .AddText(result is null ? "签到失败" : "签到成功")
-                        .Show(toast => { toast.SuppressPopup = isSignInSilently; }));
-                }
-            }
-            cookieService.CookiesLock.ExitReadLock();
         }
         #endregion
 
         #region Update
-        private async void DoUpdateFlowAsync()
+        private async Task DoUpdateFlowAsync()
         {
             await CheckUpdateAsync();
             IUpdateService updateService = App.AutoWired<IUpdateService>();

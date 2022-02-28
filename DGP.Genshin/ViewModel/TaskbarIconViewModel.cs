@@ -17,22 +17,26 @@ namespace DGP.Genshin.ViewModel
     internal class TaskbarIconViewModel : ObservableRecipient2
     {
         private readonly ILaunchService launchService;
+        private readonly ISignInService signInService;
 
         public ICommand ShowMainWindowCommand { get; }
         public ICommand ExitCommand { get; }
         public ICommand RestartElevatedCommand { get; }
         public ICommand LaunchGameCommand { get; }
         public ICommand OpenLauncherCommand { get; }
+        public ICommand SignInCommand { get; }
 
-        public TaskbarIconViewModel(ILaunchService launchService, IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ILaunchService launchService,ISignInService signInService, IMessenger messenger) : base(messenger)
         {
             this.launchService = launchService;
+            this.signInService = signInService;
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
             RestartElevatedCommand = new RelayCommand(RestartElevated);
             LaunchGameCommand = new AsyncRelayCommand(LaunchGameAsync);
             OpenLauncherCommand = new RelayCommand(OpenLauncher);
+            SignInCommand = new AsyncRelayCommand(SignInAsync);
         }
 
         private void OpenMainWindow()
@@ -82,6 +86,10 @@ namespace DGP.Genshin.ViewModel
                     .AddText(ex.Message)
                     .Show());
             });
+        }
+        private async Task SignInAsync()
+        {
+            await signInService.TrySignAllAccountsRolesInAsync();
         }
     }
 }
