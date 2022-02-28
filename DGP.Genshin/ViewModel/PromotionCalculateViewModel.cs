@@ -6,7 +6,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Exception;
 using System.Collections.Generic;

@@ -27,12 +27,6 @@
     <Compile Update="Control\GenshinElement\HutaoStatistic\UploadDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Control\Title\JourneyLogTitleBarButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Control\Title\LaunchTitleBarButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +40,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\HutaoStatisticPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Page\LaunchPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\PluginPage.xaml.cs">
@@ -95,12 +92,6 @@
     <Page Update="Control\ModernStyle\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Control\Title\JourneyLogTitleBarButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Control\Title\LaunchTitleBarButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Control\WebView2RuntimeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -126,6 +117,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\HutaoStatisticPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\LaunchPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\PluginPage.xaml">

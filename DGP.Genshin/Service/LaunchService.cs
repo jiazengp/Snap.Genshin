@@ -238,7 +238,6 @@ namespace DGP.Genshin.Service
         /// 还原转义后的原游戏目录
         /// 目录符号应为/
         /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
-        /// https://stackoverflow.com/questions/70639344/replace-captured-item-in-regular-expression-replace-in-c-sharp
         /// </summary>
         /// <returns></returns>
         private string GetUnescapedGameFolderFromLauncherConfig()

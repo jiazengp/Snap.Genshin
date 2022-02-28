@@ -3,7 +3,7 @@
     /// <summary>
     /// 用户请求刷新数据消息
     /// </summary>
-    public class UserRequestRefreshMessage 
+    public class UserRequestRefreshMessage
     {
 
     }

@@ -53,7 +53,10 @@ namespace DGP.Genshin.Core.Plugins
                 }
                 catch (Exception e)
                 {
-                    loadContext.Unload();
+                    if (loadContext.IsCollectible)
+                    {
+                        loadContext.Unload();
+                    }
                     this.Log(e);
                     this.Log($"Failed to load plugin from: {pluginLocation}");
                 }

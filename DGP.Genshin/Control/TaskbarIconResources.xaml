@@ -11,7 +11,7 @@
         <Separator/>
         <MenuItem Header="全部签到" Command="{Binding SignInCommand}"/>
         <Separator/>
-        <MenuItem Header="以管理员模式重启" Command="{Binding RestartElevatedCommand}"/>
+        <MenuItem Header="以管理员模式重启" Command="{Binding RestartAsElevatedCommand}"/>
         <MenuItem Header="退出" Command="{Binding ExitCommand}" />
     </ContextMenu>
 

@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstraction;
@@ -249,11 +249,10 @@ namespace DGP.Genshin
             //only notify once
             ThemeManager.Current.ActualAccentColorChanged -= OnActualAccentColorChanged;
 
-            SecureToastNotificationContext.TryCatch(() =>
-                new ToastContentBuilder()
+            new ToastContentBuilder()
                 .AddText("检测到系统强调色已更改")
                 .AddText("重启程序以正常显示颜色")
-                .Show());
+                .SafeShow();
         }
         #endregion
     }

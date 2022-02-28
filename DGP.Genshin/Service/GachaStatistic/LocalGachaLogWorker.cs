@@ -245,7 +245,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     {
                         if (item is not null)
                         {
-                            importData.Uid ??= item.Uid;
+                            item.Uid ??= importData.Uid;
                             string? type = item.GachaType;
                             //refactor 400 type here to prevent 400 list json file creation
                             type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;

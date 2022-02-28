@@ -102,7 +102,7 @@ namespace DGP.Genshin.ViewModel
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
         {
             this.gachaStatisticService = gachaStatisticService;
-            
+
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);

@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.DataModel.Cookie;
+﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.DataModel.DailyNote;
-using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
@@ -157,7 +157,7 @@ namespace DGP.Genshin.Service
 
                 if (notifyFlags[userGameRole] && shouldSend)
                 {
-                    SecureToastNotificationContext.TryCatch(() => builder.Show());
+                    builder.SafeShow();
                     //once it send out , flag this role
                     notifyFlags[userGameRole] = false;
                 }
@@ -180,7 +180,7 @@ namespace DGP.Genshin.Service
 
         private bool EvaluateResin(DailyNoteNotifyConfiguration notify, DailyNote note)
         {
-            return (notify.NotifyOnResinReach155 && note.CurrentResin >= 155) 
+            return (notify.NotifyOnResinReach155 && note.CurrentResin >= 155)
                 || (notify.NotifyOnResinReach120 && note.CurrentResin >= 120)
                 || (notify.NotifyOnResinReach80 && note.CurrentResin >= 80)
                 || (notify.NotifyOnResinReach40 && note.CurrentResin >= 40)

@@ -16,5 +16,8 @@ dotnet_diagnostic.CA1416.severity = none
 # IDE0058: 永远不会使用表达式值
 csharp_style_unused_value_expression_statement_preference = unused_local_variable
 
+# CA1401: P/Invokes 应该是不可见的
+dotnet_diagnostic.CA1401.severity = none
+
 [*.{cs,vb}]
 dotnet_diagnostic.CA1822.severity=none

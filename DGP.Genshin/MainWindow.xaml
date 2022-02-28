@@ -14,7 +14,6 @@
     Title="Snap 原神" 
     MinWidth="1024" MinHeight="750"
     Width="1024" Height="750" 
-    SizeChanged="MainWindowSizeChanged"
     WindowStartupLocation="CenterScreen"
     UseLayoutRounding="True"
     SnapsToDevicePixels="True"
@@ -38,6 +37,11 @@
                 <ui:NavigationViewItem Content="账号管理" helpers:NavHelper.NavigateTo="{x:Type pages:UserPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE748;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="启动游戏" helpers:NavHelper.NavigateTo="{x:Type pages:LaunchPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE7FC;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="祈愿记录" helpers:NavHelper.NavigateTo="{x:Type pages:GachaStatisticPage}">

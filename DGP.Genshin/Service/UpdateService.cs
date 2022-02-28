@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Helper;
+﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Converter;
-using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Octokit;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using Snap.Exception;
 using Snap.Net.Download;
 using Snap.Threading;
@@ -31,7 +30,7 @@ namespace DGP.Genshin.Service
 
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
-        private JoinableTaskFactory joinableTaskFactory;
+        private readonly JoinableTaskFactory joinableTaskFactory;
         private readonly IMessenger messenger;
 
         public Uri? PackageUri { get; set; }
@@ -49,6 +48,7 @@ namespace DGP.Genshin.Service
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
+            
             try
             {
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
@@ -60,11 +60,28 @@ namespace DGP.Genshin.Service
                 string newVersion = Release.TagName;
                 NewVersion = new Version(Release.TagName);
 
-                return NewVersion > CurrentVersion
-                    ? UpdateState.NeedUpdate
-                    : NewVersion == CurrentVersion
-                           ? UpdateState.IsNewestRelease
-                           : UpdateState.IsInsiderVersion;
+                if (Debugger.IsAttached)
+                {
+                    return UpdateState.NeedUpdate;
+                }
+                else
+                {
+                    if (NewVersion > CurrentVersion)
+                    {
+                        return UpdateState.NeedUpdate;
+                    }
+                    else
+                    {
+                        if (NewVersion == CurrentVersion)
+                        {
+                            return UpdateState.IsNewestRelease;
+                        }
+                        else
+                        {
+                            return UpdateState.IsInsiderVersion;
+                        }
+                    }
+                }
             }
             catch
             {
@@ -93,11 +110,7 @@ namespace DGP.Genshin.Service
                 InnerDownloader.ProgressChanged += OnProgressChanged;
                 //toast can only be shown & updated by main thread
 
-                await joinableTaskFactory.RunAsync(async () => 
-                {
-                    await joinableTaskFactory.SwitchToMainThreadAsync();
-                    ShowDownloadToastNotification();
-                });
+                ShowDownloadToastNotification();
 
                 bool caught = false;
                 try
@@ -115,15 +128,14 @@ namespace DGP.Genshin.Service
 
                 if (caught)
                 {
-                    SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("下载更新时遇到问题")
                     .AddText("点击检查更新再次尝试")
-                    .Show());
+                    .SafeShow();
                 }
                 else
                 {
-                    await StartInstallUpdateAsync();
+                    StartInstallUpdate();
                 }
                 updateTaskPreventer.Release();
             }
@@ -135,7 +147,6 @@ namespace DGP.Genshin.Service
         private void ShowDownloadToastNotification()
         {
             lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
-            SecureToastNotificationContext.TryCatch(() =>
             new ToastContentBuilder()
                 .AddText("下载更新中...")
                 .AddVisualChild(new AdaptiveProgressBar()
@@ -145,7 +156,7 @@ namespace DGP.Genshin.Service
                     ValueStringOverride = new BindableString("progressValueString"),
                     Status = new BindableString("progressStatus")
                 })
-                .Show(toast =>
+                .SafeShow(toast =>
                 {
                     toast.Tag = UpdateNotificationTag;
                     toast.Data =
@@ -159,7 +170,7 @@ namespace DGP.Genshin.Service
                         //always update when it's 0
                         SequenceNumber = 0
                     };
-                }));
+                });
         }
 
         /// <summary>
@@ -168,7 +179,7 @@ namespace DGP.Genshin.Service
         /// <param name="totalBytesToReceive">总大小</param>
         /// <param name="bytesReceived">下载的大小</param>
         /// <param name="percent">进度</param>
-        private async void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
+        private void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
         {
             //message will be sent anyway.
             string valueString = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
@@ -179,11 +190,7 @@ namespace DGP.Genshin.Service
                 if (percent is not null)
                 {
                     //notification could only be updated by main thread.
-                    await joinableTaskFactory.RunAsync(async () =>
-                    {
-                        await joinableTaskFactory.SwitchToMainThreadAsync();
-                        UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent);
-                    });
+                    App.Current.Dispatcher.Invoke(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
                 }
             }
         }
@@ -213,7 +220,7 @@ namespace DGP.Genshin.Service
         /// <summary>
         /// 开始安装更新
         /// </summary>
-        private async Task StartInstallUpdateAsync()
+        private void StartInstallUpdate()
         {
             Directory.CreateDirectory(UpdaterFolder);
             PathContext.MoveToFolderOrIgnore(UpdaterExecutable, UpdaterFolder);
@@ -232,28 +239,22 @@ namespace DGP.Genshin.Service
                         FileName = oldUpdaterPath,
                         Arguments = "UpdateInstall"
                     });
-                    await joinableTaskFactory.RunAsync(async () =>
-                    {
-                        await joinableTaskFactory.SwitchToMainThreadAsync();
-                        App.Current.Shutdown();
-                    });
+                    App.Current.Dispatcher.Invoke(App.Current.Shutdown);
                 }
                 catch (Win32Exception)
                 {
-                    SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("已经取消更新")
                     .AddText("下次更新需要重新下载安装包")
-                    .Show());
+                    .SafeShow();
                 }
             }
             else
             {
-                SecureToastNotificationContext.TryCatch(() =>
-                new ToastContentBuilder()
-                .AddText("在默认路径上未找到更新器")
-                .AddText("请尝试手动解压安装包更新")
-                .Show());
+                 new ToastContentBuilder()
+                 .AddText("在默认路径上未找到更新器")
+                 .AddText("请尝试手动解压安装包更新")
+                 .SafeShow();
             }
         }
     }

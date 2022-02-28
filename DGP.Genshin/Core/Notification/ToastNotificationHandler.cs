@@ -1,9 +1,11 @@
 ﻿using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using Snap.Data.Json;
+using System.Threading.Tasks;
 
-namespace DGP.Genshin.Helper.Notification
+namespace DGP.Genshin.Core.Notification
 {
     internal class ToastNotificationHandler
     {
@@ -11,7 +13,12 @@ namespace DGP.Genshin.Helper.Notification
         /// 在后台处理并响应通知
         /// </summary>
         /// <param name="toastArgs"></param>
-        internal async void OnActivatedByNotification(ToastNotificationActivatedEventArgsCompat toastArgs)
+        internal void OnActivatedByNotification(ToastNotificationActivatedEventArgsCompat toastArgs)
+        {
+            HandleNotificationActivationAsync(toastArgs).Forget();
+        }
+
+        private async Task HandleNotificationActivationAsync(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
             this.Log(Json.Stringify(toastArgs));
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
@@ -24,18 +31,17 @@ namespace DGP.Genshin.Helper.Notification
                 }
                 else
                 {
-                    SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                         .AddText("当前无法获取更新信息")
                         .AddText("请重启 Snap Genshin")
-                        .Show());
+                        .SafeShow();
                 }
             }
             else if (args.TryGetValue("taskbarhint", out string taskbarhint) && taskbarhint == "hide")
             {
                 Setting2.IsTaskBarIconHintDisplay.Set(false);
             }
-            else if (args.TryGetValue("launch", out string launch) && launch == "game")
+            else if (args.TryGetValue("launch", out string launch))
             {
                 ILaunchService launchService = App.AutoWired<ILaunchService>();
                 switch (launch)
@@ -53,11 +59,10 @@ namespace DGP.Genshin.Helper.Notification
                             };
                             await launchService.LaunchAsync(launchOption, ex =>
                             {
-                                SecureToastNotificationContext.TryCatch(() =>
                                 new ToastContentBuilder()
                                     .AddText("启动游戏失败")
                                     .AddText(ex.Message)
-                                    .Show());
+                                    .SafeShow();
                             });
                             break;
                         }
@@ -65,18 +70,16 @@ namespace DGP.Genshin.Helper.Notification
                         {
                             launchService.OpenOfficialLauncher(ex =>
                             {
-                                SecureToastNotificationContext.TryCatch(() =>
                                 new ToastContentBuilder()
                                     .AddText("打开启动器失败")
                                     .AddText(ex.Message)
-                                    .Show());
+                                    .SafeShow();
                             });
                             break;
                         }
                     default:
                         break;
                 }
-                
             }
         }
     }

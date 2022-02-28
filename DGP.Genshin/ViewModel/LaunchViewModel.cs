@@ -1,30 +1,32 @@
 ﻿using DGP.Genshin.Control.Launching;
-using DGP.Genshin.Control.Title;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
+using DGP.Genshin.Message;
+using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DGP.Genshin.ViewModel.Title
+namespace DGP.Genshin.ViewModel
 {
-    [ViewModel(InjectAs.Transient)]
+    [ViewModel(InjectAs.Singleton)]
     public class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;
-
-        private TitleBarButton? View;
+        private readonly IMessenger messenger;
 
         #region Observables
         private List<LaunchScheme> knownSchemes = new()
@@ -133,9 +135,10 @@ namespace DGP.Genshin.ViewModel.Title
         public ICommand DeleteAccountCommand { get; }
         #endregion
 
-        public LaunchViewModel(ILaunchService launchService)
+        public LaunchViewModel(ILaunchService launchService, IMessenger messenger)
         {
             this.launchService = launchService;
+            this.messenger = messenger;
 
             Accounts = launchService.LoadAllAccount();
 
@@ -146,25 +149,21 @@ namespace DGP.Genshin.ViewModel.Title
             ScreenWidth = Setting2.ScreenWidth.Get();
             ScreenHeight = Setting2.ScreenHeight.Get();
 
-            OpenUICommand = new AsyncRelayCommand<TitleBarButton>(OpenUIAsync);
-            LaunchCommand = new AsyncRelayCommand<string>(LaunchByOption);
+            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            LaunchCommand = new AsyncRelayCommand<string>(LaunchByOptionAsync);
             CloseUICommand = new RelayCommand(SaveAllAccounts);
             DeleteAccountCommand = new RelayCommand(DeleteAccount);
         }
 
-        private async Task OpenUIAsync(TitleBarButton? t)
+        private async Task OpenUIAsync()
         {
             string? launcherPath = Setting2.LauncherPath.Get();
             launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
-            bool result = false;
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
                 await MatchAccountAsync();
                 CurrentScheme = KnownSchemes
                     .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
-                t?.ShowAttachedFlyout<Grid>(this);
-                View = t;
-                result = true;
             }
             else
             {
@@ -175,26 +174,17 @@ namespace DGP.Genshin.ViewModel.Title
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败\n请尝试重新选择启动器路径",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
+                messenger.Send(new NavigateRequestMessage(typeof(HomePage)));
             }
-            new Event(t?.GetType(), result).TrackAs(Event.OpenTitle);
         }
-        private async Task LaunchByOption(string? option)
+        private async Task LaunchByOptionAsync(string? option)
         {
-            View?.HideAttachedFlyout();
             switch (option)
             {
                 case "Launcher":
                     {
-                        launchService.OpenOfficialLauncher(async ex =>
-                        {
-                            await new ContentDialog()
-                            {
-                                Title = "打开启动器失败",
-                                Content = ex.Message,
-                                PrimaryButtonText = "确定",
-                                DefaultButton = ContentDialogButton.Primary
-                            }.ShowAsync();
-                        });
+                        launchService.OpenOfficialLauncher(ex =>
+                        HandleLaunchFailureAsync("打开启动器失败", ex).Forget());
                         break;
                     }
                 case "Game":
@@ -209,16 +199,8 @@ namespace DGP.Genshin.ViewModel.Title
                             ScreenHeight = (int)ScreenHeight
                         };
 
-                        await launchService.LaunchAsync(launchOption, async ex =>
-                        {
-                            await new ContentDialog()
-                            {
-                                Title = "启动游戏失败",
-                                Content = ex.Message,
-                                PrimaryButtonText = "确定",
-                                DefaultButton = ContentDialogButton.Primary
-                            }.ShowAsync();
-                        });
+                        await launchService.LaunchAsync(launchOption, ex =>
+                        HandleLaunchFailureAsync("启动游戏失败", ex).Forget());
                         break;
                     }
             }
@@ -231,7 +213,6 @@ namespace DGP.Genshin.ViewModel.Title
         {
             if (SelectedAccount is not null)
             {
-                View?.HideAttachedFlyout();
                 Accounts.Remove(SelectedAccount);
                 SelectedAccount = Accounts.LastOrDefault();
             }
@@ -268,12 +249,22 @@ namespace DGP.Genshin.ViewModel.Title
             }
             else
             {
-                SecureToastNotificationContext.TryCatch(() =>
+                SelectedAccount = Accounts.FirstOrDefault();
                 new ToastContentBuilder()
                 .AddText("从注册表获取账号信息失败")
-                .AddText("已为您切换到第一个账号")
-                .Show());
+                .AddText("已尝试为您切换到第一个账号")
+                .SafeShow();
             }
+        }
+        private async Task HandleLaunchFailureAsync(string title, Exception exception)
+        {
+            await new ContentDialog()
+            {
+                Title = title,
+                Content = exception.Message,
+                PrimaryButtonText = "确定",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
         }
     }
 }

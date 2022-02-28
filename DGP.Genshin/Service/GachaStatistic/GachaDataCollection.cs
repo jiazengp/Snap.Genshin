@@ -3,7 +3,6 @@ using DGP.Genshin.MiHoYoAPI.Gacha;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Threading;
 
 namespace DGP.Genshin.Service.GachaStatistic
 {

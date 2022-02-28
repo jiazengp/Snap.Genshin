@@ -56,7 +56,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="gachaLogUrl">url</param>
         /// <param name="gachaData">需要操作的祈愿数据</param>
         /// <param name="batchSize">每次请求获取的批大小 最大20 默认20</param>
-        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData,JoinableTaskFactory joinableTaskFactory, int batchSize = 20)
+        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, JoinableTaskFactory joinableTaskFactory, int batchSize = 20)
         {
             this.joinableTaskFactory = joinableTaskFactory;
             this.gachaLogUrl = gachaLogUrl;
@@ -198,7 +198,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
-                await joinableTaskFactory.RunAsync(async () => 
+                await joinableTaskFactory.RunAsync(async () =>
                 {
                     await joinableTaskFactory.SwitchToMainThreadAsync();
                     WorkingGachaData.Add(WorkingUid, new GachaData());

@@ -12,7 +12,7 @@ namespace DGP.Genshin.Core.Plugins
         private readonly AssemblyDependencyResolver internalResolver;
         private readonly AssemblyName appAssemblyName;
 
-        public PluginLoadContext(string pluginPath)
+        public PluginLoadContext(string pluginPath) : base(true)
         {
             internalResolver = new AssemblyDependencyResolver(pluginPath);
             appAssemblyName = Assembly.GetExecutingAssembly().GetName();

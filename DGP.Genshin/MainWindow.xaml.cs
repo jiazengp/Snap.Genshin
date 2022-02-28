@@ -1,12 +1,11 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Control.Title;
+using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Core.PerMonitorDPIAware;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
 using DGP.Genshin.Message;
-using DGP.Genshin.MiHoYoAPI.GameRole;
-using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.ViewModel;
@@ -46,11 +45,12 @@ namespace DGP.Genshin
         private readonly BackgroundLoader backgroundLoader;
 
         /// <summary>
-        /// do not set DataContext for mainwindow
+        /// do NOT set DataContext for mainwindow
         /// </summary>
         public MainWindow()
         {
             InitializeContent();
+            _ = new PerMonitorDPIAdapter(this);
             //randomly load a image as background
             backgroundLoader = new(this);
             backgroundLoader.LoadWallpaper();
@@ -90,7 +90,6 @@ namespace DGP.Genshin
         {
             await initializingWindow.WaitAsync();
             SplashViewModel splashViewModel = viewModelReference.Value;
-            PrepareTitleBarArea();
             AddAdditionalWebViewNavigationViewItems();
             AddAdditionalPluginsNavigationViewItems();
             //preprocess
@@ -112,7 +111,7 @@ namespace DGP.Genshin
             }
             splashViewModel.CurrentStateDescription = "完成";
             splashViewModel.IsSplashNotVisible = true;
-            await Task.Delay(500);
+            await Task.Delay(800);
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             //before call Close() in this method,must release initializingWindow.
             initializingWindow.Release();
@@ -146,6 +145,11 @@ namespace DGP.Genshin
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (WindowState == WindowState.Normal)
+            {
+                Setting2.MainWindowWidth.Set(Width);
+                Setting2.MainWindowHeight.Set(Height);
+            }
             Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
             initializingWindow.Wait();
             base.OnClosing(e);
@@ -157,28 +161,20 @@ namespace DGP.Genshin
             {
                 if (Setting2.IsTaskBarIconHintDisplay.Get() && (!hasEverClose))
                 {
-                    SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
-                    .AddText("Snap Genshin 已转入后台运行\n点击托盘图标以显示主窗口")
+                    .AddText("Snap Genshin 已转入后台运行")
+                    .AddText("点击托盘图标以显示主窗口")
                     .AddButton(new ToastButton()
                         .SetContent("不再显示")
                         .AddArgument("taskbarhint", "hide")
                         .SetBackgroundActivation())
-                    .Show());
+                    .SafeShow(false);
                     hasEverClose = true;
                 }
             }
             else
             {
                 App.Current.Shutdown();
-            }
-        }
-        private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-            {
-                Setting2.MainWindowWidth.Set(Width);
-                Setting2.MainWindowHeight.Set(Height);
             }
         }
 
@@ -209,37 +205,6 @@ namespace DGP.Genshin
         }
         #endregion
 
-        /// <summary>
-        /// 描述了自带的标题栏定义
-        /// </summary>
-        [ImportTitle(typeof(LaunchTitleBarButton), 50)]
-        [ImportTitle(typeof(JourneyLogTitleBarButton), 0)]
-        private class TitleDefinition { }
-
-        /// <summary>
-        /// 准备标题栏按钮
-        /// </summary>
-        /// <param name="splashView"></param>
-        private void PrepareTitleBarArea()
-        {
-            List<ImportTitleAttribute> titleBarButtons = new();
-
-            foreach (IPlugin plugin in App.Current.PluginService.Plugins)
-            {
-                plugin.ForEachAttribute<ImportTitleAttribute>(importTitle => titleBarButtons.Add(importTitle));
-            }
-            new TitleDefinition().ForEachAttribute<ImportTitleAttribute>(title => titleBarButtons.Add(title));
-
-            IEnumerable<ImportTitleAttribute> filtered = titleBarButtons
-                .Where(title => typeof(TitleBarButton).IsAssignableFrom(title.ButtonType))
-                .OrderByDescending(title => title.Order);
-
-            foreach (ImportTitleAttribute titleBarButton in filtered)
-            {
-                TitleBarStackPanel.Children.Add(Activator.CreateInstance(titleBarButton.ButtonType) as TitleBarButton);
-            }
-        }
-
         #region Sign In
         /// <summary>
         /// 对Cookie列表内的所有角色签到
@@ -248,8 +213,7 @@ namespace DGP.Genshin
         /// <returns></returns>
         private async Task SignInOnStartUpAsync(SplashViewModel splashView)
         {
-            DateTime? latsSignInTime = Setting2.LastAutoSignInTime.Get();
-            if (latsSignInTime < DateTime.Today)
+            if (Setting2.LastAutoSignInTime.Get() < DateTime.Today)
             {
                 splashView.CurrentStateDescription = "签到中...";
                 await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
@@ -280,7 +244,6 @@ namespace DGP.Genshin
             {
                 case UpdateState.NeedUpdate:
                     {
-                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
                             .AddText(App.AutoWired<IUpdateService>().NewVersion?.ToString())
@@ -289,16 +252,15 @@ namespace DGP.Genshin
                                 .AddArgument("action", "update")
                                 .SetBackgroundActivation())
                             .AddButton(new ToastButtonDismiss("忽略"))
-                            .Show());
+                            .SafeShow();
                         break;
                     }
                 case UpdateState.NotAvailable:
                     {
-                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("检查更新失败")
                             .AddText("无法连接到 Github")
-                            .Show());
+                            .SafeShow();
                         break;
                     }
                 case UpdateState.IsNewestRelease:

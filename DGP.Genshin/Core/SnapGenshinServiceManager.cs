@@ -4,7 +4,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace DGP.Genshin.Core
 {

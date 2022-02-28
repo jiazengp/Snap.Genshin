@@ -53,12 +53,23 @@
                                                     <Border.Background>
                                                         <ImageBrush ImageSource="{Binding Banner}" Stretch="UniformToFill"/>
                                                     </Border.Background>
+                                                    
                                                     <Grid>
+                                                        <Border Height="16"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                                                Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                    <GradientStop Color="#00000000"/>
+                                                                    <GradientStop Offset="1" Color="#A0000000"/>
+                                                                </LinearGradientBrush>
+                                                            </Border.Background>
+                                                        </Border>
                                                         <Border CornerRadius="0,4,0,11.5" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                             Background="{StaticResource SystemControlBackgroundAltMediumBrush}" Padding="8,4" 
                                                             Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BooleanToVisibilityConverter}}">
                                                             <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding TimeDescription}" />
                                                         </Border>
+                                                        
                                                         <ui:ProgressBar 
                                                             Height="2" MinHeight="2" Value="{Binding TimePercent,Mode=OneWay}" ui:ControlHelper.CornerRadius="0"
                                                             Visibility="{Binding ShouldShowTimePrecent,Converter={StaticResource BooleanToVisibilityConverter}}" 

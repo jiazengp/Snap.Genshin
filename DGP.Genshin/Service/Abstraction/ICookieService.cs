@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.DataModel.Cookie;
 using Microsoft.VisualStudio.Threading;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction

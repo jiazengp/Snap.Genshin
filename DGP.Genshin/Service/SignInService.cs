@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper.Notification;
-using DGP.Genshin.Message;
+﻿using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Service.Abstraction;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service
 {
-    [Service(typeof(ISignInService),InjectAs.Singleton)]
+    [Service(typeof(ISignInService), InjectAs.Singleton)]
     internal class SignInService : IRecipient<DayChangedMessage>, ISignInService
     {
         private readonly ICookieService cookieService;
@@ -44,12 +43,11 @@ namespace DGP.Genshin.Service
 
                         Setting2.LastAutoSignInTime.Set(DateTime.UtcNow);
                         bool isSignInSilently = Setting2.SignInSilently.Get();
-                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
                             .AddText(result is null ? "签到失败" : "签到成功")
                             .AddAttributionText(role.ToString())
-                            .Show(toast => { toast.SuppressPopup = isSignInSilently; }));
+                            .Show(toast => { toast.SuppressPopup = isSignInSilently; });
                     }
                 }
             }

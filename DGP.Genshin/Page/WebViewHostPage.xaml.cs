@@ -1,11 +1,14 @@
 ﻿using DGP.Genshin.Control;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.Threading;
+using Microsoft.Web.WebView2.Core;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Exception;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -39,7 +42,16 @@ namespace DGP.Genshin.Page
             base.OnNavigatedFrom(e);
         }
 
-        private async void PageLoaded(object sender, RoutedEventArgs e)
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            OpenTargetUrlAsync().Forget();
+        }
+        private void WebViewNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            ExecuteJavaScriptAsync().Forget();
+        }
+
+        private async Task OpenTargetUrlAsync()
         {
             try
             {
@@ -59,21 +71,19 @@ namespace DGP.Genshin.Page
                 }
                 catch
                 {
-                    SecureToastNotificationContext.TryCatch(() =>
                     new ToastContentBuilder()
                     .AddText("无法导航到指定的网页")
-                    .Show());
+                    .SafeShow();
                 }
             }
         }
-
-        private async void WebViewNavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        private async Task ExecuteJavaScriptAsync()
         {
             if (entry?.JavaScript is not null)
             {
-                this.Log("开始执行页面脚本");
+                this.Log("开始执行脚本");
                 string? result = await WebView.CoreWebView2.ExecuteScriptAsync(entry.JavaScript);
-                this.Log(result);
+                this.Log($"执行完成:{result}");
             }
         }
     }

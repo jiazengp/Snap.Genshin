@@ -815,6 +815,9 @@
                                         </ItemsControl>
                                     </Grid>
                                 </wu:Card>
+                                <wu:CardControl Title="提醒式通知" Subtitle="防止实时便笺通知自动收入操作中心" Margin="0,12,0,0">
+                                    <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.KeepNotificationFront}"/>
+                                </wu:CardControl>
                                 <wu:CardExpander Header="原粹树脂提醒" Subtitle="当原粹树脂到达或超过某一数值时提醒我" Margin="0,12,0,0">
                                     <StackPanel>
                                         <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
@@ -860,10 +863,9 @@
                     </s:SmoothScrollViewer>
                 </TabItem>
                 <TabItem Header="旅行札记">
-                    <StackPanel Grid.Row="1">
-                        <StackPanel Orientation="Horizontal">
-                            <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <StackPanel Grid.Row="1" Margin="12,0,0,0" Width="400" HorizontalAlignment="Left">
+                        <UniformGrid Columns="2" Margin="0,0,-12,0">
+                            <wu:Card Margin="0,12,12,0" Padding="0">
                                 <StackPanel>
                                     <TextBlock Margin="12,8,12,8" Text="今日共获取" Style="{StaticResource SubtitleTextBlockStyle}"/>
                                     <StackPanel Orientation="Horizontal">
@@ -877,9 +879,8 @@
                                                 Text="{Binding JourneyInfo.DayData.CurrentMora,StringFormat={}摩拉：{0}}"/>
                                     </StackPanel>
                                 </StackPanel>
-                            </Border>
-                            <Border Margin="12,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                            </wu:Card>
+                            <wu:Card Margin="0,12,12,0" Padding="0">
                                 <StackPanel>
                                     <TextBlock Margin="12,8,12,8" Text="当月共获取" Style="{StaticResource SubtitleTextBlockStyle}"/>
                                     <StackPanel Orientation="Horizontal">
@@ -893,34 +894,33 @@
                                                 Text="{Binding JourneyInfo.MonthData.CurrentMora,StringFormat={}摩拉：{0}}"/>
                                     </StackPanel>
                                 </StackPanel>
-                            </Border>
-                        </StackPanel>
-                        <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                                Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                            </wu:Card>
+                        </UniformGrid>
+                        <wu:Card Margin="0,12,0,0" Padding="0">
                             <StackPanel>
-                                <TextBlock Margin="12,8,12,0" Text="原石收入组成" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock Margin="12,8,12,0" Text="当月原石收入组成" Style="{StaticResource SubtitleTextBlockStyle}"/>
                                 <ItemsControl Margin="0,0,0,12" ItemsSource="{Binding JourneyInfo.MonthData.GroupBy}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel>
-                                                <Grid Margin="0,6,0,0">
+                                                <Grid Margin="0,12,0,0">
                                                     <TextBlock Text="{Binding Action}" Margin="12,4,12,0" HorizontalAlignment="Left"/>
                                                     <TextBlock Margin="12,6,16,0" HorizontalAlignment="Right" FontFamily="Consolas">
                                                         <TextBlock.Text>
-                                                            <MultiBinding StringFormat="{}{0}{1,4}%">
+                                                            <MultiBinding StringFormat="{}{0}{1,6}%">
                                                                 <Binding Path="Num"/>
                                                                 <Binding Path="Percent"/>
                                                             </MultiBinding>
                                                         </TextBlock.Text>
                                                     </TextBlock>
                                                 </Grid>
-                                                <ui:ProgressBar Margin="12,4,12,0" Value="{Binding Percent}"/>
+                                                <ui:ProgressBar Margin="12,4,12,0" Value="{Binding Percent}" MinHeight="2"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
-                        </Border>
+                        </wu:Card>
                     </StackPanel>
                 </TabItem>
             </TabControl>

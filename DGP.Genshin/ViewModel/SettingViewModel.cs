@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
+﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
@@ -175,7 +175,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
 
-        public SettingViewModel(IUpdateService updateService, ICookieService cookieService,ISignInService signInService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, ISignInService signInService, IMessenger messenger) : base(messenger)
         {
             this.updateService = updateService;
 
@@ -240,18 +240,16 @@ namespace DGP.Genshin.ViewModel
                     }
                 case UpdateState.IsNewestRelease:
                     {
-                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("已是最新发行版")
-                            .Show());
+                            .SafeShow();
                         break;
                     }
                 case UpdateState.IsInsiderVersion:
                     {
-                        SecureToastNotificationContext.TryCatch(() =>
                         new ToastContentBuilder()
                             .AddText("当前为开发测试版")
-                            .Show());
+                            .Show();
                         break;
                     }
                 default:

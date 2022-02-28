@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Helper.Notification;
+﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -21,19 +21,19 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand ShowMainWindowCommand { get; }
         public ICommand ExitCommand { get; }
-        public ICommand RestartElevatedCommand { get; }
+        public ICommand RestartAsElevatedCommand { get; }
         public ICommand LaunchGameCommand { get; }
         public ICommand OpenLauncherCommand { get; }
         public ICommand SignInCommand { get; }
 
-        public TaskbarIconViewModel(ILaunchService launchService,ISignInService signInService, IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ILaunchService launchService, ISignInService signInService, IMessenger messenger) : base(messenger)
         {
             this.launchService = launchService;
             this.signInService = signInService;
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
-            RestartElevatedCommand = new RelayCommand(RestartElevated);
+            RestartAsElevatedCommand = new RelayCommand(RestartAsElevated);
             LaunchGameCommand = new AsyncRelayCommand(LaunchGameAsync);
             OpenLauncherCommand = new RelayCommand(OpenLauncher);
             SignInCommand = new AsyncRelayCommand(SignInAsync);
@@ -47,7 +47,7 @@ namespace DGP.Genshin.ViewModel
         {
             App.Current.Shutdown();
         }
-        private void RestartElevated()
+        private void RestartAsElevated()
         {
             try
             {
@@ -69,22 +69,20 @@ namespace DGP.Genshin.ViewModel
         {
             await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
             {
-                SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                     .AddText("启动游戏失败")
                     .AddText(ex.Message)
-                    .Show());
+                    .SafeShow();
             });
         }
         private void OpenLauncher()
         {
             launchService.OpenOfficialLauncher(ex =>
             {
-                SecureToastNotificationContext.TryCatch(() =>
                 new ToastContentBuilder()
                     .AddText("打开启动器失败")
                     .AddText(ex.Message)
-                    .Show());
+                    .Show();
             });
         }
         private async Task SignInAsync()

@@ -2,22 +2,19 @@
 using DGP.Genshin.DataModel.DailyNote;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
+using DGP.Genshin.MiHoYoAPI.Journey;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
-using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
-using Snap.Exception;
 using Snap.Extenion.Enumerable;
-using Snap.Threading;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,6 +42,7 @@ namespace DGP.Genshin.ViewModel
         private CookieUserGameRole? selectedCookieUserGameRole;
         private DailyNote? dailyNote;
         private DailyNoteNotifyConfiguration dailyNoteNotifyConfiguration;
+        private JourneyInfo? journeyInfo;
 
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
@@ -72,9 +70,9 @@ namespace DGP.Genshin.ViewModel
         }
 
         public List<CookieUserGameRole>? CookieUserGameRoles
-        { 
-            get => cookieUserGameRoles; 
-            set => SetProperty(ref cookieUserGameRoles, value); 
+        {
+            get => cookieUserGameRoles;
+            set => SetProperty(ref cookieUserGameRoles, value);
         }
         public CookieUserGameRole? SelectedCookieUserGameRole
         {
@@ -85,6 +83,7 @@ namespace DGP.Genshin.ViewModel
         public void OnSelectedCookieUserGameRoleChanged(CookieUserGameRole? cookieUserGameRole)
         {
             UpdateDailyNote(cookieUserGameRole);
+            UpdateJourneyInfoAsync(cookieUserGameRole).Forget();
         }
 
         private void UpdateDailyNote(CookieUserGameRole? cookieUserGameRole)
@@ -95,10 +94,19 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        public DailyNote? DailyNote 
-        { 
-            get => dailyNote; 
-            set => SetProperty(ref dailyNote, value); 
+        private async Task UpdateJourneyInfoAsync(CookieUserGameRole? cookieUserGameRole)
+        {
+            if(cookieUserGameRole is not null)
+            {
+                UserGameRole role = cookieUserGameRole.UserGameRole;
+                JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
+            }
+        }
+
+        public DailyNote? DailyNote
+        {
+            get => dailyNote;
+            set => SetProperty(ref dailyNote, value);
         }
         public DailyNoteNotifyConfiguration DailyNoteNotifyConfiguration
         {
@@ -106,6 +114,7 @@ namespace DGP.Genshin.ViewModel
             [MemberNotNull(nameof(dailyNoteNotifyConfiguration))]
             set => SetProperty(ref dailyNoteNotifyConfiguration, value);
         }
+        public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
 
         public ICommand OpenUICommand { get; }
         public ICommand RemoveUserCommand { get; }
@@ -144,6 +153,7 @@ namespace DGP.Genshin.ViewModel
         private async Task AddUserAsync()
         {
             await cookieService.AddCookieToPoolOrIgnoreAsync();
+            RefreshUI();
         }
         private async Task RemoveUserAsync()
         {
@@ -187,6 +197,15 @@ namespace DGP.Genshin.ViewModel
             string newCookie = message.Value;
             AddCookieUserInfoAsync(newCookie).Forget();
         }
+        public void Receive(CookieRemovedMessage message)
+        {
+            RemoveCookieUserInfoAsync(message).Forget();
+        }
+        public void Receive(DailyNotesRefreshedMessage message)
+        {
+            this.Log("daily note updated");
+            UpdateDailyNote(SelectedCookieUserGameRole);
+        }
 
         private async Task AddCookieUserInfoAsync(string newCookie)
         {
@@ -207,12 +226,6 @@ namespace DGP.Genshin.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-
-        public void Receive(CookieRemovedMessage message)
-        {
-            RemoveCookieUserInfoAsync(message).Forget();
-        }
-
         private async Task RemoveCookieUserInfoAsync(CookieRemovedMessage message)
         {
             this.Log("Cookie removed");
@@ -231,12 +244,6 @@ namespace DGP.Genshin.ViewModel
                 SelectedCookieUserInfo = CookieUserInfos.First();
             }
             this.Log(cookieUserInfos.Count);
-        }
-
-        public void Receive(DailyNotesRefreshedMessage message)
-        {
-            this.Log("daily note updated");
-            UpdateDailyNote(SelectedCookieUserGameRole);
         }
     }
 }

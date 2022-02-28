@@ -39,7 +39,7 @@ namespace DGP.Genshin.ViewModel
         public NamedValue<DayOfWeek>? SelectedDayOfWeek
         {
             get => selectedDayOfWeek;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, 
+            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value,
                 () => TriggerPropertyChangedAsync("Mondstadt", "Liyue", "Inazuma"));
         }
 
