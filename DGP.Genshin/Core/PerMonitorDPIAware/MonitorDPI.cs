@@ -9,7 +9,7 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
 {
     public static class MonitorDPI
     {
-        static bool? isHighDpiMethodSupported = null;
+        private static bool? isHighDpiMethodSupported = null;
         public static bool IsHighDpiMethodSupported()
         {
             isHighDpiMethodSupported ??= DoesWin32MethodExist("shcore.dll", "SetProcessDpiAwareness");

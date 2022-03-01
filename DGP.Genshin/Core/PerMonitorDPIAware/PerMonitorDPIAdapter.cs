@@ -78,8 +78,8 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
                     RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
 
                     User32.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
-                        User32.SetWindowPosFlags.DoNotChangeOwnerZOrder 
-                        | User32.SetWindowPosFlags.DoNotActivate 
+                        User32.SetWindowPosFlags.DoNotChangeOwnerZOrder
+                        | User32.SetWindowPosFlags.DoNotActivate
                         | User32.SetWindowPosFlags.IgnoreZOrder);
 
                     //we modified this fragment to correct the wrong behaviour
@@ -95,7 +95,7 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
             return IntPtr.Zero;
         }
 
-        private void UpdateDpiScaling(double newDpiRatio,bool useSacleCenter = false)
+        private void UpdateDpiScaling(double newDpiRatio, bool useSacleCenter = false)
         {
             currentDpiRatio = newDpiRatio;
             Logger.LogStatic($"Set dpi scaling to {currentDpiRatio:p2}");

@@ -10,7 +10,12 @@ namespace DGP.Genshin.Sample.Plugin
     {
         private IEnumerable<object> icons;
 
-        public IEnumerable<object> Icons { get => icons; set => SetProperty(ref icons, value); }
+        public IEnumerable<object> Icons
+        {
+            get => icons;
+
+            set => SetProperty(ref icons, value);
+        }
 
         public SampleViewModel()
         {

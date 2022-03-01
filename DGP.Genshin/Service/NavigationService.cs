@@ -26,7 +26,9 @@ namespace DGP.Genshin.Service
         public Frame? Frame { get; set; }
         public NavigationView? NavigationView
         {
-            get => navigationView; set
+            get => navigationView;
+
+            set
             {
                 //remove old listener
                 if (navigationView != null)

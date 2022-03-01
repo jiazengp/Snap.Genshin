@@ -21,11 +21,15 @@ namespace DGP.Genshin.Control
         public Exception ExceptionObject
         {
             get => exceptionObject;
+
             [MemberNotNull(nameof(exceptionObject))]
             set => Set(ref exceptionObject, value);
         }
 
-        public string ExceptionType => ExceptionObject.GetType().ToString();
+        public string ExceptionType
+        {
+            get => ExceptionObject.GetType().ToString();
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

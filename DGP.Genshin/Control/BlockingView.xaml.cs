@@ -23,8 +23,9 @@ namespace DGP.Genshin.Control
 
         public bool ShouldPresent
         {
-            get { return (bool)GetValue(ShouldPresentProperty); }
-            set { SetValue(ShouldPresentProperty, value); }
+            get => (bool)GetValue(ShouldPresentProperty);
+
+            set => SetValue(ShouldPresentProperty, value);
         }
         public static readonly DependencyProperty ShouldPresentProperty =
             DependencyProperty.Register(nameof(ShouldPresent), typeof(bool), typeof(BlockingView), new PropertyMetadata(false));

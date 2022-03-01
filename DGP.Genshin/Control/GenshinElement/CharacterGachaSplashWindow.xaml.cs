@@ -16,8 +16,9 @@ namespace DGP.Genshin.Control.GenshinElement
         }
         public string? Source
         {
-            get { return (string)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get => (string)GetValue(SourceProperty);
+
+            set => SetValue(SourceProperty, value);
         }
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register(nameof(Source), typeof(string), typeof(CharacterGachaSplashWindow));

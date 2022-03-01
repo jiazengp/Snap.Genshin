@@ -36,7 +36,10 @@ namespace DGP.Genshin.Service
         public Uri? PackageUri { get; set; }
         public Version? NewVersion { get; set; }
         public Release? Release { get; set; }
-        public Version CurrentVersion => App.Current.Version;
+        public Version CurrentVersion
+        {
+            get => App.Current.Version;
+        }
 
         private Downloader? InnerDownloader { get; set; }
 
@@ -48,7 +51,7 @@ namespace DGP.Genshin.Service
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
-            
+
             try
             {
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
@@ -251,10 +254,10 @@ namespace DGP.Genshin.Service
             }
             else
             {
-                 new ToastContentBuilder()
-                 .AddText("在默认路径上未找到更新器")
-                 .AddText("请尝试手动解压安装包更新")
-                 .SafeShow();
+                new ToastContentBuilder()
+                .AddText("在默认路径上未找到更新器")
+                .AddText("请尝试手动解压安装包更新")
+                .SafeShow();
             }
         }
     }

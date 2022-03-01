@@ -9,16 +9,18 @@ namespace DGP.Genshin.Control.Converter
     {
         public double TargetWidth
         {
-            get { return (double)GetValue(TargetWidthProperty); }
-            set { SetValue(TargetWidthProperty, value); }
+            get => (double)GetValue(TargetWidthProperty);
+
+            set => SetValue(TargetWidthProperty, value);
         }
         public static readonly DependencyProperty TargetWidthProperty =
             DependencyProperty.Register("TargetWidth", typeof(double), typeof(PercentageToHeightConverter), new PropertyMetadata(1080D));
 
         public double TargetHeight
         {
-            get { return (double)GetValue(TargetHeightProperty); }
-            set { SetValue(TargetHeightProperty, value); }
+            get => (double)GetValue(TargetHeightProperty);
+
+            set => SetValue(TargetHeightProperty, value);
         }
         public static readonly DependencyProperty TargetHeightProperty =
             DependencyProperty.Register("TargetHeight", typeof(double), typeof(PercentageToHeightConverter), new PropertyMetadata(390D));

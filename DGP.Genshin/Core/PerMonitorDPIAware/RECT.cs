@@ -15,12 +15,12 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
 
         public int Width
         {
-            get { return Math.Abs(right - left); } // Abs needed for BIDI OS
+            get => Math.Abs(right - left);
         }
 
         public int Height
         {
-            get { return bottom - top; }
+            get => bottom - top;
         }
 
         public RECT(int left, int top, int right, int bottom)
@@ -41,11 +41,9 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
 
         public bool IsEmpty
         {
-            get
-            {
+            get =>
                 // BUGBUG : On Bidi OS (hebrew arabic) left > right
-                return left >= right || top >= bottom;
-            }
+                left >= right || top >= bottom;
         }
 
         /// <summary> Return a user friendly representation of this struct </summary>

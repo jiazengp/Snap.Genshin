@@ -19,6 +19,7 @@ namespace DGP.Genshin.ViewModel
         public List<Sponsor>? Sponsors
         {
             get => sponsors;
+
             set => SetProperty(ref sponsors, value);
         }
 

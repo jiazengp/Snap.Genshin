@@ -14,8 +14,9 @@ namespace DGP.Genshin.Control
         }
         public string? ReleaseNote
         {
-            get { return (string)GetValue(ReleaseNoteProperty); }
-            set { SetValue(ReleaseNoteProperty, value); }
+            get => (string)GetValue(ReleaseNoteProperty);
+
+            set => SetValue(ReleaseNoteProperty, value);
         }
         public static readonly DependencyProperty ReleaseNoteProperty =
             DependencyProperty.Register("ReleaseNote", typeof(string), typeof(WhatsNewWindow), new PropertyMetadata(null));

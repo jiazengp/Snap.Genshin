@@ -30,16 +30,18 @@ namespace DGP.Genshin.Control.WebViewLobby
 
         public string NavigateUrl
         {
-            get { return (string)GetValue(NavigateUrlProperty); }
-            set { SetValue(NavigateUrlProperty, value); }
+            get => (string)GetValue(NavigateUrlProperty);
+
+            set => SetValue(NavigateUrlProperty, value);
         }
         public static readonly DependencyProperty NavigateUrlProperty =
             DependencyProperty.Register(nameof(NavigateUrl), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
 
         public string EntryName
         {
-            get { return (string)GetValue(EntryNameProperty); }
-            set { SetValue(EntryNameProperty, value); }
+            get => (string)GetValue(EntryNameProperty);
+
+            set => SetValue(EntryNameProperty, value);
         }
         public static readonly DependencyProperty EntryNameProperty =
             DependencyProperty.Register(nameof(EntryName), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
@@ -47,8 +49,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         [AllowNull]
         public string IconUrl
         {
-            get { return (string)GetValue(IconUrlProperty); }
-            set { SetValue(IconUrlProperty, value); }
+            get => (string)GetValue(IconUrlProperty);
+
+            set => SetValue(IconUrlProperty, value);
         }
         public static readonly DependencyProperty IconUrlProperty =
             DependencyProperty.Register(nameof(IconUrl), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
@@ -56,16 +59,18 @@ namespace DGP.Genshin.Control.WebViewLobby
         [AllowNull]
         public string JavaScript
         {
-            get { return (string)GetValue(JavaScriptProperty); }
-            set { SetValue(JavaScriptProperty, value); }
+            get => (string)GetValue(JavaScriptProperty);
+
+            set => SetValue(JavaScriptProperty, value);
         }
         public static readonly DependencyProperty JavaScriptProperty =
             DependencyProperty.Register(nameof(JavaScript), typeof(string), typeof(WebViewEntryDialog), new PropertyMetadata(null));
 
         public bool ShowInNavView
         {
-            get { return (bool)GetValue(ShowInNavViewProperty); }
-            set { SetValue(ShowInNavViewProperty, value); }
+            get => (bool)GetValue(ShowInNavViewProperty);
+
+            set => SetValue(ShowInNavViewProperty, value);
         }
         public static readonly DependencyProperty ShowInNavViewProperty =
             DependencyProperty.Register("ShowInNavView", typeof(bool), typeof(WebViewEntryDialog), new PropertyMetadata(true));

@@ -20,6 +20,7 @@ namespace DGP.Genshin.ViewModel
         public IEnumerable<IPlugin> Plugins
         {
             get => plugins;
+
             [MemberNotNull(nameof(plugins))]
             set => SetProperty(ref plugins, value);
         }

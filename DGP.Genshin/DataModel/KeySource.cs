@@ -13,6 +13,12 @@ namespace DGP.Genshin.DataModel
         public string? Source { get; set; }
 
         [JsonIgnore] private bool isSelected = true;
-        [JsonIgnore] public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
+        [JsonIgnore]
+        public bool IsSelected
+        {
+            get => isSelected;
+
+            set => SetProperty(ref isSelected, value);
+        }
     }
 }

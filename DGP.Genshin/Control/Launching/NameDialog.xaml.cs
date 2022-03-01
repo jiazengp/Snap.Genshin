@@ -14,8 +14,18 @@ namespace DGP.Genshin.Control.Launching
         private string? input;
         private GenshinAccount? targetAccount;
 
-        public string? Input { get => input; set => Set(ref input, value); }
-        public GenshinAccount? TargetAccount { get => targetAccount; set => Set(ref targetAccount, value); }
+        public string? Input
+        {
+            get => input;
+
+            set => Set(ref input, value);
+        }
+        public GenshinAccount? TargetAccount
+        {
+            get => targetAccount;
+
+            set => Set(ref targetAccount, value);
+        }
 
         public NameDialog()
         {

@@ -25,6 +25,7 @@ namespace DGP.Genshin.Control.GenshinElement
         public string BackgroundUrl
         {
             get => (string)GetValue(BackgroundUrlProperty);
+
             set => SetValue(BackgroundUrlProperty, value);
         }
         public static readonly DependencyProperty BackgroundUrlProperty =
@@ -33,6 +34,7 @@ namespace DGP.Genshin.Control.GenshinElement
         public string ForegroundUrl
         {
             get => (string)GetValue(ForegroundUrlProperty);
+
             set => SetValue(ForegroundUrlProperty, value);
         }
         public static readonly DependencyProperty ForegroundUrlProperty =
@@ -41,6 +43,7 @@ namespace DGP.Genshin.Control.GenshinElement
         public string BadgeUrl
         {
             get => (string)GetValue(BadgeUrlProperty);
+
             set => SetValue(BadgeUrlProperty, value);
         }
         public static readonly DependencyProperty BadgeUrlProperty =
@@ -49,6 +52,7 @@ namespace DGP.Genshin.Control.GenshinElement
         public string Text
         {
             get => (string)GetValue(TextProperty);
+
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
@@ -57,6 +61,7 @@ namespace DGP.Genshin.Control.GenshinElement
         public bool IsCountVisible
         {
             get => (bool)GetValue(IsCountVisibleProperty);
+
             set => SetValue(IsCountVisibleProperty, value);
         }
         public static readonly DependencyProperty IsCountVisibleProperty =

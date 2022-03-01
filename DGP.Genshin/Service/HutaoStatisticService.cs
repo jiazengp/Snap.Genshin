@@ -147,7 +147,7 @@ namespace DGP.Genshin.Service
                         List<Item<int>> relicList = new();
                         StringBuilder nameBuilder = new();
                         string[] relicWithCountArray = usage.Id!.Split(';');
-                        foreach (var relicAndCount in relicWithCountArray)
+                        foreach (string? relicAndCount in relicWithCountArray)
                         {
                             //0 id 1 count
                             string[]? relicSetIdAndCount = relicAndCount.Split('-');

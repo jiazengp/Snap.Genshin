@@ -20,12 +20,14 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         public string ImageUrl
         {
             get => (string)GetValue(ImageUrlProperty);
+
             set => SetValue(ImageUrlProperty, value);
         }
 
         public BitmapCreateOptions CreateOptions
         {
             get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
+
             set => SetValue(CreateOptionsProperty, value);
         }
 

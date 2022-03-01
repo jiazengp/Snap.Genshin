@@ -90,17 +90,12 @@ namespace DGP.Genshin.Service
 
         public IniData LauncherConfig
         {
-            get
-            {
-                return launcherConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
-            }
+            get => launcherConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
         }
+
         public IniData GameConfig
         {
-            get
-            {
-                return gameConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
-            }
+            get => gameConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
         }
 
         public LaunchService()

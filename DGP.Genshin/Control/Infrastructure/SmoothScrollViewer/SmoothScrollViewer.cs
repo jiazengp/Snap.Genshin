@@ -29,6 +29,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         public Orientation Orientation
         {
             get => (Orientation)GetValue(OrientationProperty);
+
             set => SetValue(OrientationProperty, value);
         }
 
@@ -43,6 +44,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         public bool CanMouseWheel
         {
             get => (bool)GetValue(CanMouseWheelProperty);
+
             set => SetValue(CanMouseWheelProperty, BoxedValue.Boolean(value));
         }
 
@@ -175,6 +177,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         public bool IsInertiaEnabled
         {
             get => (bool)GetValue(IsInertiaEnabledProperty);
+
             set => SetValue(IsInertiaEnabledProperty, BoxedValue.Boolean(value));
         }
 
@@ -190,6 +193,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         public bool IsPenetrating
         {
             get => (bool)GetValue(IsPenetratingProperty);
+
             set => SetValue(IsPenetratingProperty, BoxedValue.Boolean(value));
         }
 
@@ -224,6 +228,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         {
             // ReSharper disable once UnusedMember.Local
             get => (double)GetValue(CurrentVerticalOffsetProperty);
+
             set => SetValue(CurrentVerticalOffsetProperty, value);
         }
 
@@ -247,6 +252,7 @@ namespace DGP.Genshin.Control.Infrastructure.SmoothScrollViewer
         internal double CurrentHorizontalOffset
         {
             get => (double)GetValue(CurrentHorizontalOffsetProperty);
+
             set => SetValue(CurrentHorizontalOffsetProperty, value);
         }
     }

@@ -40,7 +40,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         public (int min, int max) Delay
         {
-            get => delay; set
+            get => delay;
+
+            set
             {
                 if (value.min > value.max)
                 {

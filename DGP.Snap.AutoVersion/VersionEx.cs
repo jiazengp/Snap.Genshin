@@ -93,25 +93,37 @@ namespace DGP.Genshin.AutoVersion
         public int Major
         {
             get => _Major;
+
             set => _Major = value;
         }
         public int Minor
         {
             get => _Minor;
+
             set => _Minor = value;
         }
         public int Build
         {
             get => _Build;
+
             set => _Build = value;
         }
         public int Revision
         {
             get => _Revision;
+
             set => _Revision = value;
         }
-        public short MajorRevision => (short)(_Revision >> 16);
-        public short MinorRevision => (short)(_Revision & 0xFFFF);
+        public short MajorRevision
+        {
+            get => (short)(_Revision >> 16);
+        }
+
+        public short MinorRevision
+        {
+            get => (short)(_Revision & 0xFFFF);
+        }
+
         public VersionEx(int major, int minor, int build, int revision)
         {
             if (major < 0)

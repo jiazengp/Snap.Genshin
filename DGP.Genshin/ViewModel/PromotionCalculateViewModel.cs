@@ -33,11 +33,13 @@ namespace DGP.Genshin.ViewModel
         public IEnumerable<UserGameRole>? UserGameRoles
         {
             get => userGameRoles;
+
             set => SetProperty(ref userGameRoles, value);
         }
         public UserGameRole? SelectedUserGameRole
         {
             get => selectedUserGameRole;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarList);
         }
         [PropertyChangedCallback]
@@ -54,11 +56,13 @@ namespace DGP.Genshin.ViewModel
         public IEnumerable<Avatar>? Avatars
         {
             get => avatars;
+
             set => SetProperty(ref avatars, value);
         }
         public Avatar? SelectedAvatar
         {
             get => selectedAvatar;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailData);
         }
         [PropertyChangedCallback]
@@ -86,11 +90,13 @@ namespace DGP.Genshin.ViewModel
         public AvatarDetailData? AvatarDetailData
         {
             get => avatarDetailData;
+
             set => SetProperty(ref avatarDetailData, value);
         }
         public Consumption? Consumption
         {
             get => consumption;
+
             set => SetProperty(ref consumption, value);
         }
 

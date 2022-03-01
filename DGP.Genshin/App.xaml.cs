@@ -35,8 +35,16 @@ namespace DGP.Genshin
         private readonly ServiceManagerBase serviceManager;
         private readonly IPluginService pluginService;
 
-        internal ServiceManagerBase ServiceManager => serviceManager;
-        internal IPluginService PluginService => pluginService;
+        internal ServiceManagerBase ServiceManager
+        {
+            get => serviceManager;
+        }
+
+        internal IPluginService PluginService
+        {
+            get => pluginService;
+        }
+
         public TaskbarIcon? NotifyIcon { get; set; }
 
         public App()
@@ -52,7 +60,10 @@ namespace DGP.Genshin
         /// <summary>
         /// 覆盖默认类型的 Current
         /// </summary>
-        public static new App Current => (App)Application.Current;
+        public static new App Current
+        {
+            get => (App)Application.Current;
+        }
 
         #region IsElevated
         private static bool? isElevated;
@@ -97,7 +108,10 @@ namespace DGP.Genshin
         /// <summary>
         /// 全局消息交换器
         /// </summary>
-        public static WeakReferenceMessenger Messenger => WeakReferenceMessenger.Default;
+        public static WeakReferenceMessenger Messenger
+        {
+            get => WeakReferenceMessenger.Default;
+        }
 
         public static object AutoWired(Type type)
         {

@@ -236,34 +236,84 @@ namespace DGP.Genshin.ViewModel
 
         #region Selected Bindable
         private Boss? selectedBoss;
-        public Boss? SelectedBoss { get => selectedBoss; set => SetProperty(ref selectedBoss, value); }
+        public Boss? SelectedBoss
+        {
+            get => selectedBoss;
+
+            set => SetProperty(ref selectedBoss, value);
+        }
 
         private KeySource? selectedCity;
-        public KeySource? SelectedCity { get => selectedCity; set => SetProperty(ref selectedCity, value); }
+        public KeySource? SelectedCity
+        {
+            get => selectedCity;
+
+            set => SetProperty(ref selectedCity, value);
+        }
 
         private Character? selectedCharacter;
-        public Character? SelectedCharacter { get => selectedCharacter; set => SetProperty(ref selectedCharacter, value); }
+        public Character? SelectedCharacter
+        {
+            get => selectedCharacter;
+
+            set => SetProperty(ref selectedCharacter, value);
+        }
 
         private Talent? selectedDailyTalent;
-        public Talent? SelectedDailyTalent { get => selectedDailyTalent; set => SetProperty(ref selectedDailyTalent, value); }
+        public Talent? SelectedDailyTalent
+        {
+            get => selectedDailyTalent;
+
+            set => SetProperty(ref selectedDailyTalent, value);
+        }
 
         private WeaponMaterial? selectedDailyWeapon;
-        public WeaponMaterial? SelectedDailyWeapon { get => selectedDailyWeapon; set => SetProperty(ref selectedDailyWeapon, value); }
+        public WeaponMaterial? SelectedDailyWeapon
+        {
+            get => selectedDailyWeapon;
+
+            set => SetProperty(ref selectedDailyWeapon, value);
+        }
 
         private Elite? selectedElite;
-        public Elite? SelectedElite { get => selectedElite; set => SetProperty(ref selectedElite, value); }
+        public Elite? SelectedElite
+        {
+            get => selectedElite;
+
+            set => SetProperty(ref selectedElite, value);
+        }
 
         private Local? selectedLocal;
-        public Local? SelectedLocal { get => selectedLocal; set => SetProperty(ref selectedLocal, value); }
+        public Local? SelectedLocal
+        {
+            get => selectedLocal;
+
+            set => SetProperty(ref selectedLocal, value);
+        }
 
         private Monster? selectedMonster;
-        public Monster? SelectedMonster { get => selectedMonster; set => SetProperty(ref selectedMonster, value); }
+        public Monster? SelectedMonster
+        {
+            get => selectedMonster;
+
+            set => SetProperty(ref selectedMonster, value);
+        }
 
         private DataModelWeapon? selectedWeapon;
-        public DataModelWeapon? SelectedWeapon { get => selectedWeapon; set => SetProperty(ref selectedWeapon, value); }
+        public DataModelWeapon? SelectedWeapon
+        {
+            get => selectedWeapon;
+
+            set => SetProperty(ref selectedWeapon, value);
+        }
 
         private Weekly? selectedWeeklyTalent;
-        public Weekly? SelectedWeeklyTalent { get => selectedWeeklyTalent; set => SetProperty(ref selectedWeeklyTalent, value); }
+        public Weekly? SelectedWeeklyTalent
+        {
+            get => selectedWeeklyTalent;
+
+            set => SetProperty(ref selectedWeeklyTalent, value);
+        }
         #endregion
 
         #region Command

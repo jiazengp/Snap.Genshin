@@ -38,6 +38,7 @@ namespace DGP.Genshin.ViewModel
         public Statistic? Statistic
         {
             get => statistic;
+
             set => SetProperty(ref statistic, value);
         }
         /// <summary>
@@ -46,6 +47,7 @@ namespace DGP.Genshin.ViewModel
         public UidGachaData? SelectedUserGachaData
         {
             get => selectedUserGachaData;
+
             set => SetPropertyAndCallbackOverridePropertyState(ref selectedUserGachaData, value, SyncStatisticWithUid);
         }
         /// <summary>
@@ -66,6 +68,7 @@ namespace DGP.Genshin.ViewModel
         public GachaDataCollection UserGachaDataCollection
         {
             get => userGachaDataCollection;
+
             set => SetProperty(ref userGachaDataCollection, value);
         }
         /// <summary>
@@ -74,6 +77,7 @@ namespace DGP.Genshin.ViewModel
         public FetchProgress? FetchProgress
         {
             get => fetchProgress;
+
             set => SetProperty(ref fetchProgress, value);
         }
         /// <summary>
@@ -82,11 +86,13 @@ namespace DGP.Genshin.ViewModel
         public SpecificBanner? SelectedSpecificBanner
         {
             get => selectedSpecificBanner;
+
             set => SetProperty(ref selectedSpecificBanner, value);
         }
         public bool IsFullFetch
         {
             get => isFullFetch;
+
             set => SetProperty(ref isFullFetch, value);
         }
 

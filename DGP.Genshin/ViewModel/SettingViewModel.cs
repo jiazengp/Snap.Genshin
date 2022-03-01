@@ -37,14 +37,20 @@ namespace DGP.Genshin.ViewModel
             new("深色", ApplicationTheme.Dark),
             new("系统默认", null),
         };
-        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime => new()
+        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime
         {
-            new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
-            new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
-            new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
-            new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
-            new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
-        };
+            get
+            {
+                return new()
+                {
+                    new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
+                    new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
+                    new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
+                    new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
+                    new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
+                };
+            }
+        }
 
         private bool autoDailySignInOnLaunch;
         private bool skipCacheCheck;
@@ -63,7 +69,9 @@ namespace DGP.Genshin.ViewModel
 
         public bool AutoDailySignInOnLaunch
         {
-            get => autoDailySignInOnLaunch; set
+            get => autoDailySignInOnLaunch;
+
+            set
             {
                 Setting2.AutoDailySignInOnLaunch.Set(value, false);
                 SetProperty(ref autoDailySignInOnLaunch, value);
@@ -71,7 +79,9 @@ namespace DGP.Genshin.ViewModel
         }
         public bool SkipCacheCheck
         {
-            get => skipCacheCheck; set
+            get => skipCacheCheck;
+
+            set
             {
                 Setting2.SkipCacheCheck.Set(value, false);
                 SetProperty(ref skipCacheCheck, value);
@@ -79,7 +89,9 @@ namespace DGP.Genshin.ViewModel
         }
         public bool SignInSilently
         {
-            get => signInSilently; set
+            get => signInSilently;
+
+            set
             {
                 Setting2.SignInSilently.Set(value, false);
                 SetProperty(ref signInSilently, value);
@@ -87,7 +99,9 @@ namespace DGP.Genshin.ViewModel
         }
         public bool UpdateUseFastGit
         {
-            get => updateUseFastGit; set
+            get => updateUseFastGit;
+
+            set
             {
                 Setting2.UpdateUseFastGit.Set(value, false);
                 SetProperty(ref updateUseFastGit, value);
@@ -96,6 +110,7 @@ namespace DGP.Genshin.ViewModel
         public bool IsTaskBarIconEnabled
         {
             get => isTaskBarIconEnabled;
+
             set
             {
                 Setting2.IsTaskBarIconEnabled.Set(value, false);
@@ -105,6 +120,7 @@ namespace DGP.Genshin.ViewModel
         public bool CloseMainWindowAfterInitializaion
         {
             get => closeMainWindowAfterInitializaion;
+
             set
             {
                 Setting2.CloseMainWindowAfterInitializaion.Set(value, false);
@@ -114,6 +130,7 @@ namespace DGP.Genshin.ViewModel
         public double BackgroundOpacity
         {
             get => backgroundOpacity;
+
             set
             {
                 Setting2.BackgroundOpacity.Set(value, false, false);
@@ -124,6 +141,7 @@ namespace DGP.Genshin.ViewModel
         public bool IsBackgroundOpacityAdaptive
         {
             get => isBackgroundOpacityAdaptive;
+
             set
             {
                 Setting2.IsBackgroundOpacityAdaptive.Set(value, false);
@@ -133,19 +151,27 @@ namespace DGP.Genshin.ViewModel
         public string VersionString
         {
             get => versionString;
+
             [MemberNotNull("versionString")]
             set => SetProperty(ref versionString, value);
         }
         public string UserId
         {
             get => userId;
+
             [MemberNotNull(nameof(userId))]
             set => userId = value;
         }
-        public AutoRun AutoRun { get => autoRun; set => autoRun = value; }
+        public AutoRun AutoRun
+        {
+            get => autoRun;
+
+            set => autoRun = value;
+        }
         public NamedValue<ApplicationTheme?> SelectedTheme
         {
             get => selectedTheme;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedTheme, value, v => { UpdateAppTheme(v!); });
         }
         [PropertyChangedCallback]
@@ -157,12 +183,17 @@ namespace DGP.Genshin.ViewModel
         public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
         {
             get => selectedResinAutoRefreshTime;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value,
-                v => Setting2.ResinRefreshMinutes.Set(v!.Value.TotalMinutes));
+
+            set
+            {
+                SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value,
+              v => Setting2.ResinRefreshMinutes.Set(v!.Value.TotalMinutes));
+            }
         }
         public UpdateProgressedMessage UpdateInfo
         {
             get => updateInfo;
+
             [MemberNotNull(nameof(updateInfo))]
             set => SetProperty(ref updateInfo, value);
         }

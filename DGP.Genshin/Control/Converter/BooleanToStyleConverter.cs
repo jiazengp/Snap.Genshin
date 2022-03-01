@@ -31,6 +31,7 @@ namespace DGP.Genshin.Control.Converter
         public Style TrueStyle
         {
             get => (Style)GetValue(TrueStyleProperty);
+
             set => SetValue(TrueStyleProperty, value);
         }
         public static readonly DependencyProperty TrueStyleProperty =
@@ -39,6 +40,7 @@ namespace DGP.Genshin.Control.Converter
         public Style FalseStyle
         {
             get => (Style)GetValue(FalseStyleProperty);
+
             set => SetValue(FalseStyleProperty, value);
         }
         public static readonly DependencyProperty FalseStyleProperty =

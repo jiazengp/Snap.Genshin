@@ -24,11 +24,13 @@ namespace DGP.Genshin.ViewModel
         public AnnouncementWrapper? Announcement
         {
             get => announcement;
+
             set => SetProperty(ref announcement, value);
         }
         public bool IsOpeningUI
         {
             get => isOpeningUI;
+
             set => SetProperty(ref isOpeningUI, value);
         }
         public ICommand OpenUICommand { get; }

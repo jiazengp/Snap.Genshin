@@ -51,6 +51,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         public Brush Foreground
         {
             get => (Brush)GetValue(ForegroundProperty);
+
             set => SetValue(ForegroundProperty, value);
         }
 
@@ -68,6 +69,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         private protected Brush VisualParentForeground
         {
             get => (Brush)GetValue(VisualParentForegroundProperty);
+
             set => SetValue(VisualParentForegroundProperty, value);
         }
 
@@ -85,6 +87,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         private protected bool ShouldInheritForegroundFromVisualParent
         {
             get => _shouldInheritForegroundFromVisualParent;
+
             private set
             {
                 if (_shouldInheritForegroundFromVisualParent != value)
@@ -135,7 +138,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private protected abstract void InitializeChildren();
 
-        protected override int VisualChildrenCount => 1;
+        protected override int VisualChildrenCount
+        {
+            get => 1;
+        }
 
         protected override Visual GetVisualChild(int index)
         {

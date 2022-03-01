@@ -28,9 +28,24 @@ namespace DGP.Genshin.ViewModel
         private string? stateDescription;
         private List<UserGameRole> userGameRoles = new();
 
-        public Record? CurrentRecord { get => currentRecord; set => SetProperty(ref currentRecord, value); }
-        public string? StateDescription { get => stateDescription; set => SetProperty(ref stateDescription, value); }
-        public List<UserGameRole> UserGameRoles { get => userGameRoles; set => SetProperty(ref userGameRoles, value); }
+        public Record? CurrentRecord
+        {
+            get => currentRecord;
+
+            set => SetProperty(ref currentRecord, value);
+        }
+        public string? StateDescription
+        {
+            get => stateDescription;
+
+            set => SetProperty(ref stateDescription, value);
+        }
+        public List<UserGameRole> UserGameRoles
+        {
+            get => userGameRoles;
+
+            set => SetProperty(ref userGameRoles, value);
+        }
         public ICommand QueryCommand { get; }
         public ICommand OpenUICommand { get; }
 

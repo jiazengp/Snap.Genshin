@@ -19,9 +19,15 @@ namespace DGP.Genshin.Core.Plugins
         private readonly IEnumerable<Assembly> pluginAssemblies;
         private readonly IEnumerable<IPlugin> plugins;
 
-        public IEnumerable<Assembly> PluginAssemblies => pluginAssemblies;
+        public IEnumerable<Assembly> PluginAssemblies
+        {
+            get => pluginAssemblies;
+        }
 
-        public IEnumerable<IPlugin> Plugins => plugins;
+        public IEnumerable<IPlugin> Plugins
+        {
+            get => plugins;
+        }
 
         public PluginService()
         {

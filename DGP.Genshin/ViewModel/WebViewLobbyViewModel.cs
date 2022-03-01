@@ -26,7 +26,12 @@ namespace DGP.Genshin.ViewModel
 
         private ObservableCollection<WebViewEntry>? entries;
 
-        public ObservableCollection<WebViewEntry>? Entries { get => entries; set => SetProperty(ref entries, value); }
+        public ObservableCollection<WebViewEntry>? Entries
+        {
+            get => entries;
+
+            set => SetProperty(ref entries, value);
+        }
 
         public ICommand AddEntryCommand { get; }
         public ICommand CommonScriptCommand { get; }

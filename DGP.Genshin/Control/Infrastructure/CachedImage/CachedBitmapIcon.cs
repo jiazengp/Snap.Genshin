@@ -43,6 +43,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         public Uri UriSource
         {
             get => (Uri)GetValue(UriSourceProperty);
+
             set => SetValue(UriSourceProperty, value);
         }
 
@@ -75,6 +76,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         public bool ShowAsMonochrome
         {
             get => (bool)GetValue(ShowAsMonochromeProperty);
+
             set => SetValue(ShowAsMonochromeProperty, value);
         }
 

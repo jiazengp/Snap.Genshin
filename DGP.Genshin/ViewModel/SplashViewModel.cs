@@ -33,6 +33,7 @@ namespace DGP.Genshin.ViewModel
         public bool IsCookieVisible
         {
             get => isCookieVisible;
+
             set => SetPropertyAndCallbackOnCompletion(ref isCookieVisible, value, TrySendCompletedMessage);
         }
 
@@ -50,36 +51,43 @@ namespace DGP.Genshin.ViewModel
         public bool IsSplashNotVisible
         {
             get => isSplashNotVisible;
+
             set => SetProperty(ref isSplashNotVisible, value);
         }
         public string CurrentStateDescription
         {
             get => currentStateDescription;
+
             set => SetProperty(ref currentStateDescription, value);
         }
         public int CurrentCount
         {
             get => currentCount;
+
             set => SetProperty(ref currentCount, value);
         }
         public string? CurrentInfo
         {
             get => currentInfo;
+
             set => SetProperty(ref currentInfo, value);
         }
         public int? TotalCount
         {
             get => totalCount;
+
             set => SetProperty(ref totalCount, value);
         }
         public double Percent
         {
             get => percent;
+
             set => SetProperty(ref percent, value);
         }
         public bool IsCheckingIntegrity
         {
             get => isCheckingIntegrity;
+
             set => SetProperty(ref isCheckingIntegrity, value);
         }
         #endregion

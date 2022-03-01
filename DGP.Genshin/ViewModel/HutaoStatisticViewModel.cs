@@ -34,21 +34,53 @@ namespace DGP.Genshin.ViewModel
         private IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? teamCombinations;
 
         public bool ShouldUIPresent
-        { get => shouldUIPresent; set => SetProperty(ref shouldUIPresent, value); }
+        {
+            get => shouldUIPresent;
+
+            set => SetProperty(ref shouldUIPresent, value);
+        }
         public Overview? Overview
-        { get => overview; set => SetProperty(ref overview, value); }
+        {
+            get => overview;
+
+            set => SetProperty(ref overview, value);
+        }
         public IEnumerable<Indexed<int, Item<double>>>? AvatarParticipations
-        { get => avatarParticipations; set => SetProperty(ref avatarParticipations, value); }
+        {
+            get => avatarParticipations;
+
+            set => SetProperty(ref avatarParticipations, value);
+        }
         public IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? AvatarReliquaryUsages
-        { get => avatarReliquaryUsages; set => SetProperty(ref avatarReliquaryUsages, value); }
+        {
+            get => avatarReliquaryUsages;
+
+            set => SetProperty(ref avatarReliquaryUsages, value);
+        }
         public IEnumerable<Item<IEnumerable<Item<double>>>>? TeamCollocations
-        { get => teamCollocations; set => SetProperty(ref teamCollocations, value); }
+        {
+            get => teamCollocations;
+
+            set => SetProperty(ref teamCollocations, value);
+        }
         public IEnumerable<Item<IEnumerable<Item<double>>>>? WeaponUsages
-        { get => weaponUsages; set => SetProperty(ref weaponUsages, value); }
+        {
+            get => weaponUsages;
+
+            set => SetProperty(ref weaponUsages, value);
+        }
         public IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>>? AvatarConstellations
-        { get => avatarConstellations; set => SetProperty(ref avatarConstellations, value); }
+        {
+            get => avatarConstellations;
+
+            set => SetProperty(ref avatarConstellations, value);
+        }
         public IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? TeamCombinations
-        { get => teamCombinations; set => SetProperty(ref teamCombinations, value); }
+        {
+            get => teamCombinations;
+
+            set => SetProperty(ref teamCombinations, value);
+        }
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }

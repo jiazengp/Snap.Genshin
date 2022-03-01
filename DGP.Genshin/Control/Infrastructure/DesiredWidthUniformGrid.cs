@@ -8,8 +8,9 @@ namespace DGP.Genshin.Control.Infrastructure
     {
         public double ColumnDesiredWidth
         {
-            get { return (double)GetValue(ColumnDesiredWidthProperty); }
-            set { SetValue(ColumnDesiredWidthProperty, value); }
+            get => (double)GetValue(ColumnDesiredWidthProperty);
+
+            set => SetValue(ColumnDesiredWidthProperty, value);
         }
         public static readonly DependencyProperty ColumnDesiredWidthProperty =
             DependencyProperty.Register(nameof(ColumnDesiredWidth), typeof(double), typeof(DesiredWidthUniformGrid),

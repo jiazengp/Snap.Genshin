@@ -179,6 +179,7 @@ namespace DGP.Genshin.Service
         public string CurrentCookie
         {
             get => currentCookie ?? throw new UnexpectedNullException("Cookie 不应为 null");
+
             private set
             {
                 if (currentCookie == value)
@@ -200,7 +201,10 @@ namespace DGP.Genshin.Service
             }
         }
 
-        public bool IsCookieAvailable => isInitialized && (!string.IsNullOrEmpty(currentCookie));
+        public bool IsCookieAvailable
+        {
+            get => isInitialized && (!string.IsNullOrEmpty(currentCookie));
+        }
 
         public async Task SetCookieAsync()
         {

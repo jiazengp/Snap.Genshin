@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Control.Launching;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Launching;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
@@ -10,7 +9,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
-using ModernWpf.Controls.Primitives;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using System;
@@ -52,6 +50,7 @@ namespace DGP.Genshin.ViewModel
         public List<LaunchScheme> KnownSchemes
         {
             get => knownSchemes;
+
             set => SetProperty(ref knownSchemes, value);
         }
         /// <summary>
@@ -60,6 +59,7 @@ namespace DGP.Genshin.ViewModel
         public LaunchScheme? CurrentScheme
         {
             get => currentScheme;
+
             set => SetPropertyAndCallbackOnCompletion(ref currentScheme, value, v => launchService.SaveLaunchScheme(v));
         }
         /// <summary>
@@ -68,6 +68,7 @@ namespace DGP.Genshin.ViewModel
         public bool IsFullScreen
         {
             get => isFullScreen;
+
             set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, Setting2.IsFullScreen.Set);
         }
         /// <summary>
@@ -76,6 +77,7 @@ namespace DGP.Genshin.ViewModel
         public bool IsBorderless
         {
             get => isBorderless;
+
             set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, Setting2.IsBorderless.Set);
         }
         /// <summary>
@@ -84,6 +86,7 @@ namespace DGP.Genshin.ViewModel
         public bool UnlockFPS
         {
             get => unlockFPS;
+
             set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, Setting2.UnlockFPS.Set);
         }
         /// <summary>
@@ -92,6 +95,7 @@ namespace DGP.Genshin.ViewModel
         public double TargetFPS
         {
             get => targetFPS;
+
             set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, OnTargetFPSChanged);
         }
         [PropertyChangedCallback]
@@ -103,11 +107,13 @@ namespace DGP.Genshin.ViewModel
         public long ScreenWidth
         {
             get => screenWidth;
+
             set => SetPropertyAndCallbackOnCompletion(ref screenWidth, value, Setting2.ScreenWidth.Set);
         }
         public long ScreenHeight
         {
             get => screenHeight;
+
             set => SetPropertyAndCallbackOnCompletion(ref screenHeight, value, Setting2.ScreenHeight.Set);
         }
         public bool IsElevated
@@ -121,16 +127,17 @@ namespace DGP.Genshin.ViewModel
         public ObservableCollection<GenshinAccount> Accounts
         {
             get => accounts;
+
             set => SetProperty(ref accounts, value);
         }
         public GenshinAccount? SelectedAccount
         {
             get => selectedAccount;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedAccount, value, v => launchService.SetToRegistry(v));
         }
 
         public ICommand OpenUICommand { get; }
-        public ICommand CloseUICommand { get; }
         public ICommand LaunchCommand { get; }
         public ICommand DeleteAccountCommand { get; }
         #endregion
@@ -151,7 +158,6 @@ namespace DGP.Genshin.ViewModel
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             LaunchCommand = new AsyncRelayCommand<string>(LaunchByOptionAsync);
-            CloseUICommand = new RelayCommand(SaveAllAccounts);
             DeleteAccountCommand = new RelayCommand(DeleteAccount);
         }
 
@@ -189,17 +195,7 @@ namespace DGP.Genshin.ViewModel
                     }
                 case "Game":
                     {
-                        LaunchOption? launchOption = new()
-                        {
-                            IsBorderless = IsBorderless,
-                            IsFullScreen = IsFullScreen,
-                            UnlockFPS = IsElevated && UnlockFPS,
-                            TargetFPS = (int)TargetFPS,
-                            ScreenWidth = (int)ScreenWidth,
-                            ScreenHeight = (int)ScreenHeight
-                        };
-
-                        await launchService.LaunchAsync(launchOption, ex =>
+                        await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
                         HandleLaunchFailureAsync("启动游戏失败", ex).Forget());
                         break;
                     }
@@ -215,6 +211,7 @@ namespace DGP.Genshin.ViewModel
             {
                 Accounts.Remove(SelectedAccount);
                 SelectedAccount = Accounts.LastOrDefault();
+                SaveAllAccounts();
             }
         }
 
@@ -227,18 +224,16 @@ namespace DGP.Genshin.ViewModel
             if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
             {
                 GenshinAccount? matched = Accounts.FirstOrDefault(a => a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
-                //账号列表内无匹配项
+                //账号列表内存在匹配项
                 if (matched is not null)
                 {
                     //账号信息相同但设置不同，优先选择注册表内的设置
-                    if (matched.GeneralData != currentRegistryAccount.GeneralData)
-                    {
-                        matched.GeneralData = currentRegistryAccount.GeneralData;
-                    }
+                    matched.GeneralData = currentRegistryAccount.GeneralData;
                     selectedAccount = matched;
                 }
                 else
                 {
+
                     //命名
                     currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
                     Accounts.Add(currentRegistryAccount);
@@ -246,6 +241,7 @@ namespace DGP.Genshin.ViewModel
                 }
                 //prevent registry set
                 OnPropertyChanged(nameof(SelectedAccount));
+                SaveAllAccounts();
             }
             else
             {

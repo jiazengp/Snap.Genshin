@@ -47,11 +47,13 @@ namespace DGP.Genshin.ViewModel
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
             get => cookieUserInfos;
+
             set => SetProperty(ref cookieUserInfos, value);
         }
         public CookieUserInfo? SelectedCookieUserInfo
         {
             get => selectedCookieUserInfo;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserInfo, value, OnSelectedCookieUserInfoChangedAsync);
         }
         [PropertyChangedCallback]
@@ -72,11 +74,13 @@ namespace DGP.Genshin.ViewModel
         public List<CookieUserGameRole>? CookieUserGameRoles
         {
             get => cookieUserGameRoles;
+
             set => SetProperty(ref cookieUserGameRoles, value);
         }
         public CookieUserGameRole? SelectedCookieUserGameRole
         {
             get => selectedCookieUserGameRole;
+
             set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserGameRole, value, OnSelectedCookieUserGameRoleChanged);
         }
         [PropertyChangedCallback]
@@ -96,7 +100,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task UpdateJourneyInfoAsync(CookieUserGameRole? cookieUserGameRole)
         {
-            if(cookieUserGameRole is not null)
+            if (cookieUserGameRole is not null)
             {
                 UserGameRole role = cookieUserGameRole.UserGameRole;
                 JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
@@ -106,15 +110,22 @@ namespace DGP.Genshin.ViewModel
         public DailyNote? DailyNote
         {
             get => dailyNote;
+
             set => SetProperty(ref dailyNote, value);
         }
         public DailyNoteNotifyConfiguration DailyNoteNotifyConfiguration
         {
             get => dailyNoteNotifyConfiguration;
+
             [MemberNotNull(nameof(dailyNoteNotifyConfiguration))]
             set => SetProperty(ref dailyNoteNotifyConfiguration, value);
         }
-        public JourneyInfo? JourneyInfo { get => journeyInfo; set => SetProperty(ref journeyInfo, value); }
+        public JourneyInfo? JourneyInfo
+        {
+            get => journeyInfo;
+
+            set => SetProperty(ref journeyInfo, value);
+        }
 
         public ICommand OpenUICommand { get; }
         public ICommand RemoveUserCommand { get; }
@@ -124,7 +135,7 @@ namespace DGP.Genshin.ViewModel
         public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, JoinableTaskFactory joinableTaskFactory, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
-            this.dailynoteService = dailyNoteService;
+            dailynoteService = dailyNoteService;
             this.joinableTaskFactory = joinableTaskFactory;
             this.messenger = messenger;
 

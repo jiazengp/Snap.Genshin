@@ -14,7 +14,10 @@ namespace DGP.Genshin.Page
             InitializeComponent();
         }
 
-        private RecordViewModel ViewModel => (RecordViewModel)DataContext;
+        private RecordViewModel ViewModel
+        {
+            get => (RecordViewModel)DataContext;
+        }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {

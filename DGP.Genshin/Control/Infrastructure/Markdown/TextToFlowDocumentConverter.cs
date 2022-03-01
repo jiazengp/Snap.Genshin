@@ -10,6 +10,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Markdown? Markdown
         {
             get => (Markdown)GetValue(MarkdownProperty);
+
             set => SetValue(MarkdownProperty, value);
         }
 

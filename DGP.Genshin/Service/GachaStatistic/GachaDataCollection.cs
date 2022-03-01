@@ -25,7 +25,10 @@ namespace DGP.Genshin.Service.GachaStatistic
             Add(new(uid, data));
         }
 
-        public GachaData? this[string uid] => this.FirstOrDefault(x => x.Uid == uid)?.Data;
+        public GachaData? this[string uid]
+        {
+            get => this.FirstOrDefault(x => x.Uid == uid)?.Data;
+        }
 
         public bool HasUid(string uid)
         {

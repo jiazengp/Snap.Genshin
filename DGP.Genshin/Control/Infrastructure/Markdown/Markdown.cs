@@ -46,12 +46,14 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style DocumentStyle
         {
             get => (Style)GetValue(DocumentStyleProperty);
+
             set => SetValue(DocumentStyleProperty, value);
         }
 
         public Style NormalParagraphStyle
         {
             get => (Style)GetValue(NormalParagraphStyleProperty);
+
             set => SetValue(NormalParagraphStyleProperty, value);
         }
 
@@ -66,6 +68,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style Heading1Style
         {
             get => (Style)GetValue(Heading1StyleProperty);
+
             set => SetValue(Heading1StyleProperty, value);
         }
 
@@ -76,6 +79,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style Heading2Style
         {
             get => (Style)GetValue(Heading2StyleProperty);
+
             set => SetValue(Heading2StyleProperty, value);
         }
 
@@ -86,6 +90,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style Heading3Style
         {
             get => (Style)GetValue(Heading3StyleProperty);
+
             set => SetValue(Heading3StyleProperty, value);
         }
 
@@ -96,6 +101,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style Heading4Style
         {
             get => (Style)GetValue(Heading4StyleProperty);
+
             set => SetValue(Heading4StyleProperty, value);
         }
 
@@ -106,6 +112,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style CodeStyle
         {
             get => (Style)GetValue(CodeStyleProperty);
+
             set => SetValue(CodeStyleProperty, value);
         }
 
@@ -116,6 +123,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style LinkStyle
         {
             get => (Style)GetValue(LinkStyleProperty);
+
             set => SetValue(LinkStyleProperty, value);
         }
 
@@ -126,6 +134,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style ImageStyle
         {
             get => (Style)GetValue(ImageStyleProperty);
+
             set => SetValue(ImageStyleProperty, value);
         }
 
@@ -136,6 +145,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style SeparatorStyle
         {
             get => (Style)GetValue(SeparatorStyleProperty);
+
             set => SetValue(SeparatorStyleProperty, value);
         }
 
@@ -146,6 +156,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public string AssetPathRoot
         {
             get => (string)GetValue(AssetPathRootProperty);
+
             set => SetValue(AssetPathRootProperty, value);
         }
 
@@ -155,6 +166,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style TableStyle
         {
             get => (Style)GetValue(TableStyleProperty);
+
             set => SetValue(TableStyleProperty, value);
         }
 
@@ -164,6 +176,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style TableHeaderStyle
         {
             get => (Style)GetValue(TableHeaderStyleProperty);
+
             set => SetValue(TableHeaderStyleProperty, value);
         }
 
@@ -173,6 +186,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         public Style TableBodyStyle
         {
             get => (Style)GetValue(TableBodyStyleProperty);
+
             set => SetValue(TableBodyStyleProperty, value);
         }
 
