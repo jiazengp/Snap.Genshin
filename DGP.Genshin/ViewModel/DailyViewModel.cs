@@ -3,6 +3,7 @@ using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.DataModel.Material;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using Snap.Reflection;
@@ -84,7 +85,10 @@ namespace DGP.Genshin.ViewModel
         private async Task OpenUIAsync()
         {
             await Task.Delay(1000);
-            SelectedDayOfWeek = DayOfWeeks.First(d => d.Value == DateTime.UtcNow.DayOfWeek);
+            DateTime day = DateTime.UtcNow + TimeSpan.FromHours(4);
+            this.Log($"current dailyview date:{day}");
+            SelectedDayOfWeek = DayOfWeeks
+                .First(d => d.Value == day.DayOfWeek);
         }
 
         #region Mondstadt

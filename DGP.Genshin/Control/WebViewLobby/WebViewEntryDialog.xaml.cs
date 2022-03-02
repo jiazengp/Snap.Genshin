@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataModel.WebViewLobby;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -9,9 +10,6 @@ using System.Windows;
 
 namespace DGP.Genshin.Control.WebViewLobby
 {
-    /// <summary>
-    /// WebViewEntryDialog.xaml 的交互逻辑
-    /// </summary>
     public partial class WebViewEntryDialog : ContentDialog
     {
         public WebViewEntryDialog(WebViewEntry? entry = null)
@@ -92,7 +90,12 @@ namespace DGP.Genshin.Control.WebViewLobby
             return null;
         }
 
-        private async void AutoTitleIconButtonClick(object sender, RoutedEventArgs e)
+        private void AutoTitleIconButtonClick(object sender, RoutedEventArgs e)
+        {
+            FindTitleIconAsync().Forget();
+        }
+
+        private async Task FindTitleIconAsync()
         {
             if (NavigateUrl is not null)
             {

@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
+using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -39,23 +40,28 @@ namespace DGP.Genshin.Service
                     List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                     foreach (UserGameRole role in roles)
                     {
-                        SignInResult? result = await new SignInProvider(cookie).SignInAsync(role);
+                        string result = await new SignInProvider(cookie).SignInAsync(role);
 
                         Setting2.LastAutoSignInTime.Set(DateTime.UtcNow);
                         bool isSignInSilently = Setting2.SignInSilently.Get();
                         new ToastContentBuilder()
                             .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
-                            .AddText(result is null ? "签到失败" : "签到成功")
+                            .AddText(result)
                             .AddAttributionText(role.ToString())
                             .Show(toast => { toast.SuppressPopup = isSignInSilently; });
                     }
+                    //temporary fix Too Many Requsts.
+                    await Task.Delay(500);
                 }
             }
         }
 
         public void Receive(DayChangedMessage message)
         {
-            TrySignAllAccountsRolesInAsync().Forget();
+            if (Setting2.AutoDailySignInOnLaunch.Get())
+            {
+                TrySignAllAccountsRolesInAsync().Forget();
+            }
         }
     }
 }

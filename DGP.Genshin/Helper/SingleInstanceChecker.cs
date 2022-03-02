@@ -62,15 +62,11 @@ namespace DGP.Genshin.Helper
             }
             new Task(() =>
             {
-                joinableTaskFactory.Run(async () =>
+                // if this instance gets the signal
+                while (eventWaitHandle.WaitOne())
                 {
-                    // if this instance gets the signal
-                    while (eventWaitHandle.WaitOne())
-                    {
-                        await joinableTaskFactory.SwitchToMainThreadAsync();
-                        multiInstancePresentAction.Invoke();
-                    }
-                });
+                    App.Current.Dispatcher.Invoke(multiInstancePresentAction);
+                }
             }).Start();
         }
     }

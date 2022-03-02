@@ -280,7 +280,7 @@ namespace DGP.Genshin.ViewModel
                     {
                         new ToastContentBuilder()
                             .AddText("当前为开发测试版")
-                            .Show();
+                            .SafeShow();
                         break;
                     }
                 default:

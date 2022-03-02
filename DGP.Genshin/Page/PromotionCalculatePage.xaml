@@ -22,7 +22,7 @@
         <helpers:StarConverter x:Key="StarConverter"/>
         <helpers:StarSolidConverter x:Key="StarSolidConverter"/>
         <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
-
+        <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
         <Style TargetType="ui:GridViewItem">
             <Setter Property="Margin" Value="0,0,6,6"/>
         </Style>
@@ -32,7 +32,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:CommandBar Background="Transparent">
+        <ui:CommandBar Background="Transparent"
+                       Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityRevertConverter}}">
             <ui:CommandBar.Content>
                 <ui:AppBarElementContainer>
                     <ComboBox Margin="12,4,0,0" Grid.Row="0" 
@@ -47,7 +48,8 @@
             </ui:AppBarButton>
         </ui:CommandBar>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch"
+              Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityRevertConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="320"/>
@@ -267,5 +269,11 @@
                 </StackPanel>
             </smoothscrollviewer:SmoothScrollViewer>
         </Grid>
+        
+        <Border d:Visibility="Visible"
+                Grid.RowSpan="2" 
+                Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityConverter}}">
+            <genshinelements:ElementsProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
     </Grid>
 </Page>

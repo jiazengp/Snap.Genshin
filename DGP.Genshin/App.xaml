@@ -7,7 +7,8 @@
     xmlns:ge="clr-namespace:DGP.Genshin.Control.GenshinElement" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
-    xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown" xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     x:Class="DGP.Genshin.App"
     ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
@@ -47,18 +48,6 @@
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,4,4</CornerRadius>
             <CornerRadius x:Key="SmallCompatCornerRadius">2,2,2,2</CornerRadius>
 
-            <markdown:Markdown x:Key="Markdown"
-                        DocumentStyle="{StaticResource DocumentStyle}"
-                        Heading1Style="{StaticResource H1Style}"
-                        Heading2Style="{StaticResource H2Style}"
-                        Heading3Style="{StaticResource H3Style}"
-                        Heading4Style="{StaticResource H4Style}"
-                        LinkStyle="{StaticResource LinkStyle}"
-                        ImageStyle="{StaticResource ImageStyle}"
-                        SeparatorStyle="{StaticResource SeparatorStyle}"
-                        TableStyle="{StaticResource TableStyle}"
-                        TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
-            
             <ItemsPanelTemplate x:Key="WrapPanelItemsPanel">
                 <WrapPanel/>
             </ItemsPanelTemplate>

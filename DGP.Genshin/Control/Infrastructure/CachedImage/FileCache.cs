@@ -83,8 +83,11 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             }
             catch (Exception ex)
             {
-                memoryStream?.Dispose();
-                fileStream?.Dispose();
+                await memoryStream.DisposeAsync();
+                if (fileStream is not null)
+                {
+                    await fileStream.DisposeAsync();
+                }
                 File.Delete(localFile);
                 Logger.LogStatic($"Caching {url} To {fileName} failed.File has deleted.");
                 Logger.LogStatic(ex);
@@ -163,7 +166,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 if (file is not null)
                 {
                     await file.FlushAsync();
-                    file.Dispose();
+                    await file.DisposeAsync();
                     IsWritingFile.Remove(fileName);
                 }
             }

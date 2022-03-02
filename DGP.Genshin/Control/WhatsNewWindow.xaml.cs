@@ -2,9 +2,6 @@
 
 namespace DGP.Genshin.Control
 {
-    /// <summary>
-    /// WhatsNewWindow.xaml 的交互逻辑
-    /// </summary>
     public partial class WhatsNewWindow : Window
     {
         public WhatsNewWindow()
@@ -19,6 +16,6 @@ namespace DGP.Genshin.Control
             set => SetValue(ReleaseNoteProperty, value);
         }
         public static readonly DependencyProperty ReleaseNoteProperty =
-            DependencyProperty.Register("ReleaseNote", typeof(string), typeof(WhatsNewWindow), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ReleaseNote), typeof(string), typeof(WhatsNewWindow));
     }
 }

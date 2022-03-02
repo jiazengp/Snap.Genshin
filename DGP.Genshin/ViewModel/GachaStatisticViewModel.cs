@@ -5,6 +5,7 @@ using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.GachaStatistic;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
@@ -54,11 +55,12 @@ namespace DGP.Genshin.ViewModel
         /// 同步统计数据与当前uid
         /// </summary>
         [PropertyChangedCallback]
-        private async void SyncStatisticWithUid()
+        private void SyncStatisticWithUid()
         {
+            this.Log($"try read:{SelectedUserGachaData}");
             if (SelectedUserGachaData is not null)
             {
-                Statistic = await gachaStatisticService.GetStatisticAsync(UserGachaDataCollection, SelectedUserGachaData.Uid);
+                Statistic = gachaStatisticService.GetStatistic(UserGachaDataCollection, SelectedUserGachaData.Uid);
                 SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
         }

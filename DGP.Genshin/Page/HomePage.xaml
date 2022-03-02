@@ -70,9 +70,9 @@
                                                             <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding TimeDescription}" />
                                                         </Border>
                                                         
-                                                        <ui:ProgressBar 
+                                                        <ui:ProgressBar
                                                             Height="2" MinHeight="2" Value="{Binding TimePercent,Mode=OneWay}" ui:ControlHelper.CornerRadius="0"
-                                                            Visibility="{Binding ShouldShowTimePrecent,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                            Visibility="{Binding ShouldShowTimePercent,Converter={StaticResource BooleanToVisibilityConverter}}" 
                                                             Maximum="1" VerticalAlignment="Bottom" Background="Transparent"/>
                                                     </Grid>
                                                     

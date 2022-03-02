@@ -12,7 +12,7 @@
         Title="活动详情" 
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Width="1128" Height="800"
-        Loaded="Window_Loaded"
+        Loaded="WindowLoaded"
         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Grid>
         <wpf:WebView2 x:Name="WebView"/>

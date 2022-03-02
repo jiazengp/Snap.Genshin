@@ -33,17 +33,6 @@
                        Text="我们保存了崩溃日志，以便下次启动时自动发送，关闭本窗口以结束 Snap Genshin 进程" Style="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
                 <ui:CommandBar HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent">
-                    <ui:AppBarButton Label="QQ群 910780153" Click="QQChatAppBarButtonClick">
-                        <ui:AppBarButton.Icon>
-                            <ui:FontIcon Glyph="&#xE8F2;"/>
-                        </ui:AppBarButton.Icon>
-                    </ui:AppBarButton>
-
-                    <ui:AppBarButton Label="前往 Github 反馈" Click="GithubAppBarButtonClick">
-                        <ui:AppBarButton.Icon>
-                            <ui:FontIcon Glyph="&#xED15;"/>
-                        </ui:AppBarButton.Icon>
-                    </ui:AppBarButton>
                     <ui:AppBarButton Icon="Copy" Label="复制信息" Click="CopyInfoAppBarButtonClick"/>
                 </ui:CommandBar>
             </Grid>

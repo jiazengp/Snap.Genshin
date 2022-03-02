@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Threading;
+using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -134,7 +136,12 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             }
         }
 
-        private async void ApplyUriSource()
+        private void ApplyUriSource()
+        {
+            ApplyUriSourceAsync().Forget();
+        }
+
+        private async Task ApplyUriSourceAsync()
         {
             if (_image != null && _opacityMask != null)
             {

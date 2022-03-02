@@ -3,7 +3,7 @@
 
     <Style TargetType="FlowDocument" x:Key="DocumentStyle">
         <Setter Property="TextAlignment" Value="Left" />
-        <!--<Setter Property="FontFamily" Value="Microsoft YaHei UI"/>-->
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
     </Style>
 
     <Style x:Key="H1Style" TargetType="Paragraph">

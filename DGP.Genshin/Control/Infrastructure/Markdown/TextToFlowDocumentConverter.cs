@@ -13,10 +13,8 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             set => SetValue(MarkdownProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for Markdown.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MarkdownProperty =
-            DependencyProperty.Register("Markdown", typeof(Markdown), typeof(TextToFlowDocumentConverter), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Markdown), typeof(Markdown), typeof(TextToFlowDocumentConverter));
 
         /// <summary>
         /// Converts a value. 

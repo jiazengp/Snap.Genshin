@@ -113,7 +113,7 @@ namespace DGP.Genshin
             get => WeakReferenceMessenger.Default;
         }
 
-        public static object AutoWired(Type type)
+        internal static object AutoWired(Type type)
         {
             return Current.serviceManager.Services!.GetService(type)
                 ?? throw new SnapGenshinInternalException($"无法找到 {type} 类型的对象。");
@@ -125,33 +125,10 @@ namespace DGP.Genshin
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
-        public static T AutoWired<T>()
+        internal static T AutoWired<T>()
         {
             return Current.serviceManager.Services!.GetService<T>()
                 ?? throw new SnapGenshinInternalException($"无法找到 {typeof(T)} 类型的对象。");
-        }
-
-        /// <summary>
-        /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
-        /// </summary>
-        public static void ShowOrCloseWindow<TWindow>(string? name = null) where TWindow : Window, new()
-        {
-            TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
-
-            if (window is not null)
-            {
-                window.Close();
-            }
-            else
-            {
-                TWindow newWindow = new();
-                newWindow.Show();
-
-                newWindow.Activate();
-                newWindow.Topmost = true;
-                newWindow.Topmost = false;
-                newWindow.Focus();
-            }
         }
 
         /// <summary>

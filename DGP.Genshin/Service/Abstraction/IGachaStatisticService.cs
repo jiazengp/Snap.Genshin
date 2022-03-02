@@ -55,7 +55,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="gachaData">抽卡源数据</param>
         /// <param name="uid">uid</param>
         /// <returns>经过各项处理的抽卡统计模型</returns>
-        Task<Statistic> GetStatisticAsync(GachaDataCollection gachaData, string uid);
+        Statistic GetStatistic(GachaDataCollection gachaData, string uid);
 
         /// <summary>
         /// 按模式异步刷新

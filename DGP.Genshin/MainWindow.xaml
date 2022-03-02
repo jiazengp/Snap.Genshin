@@ -21,7 +21,6 @@
     ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-    
     <Grid x:Name="BackgroundGrid" RenderOptions.BitmapScalingMode="Fant">
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"

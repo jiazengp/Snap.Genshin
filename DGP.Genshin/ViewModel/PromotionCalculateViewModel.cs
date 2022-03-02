@@ -9,6 +9,7 @@ using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Exception;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -42,7 +43,7 @@ namespace DGP.Genshin.ViewModel
 
             set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarList);
         }
-        [PropertyChangedCallback]
+        [PropertyChangedCallback, SuppressMessage("", "VSTHRD100")]
         private async void UpdateAvatarList()
         {
             if (SelectedUserGameRole is UserGameRole selected)
@@ -65,7 +66,7 @@ namespace DGP.Genshin.ViewModel
 
             set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailData);
         }
-        [PropertyChangedCallback]
+        [PropertyChangedCallback, SuppressMessage("", "VSTHRD100")]
         private async void UpdateAvatarDetailData()
         {
             if (SelectedUserGameRole is not null && SelectedAvatar is not null)

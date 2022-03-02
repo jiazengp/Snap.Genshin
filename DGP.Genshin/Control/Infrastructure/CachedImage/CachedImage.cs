@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.VisualStudio.Threading;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -31,16 +33,18 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             set => SetValue(CreateOptionsProperty, value);
         }
 
-        private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            string? url = e.NewValue as string;
+            DownloadImageAsync((CachedImage)obj, e.NewValue as string).Forget();
+        }
 
+        private static async Task DownloadImageAsync(CachedImage cachedImage, string? url)
+        {
             if (string.IsNullOrEmpty(url))
             {
                 return;
             }
 
-            CachedImage cachedImage = (CachedImage)obj;
             BitmapImage bitmapImage = new();
 
             try
@@ -65,7 +69,8 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         }
 
         public static readonly DependencyProperty ImageUrlProperty =
-            DependencyProperty.Register("ImageUrl", typeof(string), typeof(CachedImage), new PropertyMetadata("", ImageUrlPropertyChanged));
+            DependencyProperty.Register("ImageUrl", typeof(string), typeof(CachedImage),
+                new PropertyMetadata(string.Empty, ImageUrlPropertyChanged));
 
         public static readonly DependencyProperty CreateOptionsProperty =
             DependencyProperty.Register("CreateOptions", typeof(BitmapCreateOptions), typeof(CachedImage));

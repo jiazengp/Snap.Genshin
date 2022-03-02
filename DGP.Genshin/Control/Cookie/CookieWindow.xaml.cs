@@ -1,7 +1,9 @@
-﻿using Microsoft.Web.WebView2.Core;
+﻿using Microsoft.VisualStudio.Threading;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin.Control.Cookie
@@ -35,7 +37,12 @@ namespace DGP.Genshin.Control.Cookie
             WebView?.Dispose();
         }
 
-        private async void ContinueButtonClick(object sender, RoutedEventArgs e)
+        private void ContinueButtonClick(object sender, RoutedEventArgs e)
+        {
+            ContinueAsync().Forget();
+        }
+
+        private async Task ContinueAsync()
         {
             List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
             string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();

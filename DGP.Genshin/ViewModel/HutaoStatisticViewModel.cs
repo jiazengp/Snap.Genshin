@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.GenshinElement.HutaoStatistic;
 using DGP.Genshin.DataModel.HutaoAPI;
+using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;
 using DGP.Genshin.Service.Abstraction;
@@ -99,9 +100,9 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                await hutaoStatisticService.InitializeAsync();
+                await hutaoStatisticService.InitializeAsync().ConfigureAwait(true);
 
-                Overview = await hutaoStatisticService.GetOverviewAsync();
+                Overview = await hutaoStatisticService.GetOverviewAsync().ConfigureAwait(true);
                 //V1
                 AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
@@ -114,17 +115,14 @@ namespace DGP.Genshin.ViewModel
             catch (Exception e)
             {
                 this.Log(e);
-                await joinableTaskFactory.RunAsync(async () =>
+                await joinableTaskFactory.SwitchToMainThreadAsync();
+                await new ContentDialog()
                 {
-                    await joinableTaskFactory.SwitchToMainThreadAsync();
-                    await new ContentDialog()
-                    {
-                        Title = "加载失败",
-                        Content = e.Message,
-                        PrimaryButtonText = "确定",
-                        DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync();
-                });
+                    Title = "加载失败",
+                    Content = e.Message,
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -136,17 +134,18 @@ namespace DGP.Genshin.ViewModel
             try
             {
                 await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie,
-                    async record => ContentDialogResult.Primary == await new UploadDialog(record).ShowAsync(),
-                    async resp => await new ContentDialog()
+                    async record => ContentDialogResult.Primary == await this.ExecuteOnUIAsync(new UploadDialog(record).ShowAsync),
+                    async resp => await this.ExecuteOnUIAsync(new ContentDialog()
                     {
                         Title = "提交记录",
                         Content = resp.Message,
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync());
+                    }.ShowAsync));
             }
-            catch
+            catch(Exception e)
             {
+                this.Log(e);
                 await new ContentDialog()
                 {
                     Title = "提交记录失败",

@@ -1,5 +1,7 @@
-﻿using Snap.Data.Utility;
+﻿using Microsoft.VisualStudio.Threading;
+using Snap.Data.Utility;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
@@ -23,7 +25,12 @@ namespace DGP.Genshin.Control.GenshinElement
             WebView?.Dispose();
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            LoadAnnouncementAsync().Forget();
+        }
+
+        private async Task LoadAnnouncementAsync()
         {
             try
             {

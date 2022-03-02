@@ -114,9 +114,9 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        public async Task<Statistic> GetStatisticAsync(GachaDataCollection gachaData, string uid)
+        public Statistic GetStatistic(GachaDataCollection gachaData, string uid)
         {
-            return await Task.Run(() => new StatisticBuilder().ToStatistic(gachaData[uid]!, uid));
+            return new StatisticBuilder().ToStatistic(gachaData[uid]!, uid);
         }
 
         #region Im/Export

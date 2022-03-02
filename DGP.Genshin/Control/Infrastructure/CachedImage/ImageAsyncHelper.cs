@@ -1,9 +1,11 @@
 ﻿using DGP.Genshin.Message;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -33,60 +35,63 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         private static readonly SemaphoreSlim sendMessageLocker = new(1, 1);
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
-            "ImageUrl", typeof(string), typeof(ImageAsyncHelper), new PropertyMetadata
+            "ImageUrl", 
+            typeof(string), 
+            typeof(ImageAsyncHelper), 
+            new PropertyMetadata((obj, e) =>
+            DownloadImageAsync((Border)obj, (string)e.NewValue).Forget()));
+
+        private static async Task DownloadImageAsync(Border border, string url)
+        {
+            MemoryStream? memoryStream;
+            if (FileCache.Exists(url))
             {
-                PropertyChangedCallback = async (obj, e) =>
+                memoryStream = await FileCache.HitAsync(url);
+            }
+            else
+            {
+                ++imageUrlHittingCount;
+                await sendMessageLocker.WaitAsync();
+                //不存在图片，所以需要下载额外的资源
+                if (imageUrlHittingCount == 1)
                 {
-                    MemoryStream? memoryStream;
-                    if (FileCache.Exists((string)e.NewValue))
-                    {
-                        memoryStream = await FileCache.HitAsync((string)e.NewValue);
-                    }
-                    else
-                    {
-                        ++imageUrlHittingCount;
-                        await sendMessageLocker.WaitAsync();
-                        //不存在图片，所以需要下载额外的资源
-                        if (imageUrlHittingCount == 1)
-                        {
-                            App.Messenger.Send(new ImageHitBeginMessage());
-                        }
-                        Logger.LogStatic(imageUrlHittingCount);
-                        sendMessageLocker.Release();
-
-                        memoryStream = await FileCache.HitAsync((string)e.NewValue);
-                        --imageUrlHittingCount;
-
-                        await sendMessageLocker.WaitAsync();
-                        if (imageUrlHittingCount == 0)
-                        {
-                            App.Messenger.Send(new ImageHitEndMessage());
-                        }
-                        Logger.LogStatic(imageUrlHittingCount);
-                        sendMessageLocker.Release();
-                    }
-
-                    if (memoryStream == null)
-                    {
-                        return;
-                    }
-
-                    BitmapImage bitmapImage = new();
-                    try
-                    {
-                        bitmapImage.BeginInit();
-                        bitmapImage.StreamSource = memoryStream;
-                        bitmapImage.EndInit();
-                    }
-                    catch { }
-
-                    ((Border)obj).Background = new ImageBrush()
-                    {
-                        ImageSource = bitmapImage,
-                        Stretch = GetStretchMode((Border)obj)
-                    };
+                    App.Messenger.Send(new ImageHitBeginMessage());
                 }
-            });
+                Logger.LogStatic(imageUrlHittingCount);
+                sendMessageLocker.Release();
+
+                memoryStream = await FileCache.HitAsync(url);
+                --imageUrlHittingCount;
+
+                await sendMessageLocker.WaitAsync();
+                if (imageUrlHittingCount == 0)
+                {
+                    App.Messenger.Send(new ImageHitEndMessage());
+                }
+                Logger.LogStatic(imageUrlHittingCount);
+                sendMessageLocker.Release();
+            }
+
+            if (memoryStream == null)
+            {
+                return;
+            }
+
+            BitmapImage bitmapImage = new();
+            try
+            {
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memoryStream;
+                bitmapImage.EndInit();
+            }
+            catch { }
+
+            border.Background = new ImageBrush()
+            {
+                ImageSource = bitmapImage,
+                Stretch = GetStretchMode(border)
+            };
+        }
         #endregion
 
         #region StretchMode

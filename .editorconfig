@@ -242,3 +242,9 @@ dotnet_diagnostic.CA1401.severity = none
 
 [*.{cs,vb}]
 dotnet_diagnostic.CA1822.severity=none
+
+# VSTHRD111: Use ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD111.severity = silent
+
+# VSTHRD113: Check for System.IAsyncDisposable
+dotnet_diagnostic.VSTHRD113.severity = warning
