@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.Threading;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,7 +36,7 @@ namespace DGP.Genshin.Helper
         /// 确保应用程序是否为第一个打开
         /// </summary>
         /// <param name="app"></param>
-        public void Ensure(Application app, JoinableTaskFactory joinableTaskFactory, Action multiInstancePresentAction)
+        public void Ensure(Application app, Action multiInstancePresentAction)
         {
             // check if it is already open.
             try

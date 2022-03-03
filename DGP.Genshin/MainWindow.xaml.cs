@@ -2,7 +2,6 @@
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.PerMonitorDPIAware;
 using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
@@ -12,9 +11,9 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
+using Snap.Extenion.Enumerable;
 using Snap.Reflection;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ namespace DGP.Genshin
         //prevent System.NullReferenceException
         //cause we have some async operation in initialization so we can't use lock
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
-        private bool hasInitializeCompleted = false;
+        private bool hasInitializationCompleted = false;
 
         private static bool hasEverOpen = false;
         private static bool hasEverClose = false;
@@ -41,11 +40,12 @@ namespace DGP.Genshin
         private readonly BackgroundLoader backgroundLoader;
 
         /// <summary>
-        /// do NOT set DataContext for mainwindow
+        /// Do NOT set DataContext for mainwindow
         /// </summary>
         public MainWindow()
         {
             InitializeContent();
+            //support per monitor dpi awareness
             _ = new PerMonitorDPIAdapter(this);
             //randomly load a image as background
             backgroundLoader = new(this);
@@ -81,37 +81,27 @@ namespace DGP.Genshin
         {
             PostInitializeAsync(viewModelReference).Forget();
         }
-
         private async Task PostInitializeAsync(SplashInitializationCompletedMessage viewModelReference)
         {
             await initializingWindow.WaitAsync();
             SplashViewModel splashViewModel = viewModelReference.Value;
-            AddAdditionalWebViewNavigationViewItems();
-            AddAdditionalPluginsNavigationViewItems();
+            AddAdditionalNavigationViewItems();
             //preprocess
             if (!hasEverOpen)
             {
-                DoUpdateFlowAsync().Forget();
-                //签到
-                if (Setting2.AutoDailySignInOnLaunch.Get())
-                {
-                    await SignInOnStartUpAsync(splashViewModel);
-                }
-                //任务栏
-                if (Setting2.IsTaskBarIconEnabled.Get())
-                {
-                    DoTaskbarFlow();
-                }
+                CheckUpdateForWhatsNewAsync().Forget();
+                TrySignInOnStartUpAsync().Forget();
+                TryInitializeTaskbarIcon();
                 //树脂服务
                 App.AutoWired<IDailyNoteService>().Initialize();
             }
-            splashViewModel.CurrentStateDescription = "完成";
-            splashViewModel.IsSplashNotVisible = true;
+            splashViewModel.CompleteInitialization();
+
             await Task.Delay(800);
             navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             //before call Close() in this method,must release initializingWindow.
             initializingWindow.Release();
-            hasInitializeCompleted = true;
+            hasInitializationCompleted = true;
 
             if (!hasEverOpen)
             {
@@ -126,7 +116,6 @@ namespace DGP.Genshin
             //设置已经打开过状态
             hasEverOpen = true;
         }
-
         public void Receive(NavigateRequestMessage message)
         {
             navigationService.Navigate(message);
@@ -141,21 +130,16 @@ namespace DGP.Genshin
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (WindowState == WindowState.Normal)
-            {
-                Setting2.MainWindowWidth.Set(Width);
-                Setting2.MainWindowHeight.Set(Height);
-            }
-            Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
+            TrySaveWindowState();
             initializingWindow.Wait();
             base.OnClosing(e);
             initializingWindow.Release();
 
             bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
-            if (hasInitializeCompleted && isTaskbarIconEnabled)
+            if (hasInitializationCompleted && isTaskbarIconEnabled)
             {
-                if (Setting2.IsTaskBarIconHintDisplay.Get() && (!hasEverClose))
+                if ((!hasEverClose) && Setting2.IsTaskBarIconHintDisplay.Get())
                 {
                     new ToastContentBuilder()
                     .AddText("Snap Genshin 已转入后台运行")
@@ -174,69 +158,69 @@ namespace DGP.Genshin
             }
         }
 
-        private void DoTaskbarFlow()
-        {
-            App.Current.NotifyIcon ??= App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
-            App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
-        }
-
-        #region Aditional NavigationViewItems
         /// <summary>
-        /// 添加从插件引入的额外的导航页签
+        /// 添加额外的导航页签
         /// </summary>
-        private void AddAdditionalPluginsNavigationViewItems()
+        private void AddAdditionalNavigationViewItems()
         {
-            foreach (IPlugin plugin in App.Current.PluginService.Plugins)
+            //webview entries must add first
+            navigationService.AddWebViewEntries(App.AutoWired<WebViewLobbyViewModel>().Entries);
+            //then we add pilugin pages
+            App.Current.PluginService.Plugins.ForEach(plugin =>
+            plugin.ForEachAttribute<ImportPageAttribute>(importPage =>
+            navigationService.AddToNavigation(importPage)));
+        }
+        private void TrySaveWindowState()
+        {
+            if (WindowState == WindowState.Normal)
             {
-                plugin.ForEachAttribute<ImportPageAttribute>(importPage => navigationService.AddToNavigation(importPage));
+                Setting2.MainWindowWidth.Set(Width);
+                Setting2.MainWindowHeight.Set(Height);
+            }
+            Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
+        }
+        private void TryInitializeTaskbarIcon()
+        {
+            if (Setting2.IsTaskBarIconEnabled.Get())
+            {
+                if (App.Current.NotifyIcon is null)
+                {
+                    App.Current.NotifyIcon = App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
+                    App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
+                }
             }
         }
-        /// <summary>
-        /// 添加额外的网页导航页签
-        /// </summary>
-        private void AddAdditionalWebViewNavigationViewItems()
-        {
-            ObservableCollection<WebViewEntry>? entries = App.AutoWired<WebViewLobbyViewModel>().Entries;
-            navigationService.AddWebViewEntries(entries);
-        }
-        #endregion
-
-        #region Sign In
         /// <summary>
         /// 对Cookie列表内的所有角色签到
         /// </summary>
         /// <param name="splashView"></param>
         /// <returns></returns>
-        private async Task SignInOnStartUpAsync(SplashViewModel splashView)
+        private async Task TrySignInOnStartUpAsync()
         {
-            if (Setting2.LastAutoSignInTime.Get() < DateTime.Today)
+            if (Setting2.AutoDailySignInOnLaunch.Get())
             {
-                splashView.CurrentStateDescription = "签到中...";
-                await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
+                if (Setting2.LastAutoSignInTime.Get() < DateTime.Today)
+                {
+                    await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
+                }
             }
         }
-        #endregion
 
         #region Update
-        private async Task DoUpdateFlowAsync()
+        private async Task CheckUpdateForWhatsNewAsync()
         {
-            await CheckUpdateAsync();
+            await CheckUpdateForNotificationAsync();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
-            Version? lastLaunchAppVersion = Setting2.AppVersion.Get();
             //first launch after update
-            if (lastLaunchAppVersion < updateService.CurrentVersion)
+            if (Setting2.AppVersion.Get() < updateService.CurrentVersion)
             {
                 Setting2.AppVersion.Set(updateService.CurrentVersion);
-                //App.Current.Dispatcher.InvokeAsync
                 new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
             }
         }
-        private async Task CheckUpdateAsync()
+        private async Task CheckUpdateForNotificationAsync()
         {
-            UpdateState result = await App.AutoWired<IUpdateService>().CheckUpdateStateAsync();
-            //force-update, debug code
-            //result = UpdateState.NeedUpdate;
-            switch (result)
+            switch (await App.AutoWired<IUpdateService>().CheckUpdateStateAsync())
             {
                 case UpdateState.NeedUpdate:
                     {

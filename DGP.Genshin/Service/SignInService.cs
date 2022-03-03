@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
-using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.MiHoYoAPI.Sign;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -50,8 +49,7 @@ namespace DGP.Genshin.Service
                             .AddAttributionText(role.ToString())
                             .Show(toast => { toast.SuppressPopup = isSignInSilently; });
                     }
-                    //temporary fix Too Many Requsts.
-                    await Task.Delay(500);
+                    await Task.Delay(15000);
                 }
             }
         }

@@ -11,7 +11,6 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using Snap.Core.Logging;
 using Snap.Exception;
@@ -161,7 +160,7 @@ namespace DGP.Genshin
             ConfigureUnhandledException();
             //handle notification activation
             ConfigureToastNotification();
-            singleInstanceChecker.Ensure(Current, AutoWired<JoinableTaskFactory>(), () => BringWindowToFront<MainWindow>());
+            singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
             //app center services
             ConfigureAppCenter(true);
             //global requester callback

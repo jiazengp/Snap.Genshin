@@ -143,7 +143,7 @@ namespace DGP.Genshin.ViewModel
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 this.Log(e);
                 await new ContentDialog()

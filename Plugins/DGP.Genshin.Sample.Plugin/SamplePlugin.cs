@@ -18,7 +18,7 @@ namespace DGP.Genshin.Sample.Plugin
 
         public string Description
         {
-            get => "本插件用于在运行时查看所有的 Segoe Fluent Icons";
+            get => "本插件用于设计人员查看所有的 Segoe Fluent Icons 字符";
         }
 
         public string Author
@@ -31,10 +31,6 @@ namespace DGP.Genshin.Sample.Plugin
             get => new("0.0.0.2");
         }
 
-        /// <summary>
-        /// 可以使用 Snap Genshin 内置的设置服务储存
-        /// 也可以自己实现储存逻辑
-        /// </summary>
         public bool IsEnabled
         {
             get;

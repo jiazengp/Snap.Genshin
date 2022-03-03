@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
+    /// <summary>
+    /// 根据 <see cref="bool"/> 的值选择对应的 <see cref="Style"/>
+    /// </summary>
     public class BooleanToStyleConverter : DependencyObject, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,6 +26,11 @@ namespace DGP.Genshin.Control.Converter
             return !flag ? FalseStyle : TrueStyle;
         }
 
+        /// <summary>
+        /// 不实现此方法
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
@@ -35,7 +43,7 @@ namespace DGP.Genshin.Control.Converter
             set => SetValue(TrueStyleProperty, value);
         }
         public static readonly DependencyProperty TrueStyleProperty =
-            DependencyProperty.Register("TrueStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TrueStyle), typeof(Style), typeof(BooleanToStyleConverter));
 
         public Style FalseStyle
         {
@@ -44,6 +52,6 @@ namespace DGP.Genshin.Control.Converter
             set => SetValue(FalseStyleProperty, value);
         }
         public static readonly DependencyProperty FalseStyleProperty =
-            DependencyProperty.Register("FalseStyle", typeof(Style), typeof(BooleanToStyleConverter), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(FalseStyle), typeof(Style), typeof(BooleanToStyleConverter));
     }
 }

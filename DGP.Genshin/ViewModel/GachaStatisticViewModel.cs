@@ -5,7 +5,6 @@ using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.GachaStatistic;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;

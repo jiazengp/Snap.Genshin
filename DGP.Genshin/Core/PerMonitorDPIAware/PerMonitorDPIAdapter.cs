@@ -1,6 +1,7 @@
 ﻿using Snap.Core.Logging;
 using Snap.Win32.NativeMethod;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -12,7 +13,8 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
     public class PerMonitorDPIAdapter
     {
         private HwndSource? hwndSource;
-        //IntPtr hwnd;
+        [SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>")]
+        private IntPtr? hwnd;
         private double currentDpiRatio;
         private readonly Window AssociatedWindow;
 
@@ -52,14 +54,15 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
         private void AddHwndHook()
         {
             hwndSource = PresentationSource.FromVisual(AssociatedWindow) as HwndSource;
-            hwndSource!.AddHook(HwndHook);
-            //hwnd = new WindowInteropHelper(AssociatedObject).Handle;
+            hwndSource?.AddHook(HwndHook);
+            hwnd = new WindowInteropHelper(AssociatedWindow).Handle;
         }
 
         private void RemoveHwndHook()
         {
             AssociatedWindow.SourceInitialized -= AssociatedWindowSourceInitialized;
-            hwndSource!.RemoveHook(HwndHook);
+            hwndSource?.RemoveHook(HwndHook);
+            hwnd = null;
         }
 
         private void AssociatedWindowSourceInitialized(object? sender, EventArgs e)

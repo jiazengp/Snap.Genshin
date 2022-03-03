@@ -95,6 +95,12 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenUICommand { get; }
         public ICommand SetCookieCommand { get; }
 
+        public void CompleteInitialization()
+        {
+            CurrentStateDescription = "完成";
+            IsSplashNotVisible = true;
+        }
+
         public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService, IMessenger messenger)
         {
             this.cookieService = cookieService;

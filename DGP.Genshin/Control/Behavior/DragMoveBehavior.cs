@@ -5,7 +5,7 @@ using System.Windows;
 namespace DGP.Genshin.Control.Behavior
 {
     /// <summary>
-    /// 允许控件实现DragMove
+    /// 允许控件实现 <see cref="Window.DragMove"/>
     /// </summary>
     public class DragMoveBehavior : Behavior<FrameworkElement>
     {

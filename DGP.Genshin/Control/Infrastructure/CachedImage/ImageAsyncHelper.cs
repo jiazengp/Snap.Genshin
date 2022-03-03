@@ -35,9 +35,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         private static readonly SemaphoreSlim sendMessageLocker = new(1, 1);
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
-            "ImageUrl", 
-            typeof(string), 
-            typeof(ImageAsyncHelper), 
+            "ImageUrl",
+            typeof(string),
+            typeof(ImageAsyncHelper),
             new PropertyMetadata((obj, e) =>
             DownloadImageAsync((Border)obj, (string)e.NewValue).Forget()));
 
