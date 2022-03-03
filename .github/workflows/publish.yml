@@ -40,3 +40,17 @@ jobs:
           secret_key: ${{ secrets.SECRET_KEY }}
           bucket: ${{ secrets.BUCKET }}
           region: ap-nanjing
+ 
+      # Upload to OD21 (Testing)
+      - name: Upload OD21
+        env:
+          CONF: ${{ secrets.RCCONF }}
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+          mkdir -p ~/.config/rclone/
+          cat << EOF > ~/.config/rclone/rclone.conf
+          $RCCONF
+          EOF
+          
+          rclone delete od21:/snapgenshin/Publish.zip
+          rclone copy ./release-download/Publish.zip od21:snapgenshin/Publish.zip
