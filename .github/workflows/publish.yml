@@ -53,4 +53,11 @@ jobs:
           EOF
           
           rclone delete od21:/snapgenshin/Publish.zip
-          rclone copy ./release-download/Publish.zip od21:snapgenshin/Publish.zip
+          rclone copy ./release-download/Publish.zip od21:snapgenshin/
+      
+      # Refresh cache
+      - name: Refresh cache
+        env:
+          ADMINCOOKIE: ${{ secrets.ADMINCOOKIE }}
+        run: |
+          curl --cookie "admin=$ADMINCOOKIE" "https://resource.snapgenshin.com/?RefreshCache"
