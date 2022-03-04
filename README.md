@@ -13,7 +13,7 @@
 |[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases)|[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)|
 |-|-|
 
-### 公开的QQ群
+### QQ群
 
 |群号|用途|说明|
 |-|-|-|
@@ -25,33 +25,16 @@
 
 ### 友情链接
 
-[![KeqingNiuza](https://img.shields.io/badge/Scighost-KeqingNiuza-red/total?style=flat-square)](https://github.com/Scighost/KeqingNiuza)
+[![Xunkong](https://img.shields.io/badge/Scighost-Xunkong-red/total?style=flat-square)](https://github.com/Scighost/Xunkong)
 [![GenShin-LauncherDIY](https://img.shields.io/badge/DawnFz-GenShin_LauncherDIY-red/total?style=flat-square)](https://github.com/DawnFz/GenShin-LauncherDIY)
 [![PaimonsNotebook](https://img.shields.io/badge/QooLianyi-PaimonsNotebook-red/total?style=flat-square)](https://github.com/QooLianyi/PaimonsNotebook)
 
-### 最低系统要求
+### 插件
 
-> **最低：Windows 10 1903 - 10.0.18362**  
-> 推荐：Windows 11 21H1 - 10.0.22000  
-> 运行时：.NET 6 [WebView2 Runtime 可选]  
+> [Snap Genshin 插件列表](/Plugins/README.md)
 
-# 插件
+### 开发人员
 
-[Snap Genshin 插件列表](/Plugins/README.md)
-
+> [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)  
+> [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
 </div>
-
-# 反馈问题
-
-**如果你在低于我们要求的最低Windows版本上运行程序并出现了问题，我们不会修复**  
-
-如果你需要反馈的信息包含大量的图片  
-或任何不便于在issue中提供的信息  
-可以加入我们的反馈QQ群
-
-# 开发人员
-
-## **在调试项目前，请务必仔细阅读开发人员指南**
-
-* [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)
-* [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)

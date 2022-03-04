@@ -64,6 +64,8 @@ namespace DGP.Genshin.Service.Abstraction
         public static readonly SettingDefinition<bool> SkipCacheCheck = new("SkipCacheCheck", false);
         //update
         public static readonly SettingDefinition<bool> UpdateUseFastGit = new("UpdateUseFastGit", false);
+        //gacha statistic
+        public static readonly SettingDefinition<bool> IsBannerWithNoItemVisible = new("IsBannerWithNoItemVisible", true);
         //resin
         public static readonly SettingDefinition<double> ResinRefreshMinutes = new("ResinRefreshMinutes", 8D);
         public static readonly SettingDefinition<DailyNoteNotifyConfiguration?> DailyNoteNotifyConfiguration = new("DailyNoteNotifyConfiguration", null, ComplexConverter<DailyNoteNotifyConfiguration>);
@@ -116,9 +118,9 @@ namespace DGP.Genshin.Service.Abstraction
             Converter = converter;
         }
 
-        public string Name { get; set; }
-        public T DefaultValue { get; set; }
-        public Func<object, T>? Converter { get; set; }
+        public string Name { get; }
+        public T DefaultValue { get; }
+        public Func<object, T>? Converter { get; }
 
         public T Get()
         {
@@ -131,7 +133,7 @@ namespace DGP.Genshin.Service.Abstraction
         }
 
         /// <summary>
-        /// 提供单参数重载以便 <see cref="Snap.Core.Mvvm.ObservableObject2"/> 方法调用
+        /// 提供单参数重载以便 <see cref="Snap.Core.Mvvm.ObservableObject2"/> 的通知方法调用
         /// </summary>
         /// <param name="value"></param>
         public void Set(T value)

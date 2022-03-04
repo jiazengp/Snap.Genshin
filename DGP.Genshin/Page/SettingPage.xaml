@@ -340,11 +340,12 @@
                 <wu:CardControl helper:IconHelper.Icon="&#xE790;" Icon="DarkTheme24" Title="主题" Subtitle="更改应用的主题颜色" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
-                <wu:CardAction helper:IconHelper.Icon="&#xE838;" 
-                               helper:CardHelper.ActionTitle="打开背景图片文件夹" 
-                               helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时，在每次打开主界面时会随机一张作为背景，仅支持 JPG PNG BMP 格式"
-                               Command="{Binding OpenBackgroundFolderCommand}"
-                               Margin="12,12,16,0"/>
+                <wu:CardAction 
+                    helper:IconHelper.Icon="&#xE838;" 
+                    helper:CardHelper.ActionTitle="打开背景图片文件夹" 
+                    helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时，在每次打开主界面时会随机一张作为背景，仅支持 JPG PNG BMP 格式"
+                    Command="{Binding OpenBackgroundFolderCommand}"
+                    Margin="12,12,16,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
                     <StackPanel Orientation="Horizontal">
                         <Slider MinWidth="200" Maximum="1" Value="{Binding BackgroundOpacity,Mode=TwoWay}" TickFrequency="0.01" IsSnapToTickEnabled="True" TickPlacement="None"/>
@@ -382,17 +383,23 @@
                     <ui:ToggleSwitch IsOn="{Binding IsTaskBarIconEnabled}"/>
                 </wu:CardControl>
 
+                <TextBlock Text="祈愿记录" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE81C;" Title="显示未抽取的卡池信息" Subtitle="在祈愿记录界面的隶属页签中展示未进行抽取的卡池信息" Margin="12,12,16,0">
+                    <ui:ToggleSwitch IsOn="{Binding IsBannerWithNoItemVisible}"/>
+                </wu:CardControl>
+                
                 <TextBlock Text="数据" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="实时便笺刷新时间" Subtitle="设置实时便笺后台的刷新间隔时间（退出程序后不会刷新）" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding ResinAutoRefreshTime,Mode=OneWay}" SelectedItem="{Binding SelectedResinAutoRefreshTime}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
 
                 <TextBlock Text="缓存" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardAction helper:IconHelper.Icon="&#xE838;" 
-                               helper:CardHelper.ActionTitle="打开图片缓存文件夹" 
-                               helper:CardHelper.ActionSubtitle="大部分图片资源缓存在这个文件夹内" 
-                               Command="{Binding OpenCacheFolderCommand}"
-                               Margin="12,12,16,0"/>
+                <wu:CardAction 
+                    helper:IconHelper.Icon="&#xE838;" 
+                    helper:CardHelper.ActionTitle="打开图片缓存文件夹" 
+                    helper:CardHelper.ActionSubtitle="大部分图片资源缓存在这个文件夹内" 
+                    Command="{Binding OpenCacheFolderCommand}"
+                    Margin="12,12,16,0"/>
 
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
@@ -419,9 +426,11 @@
                     <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest" Padding="4"/>
                 </wu:CardControl>
                 
-                <wu:CardAction helper:IconHelper.Icon="&#xEB51;" helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
-                               helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
-                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                <wu:CardAction 
+                    helper:IconHelper.Icon="&#xEB51;"
+                    helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
+                    helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
+                    BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
 
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="联系我们" Subtitle="如果你在使用软件的过程中遇到问题，或是单纯的想聊聊天，可以看看这里" Margin="12,12,16,0">
                     <UniformGrid Columns="3" Margin="12,12,12,0">

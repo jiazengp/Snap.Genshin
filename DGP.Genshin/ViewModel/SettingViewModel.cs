@@ -66,6 +66,7 @@ namespace DGP.Genshin.ViewModel
         private UpdateProgressedMessage updateInfo;
         private double backgroundOpacity;
         private bool isBackgroundOpacityAdaptive;
+        private bool isBannerWithNoItemVisible;
 
         public bool AutoDailySignInOnLaunch
         {
@@ -162,6 +163,16 @@ namespace DGP.Genshin.ViewModel
             [MemberNotNull(nameof(userId))]
             set => userId = value;
         }
+        public bool IsBannerWithNoItemVisible
+        {
+            get => isBannerWithNoItemVisible;
+
+            set
+            {
+                Setting2.IsBannerWithNoItemVisible.Set(value, false);
+                SetProperty(ref isBannerWithNoItemVisible, value);
+            }
+        }
         public AutoRun AutoRun
         {
             get => autoRun;
@@ -224,6 +235,7 @@ namespace DGP.Genshin.ViewModel
             CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion.Get();
             BackgroundOpacity = Setting2.BackgroundOpacity.Get();
             IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive.Get();
+            IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible.Get();
 
             Version v = App.Current.Version;
             VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";

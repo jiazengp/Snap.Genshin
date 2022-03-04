@@ -5,6 +5,7 @@ using DGP.Genshin.DataModel.GachaStatistic.Item;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
+using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.ViewModel;
 using Snap.Core.Logging;
 using Snap.Exception;
@@ -201,7 +202,11 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                 }
             }
-            return counter.Select(k => k.Value).OrderByDescending(i => i.StarUrl?.ToInt32Rank()).ThenByDescending(i => i.Count).ToList();
+            return counter
+                .Select(k => k.Value)
+                .OrderByDescending(i => i.StarUrl?.ToInt32Rank())
+                .ThenByDescending(i => i.Count)
+                .ToList();
         }
         private List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
         {
@@ -339,7 +344,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             CalculateSpecificBannerDetails(clonedBanners);
 
             return clonedBanners
-                //.Where(b => b.TotalCount > 0)
+                .WhereWhen(b => b.TotalCount > 0, !Setting2.IsBannerWithNoItemVisible.Get())
                 .OrderByDescending(b => b.StartTime)
                 .ThenByDescending(b => ConfigType.Order[b.Type!])
                 .ToList();
