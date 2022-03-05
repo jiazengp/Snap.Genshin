@@ -60,17 +60,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Reflection", "Common\S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{E9145052-7DA7-4222-8C74-4B885F8230FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Genshin.Analyzer", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.csproj", "{2940A8DF-BB37-4D1B-B1B5-3141FD8DEFDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Genshin.Analyzer", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.csproj", "{2940A8DF-BB37-4D1B-B1B5-3141FD8DEFDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Genshin.Analyzer.CodeFixes", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.CodeFixes\Snap.Genshin.Analyzer.CodeFixes.csproj", "{D4A24836-9D4B-47AC-81ED-403D4884E00A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Genshin.Analyzer.CodeFixes", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.CodeFixes\Snap.Genshin.Analyzer.CodeFixes.csproj", "{D4A24836-9D4B-47AC-81ED-403D4884E00A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Genshin.Analyzer.Package", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Package\Snap.Genshin.Analyzer.Package.csproj", "{83A3652D-1FB3-464B-A5D0-3F6C866091C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Genshin.Analyzer.Package", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Package\Snap.Genshin.Analyzer.Package.csproj", "{83A3652D-1FB3-464B-A5D0-3F6C866091C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Genshin.Analyzer.Test", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Test\Snap.Genshin.Analyzer.Test.csproj", "{CD721730-C33B-4D0C-BA7B-ABBFAF406FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Genshin.Analyzer.Test", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Test\Snap.Genshin.Analyzer.Test.csproj", "{CD721730-C33B-4D0C-BA7B-ABBFAF406FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Genshin.Analyzer.Vsix", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Vsix\Snap.Genshin.Analyzer.Vsix.csproj", "{83596289-B91F-4DD0-B36E-BCE4E300584B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.Resin.Plugin", "Plugins\DGP.Genshin.Resin.Plugin\DGP.Genshin.Resin.Plugin.csproj", "{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Genshin.Analyzer.Vsix", "Analyzer\Snap.Genshin.Analyzer\Snap.Genshin.Analyzer.Vsix\Snap.Genshin.Analyzer.Vsix.csproj", "{83596289-B91F-4DD0-B36E-BCE4E300584B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -300,14 +298,6 @@ Global
 		{83596289-B91F-4DD0-B36E-BCE4E300584B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83596289-B91F-4DD0-B36E-BCE4E300584B}.Release|x64.ActiveCfg = Release|Any CPU
 		{83596289-B91F-4DD0-B36E-BCE4E300584B}.Release|x64.Build.0 = Release|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Debug|x64.Build.0 = Debug|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Release|x64.ActiveCfg = Release|Any CPU
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -335,7 +325,6 @@ Global
 		{83A3652D-1FB3-464B-A5D0-3F6C866091C1} = {E9145052-7DA7-4222-8C74-4B885F8230FB}
 		{CD721730-C33B-4D0C-BA7B-ABBFAF406FB6} = {E9145052-7DA7-4222-8C74-4B885F8230FB}
 		{83596289-B91F-4DD0-B36E-BCE4E300584B} = {E9145052-7DA7-4222-8C74-4B885F8230FB}
-		{CC75DAE0-B86A-4CA7-B70D-BA7320EFE9D4} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}
