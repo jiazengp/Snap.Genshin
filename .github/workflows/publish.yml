@@ -44,7 +44,7 @@ jobs:
       # Upload to OD21 (Testing)
       - name: Upload OD21
         env:
-          CONF: ${{ secrets.RCCONF }}
+          RCCONF: ${{ secrets.RCCONF }}
         run: |
           curl https://rclone.org/install.sh | sudo bash
           mkdir -p ~/.config/rclone/
