@@ -35,7 +35,7 @@ jobs:
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: delete -r -f / && upload -r ./release-download/ /
+          args: upload -rs --delete ./release-download/ / -f
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
           bucket: ${{ secrets.BUCKET }}
@@ -44,7 +44,7 @@ jobs:
       # Upload to OD21 (Testing)
       - name: Upload OD21
         env:
-          CONF: ${{ secrets.RCCONF }}
+          RCCONF: ${{ secrets.RCCONF }}
         run: |
           curl https://rclone.org/install.sh | sudo bash
           mkdir -p ~/.config/rclone/
@@ -53,7 +53,7 @@ jobs:
           EOF
           
           rclone delete od21:/snapgenshin/Publish.zip
-          rclone copy ./release-download/Publish.zip od21:snapgenshin/
+          rclone copy ./release-download/Publish.zip od21:/snapgenshin/
       
       # Refresh cache
       - name: Refresh cache
