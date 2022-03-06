@@ -9,7 +9,7 @@ namespace DGP.Genshin.Control.Converter
     /// <summary>
     /// 在XAML中支持移除Html内容
     /// </summary>
-    public class HtmlStringConverter : IValueConverter
+    public sealed class HtmlStringConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

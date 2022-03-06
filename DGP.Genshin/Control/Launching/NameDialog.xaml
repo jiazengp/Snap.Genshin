@@ -1,9 +1,10 @@
-﻿<ui:ContentDialog 
+﻿<ob:ObservableContentDialog  
+    xmlns:ob="clr-namespace:DGP.Genshin.Control.Infrastructure.Observable"
     x:Class="DGP.Genshin.Control.Launching.NameDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
     mc:Ignorable="d" 
@@ -17,11 +18,9 @@
                     <StackPanel>
                         <TextBlock Text="MiHoYoSDK" Style="{StaticResource BaseTextBlockStyle}"/>
                         <TextBlock Margin="0,8,0,0" Text="{Binding TargetAccount.MihoyoSDK}" TextWrapping="Wrap"/>
-                        <TextBlock Text="GeneralData" Style="{StaticResource BaseTextBlockStyle}"/>
-                        <TextBlock Margin="0,8,0,0" Text="{Binding TargetAccount.GeneralData}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Expander>
             </StackPanel>
         </smoothscrollviewer:SmoothScrollViewer>
     </Grid>
-</ui:ContentDialog>
+</ob:ObservableContentDialog>

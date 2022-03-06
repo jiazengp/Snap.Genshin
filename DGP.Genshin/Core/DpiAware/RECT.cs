@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace DGP.Genshin.Core.PerMonitorDPIAware
+namespace DGP.Genshin.Core.DpiAware
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

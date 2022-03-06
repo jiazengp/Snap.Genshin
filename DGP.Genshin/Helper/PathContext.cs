@@ -22,15 +22,15 @@ namespace DGP.Genshin.Helper
         }
 
         /// <summary>
-        /// 定位根目录中的文件
+        /// 定位根目录中的文件或文件夹
         /// </summary>
         /// <param name="folder"></param>
-        /// <param name="file"></param>
+        /// <param name="fileOrFolder"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string Locate(string file)
+        internal static string Locate(string fileOrFolder)
         {
-            return Path.GetFullPath(file, AppContext.BaseDirectory);
+            return Path.GetFullPath(fileOrFolder, AppContext.BaseDirectory);
         }
 
         /// <summary>

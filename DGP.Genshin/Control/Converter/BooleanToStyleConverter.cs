@@ -8,7 +8,7 @@ namespace DGP.Genshin.Control.Converter
     /// <summary>
     /// 根据 <see cref="bool"/> 的值选择对应的 <see cref="Style"/>
     /// </summary>
-    public class BooleanToStyleConverter : DependencyObject, IValueConverter
+    public sealed class BooleanToStyleConverter : DependencyObject, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

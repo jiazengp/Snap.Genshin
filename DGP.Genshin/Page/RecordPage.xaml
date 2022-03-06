@@ -10,7 +10,8 @@
          xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter"
          xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
          xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
-         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
+         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+         xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800"
          Title="RecordPage">
@@ -24,8 +25,6 @@
         <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
         <converters:ElementConverter x:Key="ElementConverter"/>
         <converters:RarityConverter x:Key="RarityConverter"/>
-        <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
-        <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseOut" EasingMode="EaseOut"/>
     </Page.Resources>

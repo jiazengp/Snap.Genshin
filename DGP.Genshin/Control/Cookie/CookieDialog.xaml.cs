@@ -3,10 +3,11 @@ using ModernWpf.Controls;
 using Snap.Win32;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace DGP.Genshin.Control.Cookie
 {
-    public partial class CookieDialog : ContentDialog
+    public sealed partial class CookieDialog : ContentDialog
     {
         private const string cookieCode = "javascript:(()=>{_=(n)=>{for(i in(r=document.cookie.split(';'))){var a=r[i].split('=');if(a[0].trim()==n)return a[1]}};c=_('account_id')||alert('无效的Cookie,请重新登录!');c&&confirm('将Cookie复制到剪贴板?')&&copy(document.cookie)})();";
 
@@ -22,7 +23,7 @@ namespace DGP.Genshin.Control.Cookie
         {
             ContentDialogResult result = await ShowAsync();
 
-            string cookie = App.Current.Dispatcher.Invoke(() => InputText.Text);
+            string cookie = InputText.Text;
             return (result, cookie);
         }
 
@@ -50,7 +51,7 @@ namespace DGP.Genshin.Control.Cookie
             }
         }
 
-        private void InputText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void InputTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = InputText.Text;
             bool inputEmpty = string.IsNullOrEmpty(text);

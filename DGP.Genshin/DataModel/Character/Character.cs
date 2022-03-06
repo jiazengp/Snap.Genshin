@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Material;
+using System.Collections.Generic;
 
-namespace DGP.Genshin.DataModel
+namespace DGP.Genshin.DataModel.Character
 {
     public class Character : Primitive
     {
@@ -44,5 +45,17 @@ namespace DGP.Genshin.DataModel
         {
             return Element;
         }
+
+        #region Extend Portion
+        public List<NameValues<CharStatValues>>? CharStat { get; set; }
+        public Constellation? Constellation { get; set; }
+        public TableDescribedNameSource? NormalAttack { get; set; }
+        public TableDescribedNameSource? TalentE { get; set; }
+        public TableDescribedNameSource? TalentQ { get; set; }
+        public List<DescribedNameSource>? PassiveTalents { get; set; }
+        public string? Title { get; set; }
+        public string? AstrolabeName { get; set; }
+        public string? Description { get; set; }
+        #endregion
     }
 }

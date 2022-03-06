@@ -19,7 +19,6 @@
     </i:Interaction.Triggers>
     <Page.Resources>
         <converters:PercentageToHeightConverter x:Key="PercentageToHeightConverter" TargetWidth="1080" TargetHeight="390"/>
-        <converters:BooleanToVisibilityRevertConverter x:Key="BooleanToVisibilityRevertConverter"/>
     </Page.Resources>
     <Grid>
         <smoothscrollviewer:SmoothScrollViewer 

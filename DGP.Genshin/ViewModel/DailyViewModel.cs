@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel;
+﻿using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.DataModel.Material;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -9,6 +9,7 @@ using Snap.Data.Primitive;
 using Snap.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -43,14 +44,14 @@ namespace DGP.Genshin.ViewModel
 
             set
             {
-                SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value,
-              () => TriggerPropertyChangedAsync("Mondstadt", "Liyue", "Inazuma"));
+                SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, () => TriggerPropertyChanged("Mondstadt", "Liyue", "Inazuma"));
             }
         }
 
         public ICommand OpenUICommand { get; }
 
-        private async Task TriggerPropertyChangedAsync(params string[] cities)
+        [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "<挂起>")]
+        private async void TriggerPropertyChanged(params string[] cities)
         {
             foreach (string city in cities)
             {
@@ -84,7 +85,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            await Task.Delay(1000);
+            await Task.Delay(500);
             DateTime day = DateTime.UtcNow + TimeSpan.FromHours(4);
             this.Log($"current dailyview date:{day}");
             SelectedDayOfWeek = DayOfWeeks

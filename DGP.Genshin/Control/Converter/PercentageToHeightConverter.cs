@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
-    public class PercentageToHeightConverter : DependencyObject, IValueConverter
+    public sealed class PercentageToHeightConverter : DependencyObject, IValueConverter
     {
         public double TargetWidth
         {
@@ -14,7 +14,11 @@ namespace DGP.Genshin.Control.Converter
             set => SetValue(TargetWidthProperty, value);
         }
         public static readonly DependencyProperty TargetWidthProperty =
-            DependencyProperty.Register("TargetWidth", typeof(double), typeof(PercentageToHeightConverter), new PropertyMetadata(1080D));
+            DependencyProperty.Register(
+                nameof(TargetWidth), 
+                typeof(double), 
+                typeof(PercentageToHeightConverter), 
+                new PropertyMetadata(1080D));
 
         public double TargetHeight
         {
@@ -23,7 +27,11 @@ namespace DGP.Genshin.Control.Converter
             set => SetValue(TargetHeightProperty, value);
         }
         public static readonly DependencyProperty TargetHeightProperty =
-            DependencyProperty.Register("TargetHeight", typeof(double), typeof(PercentageToHeightConverter), new PropertyMetadata(390D));
+            DependencyProperty.Register(
+                nameof(TargetHeight), 
+                typeof(double), 
+                typeof(PercentageToHeightConverter), 
+                new PropertyMetadata(390D));
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

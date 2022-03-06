@@ -6,17 +6,20 @@ using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
-    public partial class ContentIcon : Button
+    public sealed partial class ContentIcon : Button
     {
         public ContentIcon()
         {
-            PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             Loaded += ContentIcon_Loaded;
             InitializeComponent();
         }
+
+        private const string FadeInAnimationKey = "FadeInAnimation";
+
         private void ContentIcon_Loaded(object sender, RoutedEventArgs e)
         {
-            Storyboard? storyBoard = FindResource("FadeInAnimation") as Storyboard;
+            Storyboard? storyBoard = FindResource(FadeInAnimationKey) as Storyboard;
             storyBoard?.Begin();
             //thus only affect first load
             Loaded -= ContentIcon_Loaded;
@@ -29,7 +32,7 @@ namespace DGP.Genshin.Control.GenshinElement
             set => SetValue(BackgroundUrlProperty, value);
         }
         public static readonly DependencyProperty BackgroundUrlProperty =
-            DependencyProperty.Register("BackgroundUrl", typeof(string), typeof(ContentIcon), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(BackgroundUrl), typeof(string), typeof(ContentIcon));
 
         public string ForegroundUrl
         {
@@ -38,7 +41,7 @@ namespace DGP.Genshin.Control.GenshinElement
             set => SetValue(ForegroundUrlProperty, value);
         }
         public static readonly DependencyProperty ForegroundUrlProperty =
-            DependencyProperty.Register("ForegroundUrl", typeof(string), typeof(ContentIcon), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ForegroundUrl), typeof(string), typeof(ContentIcon));
 
         public string BadgeUrl
         {
@@ -47,7 +50,7 @@ namespace DGP.Genshin.Control.GenshinElement
             set => SetValue(BadgeUrlProperty, value);
         }
         public static readonly DependencyProperty BadgeUrlProperty =
-            DependencyProperty.Register("BadgeUrl", typeof(string), typeof(ContentIcon), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(BadgeUrl), typeof(string), typeof(ContentIcon));
 
         public string Text
         {
@@ -56,7 +59,7 @@ namespace DGP.Genshin.Control.GenshinElement
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(ContentIcon), new PropertyMetadata(""));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ContentIcon), new PropertyMetadata(""));
 
         public bool IsCountVisible
         {
@@ -65,6 +68,6 @@ namespace DGP.Genshin.Control.GenshinElement
             set => SetValue(IsCountVisibleProperty, value);
         }
         public static readonly DependencyProperty IsCountVisibleProperty =
-            DependencyProperty.Register("IsCountVisible", typeof(bool), typeof(ContentIcon), new PropertyMetadata(BoxedValue.FalseBox));
+            DependencyProperty.Register(nameof(IsCountVisible), typeof(bool), typeof(ContentIcon), new PropertyMetadata(BoxedValue.FalseBox));
     }
 }

@@ -95,6 +95,9 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenUICommand { get; }
         public ICommand SetCookieCommand { get; }
 
+        /// <summary>
+        /// 通知 <see cref="SplashViewModel"/> 结束初始化
+        /// </summary>
         public void CompleteInitialization()
         {
             CurrentStateDescription = "完成";

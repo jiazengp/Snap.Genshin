@@ -4,7 +4,11 @@ using System.Windows.Controls.Primitives;
 
 namespace DGP.Genshin.Control.Infrastructure
 {
-    public class DesiredWidthUniformGrid : UniformGrid
+    /// <summary>
+    /// 自适应宽度网格
+    /// 会将栏数设为最接近设定栏宽的
+    /// </summary>
+    public sealed class DesiredWidthUniformGrid : UniformGrid
     {
         public double ColumnDesiredWidth
         {

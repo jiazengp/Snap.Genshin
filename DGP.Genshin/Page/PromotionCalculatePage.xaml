@@ -8,7 +8,6 @@
       xmlns:ui="http://schemas.modernwpf.com/2019" 
       xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
-      xmlns:converters="clr-namespace:DGP.Genshin.Control.Converter" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -21,11 +20,6 @@
     <Page.Resources>
         <helpers:StarConverter x:Key="StarConverter"/>
         <helpers:StarSolidConverter x:Key="StarSolidConverter"/>
-        <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
-        <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
-        <Style TargetType="ui:GridViewItem">
-            <Setter Property="Margin" Value="0,0,6,6"/>
-        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>

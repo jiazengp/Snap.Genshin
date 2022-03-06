@@ -13,7 +13,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
     /// <summary>
     /// Represents an icon that uses a bitmap as its content.
     /// </summary>
-    public class CachedBitmapIcon : CachedIconElementBase
+    public sealed class CachedBitmapIcon : CachedIconElementBase
     {
         static CachedBitmapIcon()
         {

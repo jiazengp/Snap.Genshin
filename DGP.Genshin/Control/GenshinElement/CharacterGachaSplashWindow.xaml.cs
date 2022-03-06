@@ -4,10 +4,7 @@ using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
-    /// <summary>
-    /// CharacterGachaSplashWindwo.xaml 的交互逻辑
-    /// </summary>
-    public partial class CharacterGachaSplashWindow : Window
+    public sealed partial class CharacterGachaSplashWindow : Window
     {
         public CharacterGachaSplashWindow()
         {

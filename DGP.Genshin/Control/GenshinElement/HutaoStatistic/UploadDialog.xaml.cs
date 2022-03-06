@@ -3,7 +3,7 @@ using ModernWpf.Controls;
 
 namespace DGP.Genshin.Control.GenshinElement.HutaoStatistic
 {
-    public partial class UploadDialog : ContentDialog
+    public sealed partial class UploadDialog : ContentDialog
     {
         public UploadDialog(PlayerRecord playerRecord)
         {

@@ -295,6 +295,13 @@ namespace DGP.Genshin.ViewModel
                             .SafeShow();
                         break;
                     }
+                case UpdateState.NotAvailable:
+                    {
+                        new ToastContentBuilder()
+                            .AddText("检查更新失败")
+                            .SafeShow();
+                        break;
+                    }
                 default:
                     break;
             }

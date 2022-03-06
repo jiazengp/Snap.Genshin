@@ -1,4 +1,5 @@
-﻿using Snap.Core.Logging;
+﻿using DGP.Genshin.Helper;
+using Snap.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -20,7 +21,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         // Record whether a file is being written.
         private static readonly Dictionary<string, bool> IsWritingFile = new();
 
-        public static string AppCacheDirectory { get; set; } = Path.Combine(AppContext.BaseDirectory, "Cache");
+        public static string AppCacheDirectory { get; set; } = PathContext.Locate("Cache");
 
         // HttpClient is intended to be instantiated once per application, rather than per-use.
         private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });
@@ -81,7 +82,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 Logger.LogStatic($"Download {uri} completed.");
                 return memoryStream;
             }
-            catch (Exception ex)
+            catch
             {
                 await memoryStream.DisposeAsync();
                 if (fileStream is not null)
@@ -90,10 +91,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 }
                 File.Delete(localFile);
                 Logger.LogStatic($"Caching {url} To {fileName} failed.File has deleted.");
-                Logger.LogStatic(ex);
                 return null;
             }
         }
+
         /// <summary>
         /// 用于图片缓存资源验证
         /// </summary>

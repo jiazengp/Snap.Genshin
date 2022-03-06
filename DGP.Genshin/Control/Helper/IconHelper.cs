@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Control.Helper
 {
-    public class IconHelper
+    public sealed class IconHelper
     {
         public static string GetIcon(DependencyObject obj)
         {

@@ -7,42 +7,42 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace DGP.Genshin.Core.PerMonitorDPIAware
+namespace DGP.Genshin.Core.DpiAware
 {
 
-    public class PerMonitorDPIAdapter
+    internal class DpiAwareAdapter
     {
         private HwndSource? hwndSource;
-        [SuppressMessage("CodeQuality", "IDE0052:删除未读的私有成员", Justification = "<挂起>")]
+        [SuppressMessage("", "IDE0052")]
         private IntPtr? hwnd;
         private double currentDpiRatio;
-        private readonly Window AssociatedWindow;
+        private readonly Window Window;
 
-        static PerMonitorDPIAdapter()
+        static DpiAwareAdapter()
         {
-            if (MonitorDPI.IsHighDpiMethodSupported())
+            if (DpiAware.IsSupported)
             {
                 // We need to call this early before we start doing any fiddling with window coordinates / geometry
                 _ = SHCore.SetProcessDpiAwareness(SHCore.PROCESS_DPI_AWARENESS.PROCESS_PER_MONITOR_DPI_AWARE);
             }
         }
 
-        public PerMonitorDPIAdapter(Window mainWindow)
+        public DpiAwareAdapter(Window mainWindow)
         {
-            AssociatedWindow = mainWindow;
-            mainWindow.Loaded += (o, e) => OnAttached();
-            mainWindow.Closing += (o, e) => OnDetaching();
+            Window = mainWindow;
+            mainWindow.Loaded += (_, _) => OnAttached();
+            mainWindow.Closing += (_, _) => OnDetaching();
         }
 
         protected void OnAttached()
         {
-            if (AssociatedWindow.IsInitialized)
+            if (Window.IsInitialized)
             {
                 AddHwndHook();
             }
             else
             {
-                AssociatedWindow.SourceInitialized += AssociatedWindowSourceInitialized;
+                Window.SourceInitialized += AssociatedWindowSourceInitialized;
             }
         }
 
@@ -53,14 +53,14 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
 
         private void AddHwndHook()
         {
-            hwndSource = PresentationSource.FromVisual(AssociatedWindow) as HwndSource;
+            hwndSource = PresentationSource.FromVisual(Window) as HwndSource;
             hwndSource?.AddHook(HwndHook);
-            hwnd = new WindowInteropHelper(AssociatedWindow).Handle;
+            hwnd = new WindowInteropHelper(Window).Handle;
         }
 
         private void RemoveHwndHook()
         {
-            AssociatedWindow.SourceInitialized -= AssociatedWindowSourceInitialized;
+            Window.SourceInitialized -= AssociatedWindowSourceInitialized;
             hwndSource?.RemoveHook(HwndHook);
             hwnd = null;
         }
@@ -69,7 +69,7 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
         {
             AddHwndHook();
 
-            currentDpiRatio = MonitorDPI.GetScaleRatioForWindow(AssociatedWindow);
+            currentDpiRatio = DpiAware.GetScaleRatio(Window);
             UpdateDpiScaling(currentDpiRatio, true);
         }
 
@@ -86,7 +86,7 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
                         | User32.SetWindowPosFlags.IgnoreZOrder);
 
                     //we modified this fragment to correct the wrong behaviour
-                    double newDpiRatio = MonitorDPI.GetScaleRatioForWindow(AssociatedWindow) * currentDpiRatio;
+                    double newDpiRatio = DpiAware.GetScaleRatio(Window) * currentDpiRatio;
                     if (newDpiRatio != currentDpiRatio)
                     {
                         UpdateDpiScaling(newDpiRatio);
@@ -102,12 +102,12 @@ namespace DGP.Genshin.Core.PerMonitorDPIAware
         {
             currentDpiRatio = newDpiRatio;
             Logger.LogStatic($"Set dpi scaling to {currentDpiRatio:p2}");
-            Visual firstChild = (Visual)VisualTreeHelper.GetChild(AssociatedWindow, 0);
+            Visual firstChild = (Visual)VisualTreeHelper.GetChild(Window, 0);
             ScaleTransform transform;
             if (useSacleCenter)
             {
-                double centerX = AssociatedWindow.Left + AssociatedWindow.Width / 2;
-                double centerY = AssociatedWindow.Top + AssociatedWindow.Height / 2;
+                double centerX = Window.Left + Window.Width / 2;
+                double centerY = Window.Top + Window.Height / 2;
                 transform = new ScaleTransform(currentDpiRatio, currentDpiRatio, centerX, centerY);
             }
             else

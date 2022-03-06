@@ -39,9 +39,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             typeof(string),
             typeof(ImageAsyncHelper),
             new PropertyMetadata((obj, e) =>
-            DownloadImageAsync((Border)obj, (string)e.NewValue).Forget()));
+            HitImageAsync((Border)obj, (string)e.NewValue).Forget()));
 
-        private static async Task DownloadImageAsync(Border border, string url)
+        private static async Task HitImageAsync(Border border, string url)
         {
             MemoryStream? memoryStream;
             if (FileCache.Exists(url))

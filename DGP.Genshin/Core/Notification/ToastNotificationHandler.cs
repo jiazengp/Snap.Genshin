@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace DGP.Genshin.Core.Notification
 {
-    internal class ToastNotificationHandler
+    /// <summary>
+    /// 通知事件处理器
+    /// </summary>
+    internal sealed class ToastNotificationHandler
     {
         /// <summary>
         /// 在后台处理并响应通知

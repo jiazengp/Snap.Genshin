@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Control.GenshinElement
 {
-    public partial class ElementsProgressBar : ProgressBar
+    public sealed partial class ElementsProgressBar : ProgressBar
     {
         public ElementsProgressBar()
         {

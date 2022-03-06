@@ -5,7 +5,7 @@ namespace DGP.Genshin.DataModel
 {
     /// <summary>
     /// 键源对
-    /// 同时提供了<see cref="IsSelected"/>已选中属性,以支持筛选
+    /// 同时提供了 <see cref="IsSelected"/> 已选中 属性,以支持筛选
     /// </summary>
     public class KeySource : ObservableObject
     {

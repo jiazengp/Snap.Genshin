@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.Control
 {
-    public partial class SplashView : UserControl
+    public sealed partial class SplashView : UserControl
     {
         public SplashView()
         {

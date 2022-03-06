@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGP.Genshin.Control.Infrastructure.Observable;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace DGP.Genshin.Control
 {
-    public partial class ExceptionWindow : Window, INotifyPropertyChanged
+    public sealed partial class ExceptionWindow : ObservableWindow
     {
         private Exception exceptionObject;
 

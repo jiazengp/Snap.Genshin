@@ -5,20 +5,18 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.Control
 {
-    public partial class BlockingView : UserControl, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
+    public sealed partial class BlockingView : UserControl, IRecipient<ImageHitBeginMessage>, IRecipient<ImageHitEndMessage>
     {
         public BlockingView()
         {
             DataContext = this;
             InitializeComponent();
 
-            App.Messenger.Register<ImageHitBeginMessage>(this);
-            App.Messenger.Register<ImageHitEndMessage>(this);
+            App.Messenger.RegisterAll(this);
         }
         ~BlockingView()
         {
-            App.Messenger.Unregister<ImageHitBeginMessage>(this);
-            App.Messenger.Unregister<ImageHitEndMessage>(this);
+            App.Messenger.UnregisterAll(this);
         }
 
         public bool ShouldPresent

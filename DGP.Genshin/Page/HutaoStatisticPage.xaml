@@ -22,13 +22,10 @@
             <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Page.Resources>
-        <sys:Double x:Key="PivotHeaderItemFontSize">16</sys:Double>
-        <converter:BooleanToVisibilityRevertConverter x:Key="BooleanToVisibilityRevertConverter"/>
-    </Page.Resources>
     <Grid>
         <TabControl 
             Style="{StaticResource TabControlPivotStyle}"
+            ItemContainerStyle="{StaticResource PivotItemStyle}"
             Visibility="{Binding ShouldUIPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal">

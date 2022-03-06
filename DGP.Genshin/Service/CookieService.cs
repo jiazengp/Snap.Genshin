@@ -138,42 +138,42 @@ namespace DGP.Genshin.Service
 
             CookiesLock = new(joinableTaskFactory.Context);
 
+            /// <summary>
+            /// 加载 cookie.dat 文件
+            /// </summary>
+            void LoadCookie()
+            {
+                //load cookie
+                string? cookieFile = PathContext.Locate(CookieFile);
+                if (File.Exists(cookieFile))
+                {
+                    CurrentCookie = File.ReadAllText(cookieFile);
+                }
+                else
+                {
+                    this.Log("无可用的Cookie");
+                    File.Create(cookieFile).Dispose();
+                }
+            }
+
+            /// <summary>
+            /// 加载 cookielist.dat 文件
+            /// </summary>
+            [MemberNotNull(nameof(Cookies))]
+            void LoadCookies()
+            {
+                try
+                {
+                    IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
+                    Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+                }
+                catch (FileNotFoundException) { }
+                catch (Exception ex) { Crashes.TrackError(ex); }
+                Cookies ??= new CookiePool(this, messenger, new List<string>());
+            }
+
             LoadCookies();
             LoadCookie();
-        }
-
-        /// <summary>
-        /// 加载 cookie.dat 文件
-        /// </summary>
-        private void LoadCookie()
-        {
-            //load cookie
-            string? cookieFile = PathContext.Locate(CookieFile);
-            if (File.Exists(cookieFile))
-            {
-                CurrentCookie = File.ReadAllText(cookieFile);
-            }
-            else
-            {
-                this.Log("无可用的Cookie");
-                File.Create(cookieFile).Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 加载 cookielist.dat 文件
-        /// </summary>
-        [MemberNotNull(nameof(Cookies))]
-        private void LoadCookies()
-        {
-            try
-            {
-                IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
-                Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
-            }
-            catch (FileNotFoundException) { }
-            catch (Exception ex) { Crashes.TrackError(ex); }
-            Cookies ??= new CookiePool(this, messenger, new List<string>());
         }
 
         public string CurrentCookie

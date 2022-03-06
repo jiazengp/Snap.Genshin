@@ -15,8 +15,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
     {
         static CachedImage()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CachedImage),
-                new FrameworkPropertyMetadata(typeof(CachedImage)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CachedImage), new FrameworkPropertyMetadata(typeof(CachedImage)));
         }
 
         public string ImageUrl
@@ -69,10 +68,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         }
 
         public static readonly DependencyProperty ImageUrlProperty =
-            DependencyProperty.Register("ImageUrl", typeof(string), typeof(CachedImage),
+            DependencyProperty.Register(nameof(ImageUrl), typeof(string), typeof(CachedImage),
                 new PropertyMetadata(string.Empty, ImageUrlPropertyChanged));
 
         public static readonly DependencyProperty CreateOptionsProperty =
-            DependencyProperty.Register("CreateOptions", typeof(BitmapCreateOptions), typeof(CachedImage));
+            DependencyProperty.Register(nameof(CreateOptions), typeof(BitmapCreateOptions), typeof(CachedImage));
     }
 }

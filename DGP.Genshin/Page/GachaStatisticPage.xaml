@@ -27,9 +27,6 @@
         <SolidColorBrush x:Key="Star4Brush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="Star5Brush" Color="#FFBC6932"/>
 
-        <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
-        <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
-
         <DataTemplate x:Key="TotalListTemplate">
             <controls:ContentIcon 
                 Width="70" 
@@ -59,6 +56,7 @@
     <Grid>
         <TabControl 
             Style="{StaticResource TabControlPivotStyle}"
+            ItemContainerStyle="{StaticResource PivotItemStyle}"
             Visibility="{Binding Statistic,Converter={StaticResource DataVisibilityRevertConverter}}">
             <ui:PivotHelper.LeftHeader>
                 <StackPanel Orientation="Horizontal" Margin="12,0,0,0">

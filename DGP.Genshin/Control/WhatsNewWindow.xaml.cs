@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Control
 {
-    public partial class WhatsNewWindow : Window
+    public sealed partial class WhatsNewWindow : Window
     {
         public WhatsNewWindow()
         {

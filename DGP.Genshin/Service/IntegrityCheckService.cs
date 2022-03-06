@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.Infrastructure.CachedImage;
 using DGP.Genshin.DataModel;
+using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
@@ -111,47 +112,49 @@ namespace DGP.Genshin.Service
             }
 
             Progress<IState> progress = new(progressedCallback);
+
+            int GetTotalCount(MetadataViewModel metadata)
+            {
+                int totalCount = 0;
+                metadata.ForEachPropertyWithAttribute<IntegrityAwareAttribute>((prop, aware) =>
+                {
+                    int count = prop.GetPropertyValueByName<int>("Count");
+                    totalCount += aware.IsCharacter ? count * 3 : count;
+                });
+                return totalCount;
+            }
+
             int totalCount = GetTotalCount(metadataViewModel);
+
+            /// <summary>
+            /// 构造检查任务
+            /// </summary>
+            /// <param name="metadata">元数据视图模型</param>
+            /// <param name="totalCount">总个数</param>
+            /// <param name="progress">进度</param>
+            /// <returns>等待执行的检查任务</returns>
+            List<Task> BuildIntegrityTasks(MetadataViewModel metadata, int totalCount, IProgress<IState> progress)
+            {
+                List<Task> tasks = new();
+                metadata.ForEachPropertyInfoWithAttribute<IntegrityAwareAttribute>((propInfo, aware) =>
+                {
+                    if (aware.IsCharacter)
+                    {
+                        IEnumerable<Character> characters = metadata.GetPropertyByInfo<IEnumerable<Character>>(propInfo)!;
+                        tasks.Add(CheckCharacterIntegrityAsync(characters, totalCount, progress));
+                    }
+                    else
+                    {
+                        IEnumerable<KeySource> keySources = metadata.GetPropertyByInfo<IEnumerable<KeySource>>(propInfo)!;
+                        tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
+                    }
+                });
+                return tasks;
+            }
+
             await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
             this.Log($"Integrity Check Complete with {totalCount} entries");
             IntegrityCheckCompleted = true;
-        }
-
-        private int GetTotalCount(MetadataViewModel metadata)
-        {
-            int totalCount = 0;
-            metadata.ForEachPropertyWithAttribute<IntegrityAwareAttribute>((prop, aware) =>
-            {
-                int count = prop.GetPropertyValueByName<int>("Count");
-                totalCount += aware.IsCharacter ? count * 3 : count;
-            });
-            return totalCount;
-        }
-
-        /// <summary>
-        /// 构造检查任务
-        /// </summary>
-        /// <param name="metadata">元数据视图模型</param>
-        /// <param name="totalCount">总个数</param>
-        /// <param name="progress">进度</param>
-        /// <returns>等待执行的检查任务</returns>
-        private List<Task> BuildIntegrityTasks(MetadataViewModel metadata, int totalCount, IProgress<IState> progress)
-        {
-            List<Task> tasks = new();
-            metadata.ForEachPropertyInfoWithAttribute<IntegrityAwareAttribute>((propInfo, aware) =>
-            {
-                if (aware.IsCharacter)
-                {
-                    IEnumerable<Character> characters = metadata.GetPropertyByInfo<IEnumerable<Character>>(propInfo)!;
-                    tasks.Add(CheckCharacterIntegrityAsync(characters, totalCount, progress));
-                }
-                else
-                {
-                    IEnumerable<KeySource> keySources = metadata.GetPropertyByInfo<IEnumerable<KeySource>>(propInfo)!;
-                    tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
-                }
-            });
-            return tasks;
         }
 
         /// <summary>

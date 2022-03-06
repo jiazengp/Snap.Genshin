@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Control.Infrastructure.Markdown
 {
-    public class Markdown : DependencyObject
+    public sealed class Markdown : DependencyObject
     {
         /// <summary>
         /// maximum nested depth of [] and () supported by the transform; implementation detail

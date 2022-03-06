@@ -30,7 +30,6 @@ namespace DGP.Genshin.Service
 
         private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
 
-        private readonly JoinableTaskFactory joinableTaskFactory;
         private readonly IMessenger messenger;
 
         public Uri? PackageUri { get; set; }
@@ -43,15 +42,13 @@ namespace DGP.Genshin.Service
 
         private Downloader? InnerDownloader { get; set; }
 
-        public UpdateService(JoinableTaskFactory joinableTaskFactory, IMessenger messenger)
+        public UpdateService(IMessenger messenger)
         {
-            this.joinableTaskFactory = joinableTaskFactory;
             this.messenger = messenger;
         }
 
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
-
             try
             {
                 GitHubClient client = new(new ProductHeaderValue("SnapGenshin"))
@@ -60,7 +57,6 @@ namespace DGP.Genshin.Service
                 };
                 Release = await client.Repository.Release.GetLatest("DGP-Studio", "Snap.Genshin");
                 PackageUri = new Uri(Release.Assets[0].BrowserDownloadUrl);
-                string newVersion = Release.TagName;
                 NewVersion = new Version(Release.TagName);
 
                 if (Debugger.IsAttached)

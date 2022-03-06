@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel;
+﻿using DGP.Genshin.DataModel.Character;
 using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;

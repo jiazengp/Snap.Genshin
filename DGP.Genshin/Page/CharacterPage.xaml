@@ -11,137 +11,26 @@
          mc:Ignorable="d" 
          d:DesignHeight="450" d:DesignWidth="800"
          Name="CharacterPageView">
-    <ui:Page.Resources>
-        <Style TargetType="ui:GridViewItem">
-            <Setter Property="Margin" Value="0,0,6,6"/>
-        </Style>
-    </ui:Page.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding CharacterInitializeCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="12,12,0,0">
+    <Grid Margin="0,12,0,0" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="0">
-            <StackPanel>
-                <Border Background="{Binding SelectedCharacter.StarSolid}" 
-                    CornerRadius="{StaticResource CompatCornerRadius}">
-                    <Grid>
-                        <TextBlock Margin="6" Text="{Binding SelectedCharacter.Name}" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="#FFFFFFFF"/>
-                        <StackPanel Grid.Column="0" Margin="2.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Border Height="25" Width="25" Margin="4">
-                                <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.City}"/>
-                            </Border>
-                            <Border Height="25" Width="25" Margin="4">
-                                <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Element}"/>
-                            </Border>
-                            <Border Height="25" Width="25" Margin="4">
-                                <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Weapon}"/>
-                            </Border>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                        ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.Profile}" 
-                        ci:ImageAsyncHelper.StretchMode="UniformToFill">
-                    <Grid>
-                        <StackPanel VerticalAlignment="Bottom">
-                            <TextBlock Margin="6,0,0,0" Text="{Binding SelectedCharacter.AscensionStatValue}" Style="{StaticResource TitleTextBlockStyle}" Foreground="#FFFFFFFF"/>
-                            <TextBlock Margin="6,0,0,6" Text="{Binding SelectedCharacter.AscensionStat}" Style="{StaticResource CaptionTextBlockStyle}" Foreground="#FFFFFFFF"/>
-                        </StackPanel>
-                        <Ellipse Fill="#FFDAB79B" Width="70" Height="70" Margin="6"
-                             SnapsToDevicePixels="True" HorizontalAlignment="Right"/>
-                        <Border ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.Source}" 
-                                RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
-                                CornerRadius="35,35,35,35" Height="70" Width="70"
-                                BorderBrush="{Binding SelectedCharacter.StarSolid}" BorderThickness="2"
-                                HorizontalAlignment="Right" Margin="6"/>
-                    </Grid>
-                </Border>
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                    <Grid>
-                        <Border CornerRadius="{StaticResource CompatCornerRadius}" Opacity="0.6">
-                            <Border.Background>
-                                <ImageBrush 
-                        ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/Eff_Sc_StarSky01.png"
-                        Stretch="UniformToFill"/>
-                            </Border.Background>
-                            <Border.OpacityMask>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Offset="0" Color="#00000000"/>
-                                    <GradientStop Offset="0.9" Color="{DynamicResource SystemChromeMediumLowColor}"/>
-                                </LinearGradientBrush>
-                            </Border.OpacityMask>
-                        </Border>
-                        <StackPanel Margin="6">
-                            <TextBlock Text="Lv.90" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
-                            <TextBlock Text="{Binding SelectedCharacter.BaseHP,StringFormat={}生命值: {0}}"/>
-                            <TextBlock Text="{Binding SelectedCharacter.BaseATK,StringFormat={}攻击力: {0}}"/>
-                            <TextBlock Text="{Binding SelectedCharacter.BaseDEF,StringFormat={}防御力: {0}}"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.Star}" 
-                ci:ImageAsyncHelper.StretchMode="Fill">
-                    <Grid>
-                        <StackPanel Margin="3,0,3,0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Local.Source}"/>
-                            </Border>
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Monster.Source}"/>
-                            </Border>
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Boss.Source}"/>
-                            </Border>
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.GemStone.Source}"/>
-                            </Border>
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Talent.Source}"/>
-                            </Border>
-                            <Border Height="35" Width="35" Margin="3,6">
-                                <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Weekly.Source}"/>
-                            </Border>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    >
-                    <Border.Background>
-                        <ImageBrush 
-                        ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"
-                        Stretch="UniformToFill"/>
-                    </Border.Background>
-                    <Border 
-                        CornerRadius="{StaticResource CompatCornerRadius}"
-                        RenderOptions.BitmapScalingMode="Fant"
-                        ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.GachaSplash}" 
-                        ci:ImageAsyncHelper.StretchMode="UniformToFill" MinHeight="320" Padding="6,0">
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" 
-                                ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
-                            <ui:FontIcon Glyph="&#xE78B;" Foreground="White"/>
-                        </Button>
-                    </Border>
-                </Border>
-            </StackPanel>
-        </s:SmoothScrollViewer>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="0" Width="326">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Border Margin="12,0,12,12" CornerRadius="{StaticResource CompatCornerRadius}" 
                     Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <ItemsControl
-                        Margin="6,0,0,0"
+                        Margin="6,6,0,0"
                         ItemsSource="{Binding Elements}"
                         ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
                         <ItemsControl.ItemTemplate>
@@ -152,9 +41,8 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ui:AppBarSeparator Margin="-12,0" Height="38"/>
                     <ItemsControl
-                        Margin="6,0,0,0"
+                        Margin="6,6,0,6"
                         ItemsSource="{Binding WeaponTypes}"
                         ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
                         <ItemsControl.ItemTemplate>
@@ -168,13 +56,13 @@
                     <ItemsControl/>
                 </StackPanel>
             </Border>
-            <s:SmoothScrollViewer Padding="12,0" Grid.Row="1">
+            <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                 <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
                 SelectedItem="{Binding SelectedCharacter}"
                 SelectionMode="Single"
-                Margin="0,0,0,0"
+                Margin="12,0,0,0"
                     IsSynchronizedWithCurrentItem="True">
                     <ui:GridView.ItemTemplate>
                         <DataTemplate>
@@ -190,5 +78,515 @@
                 </ui:GridView>
             </s:SmoothScrollViewer>
         </Grid>
+        <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="1">
+            <StackPanel Margin="0,0,12,0">
+                <!--名片-->
+                <Border Margin="0,0,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                        ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.Profile}" 
+                        ci:ImageAsyncHelper.StretchMode="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock Margin="6" Foreground="#FFFFFFFF"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" >
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} · {1}">
+                                        <Binding Path="SelectedCharacter.Title"/>
+                                        <Binding Path="SelectedCharacter.Name"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <StackPanel Grid.Column="0" Margin="2.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Border Height="25" Width="25" Margin="4">
+                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.City}"/>
+                                </Border>
+                                <Border Height="25" Width="25" Margin="4">
+                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Element}"/>
+                                </Border>
+                                <Border Height="25" Width="25" Margin="4">
+                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Weapon}"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Bottom" Grid.Column="0">
+                                <TextBlock Margin="6,0,0,0" Text="{Binding SelectedCharacter.AstrolabeName}" Style="{StaticResource BaseTextBlockStyle}" Foreground="#FFFFFFFF"/>
+                                <TextBlock Margin="6,6,0,6" Text="{Binding SelectedCharacter.Description}" Style="{StaticResource CaptionTextBlockStyle}" Foreground="#FFFFFFFF"/>
+                            </StackPanel>
+                            <Ellipse Fill="#FFDAB79B" Width="70" Height="70" Margin="6" Grid.Column="1"
+                             SnapsToDevicePixels="True" HorizontalAlignment="Right"/>
+                            <Border ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.Source}" Grid.Column="1"
+                                RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
+                                CornerRadius="35,35,35,35" Height="70" Width="70"
+                                BorderBrush="{Binding SelectedCharacter.StarSolid}" BorderThickness="2"
+                                HorizontalAlignment="Right" Margin="6"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <UniformGrid Columns="6" Margin="3,0,3,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Local.Source}"/>
+                                </Border>
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Monster.Source}"/>
+                                </Border>
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Boss.Source}"/>
+                                </Border>
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.GemStone.Source}"/>
+                                </Border>
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Talent.Source}"/>
+                                </Border>
+                                <Border Height="35" Width="35" Margin="3,6">
+                                    <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Weekly.Source}"/>
+                                </Border>
+                            </UniformGrid>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--基础数值-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <s:SmoothScrollViewer 
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Disabled">
+                        <Grid Margin="6,6,6,16" 
+                                  HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition Width="5*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="等级" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                <TextBlock Text="1" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="20" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="20+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="40" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="40+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="50" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="50+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="60" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="60+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="70" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="70+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="80" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="80+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock Text="90" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                            </StackPanel>
+                            <ItemsControl
+                                    ItemsSource="{Binding SelectedCharacter.CharStat}"
+                                    HorizontalAlignment="Stretch" Grid.Column="1">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="5"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="6,0,0,0">
+                                            <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                            <TextBlock Text="{Binding Values.Level1}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level20}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level20p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level40}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level40p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level50}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level50p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level60}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level60p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level70}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level70p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level80}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level80p}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level90}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </s:SmoothScrollViewer>
+                </Border>
+                <!--普攻-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.NormalAttack.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.NormalAttack.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.NormalAttack.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <s:SmoothScrollViewer 
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Disabled">
+                            <Grid Margin="6,12,6,16" 
+                                  HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="等级" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="1" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="2" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="3" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="4" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="5" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="6" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="7" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="8" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="9" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="10" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="11" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="12" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="13" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="14" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="15" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <ItemsControl
+                                    ItemsSource="{Binding SelectedCharacter.NormalAttack.Table}"
+                                    ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
+                                    HorizontalAlignment="Left" Grid.Column="1">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="24,0,0,0">
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </s:SmoothScrollViewer>
+                    </StackPanel>
+                </Border>
+                <!--E-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.TalentE.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.TalentE.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.TalentE.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <s:SmoothScrollViewer 
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Disabled">
+                            <Grid Margin="6,12,6,16" 
+                                  HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="等级" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="1" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="2" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="3" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="4" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="5" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="6" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="7" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="8" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="9" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="10" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="11" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="12" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="13" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="14" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="15" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <ItemsControl
+                                    ItemsSource="{Binding SelectedCharacter.TalentE.Table}"
+                                    ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
+                                    HorizontalAlignment="Left" Grid.Column="1">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="24,0,0,0">
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </s:SmoothScrollViewer>
+                    </StackPanel>
+                </Border>
+                <!--Q-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.TalentQ.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.TalentQ.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.TalentQ.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <s:SmoothScrollViewer 
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Disabled">
+                            <Grid Margin="6,12,6,16" 
+                                  HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="等级" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="1" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="2" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="3" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="4" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="5" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="6" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="7" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="8" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="9" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="10" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="11" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="12" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="13" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="14" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <TextBlock Text="15" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                </StackPanel>
+                                <ItemsControl
+                                    ItemsSource="{Binding SelectedCharacter.TalentQ.Table}"
+                                    ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
+                                    HorizontalAlignment="Left" Grid.Column="1">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="24,0,0,0">
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </s:SmoothScrollViewer>
+                    </StackPanel>
+                </Border>
+                <!--天赋-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <ItemsControl Margin="6,-6,6,6" HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding SelectedCharacter.PassiveTalents}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,12,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="64"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding Source}"/>
+                                    <StackPanel Margin="6" Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                        <TextBlock Text="{Binding Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+                <!--命座-->
+                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                    <StackPanel Margin="6,-6,6,6" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation1.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation1.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation1.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation2.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation2.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation2.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation3.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation3.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation3.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation4.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation4.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation4.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation5.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation5.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation5.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ci:CachedImage 
+                                Margin="6" VerticalAlignment="Top"
+                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation6.Source}"/>
+                            <StackPanel Margin="6" Grid.Column="1">
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation6.Name}"
+                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
+                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation6.Description}"
+                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <!--立绘-->
+                <Border Margin="0,12,0,12" CornerRadius="{StaticResource CompatCornerRadius}">
+                    <Border.Background>
+                        <ImageBrush 
+                        ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"
+                        Stretch="UniformToFill"/>
+                    </Border.Background>
+                    <Border 
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        ci:ImageAsyncHelper.ImageUrl="{Binding SelectedCharacter.GachaSplash}" 
+                        ci:ImageAsyncHelper.StretchMode="Uniform" MinHeight="320" Padding="6,0">
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" 
+                                ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
+                            <ui:FontIcon Glyph="&#xE78B;" Foreground="White"/>
+                        </Button>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </s:SmoothScrollViewer>
     </Grid>
 </ui:Page>

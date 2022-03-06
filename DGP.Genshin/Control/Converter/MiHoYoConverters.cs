@@ -8,7 +8,7 @@ namespace DGP.Genshin.Control.Converter
     /// <summary>
     /// 将 英文元素名称 转换到 图标Url
     /// </summary>
-    public class ElementConverter : IValueConverter
+    public sealed class ElementConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -21,10 +21,11 @@ namespace DGP.Genshin.Control.Converter
             throw new NotImplementedException();
         }
     }
+
     /// <summary>
     /// 将 稀有度数字转换到 底图Url
     /// </summary>
-    public class RarityConverter : IValueConverter
+    public sealed class RarityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

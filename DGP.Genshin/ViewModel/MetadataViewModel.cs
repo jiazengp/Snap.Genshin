@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.GenshinElement;
 using DGP.Genshin.DataModel;
+using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Helper;

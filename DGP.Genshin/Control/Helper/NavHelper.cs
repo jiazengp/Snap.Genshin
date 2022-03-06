@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace DGP.Genshin.Control.Helper
 {
-    public class NavHelper
+    public sealed class NavHelper
     {
         public static Type? GetNavigateTo(NavigationViewItem? item)
         {

@@ -7,7 +7,7 @@ namespace DGP.Genshin.Control.Converter
     /// <summary>
     /// 将 Unix时间戳 转换到 <see cref="DateTime"/>
     /// </summary>
-    public class LongDateTimeConverter : IValueConverter
+    public sealed class LongDateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

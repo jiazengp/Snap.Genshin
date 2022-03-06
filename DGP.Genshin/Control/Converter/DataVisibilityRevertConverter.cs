@@ -10,7 +10,7 @@ namespace DGP.Genshin.Control.Converter
     /// 数据可见性转换器，当存在数据时可见
     /// 当源数据为 <see cref="ICollection"/> 时，集合为空也视为不存在数据
     /// </summary>
-    public class DataVisibilityRevertConverter : IValueConverter
+    public sealed class DataVisibilityRevertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

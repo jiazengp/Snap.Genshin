@@ -8,7 +8,7 @@ namespace DGP.Genshin.Control.Converter
     /// <summary>
     /// 数据可见性转换器，当不存在数据时 可见
     /// </summary>
-    public class DataVisibilityConverter : IValueConverter
+    public sealed class DataVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

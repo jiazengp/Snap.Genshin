@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
-    public class BooleanToVisibilityRevertConverter : IValueConverter
+    public sealed class BooleanToVisibilityRevertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

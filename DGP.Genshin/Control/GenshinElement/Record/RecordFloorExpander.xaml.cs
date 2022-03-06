@@ -2,7 +2,7 @@
 
 namespace DGP.Genshin.Control.GenshinElement.Record
 {
-    public partial class RecordFloorExpander : Expander
+    public sealed partial class RecordFloorExpander : Expander
     {
         public RecordFloorExpander()
         {

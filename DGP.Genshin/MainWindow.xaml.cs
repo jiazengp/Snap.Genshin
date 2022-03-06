@@ -1,6 +1,6 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core.Notification;
-using DGP.Genshin.Core.PerMonitorDPIAware;
+using DGP.Genshin.Core.DpiAware;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
@@ -46,7 +46,7 @@ namespace DGP.Genshin
         {
             InitializeContent();
             //support per monitor dpi awareness
-            _ = new PerMonitorDPIAdapter(this);
+            _ = new DpiAwareAdapter(this);
             //randomly load a image as background
             backgroundLoader = new(this);
             backgroundLoader.LoadWallpaper();

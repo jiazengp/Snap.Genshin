@@ -1,15 +1,10 @@
-﻿using DGP.Genshin.DataModel.Launching;
-using ModernWpf.Controls;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using DGP.Genshin.Control.Infrastructure.Observable;
+using DGP.Genshin.DataModel.Launching;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Control.Launching
 {
-    /// <summary>
-    /// NameDialog.xaml 的交互逻辑
-    /// </summary>
-    public partial class NameDialog : ContentDialog, INotifyPropertyChanged
+    public sealed partial class NameDialog : ObservableContentDialog
     {
         private string? input;
         private GenshinAccount? targetAccount;
@@ -38,25 +33,5 @@ namespace DGP.Genshin.Control.Launching
             await ShowAsync();
             return Input;
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
     }
 }

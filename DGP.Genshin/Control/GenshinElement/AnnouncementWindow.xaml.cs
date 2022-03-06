@@ -35,10 +35,10 @@ namespace DGP.Genshin.Control.GenshinElement
             try
             {
                 await WebView.EnsureCoreWebView2Async();
-                WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
+                WebView.CoreWebView2.ProcessFailed += (_, _) => WebView?.Dispose();
                 //support click open browser.
                 await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mihoyoSDKDefinition);
-                WebView.CoreWebView2.WebMessageReceived += (s, e) => Browser.Open(e.TryGetWebMessageAsString);
+                WebView.CoreWebView2.WebMessageReceived += (_, e) => Browser.Open(e.TryGetWebMessageAsString);
             }
             catch
             {

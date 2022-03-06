@@ -180,7 +180,7 @@ namespace DGP.Genshin.ViewModel
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败\n请尝试重新选择启动器路径",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
-                messenger.Send(new NavigateRequestMessage(typeof(HomePage)));
+                messenger.Send(new NavigateRequestMessage(typeof(HomePage),true));
             }
         }
         private async Task LaunchByOptionAsync(string? option)
