@@ -38,7 +38,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <summary>
         /// 在日志文件中寻找url
         /// </summary>
-        /// <returns></returns>
+        /// <returns>url</returns>
         private static async Task<string?> GetUrlFromLogFileAsync()
         {
             string? result = null;

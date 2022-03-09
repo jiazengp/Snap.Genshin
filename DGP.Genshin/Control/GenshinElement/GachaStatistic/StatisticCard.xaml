@@ -87,17 +87,6 @@
                             VerticalAlignment="Center"
                             Text="{Binding CurrentName}" 
                             Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        <Border
-                            BorderThickness="1" 
-                            Padding="4,0" 
-                            Margin="12"
-                            CornerRadius="{StaticResource SmallCompatCornerRadius}" 
-                            BorderBrush="{StaticResource SystemControlForegroundBaseHighBrush}"
-                            HorizontalAlignment="Right">
-                            <TextBlock 
-                                Text="{Binding Appraise}" 
-                                Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        </Border>
                     </Grid>
                 </Expander.Header>
                 <StackPanel>

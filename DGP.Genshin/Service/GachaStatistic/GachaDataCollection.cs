@@ -9,6 +9,7 @@ namespace DGP.Genshin.Service.GachaStatistic
     /// <summary>
     /// 包装了包含Uid与抽卡记录的字典
     /// 所有与抽卡记录相关的服务都基于对此类的操作
+    /// 所有更改此集合的操作都需要切换到主线程执行
     /// </summary>
     public class GachaDataCollection : ObservableCollection<UidGachaData>
     {

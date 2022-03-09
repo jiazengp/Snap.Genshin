@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using System;
@@ -15,13 +14,11 @@ namespace DGP.Genshin.Service.GachaStatistic
     [Service(typeof(IGachaStatisticService), InjectAs.Transient)]
     public class GachaStatisticService : IGachaStatisticService
     {
-        private readonly JoinableTaskFactory joinableTaskFactory;
         private readonly LocalGachaLogWorker localGachaLogWorker;
 
-        public GachaStatisticService(JoinableTaskFactory joinableTaskFactory)
+        public GachaStatisticService()
         {
-            this.joinableTaskFactory = joinableTaskFactory;
-            localGachaLogWorker = new(joinableTaskFactory);
+            localGachaLogWorker = new();
         }
 
         public async Task LoadLocalGachaDataAsync(GachaDataCollection gachaData)
@@ -49,7 +46,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
             else
             {
-                IGachaLogWorker worker = new GachaLogWorker(url, gachaData, joinableTaskFactory);
+                IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
                 (bool isSuccess, string? uid) = await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
 
                 if (!isSuccess)
@@ -97,7 +94,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                     else
                     {
-                        uid = await worker.FetchGachaLogIncrementAsync(pool, progressCallback);
+                        uid = await worker.FetchGachaLogIncreaselyAsync(pool, progressCallback);
                     }
 
                     if (worker.IsFetchDelayEnabled)

@@ -1,7 +1,5 @@
 ﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
@@ -18,14 +16,8 @@ namespace DGP.Genshin.Service
     internal class SettingService : ISettingService
     {
         private readonly string settingFile = PathContext.Locate("settings.json");
-        private readonly IMessenger messenger;
 
         private ConcurrentDictionary<string, object?> settings = new();
-
-        public SettingService(IMessenger messenger)
-        {
-            this.messenger = messenger;
-        }
 
         public T Get<T>(SettingDefinition<T> definition)
         {
@@ -58,7 +50,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        public void Set<T>(SettingDefinition<T> definition, object? value, bool notify = true, bool log = false)
+        public void Set<T>(SettingDefinition<T> definition, object? value, bool log = false)
         {
             string key = definition.Name;
             if (log)
@@ -66,10 +58,6 @@ namespace DGP.Genshin.Service
                 this.Log($"setting {key} to {value} internally without notify");
             }
             settings[key] = value;
-            if (notify)
-            {
-                messenger.Send(new SettingChangedMessage(key, value));
-            }
         }
 
         public void Initialize()

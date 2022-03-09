@@ -120,6 +120,7 @@
             <converters:BooleanToVisibilityRevertConverter x:Key="BooleanToVisibilityRevertConverter"/>
             <converters:DataVisibilityConverter x:Key="DataVisibilityConverter"/>
             <converters:DataVisibilityRevertConverter x:Key="DataVisibilityRevertConverter"/>
+            <converters:BooleanRevertConverter x:Key="BooleanRevertConverter"/>
             <!--#endregion-->
 
             <!--#region Modefied Styles-->

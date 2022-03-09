@@ -26,7 +26,9 @@ namespace DGP.Genshin.ViewModel
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
     /// </summary>
     [ViewModel(InjectAs.Transient)]
-    public class SettingViewModel : ObservableRecipient2, IRecipient<UpdateProgressedMessage>
+    public class SettingViewModel : ObservableRecipient2,
+        IRecipient<UpdateProgressedMessage>,
+        IRecipient<AdaptiveBackgroundOpacityChangedMessage>
     {
         private readonly IUpdateService updateService;
 
@@ -37,24 +39,23 @@ namespace DGP.Genshin.ViewModel
             new("深色", ApplicationTheme.Dark),
             new("系统默认", null),
         };
-        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime
+        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime { get; } = new()
         {
-            get
-            {
-                return new()
-                {
-                    new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
-                    new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
-                    new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
-                    new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
-                    new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
-                };
-            }
-        }
+            new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
+            new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
+            new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
+            new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
+            new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
+        };
+        public List<NamedValue<UpdateAPI>> UpdateAPIs { get; } = new()
+        {
+            new("正式通道", UpdateAPI.PatchAPI),
+            new("预览通道", UpdateAPI.GithubAPI)
+        };
 
-        private bool autoDailySignInOnLaunch;
+
         private bool skipCacheCheck;
-        private bool signInSilently;
+
         private bool updateUseFastGit;
         private string versionString;
         private string userId;
@@ -67,17 +68,9 @@ namespace DGP.Genshin.ViewModel
         private double backgroundOpacity;
         private bool isBackgroundOpacityAdaptive;
         private bool isBannerWithNoItemVisible;
+        private NamedValue<UpdateAPI> currentUpdateAPI;
 
-        public bool AutoDailySignInOnLaunch
-        {
-            get => autoDailySignInOnLaunch;
 
-            set
-            {
-                Setting2.AutoDailySignInOnLaunch.Set(value, false);
-                SetProperty(ref autoDailySignInOnLaunch, value);
-            }
-        }
         public bool SkipCacheCheck
         {
             get => skipCacheCheck;
@@ -86,16 +79,6 @@ namespace DGP.Genshin.ViewModel
             {
                 Setting2.SkipCacheCheck.Set(value, false);
                 SetProperty(ref skipCacheCheck, value);
-            }
-        }
-        public bool SignInSilently
-        {
-            get => signInSilently;
-
-            set
-            {
-                Setting2.SignInSilently.Set(value, false);
-                SetProperty(ref signInSilently, value);
             }
         }
         public bool UpdateUseFastGit
@@ -134,7 +117,7 @@ namespace DGP.Genshin.ViewModel
 
             set
             {
-                Setting2.BackgroundOpacity.Set(value, false, false);
+                Setting2.BackgroundOpacity.Set(value, false);
                 Messenger.Send(new BackgroundOpacityChangedMessage(value));
                 SetProperty(ref backgroundOpacity, value);
             }
@@ -195,11 +178,14 @@ namespace DGP.Genshin.ViewModel
         {
             get => selectedResinAutoRefreshTime;
 
-            set
-            {
-                SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value,
-              v => Setting2.ResinRefreshMinutes.Set(v!.Value.TotalMinutes));
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value, v => Setting2.ResinRefreshMinutes.Set(v.Value.TotalMinutes));
+
+        }
+        public NamedValue<UpdateAPI> CurrentUpdateAPI
+        {
+            get => currentUpdateAPI;
+
+            set => SetPropertyAndCallbackOnCompletion(ref currentUpdateAPI, value, v => Setting2.UpdateAPI.Set(v.Value));
         }
         public UpdateProgressedMessage UpdateInfo
         {
@@ -212,24 +198,19 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand CheckUpdateCommand { get; }
         public ICommand CopyUserIdCommand { get; }
-        public ICommand SignInImmediatelyCommand { get; }
         public ICommand SponsorUICommand { get; }
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
 
-        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, ISignInService signInService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
         {
             this.updateService = updateService;
 
-            ApplicationTheme? theme = Setting2.AppTheme.Get();
-            selectedTheme = Themes.First(x => x.Value == theme);
+            selectedTheme = Themes.First(x => x.Value == Setting2.AppTheme);
+            selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == Setting2.ResinRefreshMinutes);
+            currentUpdateAPI = UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
 
-            double minutes = Setting2.ResinRefreshMinutes.Get();
-            selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == minutes)!;
-
-            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
             SkipCacheCheck = Setting2.SkipCacheCheck.Get();
-            SignInSilently = Setting2.SignInSilently.Get();
             UpdateUseFastGit = Setting2.UpdateUseFastGit.Get();
             IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled.Get();
             CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion.Get();
@@ -245,7 +226,7 @@ namespace DGP.Genshin.ViewModel
 
             CheckUpdateCommand = new AsyncRelayCommand(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
-            SignInImmediatelyCommand = new AsyncRelayCommand(signInService.TrySignAllAccountsRolesInAsync);
+            
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
@@ -310,6 +291,11 @@ namespace DGP.Genshin.ViewModel
         public void Receive(UpdateProgressedMessage message)
         {
             UpdateInfo = message;
+        }
+
+        public void Receive(AdaptiveBackgroundOpacityChangedMessage message)
+        {
+            BackgroundOpacity = message.Value;
         }
     }
 }

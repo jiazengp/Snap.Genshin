@@ -82,11 +82,11 @@ namespace DGP.Genshin.Service.GachaStatistic
                 Weapons5 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 5).ToList(),
                 Weapons4 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
                 Weapons3 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 3).ToList(),
+                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponInfo),
+                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponInfo),
+                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponInfo),
                 SpecificBanners = ToSpecificBanners(data)
             };
-            statistic.Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponInfo);
-            statistic.WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponInfo);
-            statistic.CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponInfo);
             return statistic;
         }
 
@@ -142,12 +142,6 @@ namespace DGP.Genshin.Service.GachaStatistic
                 banner.MinGetStar5Count = 0;
                 banner.NextGuaranteeType = MinGuarantee;
             }
-
-            int predicatedCount5 = (int)(Math.Round((banner.Star5Count + 1) / config.Prob5) - banner.TotalCount);
-            banner.NextStar5PredictCount = RestrictPredicatedCount5(predicatedCount5, banner, config.GranteeCount);
-
-            int predicatedCount4 = (int)(Math.Round((banner.Star4Count + 1) / config.Prob4) - banner.TotalCount);
-            banner.NextStar4PredictCount = RestrictPredicatedCount4(predicatedCount4, banner);
 
             banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
             banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
@@ -270,38 +264,6 @@ namespace DGP.Genshin.Service.GachaStatistic
             counter.Reverse();
             return counter;
         }
-        private int RestrictPredicatedCount5(int predictedCount, StatisticBanner banner, int granteeCount)
-        {
-            if (predictedCount < 1)
-            {
-                banner.Appraise = "非";
-                return 1;
-            }
-            int predicatedSum = predictedCount + banner.CountSinceLastStar5;
-            if (predicatedSum > granteeCount)
-            {
-                banner.Appraise = "欧";
-                predictedCount = granteeCount - banner.CountSinceLastStar5;
-            }
-            else
-            {
-                banner.Appraise = "正";
-            }
-            return predictedCount;
-        }
-        private int RestrictPredicatedCount4(int predictedCount, StatisticBanner banner, int granteeCount = 10)
-        {
-            if (predictedCount < 1)
-            {
-                return 1;
-            }
-            int predictedSum = predictedCount + banner.CountSinceLastStar4;
-            if (predictedSum > granteeCount)
-            {
-                predictedCount = granteeCount - banner.CountSinceLastStar4;
-            }
-            return predictedCount;
-        }
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             //clone from metadata
@@ -324,11 +286,23 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {
                     if (data[type] is List<GachaLogItem> plist)
                     {
+                        //set init time
+                        permanent.StartTime = plist[0].Time;
+                        permanent.EndTime = plist[0].Time;
                         foreach (GachaLogItem item in plist)
                         {
+                            if (item.Time < permanent.StartTime)
+                            {
+                                permanent.StartTime = item.Time;
+                            }
+                            if (item.Time > permanent.EndTime)
+                            {
+                                permanent.EndTime = item.Time;
+                            }
                             AddItemToSpecificBanner(item, permanent);
                         }
                     }
+                    continue;
                 }
                 if (data[type] is List<GachaLogItem> list)
                 {
@@ -342,13 +316,16 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
             }
 
-            CalculateSpecificBannerDetails(clonedBanners);
+            CalculateSpecificBannersDetail(clonedBanners);
 
-            return clonedBanners
+            List<SpecificBanner> resultList = clonedBanners
                 .WhereWhen(b => b.TotalCount > 0, !Setting2.IsBannerWithNoItemVisible.Get())
                 .OrderByDescending(b => b.StartTime)
                 .ThenByDescending(b => ConfigType.Order[b.Type!])
                 .ToList();
+            resultList.Remove(permanent);
+            resultList.Add(permanent);
+            return resultList;
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
@@ -380,7 +357,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 统计特定卡池的总数、345星数
         /// </summary>
         /// <param name="specificBanners"></param>
-        private void CalculateSpecificBannerDetails(List<SpecificBanner> specificBanners)
+        private void CalculateSpecificBannersDetail(List<SpecificBanner> specificBanners)
         {
             foreach (SpecificBanner banner in specificBanners)
             {

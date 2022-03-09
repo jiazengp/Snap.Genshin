@@ -62,7 +62,7 @@ namespace DGP.Genshin.ViewModel
         }
         private ObservableCollection<Boss>? bosses;
 
-        [IntegrityAware(IsCharacter = true)]
+        [IntegrityAware]
         public ObservableCollection<Character>? Characters
         {
             get

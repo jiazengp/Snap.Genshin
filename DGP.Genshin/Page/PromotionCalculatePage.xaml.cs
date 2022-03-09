@@ -52,5 +52,10 @@ namespace DGP.Genshin.Page
             }
         }
         #endregion
+
+        private void PageUnloaded(object sender, RoutedEventArgs e)
+        {
+            ((PromotionCalculateViewModel)DataContext).CloseCommand.Execute(null);
+        }
     }
 }

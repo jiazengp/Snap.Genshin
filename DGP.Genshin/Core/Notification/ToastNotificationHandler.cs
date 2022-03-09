@@ -28,7 +28,7 @@ namespace DGP.Genshin.Core.Notification
             if (args.TryGetValue("action", out string action) && action == "update")
             {
                 IUpdateService updateService = App.AutoWired<IUpdateService>();
-                if (updateService.Release is not null)
+                if (updateService.PackageUri is not null)
                 {
                     await updateService.DownloadAndInstallPackageAsync();
                 }

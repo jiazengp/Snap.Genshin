@@ -33,13 +33,19 @@
             <Style TargetType="ui:ToggleSwitch" BasedOn="{StaticResource CardToggleSwitchStyle}"/>
         </Grid.Resources>
         <s:SmoothScrollViewer>
-            <StackPanel Margin="12,12,16,12">
-                <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}"/>
-                <wu:CardAction helper:IconHelper.Icon="&#xE7FC;" helper:CardHelper.ActionTitle="游戏本体" helper:CardHelper.ActionSubtitle="以下方的自定义设置启动游戏"
-                                       Margin="0,12,0,0" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
-                <wu:CardAction helper:IconHelper.Icon="&#xED35;" helper:CardHelper.ActionTitle="官方启动器" helper:CardHelper.ActionSubtitle="游戏有版本更新时方便打开"
-                                       Margin="0,4,0,0" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
+            <StackPanel Margin="12,12,16,12" MaxWidth="1000">
+                <wu:CardControl Visibility="{Binding GameWatcher.IsWorking,Converter={StaticResource BooleanToVisibilityConverter}}"
+                    helper:IconHelper.Icon="&#xE7FC;" Title="游戏正在运行中" Subtitle="当前无法继续启动游戏"
+                    Margin="0,0,0,36" CommandParameter="Game" Background="#99008000" BorderBrush="#CC006400"/>
 
+                <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}"/>
+                <wu:CardAction IsEnabled="{Binding GameWatcher.IsWorking,Converter={StaticResource BooleanRevertConverter}}"
+                    helper:IconHelper.Icon="&#xE7FC;" helper:CardHelper.ActionTitle="游戏本体" helper:CardHelper.ActionSubtitle="以下方的自定义设置启动游戏"
+                    Margin="0,12,0,0" Command="{Binding LaunchCommand}" CommandParameter="Game"/>
+                <wu:CardAction IsEnabled="{Binding GameWatcher.IsWorking,Converter={StaticResource BooleanRevertConverter}}"
+                    helper:IconHelper.Icon="&#xED35;" helper:CardHelper.ActionTitle="官方启动器" helper:CardHelper.ActionSubtitle="游戏有版本更新时方便打开"
+                    Margin="0,4,0,0" Command="{Binding LaunchCommand}" CommandParameter="Launcher"/>
+                
                 <TextBlock Text="常规" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0"/>
                 <wu:CardExpander helper:IconHelper.Icon="&#xE748;" Margin="0,12,0,0" IsExpanded="True"
                             Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
@@ -71,11 +77,12 @@
                 <wu:CardControl helper:IconHelper.Icon="&#xE740;" Title="全屏" Subtitle="覆盖默认的全屏状态" Margin="0,12,0,0">
                     <ui:ToggleSwitch IsOn="{Binding IsFullScreen}"/>
                 </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE737;" Title="无边框" Subtitle="将窗口创建为弹出窗口，不带框架" Margin="0,4,0,0">
+                <wu:CardControl helper:IconHelper.Icon="&#xE737;" Title="无边框" Subtitle="将窗口创建为弹出窗口，不带框架" Margin="0,4,0,0"
+                                IsEnabled="{Binding IsFullScreen,Converter={StaticResource BooleanRevertConverter}}">
                     <ui:ToggleSwitch IsOn="{Binding IsBorderless}"/>
                 </wu:CardControl>
 
-                <wu:CardControl helper:IconHelper.Icon="&#xE76F;" Title="宽度" Subtitle="覆盖默认屏幕宽度" Margin="0,4,0,0">
+                <wu:CardControl helper:IconHelper.Icon="&#xE76F;" Title="宽度" Subtitle="覆盖默认屏幕宽度" Margin="0,6,0,0">
                     <ui:NumberBox Value="{Binding ScreenWidth,Mode=TwoWay}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE784;" Title="高度" Subtitle="覆盖默认屏幕高度" Margin="0,4,0,0">

@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace DGP.Genshin.Helper
 {
+    /// <summary>
+    /// 自启动
+    /// </summary>
     public class AutoRun
     {
         private const string AppName = "SnapGenshin";

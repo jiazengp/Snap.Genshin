@@ -12,7 +12,6 @@ using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Threading;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,19 +24,17 @@ namespace DGP.Genshin.Service
         private readonly ICookieService cookieService;
         private readonly IScheduleService scheduleService;
         private readonly IMessenger messenger;
-        private readonly JoinableTaskFactory joinableTaskFactory;
 
-        private ConcurrentDictionary<CookieUserGameRole, DailyNote?> DailyNotes { get; set; } = new();
+        private Dictionary<CookieUserGameRole, DailyNote?> DailyNotes { get; set; } = new();
 
-        private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyResin { get; } = new();
-        private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyHomeCoin { get; } = new();
-        private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyDailyTask { get; } = new();
-        private ConcurrentDictionary<UserGameRole, bool> ContinueNotifyExpedition { get; } = new();
+        private Dictionary<UserGameRole, bool> ContinueNotifyResin { get; } = new();
+        private Dictionary<UserGameRole, bool> ContinueNotifyHomeCoin { get; } = new();
+        private Dictionary<UserGameRole, bool> ContinueNotifyDailyTask { get; } = new();
+        private Dictionary<UserGameRole, bool> ContinueNotifyExpedition { get; } = new();
 
-        public DailyNoteService(ICookieService cookieService, IScheduleService scheduleService, JoinableTaskFactory joinableTaskFactory, IMessenger messenger)
+        public DailyNoteService(ICookieService cookieService, IScheduleService scheduleService, IMessenger messenger)
         {
             this.messenger = messenger;
-            this.joinableTaskFactory = joinableTaskFactory;
             this.cookieService = cookieService;
             this.scheduleService = scheduleService;
         }
@@ -84,7 +81,7 @@ namespace DGP.Genshin.Service
         {
             if (taskPreventer.ShouldExecute)
             {
-                ConcurrentDictionary<CookieUserGameRole, DailyNote?> dailyNotes = new();
+                Dictionary<CookieUserGameRole, DailyNote?> dailyNotes = new();
                 using (await cookieService.CookiesLock.ReadLockAsync())
                 {
                     foreach (string cookie in cookieService.Cookies.ToList())
@@ -95,19 +92,15 @@ namespace DGP.Genshin.Service
                         {
                             DailyNote? dailyNote = await dailyNoteProvider.GetDailyNoteAsync(userGameRole);
                             dailyNotes[new(cookie, userGameRole)] = dailyNote;
-                            await joinableTaskFactory.RunAsync(async () =>
-                            {
-                                await joinableTaskFactory.SwitchToMainThreadAsync();
 
-                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyResin,
-                                    EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
-                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyHomeCoin,
-                                    EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
-                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyDailyTask,
-                                    EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
-                                TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyExpedition,
-                                    EvaluateExpedition, dailyNote => "探索派遣已完成");
-                            });
+                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyResin,
+                                EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
+                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyHomeCoin,
+                                EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
+                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyDailyTask,
+                                EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
+                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyExpedition,
+                                EvaluateExpedition, dailyNote => "探索派遣已完成");
                         }
                     }
                 }
@@ -118,7 +111,7 @@ namespace DGP.Genshin.Service
         }
 
         private void TrySendDailyNoteNotification(UserGameRole userGameRole, DailyNote? dailyNote,
-            ConcurrentDictionary<UserGameRole, bool> notifyFlags,
+            Dictionary<UserGameRole, bool> notifyFlags,
             Func<DailyNoteNotifyConfiguration, DailyNote, bool> sendConditionEvaluator,
             Func<DailyNote, string> appendTextFunc)
         {

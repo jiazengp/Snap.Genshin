@@ -2,8 +2,8 @@
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
+using Snap.Exception;
 using Snap.Net.QueryString;
 using System;
 using System.Collections.Generic;
@@ -20,9 +20,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private readonly Random random = new();
         private readonly int batchSize;
         private readonly string gachaLogUrl;
-        private readonly JoinableTaskFactory joinableTaskFactory;
 
-        private Config? gachaConfig;
         private (int min, int max) delay = (500, 1000);
         public int GetRandomDelay()
         {
@@ -46,7 +44,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 if (value.min > value.max)
                 {
-                    throw new InvalidOperationException("最小值不能大于最大值");
+                    throw new SnapGenshinInternalException("祈愿记录获取延迟的最小值不能大于最大值");
                 }
                 delay = value;
             }
@@ -58,14 +56,14 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="gachaLogUrl">url</param>
         /// <param name="gachaData">需要操作的祈愿数据</param>
         /// <param name="batchSize">每次请求获取的批大小 最大20 默认20</param>
-        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, JoinableTaskFactory joinableTaskFactory, int batchSize = 20)
+        public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, int batchSize = 20)
         {
-            this.joinableTaskFactory = joinableTaskFactory;
             this.gachaLogUrl = gachaLogUrl;
             WorkingGachaData = gachaData;
             this.batchSize = batchSize;
         }
 
+        private Config? gachaConfig;
         public async Task<Config?> GetCurrentGachaConfigAsync()
         {
             if (gachaConfig == null)
@@ -74,6 +72,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
             return gachaConfig;
         }
+
         /// <summary>
         /// 获取祈愿池信息
         /// </summary>
@@ -89,12 +88,13 @@ namespace DGP.Genshin.Service.GachaStatistic
             this.Log(resp?.Data ?? new object());
             return resp?.Data;
         }
+
         /// <summary>
         /// 获取单个奖池的祈愿记录增量信息
         /// 并自动合并数据
         /// </summary>
         /// <param name="type">卡池类型</param>
-        public async Task<string?> FetchGachaLogIncrementAsync(ConfigType type, Action<FetchProgress> progressCallBack)
+        public async Task<string?> FetchGachaLogIncreaselyAsync(ConfigType type, Action<FetchProgress> progressCallBack)
         {
             List<GachaLogItem> increment = new();
             int currentPage = 0;
@@ -143,6 +143,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             await MergeIncrementAsync(type, increment);
             return WorkingUid;
         }
+
         /// <summary>
         /// 获取单个奖池的祈愿记录全量信息
         /// 并自动合并数据
@@ -197,14 +198,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="increment">增量</param>
         private async Task MergeIncrementAsync(ConfigType type, List<GachaLogItem> increment)
         {
+            await Task.Yield();
             _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
-                await joinableTaskFactory.RunAsync(async () =>
-                {
-                    await joinableTaskFactory.SwitchToMainThreadAsync();
-                    WorkingGachaData.Add(WorkingUid, new GachaData());
-                });
+                WorkingGachaData.Add(WorkingUid, new GachaData());
             }
             //简单的将老数据插入到增量后侧，最后重置数据
             GachaData data = WorkingGachaData[WorkingUid]!;
@@ -229,14 +227,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="type">卡池类型</param>
         private async Task MergeFullAsync(ConfigType type, List<GachaLogItem> full)
         {
-            _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
+            await Task.Yield();
+            _ = WorkingUid ?? throw new SnapGenshinInternalException($"{nameof(WorkingUid)} 不应为 null");
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
-                await joinableTaskFactory.RunAsync(async () =>
-                {
-                    await joinableTaskFactory.SwitchToMainThreadAsync();
-                    WorkingGachaData.Add(WorkingUid, new GachaData());
-                });
+                WorkingGachaData.Add(WorkingUid, new GachaData());
             }
             //将老数据插入到后侧，最后重置数据
             GachaData data = WorkingGachaData[WorkingUid]!;
@@ -292,7 +287,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             });
             Response<GachaLog>? resp = await requester.GetAsync<GachaLog>(finalUrl);
 
-            return resp?.ReturnCode == 0 ? (true, resp.Data ?? new()) : (false, new());
+            return (resp?.ReturnCode == 0, resp?.Data ?? new());
         }
     }
 }

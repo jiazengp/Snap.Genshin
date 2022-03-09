@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snap.Data.Primitive;
+using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction
@@ -9,15 +10,14 @@ namespace DGP.Genshin.Service.Abstraction
     public interface IIntegrityCheckService
     {
         /// <summary>
-        /// 完整性检查是否完成
-        /// 出于线程安全的考虑请勿在检查完整性的过程中途访问
+        /// 完整性检查监视器
         /// </summary>
-        bool IntegrityCheckCompleted { get; }
+        WorkWatcher IntegrityChecking { get; }
 
         /// <summary>
         /// 检查基础缓存图片完整性，不完整的自动下载补全
         /// </summary>
-        Task CheckMetadataIntegrityAsync(Action<IIntegrityCheckState> progressedCallback);
+        Task CheckMetadataIntegrityAsync(IProgress<IIntegrityCheckState> progress);
 
         /// <summary>
         /// 封装完整性检查进度报告
@@ -47,9 +47,5 @@ namespace DGP.Genshin.Service.Abstraction
     [AttributeUsage(AttributeTargets.Property)]
     public class IntegrityAwareAttribute : Attribute
     {
-        /// <summary>
-        /// 该属性是否为角色容器
-        /// </summary>
-        public bool IsCharacter { get; set; } = false;
     }
 }

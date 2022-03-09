@@ -31,7 +31,7 @@ namespace DGP.Genshin.Service
                 {
                     while (true)
                     {
-                        double minutes = Setting2.ResinRefreshMinutes.Get();
+                        double minutes = Setting2.ResinRefreshMinutes;
                         await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
                         //await Task.Delay(10000, cancellationTokenSource.Token);
                         this.Log("Tick scheduled");
@@ -58,5 +58,4 @@ namespace DGP.Genshin.Service
             UnInitialize();
         }
     }
-
 }

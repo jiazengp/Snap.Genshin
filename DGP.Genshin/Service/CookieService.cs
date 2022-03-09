@@ -12,6 +12,7 @@ using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
+using Snap.Data.Primitive;
 using Snap.Data.Utility;
 using Snap.Exception;
 using System;
@@ -37,7 +38,6 @@ namespace DGP.Genshin.Service
         private static string? currentCookie;
 
         private readonly IMessenger messenger;
-        private readonly JoinableTaskFactory joinableTaskFactory;
 
         /// <summary>
         /// Cookie池的默认实现，提供Cookie操作事件支持
@@ -131,49 +131,48 @@ namespace DGP.Genshin.Service
 
         public AsyncReaderWriterLock CookiesLock { get; init; }
 
-        public CookieService(JoinableTaskFactory joinableTaskFactory, IMessenger messenger)
+        public CookieService(JoinableTaskContext joinableTaskContext, IMessenger messenger)
         {
             this.messenger = messenger;
-            this.joinableTaskFactory = joinableTaskFactory;
 
-            CookiesLock = new(joinableTaskFactory.Context);
-
-            /// <summary>
-            /// 加载 cookie.dat 文件
-            /// </summary>
-            void LoadCookie()
-            {
-                //load cookie
-                string? cookieFile = PathContext.Locate(CookieFile);
-                if (File.Exists(cookieFile))
-                {
-                    CurrentCookie = File.ReadAllText(cookieFile);
-                }
-                else
-                {
-                    this.Log("无可用的Cookie");
-                    File.Create(cookieFile).Dispose();
-                }
-            }
-
-            /// <summary>
-            /// 加载 cookielist.dat 文件
-            /// </summary>
-            [MemberNotNull(nameof(Cookies))]
-            void LoadCookies()
-            {
-                try
-                {
-                    IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
-                    Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
-                }
-                catch (FileNotFoundException) { }
-                catch (Exception ex) { Crashes.TrackError(ex); }
-                Cookies ??= new CookiePool(this, messenger, new List<string>());
-            }
+            CookiesLock = new(joinableTaskContext);
 
             LoadCookies();
             LoadCookie();
+        }
+
+        /// <summary>
+        /// 加载 cookie.dat 文件
+        /// </summary>
+        private void LoadCookie()
+        {
+            //load cookie
+            string? cookieFile = PathContext.Locate(CookieFile);
+            if (File.Exists(cookieFile))
+            {
+                CurrentCookie = File.ReadAllText(cookieFile);
+            }
+            else
+            {
+                this.Log("无可用的Cookie");
+                File.Create(cookieFile).Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 加载 cookielist.dat 文件
+        /// </summary>
+        [MemberNotNull(nameof(Cookies))]
+        private void LoadCookies()
+        {
+            try
+            {
+                IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
+                Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+            }
+            catch (FileNotFoundException) { }
+            catch (Exception ex) { Crashes.TrackError(ex); }
+            Cookies ??= new CookiePool(this, messenger, new List<string>());
         }
 
         public string CurrentCookie
@@ -203,22 +202,17 @@ namespace DGP.Genshin.Service
 
         public bool IsCookieAvailable
         {
-            get => isInitialized && (!string.IsNullOrEmpty(currentCookie));
+            get => initialization.IsCompleted && (!string.IsNullOrEmpty(currentCookie));
         }
 
         public async Task SetCookieAsync()
         {
-            this.Log("assda");
-            await joinableTaskFactory.SwitchToMainThreadAsync();
             (ContentDialogResult result, string cookie) = await new CookieDialog().GetInputCookieAsync();
-            this.Log("asda");
             if (result is ContentDialogResult.Primary)
             {
-                this.Log("asdasd");
                 //prevent user input unexpected invalid cookie
                 if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
                 {
-                    this.Log("asdas");
                     CurrentCookie = cookie;
                 }
                 File.WriteAllText(PathContext.Locate(CookieFile), CurrentCookie);
@@ -299,37 +293,36 @@ namespace DGP.Genshin.Service
         /// <summary>
         /// prevent multiple times initializaion
         /// </summary>
-        private bool isInitialized = false;
-        private bool isInitializing = false;
+        private readonly WorkWatcher initialization = new(false);
+        //private bool isInitialized = false;
         public async Task InitializeAsync()
         {
-            if (isInitialized || isInitializing)
+            if (initialization.IsWorking || initialization.IsCompleted)
             {
                 return;
             }
-
-            isInitializing = true;
-            using (await CookiesLock.WriteLockAsync())
+            using (initialization.Watch())
             {
-                //enumerate the shallow copied list to remove item in foreach loop
-                //prevent InvalidOperationException
-                foreach (string cookie in Cookies.ToList())
+                using (await CookiesLock.WriteLockAsync())
                 {
-                    UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
-                    if (info is null)
+                    //enumerate the shallow copied list to remove item in foreach loop
+                    //prevent InvalidOperationException
+                    foreach (string cookie in Cookies.ToList())
                     {
-                        //删除用户无法手动选中的cookie(失效的cookie)
-                        Cookies.Remove(cookie);
+                        UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
+                        if (info is null)
+                        {
+                            //删除用户无法手动选中的cookie(失效的cookie)
+                            Cookies.Remove(cookie);
+                        }
+                    }
+
+                    if (Cookies.Count <= 0)
+                    {
+                        currentCookie = null;
                     }
                 }
-
-                if (Cookies.Count <= 0)
-                {
-                    currentCookie = null;
-                }
             }
-            isInitialized = true;
-            isInitializing = false;
         }
 
         public async Task<IEnumerable<CookieUserGameRole>> GetCookieUserGameRolesOfAsync(string cookie)

@@ -5,20 +5,13 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Helper.Extension
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Pixel
-    {
-        public byte Blue;
-        public byte Green;
-        public byte Red;
-        public byte Alpha;
-    }
-
     public static class BitmapSourceExtensions
     {
         public static Pixel[,] GetPixels(this BitmapSource source)
         {
-            if (source.Format != PixelFormats.Bgra32)
+            PixelFormat format = source.Format;
+
+            if (format != PixelFormats.Bgra32)
             {
                 source = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
             }

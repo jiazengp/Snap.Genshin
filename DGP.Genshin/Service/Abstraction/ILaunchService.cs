@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.DataModel.Launching;
 using IniParser.Model;
+using Snap.Data.Primitive;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// 启动器配置文件
         /// </summary>
         IniData LauncherConfig { get; }
+        WorkWatcher GameWatcher { get; }
 
         /// <summary>
         /// 异步启动游戏

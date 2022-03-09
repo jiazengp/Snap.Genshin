@@ -4,7 +4,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
+using Snap.Data.Primitive;
 using Snap.Net.Networking;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -28,7 +30,6 @@ namespace DGP.Genshin.ViewModel
         private string? currentInfo;
         private int? totalCount;
         private double percent;
-        private bool isCheckingIntegrity;
 
         public bool IsCookieVisible
         {
@@ -40,7 +41,7 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private void TrySendCompletedMessage()
         {
-            if (IsCookieVisible == false && integrityCheckService.IntegrityCheckCompleted)
+            if (IsCookieVisible == false && integrityCheckService.IntegrityChecking.IsCompleted)
             {
                 messenger.Send(new SplashInitializationCompletedMessage(this));
             }
@@ -84,12 +85,7 @@ namespace DGP.Genshin.ViewModel
 
             set => SetProperty(ref percent, value);
         }
-        public bool IsCheckingIntegrity
-        {
-            get => isCheckingIntegrity;
-
-            set => SetProperty(ref isCheckingIntegrity, value);
-        }
+        public WorkWatcher IntegrityChecking { get; set; } = new();
         #endregion
 
         public ICommand OpenUICommand { get; }
@@ -140,15 +136,19 @@ namespace DGP.Genshin.ViewModel
 
         private async Task PerformIntegrityServiceCheckAsync()
         {
-            IsCheckingIntegrity = true;
-            await integrityCheckService.CheckMetadataIntegrityAsync(state =>
+            Progress<IIntegrityCheckService.IIntegrityCheckState> progress = new();
+            progress.ProgressChanged += (_, state) =>
             {
                 CurrentCount = state.CurrentCount;
                 Percent = (state.CurrentCount * 1D / TotalCount) ?? 0D;
                 TotalCount = state.TotalCount;
                 CurrentInfo = state.Info;
-            });
-            IsCheckingIntegrity = false;
+            };
+
+            using (IntegrityChecking.Watch())
+            {
+                await integrityCheckService.CheckMetadataIntegrityAsync(progress);
+            }
         }
     }
 }

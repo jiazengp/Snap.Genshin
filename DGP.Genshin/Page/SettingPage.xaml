@@ -36,7 +36,7 @@
                     Margin="12,12,16,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
                     <StackPanel Orientation="Horizontal">
-                        <Slider MinWidth="200" Maximum="1" Value="{Binding BackgroundOpacity,Mode=TwoWay}" TickFrequency="0.01" IsSnapToTickEnabled="True" TickPlacement="None"/>
+                        <Slider Width="200" Maximum="1" Value="{Binding BackgroundOpacity,Mode=TwoWay}" TickFrequency="0.01" IsSnapToTickEnabled="True"/>
                         <TextBlock Text="{Binding BackgroundOpacity,StringFormat={}{0:p0}}" VerticalAlignment="Center" Margin="12,0,0,0" Width="40"/>
                     </StackPanel>
                 </wu:CardControl>
@@ -53,17 +53,6 @@
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE9D5;" Title="跳过缓存完整性检查" Subtitle="启用此项可以显著加快启动速度，但也会带来很多图片加载问题" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding SkipCacheCheck}"/>
-                </wu:CardControl>
-
-                <TextBlock Text="米游社签到" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE73E;" Title="自动签到" Subtitle="每日首次启动时签到，如果存在多个账号，所有账户的均会签到" Margin="12,12,16,0">
-                    <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>
-                </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE8EE;" Title="立即全部签到" Subtitle="立即对所有账号下的所有角色进行签到" Margin="12,4,16,0">
-                    <Button Content="签到" Command="{Binding SignInImmediatelyCommand}"/>
-                </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE7ED;" Title="静默签到" Subtitle="签到通知直接进入通知中心，不再直接弹出" Margin="12,12,16,0">
-                    <ui:ToggleSwitch Grid.Column="1" IsOn="{Binding SignInSilently}"/>
                 </wu:CardControl>
 
                 <TextBlock Text="交互" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
@@ -107,8 +96,9 @@
                         <ProgressBar Margin="0,12,0,0" Grid.Row="1" Value="{Binding UpdateInfo.Value,Mode=OneWay}" Maximum="1" MinHeight="2"/>
                     </Grid>
                 </wu:Card>
-                <wu:CardControl helper:IconHelper.Icon="&#xE896;" Title="FastGit" Subtitle="使用 FastGit 代替 Github 下载更新，也许能改善下载速度，下一次下载开始生效" Margin="12,4,16,0">
-                    <ui:ToggleSwitch IsOn="{Binding UpdateUseFastGit}"/>
+                <!--CurrentUpdateAPI-->
+                <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="更新通道" Subtitle="不同的通道收到的更新频率会有所不同" Margin="12,4,16,0">
+                    <ComboBox ItemsSource="{Binding UpdateAPIs,Mode=OneWay}" SelectedItem="{Binding CurrentUpdateAPI}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="最新版本 &amp; 更新日志" Subtitle="前往Github查看最新版本以及更新日志" Margin="12,4,16,0">
                     <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest" Padding="4"/>

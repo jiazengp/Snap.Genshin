@@ -3,13 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Page"
       xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:c="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
       xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="900"
       Title="UserPage">
@@ -19,6 +18,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
         <Style TargetType="ui:ToggleSwitch" BasedOn="{StaticResource CardToggleSwitchStyle}"/>
     </Page.Resources>
     <Grid>
@@ -322,8 +324,9 @@
         </Grid>
         
         <Grid Grid.Column="1">
-            <TabControl Style="{StaticResource TabControlPivotStyle}" 
-                        ItemContainerStyle="{StaticResource PivotItemStyle}">
+            <TabControl
+                Style="{StaticResource TabControlPivotStyle}" 
+                ItemContainerStyle="{StaticResource PivotItemStyle}">
                 <ui:PivotHelper.LeftHeader>
                     <StackPanel Orientation="Horizontal">
                         <ui:AppBarSeparator Margin="-10,0"/>
@@ -605,6 +608,21 @@
                             </StackPanel>
                         </wu:Card>
                     </StackPanel>
+                </TabItem>
+                <TabItem Header="签到">
+                    <s:SmoothScrollViewer>
+                        <StackPanel>
+                            <wu:CardControl helper:IconHelper.Icon="&#xE73E;" Title="自动签到" Subtitle="每日首次启动时签到，如果存在多个账号，所有账户的均会签到" Margin="12,12,16,0">
+                                <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>
+                            </wu:CardControl>
+                            <wu:CardControl helper:IconHelper.Icon="&#xE8EE;" Title="立即全部签到" Subtitle="立即对所有账号下的所有角色进行签到" Margin="12,4,16,0">
+                                <Button Content="签到" Command="{Binding SignInImmediatelyCommand}"/>
+                            </wu:CardControl>
+                            <wu:CardControl helper:IconHelper.Icon="&#xE7ED;" Title="静默签到" Subtitle="签到通知直接进入通知中心，不再直接弹出" Margin="12,12,16,0">
+                                <ui:ToggleSwitch Grid.Column="1" IsOn="{Binding SignInSilently}"/>
+                            </wu:CardControl>
+                        </StackPanel>
+                    </s:SmoothScrollViewer>
                 </TabItem>
             </TabControl>
         </Grid>

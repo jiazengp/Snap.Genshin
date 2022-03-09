@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
+using Snap.Data.Primitive;
 using Snap.Data.Utility;
 using Snap.Exception;
 using System;
@@ -49,14 +50,12 @@ namespace DGP.Genshin.Service
         {
             private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
             private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
-            private const string DataKey = "GENERAL_DATA_h2389025596";
 
             public static bool Set(GenshinAccount? account)
             {
-                if (account?.MihoyoSDK is not null && account.GeneralData is not null)
+                if (account?.MihoyoSDK is not null)
                 {
                     Registry.SetValue(GenshinKey, SdkKey, Encoding.UTF8.GetBytes(account.MihoyoSDK));
-                    Registry.SetValue(GenshinKey, DataKey, Encoding.UTF8.GetBytes(account.GeneralData));
                     return true;
                 }
                 return false;
@@ -71,17 +70,15 @@ namespace DGP.Genshin.Service
             public static GenshinAccount? Get()
             {
                 object? sdk = Registry.GetValue(GenshinKey, SdkKey, string.Empty);
-                object? data = Registry.GetValue(GenshinKey, DataKey, "");
 
-                if (sdk is null || data is null)
+                if (sdk is null)
                 {
                     return null;
                 }
 
                 string sdkString = Encoding.UTF8.GetString((byte[])sdk);
-                string dataString = Encoding.UTF8.GetString((byte[])data);
 
-                return new GenshinAccount { MihoyoSDK = sdkString, GeneralData = dataString };
+                return new GenshinAccount { MihoyoSDK = sdkString };
             }
         }
 
@@ -98,10 +95,12 @@ namespace DGP.Genshin.Service
             get => gameConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
         }
 
+        public WorkWatcher GameWatcher { get; } = new();
+
         public LaunchService()
         {
             PathContext.CreateOrIgnore(AccountsFileName);
-            string? launcherPath = Setting2.LauncherPath.Get();
+            string? launcherPath = Setting2.LauncherPath;
             TryLoadIniData(launcherPath);
         }
 
@@ -112,7 +111,7 @@ namespace DGP.Genshin.Service
             {
                 try
                 {
-                    string configPath = Path.Combine(Path.GetDirectoryName(launcherPath)!, "config.ini");
+                    string configPath = Path.Combine(Path.GetDirectoryName(launcherPath)!, ConfigFileName);
                     launcherConfig = GetIniData(configPath);
 
                     string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
@@ -141,7 +140,7 @@ namespace DGP.Genshin.Service
         private IniData GetIniData(string file)
         {
             FileIniDataParser parser = new();
-            parser.Parser.Configuration.AssigmentSpacer = "";
+            parser.Parser.Configuration.AssigmentSpacer = string.Empty;
             return parser.ReadFile(file);
         }
 
@@ -157,6 +156,10 @@ namespace DGP.Genshin.Service
 
                 try
                 {
+                    if (GameWatcher.IsWorking)
+                    {
+                        throw new SnapGenshinInternalException("游戏已经启动");
+                    }
                     //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
                     string commandLine = new CommandLineBuilder()
                         .AppendIf("-popupwindow", option.IsBorderless)
@@ -177,17 +180,20 @@ namespace DGP.Genshin.Service
                         }
                     };
 
-                    if (option.UnlockFPS)
+                    using (GameWatcher.Watch())
                     {
-                        unlocker = new(game, option.TargetFPS);
-                        UnlockResult result = await unlocker.StartProcessAndUnlockAsync();
-                        this.Log(result);
-                    }
-                    else
-                    {
-                        if (game.Start())
+                        if (option.UnlockFPS)
                         {
-                            await game.WaitForExitAsync();
+                            unlocker = new(game, option.TargetFPS);
+                            UnlockResult result = await unlocker.StartProcessAndUnlockAsync();
+                            this.Log(result);
+                        }
+                        else
+                        {
+                            if (game.Start())
+                            {
+                                await game.WaitForExitAsync();
+                            }
                         }
                     }
                 }

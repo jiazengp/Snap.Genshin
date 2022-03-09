@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
-using Snap.Core.Logging;
+using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Core
@@ -22,8 +22,6 @@ namespace DGP.Genshin.Core
             //default messager
             services.AddSingleton<IMessenger>(App.Messenger);
             //JoinableTaskContext
-
-            this.Log(App.Current.Dispatcher.Thread.ManagedThreadId);
             JoinableTaskContext context = new();
             services.AddSingleton(new JoinableTaskContext());
             services.AddSingleton(new JoinableTaskFactory(context));
@@ -40,10 +38,7 @@ namespace DGP.Genshin.Core
         /// <param name="plugins"></param>
         private void RegisterPluginsServices(ServiceCollection services, IEnumerable<IPlugin> plugins)
         {
-            foreach (IPlugin plugin in plugins)
-            {
-                RegisterServices(services, plugin.GetType());
-            }
+            plugins.ForEach(plugin => RegisterServices(services, plugin.GetType()));
         }
     }
 }

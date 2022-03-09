@@ -131,7 +131,7 @@ namespace DGP.Genshin
         }
 
         /// <summary>
-        /// 查找 <see cref="Application.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
+        /// 查找 <see cref="App.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
         public static void BringWindowToFront<TWindow>() where TWindow : Window, new()
         {

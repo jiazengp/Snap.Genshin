@@ -1,7 +1,7 @@
 ﻿namespace DGP.Genshin.DataModel.Character
 {
     public class SkillStatValues
-    { 
+    {
         public string? Lv1 { get; set; }
         public string? Lv2 { get; set; }
         public string? Lv3 { get; set; }

@@ -48,9 +48,9 @@
         </DataTemplate>
         <DataTemplate x:Key="CircleDisplayTemplate">
             <Border ci:ImageAsyncHelper.ImageUrl="{Binding Source}" 
-                                RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
-                                CornerRadius="16" Height="32" Width="32"
-                                HorizontalAlignment="Right" Margin="6"/>
+                    RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
+                    Height="32" Width="32"
+                    HorizontalAlignment="Right" Margin="4"/>
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -128,8 +128,8 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <s:SmoothScrollViewer Grid.Column="0" Padding="0,0,0,0">
-                        <ui:ListView SelectionMode="Single" HorizontalContentAlignment="Stretch"
+                    <s:SmoothScrollViewer Grid.Column="0" Padding="0,0,0,0" VerticalScrollBarVisibility="Hidden">
+                        <ui:ListView SelectionMode="Single" HorizontalContentAlignment="Stretch" Margin="0,0,0,-12"
                             ItemsSource="{Binding Statistic.SpecificBanners,IsAsync=True}" 
                             SelectedItem="{Binding SelectedSpecificBanner,IsAsync=True}">
                             <ui:ListView.Resources>
@@ -143,7 +143,7 @@
                                     <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
                                     <!--<Setter Property="IsHoldingEnabled" Value="True" />-->
                                     <Setter Property="Padding" Value="0,0,0,0" />
-                                    <Setter Property="Margin" Value="0,0,12,12"/>
+                                    <Setter Property="Margin" Value="0,0,0,12"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Left" />
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="MinWidth" Value="{DynamicResource ListViewItemMinWidth}" />
@@ -374,26 +374,18 @@
                             </ui:ListView.Resources>
                             <ui:ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border 
-                                        Background="Transparent" 
-                                        CornerRadius="{StaticResource CompatCornerRadius}">
-                                        <Grid Margin="12,0">
+                                    <Border Background="Transparent">
+                                        <Grid Margin="12,0,0,0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
-                                            <Grid Margin="0,8,0,0" Grid.Row="0">
+                                            <Grid Margin="0,0,0,0" Grid.Row="0">
                                                 <TextBlock Text="{Binding CurrentName}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                     <TextBlock Text="{Binding TotalCount,StringFormat={}{0}抽}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="{} | {0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                                                <Binding Path="StartTime"/>
-                                                                <Binding Path="EndTime"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
+                                                    
                                                 </StackPanel>
                                             </Grid>
 
@@ -402,19 +394,29 @@
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <Border Background="#40BC6932" Margin="0,6,0,12" CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                <Border Background="#20BC6932" Margin="0,6,0,0" CornerRadius="{StaticResource CompatCornerRadius}" 
                                                     HorizontalAlignment="Left" Grid.Column="0">
                                                     <ItemsControl ItemsSource="{Binding UpStar5List}"
                                                   ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
                                                   ItemTemplate="{StaticResource CircleDisplayTemplate}"/>
                                                 </Border>
-                                                <Border Background="#40A156E0" Margin="12,6,0,12" CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                <Border Background="#20A156E0" Margin="12,6,0,0" CornerRadius="{StaticResource CompatCornerRadius}" 
                                                     HorizontalAlignment="Right" Grid.Column="1">
                                                     <ItemsControl ItemsSource="{Binding UpStar4List}" 
                                                   ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
                                                   ItemTemplate="{StaticResource CircleDisplayTemplate}"/>
                                                 </Border>
                                             </Grid>
+                                            <TextBlock 
+                                                Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                Opacity="0.6" Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                                        <Binding Path="StartTime"/>
+                                                        <Binding Path="EndTime"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

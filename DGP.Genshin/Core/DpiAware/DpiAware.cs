@@ -22,7 +22,7 @@ namespace DGP.Genshin.Core.DpiAware
             HwndSource? hwndSource = PresentationSource.FromVisual(window) as HwndSource;
             double wpfDpi = 96.0 * PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice.M11;
 
-            if (IsSupported== false)
+            if (IsSupported == false)
             {
                 // Use System DPI
                 return wpfDpi / 96.0;

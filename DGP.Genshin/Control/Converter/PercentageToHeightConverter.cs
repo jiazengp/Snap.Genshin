@@ -15,9 +15,9 @@ namespace DGP.Genshin.Control.Converter
         }
         public static readonly DependencyProperty TargetWidthProperty =
             DependencyProperty.Register(
-                nameof(TargetWidth), 
-                typeof(double), 
-                typeof(PercentageToHeightConverter), 
+                nameof(TargetWidth),
+                typeof(double),
+                typeof(PercentageToHeightConverter),
                 new PropertyMetadata(1080D));
 
         public double TargetHeight
@@ -28,9 +28,9 @@ namespace DGP.Genshin.Control.Converter
         }
         public static readonly DependencyProperty TargetHeightProperty =
             DependencyProperty.Register(
-                nameof(TargetHeight), 
-                typeof(double), 
-                typeof(PercentageToHeightConverter), 
+                nameof(TargetHeight),
+                typeof(double),
+                typeof(PercentageToHeightConverter),
                 new PropertyMetadata(390D));
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

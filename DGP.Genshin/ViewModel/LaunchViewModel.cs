@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
+using Snap.Data.Primitive;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
-    [ViewModel(InjectAs.Singleton)]
+    [ViewModel(InjectAs.Transient)]
     public class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;
@@ -137,6 +138,8 @@ namespace DGP.Genshin.ViewModel
             set => SetPropertyAndCallbackOnCompletion(ref selectedAccount, value, v => launchService.SetToRegistry(v));
         }
 
+        public WorkWatcher GameWatcher { get; }
+
         public ICommand OpenUICommand { get; }
         public ICommand LaunchCommand { get; }
         public ICommand DeleteAccountCommand { get; }
@@ -145,6 +148,8 @@ namespace DGP.Genshin.ViewModel
         public LaunchViewModel(ILaunchService launchService, IMessenger messenger)
         {
             this.launchService = launchService;
+            GameWatcher = launchService.GameWatcher;
+
             this.messenger = messenger;
 
             Accounts = launchService.LoadAllAccount();
@@ -180,7 +185,7 @@ namespace DGP.Genshin.ViewModel
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败\n请尝试重新选择启动器路径",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
-                messenger.Send(new NavigateRequestMessage(typeof(HomePage),true));
+                messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }
         private async Task LaunchByOptionAsync(string? option)
@@ -227,13 +232,10 @@ namespace DGP.Genshin.ViewModel
                 //账号列表内存在匹配项
                 if (matched is not null)
                 {
-                    //账号信息相同但设置不同，优先选择注册表内的设置
-                    matched.GeneralData = currentRegistryAccount.GeneralData;
                     selectedAccount = matched;
                 }
                 else
                 {
-
                     //命名
                     currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
                     Accounts.Add(currentRegistryAccount);

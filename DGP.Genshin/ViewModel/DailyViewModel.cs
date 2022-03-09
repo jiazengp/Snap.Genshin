@@ -42,10 +42,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => selectedDayOfWeek;
 
-            set
-            {
-                SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, () => TriggerPropertyChanged("Mondstadt", "Liyue", "Inazuma"));
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref selectedDayOfWeek, value, () => TriggerPropertyChanged("Mondstadt", "Liyue", "Inazuma"));
         }
 
         public ICommand OpenUICommand { get; }

@@ -16,10 +16,5 @@ namespace DGP.Genshin.DataModel.Launching
         /// 包含了账户登录信息
         /// </summary>
         [JsonProperty("MIHOYOSDK_ADL_PROD_CN_h3123967166")] public string? MihoyoSDK { get; set; }
-
-        /// <summary>
-        /// 包含了通用设置信息
-        /// </summary>
-        [JsonProperty("GENERAL_DATA_h2389025596")] public string? GeneralData { get; set; }
     }
 }

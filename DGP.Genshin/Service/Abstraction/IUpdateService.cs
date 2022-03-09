@@ -1,4 +1,4 @@
-﻿using Octokit;
+﻿using DGP.Genshin.DataModel.Update;
 using System;
 using System.Threading.Tasks;
 
@@ -17,17 +17,17 @@ namespace DGP.Genshin.Service.Abstraction
         /// <summary>
         /// 更新API获取的App版本
         /// </summary>
-        Version? NewVersion { get; set; }
+        Version? NewVersion { get; }
 
         /// <summary>
         /// 下载更新包的Url
         /// </summary>
-        Uri? PackageUri { get; set; }
+        Uri? PackageUri { get; }
 
         /// <summary>
-        /// 发行版
+        /// 发行日志
         /// </summary>
-        Release? Release { get; set; }
+        string? ReleaseNote { get; }
 
         /// <summary>
         /// 异步检查更新
@@ -40,6 +40,30 @@ namespace DGP.Genshin.Service.Abstraction
         /// 尽量避免在捕获的上下文中使用
         /// </summary>
         Task DownloadAndInstallPackageAsync();
+    }
+
+    /// <summary>
+    /// 更新检查器接口
+    /// </summary>
+    public interface IUpdateChecker
+    {
+        public Task<UpdateInfomation?> GetUpdateInfomationAsync();
+    }
+
+    /// <summary>
+    /// 更新API
+    /// </summary>
+    public enum UpdateAPI
+    {
+        /// <summary>
+        /// 使用 Github API 检查更新
+        /// </summary>
+        GithubAPI = 0,
+
+        /// <summary>
+        /// 使用 Patch API 检查更新
+        /// </summary>
+        PatchAPI = 1,
     }
 
     /// <summary>

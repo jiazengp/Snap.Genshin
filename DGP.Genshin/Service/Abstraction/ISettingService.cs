@@ -32,7 +32,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="value"></param>
         /// <param name="notify"></param>
         /// <param name="log"></param>
-        void Set<T>(SettingDefinition<T> definition, object? value, bool notify = true, bool log = false);
+        void Set<T>(SettingDefinition<T> definition, object? value, bool log = false);
 
         /// <summary>
         /// 卸载设置数据
@@ -63,6 +63,7 @@ namespace DGP.Genshin.Service.Abstraction
         //boot up
         public static readonly SettingDefinition<bool> SkipCacheCheck = new("SkipCacheCheck", false);
         //update
+        public static readonly SettingDefinition<UpdateAPI> UpdateAPI = new("UpdateChannel", Abstraction.UpdateAPI.PatchAPI, UpdateAPIConverter);
         public static readonly SettingDefinition<bool> UpdateUseFastGit = new("UpdateUseFastGit", false);
         //gacha statistic
         public static readonly SettingDefinition<bool> IsBannerWithNoItemVisible = new("IsBannerWithNoItemVisible", true);
@@ -81,9 +82,13 @@ namespace DGP.Genshin.Service.Abstraction
         public static readonly SettingDefinition<double> BackgroundOpacity = new("BackgroundOpacity", 0.4);
         public static readonly SettingDefinition<bool> IsBackgroundOpacityAdaptive = new("IsBackgroundOpacityAdaptive", false);
 
-        public static ApplicationTheme? ApplicationThemeConverter(object? n)
+        public static ApplicationTheme? ApplicationThemeConverter(object? obj)
         {
-            return n is null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), n);
+            return obj is null ? null : (ApplicationTheme)Enum.ToObject(typeof(ApplicationTheme), obj);
+        }
+        public static UpdateAPI UpdateAPIConverter(object obj)
+        {
+            return (UpdateAPI)Enum.ToObject(typeof(ApplicationTheme), obj);
         }
         public static Version? VersionConverter(object? obj)
         {
@@ -127,9 +132,21 @@ namespace DGP.Genshin.Service.Abstraction
             return settingService.Get(this);
         }
 
-        public void Set(object? value, bool notify = true, bool log = false)
+        public void Set(object? value, bool log = false)
         {
-            settingService.Set(this, value, notify, log);
+            settingService.Set(this, value, log);
+        }
+
+        /// <summary>
+        /// 为了兼容性保留该接口
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="_"></param>
+        /// <param name="log"></param>
+        [Obsolete("该重载已经不再使用")]
+        public void Set(object? value, bool _, bool log = false)
+        {
+            settingService.Set(this, value, log);
         }
 
         /// <summary>
@@ -138,7 +155,12 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="value"></param>
         public void Set(T value)
         {
-            Set(value, true, false);
+            Set(value, false);
+        }
+
+        public static implicit operator T(SettingDefinition<T> me)
+        {
+            return me.Get();
         }
     }
 }

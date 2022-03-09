@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.Control;
-using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Core.Background;
 using DGP.Genshin.Core.DpiAware;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Extenion.Enumerable;
 using Snap.Reflection;
+using Snap.Threading;
 using System;
 using System.ComponentModel;
 using System.Threading;
@@ -22,6 +23,9 @@ using System.Windows.Media;
 
 namespace DGP.Genshin
 {
+    /// <summary>
+    /// 主窗体
+    /// </summary>
     public partial class MainWindow : Window,
         IRecipient<SplashInitializationCompletedMessage>,
         IRecipient<NavigateRequestMessage>,
@@ -30,7 +34,8 @@ namespace DGP.Genshin
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
         //cause we have some async operation in initialization so we can't use lock
-        private readonly SemaphoreSlim initializingWindow = new(1, 1);
+        private readonly SemaphoreSlim initializingWindow = new(1,1);
+
         private bool hasInitializationCompleted = false;
 
         private static bool hasEverOpen = false;
@@ -40,6 +45,7 @@ namespace DGP.Genshin
         private readonly BackgroundLoader backgroundLoader;
 
         /// <summary>
+        /// 构造新的主窗体的实例
         /// Do NOT set DataContext for mainwindow
         /// </summary>
         public MainWindow()
@@ -48,8 +54,8 @@ namespace DGP.Genshin
             //support per monitor dpi awareness
             _ = new DpiAwareAdapter(this);
             //randomly load a image as background
-            backgroundLoader = new(this);
-            backgroundLoader.LoadWallpaper();
+            backgroundLoader = new(this, App.Messenger);
+            backgroundLoader.LoadNextWallpaperAsync().Forget();
             //initialize NavigationService
             navigationService = App.AutoWired<INavigationService>();
             navigationService.NavigationView = NavView;
@@ -83,29 +89,29 @@ namespace DGP.Genshin
         }
         private async Task PostInitializeAsync(SplashInitializationCompletedMessage viewModelReference)
         {
-            await initializingWindow.WaitAsync();
-            SplashViewModel splashViewModel = viewModelReference.Value;
-            AddAdditionalNavigationViewItems();
-            //preprocess
-            if (!hasEverOpen)
+            using (await initializingWindow.EnterAsync())
             {
-                CheckUpdateForWhatsNewAsync().Forget();
-                TrySignInOnStartUpAsync().Forget();
-                TryInitializeTaskbarIcon();
-                //树脂服务
-                App.AutoWired<IDailyNoteService>().Initialize();
-            }
-            splashViewModel.CompleteInitialization();
+                SplashViewModel splashViewModel = viewModelReference.Value;
+                AddAdditionalNavigationViewItems();
+                //preprocess
+                if (!hasEverOpen)
+                {
+                    CheckUpdateForWhatsNewAsync().Forget();
+                    TrySignInOnStartUpAsync().Forget();
+                    TryInitializeTaskbarIcon();
+                    //树脂服务
+                    App.AutoWired<IDailyNoteService>().Initialize();
+                }
+                splashViewModel.CompleteInitialization();
 
-            await Task.Delay(800);
-            navigationService.Navigate<HomePage>(isSyncTabRequested: true);
-            //before call Close() in this method,must release initializingWindow.
-            initializingWindow.Release();
+                await Task.Delay(800);
+                navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+            }
             hasInitializationCompleted = true;
 
             if (!hasEverOpen)
             {
-                if (Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null))
+                if (Setting2.IsTaskBarIconEnabled && (App.Current.NotifyIcon is not null))
                 {
                     if ((!App.IsLaunchedByUser) && Setting2.CloseMainWindowAfterInitializaion.Get())
                     {
@@ -131,9 +137,15 @@ namespace DGP.Genshin
         protected override void OnClosing(CancelEventArgs e)
         {
             TrySaveWindowState();
-            initializingWindow.Wait();
-            base.OnClosing(e);
-            initializingWindow.Release();
+            if (initializingWindow.CurrentCount < 1)
+            {
+                e.Cancel = true;
+                return;
+            }
+            using (initializingWindow.Enter())
+            {
+                base.OnClosing(e);
+            }
 
             bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
@@ -181,13 +193,10 @@ namespace DGP.Genshin
         }
         private void TryInitializeTaskbarIcon()
         {
-            if (Setting2.IsTaskBarIconEnabled.Get())
+            if (Setting2.IsTaskBarIconEnabled.Get() && App.Current.NotifyIcon is null)
             {
-                if (App.Current.NotifyIcon is null)
-                {
-                    App.Current.NotifyIcon = App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
-                    App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
-                }
+                App.Current.NotifyIcon = App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
+                App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
             }
         }
         /// <summary>
@@ -212,10 +221,10 @@ namespace DGP.Genshin
             await CheckUpdateForNotificationAsync();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
             //first launch after update
-            if (Setting2.AppVersion.Get() < updateService.CurrentVersion)
+            if (Setting2.AppVersion < updateService.CurrentVersion)
             {
                 Setting2.AppVersion.Set(updateService.CurrentVersion);
-                new WhatsNewWindow { ReleaseNote = updateService.Release?.Body }.Show();
+                new WhatsNewWindow { ReleaseNote = updateService.ReleaseNote }.Show();
             }
         }
         private async Task CheckUpdateForNotificationAsync()
@@ -250,5 +259,10 @@ namespace DGP.Genshin
             }
         }
         #endregion
+
+        private void SwitchWallPaperButtonClick(object sender, RoutedEventArgs e)
+        {
+            backgroundLoader.LoadNextWallpaperAsync().Forget();
+        }
     }
 }

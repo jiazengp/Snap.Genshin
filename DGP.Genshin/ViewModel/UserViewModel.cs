@@ -33,7 +33,6 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ICookieService cookieService;
         private readonly IDailyNoteService dailynoteService;
-        private readonly JoinableTaskFactory joinableTaskFactory;
         private readonly IMessenger messenger;
 
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
@@ -43,6 +42,34 @@ namespace DGP.Genshin.ViewModel
         private DailyNote? dailyNote;
         private DailyNoteNotifyConfiguration dailyNoteNotifyConfiguration;
         private JourneyInfo? journeyInfo;
+
+        #region SignIn
+        private bool autoDailySignInOnLaunch;
+        private bool signInSilently;
+
+        public bool AutoDailySignInOnLaunch
+        {
+            get => autoDailySignInOnLaunch;
+
+            set
+            {
+                Setting2.AutoDailySignInOnLaunch.Set(value, false);
+                SetProperty(ref autoDailySignInOnLaunch, value);
+            }
+        }
+        public bool SignInSilently
+        {
+            get => signInSilently;
+
+            set
+            {
+                Setting2.SignInSilently.Set(value, false);
+                SetProperty(ref signInSilently, value);
+            }
+        }
+
+        public ICommand SignInImmediatelyCommand { get; }
+        #endregion
 
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
@@ -132,16 +159,19 @@ namespace DGP.Genshin.ViewModel
         public ICommand AddUserCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, JoinableTaskFactory joinableTaskFactory, IMessenger messenger) : base(messenger)
+        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, ISignInService signInService, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             dailynoteService = dailyNoteService;
-            this.joinableTaskFactory = joinableTaskFactory;
             this.messenger = messenger;
 
             //与设置项同步
             DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.Get() ?? new();
             Setting2.DailyNoteNotifyConfiguration.Set(DailyNoteNotifyConfiguration);
+
+            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
+            SignInSilently = Setting2.SignInSilently.Get();
+            SignInImmediatelyCommand = new AsyncRelayCommand(signInService.TrySignAllAccountsRolesInAsync);
 
             OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
             RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
@@ -210,7 +240,7 @@ namespace DGP.Genshin.ViewModel
         }
         public void Receive(CookieRemovedMessage message)
         {
-            RemoveCookieUserInfoAsync(message).Forget();
+            RemoveCookieUserInfo(message);
         }
         public void Receive(DailyNotesRefreshedMessage message)
         {
@@ -237,21 +267,16 @@ namespace DGP.Genshin.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-        private async Task RemoveCookieUserInfoAsync(CookieRemovedMessage message)
+        private void RemoveCookieUserInfo(CookieRemovedMessage message)
         {
             this.Log("Cookie removed");
             CookieUserInfo? prevSelected = SelectedCookieUserInfo;
             CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == message.Value);
 
-            await joinableTaskFactory.RunAsync(async () =>
-            {
-                await joinableTaskFactory.SwitchToMainThreadAsync();
-                CookieUserInfos.Remove(currentRemoved);
-            });
+            CookieUserInfos.Remove(currentRemoved);
 
             if (prevSelected == currentRemoved)
             {
-
                 SelectedCookieUserInfo = CookieUserInfos.First();
             }
             this.Log(cookieUserInfos.Count);

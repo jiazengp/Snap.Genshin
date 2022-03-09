@@ -3,7 +3,6 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -30,7 +29,6 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 导入导出操作锁
         /// </summary>
         private readonly object processing = new();
-        private readonly JoinableTaskFactory joinableTaskFactory;
         private const string localFolder = "GachaStatistic";
         private const string metadataSheetName = "原始数据";
 
@@ -40,14 +38,13 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 本地数据在初始化完成后随即可用
         /// </summary>
         /// <param name="data"></param>
-        public LocalGachaLogWorker(JoinableTaskFactory joinableTaskFactory)
+        public LocalGachaLogWorker()
         {
-            this.joinableTaskFactory = joinableTaskFactory;
             Directory.CreateDirectory(localFolder);
         }
         public async Task LoadAllAsync(GachaDataCollection gachaData)
         {
-            await joinableTaskFactory.SwitchToMainThreadAsync();
+            await Task.Yield();
             foreach (string uidFolder in Directory.EnumerateDirectories($@"{localFolder}"))
             {
                 string uid = new DirectoryInfo(uidFolder).Name;
@@ -82,9 +79,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             string uidFolder = PathContext.Locate(localFolder, uid);
             Directory.CreateDirectory(uidFolder);
-            foreach (KeyValuePair<string, List<GachaLogItem>?> entry in gachaData[uid]!)
+            foreach ((string uidName, List<GachaLogItem>? logs) in gachaData[uid]!)
             {
-                Json.ToFile($@"{uidFolder}\{entry.Key}.json", entry.Value);
+                Json.ToFile($@"{uidFolder}\{uidName}.json", logs);
             }
         }
         #endregion
@@ -162,9 +159,9 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
                 importData.Data[type]!.Add(item);
             }
-            foreach (KeyValuePair<string, List<GachaLogItem>?> pair in importData.Data)
+            foreach ((string poolId, List<GachaLogItem>? logs) in importData.Data)
             {
-                importData.Data[pair.Key] = pair.Value?.OrderByDescending(x => x.Id).ToList();
+                importData.Data[poolId] = logs?.OrderByDescending(x => x.Id).ToList();
             }
 
             return importData;
@@ -257,12 +254,12 @@ namespace DGP.Genshin.Service.GachaStatistic
                             importData.Data[type]!.Add(item);
                         }
                     }
-                    foreach (KeyValuePair<string, List<GachaLogItem>?> kvp in importData.Data)
+                    foreach ((string poolId, List<GachaLogItem>? logs) in importData.Data)
                     {
-                        if (kvp.Value is List<GachaLogItem> gachaList)
+                        if (logs is not null)
                         {
                             //importData.Data[kvp.Key] = ;Fix ordered list got ignored issue
-                            importData.Data[kvp.Key] = gachaList.OrderByDescending(x => x.TimeId).ToList();
+                            importData.Data[poolId] = logs.OrderByDescending(x => x.TimeId).ToList();
                         }
                     }
                 }
@@ -301,6 +298,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
         private async Task<string> ImportImportableGachaDataAsync(ImportableGachaData importable, GachaDataCollection gachaData)
         {
+            await Task.Yield();
             if (importable.Uid is null)
             {
                 throw new InvalidOperationException("未提供Uid");
@@ -311,20 +309,16 @@ namespace DGP.Genshin.Service.GachaStatistic
                 if (gachaData[importable.Uid] is not null)
                 {
                     //we need to perform merge operation
-                    foreach (KeyValuePair<string, List<GachaLogItem>?> pool in data)
+                    foreach ((string poolId, List<GachaLogItem>? logs) in data)
                     {
-                        TrimToBackIncrement(importable.Uid, pool.Key, gachaData, pool.Value);
-                        MergeBackIncrement(importable.Uid, pool.Key, gachaData, pool.Value ?? new());
+                        TrimToBackIncrement(importable.Uid, poolId, gachaData, logs);
+                        MergeBackIncrement(importable.Uid, poolId, gachaData, logs ?? new());
                     }
                 }
                 else
                 {
                     //is new uid
-                    await joinableTaskFactory.RunAsync(async () =>
-                    {
-                        await joinableTaskFactory.SwitchToMainThreadAsync();
-                        gachaData.Add(importable.Uid, data);
-                    });
+                    gachaData.Add(importable.Uid, data);
                 }
                 return importable.Uid;
             }

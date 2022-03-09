@@ -14,7 +14,7 @@ namespace DGP.Genshin.Service.Abstraction
         string? WorkingUid { get; }
 
         Task<string?> FetchGachaLogAggressivelyAsync(ConfigType type, Action<FetchProgress> progressCallBack);
-        Task<string?> FetchGachaLogIncrementAsync(ConfigType type, Action<FetchProgress> progressCallBack);
+        Task<string?> FetchGachaLogIncreaselyAsync(ConfigType type, Action<FetchProgress> progressCallBack);
         Task<Config?> GetCurrentGachaConfigAsync();
         int GetRandomDelay();
     }
