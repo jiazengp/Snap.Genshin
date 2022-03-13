@@ -156,12 +156,12 @@ namespace DGP.Genshin.ViewModel
 
             Accounts = launchService.LoadAllAccount();
 
-            IsBorderless = Setting2.IsBorderless.Get();
-            IsFullScreen = Setting2.IsFullScreen.Get();
-            UnlockFPS = Setting2.UnlockFPS.Get();
-            TargetFPS = Setting2.TargetFPS.Get();
-            ScreenWidth = Setting2.ScreenWidth.Get();
-            ScreenHeight = Setting2.ScreenHeight.Get();
+            IsBorderless = Setting2.IsBorderless;
+            IsFullScreen = Setting2.IsFullScreen;
+            UnlockFPS = Setting2.UnlockFPS;
+            TargetFPS = Setting2.TargetFPS;
+            ScreenWidth = Setting2.ScreenWidth;
+            ScreenHeight = Setting2.ScreenHeight;
 
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
             LaunchCommand = asyncRelayCommandFactory.Create<string>(LaunchByOptionAsync);
@@ -170,7 +170,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            string? launcherPath = Setting2.LauncherPath.Get();
+            string? launcherPath = Setting2.LauncherPath;
             launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {

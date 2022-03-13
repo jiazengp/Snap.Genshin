@@ -7,7 +7,7 @@
       xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
       xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper" xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
       mc:Ignorable="d" 
       d:DesignHeight="2000" 
       d:DesignWidth="800"
@@ -20,6 +20,22 @@
             <Setter Property="MinWidth" Value="120"/>
         </Style>
         <Style TargetType="ui:ToggleSwitch" BasedOn="{StaticResource CardToggleSwitchStyle}"/>
+
+        <markdown:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter">
+            <markdown:TextToFlowDocumentConverter.Markdown>
+                <markdown:Markdown
+                        DocumentStyle="{StaticResource DocumentStyle}"
+                        Heading1Style="{StaticResource H1Style}"
+                        Heading2Style="{StaticResource H2Style}"
+                        Heading3Style="{StaticResource H3Style}"
+                        Heading4Style="{StaticResource H4Style}"
+                        LinkStyle="{StaticResource LinkStyle}"
+                        ImageStyle="{StaticResource ImageStyle}"
+                        SeparatorStyle="{StaticResource SeparatorStyle}"
+                        TableStyle="{StaticResource TableStyle}"
+                        TableHeaderStyle="{StaticResource TableHeaderStyle}"/>
+            </markdown:TextToFlowDocumentConverter.Markdown>
+        </markdown:TextToFlowDocumentConverter>
     </Page.Resources>
     <Grid>
         <s:SmoothScrollViewer Margin="0,0,0,0">
@@ -94,12 +110,13 @@
                         <ProgressBar Margin="0,12,0,0" Grid.Row="1" Value="{Binding UpdateInfo.Value,Mode=OneWay}" Maximum="1" MinHeight="2"/>
                     </Grid>
                 </wu:Card>
+                <wu:Card Margin="12,4,16,0">
+                    <FlowDocumentScrollViewer IsHitTestVisible="False"
+                        Document="{Binding ReleaseNote,Converter={StaticResource TextToFlowDocumentConverter}}"/>
+                </wu:Card>
                 <!--CurrentUpdateAPI-->
                 <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="更新通道" Subtitle="不同的通道收到的更新频率会有所不同" Margin="12,4,16,0">
                     <ComboBox ItemsSource="{Binding UpdateAPIs,Mode=OneWay}" SelectedItem="{Binding CurrentUpdateAPI}" DisplayMemberPath="Name"/>
-                </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="最新版本 &amp; 更新日志" Subtitle="前往Github查看最新版本以及更新日志" Margin="12,4,16,0">
-                    <wu:Hyperlink Content="前往查看" NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/releases/latest" Padding="4"/>
                 </wu:CardControl>
                 
                 <wu:CardAction 
@@ -113,11 +130,13 @@
                     <UniformGrid Columns="3" Margin="12,12,12,0">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                       Content="前往 Github 提交 Issue" Padding="4" Margin="0,0,0,12"/>
+                        <wu:Hyperlink NavigateUri="https://discord.gg/SHYdJbxJua" 
+                                      Content="我们的 Discord 服务器" Padding="4" Margin="0,0,0,12"/>
+                        
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=Wpcad0lD"
                                       Content="开发交流 982424236" Padding="4" Margin="0,0,0,12"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=MHLNhhYJ"
                                       Content="反馈1群 910780153" Padding="4" Margin="0,0,0,12"/>
-                        
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=cgh9S2XW"
                                       Content="闲聊2群 547288075" Padding="4" Margin="0,0,0,12"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=IYl2vyTv"

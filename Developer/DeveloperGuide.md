@@ -10,8 +10,16 @@
 
 ## 克隆Snap Genshin 主项目
 
->由于我们将包含了Token的仓库设为了私有
-以防止非组织成员生成的版本提交 AppCenter 数据
+### 对于组织内成员
+
+```
+git clone --recurse-submodules --depth 1 https://github.com/DGP-Studio/Snap.Genshin.git
+```
+
+### 对于组织外用户
+
+>由于我们将包含了Token的仓库设为了私有  
+以防止非组织成员生成的版本提交 AppCenter 数据  
 所以需要执行特定的脚本才能顺利克隆仓库
 
 以下为 Python 脚本参考
@@ -89,13 +97,13 @@ if __name__ == '__main__':
 
 > 1. 克隆库
 
-- 克隆`git clone https://github.com/DGP-Studio/Snap.Genshin.git`
+- 克隆 `git clone https://github.com/DGP-Studio/Snap.Genshin.git`
 
 - 克隆子模块（`git_submodule`方法）
 
 > 2. 生成的预准备
 
-- 取消私有库`DGP.Genshin.Secret`的引用和`DGP.Snap.AutoVersion.exe`的编译事件
+- 取消私有库 `DGP.Genshin.Secret` 的引用和 `DGP.Snap.AutoVersion.exe` 的编译事件
 
 - 复制Metadata到Debug生成目录
 

@@ -27,8 +27,7 @@ namespace DGP.Genshin
     /// <summary>
     /// 主窗体
     /// </summary>
-    public partial class MainWindow : Window,
-        IRecipient<SplashInitializationCompletedMessage>
+    public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
@@ -204,12 +203,7 @@ namespace DGP.Genshin
         {
             await CheckUpdateForNotificationAsync();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
-            //first launch after update
-            if (Setting2.AppVersion < updateService.CurrentVersion)
-            {
-                Setting2.AppVersion.Set(updateService.CurrentVersion);
-                new WhatsNewWindow { ReleaseNote = updateService.ReleaseNote }.Show();
-            }
+            Setting2.AppVersion.Set(updateService.CurrentVersion);
         }
         private async Task CheckUpdateForNotificationAsync()
         {

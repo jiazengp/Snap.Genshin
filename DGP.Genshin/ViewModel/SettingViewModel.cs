@@ -183,6 +183,7 @@ namespace DGP.Genshin.ViewModel
             [MemberNotNull(nameof(updateInfo))]
             set => SetProperty(ref updateInfo, value);
         }
+        public string? ReleaseNote { get; }
         #endregion
 
         public ICommand CheckUpdateCommand { get; }
@@ -208,10 +209,11 @@ namespace DGP.Genshin.ViewModel
             IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible.Get();
 
             Version v = App.Current.Version;
-            VersionString = $"Snap Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
             UserId = User.Id;
 
             UpdateInfo = UpdateProgressedMessage.Default;
+            ReleaseNote = updateService.ReleaseNote;
 
             CheckUpdateCommand = asyncRelayCommandFactory.Create(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);

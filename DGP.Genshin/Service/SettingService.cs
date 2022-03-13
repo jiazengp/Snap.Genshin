@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction.Setting;
+using Newtonsoft.Json;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
@@ -64,7 +65,15 @@ namespace DGP.Genshin.Service
         {
             if (File.Exists(settingFile))
             {
-                settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(settingFile));
+                try
+                {
+                    settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(settingFile));
+                }
+                //only catch those exception that json file corrupted
+                catch (JsonReaderException)
+                {
+                    settings = new();
+                }
             }
         }
 

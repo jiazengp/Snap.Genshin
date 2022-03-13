@@ -4,6 +4,7 @@ using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Helper;
+using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;

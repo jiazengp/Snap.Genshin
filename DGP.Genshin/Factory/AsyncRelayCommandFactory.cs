@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Factory.Abstraction;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
@@ -77,6 +78,7 @@ namespace DGP.Genshin.Factory
                     {
                         if (asyncRelayCommand.ExecutionTask?.Exception is AggregateException exception)
                         {
+                            Crashes.TrackError(exception);
                             this.Log(exception);
                         }
                     }

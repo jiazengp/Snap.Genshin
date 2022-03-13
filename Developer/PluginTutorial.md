@@ -8,9 +8,9 @@
 * 对 依赖注入/控制反转 有一定的了解
 
 ## 开发适用于 Snap Genshin 的插件程序集
-Snap Genshin 的插件系统设计 使得开发者能够开发权限极高的插件  
+Snap Genshin 的插件系统设计 使得开发者能够开发权限较高的插件  
 可以调整 Snap Genshin 的默认行为，修改已经存在的服务与视图  
-可以进行任何类型的 服务/视图模型 注册  
+可以进行任何类型的 服务/工厂/视图模型/视图 注册  
 
 开发插件前，你需要 `Clone` 整个 `Snap Genshin` 仓库到本地  
 完整克隆的方法请参阅 [开发人员文档](DeveloperGuide)  
@@ -91,7 +91,7 @@ DGP.Genshin.Core.Plugins.SnapGenshinPluginAttribute
 可以将该行代码放在项目的任何 `C#` 文件中，注意：assembly 特性不能放置在 名称空间中  
 较为合理的位置是开发者熟悉的 `AssemblyInfo.cs` 文件
 
-## 实现 `IPlugin` 接口
+## 实现 `IPlugin` 主接口
 
 在上述工作完成后，你需要主类以实现 
 ``` c#
@@ -123,6 +123,8 @@ namespace DGP.Genshin.Sample.Plugin
 
 ## `ImportPage` 添加导航页面
 
+> 此操作是可选的
+
 如果需要添加可导航的新页面则需要准备好一个新的Page  
 对应的 xaml 文件中的代码在此省略
 
@@ -131,10 +133,12 @@ using System.Windows.Controls;
 
 namespace DGP.Genshin.Sample.Plugin
 {
+    [View]
     public partial class SamplePage : Page
     {
-        public SamplePage()
+        public SamplePage(SmapleViewModel vm)
         {
+            DataContext = vm;
             InitializeComponent();
         }
     }
@@ -168,6 +172,8 @@ DGP.Genshin.Core.Plugins.ImportPageAttribute
 ``` c#
 [ImportPage(typeof(SamplePage), "插件页面名称", "\uE734")]
 ```
+一个插件可以通过此方法注册多个导航页面
+
 
 第三个参数是图标的字符串形式，详见 [segoe-fluent-icons-font](https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font)  
 也可以使用另一个 `ImportPage` 的构造函数，采用了 `IconFactory` 类作为第三个参数
@@ -180,7 +186,8 @@ DGP.Genshin.Core.Plugins.ImportPageAttribute
 例如：
 * 可以在服务类上添加 `[Service]` 特性 
 * 在视图模型上添加 `[ViewModel]` 特性  
-* 在页面上添加 `[Page]` 特性（暂时不起作用）
+* 在页面上添加 `[View]` 特性
+* 在工厂类上添加 `[Factory]`特性
 
 ``` c#
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -204,6 +211,58 @@ namespace DGP.Genshin.Sample.Plugin
     }
 }
 ```
+
+# 进阶
+
+## Snap Genshin 生命周期感知
+
+### `IAppStartUp` 应用程序启动事件感知
+
+在你的插件的主类上实现
+``` c#
+DGP.Genshin.Core.LifeCycle.IAppStartUp
+```
+接口，该接口提供了 `Happen(IContainer)` 方法  
+以便在程序启动时对你的插件注入的类进行操作
+
+`IContainer` 提供 `Find()` 方法 以便插件发现注入的类
+
+> 该容器是已经定型的容器，仅能从中发现你的插件注入的服务
+
+### AppExitingMessage 应用程序退出事件感知
+
+在任何你注入的类中 实现 
+
+``` c#
+Microsoft.Toolkit.Mvvm.Messaging.IRecipient<DGP.Genshin.Message.AppExitingMessage>
+```
+接口，并在构造器中注入 
+```
+Microsoft.Toolkit.Mvvm.Messaging.IMessaenger
+```
+类型
+
+在构造器中 调用 IMessenger 的相关注册消息方法  
+并且不要忘记在析构器中 取消注册
+
+在 `IRecipient<AppExitingMessage>` 的接口方法中就可以处理应用程序退出时的逻辑了
+
+## 保存设置
+
+### 与应用程序设置储存到一起
+
+在你访问设置的类中实例化一个
+```
+DGP.Genshin.Service.Abstraction.Setting.SettingDefinition<T>
+```
+的静态只读变量  
+该类提供了方便的方法供你储存与读取设置  
+设置项会在程序启动时读取完成，会在程序退出的最后保存
+
+> 在注册新的设置项前需要前往  
+> `DGP.Genshin.Service.Abstraction.Setting.Setting2`  
+> 类中查看已有的设置项，避免与已有的注册项冲突  
+
 
 ## 项目示例
 

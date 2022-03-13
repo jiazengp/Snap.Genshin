@@ -154,7 +154,7 @@ namespace DGP.Genshin.Service
         /// </summary>
         private void StartInstallUpdate()
         {
-            Directory.CreateDirectory(UpdaterFolder);
+            Directory.CreateDirectory(PathContext.Locate(UpdaterFolder));
             PathContext.MoveToFolderOrIgnore(UpdaterExecutable, UpdaterFolder);
             string oldUpdaterPath = PathContext.Locate(UpdaterFolder, UpdaterExecutable);
 

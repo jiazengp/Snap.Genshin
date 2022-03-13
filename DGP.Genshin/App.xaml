@@ -512,8 +512,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
-            <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="{x:Type s:SmoothScrollViewer}"/>
+
+            <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="{x:Type s:SmoothScrollViewer}">
+                <Setter Property="PanningMode" Value="Both"/>
+            </Style>
             
             <Style TargetType="{x:Type c:CachedImage}">
                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>

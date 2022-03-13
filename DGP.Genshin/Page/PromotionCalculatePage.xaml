@@ -383,10 +383,10 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="所有角色">
+            <TabItem Header="所有角色" Visibility="Collapsed">
 
             </TabItem>
-            <TabItem Header="所有武器">
+            <TabItem Header="所有武器" Visibility="Collapsed">
 
             </TabItem>
         </TabControl>
