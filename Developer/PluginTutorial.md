@@ -229,7 +229,7 @@ DGP.Genshin.Core.LifeCycle.IAppStartUp
 
 > 该容器是已经定型的容器，仅能从中发现你的插件注入的服务
 
-### AppExitingMessage 应用程序退出事件感知
+### `AppExitingMessage` 应用程序退出事件感知
 
 在任何你注入的类中 实现 
 
@@ -246,6 +246,25 @@ Microsoft.Toolkit.Mvvm.Messaging.IMessaenger
 并且不要忘记在析构器中 取消注册
 
 在 `IRecipient<AppExitingMessage>` 的接口方法中就可以处理应用程序退出时的逻辑了
+
+## 异步命令
+```
+Microsoft.Toolkit.Mvvm.Input.AsyncRelayCommand
+```
+默认不会处理或打印异常的详细信息，使得调试异步命令的错误较为困难
+
+### 异步 `ICommand` 异常捕获
+
+我们提供了
+```
+DGP.Genshin.Factory.Abstraction.IAsyncRelayCommandFactory
+```
+接口，以便创建能够处理异步操作异常的命令  
+当由此接口创建的命令发生异常时  
+会在控制台打印异常的详细信息  
+在发行版中更会将异常信息上传
+
+> 可以通过依赖注入的方式获得此接口的默认实现
 
 ## 保存设置
 
