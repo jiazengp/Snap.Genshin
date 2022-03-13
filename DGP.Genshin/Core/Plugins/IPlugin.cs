@@ -4,6 +4,7 @@ namespace DGP.Genshin.Core.Plugins
 {
     /// <summary>
     /// 实现插件接口
+    /// 该类必须具有一个公共的无参构造函数
     /// </summary>
     public interface IPlugin
     {

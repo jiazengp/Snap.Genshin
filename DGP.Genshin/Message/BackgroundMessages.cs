@@ -9,4 +9,9 @@
     {
         public AdaptiveBackgroundOpacityChangedMessage(double value) : base(value) { }
     }
+
+    public class BackgroundChangeRequestMessage
+    {
+
+    }
 }

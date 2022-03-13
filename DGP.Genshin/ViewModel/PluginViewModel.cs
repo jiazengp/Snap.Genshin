@@ -14,7 +14,7 @@ namespace DGP.Genshin.ViewModel
     public class PluginViewModel : ObservableObject
     {
         private const string PluginFolder = "Plugins";
-        private const string pluginsLink = "https://github.com/DGP-Studio/Snap.Genshin/tree/main/Plugins";
+        private const string pluginsLink = "https://www.snapgenshin.com/documents/extensions/";
         private IEnumerable<IPlugin> plugins;
 
         public IEnumerable<IPlugin> Plugins

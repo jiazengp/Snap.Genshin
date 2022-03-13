@@ -20,6 +20,10 @@
                         <TextBlock Margin="0,8,0,0" Text="{Binding TargetAccount.MihoyoSDK}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Expander>
+                <TextBlock Margin="0,6,0,0" Text="请不要尝试跳过此步骤"
+                           Foreground="Red" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBlock Margin="0,6,0,0" Text="如果你频繁的看到此对话框&#10;请删除所有账号后重新添加"
+                           Foreground="DarkRed" Style="{StaticResource BaseTextBlockStyle}"/>
             </StackPanel>
         </smoothscrollviewer:SmoothScrollViewer>
     </Grid>

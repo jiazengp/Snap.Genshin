@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using Microsoft.AppCenter.Crashes;
 using ModernWpf.Controls;
 using Newtonsoft.Json;

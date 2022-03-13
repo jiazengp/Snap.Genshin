@@ -1,9 +1,11 @@
 ﻿using DGP.Genshin.Control.Launching;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Launching;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Launching;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -145,7 +147,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand DeleteAccountCommand { get; }
         #endregion
 
-        public LaunchViewModel(ILaunchService launchService, IMessenger messenger)
+        public LaunchViewModel(ILaunchService launchService, IMessenger messenger, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
             this.launchService = launchService;
             GameWatcher = launchService.GameWatcher;
@@ -161,8 +163,8 @@ namespace DGP.Genshin.ViewModel
             ScreenWidth = Setting2.ScreenWidth.Get();
             ScreenHeight = Setting2.ScreenHeight.Get();
 
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-            LaunchCommand = new AsyncRelayCommand<string>(LaunchByOptionAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            LaunchCommand = asyncRelayCommandFactory.Create<string>(LaunchByOptionAsync);
             DeleteAccountCommand = new RelayCommand(DeleteAccount);
         }
 

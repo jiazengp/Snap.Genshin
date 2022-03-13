@@ -31,68 +31,97 @@
     <Grid>
         <TabControl 
             VerticalContentAlignment="Stretch"
-            Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityRevertConverter}}"
             Style="{StaticResource TabControlPivotStyle}"
             ItemContainerStyle="{StaticResource PivotItemStyle}">
             <TabItem Header="材料清单">
-                <smoothscrollviewer:SmoothScrollViewer>
-                    <ItemsControl ItemsSource="{Binding MaterialList}" VerticalAlignment="Top" Margin="12,12,4,0">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <c:DesiredWidthUniformGrid ColumnDesiredWidth="360"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <wu:Card Margin="0,0,12,12" Padding="6">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40"/>
-                                                <ColumnDefinition Width="32"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="&#xE74D;" Background="Transparent"
+                <Grid>
+                    <ui:SplitView IsPaneOpen="True" DisplayMode="Inline" PaneBackground="Transparent" OpenPaneLength="280">
+                        <ui:SplitView.Pane>
+                            <smoothscrollviewer:SmoothScrollViewer VerticalScrollBarVisibility="Hidden">
+                                <ItemsControl ItemsSource="{Binding TotalConsumption}" Margin="12,12,12,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,6">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="32"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <cachedimage:CachedImage Height="32" Width="32" ImageUrl="{Binding Icon}"/>
+                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"/>
+                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Text="{Binding Num}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </smoothscrollviewer:SmoothScrollViewer>
+                        </ui:SplitView.Pane>
+                        <ui:SplitView.Content>
+                            <smoothscrollviewer:SmoothScrollViewer>
+                                <ItemsControl ItemsSource="{Binding MaterialList}" VerticalAlignment="Top" Margin="12,12,4,0">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <c:DesiredWidthUniformGrid ColumnDesiredWidth="360"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <wu:Card Margin="0,0,12,12" Padding="6">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="40"/>
+                                                            <ColumnDefinition Width="32"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="&#xE74D;" Background="Transparent"
                                                     Padding="0" Margin="2,0" FontFamily="{StaticResource SymbolThemeFontFamily}" ToolTipService.ToolTip="删除此清单"
                                                     Command="{Binding RemoveCommand}" CommandParameter="{Binding}"/>
-                                            <cachedimage:CachedImage Height="32" Width="32" Grid.Column="1" ImageUrl="{Binding Calculable.Icon}"/>
-                                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="2" 
+                                                        <cachedimage:CachedImage Height="32" Width="32" Grid.Column="1" ImageUrl="{Binding Calculable.Icon}"/>
+                                                        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="2" 
                                                        Text="{Binding Calculable.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                        </Grid>
-                                        <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="0,4,0,0"/>
-                                        <ItemsControl Grid.Row="2" ItemsSource="{Binding ConsumeItems}" Margin="0,6,0,0">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <MenuItem IsCheckable="True" IsChecked="{Binding IsCompleted,Mode=TwoWay}">
-                                                        <MenuItem.Header>
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="32"/>
-                                                                    <ColumnDefinition/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <cachedimage:CachedImage Height="32" Width="32" ImageUrl="{Binding Icon}"/>
-                                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"/>
-                                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Text="{Binding Num}"/>
-                                                            </Grid>
-                                                        </MenuItem.Header>
-                                                    </MenuItem>
-                                                    
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </wu:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </smoothscrollviewer:SmoothScrollViewer>
+                                                    </Grid>
+                                                    <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="0,4,0,0"/>
+                                                    <ItemsControl Grid.Row="2" ItemsSource="{Binding ConsumeItems}" Margin="0,6,0,0">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <MenuItem IsCheckable="True" IsChecked="{Binding IsCompleted,Mode=TwoWay}">
+                                                                    <MenuItem.Header>
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="32"/>
+                                                                                <ColumnDefinition/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <cachedimage:CachedImage Height="32" Width="32" ImageUrl="{Binding Icon}"/>
+                                                                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"/>
+                                                                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Text="{Binding Num}"/>
+                                                                        </Grid>
+                                                                    </MenuItem.Header>
+                                                                </MenuItem>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Grid>
+                                            </wu:Card>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </smoothscrollviewer:SmoothScrollViewer>
+                        </ui:SplitView.Content>
+                    </ui:SplitView>
+                    <Border Visibility="{Binding MaterialList,Converter={StaticResource DataVisibilityConverter}}">
+                        <TextBlock 
+                            Text="清单为空，可前往上方角色/武器页签添加"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    </Border>
+                </Grid>
             </TabItem>
-            <TabItem Header="同步角色">
+            <TabItem Header="我的角色">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -354,17 +383,12 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="所有角色" Visibility="Hidden">
+            <TabItem Header="所有角色">
 
             </TabItem>
-            <TabItem Header="所有武器" Visibility="Hidden">
+            <TabItem Header="所有武器">
 
             </TabItem>
         </TabControl>
-        <Border d:Visibility="Visible"
-                Grid.RowSpan="2" 
-                Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityConverter}}">
-            <genshinelements:ElementsProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Border>
     </Grid>
 </Page>

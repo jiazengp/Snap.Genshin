@@ -4,46 +4,8 @@ using DGP.Genshin.Service.GachaStatistic;
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstraction
+namespace DGP.Genshin.Service.Abstraction.GachaStatistic
 {
-    public interface IGachaLogWorker
-    {
-        (int min, int max) Delay { get; set; }
-        bool IsFetchDelayEnabled { get; set; }
-        GachaDataCollection WorkingGachaData { get; set; }
-        string? WorkingUid { get; }
-
-        Task<string?> FetchGachaLogAggressivelyAsync(ConfigType type, Action<FetchProgress> progressCallBack);
-        Task<string?> FetchGachaLogIncreaselyAsync(ConfigType type, Action<FetchProgress> progressCallBack);
-        Task<Config?> GetCurrentGachaConfigAsync();
-        int GetRandomDelay();
-    }
-
-    /// <summary>
-    /// 表示可导入的数据实体
-    /// 仅能表示一个uid的数据
-    /// </summary>
-    public class ImportableGachaData
-    {
-        public GachaData? Data { get; set; }
-        public string? Uid { get; set; }
-    }
-
-    /// <summary>
-    /// 获取抽卡Url的模式
-    /// </summary>
-    public enum GachaLogUrlMode
-    {
-        /// <summary>
-        /// 从游戏日志获取
-        /// </summary>
-        GameLogFile,
-        /// <summary>
-        /// 手动输入
-        /// </summary>
-        ManualInput
-    }
-
     /// <summary>
     /// 祈愿统计服务
     /// </summary>

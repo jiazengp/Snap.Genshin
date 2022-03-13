@@ -31,7 +31,7 @@
                 <wu:CardAction 
                     helper:IconHelper.Icon="&#xE838;" 
                     helper:CardHelper.ActionTitle="打开背景图片文件夹" 
-                    helper:CardHelper.ActionSubtitle="当图片文件夹中包含图片时，在每次打开主界面时会随机一张作为背景，仅支持 JPG PNG BMP 格式"
+                    helper:CardHelper.ActionSubtitle="仅支持 JPG PNG BMP 格式，重启后刷新图片路径缓存"
                     Command="{Binding OpenBackgroundFolderCommand}"
                     Margin="12,12,16,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE793;" Icon="DarkTheme24" Title="背景不透明度" Subtitle="更改背景图片的不透明度" Margin="12,4,16,0">
@@ -42,6 +42,9 @@
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xF08C;" Title="自动调整" Subtitle="根据背景图片亮度自动调整不透明度" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding IsBackgroundOpacityAdaptive}"/>
+                </wu:CardControl>
+                <wu:CardControl helper:IconHelper.Icon="&#xE786;" Title="切换壁纸" Subtitle="对当前的壁纸不满意？手动切换到下一张" Margin="12,4,16,0">
+                    <Button Content="下一张壁纸" Command="{Binding NextWallpaperCommand}"/>
                 </wu:CardControl>
 
                 <TextBlock Text="启动" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
@@ -63,11 +66,6 @@
                 <TextBlock Text="祈愿记录" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE81C;" Title="显示未抽取的卡池信息" Subtitle="在祈愿记录界面的隶属页签中展示未进行抽取的卡池信息" Margin="12,12,16,0">
                     <ui:ToggleSwitch IsOn="{Binding IsBannerWithNoItemVisible}"/>
-                </wu:CardControl>
-                
-                <TextBlock Text="数据" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="实时便笺刷新时间" Subtitle="设置实时便笺后台的刷新间隔时间（退出程序后不会刷新）" Margin="12,12,16,0">
-                    <ComboBox ItemsSource="{Binding ResinAutoRefreshTime,Mode=OneWay}" SelectedItem="{Binding SelectedResinAutoRefreshTime}" DisplayMemberPath="Name"/>
                 </wu:CardControl>
 
                 <TextBlock Text="缓存" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
@@ -110,7 +108,8 @@
                     helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
 
-                <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="联系我们" Subtitle="如果你在使用软件的过程中遇到问题，或是单纯的想聊聊天，可以看看这里" Margin="12,12,16,0">
+                <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="联系我们" Subtitle="如果你在使用软件的过程中遇到问题，或是单纯的想聊聊天，可以看看这里"
+                                 Margin="12,12,16,0" IsExpanded="True">
                     <UniformGrid Columns="3" Margin="12,12,12,0">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                       Content="前往 Github 提交 Issue" Padding="4" Margin="0,0,0,12"/>

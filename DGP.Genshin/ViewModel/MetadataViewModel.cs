@@ -4,12 +4,12 @@ using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Helper;
-using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Data.Json;
+using Snap.Exception;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -326,9 +326,9 @@ namespace DGP.Genshin.ViewModel
 
         public MetadataViewModel()
         {
-            if (!Directory.Exists(PathContext.Locate(folderPath)))
+            if (!PathContext.FolderExists(folderPath))
             {
-                throw new Snap.Exception.SnapGenshinInternalException("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
+                throw new SnapGenshinInternalException("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
             }
             CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
             WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
@@ -350,15 +350,28 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
+        public Primitive? FindPrimitiveByName(string? name)
+        {
+            if (name is null)
+            {
+                return null;
+            }
+            return (Primitive?)characters?.FirstOrDefault(c => c.Name == name) ??
+                weapons?.FirstOrDefault(w => w.Name == name) ?? null;
+        }
+        /// <summary>
+        /// 根据名称查找合适的url
+        /// 仅限角色与武器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public string? FindSourceByName(string? name)
         {
             if (name is null)
             {
                 return null;
             }
-            Primitive? p = (Primitive?)characters?.FirstOrDefault(c => c.Name == name) ??
-                weapons?.FirstOrDefault(w => w.Name == name) ?? null;
-            return p?.Source;
+            return FindPrimitiveByName(name)?.Source;
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.DataModel.Material;
-using Microsoft.Toolkit.Mvvm.Input;
+using DGP.Genshin.Factory.Abstraction;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
@@ -73,11 +73,11 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        public DailyViewModel(MetadataViewModel metadataViewModel)
+        public DailyViewModel(MetadataViewModel metadataViewModel, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
             dataViewModel = metadataViewModel;
 
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         private async Task OpenUIAsync()

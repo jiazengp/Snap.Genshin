@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;

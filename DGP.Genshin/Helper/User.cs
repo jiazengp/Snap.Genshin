@@ -8,7 +8,7 @@ namespace DGP.Genshin.Helper
     /// <summary>
     /// 用户信息
     /// </summary>
-    internal class User
+    public class User
     {
         private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
         private const string MachineGuidValue = "MachineGuid";

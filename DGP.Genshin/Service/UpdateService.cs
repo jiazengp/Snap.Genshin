@@ -3,7 +3,8 @@ using DGP.Genshin.DataModel.Update;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
+using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
@@ -190,24 +191,23 @@ namespace DGP.Genshin.Service
         }
 
         /// <summary>
-        /// because repo cant cantain original token string
-        /// so we store base64 encoded value here
-        /// https://github.com/settings/tokens
-        /// </summary>
-        internal class GithubToken : Base64Converter
-        {
-            private GithubToken() { }
-            public static string GetToken()
-            {
-                return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
-            }
-        }
-
-        /// <summary>
         /// Github API 更新检查器实现
         /// </summary>
         internal class GithubUpdateChecker : IUpdateChecker
         {
+            /// <summary>
+            /// because repo cant cantain original token string
+            /// so we store base64 encoded value here
+            /// https://github.com/settings/tokens
+            /// </summary>
+            internal class GithubToken : Base64Converter
+            {
+                private GithubToken() { }
+                public static string GetToken()
+                {
+                    return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
+                }
+            }
             public async Task<UpdateInfomation?> GetUpdateInfomationAsync()
             {
                 try
@@ -238,7 +238,7 @@ namespace DGP.Genshin.Service
         {
             public async Task<UpdateInfomation?> GetUpdateInfomationAsync()
             {
-                return await Json.FromWebsiteAsync<UpdateInfomation>("https://patch.snapgenshin.com/getPatch");
+                return await Json.FromWebsiteAsync<UpdateInfomation>("https://api.snapgenshin.com/patch/stable/global");
             }
         }
 

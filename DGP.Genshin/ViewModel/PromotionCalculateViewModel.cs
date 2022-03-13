@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Promotion;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -38,6 +39,7 @@ namespace DGP.Genshin.ViewModel
         private AvatarDetailData? avatarDetailData;
         private Consumption? consumption = new();
         private MaterialList? materialList;
+        private IEnumerable<ConsumeItem>? totalConsumption;
 
         public IEnumerable<UserGameRole>? UserGameRoles
         {
@@ -115,11 +117,18 @@ namespace DGP.Genshin.ViewModel
         #endregion
 
         #region MaterialList
-        public MaterialList? MaterialList 
-        { 
-            get => materialList; 
+        public MaterialList? MaterialList
+        {
+            get => materialList;
 
-            set => SetProperty(ref materialList, value); 
+            set => SetProperty(ref materialList, value);
+        }
+
+        public IEnumerable<ConsumeItem>? TotalConsumption
+        {
+            get => totalConsumption;
+
+            set => SetProperty(ref totalConsumption, value);
         }
 
         public ICommand AddCharacterMaterialCommand { get; }
@@ -128,7 +137,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand CloseCommand { get; }
         #endregion
 
-        public PromotionCalculateViewModel(IMaterialListService materialListService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public PromotionCalculateViewModel(IMaterialListService materialListService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             this.materialListService = materialListService;
@@ -136,20 +145,21 @@ namespace DGP.Genshin.ViewModel
             calculator = new(cookieService.CurrentCookie);
             userGameRoleProvider = new(cookieService.CurrentCookie);
 
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
             CloseCommand = new RelayCommand(CloseUI);
-            ComputeCommand = new AsyncRelayCommand(ComputeAsync);
+            ComputeCommand = asyncRelayCommandFactory.Create(ComputeAsync);
 
-            AddCharacterMaterialCommand = new AsyncRelayCommand<string>(AddCharacterMaterialToListAsync);
-            AddWeaponMaterialCommand = new AsyncRelayCommand(AddWeaponMaterialToListAsync);
+            AddCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(AddCharacterMaterialToListAsync);
+            AddWeaponMaterialCommand = asyncRelayCommandFactory.Create(AddWeaponMaterialToListAsync);
 
-            RemoveMaterialCommand = new AsyncRelayCommand<CalculableConsume>(RemoveMaterialFromListAsync);
+            RemoveMaterialCommand = asyncRelayCommandFactory.Create<CalculableConsume>(RemoveMaterialFromListAsync);
         }
 
         private async Task OpenUIAsync()
         {
             MaterialList = materialListService.Load();
             MaterialList.ForEach(item => item.RemoveCommand = RemoveMaterialCommand);
+            TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
 
             UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
             SelectedUserGameRole = UserGameRoles?.FirstOrDefault();
@@ -215,19 +225,19 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                materialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
-                materialListService.Save(MaterialList);
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
             }
         }
         private async Task AddWeaponMaterialToListAsync()
         {
             Calculable calculable = AvatarDetailData?.Weapon ?? throw new SnapGenshinInternalException($"{nameof(AvatarDetailData.Weapon)} 不应为 null");
             List<ConsumeItem> items = Consumption?.WeaponConsume ?? throw new SnapGenshinInternalException($"{nameof(Consumption.WeaponConsume)} 不应为 null");
-            
+
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                materialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
-                materialListService.Save(MaterialList);
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
             }
         }
         private async Task RemoveMaterialFromListAsync(CalculableConsume? item)
@@ -241,13 +251,13 @@ namespace DGP.Genshin.ViewModel
                 DefaultButton = ContentDialogButton.Close
             }.ShowAsync();
 
-            if (result == ContentDialogResult.Primary&& item is not null)
+            if (result == ContentDialogResult.Primary && item is not null)
             {
                 MaterialList?.Remove(item);
             }
         }
 
-        private async Task<bool> ConfirmAddAsync(string name,string category)
+        private async Task<bool> ConfirmAddAsync(string name, string category)
         {
             ContentDialogResult result = await new ContentDialog()
             {

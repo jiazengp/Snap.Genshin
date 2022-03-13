@@ -1,11 +1,12 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core;
+using DGP.Genshin.Core.LifeCycle;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using Snap.Core.Logging;
 using Snap.Exception;
+using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,11 +40,11 @@ namespace DGP.Genshin
         {
             get => serviceManager;
         }
-
         internal IPluginService PluginService
         {
             get => pluginService;
         }
+        internal IContainer DI { get; } = new DefaultContainter();
 
         public TaskbarIcon? NotifyIcon { get; set; }
 
@@ -52,6 +54,14 @@ namespace DGP.Genshin
             _ = Version;
             pluginService = new PluginService();
             serviceManager = new SnapGenshinServiceManager();
+        }
+
+        internal class DefaultContainter : IContainer
+        {
+            public T Find<T>()
+            {
+                return AutoWired<T>();
+            }
         }
 
         #region Properties
@@ -169,10 +179,19 @@ namespace DGP.Genshin
             AutoWired<ISettingService>().Initialize();
             //app theme
             UpdateAppTheme();
+            TriggerAppStartUpEvent();
             //open main window
             base.OnStartup(e);
             BringWindowToFront<MainWindow>();
         }
+
+        private void TriggerAppStartUpEvent()
+        {
+            pluginService.Plugins
+                .OfType<IAppStartUp>()
+                .ForEach(notified => notified.Happen(DI));
+        }
+
         protected override void OnExit(ExitEventArgs e)
         {
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
@@ -187,14 +206,14 @@ namespace DGP.Genshin
         }
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
-            e.Cancel = true;
+            base.OnSessionEnding(e);
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
                 AutoWired<ISettingService>().UnInitialize();
                 try { ToastNotificationManagerCompat.History.Clear(); } catch { }
             }
-            base.OnSessionEnding(e);
+            e.Cancel = true;
         }
 
         private void ConfigureUnhandledException()

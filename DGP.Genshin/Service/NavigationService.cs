@@ -5,6 +5,7 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Snap.Core.DependencyInjection;
@@ -19,11 +20,13 @@ namespace DGP.Genshin.Service
     /// 导航服务的默认实现
     /// </summary>
     [Service(typeof(INavigationService), InjectAs.Transient)]
-    internal class NavigationService : INavigationService
+    internal class NavigationService : INavigationService, IRecipient<NavigateRequestMessage>
     {
+        private readonly IMessenger messenger;
         private NavigationView? navigationView;
 
         public Frame? Frame { get; set; }
+
         public NavigationView? NavigationView
         {
             get => navigationView;
@@ -45,6 +48,17 @@ namespace DGP.Genshin.Service
         }
         public NavigationViewItem? Selected { get; set; }
         public bool HasEverNavigated { get; set; }
+
+        public NavigationService(IMessenger messenger)
+        {
+            this.messenger = messenger;
+            messenger.RegisterAll(this);
+        }
+
+        ~NavigationService()
+        {
+            messenger.UnregisterAll(this);
+        }
 
         public bool SyncTabWith(Type pageType)
         {
@@ -176,6 +190,11 @@ namespace DGP.Genshin.Service
                     }
                 }
             }
+        }
+
+        public void Receive(NavigateRequestMessage message)
+        {
+            Navigate(message);
         }
     }
 }

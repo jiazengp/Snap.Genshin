@@ -1,12 +1,12 @@
 ﻿using DGP.Genshin.Control.GenshinElement.HutaoStatistic;
 using DGP.Genshin.DataModel.HutaoAPI;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;
+using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
@@ -23,16 +23,15 @@ namespace DGP.Genshin.ViewModel
     {
         private readonly ICookieService cookieService;
         private readonly IHutaoStatisticService hutaoStatisticService;
-        private readonly JoinableTaskFactory joinableTaskFactory;
 
         private bool shouldUIPresent;
         private Overview? overview;
-        private IEnumerable<Indexed<int, Item<double>>>? avatarParticipations;
-        private IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? avatarReliquaryUsages;
-        private IEnumerable<Item<IEnumerable<Item<double>>>>? teamCollocations;
-        private IEnumerable<Item<IEnumerable<Item<double>>>>? weaponUsages;
-        private IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>>? avatarConstellations;
-        private IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? teamCombinations;
+        private IList<Indexed<int, Item<double>>>? avatarParticipations;
+        private IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? avatarReliquaryUsages;
+        private IList<Item<IList<Item<double>>>>? teamCollocations;
+        private IList<Item<IList<Item<double>>>>? weaponUsages;
+        private IList<Rate<Item<IList<NamedValue<double>>>>>? avatarConstellations;
+        private IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? teamCombinations;
 
         public bool ShouldUIPresent
         {
@@ -46,37 +45,37 @@ namespace DGP.Genshin.ViewModel
 
             set => SetProperty(ref overview, value);
         }
-        public IEnumerable<Indexed<int, Item<double>>>? AvatarParticipations
+        public IList<Indexed<int, Item<double>>>? AvatarParticipations
         {
             get => avatarParticipations;
 
             set => SetProperty(ref avatarParticipations, value);
         }
-        public IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>>? AvatarReliquaryUsages
+        public IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? AvatarReliquaryUsages
         {
             get => avatarReliquaryUsages;
 
             set => SetProperty(ref avatarReliquaryUsages, value);
         }
-        public IEnumerable<Item<IEnumerable<Item<double>>>>? TeamCollocations
+        public IList<Item<IList<Item<double>>>>? TeamCollocations
         {
             get => teamCollocations;
 
             set => SetProperty(ref teamCollocations, value);
         }
-        public IEnumerable<Item<IEnumerable<Item<double>>>>? WeaponUsages
+        public IList<Item<IList<Item<double>>>>? WeaponUsages
         {
             get => weaponUsages;
 
             set => SetProperty(ref weaponUsages, value);
         }
-        public IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>>? AvatarConstellations
+        public IList<Rate<Item<IList<NamedValue<double>>>>>? AvatarConstellations
         {
             get => avatarConstellations;
 
             set => SetProperty(ref avatarConstellations, value);
         }
-        public IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>>? TeamCombinations
+        public IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? TeamCombinations
         {
             get => teamCombinations;
 
@@ -85,24 +84,22 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }
-        public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService, JoinableTaskFactory joinableTaskFactory)
+        public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            this.joinableTaskFactory = joinableTaskFactory;
             this.cookieService = cookieService;
             this.hutaoStatisticService = hutaoStatisticService;
 
-
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-            UploadCommand = new AsyncRelayCommand(UploadRecordsAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            UploadCommand = asyncRelayCommandFactory.Create(UploadRecordsAsync);
         }
 
         public async Task OpenUIAsync()
         {
             try
             {
-                await hutaoStatisticService.InitializeAsync().ConfigureAwait(true);
+                await hutaoStatisticService.InitializeAsync();
 
-                Overview = await hutaoStatisticService.GetOverviewAsync().ConfigureAwait(true);
+                Overview = await hutaoStatisticService.GetOverviewAsync();
                 //V1
                 AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
@@ -115,7 +112,6 @@ namespace DGP.Genshin.ViewModel
             catch (Exception e)
             {
                 this.Log(e);
-                await joinableTaskFactory.SwitchToMainThreadAsync();
                 await new ContentDialog()
                 {
                     Title = "加载失败",
@@ -133,15 +129,7 @@ namespace DGP.Genshin.ViewModel
             ShouldUIPresent = false;
             try
             {
-                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie,
-                    async record => ContentDialogResult.Primary == await this.ExecuteOnUIAsync(new UploadDialog(record).ShowAsync),
-                    async resp => await this.ExecuteOnUIAsync(new ContentDialog()
-                    {
-                        Title = "提交记录",
-                        Content = resp.Message,
-                        PrimaryButtonText = "确定",
-                        DefaultButton = ContentDialogButton.Primary
-                    }.ShowAsync));
+                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie, ConfirmAsync, HandleResponseAsync);
             }
             catch (Exception e)
             {
@@ -158,6 +146,21 @@ namespace DGP.Genshin.ViewModel
             {
                 ShouldUIPresent = true;
             }
+        }
+
+        private async Task<bool> ConfirmAsync(PlayerRecord record)
+        {
+            return ContentDialogResult.Primary == await this.ExecuteOnUIAsync(new UploadDialog(record).ShowAsync);
+        }
+        private async Task HandleResponseAsync(Response resonse)
+        {
+            await new ContentDialog()
+            {
+                Title = "提交记录",
+                Content = resonse.Message,
+                PrimaryButtonText = "确定",
+                DefaultButton = ContentDialogButton.Primary
+            }.ShowAsync();
         }
     }
 }

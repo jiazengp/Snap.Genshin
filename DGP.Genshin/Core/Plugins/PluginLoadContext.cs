@@ -21,6 +21,7 @@ namespace DGP.Genshin.Core.Plugins
         protected override Assembly? Load(AssemblyName assemblyName)
         {
             //replace DGP.Genshin ref version to current release version
+            //seems useless, but just keep this there
             if (assemblyName.Name == appAssemblyName.Name)
             {
                 assemblyName.Version = appAssemblyName.Version;

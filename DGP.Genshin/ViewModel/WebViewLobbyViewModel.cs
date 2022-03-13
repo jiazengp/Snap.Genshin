@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.WebViewLobby;
 using DGP.Genshin.DataModel.WebViewLobby;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
@@ -22,6 +23,7 @@ namespace DGP.Genshin.ViewModel
         private const string entriesFileName = "WebviewEntries.json";
         private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
 
+        private readonly IAsyncRelayCommandFactory asyncRelayCommandFactory;
         private readonly IMessenger messenger;
 
         private ObservableCollection<WebViewEntry>? entries;
@@ -35,14 +37,21 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand AddEntryCommand { get; }
         public ICommand CommonScriptCommand { get; }
+        public ICommand ModifyCommand { get; }
+        public ICommand RemoveEntryCommand { get; }
+        public ICommand NavigateCommand { get; }
 
-        public WebViewLobbyViewModel(IMessenger messenger)
+        public WebViewLobbyViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
         {
+            this.asyncRelayCommandFactory = asyncRelayCommandFactory;
             this.messenger = messenger;
 
             LoadEntries();
 
-            AddEntryCommand = new AsyncRelayCommand(AddEntryAsync);
+            AddEntryCommand = asyncRelayCommandFactory.Create(AddEntryAsync);
+            ModifyCommand = asyncRelayCommandFactory.Create<WebViewEntry>(ModifyEntryAsync);
+            RemoveEntryCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
+            NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
             CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
         }
 
@@ -51,9 +60,9 @@ namespace DGP.Genshin.ViewModel
             WebViewEntry? entry = await new WebViewEntryDialog().GetWebViewEntryAsync();
             if (entry is not null)
             {
-                entry.ModifyCommand = new AsyncRelayCommand<WebViewEntry>(ModifyEntryAsync);
-                entry.RemoveCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
-                entry.NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
+                entry.ModifyCommand = ModifyCommand;
+                entry.RemoveCommand = RemoveEntryCommand;
+                entry.NavigateCommand = NavigateCommand;
                 Entries?.Add(entry);
                 SaveEntries();
             }
@@ -66,9 +75,9 @@ namespace DGP.Genshin.ViewModel
                 WebViewEntry? modified = await new WebViewEntryDialog(entry).GetWebViewEntryAsync();
                 if (modified is not null)
                 {
-                    modified.ModifyCommand = new AsyncRelayCommand<WebViewEntry>(ModifyEntryAsync);
-                    modified.RemoveCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
-                    modified.NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
+                    modified.ModifyCommand = ModifyCommand;
+                    modified.RemoveCommand = RemoveEntryCommand;
+                    modified.NavigateCommand = NavigateCommand;
                     Entries.RemoveAt(index);
                     Entries.Insert(index, modified);
                     SaveEntries();
@@ -96,9 +105,9 @@ namespace DGP.Genshin.ViewModel
                 {
                     list.ForEach(entry =>
                     {
-                        entry.ModifyCommand = new AsyncRelayCommand<WebViewEntry>(ModifyEntryAsync);
-                        entry.RemoveCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
-                        entry.NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
+                        entry.ModifyCommand = ModifyCommand;
+                        entry.RemoveCommand = RemoveEntryCommand;
+                        entry.NavigateCommand = NavigateCommand;
                     });
                     Entries = new(list);
                     return;

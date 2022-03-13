@@ -1,7 +1,7 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.MiHoYoAPI.Response;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using Snap.Core.Logging;
 using Snap.Exception;
 using Snap.Net.QueryString;
@@ -105,29 +105,28 @@ namespace DGP.Genshin.Service.GachaStatistic
                 (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
-                    if (log.List is not null)
+                    _ = log.List ?? throw new SnapGenshinInternalException("祈愿记录列表不应为null");
+
+                    foreach (GachaLogItem item in log.List)
                     {
-                        foreach (GachaLogItem item in log.List)
+                        WorkingUid = item.Uid;
+                        //this one is increment
+                        if (item.TimeId > WorkingGachaData.GetNewestTimeIdOf(type, item.Uid))
                         {
-                            WorkingUid = item.Uid;
-                            //this one is increment
-                            if (item.TimeId > WorkingGachaData.GetNewestTimeIdOf(type, item.Uid))
-                            {
-                                increment.Add(item);
-                            }
-                            else//already done the new item
-                            {
-                                await MergeIncrementAsync(type, increment);
-                                return WorkingUid;
-                            }
+                            increment.Add(item);
                         }
-                        //last page
-                        if (log.List.Count < batchSize)
+                        else//already done the new item
                         {
-                            break;
+                            await MergeIncrementAsync(type, increment);
+                            return WorkingUid;
                         }
-                        endId = log.List.Last().TimeId;
                     }
+                    //last page
+                    if (log.List.Count < batchSize)
+                    {
+                        break;
+                    }
+                    endId = log.List.Last().TimeId;
                 }
                 else
                 {
@@ -179,12 +178,13 @@ namespace DGP.Genshin.Service.GachaStatistic
                 else
                 {
                     WorkingUid = null;
-                    throw new InvalidOperationException("提供的Url无效");
+                    throw new SnapGenshinInternalException("提供的Url无效");
                 }
                 if (IsFetchDelayEnabled)
                 {
                     await Task.Delay(GetRandomDelay());
                 }
+
             } while (true);
             //first time fecth could go here
             await MergeFullAsync(type, full);
@@ -199,7 +199,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         private async Task MergeIncrementAsync(ConfigType type, List<GachaLogItem> increment)
         {
             await Task.Yield();
-            _ = WorkingUid ?? throw new InvalidOperationException($"{nameof(WorkingUid)} 不应为 null");
+            //卡池内没有物品导致无法判断Uid
+            if (WorkingUid is null)
+            {
+                return;
+            }
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
                 WorkingGachaData.Add(WorkingUid, new GachaData());
@@ -228,7 +232,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         private async Task MergeFullAsync(ConfigType type, List<GachaLogItem> full)
         {
             await Task.Yield();
-            _ = WorkingUid ?? throw new SnapGenshinInternalException($"{nameof(WorkingUid)} 不应为 null");
+            //卡池内没有物品导致无法判断Uid
+            if (WorkingUid is null)
+            {
+                return;
+            }
             if (!WorkingGachaData.HasUid(WorkingUid))
             {
                 WorkingGachaData.Add(WorkingUid, new GachaData());
@@ -286,8 +294,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {"User-Agent", RequestOptions.CommonUA2101 }
             });
             Response<GachaLog>? resp = await requester.GetAsync<GachaLog>(finalUrl);
-
-            return (resp?.ReturnCode == 0, resp?.Data ?? new());
+            return (Response.IsOk(resp), resp?.Data ?? new());
         }
     }
 }

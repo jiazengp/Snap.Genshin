@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;

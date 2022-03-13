@@ -1,5 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using DGP.Genshin.Factory.Abstraction;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Snap.Core.DependencyInjection;
 using Snap.Net.Afdian;
 using System.Collections.Generic;
@@ -25,9 +25,9 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
 
-        public SponsorViewModel()
+        public SponsorViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         private async Task OpenUIAsync()

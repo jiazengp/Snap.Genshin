@@ -1,6 +1,8 @@
 ﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Launching;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -26,7 +28,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenLauncherCommand { get; }
         public ICommand SignInCommand { get; }
 
-        public TaskbarIconViewModel(ILaunchService launchService, ISignInService signInService, IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ILaunchService launchService, ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.launchService = launchService;
             this.signInService = signInService;
@@ -34,9 +36,9 @@ namespace DGP.Genshin.ViewModel
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
             RestartAsElevatedCommand = new RelayCommand(RestartAsElevated);
-            LaunchGameCommand = new AsyncRelayCommand(LaunchGameAsync);
+            LaunchGameCommand = asyncRelayCommandFactory.Create(LaunchGameAsync);
             OpenLauncherCommand = new RelayCommand(OpenLauncher);
-            SignInCommand = new AsyncRelayCommand(SignInAsync);
+            SignInCommand = asyncRelayCommandFactory.Create(SignInAsync);
         }
 
         private void OpenMainWindow()

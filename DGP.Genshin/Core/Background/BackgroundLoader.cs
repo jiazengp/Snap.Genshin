@@ -1,8 +1,10 @@
 ﻿using DGP.Genshin.Core.Background.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Message;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
@@ -22,7 +24,7 @@ namespace DGP.Genshin.Core.Background
     /// <summary>
     /// 背景图片加载器
     /// </summary>
-    internal class BackgroundLoader
+    internal class BackgroundLoader : IRecipient<BackgroundOpacityChangedMessage>, IRecipient<BackgroundChangeRequestMessage>
     {
         private const int animationDurationMilliseconds = 500;
 
@@ -34,6 +36,11 @@ namespace DGP.Genshin.Core.Background
         {
             this.mainWindow = mainWindow;
             this.messenger = messenger;
+            messenger.RegisterAll(this);
+        }
+        ~BackgroundLoader()
+        {
+            messenger.UnregisterAll(this);
         }
 
         private double Lightness { get; set; }
@@ -42,7 +49,7 @@ namespace DGP.Genshin.Core.Background
         {
             BackgroundProvider ??= new DefaultBackgroundProvider();
             BitmapImage? image = await BackgroundProvider.GetNextBitmapImageAsync();
-            if(image == null)
+            if (image == null)
             {
                 return;
             }
@@ -112,15 +119,27 @@ namespace DGP.Genshin.Core.Background
             }
         }
 
+        public void Receive(BackgroundOpacityChangedMessage message)
+        {
+            if (mainWindow.BackgroundGrid.Background is ImageBrush brush)
+            {
+                brush.Opacity = message.Value;
+            }
+        }
+        public void Receive(BackgroundChangeRequestMessage message)
+        {
+            LoadNextWallpaperAsync().Forget();
+        }
+
         internal class DefaultBackgroundProvider : IBackgroundProvider
         {
             private const string BackgroundFolder = "Background";
 
-            private readonly List<string> supportedFiles;
+            private static readonly List<string> supportedFiles;
             private static readonly IEnumerable<string> supportedExtensions =
                 new List<string>() { ".png", ".jpg", ".jpeg", ".bmp" };
 
-            public DefaultBackgroundProvider()
+            static DefaultBackgroundProvider()
             {
                 string folder = PathContext.Locate(BackgroundFolder);
                 Directory.CreateDirectory(folder);

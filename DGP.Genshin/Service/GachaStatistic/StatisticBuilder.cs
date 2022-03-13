@@ -1,12 +1,11 @@
 ﻿using DGP.Genshin.DataModel;
-using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.GachaStatistic.Item;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
 using Snap.Core.Logging;
 using Snap.Exception;
@@ -176,22 +175,9 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 Name = i.Name,
                                 StarUrl = StarHelper.FromInt32Rank(int.Parse(i.Rank))
                             };
-                            if (itemType == "武器")
-                            {
-                                Weapon? weapon = App.AutoWired<MetadataViewModel>().Weapons?.First(w => w.Name == i.Name);
-                                counter[i.Name].Source = weapon?.Source;
-                                counter[i.Name].Badge = weapon?.Type;
-                            }
-                            else if (itemType == "角色")
-                            {
-                                Character? character = App.AutoWired<MetadataViewModel>().Characters?.First(c => c.Name == i.Name);
-                                counter[i.Name].Source = character?.Source;
-                                counter[i.Name].Badge = character?.Element;
-                            }
-                            else
-                            {
-                                throw new SnapGenshinInternalException("不支持的物品类型");
-                            }
+                            Primitive? item = App.AutoWired<MetadataViewModel>().FindPrimitiveByName(i.Name);
+                            counter[i.Name].Source = item?.Source;
+                            counter[i.Name].Badge = item?.GetBadge();
                         }
                         counter[i.Name].Count += 1;
                     }

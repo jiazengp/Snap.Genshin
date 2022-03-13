@@ -6,6 +6,8 @@ using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
+using DGP.Genshin.Service.Abstraction.Updating;
 using DGP.Genshin.ViewModel;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -19,7 +21,6 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace DGP.Genshin
 {
@@ -27,14 +28,12 @@ namespace DGP.Genshin
     /// 主窗体
     /// </summary>
     public partial class MainWindow : Window,
-        IRecipient<SplashInitializationCompletedMessage>,
-        IRecipient<NavigateRequestMessage>,
-        IRecipient<BackgroundOpacityChangedMessage>
+        IRecipient<SplashInitializationCompletedMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException
         //cause we have some async operation in initialization so we can't use lock
-        private readonly SemaphoreSlim initializingWindow = new(1,1);
+        private readonly SemaphoreSlim initializingWindow = new(1, 1);
 
         private bool hasInitializationCompleted = false;
 
@@ -61,9 +60,7 @@ namespace DGP.Genshin
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
             //register messages
-            App.Messenger.Register<SplashInitializationCompletedMessage>(this);
-            App.Messenger.Register<NavigateRequestMessage>(this);
-            App.Messenger.Register<BackgroundOpacityChangedMessage>(this);
+            App.Messenger.RegisterAll(this);
         }
 
         private void InitializeContent()
@@ -78,9 +75,7 @@ namespace DGP.Genshin
 
         ~MainWindow()
         {
-            App.Messenger.Unregister<SplashInitializationCompletedMessage>(this);
-            App.Messenger.Unregister<NavigateRequestMessage>(this);
-            App.Messenger.Unregister<BackgroundOpacityChangedMessage>(this);
+            App.Messenger.UnregisterAll(this);
         }
 
         public void Receive(SplashInitializationCompletedMessage viewModelReference)
@@ -121,17 +116,6 @@ namespace DGP.Genshin
             }
             //设置已经打开过状态
             hasEverOpen = true;
-        }
-        public void Receive(NavigateRequestMessage message)
-        {
-            navigationService.Navigate(message);
-        }
-        public void Receive(BackgroundOpacityChangedMessage message)
-        {
-            if (BackgroundGrid.Background is ImageBrush brush)
-            {
-                brush.Opacity = message.Value;
-            }
         }
 
         protected override void OnClosing(CancelEventArgs e)

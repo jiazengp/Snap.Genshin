@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.DataModel.Promotion
 {
-    public record CalculableConsume 
+    public record CalculableConsume
     {
         public CalculableConsume(Calculable calculable, List<ConsumeItem> consumption)
         {

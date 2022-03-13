@@ -1,11 +1,13 @@
 ﻿using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.DataModel.DailyNote;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Journey;
 using DGP.Genshin.MiHoYoAPI.Record.DailyNote;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -14,6 +16,7 @@ using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
+using Snap.Data.Primitive;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
@@ -71,6 +74,21 @@ namespace DGP.Genshin.ViewModel
         public ICommand SignInImmediatelyCommand { get; }
         #endregion
 
+        public List<NamedValue<TimeSpan>> ResinAutoRefreshTimes { get; } = new()
+        {
+            new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
+            new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
+            new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
+            new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
+            new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
+        };
+        private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
+        public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
+        {
+            get => selectedResinAutoRefreshTime;
+
+            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value, v => Setting2.ResinRefreshMinutes.Set(v.Value.TotalMinutes));
+        }
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
             get => cookieUserInfos;
@@ -159,23 +177,23 @@ namespace DGP.Genshin.ViewModel
         public ICommand AddUserCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, ISignInService signInService, IMessenger messenger) : base(messenger)
+        public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             dailynoteService = dailyNoteService;
             this.messenger = messenger;
 
-            //与设置项同步
-            DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.Get() ?? new();
-            Setting2.DailyNoteNotifyConfiguration.Set(DailyNoteNotifyConfiguration);
-
-            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch.Get();
+            //实时树脂
+            DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.GetNonValueType(() => new());
+            selectedResinAutoRefreshTime = ResinAutoRefreshTimes.First(s => s.Value.TotalMinutes == Setting2.ResinRefreshMinutes);
+            //签到选项
+            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch;
             SignInSilently = Setting2.SignInSilently.Get();
-            SignInImmediatelyCommand = new AsyncRelayCommand(signInService.TrySignAllAccountsRolesInAsync);
+            SignInImmediatelyCommand = asyncRelayCommandFactory.Create(signInService.TrySignAllAccountsRolesInAsync);
 
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-            RemoveUserCommand = new AsyncRelayCommand(RemoveUserAsync);
-            AddUserCommand = new AsyncRelayCommand(AddUserAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            RemoveUserCommand = asyncRelayCommandFactory.Create(RemoveUserAsync);
+            AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
             RefreshCommand = new RelayCommand(RefreshUI);
         }
 

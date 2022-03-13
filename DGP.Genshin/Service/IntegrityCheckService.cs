@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.Control.Infrastructure.CachedImage;
 using DGP.Genshin.DataModel;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.IntegrityCheck;
+using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-using IState = DGP.Genshin.Service.Abstraction.IIntegrityCheckService.IIntegrityCheckState;
+using IState = DGP.Genshin.Service.Abstraction.IntegrityCheck.IIntegrityCheckService.IIntegrityCheckState;
 
 namespace DGP.Genshin.Service
 {

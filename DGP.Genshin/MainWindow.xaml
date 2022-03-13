@@ -630,8 +630,6 @@
         <StackPanel 
             x:Name="TitleBarStackPanel" Orientation="Horizontal"
             HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,192,0">
-            <ui:TitleBarButton IsActive="{Binding IsActive,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" 
-                   Width="NaN" Padding="16,0" FontFamily="Microsoft YaHei UI" Content="下一张壁纸" Click="SwitchWallPaperButtonClick"/>
         </StackPanel>
         <!--Masks-->
         <cf:SplashView x:Name="MainSplashView" d:IsHidden="True"/>

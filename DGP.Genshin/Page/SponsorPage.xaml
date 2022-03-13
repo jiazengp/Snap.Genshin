@@ -24,7 +24,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="12,12,16,12">
-            <wu:CardControl helper:IconHelper.Icon="&#xEB52;" Title="赞助者名单" Subtitle="所有的赞助者都会显示在这里 [按赞助时间从晚到早排序]">
+            <wu:CardControl helper:IconHelper.Icon="&#xEB52;" Title="{Binding Sponsors.Count,StringFormat={}感谢 {0} 位爱发电用户对我们的帮助}" Subtitle="所有的爱发电赞助者都会显示在这里 [按赞助时间从晚到早排序]">
                 <wu:Hyperlink Content="前往爱发电赞助" NavigateUri="https://afdian.net/@DismissedLight" Padding="4"/>
             </wu:CardControl>
         </Grid>

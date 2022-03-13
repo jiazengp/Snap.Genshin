@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace DGP.Genshin.Service.Abstraction
+namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
 {
     /// <summary>
     /// 完整性检查服务
@@ -39,13 +39,5 @@ namespace DGP.Genshin.Service.Abstraction
             /// </summary>
             string? Info { get; set; }
         }
-    }
-
-    /// <summary>
-    /// 指示此属性需要受到完整性检查
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class IntegrityAwareAttribute : Attribute
-    {
     }
 }

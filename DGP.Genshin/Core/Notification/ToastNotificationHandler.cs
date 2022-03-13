@@ -1,4 +1,6 @@
-﻿using DGP.Genshin.Service.Abstraction;
+﻿using DGP.Genshin.Service.Abstraction.Launching;
+using DGP.Genshin.Service.Abstraction.Setting;
+using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;

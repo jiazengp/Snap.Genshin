@@ -12,13 +12,13 @@ namespace DGP.Genshin.Service.Abstraction
     public interface IHutaoStatisticService
     {
         Task GetAllRecordsAndUploadAsync(string cookie, Func<PlayerRecord, Task<bool>> confirmFunc, Func<Response, Task> resultAsyncFunc);
-        IEnumerable<Rate<Item<IEnumerable<NamedValue<double>>>>> GetAvatarConstellations();
-        IEnumerable<Indexed<int, Item<double>>> GetAvatarParticipations();
+        IList<Rate<Item<IList<NamedValue<double>>>>> GetAvatarConstellations();
+        IList<Indexed<int, Item<double>>> GetAvatarParticipations();
         Task<Overview?> GetOverviewAsync();
-        IEnumerable<Item<IEnumerable<NamedValue<Rate<IEnumerable<Item<int>>>>>>> GetReliquaryUsages();
-        IEnumerable<Item<IEnumerable<Item<double>>>> GetTeamCollocations();
-        IEnumerable<Indexed<string, Rate<Two<IEnumerable<HutaoItem>>>>> GetTeamCombinations();
-        IEnumerable<Item<IEnumerable<Item<double>>>> GetWeaponUsages();
+        IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>> GetReliquaryUsages();
+        IList<Item<IList<Item<double>>>> GetTeamCollocations();
+        IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations();
+        IList<Item<IList<Item<double>>>> GetWeaponUsages();
         Task InitializeAsync();
     }
 }

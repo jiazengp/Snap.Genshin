@@ -20,6 +20,7 @@ namespace DGP.Genshin.Core
         {
             Services = ConfigureServices();
         }
+
         /// <summary>
         /// 获取 <see cref="IServiceProvider"/> 的实例
         /// 存放类
@@ -34,35 +35,26 @@ namespace DGP.Genshin.Core
         /// <exception cref="SnapGenshinInternalException">未知的注册类型</exception>
         private void RegisterService(ServiceCollection services, Type type)
         {
-            //注册服务类型
-            if (type.TryGetAttribute(out ServiceAttribute? serviceAttr))
+            if (type.TryGetAttribute(out InjectableAttribute? attr))
             {
-                _ = serviceAttr.InjectAs switch
+                if (attr is InterfaceInjectableAttribute interfaceInjectable)
                 {
-                    InjectAs.Singleton => services.AddSingleton(serviceAttr.InterfaceType, type),
-                    InjectAs.Transient => services.AddTransient(serviceAttr.InterfaceType, type),
-                    _ => throw new SnapGenshinInternalException($"未知的服务类型 {type}"),
-                };
-            }
-            //注册视图模型
-            if (type.TryGetAttribute(out ViewModelAttribute? viewModelAttr))
-            {
-                _ = viewModelAttr.InjectAs switch
+                    _ = interfaceInjectable.InjectAs switch
+                    {
+                        InjectAs.Singleton => services.AddSingleton(interfaceInjectable.InterfaceType, type),
+                        InjectAs.Transient => services.AddTransient(interfaceInjectable.InterfaceType, type),
+                        _ => throw new SnapGenshinInternalException($"未知的注入类型 {type}"),
+                    };
+                }
+                else
                 {
-                    InjectAs.Singleton => services.AddSingleton(type),
-                    InjectAs.Transient => services.AddTransient(type),
-                    _ => throw new SnapGenshinInternalException($"未知的视图模型类型 {type}"),
-                };
-            }
-            //注册视图
-            if (type.TryGetAttribute(out ViewAttribute? viewAttr))
-            {
-                _ = viewAttr.InjectAs switch
-                {
-                    InjectAs.Singleton => services.AddSingleton(type),
-                    InjectAs.Transient => services.AddTransient(type),
-                    _ => throw new SnapGenshinInternalException($"未知的视图类型 {type}"),
-                };
+                    _ = attr.InjectAs switch
+                    {
+                        InjectAs.Singleton => services.AddSingleton(type),
+                        InjectAs.Transient => services.AddTransient(type),
+                        _ => throw new SnapGenshinInternalException($"未知的注入类型 {type}"),
+                    };
+                }
             }
         }
 

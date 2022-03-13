@@ -37,12 +37,10 @@ namespace DGP.Genshin.DataModel.Material
         {
             return City == "Mondstadt";
         }
-
         public bool IsLiyue()
         {
             return City == "Liyue";
         }
-
         public bool IsInazuma()
         {
             return City == "Inazuma";

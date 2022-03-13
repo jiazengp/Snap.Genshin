@@ -49,14 +49,12 @@
                 <TextBlock Text="常规" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0"/>
                 <wu:CardExpander helper:IconHelper.Icon="&#xE748;" Margin="0,12,0,0" IsExpanded="True"
                             Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
-                            Subtitle="在游戏内切换账号或更改设置后会自动检测">
-                    <s:SmoothScrollViewer Grid.Row="1" MaxHeight="120" Margin="0,0,0,0">
-                        <ui:ListView 
-                                ItemsSource="{Binding Accounts}" 
-                                SelectedItem="{Binding SelectedAccount}"
-                                SelectionMode="Single"
-                                DisplayMemberPath="Name" Padding="0,0,0,4"/>
-                    </s:SmoothScrollViewer>
+                            Subtitle="在游戏内切换账号/更改游戏内设置/网络环境发生变化/后会自动检测">
+                    <ui:ListView 
+                        ItemsSource="{Binding Accounts}" 
+                        SelectedItem="{Binding SelectedAccount}"
+                        SelectionMode="Single"
+                        DisplayMemberPath="Name" Padding="0,0,0,4"/>
                 </wu:CardExpander>
                 <wu:CardControl helper:IconHelper.Icon="&#xE74D;" Title="删除当前账号" Subtitle="删除的账号将不会保存" Margin="0,4,0,0">
                     <Button Grid.Row="1" Content="删除" Command="{Binding DeleteAccountCommand}"/>

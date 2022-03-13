@@ -501,7 +501,10 @@
                                         </ItemsControl>
                                     </Grid>
                                 </wu:Card>
-                                <wu:CardControl Title="提醒式通知" Subtitle="防止实时便笺通知自动收入操作中心" Margin="0,12,0,0">
+                                <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="实时便笺刷新时间" Subtitle="设置实时便笺后台的刷新间隔时间（需要启用系统托盘图标）" Margin="0,12,0,0">
+                                    <ComboBox ItemsSource="{Binding ResinAutoRefreshTimes,Mode=OneWay}" SelectedItem="{Binding SelectedResinAutoRefreshTime}" DisplayMemberPath="Name"/>
+                                </wu:CardControl>
+                                <wu:CardControl Title="提醒式通知" Subtitle="防止实时便笺通知自动收入操作中心" Margin="0,6,0,0">
                                     <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.KeepNotificationFront}"/>
                                 </wu:CardControl>
                                 <wu:CardExpander Header="原粹树脂提醒" Subtitle="当原粹树脂到达或超过某一数值时提醒我" Margin="0,12,0,0">
@@ -528,7 +531,7 @@
                                         </wu:CardControl>
                                     </StackPanel>
                                 </wu:CardExpander>
-                                <wu:CardExpander Header="其他提醒" Subtitle="其他很有用的提醒" Margin="0,12,0,0">
+                                <wu:CardExpander Header="其他提醒" Subtitle="其他很有用的提醒" Margin="0,6,0,0">
                                     <StackPanel>
                                         <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="80%" Subtitle="当洞天宝钱到达或超过 80% 最大容量时提醒我">
@@ -610,19 +613,25 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="签到">
-                    <s:SmoothScrollViewer>
-                        <StackPanel>
-                            <wu:CardControl helper:IconHelper.Icon="&#xE73E;" Title="自动签到" Subtitle="每日首次启动时签到，如果存在多个账号，所有账户的均会签到" Margin="12,12,16,0">
-                                <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>
-                            </wu:CardControl>
-                            <wu:CardControl helper:IconHelper.Icon="&#xE8EE;" Title="立即全部签到" Subtitle="立即对所有账号下的所有角色进行签到" Margin="12,4,16,0">
-                                <Button Content="签到" Command="{Binding SignInImmediatelyCommand}"/>
-                            </wu:CardControl>
-                            <wu:CardControl helper:IconHelper.Icon="&#xE7ED;" Title="静默签到" Subtitle="签到通知直接进入通知中心，不再直接弹出" Margin="12,12,16,0">
-                                <ui:ToggleSwitch Grid.Column="1" IsOn="{Binding SignInSilently}"/>
-                            </wu:CardControl>
-                        </StackPanel>
-                    </s:SmoothScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="600" MaxWidth="640"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <s:SmoothScrollViewer>
+                            <StackPanel>
+                                <wu:CardControl helper:IconHelper.Icon="&#xE73E;" Title="自动签到" Subtitle="每日首次启动时签到，如果存在多个账号，所有账户的均会签到" Margin="12,12,16,0">
+                                    <ui:ToggleSwitch IsOn="{Binding AutoDailySignInOnLaunch}"/>
+                                </wu:CardControl>
+                                <wu:CardControl helper:IconHelper.Icon="&#xE8EE;" Title="立即全部签到" Subtitle="立即对所有账号下的所有角色进行签到" Margin="12,4,16,0">
+                                    <Button Content="签到" Command="{Binding SignInImmediatelyCommand}"/>
+                                </wu:CardControl>
+                                <wu:CardControl helper:IconHelper.Icon="&#xE7ED;" Title="静默签到" Subtitle="签到通知直接进入通知中心，不再直接弹出" Margin="12,12,16,0">
+                                    <ui:ToggleSwitch Grid.Column="1" IsOn="{Binding SignInSilently}"/>
+                                </wu:CardControl>
+                            </StackPanel>
+                        </s:SmoothScrollViewer>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>

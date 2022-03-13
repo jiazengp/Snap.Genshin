@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.DataModel.MiHoYo2;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
@@ -49,13 +49,13 @@ namespace DGP.Genshin.ViewModel
         public ICommand QueryCommand { get; }
         public ICommand OpenUICommand { get; }
 
-        public RecordViewModel(IRecordService recordService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public RecordViewModel(IRecordService recordService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.recordService = recordService;
             this.cookieService = cookieService;
 
-            QueryCommand = new AsyncRelayCommand<string?>(UpdateRecordAsync);
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            QueryCommand = asyncRelayCommandFactory.Create<string>(UpdateRecordAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         private async Task OpenUIAsync()

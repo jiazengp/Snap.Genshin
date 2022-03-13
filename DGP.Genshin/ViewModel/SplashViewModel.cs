@@ -1,6 +1,7 @@
-﻿using DGP.Genshin.Message;
+﻿using DGP.Genshin.Factory.Abstraction;
+using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.Toolkit.Mvvm.Input;
+using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
@@ -100,14 +101,14 @@ namespace DGP.Genshin.ViewModel
             IsSplashNotVisible = true;
         }
 
-        public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService, IMessenger messenger)
+        public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
         {
             this.cookieService = cookieService;
             this.integrityCheckService = integrityCheckService;
             this.messenger = messenger;
 
-            SetCookieCommand = new AsyncRelayCommand(SetCookieAsync);
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+            SetCookieCommand = asyncRelayCommandFactory.Create(SetCookieAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         private async Task SetCookieAsync()

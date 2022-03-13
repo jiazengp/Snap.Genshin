@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Control.GenshinElement.GachaStatistic;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using Snap.Exception;
 using System;
 using System.IO;

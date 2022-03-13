@@ -1,8 +1,9 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
-using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using DGP.Genshin.Service.GachaStatistic;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
@@ -106,18 +107,17 @@ namespace DGP.Genshin.ViewModel
         public ICommand ExportToUIGFWCommand { get; }
         public ICommand OpenGachaStatisticFolderCommand { get; }
 
-        public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService)
+        public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
             this.gachaStatisticService = gachaStatisticService;
 
-
-            OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-            GachaLogAutoFindCommand = new AsyncRelayCommand(RefreshByAutoFindModeAsync);
-            GachaLogManualCommand = new AsyncRelayCommand(RefreshByManualAsync);
-            ImportFromUIGFJCommand = new AsyncRelayCommand(ImportFromUIGFJAsync);
-            ImportFromUIGFWCommand = new AsyncRelayCommand(ImportFromUIGFWAsync);
-            ExportToUIGFWCommand = new AsyncRelayCommand(ExportToUIGFWAsync);
-            ExportToUIGFJCommand = new AsyncRelayCommand(ExportToUIGFJAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            GachaLogAutoFindCommand = asyncRelayCommandFactory.Create(RefreshByAutoFindModeAsync);
+            GachaLogManualCommand = asyncRelayCommandFactory.Create(RefreshByManualAsync);
+            ImportFromUIGFJCommand = asyncRelayCommandFactory.Create(ImportFromUIGFJAsync);
+            ImportFromUIGFWCommand = asyncRelayCommandFactory.Create(ImportFromUIGFWAsync);
+            ExportToUIGFWCommand = asyncRelayCommandFactory.Create(ExportToUIGFWAsync);
+            ExportToUIGFJCommand = asyncRelayCommandFactory.Create(ExportToUIGFJAsync);
             OpenGachaStatisticFolderCommand = new RelayCommand(OpenGachaStatisticFolder);
         }
         private async Task OpenUIAsync()
@@ -130,11 +130,18 @@ namespace DGP.Genshin.ViewModel
         {
             if (taskPreventer.ShouldExecute)
             {
-                (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
-                FetchProgress = null;
-                if (isOk)
+                try
                 {
-                    SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                    (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
+                    FetchProgress = null;
+                    if (isOk)
+                    {
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    this.Log(ex);
                 }
                 taskPreventer.Release();
             }
@@ -143,11 +150,18 @@ namespace DGP.Genshin.ViewModel
         {
             if (taskPreventer.ShouldExecute)
             {
-                (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
-                FetchProgress = null;
-                if (isOk)
+                try
                 {
-                    SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                    (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
+                    FetchProgress = null;
+                    if (isOk)
+                    {
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    this.Log(ex);
                 }
                 taskPreventer.Release();
             }

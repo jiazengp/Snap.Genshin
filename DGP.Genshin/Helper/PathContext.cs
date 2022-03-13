@@ -22,6 +22,17 @@ namespace DGP.Genshin.Helper
         }
 
         /// <summary>
+        /// 检查文件是否存在
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool FolderExists(string folder)
+        {
+            return Directory.Exists(Locate(folder));
+        }
+
+        /// <summary>
         /// 定位根目录中的文件或文件夹
         /// </summary>
         /// <param name="folder"></param>

@@ -18,10 +18,9 @@
 |群号|用途|说明|
 |-|-|-|
 |910780153|问题反馈|1群|
-|547288075|闲聊吹水|2群|
+|547288075|闲聊吹水|2群-已满|
 |240095771|闲聊吹水|3群|
 |982424236|开发交流|开发群|
-
 
 ### 友情链接
 
@@ -37,4 +36,14 @@
 
 > [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)  
 > [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
+
+# **我们正在为这些项目寻找维护者**
+
+下面的项目都曾或目前仍然与 Snap Genshin 高度相关  
+由于某些原因，下方的库或项目目前已经处于无人维护的状态  
+如果你了解相关的知识与技巧可以尝试提交PR来拯救它们
+
+> [解包 Json 查看器](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
+> [Xbox实时便笺树脂小组件](https://github.com/DGP-Studio/DGP.Genshin.GamebarWidget)  
+> [GHHW 角色爬虫](https://github.com/DGP-Studio/Crawler-ghhw)
 </div>

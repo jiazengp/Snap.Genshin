@@ -72,7 +72,7 @@ namespace DGP.Genshin.Core.Plugins
 
         public IPlugin? InstantiatePlugin(Assembly assembly)
         {
-            Type? type = assembly.GetTypes().FirstOrDefault(type => typeof(IPlugin).IsAssignableFrom(type));
+            Type? type = assembly.GetTypes().FirstOrDefault(type => type.Implement<IPlugin>());
             return type is null ? null : Activator.CreateInstance(type) as IPlugin;
         }
     }

@@ -1,8 +1,11 @@
 ﻿using DGP.Genshin.Core.Notification;
+using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
+using DGP.Genshin.Service.Abstraction.Setting;
+using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -39,14 +42,6 @@ namespace DGP.Genshin.ViewModel
             new("深色", ApplicationTheme.Dark),
             new("系统默认", null),
         };
-        public List<NamedValue<TimeSpan>> ResinAutoRefreshTime { get; } = new()
-        {
-            new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
-            new("8 分钟 | 1 树脂", TimeSpan.FromMinutes(8)),
-            new("30 分钟 | 3.75 树脂", TimeSpan.FromMinutes(30)),
-            new("40 分钟 | 5 树脂", TimeSpan.FromMinutes(40)),
-            new("1 小时 | 7.5 树脂", TimeSpan.FromMinutes(60))
-        };
         public List<NamedValue<UpdateAPI>> UpdateAPIs { get; } = new()
         {
             new("正式通道", UpdateAPI.PatchAPI),
@@ -61,7 +56,7 @@ namespace DGP.Genshin.ViewModel
         private string userId;
         private AutoRun autoRun = new();
         private NamedValue<ApplicationTheme?> selectedTheme;
-        private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
+
         private bool isTaskBarIconEnabled;
         private bool closeMainWindowAfterInitializaion;
         private UpdateProgressedMessage updateInfo;
@@ -174,13 +169,7 @@ namespace DGP.Genshin.ViewModel
             Setting2.AppTheme.Set(value.Value);
             ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
         }
-        public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
-        {
-            get => selectedResinAutoRefreshTime;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value, v => Setting2.ResinRefreshMinutes.Set(v.Value.TotalMinutes));
-
-        }
         public NamedValue<UpdateAPI> CurrentUpdateAPI
         {
             get => currentUpdateAPI;
@@ -201,13 +190,13 @@ namespace DGP.Genshin.ViewModel
         public ICommand SponsorUICommand { get; }
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
+        public ICommand NextWallpaperCommand { get; }
 
-        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.updateService = updateService;
 
             selectedTheme = Themes.First(x => x.Value == Setting2.AppTheme);
-            selectedResinAutoRefreshTime = ResinAutoRefreshTime.First(s => s.Value.TotalMinutes == Setting2.ResinRefreshMinutes);
             currentUpdateAPI = UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
 
             SkipCacheCheck = Setting2.SkipCacheCheck.Get();
@@ -219,17 +208,18 @@ namespace DGP.Genshin.ViewModel
             IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible.Get();
 
             Version v = App.Current.Version;
-            VersionString = $"DGP.Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
+            VersionString = $"Snap Genshin - version {v.Major}.{v.Minor}.{v.Build} Build {v.Revision}";
             UserId = User.Id;
 
             UpdateInfo = UpdateProgressedMessage.Default;
 
-            CheckUpdateCommand = new AsyncRelayCommand(CheckUpdateAsync);
+            CheckUpdateCommand = asyncRelayCommandFactory.Create(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
-            
+
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
+            NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
         }
 
         private void CopyUserIdToClipBoard()
@@ -287,12 +277,15 @@ namespace DGP.Genshin.ViewModel
                     break;
             }
         }
+        private void SwitchToNextWallpaper()
+        {
+            Messenger.Send(new BackgroundChangeRequestMessage());
+        }
 
         public void Receive(UpdateProgressedMessage message)
         {
             UpdateInfo = message;
         }
-
         public void Receive(AdaptiveBackgroundOpacityChangedMessage message)
         {
             BackgroundOpacity = message.Value;

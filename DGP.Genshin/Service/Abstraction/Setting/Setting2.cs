@@ -1,45 +1,11 @@
 ﻿using DGP.Genshin.DataModel.DailyNote;
+using DGP.Genshin.Service.Abstraction.Updating;
 using ModernWpf;
 using Snap.Data.Json;
 using System;
 
-namespace DGP.Genshin.Service.Abstraction
+namespace DGP.Genshin.Service.Abstraction.Setting
 {
-    /// <summary>
-    /// 设置服务
-    /// 否则会影响已有的设置值
-    /// </summary>
-    public interface ISettingService
-    {
-        /// <summary>
-        /// 使用定义获取设置值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="definition"></param>
-        /// <returns></returns>
-        T Get<T>(SettingDefinition<T> definition);
-
-        /// <summary>
-        /// 初始化设置服务，加载设置数据
-        /// </summary>
-        void Initialize();
-
-        /// <summary>
-        /// 使用定义设置设置值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="definition"></param>
-        /// <param name="value"></param>
-        /// <param name="notify"></param>
-        /// <param name="log"></param>
-        void Set<T>(SettingDefinition<T> definition, object? value, bool log = false);
-
-        /// <summary>
-        /// 卸载设置数据
-        /// </summary>
-        void UnInitialize();
-    }
-
     /// <summary>
     /// 全新的设置接口
     /// </summary>
@@ -63,7 +29,7 @@ namespace DGP.Genshin.Service.Abstraction
         //boot up
         public static readonly SettingDefinition<bool> SkipCacheCheck = new("SkipCacheCheck", false);
         //update
-        public static readonly SettingDefinition<UpdateAPI> UpdateAPI = new("UpdateChannel", Abstraction.UpdateAPI.PatchAPI, UpdateAPIConverter);
+        public static readonly SettingDefinition<UpdateAPI> UpdateAPI = new("UpdateChannel", Updating.UpdateAPI.PatchAPI, UpdateAPIConverter);
         public static readonly SettingDefinition<bool> UpdateUseFastGit = new("UpdateUseFastGit", false);
         //gacha statistic
         public static readonly SettingDefinition<bool> IsBannerWithNoItemVisible = new("IsBannerWithNoItemVisible", true);
@@ -101,66 +67,6 @@ namespace DGP.Genshin.Service.Abstraction
         public static T? ComplexConverter<T>(object? value) where T : class
         {
             return value is null ? null : Json.ToObject<T>(value.ToString()!);
-        }
-    }
-
-    /// <summary>
-    /// 设置入口定义
-    /// </summary>
-    /// <typeparam name="T">设置项定义</typeparam>
-    public class SettingDefinition<T>
-    {
-        public static readonly ISettingService settingService;
-        static SettingDefinition()
-        {
-            settingService = App.AutoWired<ISettingService>();
-        }
-
-        public SettingDefinition(string name, T defaultValue, Func<object, T>? converter = null)
-        {
-            Name = name;
-            DefaultValue = defaultValue;
-            Converter = converter;
-        }
-
-        public string Name { get; }
-        public T DefaultValue { get; }
-        public Func<object, T>? Converter { get; }
-
-        public T Get()
-        {
-            return settingService.Get(this);
-        }
-
-        public void Set(object? value, bool log = false)
-        {
-            settingService.Set(this, value, log);
-        }
-
-        /// <summary>
-        /// 为了兼容性保留该接口
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="_"></param>
-        /// <param name="log"></param>
-        [Obsolete("该重载已经不再使用")]
-        public void Set(object? value, bool _, bool log = false)
-        {
-            settingService.Set(this, value, log);
-        }
-
-        /// <summary>
-        /// 提供单参数重载以便 <see cref="Snap.Core.Mvvm.ObservableObject2"/> 的通知方法调用
-        /// </summary>
-        /// <param name="value"></param>
-        public void Set(T value)
-        {
-            Set(value, false);
-        }
-
-        public static implicit operator T(SettingDefinition<T> me)
-        {
-            return me.Get();
         }
     }
 }
