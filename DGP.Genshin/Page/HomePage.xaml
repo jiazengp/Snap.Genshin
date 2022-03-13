@@ -26,7 +26,7 @@
             Padding="0,0,4,0"
             Visibility="{Binding OpeningUI.IsWorking,Converter={StaticResource BooleanToVisibilityRevertConverter}}">
             <StackPanel>
-                <wu:Card Margin="12,0,16,0">
+                <wu:Card Margin="12,0,16,0" Background="Transparent">
                     <TextBlock Text="{Binding Manifesto}" Style="{StaticResource BaseTextBlockStyle}"/>
                 </wu:Card>
                 <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding Announcement.List}" 
