@@ -138,6 +138,7 @@ namespace DGP.Genshin.Core.Background
             private static readonly List<string> supportedFiles;
             private static readonly IEnumerable<string> supportedExtensions =
                 new List<string>() { ".png", ".jpg", ".jpeg", ".bmp" };
+            private static string latestFile = null!;
 
             static DefaultBackgroundProvider()
             {
@@ -151,8 +152,9 @@ namespace DGP.Genshin.Core.Background
             public async Task<BitmapImage?> GetNextBitmapImageAsync()
             {
                 await Task.Yield();
-                if (supportedFiles.GetRandom() is string randomPath)
+                if (supportedFiles.GetRandomNotRepeat(random => random != latestFile) is string randomPath)
                 {
+                    latestFile = randomPath;
                     this.Log($"Loading background wallpaper from {randomPath}");
                     return GetBitmapImageFromPath(randomPath);
                 }
@@ -163,7 +165,13 @@ namespace DGP.Genshin.Core.Background
                 BitmapImage image;
                 try
                 {
-                    image = new(new(randomPath));
+                    using FileStream stream = new(randomPath, FileMode.Open);
+
+                    image = new();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = stream;
+                    image.EndInit();
                 }
                 catch
                 {
