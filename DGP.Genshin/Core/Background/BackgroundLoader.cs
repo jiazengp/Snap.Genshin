@@ -31,7 +31,6 @@ namespace DGP.Genshin.Core.Background
 
         private readonly MainWindow mainWindow;
         private readonly IMessenger messenger;
-        public IBackgroundProvider? BackgroundProvider { get; set; }
 
         public BackgroundLoader(MainWindow mainWindow, IMessenger messenger)
         {
@@ -48,8 +47,9 @@ namespace DGP.Genshin.Core.Background
 
         public async Task LoadNextWallpaperAsync()
         {
-            BackgroundProvider ??= new DefaultBackgroundProvider();
-            BitmapImage? image = await BackgroundProvider.GetNextBitmapImageAsync();
+            IBackgroundProvider? backgroundProvider = App.Current.SwitchableImplementationManager
+                .CurrentBackgroundProvider!.Factory.Value;
+            BitmapImage? image = await backgroundProvider.GetNextBitmapImageAsync();
             if (image == null)
             {
                 return;

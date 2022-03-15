@@ -12,7 +12,7 @@
       Title="ImplementationPage">
     <s:SmoothScrollViewer>
         <StackPanel Margin="0,0,0,12" MinWidth="800" MaxWidth="1000">
-            <wu:CardControl Title="DGP.Genshin.Core.Background.Abstraction.IBackgroundProvider" Subtitle="背景图片提供器" Margin="12,12,16,0">
+            <wu:CardControl Title="IBackgroundProvider" Subtitle="背景图片提供器" Margin="12,12,16,0">
                 <ComboBox
                     ItemsSource="{Binding BackgroundProviders}"
                     SelectedItem="{Binding CurrentBackgroundProvider}"
