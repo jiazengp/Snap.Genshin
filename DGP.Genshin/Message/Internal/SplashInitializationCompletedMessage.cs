@@ -1,8 +1,8 @@
 ﻿using DGP.Genshin.ViewModel;
 
-namespace DGP.Genshin.Message
+namespace DGP.Genshin.Message.Internal
 {
-    public class SplashInitializationCompletedMessage : TypedMessage<SplashViewModel>
+    internal class SplashInitializationCompletedMessage : TypedMessage<SplashViewModel>
     {
         public SplashInitializationCompletedMessage(SplashViewModel viewModel) : base(viewModel)
         {

@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Factory.Abstraction;
-using DGP.Genshin.Message;
+using DGP.Genshin.Message.Internal;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -17,7 +17,7 @@ namespace DGP.Genshin.ViewModel
     /// 启动界面视图模型
     /// </summary>
     [ViewModel(InjectAs.Transient)]
-    public class SplashViewModel : ObservableObject2
+    internal class SplashViewModel : ObservableObject2
     {
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;

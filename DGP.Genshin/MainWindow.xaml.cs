@@ -2,7 +2,7 @@
 using DGP.Genshin.Core.DpiAware;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.Message;
+using DGP.Genshin.Message.Internal;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.Setting;
@@ -26,7 +26,7 @@ namespace DGP.Genshin
     /// <summary>
     /// 主窗体
     /// </summary>
-    public partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
+    internal partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
         //make sure while post-initializing, main window can't be closed
         //prevent System.NullReferenceException

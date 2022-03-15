@@ -1,5 +1,5 @@
 ﻿<Window 
-    x:Class="DGP.Genshin.MainWindow"
+    x:Class="DGP.Genshin.MainWindow" x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,8 @@
     xmlns:helpers="clr-namespace:DGP.Genshin.Control.Helper"
     xmlns:pages="clr-namespace:DGP.Genshin.Page" 
     xmlns:cf="clr-namespace:DGP.Genshin.Control" 
-    xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer" xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
+    xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
+    xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
     mc:Ignorable="d"
     x:Name="Window"
     Title="Snap 原神" 
