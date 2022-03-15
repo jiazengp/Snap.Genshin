@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core;
+using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.Core.LifeCycle;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
@@ -35,6 +36,7 @@ namespace DGP.Genshin
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
         private readonly ServiceManagerBase serviceManager;
         private readonly IPluginService pluginService;
+        private readonly SwitchableImplementationManager switchableImplementationManager;
 
         internal ServiceManagerBase ServiceManager
         {
@@ -43,6 +45,10 @@ namespace DGP.Genshin
         internal IPluginService PluginService
         {
             get => pluginService;
+        }
+        internal SwitchableImplementationManager SwitchableImplementationManager 
+        { 
+            get => switchableImplementationManager; 
         }
         internal IContainer DI { get; } = new DefaultContainter();
 
@@ -53,7 +59,9 @@ namespace DGP.Genshin
             //prevent later call change executing assembly
             _ = Version;
             pluginService = new PluginService();
+            switchableImplementationManager = new();
             serviceManager = new SnapGenshinServiceManager();
+            switchableImplementationManager.SwitchToCorrectImplementations();
         }
 
         internal class DefaultContainter : IContainer
@@ -197,6 +205,7 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
+                switchableImplementationManager.UnInitialize();
                 //make sure settings are saved last
                 AutoWired<ISettingService>().UnInitialize();
                 try { ToastNotificationManagerCompat.History.Clear(); } catch { }
@@ -210,6 +219,7 @@ namespace DGP.Genshin
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
+                switchableImplementationManager.UnInitialize();
                 AutoWired<ISettingService>().UnInitialize();
                 try { ToastNotificationManagerCompat.History.Clear(); } catch { }
             }

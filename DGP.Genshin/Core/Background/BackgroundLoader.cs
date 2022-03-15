@@ -132,7 +132,7 @@ namespace DGP.Genshin.Core.Background
             LoadNextWallpaperAsync().Forget();
         }
 
-        [SwitchableImplementation(typeof(IBackgroundProvider),"Snap Genshin 默认实现")]
+        [SwitchableImplementation(typeof(IBackgroundProvider))]
         internal class DefaultBackgroundProvider : IBackgroundProvider
         {
             private const string BackgroundFolder = "Background";

@@ -1,8 +1,12 @@
-﻿using DGP.Genshin.Core.Plugins;
+﻿using DGP.Genshin.Core.Background.Abstraction;
+using DGP.Genshin.Core.ImplementationSwitching;
+using DGP.Genshin.Core.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Extenion.Enumerable;
+using Snap.Reflection;
+using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Core
@@ -23,7 +27,7 @@ namespace DGP.Genshin.Core
             services.AddSingleton<IMessenger>(App.Messenger);
             //JoinableTaskContext
             JoinableTaskContext context = new();
-            services.AddSingleton(new JoinableTaskContext());
+            services.AddSingleton(context);
             services.AddSingleton(new JoinableTaskFactory(context));
 
             base.OnProbingServices(services);
@@ -39,6 +43,34 @@ namespace DGP.Genshin.Core
         private void RegisterPluginsServices(ServiceCollection services, IEnumerable<IPlugin> plugins)
         {
             plugins.ForEach(plugin => RegisterServices(services, plugin.GetType()));
+        }
+
+        protected override void RegisterService(ServiceCollection services, Type type)
+        {
+            //filter out switchable implementation
+            if (type.TryGetAttribute(out SwitchableImplementationAttribute? attr))
+            {
+                RegisterSwitchableImplementation(type, attr);
+            }
+            else
+            {
+                base.RegisterService(services, type);
+            }
+        }
+
+        /// <summary>
+        /// 注册可切换的实现
+        /// </summary>
+        /// <param name="type"></param>
+        private void RegisterSwitchableImplementation(Type type,SwitchableImplementationAttribute attr)
+        {
+            SwitchableImplementationManager manager = App.Current.SwitchableImplementationManager;
+            //no switch expression here
+            if (attr.TargetType == typeof(IBackgroundProvider))
+            {
+                manager.BackgroundProviders
+                    .Add(new(attr, new(() => (IBackgroundProvider)Activator.CreateInstance(type)!)));
+            }
         }
     }
 }

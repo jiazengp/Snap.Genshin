@@ -4,10 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DGP.Genshin.Page"
+      xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
+      xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ImplementationPage">
-    <Grid>
-        
-    </Grid>
+    <s:SmoothScrollViewer>
+        <StackPanel Margin="0,0,0,12" MinWidth="800" MaxWidth="1000">
+            <wu:CardControl Title="DGP.Genshin.Core.Background.Abstraction.IBackgroundProvider" Subtitle="背景图片提供器" Margin="12,12,16,0">
+                <ComboBox
+                    ItemsSource="{Binding BackgroundProviders}"
+                    SelectedItem="{Binding CurrentBackgroundProvider}"
+                    DisplayMemberPath="Description"/>
+            </wu:CardControl>
+        </StackPanel>
+    </s:SmoothScrollViewer>
 </Page>

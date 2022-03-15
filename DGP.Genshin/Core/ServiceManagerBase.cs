@@ -33,7 +33,7 @@ namespace DGP.Genshin.Core
         /// <param name="services">容器</param>
         /// <param name="type">待检测的类型</param>
         /// <exception cref="SnapGenshinInternalException">未知的注册类型</exception>
-        private void RegisterService(ServiceCollection services, Type type)
+        protected virtual void RegisterService(ServiceCollection services, Type type)
         {
             if (type.TryGetAttribute(out InjectableAttribute? attr))
             {
@@ -64,7 +64,7 @@ namespace DGP.Genshin.Core
         /// <param name="services">容器</param>
         /// <param name="entryType">入口类型，该类型所在的程序集均会被扫描</param>
         /// <exception cref="SnapGenshinInternalException">注册的类型为非已知类型</exception>
-        protected void RegisterServices(ServiceCollection services, Type entryType)
+        protected virtual void RegisterServices(ServiceCollection services, Type entryType)
         {
             entryType.Assembly.ForEachType(type => RegisterService(services, type));
         }
