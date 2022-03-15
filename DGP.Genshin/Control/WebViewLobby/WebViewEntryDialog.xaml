@@ -9,7 +9,9 @@
     mc:Ignorable="d" 
     d:DesignHeight="800" d:DesignWidth="800"
     Title="自定义网页"
-    PrimaryButtonText="确认" SecondaryButtonText="取消">
+    DefaultButton="Primary"
+    PrimaryButtonText="确认"
+    SecondaryButtonText="取消">
     <StackPanel>
         <TextBox ui:ControlHelper.Header="网址" Text="{Binding NavigateUrl}"/>
         <TextBox ui:ControlHelper.Header="标题" Text="{Binding EntryName}" Margin="0,12,0,0"/>

@@ -14,7 +14,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class HomeViewModel : ObservableObject
+    internal class HomeViewModel : ObservableObject
     {
         private readonly IHomeService homeService;
 

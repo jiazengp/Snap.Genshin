@@ -22,7 +22,7 @@ namespace DGP.Genshin.ViewModel
     /// 日常材料服务
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class DailyViewModel : ObservableObject2
+    internal class DailyViewModel : ObservableObject2
     {
         private readonly MetadataViewModel dataViewModel;
 

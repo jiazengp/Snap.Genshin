@@ -12,7 +12,7 @@ namespace DGP.Genshin.Core.Plugins
         /// 启用与禁用
         /// 插件需要自行实现这一状态的保存
         /// </summary>
-        [Obsolete("该属性不再有意义")] bool IsEnabled { get; set; }
+        [Obsolete("该属性不再有意义")] bool IsEnabled { get; }
         /// <summary>
         /// 名称
         /// </summary>

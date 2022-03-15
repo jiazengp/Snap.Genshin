@@ -6,7 +6,7 @@ using System.Linq;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class WeeklyViewModel
+    internal class WeeklyViewModel
     {
         private readonly MetadataViewModel dataService;
 

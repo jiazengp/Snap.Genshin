@@ -1,4 +1,5 @@
 ﻿using ModernWpf.Controls;
+using Snap.Data.Primitive;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
@@ -9,10 +10,10 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         {
             InitializeComponent();
         }
-        public async Task<(bool isOk, string url)> GetInputUrlAsync()
+        public async Task<Result<string>> GetInputUrlAsync()
         {
             bool isOk = await ShowAsync() == ContentDialogResult.Primary;
-            return (isOk, isOk ? InputText.Text : string.Empty);
+            return new(isOk, InputText.Text, string.Empty);
         }
     }
 }

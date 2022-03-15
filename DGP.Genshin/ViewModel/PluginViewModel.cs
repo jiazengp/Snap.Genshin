@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class PluginViewModel : ObservableObject
+    internal class PluginViewModel : ObservableObject
     {
         private const string PluginFolder = "Plugins";
         private const string pluginsLink = "https://www.snapgenshin.com/documents/extensions/";

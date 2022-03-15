@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Control;
-using DGP.Genshin.Core.Background;
+﻿using DGP.Genshin.Core.Background;
 using DGP.Genshin.Core.DpiAware;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;

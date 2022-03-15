@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class HutaoStatisticViewModel : ObservableObject
+    internal class HutaoStatisticViewModel : ObservableObject
     {
         private readonly ICookieService cookieService;
         private readonly IHutaoStatisticService hutaoStatisticService;

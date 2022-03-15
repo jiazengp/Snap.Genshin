@@ -34,7 +34,6 @@ namespace DGP.Genshin.Sample.Plugin
         public bool IsEnabled
         {
             get;
-            set;
         }
     }
 }

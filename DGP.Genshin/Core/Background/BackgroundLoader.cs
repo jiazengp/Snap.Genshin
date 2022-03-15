@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Core.Background.Abstraction;
+using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
@@ -26,7 +27,7 @@ namespace DGP.Genshin.Core.Background
     /// </summary>
     internal class BackgroundLoader : IRecipient<BackgroundOpacityChangedMessage>, IRecipient<BackgroundChangeRequestMessage>
     {
-        private const int animationDurationMilliseconds = 500;
+        private const int animationDuration = 500;
 
         private readonly MainWindow mainWindow;
         private readonly IMessenger messenger;
@@ -68,31 +69,31 @@ namespace DGP.Genshin.Core.Background
             else
             {
                 //Fade out old image
-                DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation(0, animationDurationMilliseconds);
+                DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation(0, animationDuration);
                 fadeOutAnimation.EasingFunction = new CubicBezierEase { EasingMode = EasingMode.EaseOut };
                 fadeOutAnimation.FillBehavior = FillBehavior.Stop;
 
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
-                await Task.Delay(animationDurationMilliseconds);
+                await Task.Delay(animationDuration);
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, null);
-                //Fade in new image
+                
                 mainWindow.BackgroundGrid.Background = new ImageBrush
                 {
                     ImageSource = image,
                     Stretch = Stretch.UniformToFill,
                     Opacity = 0
                 };
-
-                DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation(Setting2.BackgroundOpacity, animationDurationMilliseconds);
+                //Fade in new image
+                DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation(Setting2.BackgroundOpacity, animationDuration);
                 fadeInAnimation.EasingFunction = new CubicBezierEase { EasingMode = EasingMode.EaseOut };
                 fadeInAnimation.FillBehavior = FillBehavior.Stop;
 
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
-                await Task.Delay(animationDurationMilliseconds);
+                await Task.Delay(animationDuration);
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, null);
                 mainWindow.BackgroundGrid.Background.Opacity = Setting2.BackgroundOpacity;
 
-                messenger.Send(new Message.AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
+                messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
             }
         }
 
@@ -131,6 +132,7 @@ namespace DGP.Genshin.Core.Background
             LoadNextWallpaperAsync().Forget();
         }
 
+        [SwitchableImplementation(typeof(IBackgroundProvider),"Snap Genshin 默认实现")]
         internal class DefaultBackgroundProvider : IBackgroundProvider
         {
             private const string BackgroundFolder = "Background";
@@ -138,7 +140,7 @@ namespace DGP.Genshin.Core.Background
             private static readonly List<string> supportedFiles;
             private static readonly IEnumerable<string> supportedExtensions =
                 new List<string>() { ".png", ".jpg", ".jpeg", ".bmp" };
-            private static string latestFile = null!;
+            private static string? latestFile;
 
             static DefaultBackgroundProvider()
             {
@@ -152,7 +154,7 @@ namespace DGP.Genshin.Core.Background
             public async Task<BitmapImage?> GetNextBitmapImageAsync()
             {
                 await Task.Yield();
-                if (supportedFiles.GetRandomNotRepeat(random => random != latestFile) is string randomPath)
+                if (supportedFiles.GetRandomNoRepeat(latestFile) is string randomPath)
                 {
                     latestFile = randomPath;
                     this.Log($"Loading background wallpaper from {randomPath}");

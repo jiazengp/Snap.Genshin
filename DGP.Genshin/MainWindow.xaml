@@ -8,7 +8,7 @@
     xmlns:helpers="clr-namespace:DGP.Genshin.Control.Helper"
     xmlns:pages="clr-namespace:DGP.Genshin.Page" 
     xmlns:cf="clr-namespace:DGP.Genshin.Control" 
-    xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
+    xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer" xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
     mc:Ignorable="d"
     x:Name="Window"
     Title="Snap 原神" 
@@ -90,7 +90,7 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
-            <ui:Frame x:Name="ContentFrame">
+            <infrastructure:DisableGoBackFrame x:Name="ContentFrame">
                 <ui:Frame.ContentTransitions>
                     <ui:TransitionCollection>
                         <ui:NavigationThemeTransition>
@@ -98,7 +98,7 @@
                         </ui:NavigationThemeTransition>
                     </ui:TransitionCollection>
                 </ui:Frame.ContentTransitions>
-            </ui:Frame>
+            </infrastructure:DisableGoBackFrame>
             <ui:NavigationView.Template>
                 <ControlTemplate TargetType="ui:NavigationView">
                     <Grid x:Name="RootGrid"

@@ -21,7 +21,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class PromotionCalculateViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
+    internal class PromotionCalculateViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
     {
         private const string AvatarTag = "Avatar";
         private const string SkillTag = "Skill";

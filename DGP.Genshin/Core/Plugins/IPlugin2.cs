@@ -1,4 +1,6 @@
-﻿namespace DGP.Genshin.Core.Plugins
+﻿using System;
+
+namespace DGP.Genshin.Core.Plugins
 {
     /// <summary>
     /// 插件功能拓展接口
@@ -7,6 +9,8 @@
     /// </summary>
     internal interface IPlugin2
     {
-        public string? DetailLink { get; set; }
+        public string? DetailLink { get; }
+        public bool IsSettingSupport { get; }
+        public Type? SettingPageType { get; }
     }
 }

@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class WebViewHostPage : ModernWpf.Controls.Page
+    internal partial class WebViewHostPage : ModernWpf.Controls.Page
     {
         private WebViewEntry? entry;
         public WebViewHostPage()

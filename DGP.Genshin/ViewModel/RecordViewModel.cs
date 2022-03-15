@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class RecordViewModel : ObservableRecipient2, IRecipient<RecordProgressChangedMessage>, IRecipient<CookieChangedMessage>
+    internal class RecordViewModel : ObservableRecipient2, IRecipient<RecordProgressChangedMessage>, IRecipient<CookieChangedMessage>
     {
         private readonly IRecordService recordService;
         private readonly ICookieService cookieService;

@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class PromotionCalculatePage : System.Windows.Controls.Page
+    internal partial class PromotionCalculatePage : System.Windows.Controls.Page
     {
         public PromotionCalculatePage(PromotionCalculateViewModel vm)
         {

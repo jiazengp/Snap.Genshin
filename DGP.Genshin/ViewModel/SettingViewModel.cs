@@ -29,7 +29,7 @@ namespace DGP.Genshin.ViewModel
     /// 为需要及时响应的设置项提供 <see cref="Observable"/> 模型支持
     /// </summary>
     [ViewModel(InjectAs.Transient)]
-    public class SettingViewModel : ObservableRecipient2,
+    internal class SettingViewModel : ObservableRecipient2,
         IRecipient<UpdateProgressedMessage>,
         IRecipient<AdaptiveBackgroundOpacityChangedMessage>
     {
@@ -167,7 +167,7 @@ namespace DGP.Genshin.ViewModel
         private void UpdateAppTheme(NamedValue<ApplicationTheme?> value)
         {
             Setting2.AppTheme.Set(value.Value);
-            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
+            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme;
         }
 
         public NamedValue<UpdateAPI> CurrentUpdateAPI
@@ -192,6 +192,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenCacheFolderCommand { get; }
         public ICommand OpenBackgroundFolderCommand { get; }
         public ICommand NextWallpaperCommand { get; }
+        public ICommand OpenImplementationPageCommand { get; }
 
         public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
@@ -200,13 +201,13 @@ namespace DGP.Genshin.ViewModel
             selectedTheme = Themes.First(x => x.Value == Setting2.AppTheme);
             currentUpdateAPI = UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
 
-            SkipCacheCheck = Setting2.SkipCacheCheck.Get();
-            UpdateUseFastGit = Setting2.UpdateUseFastGit.Get();
-            IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled.Get();
-            CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion.Get();
-            BackgroundOpacity = Setting2.BackgroundOpacity.Get();
-            IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive.Get();
-            IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible.Get();
+            SkipCacheCheck = Setting2.SkipCacheCheck;
+            UpdateUseFastGit = Setting2.UpdateUseFastGit;
+            IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled;
+            CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion;
+            BackgroundOpacity = Setting2.BackgroundOpacity;
+            IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
+            IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
 
             Version v = App.Current.Version;
             VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
@@ -222,6 +223,7 @@ namespace DGP.Genshin.ViewModel
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
             NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
+            OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
         }
 
         private void CopyUserIdToClipBoard()

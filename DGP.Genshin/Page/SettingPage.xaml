@@ -1,4 +1,4 @@
-﻿<Page x:Class="DGP.Genshin.Page.SettingPage"
+﻿<Page x:Class="DGP.Genshin.Page.SettingPage" x:ClassModifier="internal"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,8 @@
       xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
       xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper" xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
+      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+      xmlns:markdown="clr-namespace:DGP.Genshin.Control.Infrastructure.Markdown"
       mc:Ignorable="d" 
       d:DesignHeight="2000" 
       d:DesignWidth="800"
@@ -74,30 +75,31 @@
                     <ui:ToggleSwitch IsOn="{Binding SkipCacheCheck}"/>
                 </wu:CardControl>
 
-                <TextBlock Text="交互" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <TextBlock Text="高级" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xECAA;" Title="系统托盘图标" Subtitle="在系统托盘区域显示图标，下次启动时生效" Margin="12,12,16,0">
                     <ui:ToggleSwitch IsOn="{Binding IsTaskBarIconEnabled}"/>
                 </wu:CardControl>
-
-                <TextBlock Text="祈愿记录" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE81C;" Title="显示未抽取的卡池信息" Subtitle="在祈愿记录界面的隶属页签中展示未进行抽取的卡池信息" Margin="12,12,16,0">
-                    <ui:ToggleSwitch IsOn="{Binding IsBannerWithNoItemVisible}"/>
-                </wu:CardControl>
-
-                <TextBlock Text="缓存" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <wu:CardAction 
+                    helper:IconHelper.Icon="&#xE950;" 
+                    helper:CardHelper.ActionTitle="应用服务" 
+                    helper:CardHelper.ActionSubtitle="配置应用的可更换服务实现"
+                    Command="{Binding OpenImplementationPageCommand}"
+                    Margin="12,12,16,0"/>
                 <wu:CardAction 
                     helper:IconHelper.Icon="&#xE838;" 
                     helper:CardHelper.ActionTitle="打开图片缓存文件夹" 
                     helper:CardHelper.ActionSubtitle="大部分图片资源缓存在这个文件夹内" 
                     Command="{Binding OpenCacheFolderCommand}"
                     Margin="12,12,16,0"/>
+                
+                <TextBlock Text="祈愿记录" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE81C;" Title="显示未抽取的卡池信息" Subtitle="在祈愿记录界面的隶属页签中展示未进行抽取的卡池信息" Margin="12,12,16,0">
+                    <ui:ToggleSwitch IsOn="{Binding IsBannerWithNoItemVisible}"/>
+                </wu:CardControl>
 
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
-                    <wu:Hyperlink Content="前往查看" NavigateUri="https://www.snapgenshin.com/home/" Padding="4"/>
-                </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE946;" Title="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
-                    <Button Tag="Github" Content="检查更新并安装" Command="{Binding CheckUpdateCommand}"/>
+                    <Button Tag="Github" Content="检查更新" Command="{Binding CheckUpdateCommand}"/>
                 </wu:CardControl>
                 <wu:Card Margin="12,4,16,0" Visibility="{Binding UpdateInfo.IsDownloading,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
@@ -110,10 +112,10 @@
                         <ProgressBar Margin="0,12,0,0" Grid.Row="1" Value="{Binding UpdateInfo.Value,Mode=OneWay}" Maximum="1" MinHeight="2"/>
                     </Grid>
                 </wu:Card>
-                <wu:Card Margin="12,4,16,0">
+                <wu:CardExpander Margin="12,4,16,0" helper:IconHelper.Icon="&#xE70B;" Header="更新日志" Subtitle="新增/调整/修复的细节">
                     <FlowDocumentScrollViewer IsHitTestVisible="False"
                         Document="{Binding ReleaseNote,Converter={StaticResource TextToFlowDocumentConverter}}"/>
-                </wu:Card>
+                </wu:CardExpander>
                 <!--CurrentUpdateAPI-->
                 <wu:CardControl helper:IconHelper.Icon="&#xE72C;" Title="更新通道" Subtitle="不同的通道收到的更新频率会有所不同" Margin="12,4,16,0">
                     <ComboBox ItemsSource="{Binding UpdateAPIs,Mode=OneWay}" SelectedItem="{Binding CurrentUpdateAPI}" DisplayMemberPath="Name"/>
@@ -124,15 +126,16 @@
                     helper:CardHelper.ActionTitle="赞助者名单" Command="{Binding SponsorUICommand}"
                     helper:CardHelper.ActionSubtitle="如果你觉得 Snap Genshin 还不错，欢迎对我们进行赞助" Margin="12,12,16,0"
                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
-
+                <wu:CardControl helper:IconHelper.Icon="&#xE70B;" Title="用户手册" Subtitle="查看Snap Genshin 的用户手册以及其他注意事项" Margin="12,12,16,0">
+                    <wu:Hyperlink Content="前往查看" NavigateUri="https://www.snapgenshin.com/home/" Padding="4"/>
+                </wu:CardControl>
                 <wu:CardExpander helper:IconHelper.Icon="&#xED15;" Header="联系我们" Subtitle="如果你在使用软件的过程中遇到问题，或是单纯的想聊聊天，可以看看这里"
-                                 Margin="12,12,16,0" IsExpanded="True">
+                                 Margin="12,4,16,0" IsExpanded="True">
                     <UniformGrid Columns="3" Margin="12,12,12,0">
                         <wu:Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Genshin/issues/new/choose" 
                                       Content="前往 Github 提交 Issue" Padding="4" Margin="0,0,0,12"/>
                         <wu:Hyperlink NavigateUri="https://discord.gg/SHYdJbxJua" 
                                       Content="我们的 Discord 服务器" Padding="4" Margin="0,0,0,12"/>
-                        
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=Wpcad0lD"
                                       Content="开发交流 982424236" Padding="4" Margin="0,0,0,12"/>
                         <wu:Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=MHLNhhYJ"

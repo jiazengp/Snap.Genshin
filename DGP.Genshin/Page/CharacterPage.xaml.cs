@@ -4,7 +4,7 @@ using Snap.Core.DependencyInjection;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class CharacterPage : ModernWpf.Controls.Page
+    internal partial class CharacterPage : ModernWpf.Controls.Page
     {
         public CharacterPage(MetadataViewModel vm)
         {

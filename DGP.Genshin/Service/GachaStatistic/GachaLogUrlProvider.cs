@@ -69,15 +69,18 @@ namespace DGP.Genshin.Service.GachaStatistic
         private static async Task<(bool isOk, string? url)> GetUrlFromManualInputAsync()
         {
             (bool isOk, string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
-            url = url.Trim();
             string? result = null;
-            //compat with iOS url
-            if (url.StartsWith(@"https://webstatic.mihoyo.com"))
+            if (isOk)
             {
-                url = url.Replace("#/log", "");
-                string[] splitedUrl = url.Split('?');
-                splitedUrl[0] = gachaLogBaseUrl;
-                result = string.Join("?", splitedUrl);
+                url = url.Trim();
+                //compat with iOS url
+                if (url.StartsWith(@"https://webstatic.mihoyo.com"))
+                {
+                    url = url.Replace("#/log", "");
+                    string[] splitedUrl = url.Split('?');
+                    splitedUrl[0] = gachaLogBaseUrl;
+                    result = string.Join("?", splitedUrl);
+                }
             }
             return (isOk, result);
         }

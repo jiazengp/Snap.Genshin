@@ -29,7 +29,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class UserViewModel : ObservableRecipient2,
+    internal class UserViewModel : ObservableRecipient2,
         IRecipient<CookieAddedMessage>,
         IRecipient<CookieRemovedMessage>,
         IRecipient<DailyNotesRefreshedMessage>

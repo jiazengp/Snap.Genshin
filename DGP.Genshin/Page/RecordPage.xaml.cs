@@ -6,7 +6,7 @@ using WPFUI.Controls;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    public partial class RecordPage : ModernWpf.Controls.Page
+    internal partial class RecordPage : ModernWpf.Controls.Page
     {
         public RecordPage(RecordViewModel vm)
         {

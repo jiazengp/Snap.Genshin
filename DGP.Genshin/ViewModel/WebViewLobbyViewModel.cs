@@ -18,7 +18,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Singleton)]
-    public class WebViewLobbyViewModel : ObservableObject2
+    internal class WebViewLobbyViewModel : ObservableObject2
     {
         private const string entriesFileName = "WebviewEntries.json";
         private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
@@ -46,13 +46,13 @@ namespace DGP.Genshin.ViewModel
             this.asyncRelayCommandFactory = asyncRelayCommandFactory;
             this.messenger = messenger;
 
-            LoadEntries();
-
             AddEntryCommand = asyncRelayCommandFactory.Create(AddEntryAsync);
             ModifyCommand = asyncRelayCommandFactory.Create<WebViewEntry>(ModifyEntryAsync);
             RemoveEntryCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
             NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
             CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
+            
+            LoadEntries();
         }
 
         private async Task AddEntryAsync()

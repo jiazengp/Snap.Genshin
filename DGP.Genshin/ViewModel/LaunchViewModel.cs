@@ -24,7 +24,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class LaunchViewModel : ObservableObject2
+    internal class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;
         private readonly IMessenger messenger;

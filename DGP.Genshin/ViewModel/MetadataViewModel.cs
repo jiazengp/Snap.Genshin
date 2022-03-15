@@ -28,7 +28,7 @@ namespace DGP.Genshin.ViewModel
     /// 存有各类共享物品数据
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    public class MetadataViewModel : ObservableObject2
+    internal class MetadataViewModel : ObservableObject2
     {
         #region Consts
         private const string BossesJson = "bosses.json";

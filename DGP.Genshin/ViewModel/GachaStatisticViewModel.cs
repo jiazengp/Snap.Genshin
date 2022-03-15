@@ -20,7 +20,7 @@ using System.Windows.Input;
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    public class GachaStatisticViewModel : ObservableObject2
+    internal class GachaStatisticViewModel : ObservableObject2
     {
         private readonly IGachaStatisticService gachaStatisticService;
 

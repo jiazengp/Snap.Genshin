@@ -1,4 +1,4 @@
-﻿<ui:Page x:Class="DGP.Genshin.Page.CharacterPage"
+﻿<ui:Page x:Class="DGP.Genshin.Page.CharacterPage" x:ClassModifier="internal"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -98,13 +98,13 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Margin="2.5" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.City}"/>
+                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.City}"/>
                                 </Border>
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Element}"/>
+                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.Element}" ShowAsMonochrome="False"/>
                                 </Border>
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedImage SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Stretch="Uniform" ImageUrl="{Binding SelectedCharacter.Weapon}"/>
+                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.Weapon}"/>
                                 </Border>
                             </StackPanel>
                             <Grid Grid.Row="1">
@@ -137,7 +137,7 @@
                             </Border>
                             
                             <Grid>
-                                <TextBlock Margin="6" Foreground="#FFFFFFFF" HorizontalAlignment="Left"
+                                <TextBlock Margin="6" HorizontalAlignment="Left"
                                    Style="{StaticResource SubtitleTextBlockStyle}" >
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} · {1}">
@@ -148,8 +148,8 @@
                                 </TextBlock>
                             </Grid>
                             <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Margin="0,6,24,0">
-                                <TextBlock Margin="6,0,0,0" Text="{Binding SelectedCharacter.AstrolabeName}" Style="{StaticResource BaseTextBlockStyle}" Foreground="#FFFFFFFF"/>
-                                <TextBlock Margin="6,6,0,6" Text="{Binding SelectedCharacter.Description}" Style="{StaticResource CaptionTextBlockStyle}" Foreground="#FFFFFFFF"/>
+                                <TextBlock Margin="6,0,0,0" Text="{Binding SelectedCharacter.AstrolabeName}" Style="{StaticResource BaseTextBlockStyle}"/>
+                                <TextBlock Margin="6,6,0,6" Text="{Binding SelectedCharacter.Description}" Style="{StaticResource CaptionTextBlockStyle}"/>
                             </StackPanel>
                             <Grid Grid.Row="2">
                                 <UniformGrid Columns="6" Margin="3,0,3,6" VerticalAlignment="Bottom" HorizontalAlignment="Left">

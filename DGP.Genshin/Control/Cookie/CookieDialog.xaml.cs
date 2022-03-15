@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Helper;
 using ModernWpf.Controls;
+using Snap.Data.Primitive;
 using Snap.Win32;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,19 +20,19 @@ namespace DGP.Genshin.Control.Cookie
         /// <summary>
         /// 获取输入的Cookie
         /// </summary>
-        public async Task<(ContentDialogResult result, string cookie)> GetInputCookieAsync()
+        public async Task<Result<ContentDialogResult, string>> GetInputCookieAsync()
         {
             ContentDialogResult result = await ShowAsync();
-
             string cookie = InputText.Text;
-            return (result, cookie);
+
+            return new(result, cookie);
         }
 
         private void AutoCookieButtonClick(object sender, RoutedEventArgs e)
         {
             if (!WebView2Helper.IsSupported)
             {
-                System.Windows.Controls.Button button = (System.Windows.Controls.Button)sender;
+                Button button = (Button)sender;
                 button.IsEnabled = false;
                 button.Content = "需要先安装 WebView2运行时";
 
@@ -42,8 +43,7 @@ namespace DGP.Genshin.Control.Cookie
                 using (CookieWindow cookieWindow = new())
                 {
                     cookieWindow.ShowDialog();
-                    bool isLoggedIn = cookieWindow.IsLoggedIn;
-                    if (isLoggedIn)
+                    if (cookieWindow.IsLoggedIn)
                     {
                         InputText.Text = cookieWindow.Cookie;
                     }
@@ -54,6 +54,7 @@ namespace DGP.Genshin.Control.Cookie
         private void InputTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = InputText.Text;
+
             bool inputEmpty = string.IsNullOrEmpty(text);
             bool inputHasAccountId = text.Contains("account_id");
 

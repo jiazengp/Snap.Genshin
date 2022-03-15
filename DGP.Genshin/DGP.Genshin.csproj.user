@@ -36,10 +36,10 @@
     <Compile Update="Control\WebViewLobby\WebViewEntryDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Control\WhatsNewWindow.xaml.cs">
+    <Compile Update="Page\HutaoStatisticPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Page\HutaoStatisticPage.xaml.cs">
+    <Compile Update="Page\ImplementationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\LaunchPage.xaml.cs">
@@ -98,9 +98,6 @@
     <Page Update="Control\WebViewLobby\WebViewEntryDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Control\WhatsNewWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Control\WPFUIStyle\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -117,6 +114,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\HutaoStatisticPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\ImplementationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\LaunchPage.xaml">
