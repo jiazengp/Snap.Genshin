@@ -3,16 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Page"
-      xmlns:c="clr-namespace:DGP.Genshin.Control.Converter"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
       xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1300" d:DesignWidth="800"
       Title="LaunchPage">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -56,6 +53,9 @@
                         SelectionMode="Single"
                         DisplayMemberPath="Name" Padding="0,0,0,4"/>
                 </wu:CardExpander>
+                <wu:CardControl helper:IconHelper.Icon="&#xE74D;" Title="检测新账号" Subtitle="从注册表检测当前登录的原神账号" Margin="0,4,0,0">
+                    <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}"/>
+                </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xE74D;" Title="删除当前账号" Subtitle="删除的账号将不会保存" Margin="0,4,0,0">
                     <Button Grid.Row="1" Content="删除" Command="{Binding DeleteAccountCommand}"/>
                 </wu:CardControl>

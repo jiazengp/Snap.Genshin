@@ -35,7 +35,7 @@ namespace DGP.Genshin.ViewModel
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
             ExitCommand = new RelayCommand(ExitApp);
-            RestartAsElevatedCommand = new RelayCommand(RestartAsElevated);
+            RestartAsElevatedCommand = new RelayCommand(App.RestartAsElevated);
             LaunchGameCommand = asyncRelayCommandFactory.Create(LaunchGameAsync);
             OpenLauncherCommand = new RelayCommand(OpenLauncher);
             SignInCommand = asyncRelayCommandFactory.Create(SignInAsync);
@@ -47,24 +47,6 @@ namespace DGP.Genshin.ViewModel
         }
         private void ExitApp()
         {
-            App.Current.Shutdown();
-        }
-        private void RestartAsElevated()
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo()
-                {
-                    Verb = "runas",
-                    UseShellExecute = true,
-                    FileName = PathContext.Locate("DGP.Genshin.exe"),
-                });
-            }
-            catch (Win32Exception)
-            {
-                return;
-            }
-
             App.Current.Shutdown();
         }
         private async Task LaunchGameAsync()

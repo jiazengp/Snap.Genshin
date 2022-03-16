@@ -1,4 +1,5 @@
 ﻿using Snap.Core.Logging;
+using Snap.Win32;
 using Snap.Win32.NativeMethod;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -80,7 +81,7 @@ namespace DGP.Genshin.Core.DpiAware
                 case 0x02E0://WM_DPICHANGED
                     RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
 
-                    User32.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+                    User32.SetWindowPos(hWnd, IntPtr.Zero, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top,
                         User32.SetWindowPosFlags.DoNotChangeOwnerZOrder
                         | User32.SetWindowPosFlags.DoNotActivate
                         | User32.SetWindowPosFlags.IgnoreZOrder);

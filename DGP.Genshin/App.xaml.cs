@@ -19,6 +19,8 @@ using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -46,11 +48,11 @@ namespace DGP.Genshin
         {
             get => pluginService;
         }
-        internal SwitchableImplementationManager SwitchableImplementationManager 
-        { 
-            get => switchableImplementationManager; 
+        internal SwitchableImplementationManager SwitchableImplementationManager
+        {
+            get => switchableImplementationManager;
         }
-        internal IContainer DI { get; } = new DefaultContainter();
+        internal Core.IContainer DI { get; } = new DefaultContainter();
 
         public TaskbarIcon? NotifyIcon { get; set; }
 
@@ -64,7 +66,7 @@ namespace DGP.Genshin
             switchableImplementationManager.SwitchToCorrectImplementations();
         }
 
-        internal class DefaultContainter : IContainer
+        internal class DefaultContainter : Core.IContainer
         {
             public T Find<T>()
             {
@@ -147,7 +149,9 @@ namespace DGP.Genshin
             return Current.serviceManager.Services!.GetService<T>()
                 ?? throw new SnapGenshinInternalException($"无法找到 {typeof(T)} 类型的对象。");
         }
+        #endregion
 
+        #region Helper Methods
         /// <summary>
         /// 查找 <see cref="App.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
         /// </summary>
@@ -168,6 +172,25 @@ namespace DGP.Genshin
             window.Topmost = true;
             window.Topmost = false;
             window.Focus();
+        }
+
+        public static void RestartAsElevated()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    Verb = "runas",
+                    UseShellExecute = true,
+                    FileName = PathContext.Locate("DGP.Genshin.exe"),
+                });
+            }
+            catch (Win32Exception)
+            {
+                return;
+            }
+
+            Current.Shutdown();
         }
         #endregion
 

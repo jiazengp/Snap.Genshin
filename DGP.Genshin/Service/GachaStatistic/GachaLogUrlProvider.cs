@@ -1,5 +1,7 @@
 ﻿using DGP.Genshin.Control.GenshinElement.GachaStatistic;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
+using Microsoft;
+using Snap.Data.Primitive;
 using Snap.Exception;
 using System;
 using System.IO;
@@ -21,27 +23,33 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         /// <param name="mode">模式</param>
         /// <returns>文件存在返回true,若获取失败返回null</returns>
-        public static async Task<(bool isOk, string? url)> GetUrlAsync(GachaLogUrlMode mode)
+        public static async Task<Result<bool,string>> GetUrlAsync(GachaLogUrlMode mode)
         {
+            Requires.Defined(mode, nameof(mode));
             switch (mode)
             {
                 case GachaLogUrlMode.GameLogFile:
-                    bool filePresent = File.Exists(logFilePath);
-                    return (filePresent, filePresent ? await GetUrlFromLogFileAsync() : null);
+                    string url = string.Empty;
+                    if (File.Exists(logFilePath))
+                    {
+                        url = await GetUrlFromLogFileAsync();
+                    }
+                    bool isOk = url != string.Empty;
+                    return new(isOk, url);
                 case GachaLogUrlMode.ManualInput:
                     return await GetUrlFromManualInputAsync();
                 default:
-                    throw new SnapGenshinInternalException("switch 分支不应命中 default");
+                    return default!;//never happen
             }
         }
 
         /// <summary>
         /// 在日志文件中寻找url
         /// </summary>
-        /// <returns>url</returns>
-        private static async Task<string?> GetUrlFromLogFileAsync()
+        /// <returns>url找不到则返回空字符串</returns>
+        private static async Task<string> GetUrlFromLogFileAsync()
         {
-            string? result = null;
+            string result = string.Empty;
             //share the file to make unity access it so it doesn't crash when game is running
             using (StreamReader sr = new(File.Open(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
@@ -66,13 +74,13 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 获取用户输入的Url
         /// </summary>
         /// <returns>用户输入的Url，若不可用则为 null</returns>
-        private static async Task<(bool isOk, string? url)> GetUrlFromManualInputAsync()
+        private static async Task<Result<bool,string>> GetUrlFromManualInputAsync()
         {
-            (bool isOk, string url) = await new GachaLogUrlDialog().GetInputUrlAsync();
-            string? result = null;
-            if (isOk)
+            Result<bool,string> input = await new GachaLogUrlDialog().GetInputUrlAsync();
+            string result = string.Empty;
+            if (input.IsOk)
             {
-                url = url.Trim();
+                string url = input.Value.Trim();
                 //compat with iOS url
                 if (url.StartsWith(@"https://webstatic.mihoyo.com"))
                 {
@@ -82,7 +90,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                     result = string.Join("?", splitedUrl);
                 }
             }
-            return (isOk, result);
+            return new(input.IsOk, result);
         }
     }
 }

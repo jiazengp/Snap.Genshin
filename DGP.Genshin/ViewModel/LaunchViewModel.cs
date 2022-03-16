@@ -144,6 +144,7 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
         public ICommand LaunchCommand { get; }
+        public ICommand MatchAccountCommand { get; }
         public ICommand DeleteAccountCommand { get; }
         #endregion
 
@@ -165,6 +166,7 @@ namespace DGP.Genshin.ViewModel
 
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
             LaunchCommand = asyncRelayCommandFactory.Create<string>(LaunchByOptionAsync);
+            MatchAccountCommand = asyncRelayCommandFactory.Create(() => MatchAccountAsync(true));
             DeleteAccountCommand = new RelayCommand(DeleteAccount);
         }
 
@@ -225,7 +227,7 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 从注册表获取当前的账户信息
         /// </summary>
-        private async Task MatchAccountAsync()
+        private async Task MatchAccountAsync(bool allowNewAccount = false)
         {
             //注册表内有账号信息
             if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
@@ -238,10 +240,13 @@ namespace DGP.Genshin.ViewModel
                 }
                 else
                 {
-                    //命名
-                    currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
-                    Accounts.Add(currentRegistryAccount);
-                    selectedAccount = currentRegistryAccount;
+                    if (allowNewAccount)
+                    {
+                        //命名
+                        currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
+                        Accounts.Add(currentRegistryAccount);
+                        selectedAccount = currentRegistryAccount;
+                    }
                 }
                 //prevent registry set
                 OnPropertyChanged(nameof(SelectedAccount));

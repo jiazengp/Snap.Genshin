@@ -62,7 +62,7 @@ namespace DGP.Genshin.Core
         /// 注册可切换的实现
         /// </summary>
         /// <param name="type"></param>
-        private void RegisterSwitchableImplementation(Type type,SwitchableImplementationAttribute attr)
+        private void RegisterSwitchableImplementation(Type type, SwitchableImplementationAttribute attr)
         {
             SwitchableImplementationManager manager = App.Current.SwitchableImplementationManager;
             //no switch expression here

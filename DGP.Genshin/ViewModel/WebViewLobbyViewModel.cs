@@ -51,7 +51,7 @@ namespace DGP.Genshin.ViewModel
             RemoveEntryCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
             NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
             CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
-            
+
             LoadEntries();
         }
 

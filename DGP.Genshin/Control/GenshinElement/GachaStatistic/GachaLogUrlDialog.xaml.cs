@@ -10,10 +10,10 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         {
             InitializeComponent();
         }
-        public async Task<Result<string>> GetInputUrlAsync()
+        public async Task<Result<bool,string>> GetInputUrlAsync()
         {
-            bool isOk = await ShowAsync() == ContentDialogResult.Primary;
-            return new(isOk, InputText.Text, string.Empty);
+            bool isOk = await ShowAsync() != ContentDialogResult.Secondary;
+            return new(isOk, isOk ? InputText.Text : string.Empty);
         }
     }
 }

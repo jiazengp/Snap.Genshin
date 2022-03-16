@@ -100,7 +100,7 @@ namespace DGP.Genshin.Service
 
         public LaunchService()
         {
-            PathContext.CreateOrIgnore(AccountsFileName);
+            PathContext.CreateFileOrIgnore(AccountsFileName);
             string? launcherPath = Setting2.LauncherPath;
             TryLoadIniData(launcherPath);
         }

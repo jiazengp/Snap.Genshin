@@ -9,7 +9,7 @@
                   Title="请输入Url" 
                   DefaultButton="Primary" 
                   PrimaryButtonText="确认" 
-                  CloseButtonText="取消">
+                  SecondaryButtonText="取消">
     <StackPanel>
         <TextBox x:Name="InputText" VerticalAlignment="Top" ui:ControlHelper.Header="在此处输入游戏内历史记录页面的Url"/>
         <TextBlock Text="只允许以 https://webstatic.mihoyo.com 开头" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>

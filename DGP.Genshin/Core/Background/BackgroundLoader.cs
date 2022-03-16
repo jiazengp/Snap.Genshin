@@ -76,7 +76,7 @@ namespace DGP.Genshin.Core.Background
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
                 await Task.Delay(animationDuration);
                 mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, null);
-                
+
                 mainWindow.BackgroundGrid.Background = new ImageBrush
                 {
                     ImageSource = image,

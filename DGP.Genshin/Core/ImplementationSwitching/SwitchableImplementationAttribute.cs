@@ -12,7 +12,7 @@ namespace DGP.Genshin.Core.ImplementationSwitching
     {
         internal const string DefaultName = "Snap.Genshin.Default";
         internal const string DefaultDescription = "Snap Genshin 默认实现";
-        public SwitchableImplementationAttribute(Type targetInterface, string name,string description)
+        public SwitchableImplementationAttribute(Type targetInterface, string name, string description)
         {
             TargetType = targetInterface;
             Requires.Argument(name != DefaultName, nameof(name), "注册的名称不能与默认实现名称相同");
