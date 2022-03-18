@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
         
-      # 下载最新的 Release 中的 Publish.zip
+      # Download Publish.zip
       - name: Download Release
         uses: robinraju/release-downloader@v1.3
         with: 
@@ -31,16 +31,6 @@ jobs:
           fileName: Publish.zip
           out-file-path: ./release-download
           
-      # 将更改上传到腾讯云对象存储
-      - name: Upload COS
-        uses: zkqiang/tencent-cos-action@v0.1.0
-        with:
-          args: upload -rs --delete ./release-download/ / -f
-          secret_id: ${{ secrets.SECRET_ID }}
-          secret_key: ${{ secrets.SECRET_KEY }}
-          bucket: ${{ secrets.BUCKET }}
-          region: ap-nanjing
- 
       # Upload to OD21 (Testing)
       - name: Upload OD21
         env:
