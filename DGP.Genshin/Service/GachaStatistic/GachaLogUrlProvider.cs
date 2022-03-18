@@ -2,7 +2,6 @@
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using Microsoft;
 using Snap.Data.Primitive;
-using Snap.Exception;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         /// <param name="mode">模式</param>
         /// <returns>文件存在返回true,若获取失败返回null</returns>
-        public static async Task<Result<bool,string>> GetUrlAsync(GachaLogUrlMode mode)
+        public static async Task<Result<bool, string>> GetUrlAsync(GachaLogUrlMode mode)
         {
             Requires.Defined(mode, nameof(mode));
             switch (mode)
@@ -74,9 +73,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 获取用户输入的Url
         /// </summary>
         /// <returns>用户输入的Url，若不可用则为 null</returns>
-        private static async Task<Result<bool,string>> GetUrlFromManualInputAsync()
+        private static async Task<Result<bool, string>> GetUrlFromManualInputAsync()
         {
-            Result<bool,string> input = await new GachaLogUrlDialog().GetInputUrlAsync();
+            Result<bool, string> input = await new GachaLogUrlDialog().GetInputUrlAsync();
             string result = string.Empty;
             if (input.IsOk)
             {

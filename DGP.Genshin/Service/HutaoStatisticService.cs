@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service
@@ -31,25 +32,25 @@ namespace DGP.Genshin.Service
         private IEnumerable<AvatarReliquaryUsage> _avatarReliquaryUsages = null!;
         private IEnumerable<TeamCombination> _teamCombinations = null!;
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(CancellationToken cancellationToken = default)
         {
-            await playerRecordClient.InitializeAsync();
+            await playerRecordClient.InitializeAsync(cancellationToken);
 
-            avatarMap = await playerRecordClient.GetAvatarMapAsync();
-            weaponMap = await playerRecordClient.GetWeaponMapAsync();
-            reliquaryMap = await playerRecordClient.GetReliquaryMapAsync();
+            avatarMap = await playerRecordClient.GetAvatarMapAsync(cancellationToken);
+            weaponMap = await playerRecordClient.GetWeaponMapAsync(cancellationToken);
+            reliquaryMap = await playerRecordClient.GetReliquaryMapAsync(cancellationToken);
 
-            _avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync();
-            _avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync();
-            _teamCollocations = await playerRecordClient.GetTeamCollocationsAsync();
-            _weaponUsages = await playerRecordClient.GetWeaponUsagesAsync();
-            _avatarReliquaryUsages = await playerRecordClient.GetAvatarReliquaryUsagesAsync();
-            _teamCombinations = await playerRecordClient.GetTeamCombinationsAsync();
+            _avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
+            _avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
+            _teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
+            _weaponUsages = await playerRecordClient.GetWeaponUsagesAsync(cancellationToken);
+            _avatarReliquaryUsages = await playerRecordClient.GetAvatarReliquaryUsagesAsync(cancellationToken);
+            _teamCombinations = await playerRecordClient.GetTeamCombinationsAsync(cancellationToken);
         }
 
-        public async Task<Overview?> GetOverviewAsync()
+        public async Task<Overview?> GetOverviewAsync(CancellationToken cancellationToken = default)
         {
-            return await playerRecordClient.GetOverviewAsync();
+            return await playerRecordClient.GetOverviewAsync(cancellationToken);
         }
 
         public IList<Indexed<int, Item<double>>> GetAvatarParticipations()
@@ -209,9 +210,9 @@ namespace DGP.Genshin.Service
             return teamCombinationResults;
         }
 
-        public async Task GetAllRecordsAndUploadAsync(string cookie, Func<PlayerRecord, Task<bool>> confirmFunc, Func<Response, Task> resultAsyncFunc)
+        public async Task GetAllRecordsAndUploadAsync(string cookie, Func<PlayerRecord, Task<bool>> confirmFunc, Func<Response, Task> resultAsyncFunc, CancellationToken cancellationToken = default)
         {
-            await playerRecordClient.GetAllRecordsAndUploadAsync(cookie, confirmFunc, resultAsyncFunc);
+            await playerRecordClient.GetAllRecordsAndUploadAsync(cookie, confirmFunc, resultAsyncFunc, cancellationToken);
         }
     }
 }

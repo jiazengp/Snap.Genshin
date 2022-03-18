@@ -1,35 +1,41 @@
-﻿using DGP.Genshin.DataModel.Promotion;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.DataModel.Promotion;
 using DGP.Genshin.Factory.Abstraction;
-using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Calculation;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class PromotionCalculateViewModel : ObservableRecipient2, IRecipient<CookieChangedMessage>
+    internal class PromotionCalculateViewModel : ObservableRecipient2, ISupportCancellation
     {
         private const string AvatarTag = "Avatar";
         private const string SkillTag = "Skill";
+
         private readonly ICookieService cookieService;
         private readonly IMaterialListService materialListService;
 
         private Calculator calculator;
         private UserGameRoleProvider userGameRoleProvider;
+
+        public CancellationToken CancellationToken { get; set; }
 
         #region Sync Calculation
         private IEnumerable<UserGameRole>? userGameRoles;
@@ -39,7 +45,7 @@ namespace DGP.Genshin.ViewModel
         private AvatarDetailData? avatarDetailData;
         private Consumption? consumption = new();
         private MaterialList? materialList;
-        private IEnumerable<ConsumeItem>? totalConsumption;
+        private bool isListEmpty;
 
         public IEnumerable<UserGameRole>? UserGameRoles
         {
@@ -56,13 +62,17 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback, SuppressMessage("", "VSTHRD100")]
         private async void UpdateAvatarList()
         {
-            if (SelectedUserGameRole is UserGameRole selected)
+            try
             {
-                string uid = selected.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
-                string region = selected.Region ?? throw new UnexpectedNullException("region 不应为 null");
-                Avatars = await calculator.GetSyncedAvatarListAsync(new(uid, region), true);
-                SelectedAvatar = Avatars?.FirstOrDefault();
+                if (SelectedUserGameRole is UserGameRole selected)
+                {
+                    Requires.NotNull(selected.GameUid!, nameof(selected.GameUid));
+                    Requires.NotNull(selected.Region!, nameof(selected.Region));
+                    Avatars = await calculator.GetSyncedAvatarListAsync(new(selected.GameUid, selected.Region), true, CancellationToken);
+                    SelectedAvatar = Avatars?.FirstOrDefault();
+                }
             }
+            catch (TaskCanceledException) { this.Log("UpdateAvatarList canceled by user switch page"); }
         }
         public IEnumerable<Avatar>? Avatars
         {
@@ -79,25 +89,33 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback, SuppressMessage("", "VSTHRD100")]
         private async void UpdateAvatarDetailData()
         {
-            Consumption = null;
-            if (SelectedUserGameRole is not null && SelectedAvatar is not null)
+            try
             {
-                string uid = SelectedUserGameRole.GameUid ?? throw new UnexpectedNullException("uid 不应为 null");
-                string region = SelectedUserGameRole.Region ?? throw new UnexpectedNullException("region 不应为 null");
-                int avatarId = SelectedAvatar.Id;
-
-                AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region);
-            }
-            if (SelectedAvatar is not null)
-            {
-                SelectedAvatar.LevelTarget = SelectedAvatar.LevelCurrent;
-                AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
-                if (AvatarDetailData?.Weapon is not null)
+                Consumption = null;
+                if (SelectedUserGameRole is not null && SelectedAvatar is not null)
                 {
-                    AvatarDetailData.Weapon.LevelTarget = AvatarDetailData.Weapon.LevelCurrent;
+                    string? uid = SelectedUserGameRole.GameUid;
+                    string? region = SelectedUserGameRole.Region;
+
+                    Requires.NotNull(uid!, nameof(uid));
+                    Requires.NotNull(region!, nameof(region));
+
+                    int avatarId = SelectedAvatar.Id;
+
+                    AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region, CancellationToken);
                 }
-                AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
+                if (SelectedAvatar is not null)
+                {
+                    SelectedAvatar.LevelTarget = SelectedAvatar.LevelCurrent;
+                    AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
+                    if (AvatarDetailData?.Weapon is not null)
+                    {
+                        AvatarDetailData.Weapon.LevelTarget = AvatarDetailData.Weapon.LevelCurrent;
+                    }
+                    AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
+                }
             }
+            catch (TaskCanceledException) { this.Log("UpdateAvatarDetailData canceled"); }
         }
         public AvatarDetailData? AvatarDetailData
         {
@@ -117,6 +135,7 @@ namespace DGP.Genshin.ViewModel
         #endregion
 
         #region MaterialList
+        public bool IsListEmpty { get => isListEmpty; set => SetProperty(ref isListEmpty, value); }
         public MaterialList? MaterialList
         {
             get => materialList;
@@ -124,20 +143,17 @@ namespace DGP.Genshin.ViewModel
             set => SetProperty(ref materialList, value);
         }
 
-        public IEnumerable<ConsumeItem>? TotalConsumption
-        {
-            get => totalConsumption;
-
-            set => SetProperty(ref totalConsumption, value);
-        }
-
         public ICommand AddCharacterMaterialCommand { get; }
         public ICommand AddWeaponMaterialCommand { get; }
         public ICommand RemoveMaterialCommand { get; }
-        public ICommand CloseCommand { get; }
+        public ICommand CloseUICommand { get; }
         #endregion
 
-        public PromotionCalculateViewModel(IMaterialListService materialListService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
+        public PromotionCalculateViewModel(
+            IMaterialListService materialListService,
+            ICookieService cookieService,
+            IAsyncRelayCommandFactory asyncRelayCommandFactory,
+            IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
             this.materialListService = materialListService;
@@ -146,7 +162,7 @@ namespace DGP.Genshin.ViewModel
             userGameRoleProvider = new(cookieService.CurrentCookie);
 
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-            CloseCommand = new RelayCommand(CloseUI);
+            CloseUICommand = new RelayCommand(CloseUI);
             ComputeCommand = asyncRelayCommandFactory.Create(ComputeAsync);
 
             AddCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(AddCharacterMaterialToListAsync);
@@ -157,12 +173,17 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            MaterialList = materialListService.Load();
-            MaterialList.ForEach(item => item.RemoveCommand = RemoveMaterialCommand);
-            TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
+            try
+            {
+                MaterialList = materialListService.Load();
+                MaterialList.ForEach(item => item.RemoveCommand = RemoveMaterialCommand);
 
-            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
-            SelectedUserGameRole = UserGameRoles?.FirstOrDefault();
+                IsListEmpty = MaterialList.IsEmpty();
+
+                UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync(CancellationToken);
+                SelectedUserGameRole = UserGameRoles?.FirstOrDefault();
+            }
+            catch (TaskCanceledException) { this.Log("Open UI cancelled"); }
         }
         private void CloseUI()
         {
@@ -170,42 +191,27 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task ComputeAsync()
         {
-            if (SelectedAvatar is not null)
+            try
             {
-                if (AvatarDetailData != null)
+                if (SelectedAvatar is not null)
                 {
-                    AvatarPromotionDelta delta = new()
+                    if (AvatarDetailData != null)
                     {
-                        AvatarId = SelectedAvatar.Id,
-                        AvatarLevelCurrent = SelectedAvatar.LevelCurrent,
-                        AvatarLevelTarget = SelectedAvatar.LevelTarget,
-                        SkillList = AvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()) ?? new List<PromotionDelta>(),
-                        Weapon = AvatarDetailData.Weapon?.ToPromotionDelta(),
-                        ReliquaryList = AvatarDetailData.ReliquaryList?.Select(r => r.ToPromotionDelta()) ?? new List<PromotionDelta>()
-                    };
-                    Consumption = await calculator.ComputeAsync(delta);
+                        AvatarPromotionDelta delta = new()
+                        {
+                            AvatarId = SelectedAvatar.Id,
+                            AvatarLevelCurrent = SelectedAvatar.LevelCurrent,
+                            AvatarLevelTarget = SelectedAvatar.LevelTarget,
+                            SkillList = AvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()) ?? new List<PromotionDelta>(),
+                            Weapon = AvatarDetailData.Weapon?.ToPromotionDelta(),
+                            ReliquaryList = AvatarDetailData.ReliquaryList?.Select(r => r.ToPromotionDelta()) ?? new List<PromotionDelta>()
+                        };
+                        Consumption = await calculator.ComputeAsync(delta, CancellationToken);
+                    }
                 }
             }
+            catch (TaskCanceledException) { this.Log("ComputeAsync canceled by user switch page"); }
         }
-
-        /// <summary>
-        /// Cookie 改变
-        /// </summary>
-        /// <param name="message"></param>
-        public void Receive(CookieChangedMessage message)
-        {
-            UpdateUserGameRolesAsync().Forget();
-        }
-
-        private async Task UpdateUserGameRolesAsync()
-        {
-            calculator = new(cookieService.CurrentCookie);
-            userGameRoleProvider = new(cookieService.CurrentCookie);
-
-            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync();
-            SelectedUserGameRole = UserGameRoles?.MatchedOrFirst(r => r.IsChosen);
-        }
-
         private async Task AddCharacterMaterialToListAsync(string? option)
         {
             Calculable calculable = SelectedAvatar ?? throw new SnapGenshinInternalException($"{nameof(SelectedAvatar)} 不应为 null");
@@ -226,7 +232,7 @@ namespace DGP.Genshin.ViewModel
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
                 MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
-                TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
+                IsListEmpty = MaterialList.IsEmpty();
             }
         }
         private async Task AddWeaponMaterialToListAsync()
@@ -237,7 +243,7 @@ namespace DGP.Genshin.ViewModel
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
                 MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
-                TotalConsumption = materialListService.GetTotalConsumption(MaterialList);
+                IsListEmpty = MaterialList.IsEmpty();
             }
         }
         private async Task RemoveMaterialFromListAsync(CalculableConsume? item)
@@ -254,9 +260,9 @@ namespace DGP.Genshin.ViewModel
             if (result == ContentDialogResult.Primary && item is not null)
             {
                 MaterialList?.Remove(item);
+                IsListEmpty = MaterialList.IsEmpty();
             }
         }
-
         private async Task<bool> ConfirmAddAsync(string name, string category)
         {
             ContentDialogResult result = await new ContentDialog()
@@ -268,6 +274,14 @@ namespace DGP.Genshin.ViewModel
                 DefaultButton = ContentDialogButton.Primary
             }.ShowAsync();
             return result == ContentDialogResult.Primary;
+        }
+        private async Task UpdateUserGameRolesAsync()
+        {
+            calculator = new(cookieService.CurrentCookie);
+            userGameRoleProvider = new(cookieService.CurrentCookie);
+
+            UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync(CancellationToken);
+            SelectedUserGameRole = UserGameRoles?.MatchedOrFirst(r => r.IsChosen);
         }
     }
 }

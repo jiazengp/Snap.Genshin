@@ -6,7 +6,7 @@ namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
     /// 指示此属性需要受到完整性检查
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class IntegrityAwareAttribute : Attribute
+    public sealed class IntegrityAwareAttribute : Attribute
     {
     }
 }

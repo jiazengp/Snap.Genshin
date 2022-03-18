@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.Cookie;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.DataModel.DailyNote;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
@@ -23,13 +24,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class UserViewModel : ObservableRecipient2,
+    internal class UserViewModel : ObservableRecipient2, ISupportCancellation,
         IRecipient<CookieAddedMessage>,
         IRecipient<CookieRemovedMessage>,
         IRecipient<DailyNotesRefreshedMessage>
@@ -37,6 +39,8 @@ namespace DGP.Genshin.ViewModel
         private readonly ICookieService cookieService;
         private readonly IDailyNoteService dailynoteService;
         private readonly IMessenger messenger;
+
+        public CancellationToken CancellationToken { get; set; }
 
         private ObservableCollection<CookieUserInfo> cookieUserInfos = new();
         private CookieUserInfo? selectedCookieUserInfo;
@@ -74,6 +78,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand SignInImmediatelyCommand { get; }
         #endregion
 
+        #region Observable
         public List<NamedValue<TimeSpan>> ResinAutoRefreshTimes { get; } = new()
         {
             new("4 分钟 | 0.5 树脂", TimeSpan.FromMinutes(4)),
@@ -104,16 +109,21 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private async Task OnSelectedCookieUserInfoChangedAsync(CookieUserInfo? cookieUserInfo)
         {
-            if (cookieUserInfo != null)
+            try
             {
-                cookieService.ChangeOrIgnoreCurrentCookie(cookieUserInfo.Cookie);
-                //update user game roles
-                List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
-                CookieUserGameRoles = userGameRoles
-                    .Select(role => new CookieUserGameRole(cookieUserInfo.Cookie, role))
-                    .ToList();
-                SelectedCookieUserGameRole = CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
+                if (cookieUserInfo != null)
+                {
+                    cookieService.ChangeOrIgnoreCurrentCookie(cookieUserInfo.Cookie);
+                    //update user game roles
+                    List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync(CancellationToken);
+                    CookieUserGameRoles = userGameRoles
+                        .Select(role => new CookieUserGameRole(cookieUserInfo.Cookie, role))
+                        .ToList();
+                    SelectedCookieUserGameRole = CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
+                }
             }
+            catch (TaskCanceledException) { this.Log("OnSelectedCookieUserInfoChangedAsync canceled by user switch page"); }
+
         }
 
         public List<CookieUserGameRole>? CookieUserGameRoles
@@ -126,13 +136,17 @@ namespace DGP.Genshin.ViewModel
         {
             get => selectedCookieUserGameRole;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserGameRole, value, OnSelectedCookieUserGameRoleChanged);
+            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserGameRole, value, OnSelectedCookieUserGameRoleChangedAsync);
         }
         [PropertyChangedCallback]
-        public void OnSelectedCookieUserGameRoleChanged(CookieUserGameRole? cookieUserGameRole)
+        public async Task OnSelectedCookieUserGameRoleChangedAsync(CookieUserGameRole? cookieUserGameRole)
         {
             UpdateDailyNote(cookieUserGameRole);
-            UpdateJourneyInfoAsync(cookieUserGameRole).Forget();
+            if (cookieUserGameRole is not null)
+            {
+                UserGameRole role = cookieUserGameRole.UserGameRole;
+                JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
+            }
         }
 
         private void UpdateDailyNote(CookieUserGameRole? cookieUserGameRole)
@@ -140,15 +154,6 @@ namespace DGP.Genshin.ViewModel
             if (cookieUserGameRole != null)
             {
                 DailyNote = dailynoteService.GetDailyNote(cookieUserGameRole);
-            }
-        }
-
-        private async Task UpdateJourneyInfoAsync(CookieUserGameRole? cookieUserGameRole)
-        {
-            if (cookieUserGameRole is not null)
-            {
-                UserGameRole role = cookieUserGameRole.UserGameRole;
-                JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
             }
         }
 
@@ -171,6 +176,7 @@ namespace DGP.Genshin.ViewModel
 
             set => SetProperty(ref journeyInfo, value);
         }
+        #endregion
 
         public ICommand OpenUICommand { get; }
         public ICommand RemoveUserCommand { get; }
@@ -199,15 +205,18 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            foreach (string cookie in cookieService.Cookies)
+            try
             {
-                UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
-                if (info is not null)
+                foreach (string cookie in cookieService.Cookies)
                 {
-                    CookieUserInfos.Add(new CookieUserInfo(cookie, info));
+                    if (await new UserInfoProvider(cookie).GetUserInfoAsync(CancellationToken) is UserInfo info)
+                    {
+                        CookieUserInfos.Add(new CookieUserInfo(cookie, info));
+                    }
                 }
+                SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);
             }
-            SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);
+            catch (TaskCanceledException) { this.Log("Open UI canceled"); }
         }
         private async Task AddUserAsync()
         {

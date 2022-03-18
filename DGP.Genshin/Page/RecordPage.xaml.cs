@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.ViewModel;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.ViewModel;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using WPFUI.Controls;
@@ -6,11 +7,10 @@ using WPFUI.Controls;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    internal partial class RecordPage : ModernWpf.Controls.Page
+    internal partial class RecordPage : AsyncPage
     {
-        public RecordPage(RecordViewModel vm)
+        public RecordPage(RecordViewModel vm) : base(vm)
         {
-            DataContext = vm;
             InitializeComponent();
         }
 

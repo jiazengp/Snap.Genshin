@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.MiHoYo2;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.DataModel.MiHoYo2;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
@@ -7,22 +8,25 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class RecordViewModel : ObservableRecipient2, IRecipient<RecordProgressChangedMessage>, IRecipient<CookieChangedMessage>
+    internal class RecordViewModel : ObservableRecipient2, ISupportCancellation, IRecipient<RecordProgressChangedMessage>
     {
         private readonly IRecordService recordService;
         private readonly ICookieService cookieService;
 
         private readonly TaskPreventer updateRecordTaskPreventer = new();
+        public CancellationToken CancellationToken { get; set; }
 
         private Record? currentRecord;
         private string? stateDescription;
@@ -60,57 +64,70 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            UserGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync();
+            try
+            {
+                UserGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync(CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                this.Log("Open UI canceled");
+            }
         }
         private async Task UpdateRecordAsync(string? uid)
         {
             if (updateRecordTaskPreventer.ShouldExecute)
             {
-                Record record = await recordService.GetRecordAsync(uid);
+                try
+                {
+                    Record record = await recordService.GetRecordAsync(uid);
 
-                if (record.Success)
-                {
-                    CurrentRecord = record;
-                }
-                else
-                {
-                    if (record.Message?.Length == 0)
+                    if (record.Success)
                     {
-                        ContentDialogResult result = await new ContentDialog()
-                        {
-                            Title = "查询失败",
-                            Content = "米游社用户信息不完整，请在米游社完善个人信息。",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
-
-                        if (result is ContentDialogResult.Primary)
-                        {
-                            Process.Start("https://bbs.mihoyo.com/ys/");
-                        }
+                        CurrentRecord = record;
                     }
                     else
                     {
-                        await new ContentDialog()
+                        if (record.Message?.Length == 0)
                         {
-                            Title = "查询失败",
-                            Content = $"UID:{uid}\n{record.Message}\n",
-                            PrimaryButtonText = "确认",
-                            DefaultButton = ContentDialogButton.Primary
-                        }.ShowAsync();
+                            ContentDialogResult result = await new ContentDialog()
+                            {
+                                Title = "查询失败",
+                                Content = "米游社用户信息不完整，请在米游社完善个人信息。",
+                                PrimaryButtonText = "确认",
+                                DefaultButton = ContentDialogButton.Primary
+                            }.ShowAsync();
+
+                            if (result is ContentDialogResult.Primary)
+                            {
+                                Process.Start("https://bbs.mihoyo.com/ys/");
+                            }
+                        }
+                        else
+                        {
+                            await new ContentDialog()
+                            {
+                                Title = "查询失败",
+                                Content = $"UID:{uid}\n{record.Message}\n",
+                                PrimaryButtonText = "确认",
+                                DefaultButton = ContentDialogButton.Primary
+                            }.ShowAsync();
+                        }
                     }
                 }
-                updateRecordTaskPreventer.Release();
+                catch (TaskCanceledException)
+                {
+                    this.Log("UpdateRecordAsync canceled by user switch page");
+                }
+                finally
+                {
+                    updateRecordTaskPreventer.Release();
+                }
             }
         }
 
         public void Receive(RecordProgressChangedMessage message)
         {
             StateDescription = message.Value;
-        }
-        public void Receive(CookieChangedMessage message)
-        {
-            OpenUIAsync().Forget();
         }
     }
 }

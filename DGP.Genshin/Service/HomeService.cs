@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,14 +17,14 @@ namespace DGP.Genshin.Service
     [Service(typeof(IHomeService), InjectAs.Transient)]
     internal class HomeService : IHomeService
     {
-        public async Task<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand)
+        public async Task<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
         {
             AnnouncementProvider provider = new();
-            AnnouncementWrapper? wrapper = await provider.GetAnnouncementWrapperAsync();
+            AnnouncementWrapper? wrapper = await provider.GetAnnouncementWrapperAsync(cancellationToken);
             List<AnnouncementContent> contents = new();
             try
             {
-                contents = await provider.GetAnnouncementContentsAsync();
+                contents = await provider.GetAnnouncementContentsAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace DGP.Genshin.Service
 
         private record ManifestoWrapper([property: JsonProperty("manifesto")] string Manifesto);
 
-        public async Task<string> GetManifestoAsync()
+        public async Task<string> GetManifestoAsync(CancellationToken cancellationToken = default)
         {
             ManifestoWrapper? manifesto = await Json
                 .FromWebsiteAsync<ManifestoWrapper>("https://api.snapgenshin.com/manifesto")

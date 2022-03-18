@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Control.GenshinElement.HutaoStatistic;
+using DGP.Genshin.Control.Infrastructure.Concurrent;
 using DGP.Genshin.DataModel.HutaoAPI;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper.Extension;
@@ -13,16 +14,19 @@ using Snap.Core.Logging;
 using Snap.Data.Primitive;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class HutaoStatisticViewModel : ObservableObject
+    internal class HutaoStatisticViewModel : ObservableObject, ISupportCancellation
     {
         private readonly ICookieService cookieService;
         private readonly IHutaoStatisticService hutaoStatisticService;
+
+        public CancellationToken CancellationToken { get; set; }
 
         private bool shouldUIPresent;
         private Overview? overview;
@@ -84,6 +88,7 @@ namespace DGP.Genshin.ViewModel
 
         public ICommand OpenUICommand { get; }
         public ICommand UploadCommand { get; }
+
         public HutaoStatisticViewModel(ICookieService cookieService, IHutaoStatisticService hutaoStatisticService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
             this.cookieService = cookieService;
@@ -97,9 +102,9 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                await hutaoStatisticService.InitializeAsync();
+                await hutaoStatisticService.InitializeAsync(CancellationToken);
 
-                Overview = await hutaoStatisticService.GetOverviewAsync();
+                Overview = await hutaoStatisticService.GetOverviewAsync(CancellationToken);
                 //V1
                 AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
@@ -109,6 +114,7 @@ namespace DGP.Genshin.ViewModel
                 AvatarConstellations = hutaoStatisticService.GetAvatarConstellations();
                 TeamCombinations = hutaoStatisticService.GetTeamCombinations();
             }
+            catch (TaskCanceledException) { this.Log("Open UI cancelled"); }
             catch (Exception e)
             {
                 this.Log(e);
@@ -129,8 +135,9 @@ namespace DGP.Genshin.ViewModel
             ShouldUIPresent = false;
             try
             {
-                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie, ConfirmAsync, HandleResponseAsync);
+                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie, ConfirmAsync, HandleResponseAsync, CancellationToken);
             }
+            catch (TaskCanceledException) { this.Log("upload data cancelled by user switch page"); }
             catch (Exception e)
             {
                 this.Log(e);

@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.ViewModel;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Windows;
@@ -8,11 +9,10 @@ using System.Windows.Media;
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    internal partial class PromotionCalculatePage : System.Windows.Controls.Page
+    internal partial class PromotionCalculatePage : AsyncPage
     {
-        public PromotionCalculatePage(PromotionCalculateViewModel vm)
+        public PromotionCalculatePage(PromotionCalculateViewModel vm) : base(vm)
         {
-            DataContext = vm;
             InitializeComponent();
         }
 
@@ -55,7 +55,7 @@ namespace DGP.Genshin.Page
 
         private void PageUnloaded(object sender, RoutedEventArgs e)
         {
-            ((PromotionCalculateViewModel)DataContext).CloseCommand.Execute(null);
+            ((PromotionCalculateViewModel)DataContext).CloseUICommand.Execute(null);
         }
     }
 }

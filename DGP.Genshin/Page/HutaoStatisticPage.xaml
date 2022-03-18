@@ -1,22 +1,24 @@
-﻿<Page x:Class="DGP.Genshin.Page.HutaoStatisticPage" x:ClassModifier="internal"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DGP.Genshin.Page"
-      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      xmlns:ui="http://schemas.modernwpf.com/2019"
-      xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
-      xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
-      xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
-      xmlns:converter="clr-namespace:DGP.Genshin.Control.Converter"
-      xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
-      xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
-      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-      xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="HutaoStatisticPage">
+﻿<concurrent:AsyncPage
+    xmlns:concurrent="clr-namespace:DGP.Genshin.Control.Infrastructure.Concurrent"
+    x:Class="DGP.Genshin.Page.HutaoStatisticPage" x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:DGP.Genshin.Page"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
+    xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+    xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
+    xmlns:converter="clr-namespace:DGP.Genshin.Control.Converter"
+    xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+    xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+    xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800"
+    Title="HutaoStatisticPage">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
@@ -466,4 +468,4 @@
             <genshinelement:ElementsProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </Grid>
-</Page>
+</concurrent:AsyncPage>

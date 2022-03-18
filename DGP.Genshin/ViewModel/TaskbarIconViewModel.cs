@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Factory.Abstraction;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.Launching;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -8,8 +7,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -43,7 +40,7 @@ namespace DGP.Genshin.ViewModel
 
         private void OpenMainWindow()
         {
-            App.Current.Dispatcher.Invoke(() => App.BringWindowToFront<MainWindow>());
+            App.BringWindowToFront<MainWindow>();
         }
         private void ExitApp()
         {

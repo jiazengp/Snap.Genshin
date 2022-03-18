@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Control.GenshinElement;
+using DGP.Genshin.Control.Infrastructure.Concurrent;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Announcement;
@@ -7,16 +8,19 @@ using DGP.Genshin.Service.Abstraction;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Data.Primitive;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
     [ViewModel(InjectAs.Transient)]
-    internal class HomeViewModel : ObservableObject
+    internal class HomeViewModel : ObservableObject, ISupportCancellation
     {
         private readonly IHomeService homeService;
+        public CancellationToken CancellationToken { get; set; }
 
         private AnnouncementWrapper? announcement;
         private string? manifesto;
@@ -48,8 +52,12 @@ namespace DGP.Genshin.ViewModel
         {
             using (OpeningUI.Watch())
             {
-                Manifesto = await homeService.GetManifestoAsync();
-                Announcement = await homeService.GetAnnouncementsAsync(OpenAnnouncementUICommand);
+                try
+                {
+                    Manifesto = await homeService.GetManifestoAsync(CancellationToken);
+                    Announcement = await homeService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
+                }
+                catch (TaskCanceledException) { this.Log("Open UI cancelled"); }
             }
         }
         private void OpenAnnouncementUI(string? content)

@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.Character;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.Helper;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Factory.Abstraction;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DataModelWeapon = DGP.Genshin.DataModel.Weapon;
@@ -22,9 +24,10 @@ namespace DGP.Genshin.ViewModel
     /// 日常材料服务
     /// </summary>
     [ViewModel(InjectAs.Singleton)]
-    internal class DailyViewModel : ObservableObject2
+    internal class DailyViewModel : ObservableObject2, ISupportCancellation
     {
         private readonly MetadataViewModel dataViewModel;
+        public CancellationToken CancellationToken { get; set; }
 
         public List<NamedValue<DayOfWeek>> DayOfWeeks { get; } = new()
         {
@@ -50,27 +53,31 @@ namespace DGP.Genshin.ViewModel
         [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "<挂起>")]
         private async void TriggerPropertyChanged(params string[] cities)
         {
-            foreach (string city in cities)
+            try
             {
-                this.SetPrivateFieldValueByName($"today{city}Talent", null);
-                this.SetPrivateFieldValueByName($"today{city}WeaponAscension", null);
-                this.SetPrivateFieldValueByName($"today{city}Character5", null);
-                this.SetPrivateFieldValueByName($"today{city}Character4", null);
-                this.SetPrivateFieldValueByName($"today{city}Weapon5", null);
-                this.SetPrivateFieldValueByName($"today{city}Weapon4", null);
+                foreach (string city in cities)
+                {
+                    this.SetPrivateFieldValueByName($"today{city}Talent", null);
+                    this.SetPrivateFieldValueByName($"today{city}WeaponAscension", null);
+                    this.SetPrivateFieldValueByName($"today{city}Character5", null);
+                    this.SetPrivateFieldValueByName($"today{city}Character4", null);
+                    this.SetPrivateFieldValueByName($"today{city}Weapon5", null);
+                    this.SetPrivateFieldValueByName($"today{city}Weapon4", null);
 
-                OnPropertyChanged($"Today{city}Talent");
-                await Task.Delay(50);
-                OnPropertyChanged($"Today{city}Character5");
-                await Task.Delay(50);
-                OnPropertyChanged($"Today{city}Character4");
-                await Task.Delay(50);
-                OnPropertyChanged($"Today{city}WeaponAscension");
-                await Task.Delay(50);
-                OnPropertyChanged($"Today{city}Weapon5");
-                await Task.Delay(50);
-                OnPropertyChanged($"Today{city}Weapon4");
+                    OnPropertyChanged($"Today{city}Talent");
+                    await Task.Delay(50, CancellationToken);
+                    OnPropertyChanged($"Today{city}Character5");
+                    await Task.Delay(50, CancellationToken);
+                    OnPropertyChanged($"Today{city}Character4");
+                    await Task.Delay(50, CancellationToken);
+                    OnPropertyChanged($"Today{city}WeaponAscension");
+                    await Task.Delay(50, CancellationToken);
+                    OnPropertyChanged($"Today{city}Weapon5");
+                    await Task.Delay(50, CancellationToken);
+                    OnPropertyChanged($"Today{city}Weapon4");
+                }
             }
+            catch (TaskCanceledException) { this.Log("TriggerPropertyChanged cancelled by user"); }
         }
 
         public DailyViewModel(MetadataViewModel metadataViewModel, IAsyncRelayCommandFactory asyncRelayCommandFactory)
@@ -82,11 +89,18 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            await Task.Delay(500);
-            DateTime day = DateTime.UtcNow + TimeSpan.FromHours(4);
-            this.Log($"current dailyview date:{day}");
-            SelectedDayOfWeek = DayOfWeeks
-                .First(d => d.Value == day.DayOfWeek);
+            try
+            {
+                await Task.Delay(500, CancellationToken);
+                DateTime day = DateTime.UtcNow + TimeSpan.FromHours(4);
+                this.Log($"current dailyview date:{day}");
+                SelectedDayOfWeek = DayOfWeeks
+                    .First(d => d.Value == day.DayOfWeek);
+            }
+            catch (TaskCanceledException)
+            {
+                this.Log("Open UI cancelled");
+            }
         }
 
         #region Mondstadt

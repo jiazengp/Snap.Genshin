@@ -146,6 +146,7 @@ namespace DGP.Genshin.ViewModel
         public ICommand LaunchCommand { get; }
         public ICommand MatchAccountCommand { get; }
         public ICommand DeleteAccountCommand { get; }
+        public ICommand ReselectLauncherPathCommand { get; }
         #endregion
 
         public LaunchViewModel(ILaunchService launchService, IMessenger messenger, IAsyncRelayCommandFactory asyncRelayCommandFactory)
@@ -168,6 +169,7 @@ namespace DGP.Genshin.ViewModel
             LaunchCommand = asyncRelayCommandFactory.Create<string>(LaunchByOptionAsync);
             MatchAccountCommand = asyncRelayCommandFactory.Create(() => MatchAccountAsync(true));
             DeleteAccountCommand = new RelayCommand(DeleteAccount);
+            ReselectLauncherPathCommand = asyncRelayCommandFactory.Create(ReselectLauncherPathAsync);
         }
 
         private async Task OpenUIAsync()
@@ -185,8 +187,8 @@ namespace DGP.Genshin.ViewModel
                 Setting2.LauncherPath.Set(null);
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
-                    Title = "无法使用此功能",
-                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败\n请尝试重新选择启动器路径",
+                    Title = "请尝试重新选择启动器路径",
+                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
                 }.ShowAsync).Task.Unwrap();
                 messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
@@ -257,8 +259,30 @@ namespace DGP.Genshin.ViewModel
                 SelectedAccount = Accounts.FirstOrDefault();
                 new ToastContentBuilder()
                 .AddText("从注册表获取账号信息失败")
-                .AddText("已尝试为您切换到第一个账号")
                 .SafeShow();
+            }
+        }
+        private async Task ReselectLauncherPathAsync()
+        {
+            Setting2.LauncherPath.Set(null);
+            string? launcherPath = Setting2.LauncherPath;
+            launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
+            if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
+            {
+                await MatchAccountAsync();
+                CurrentScheme = KnownSchemes
+                    .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+            }
+            else
+            {
+                Setting2.LauncherPath.Set(null);
+                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                {
+                    Title = "请尝试重新选择启动器路径",
+                    Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
+                    PrimaryButtonText = "确定"
+                }.ShowAsync).Task.Unwrap();
+                messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }
         private async Task HandleLaunchFailureAsync(string title, Exception exception)

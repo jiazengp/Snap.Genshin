@@ -1,14 +1,14 @@
-﻿using DGP.Genshin.ViewModel;
+﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
 
 namespace DGP.Genshin.Page
 {
     [View(InjectAs.Transient)]
-    internal partial class SponsorPage : System.Windows.Controls.Page
+    internal partial class SponsorPage : AsyncPage
     {
-        public SponsorPage(SponsorViewModel vm)
+        public SponsorPage(SponsorViewModel vm) : base(vm)
         {
-            DataContext = vm;
             InitializeComponent();
         }
     }
