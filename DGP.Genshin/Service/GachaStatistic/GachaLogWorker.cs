@@ -2,7 +2,9 @@
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
+using Microsoft;
 using Snap.Core.Logging;
+using Snap.Data.Primitive;
 using Snap.Exception;
 using Snap.Net.QueryString;
 using System;
@@ -24,7 +26,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private (int min, int max) delay = (500, 1000);
         public int GetRandomDelay()
         {
-            return Delay.min + random.Next(Delay.max - Delay.min, Delay.max);
+            return DelayRange.min + random.Next(DelayRange.max - DelayRange.min, DelayRange.max);
         }
 
         public GachaDataCollection WorkingGachaData { get; set; }
@@ -36,16 +38,13 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <summary>
         /// 随机延迟的范围
         /// </summary>
-        public (int min, int max) Delay
+        public (int min, int max) DelayRange
         {
             get => delay;
 
             set
             {
-                if (value.min > value.max)
-                {
-                    throw new SnapGenshinInternalException("祈愿记录获取延迟的最小值不能大于最大值");
-                }
+                Requires.Range(value.min <= value.max, "祈愿记录获取延迟的最小值不能大于最大值");
                 delay = value;
             }
         }
@@ -66,10 +65,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private Config? gachaConfig;
         public async Task<Config?> GetCurrentGachaConfigAsync()
         {
-            if (gachaConfig == null)
-            {
-                gachaConfig = await GetGachaConfigAsync();
-            }
+            gachaConfig ??= await GetGachaConfigAsync();
             return gachaConfig;
         }
 
@@ -85,7 +81,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {"User-Agent", RequestOptions.CommonUA2101 }
             });
             Response<Config>? resp = await requester.GetAsync<Config>(gachaLogUrl?.Replace("getGachaLog?", "getConfigList?"));
-            this.Log(resp?.Data ?? new object());
+            this.Log(resp?.Data);
             return resp?.Data;
         }
 
@@ -94,14 +90,14 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 并自动合并数据
         /// </summary>
         /// <param name="type">卡池类型</param>
-        public async Task<string?> FetchGachaLogIncreaselyAsync(ConfigType type, Action<FetchProgress> progressCallBack)
+        public async Task<string?> FetchGachaLogIncreaselyAsync(ConfigType type, IProgress<FetchProgress> progress)
         {
             List<GachaLogItem> increment = new();
             int currentPage = 0;
             long endId = 0;
             do
             {
-                progressCallBack.Invoke(new(type.Name, ++currentPage));
+                progress.Report(new(type.Name, ++currentPage));
                 (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
@@ -149,14 +145,14 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<string?> FetchGachaLogAggressivelyAsync(ConfigType type, Action<FetchProgress> progressCallBack)
+        public async Task<string?> FetchGachaLogAggressivelyAsync(ConfigType type, IProgress<FetchProgress> progress)
         {
             List<GachaLogItem> full = new();
             int currentPage = 0;
             long endId = 0;
             do
             {
-                progressCallBack.Invoke(new(type.Name, ++currentPage));
+                progress.Report(new(type.Name, ++currentPage));
                 (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
@@ -273,7 +269,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="type"></param>
         /// <param name="endId"></param>
         /// <returns></returns>
-        private async Task<(bool Succeed, GachaLog GachaLog)> TryGetBatchAsync(ConfigType type, long endId)
+        private async Task<Result<bool, GachaLog>> TryGetBatchAsync(ConfigType type, long endId)
         {
             //modify the url
             string[]? splitedUrl = gachaLogUrl?.Split('?');
@@ -290,11 +286,10 @@ namespace DGP.Genshin.Service.GachaStatistic
 
             Requester requester = new(new RequestOptions
             {
-                {"Accept", RequestOptions.Json },
-                {"User-Agent", RequestOptions.CommonUA2101 }
+                {"Accept", RequestOptions.Json }
             });
             Response<GachaLog>? resp = await requester.GetAsync<GachaLog>(finalUrl);
-            return (Response.IsOk(resp), resp?.Data ?? new());
+            return new(Response.IsOk(resp), resp?.Data ?? new());
         }
     }
 }

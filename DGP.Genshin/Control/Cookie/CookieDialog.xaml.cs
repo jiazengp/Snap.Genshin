@@ -20,12 +20,12 @@ namespace DGP.Genshin.Control.Cookie
         /// <summary>
         /// 获取输入的Cookie
         /// </summary>
-        public async Task<Result<ContentDialogResult, string>> GetInputCookieAsync()
+        public async Task<Result<bool, string>> GetInputCookieAsync()
         {
             ContentDialogResult result = await ShowAsync();
             string cookie = InputText.Text;
 
-            return new(result, cookie);
+            return new(result!=ContentDialogResult.Secondary, cookie);
         }
 
         private void AutoCookieButtonClick(object sender, RoutedEventArgs e)

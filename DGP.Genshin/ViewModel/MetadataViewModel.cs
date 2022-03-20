@@ -52,207 +52,41 @@ namespace DGP.Genshin.ViewModel
 
         #region Collections
         [IntegrityAware]
-        public ObservableCollection<Boss>? Bosses
+        public ObservableCollection<Character> Characters
         {
-            get
-            {
-                bosses ??= Json.ToObject<ObservableCollection<Boss>>(Read(BossesJson));
-                return bosses;
-            }
-            set => bosses = value;
+            get => ProxyCollcetion(ref characters, CharactersJson);
         }
-        private ObservableCollection<Boss>? bosses;
+        private ObservableCollection<Character> characters = null!;
 
         [IntegrityAware]
-        public ObservableCollection<Character>? Characters
+        public ObservableCollection<DataModelWeapon> Weapons
         {
-            get
-            {
-                characters ??= Json.ToObject<ObservableCollection<Character>>(Read(CharactersJson));
-                return characters;
-            }
-            set => characters = value;
+            get => ProxyCollcetion(ref weapons, WeaponsJson);
         }
-        private ObservableCollection<Character>? characters;
+        private ObservableCollection<DataModelWeapon> weapons = null!;
 
         [IntegrityAware]
-        public ObservableCollection<KeySource>? Cities
+        public List<Talent> DailyTalents
         {
-            get
-            {
-                cities ??= Json.ToObject<ObservableCollection<KeySource>>(Read(CitiesJson));
-                return cities;
-            }
-            set => cities = value;
+            get => ProxyCollcetion(ref dailyTalents, DailyTalentsJson);
         }
-        private ObservableCollection<KeySource>? cities;
+        private List<Talent> dailyTalents = null!;
 
         [IntegrityAware]
-        public ObservableCollection<Talent>? DailyTalents
+        public ObservableCollection<WeaponMaterial> DailyWeapons
         {
-            get
-            {
-                dailyTalents ??= Json.ToObject<ObservableCollection<Talent>>(Read(DailyTalentsJson));
-                return dailyTalents;
-            }
-            set => dailyTalents = value;
+            get => ProxyCollcetion(ref dailyWeapons, DailyTalentsJson);
         }
-        private ObservableCollection<Talent>? dailyTalents;
+        private ObservableCollection<WeaponMaterial> dailyWeapons = null!;
 
-        [IntegrityAware]
-        public ObservableCollection<WeaponMaterial>? DailyWeapons
+        public List<SpecificBanner> SpecificBanners
         {
-            get
-            {
-                dailyWeapons ??= Json.ToObject<ObservableCollection<WeaponMaterial>>(Read(DailyWeaponsJson));
-                return dailyWeapons;
-            }
-            set => dailyWeapons = value;
+            get => ProxyCollcetion(ref specificBanners, GachaEventJson);
         }
-        private ObservableCollection<WeaponMaterial>? dailyWeapons;
-
-        [IntegrityAware]
-        public ObservableCollection<KeySource>? Elements
-        {
-            get
-            {
-                elements ??= Json.ToObject<ObservableCollection<KeySource>>(Read(ElementsJson));
-                return elements;
-            }
-            set => elements = value;
-        }
-        private ObservableCollection<KeySource>? elements;
-
-        [IntegrityAware]
-        public ObservableCollection<Elite>? Elites
-        {
-            get
-            {
-                elites ??= Json.ToObject<ObservableCollection<Elite>>(Read(ElitesJson));
-                return elites;
-            }
-            set => elites = value;
-        }
-        private ObservableCollection<Elite>? elites;
-
-        [IntegrityAware]
-        public ObservableCollection<GemStone>? GemStones
-        {
-            get
-            {
-                gemstones ??= Json.ToObject<ObservableCollection<GemStone>>(Read(GemStonesJson));
-                return gemstones;
-            }
-            set => gemstones = value;
-        }
-        private ObservableCollection<GemStone>? gemstones;
-
-        [IntegrityAware]
-        public ObservableCollection<Local>? Locals
-        {
-            get
-            {
-                locals ??= Json.ToObject<ObservableCollection<Local>>(Read(LocalsJson));
-                return locals;
-            }
-            set => locals = value;
-        }
-        private ObservableCollection<Local>? locals;
-
-        [IntegrityAware]
-        public ObservableCollection<Monster>? Monsters
-        {
-            get
-            {
-                monsters ??= Json.ToObject<ObservableCollection<Monster>>(Read(MonstersJson));
-                return monsters;
-            }
-            set => monsters = value;
-        }
-        private ObservableCollection<Monster>? monsters;
-
-        [IntegrityAware]
-        public ObservableCollection<KeySource>? Stars
-        {
-            get
-            {
-                stars ??= Json.ToObject<ObservableCollection<KeySource>>(Read(StarsJson));
-                return stars;
-            }
-            set => stars = value;
-        }
-        private ObservableCollection<KeySource>? stars;
-
-        [IntegrityAware]
-        public ObservableCollection<DataModelWeapon>? Weapons
-        {
-            get
-            {
-                weapons ??= Json.ToObject<ObservableCollection<DataModelWeapon>>(Read(WeaponsJson));
-                return weapons;
-            }
-            set => weapons = value;
-        }
-        private ObservableCollection<DataModelWeapon>? weapons;
-
-        [IntegrityAware]
-        public ObservableCollection<KeySource>? WeaponTypes
-        {
-            get
-            {
-                weaponTypes ??= Json.ToObject<ObservableCollection<KeySource>>(Read(WeaponTypesJson));
-                return weaponTypes;
-            }
-            set => weaponTypes = value;
-        }
-        private ObservableCollection<KeySource>? weaponTypes;
-
-        [IntegrityAware]
-        public ObservableCollection<Weekly>? WeeklyTalents
-        {
-            get
-            {
-                weeklyTalents ??= Json.ToObject<ObservableCollection<Weekly>>(Read(WeeklyTalentsJson));
-                return weeklyTalents;
-            }
-            set => weeklyTalents = value;
-        }
-        private ObservableCollection<Weekly>? weeklyTalents;
-        #endregion
-
-        #region GachaEvents
-        private List<SpecificBanner>? specificBanners;
-        public List<SpecificBanner>? SpecificBanners
-        {
-            get
-            {
-                if (specificBanners == null)
-                {
-                    specificBanners = Json.ToObject<List<SpecificBanner>>(Read(GachaEventJson));
-                }
-                return specificBanners;
-            }
-            set => specificBanners = value;
-        }
+        private List<SpecificBanner> specificBanners = null!;
         #endregion
 
         #region Selected Bindable
-        private Boss? selectedBoss;
-        public Boss? SelectedBoss
-        {
-            get => selectedBoss;
-
-            set => SetProperty(ref selectedBoss, value);
-        }
-
-        private KeySource? selectedCity;
-        public KeySource? SelectedCity
-        {
-            get => selectedCity;
-
-            set => SetProperty(ref selectedCity, value);
-        }
-
         private Character? selectedCharacter;
         public Character? SelectedCharacter
         {
@@ -261,60 +95,12 @@ namespace DGP.Genshin.ViewModel
             set => SetProperty(ref selectedCharacter, value);
         }
 
-        private Talent? selectedDailyTalent;
-        public Talent? SelectedDailyTalent
-        {
-            get => selectedDailyTalent;
-
-            set => SetProperty(ref selectedDailyTalent, value);
-        }
-
-        private WeaponMaterial? selectedDailyWeapon;
-        public WeaponMaterial? SelectedDailyWeapon
-        {
-            get => selectedDailyWeapon;
-
-            set => SetProperty(ref selectedDailyWeapon, value);
-        }
-
-        private Elite? selectedElite;
-        public Elite? SelectedElite
-        {
-            get => selectedElite;
-
-            set => SetProperty(ref selectedElite, value);
-        }
-
-        private Local? selectedLocal;
-        public Local? SelectedLocal
-        {
-            get => selectedLocal;
-
-            set => SetProperty(ref selectedLocal, value);
-        }
-
-        private Monster? selectedMonster;
-        public Monster? SelectedMonster
-        {
-            get => selectedMonster;
-
-            set => SetProperty(ref selectedMonster, value);
-        }
-
         private DataModelWeapon? selectedWeapon;
         public DataModelWeapon? SelectedWeapon
         {
             get => selectedWeapon;
 
             set => SetProperty(ref selectedWeapon, value);
-        }
-
-        private Weekly? selectedWeeklyTalent;
-        public Weekly? SelectedWeeklyTalent
-        {
-            get => selectedWeeklyTalent;
-
-            set => SetProperty(ref selectedWeeklyTalent, value);
         }
         #endregion
 
@@ -375,6 +161,25 @@ namespace DGP.Genshin.ViewModel
             return FindPrimitiveByName(name)?.Source;
         }
 
+
+        private readonly List<KeySource> elements = new()
+        {
+            new("dendro", "https://genshin.honeyhunterworld.com/img/icons/element/dendro.png"),
+            new("anemo", "https://genshin.honeyhunterworld.com/img/icons/element/anemo.png"),
+            new("pyro", "https://genshin.honeyhunterworld.com/img/icons/element/pyro.png"),
+            new("cryo", "https://genshin.honeyhunterworld.com/img/icons/element/cryo.png"),
+            new("hydro", "https://genshin.honeyhunterworld.com/img/icons/element/hydro.png"),
+            new("electro", "https://genshin.honeyhunterworld.com/img/icons/element/electro.png"),
+            new("geo", "https://genshin.honeyhunterworld.com/img/icons/element/geo.png")
+        };
+        private readonly List<KeySource> weaponTypes = new()
+        {
+            new("Bow", "https://genshin.honeyhunterworld.com/img/skills/s_213101.png"),
+            new("Sword", "https://genshin.honeyhunterworld.com/img/skills/s_33101.png"),
+            new("Catalyst", "https://genshin.honeyhunterworld.com/img/skills/s_43101.png"),
+            new("Claymore", "https://genshin.honeyhunterworld.com/img/skills/s_163101.png"),
+            new("Polearm", "https://genshin.honeyhunterworld.com/img/skills/s_233101.png")
+        };
         /// <summary>
         /// 对角色与武器的视图应用当前筛选条件
         /// </summary>
@@ -384,7 +189,8 @@ namespace DGP.Genshin.ViewModel
             cview.Filter = c =>
             {
                 Character? ch = c as Character;
-                return WeaponTypes!.Any(w => w.IsSelected && ch?.Weapon == w.Source) && Elements!.Any(e => e.IsSelected && ch?.Element == e.Source);
+                return weaponTypes.Any(w => w.IsSelected && ch?.Weapon == w.Source)
+                && elements.Any(e => e.IsSelected && ch?.Element == e.Source);
             };
             cview.MoveCurrentToFirst();
             cview.Refresh();
@@ -393,25 +199,35 @@ namespace DGP.Genshin.ViewModel
             wview.Filter = w =>
             {
                 DataModelWeapon? we = w as DataModelWeapon;
-                return WeaponTypes!.Any(w => w.IsSelected && we?.Type == w.Source);
+                return weaponTypes.Any(w => w.IsSelected && we?.Type == w.Source);
             };
             wview.MoveCurrentToFirst();
             wview.Refresh();
         }
-
         #endregion
 
-        #region read write
-        private string Read(string fileName)
+        #region Read
+        private T ProxyCollcetion<T>(ref T collection, string fileName) where T : new()
         {
-            string path = PathContext.Locate(folderPath, fileName);
-            if (File.Exists(path))
+            if (collection is not null)
             {
-                string json = File.ReadAllText(path);
-                this.Log($"{fileName} loaded.");
-                return json;
+                return collection;
             }
-            return string.Empty;
+            else
+            {
+                string path = PathContext.Locate(folderPath, fileName);
+                if (File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    this.Log($"{fileName} loaded.");
+                    collection ??= Json.ToObjectOrNew<T>(json);
+                    return collection;
+                }
+                else
+                {
+                    throw new SnapGenshinInternalException($"初始化列表{fileName}失败");
+                }
+            }
         }
         #endregion
     }

@@ -539,7 +539,7 @@
                                 <wu:CardExpander Header="其他提醒" Subtitle="其他很有用的提醒" Margin="0,6,0,0">
                                     <StackPanel>
                                         <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
-                                            Title="80%" Subtitle="当洞天宝钱到达或超过 80% 最大容量时提醒我">
+                                            Title="洞天宝钱" Subtitle="当洞天宝钱到达或超过 80% 最大容量时提醒我">
                                             <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnHomeCoinReach80Percent}"/>
                                         </wu:CardControl>
                                         <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"

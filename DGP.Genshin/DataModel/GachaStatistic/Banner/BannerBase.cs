@@ -10,13 +10,13 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
     /// </summary>
     public abstract class BannerBase
     {
-        [JsonIgnore] public int TotalCount { get; set; }
+        public int TotalCount { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string? CurrentName { get; set; }
-        [JsonIgnore] public List<StatisticItem5Star>? Star5List { get; set; }
-        [JsonIgnore] public int Star5Count { get; set; }
-        [JsonIgnore] public int Star4Count { get; set; }
-        [JsonIgnore] public int Star3Count { get; set; }
+        public List<StatisticItem5Star>? Star5List { get; set; }
+        public int Star5Count { get; set; }
+        public int Star4Count { get; set; }
+        public int Star3Count { get; set; }
     }
 }

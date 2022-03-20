@@ -7,6 +7,7 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
+using Microsoft;
 using Snap.Core.Logging;
 using Snap.Exception;
 using Snap.Extenion.Enumerable;
@@ -18,6 +19,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 {
     /// <summary>
     /// 构造奖池统计信息的建造器
+    /// very dirty
     /// </summary>
     internal class StatisticBuilder
     {
@@ -62,6 +64,12 @@ namespace DGP.Genshin.Service.GachaStatistic
             GranteeCount = WeaponGranteeCount5
         };
 
+        private readonly MetadataViewModel metadataViewModel;
+        public StatisticBuilder(MetadataViewModel metadataViewModel)
+        {
+            this.metadataViewModel = metadataViewModel;
+        }
+
         /// <summary>
         /// 转换到统计
         /// </summary>
@@ -99,11 +107,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerInformation info)
         {
             return data.TryGetValue(type, out List<GachaLogItem>? list)
-                ? BuildStatisticBanner(name, info, list!)
+                ? BuildStatisticBanner(name, list!)
                 : (new() { CurrentName = name });
         }
 
-        private StatisticBanner BuildStatisticBanner(string name, BannerInformation config, List<GachaLogItem> list)
+        private StatisticBanner BuildStatisticBanner(string name, List<GachaLogItem> list)
         {
             //上次出货抽数
             int index5 = list.FindIndex(i => i.Rank == RankFive);
@@ -175,7 +183,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 Name = i.Name,
                                 StarUrl = StarHelper.FromInt32Rank(int.Parse(i.Rank))
                             };
-                            Primitive? item = App.AutoWired<MetadataViewModel>().FindPrimitiveByName(i.Name);
+                            Primitive? item = metadataViewModel.FindPrimitiveByName(i.Name);
                             counter[i.Name].Source = item?.Source;
                             counter[i.Name].Badge = item?.GetBadge();
                         }
@@ -192,29 +200,29 @@ namespace DGP.Genshin.Service.GachaStatistic
         private List<StatisticItem> ToSpecificTotalCountList(List<SpecificItem> list)
         {
             CounterOf<StatisticItem> counter = new();
-            foreach (SpecificItem i in list)
+            foreach (SpecificItem item in list)
             {
-                if (i.Name is null)
+                if (item.Name is not null)
                 {
-                    continue;
-                }
-                if (!counter.ContainsKey(i.Name))
-                {
-                    counter[i.Name] = new StatisticItem()
+                    if (!counter.ContainsKey(item.Name))
                     {
-                        Count = 0,
-                        Name = i.Name,
-                        StarUrl = i.StarUrl,
-                        Source = i.Source,
-                        Badge = i.Badge,
-                        Time = i.Time
-                    };
+                        counter[item.Name] = new StatisticItem()
+                        {
+                            Count = 0,
+                            Name = item.Name,
+                            StarUrl = item.StarUrl,
+                            Source = item.Source,
+                            Badge = item.Badge,
+                            Time = item.Time
+                        };
+                    }
+                    counter[item.Name].Count += 1;
                 }
-                counter[i.Name].Count += 1;
             }
             return counter.Select(k => k.Value)
                 .OrderByDescending(i => i.StarUrl?.ToInt32Rank())
-                .ThenByDescending(i => i.Count).ToList();
+                .ThenByDescending(i => i.Count)
+                .ToList();
         }
         private List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
         {
@@ -228,17 +236,17 @@ namespace DGP.Genshin.Service.GachaStatistic
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
-                SpecificBanner? matchedBanner = App.AutoWired<MetadataViewModel>().SpecificBanners?.Find(b =>
+                SpecificBanner? matchedBanner = metadataViewModel.SpecificBanners?.Find(b =>
                     //match type first
                     b.Type == currentStar5.GachaType &&
                     currentStar5.Time >= b.StartTime &&
                     currentStar5.Time <= b.EndTime);
 
-                string? gType = currentStar5.GachaType;
+                string? gachTypeId = currentStar5.GachaType;
                 counter.Add(new StatisticItem5Star()
                 {
-                    GachaTypeName = gType is null ? gType : ConfigType.Known[gType],
-                    Source = App.AutoWired<MetadataViewModel>().FindSourceByName(currentStar5.Name),
+                    GachaTypeName = gachTypeId is null ? gachTypeId : ConfigType.Known[gachTypeId],
+                    Source = metadataViewModel.FindSourceByName(currentStar5.Name),
                     Name = currentStar5.Name,
                     Count = count,
                     Time = currentStar5.Time,
@@ -253,11 +261,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             //clone from metadata
-            List<SpecificBanner>? clonedBanners = App.AutoWired<MetadataViewModel>().SpecificBanners?.ClonePartially();
-            _ = clonedBanners ?? throw new SnapGenshinInternalException("无可用的卡池信息");
+            List<SpecificBanner>? clonedBanners = metadataViewModel.SpecificBanners?.ClonePartially();
+            Requires.NotNull(clonedBanners!, nameof(clonedBanners));
 
             clonedBanners.ForEach(b => b.ClearItemsAndStar5List());
-            //Type = ConfigType.PermanentWish fix order crash
+            //Type = ConfigType.PermanentWish fix order problem
             SpecificBanner permanent = new() { CurrentName = "奔行世间", Type = ConfigType.PermanentWish };
             clonedBanners.Add(permanent);
 
@@ -265,17 +273,17 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 if (type is ConfigType.NoviceWish)
                 {
-                    //skip these banner
+                    //skip this banner
                     continue;
                 }
                 if (type is ConfigType.PermanentWish)
                 {
-                    if (data[type] is List<GachaLogItem> plist)
+                    if (data[type] is List<GachaLogItem> permanentlist)
                     {
                         //set init time
-                        permanent.StartTime = plist[0].Time;
-                        permanent.EndTime = plist[0].Time;
-                        foreach (GachaLogItem item in plist)
+                        permanent.StartTime = permanentlist[0].Time;
+                        permanent.EndTime = permanentlist[0].Time;
+                        foreach (GachaLogItem item in permanentlist)
                         {
                             if (item.Time < permanent.StartTime)
                             {
@@ -294,7 +302,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {
                     foreach (GachaLogItem item in list)
                     {
-                        //item.GachaType compat 2.3 gacha
+                        //add item.GachaType compare to compat 2.3+ gacha
                         SpecificBanner? banner = clonedBanners
                             .Find(b => b.Type == item.GachaType && item.Time >= b.StartTime && item.Time <= b.EndTime);
                         AddItemToSpecificBanner(item, banner);
@@ -309,16 +317,15 @@ namespace DGP.Genshin.Service.GachaStatistic
                 .OrderByDescending(b => b.StartTime)
                 .ThenByDescending(b => ConfigType.Order[b.Type!])
                 .ToList();
+            //after ordering this permanant banner probably in the middle of the list
             resultList.Remove(permanent);
+            //add back to the last
             resultList.Add(permanent);
             return resultList;
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            MetadataViewModel metadataViewModel = App.AutoWired<MetadataViewModel>();
-
-            Primitive? matched = metadataViewModel.Characters?.FirstOrDefault(c => c.Name == item.Name)
-                ?? metadataViewModel.Weapons?.FirstOrDefault(w => w.Name == item.Name) as Primitive;
+            Primitive? matched = metadataViewModel.FindPrimitiveByName(item.Name);
 
             SpecificItem newItem = new() { Time = item.Time };
 
@@ -329,7 +336,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 newItem.Name = matched.Name;
                 newItem.Badge = matched.GetBadge();
             }
-            else//both null
+            else
             {
                 newItem.Name = item.Name;
                 newItem.StarUrl = item.Rank is null ? null : StarHelper.FromInt32Rank(int.Parse(item.Rank));
@@ -353,15 +360,42 @@ namespace DGP.Genshin.Service.GachaStatistic
                     continue;
                 }
 
+                BuildSpecificBannerSlices(banner);
+
                 banner.Star5Count = banner.Items.Count(i => i.StarUrl.IsRankAs(5));
                 banner.Star4Count = banner.Items.Count(i => i.StarUrl.IsRankAs(4));
                 banner.Star3Count = banner.Items.Count(i => i.StarUrl.IsRankAs(3));
 
                 List<StatisticItem> statisticList = ToSpecificTotalCountList(banner.Items);
+
                 banner.StatisticList5 = statisticList.Where(i => i.StarUrl.IsRankAs(5)).ToList();
                 banner.StatisticList4 = statisticList.Where(i => i.StarUrl.IsRankAs(4)).ToList();
                 banner.StatisticList3 = statisticList.Where(i => i.StarUrl.IsRankAs(3)).ToList();
             }
+        }
+
+        private void BuildSpecificBannerSlices(SpecificBanner banner)
+        {
+            int sliceIndex = 0;
+            foreach (SpecificItem item in Enumerable.Reverse(banner.Items))
+            {
+                bool postIncreaseFlag = false;
+                if (item.StarUrl.ToInt32Rank() == 4)
+                {
+                    postIncreaseFlag = true;
+                }
+                //prepare new list
+                if (banner.Slices.Count <= sliceIndex)
+                {
+                    banner.Slices.Add(new());
+                }
+                banner.Slices[sliceIndex].Add(item);
+                if (postIncreaseFlag)
+                {
+                    sliceIndex++;
+                }
+            }
+            banner.Slices.Reverse();
         }
     }
 }

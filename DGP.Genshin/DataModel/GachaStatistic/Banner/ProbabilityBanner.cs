@@ -8,8 +8,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
     /// </summary>
     public abstract class ProbabilityBanner : BannerBase
     {
-        [JsonIgnore] public double Star5Prob { get; set; }
-        [JsonIgnore] public double Star4Prob { get; set; }
-        [JsonIgnore] public double Star3Prob { get; set; }
+        public double Star5Prob { get; set; }
+        public double Star4Prob { get; set; }
+        public double Star3Prob { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Threading;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -107,9 +108,13 @@ namespace DGP.Genshin.ViewModel
         public ICommand ExportToUIGFWCommand { get; }
         public ICommand OpenGachaStatisticFolderCommand { get; }
 
+        private IProgress<FetchProgress> Progress { get; }
+
         public GachaStatisticViewModel(IGachaStatisticService gachaStatisticService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
             this.gachaStatisticService = gachaStatisticService;
+
+            Progress = new Progress<FetchProgress>(OnFetchProgressed);
 
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
             GachaLogAutoFindCommand = asyncRelayCommandFactory.Create(RefreshByAutoFindModeAsync);
@@ -132,14 +137,14 @@ namespace DGP.Genshin.ViewModel
             {
                 try
                 {
-                    (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, OnFetchProgressed, IsFullFetch);
+                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, Progress, IsFullFetch);
                     FetchProgress = null;
                     if (isOk)
                     {
                         SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     this.Log(ex);
                 }
@@ -152,20 +157,23 @@ namespace DGP.Genshin.ViewModel
             {
                 try
                 {
-                    (bool isOk, string? uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, OnFetchProgressed, IsFullFetch);
+                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, Progress, IsFullFetch);
                     FetchProgress = null;
                     if (isOk)
                     {
                         SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     this.Log(ex);
                 }
                 taskPreventer.Release();
             }
         }
+
+
+
         private void OnFetchProgressed(FetchProgress p)
         {
             FetchProgress = p;

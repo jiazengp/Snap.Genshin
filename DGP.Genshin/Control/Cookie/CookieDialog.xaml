@@ -11,7 +11,7 @@
                   Title="设置米游社Cookie"
                   DefaultButton="Primary"
                   PrimaryButtonText="请输入Cookie"
-                  CloseButtonText="取消">
+                  SecondaryButtonText="取消">
     <StackPanel MaxWidth="400">
         <TextBox Margin="0,0,0,0" x:Name="InputText" TextChanged="InputTextChanged" 
                  ui:ControlHelper.PlaceholderText="在此处输入" VerticalAlignment="Top"/>

@@ -13,7 +13,7 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         public async Task<Result<bool, string>> GetInputUrlAsync()
         {
             bool isOk = await ShowAsync() != ContentDialogResult.Secondary;
-            return new(isOk, isOk ? InputText.Text : string.Empty);
+            return Results.Condition(isOk, InputText.Text, string.Empty);
         }
     }
 }

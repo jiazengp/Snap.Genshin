@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using Snap.Core.Logging;
 using Snap.Data.Json;
+using Snap.Data.Primitive;
 using Snap.Data.Utility;
 using Snap.Exception;
 using Snap.Reflection;
@@ -89,7 +90,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region import
 
         #region UIGF.W
-        public async Task<(bool isOk, string uid)> ImportFromUIGFWAsync(string filePath, GachaDataCollection gachaData)
+        public async Task<Result<bool, string>> ImportFromUIGFWAsync(string filePath, GachaDataCollection gachaData)
         {
             bool successful = true;
             string uid = "";
@@ -139,7 +140,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 Crashes.TrackError(ex);
                 successful = false;
             }
-            return (successful, uid);
+            return new(successful, uid);
         }
 
         private ImportableGachaData BuildImportableDataByList(List<UIGFItem> gachaLogs)
@@ -228,7 +229,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         #endregion
 
         #region UIGF.J
-        public async Task<(bool isOk, string uid)> ImportFromUIGFJAsync(string filePath, GachaDataCollection gachaData)
+        public async Task<Result<bool, string>> ImportFromUIGFJAsync(string filePath, GachaDataCollection gachaData)
         {
             return await ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
             {
@@ -275,7 +276,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="filePath"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public async Task<(bool isOk, string uid)> ImportFromExternalDataAsync<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
+        public async Task<Result<bool, string>> ImportFromExternalDataAsync<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
             string uid = "";
@@ -293,7 +294,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 successful = false;
             }
 
-            return (successful, uid);
+            return new(successful, uid);
         }
 
         private async Task<string> ImportImportableGachaDataAsync(ImportableGachaData importable, GachaDataCollection gachaData)

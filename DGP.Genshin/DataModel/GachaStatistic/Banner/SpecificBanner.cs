@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic.Item;
 using Newtonsoft.Json;
 using Snap.Data.Primitive;
+using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModel.GachaStatistic.Banner
@@ -13,10 +14,11 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
         public string? Type { get; set; }
         public List<SpecificItem>? UpStar5List { get; set; }
         public List<SpecificItem>? UpStar4List { get; set; }
-        [JsonIgnore] public List<StatisticItem>? StatisticList5 { get; set; }
-        [JsonIgnore] public List<StatisticItem>? StatisticList4 { get; set; }
-        [JsonIgnore] public List<StatisticItem>? StatisticList3 { get; set; }
-        [JsonIgnore] public List<SpecificItem> Items { get; set; } = new List<SpecificItem>();
+        public List<StatisticItem>? StatisticList5 { get; set; }
+        public List<StatisticItem>? StatisticList4 { get; set; }
+        public List<StatisticItem>? StatisticList3 { get; set; }
+        public List<SpecificItem> Items { get; set; } = new();
+        public List<List<SpecificItem>> Slices { get; set; } = new();
 
         public SpecificBanner ClonePartially()
         {
@@ -30,7 +32,6 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
                 EndTime = EndTime
             };
         }
-
         public void ClearItemsAndStar5List()
         {
             Items?.Clear();

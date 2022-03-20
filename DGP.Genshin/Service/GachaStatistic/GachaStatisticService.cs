@@ -1,8 +1,10 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
+using DGP.Genshin.ViewModel;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Data.Primitive;
 using System;
 using System.Threading.Tasks;
 
@@ -12,12 +14,14 @@ namespace DGP.Genshin.Service.GachaStatistic
     /// 抽卡记录服务
     /// </summary>
     [Service(typeof(IGachaStatisticService), InjectAs.Transient)]
-    public class GachaStatisticService : IGachaStatisticService
+    internal class GachaStatisticService : IGachaStatisticService
     {
         private readonly LocalGachaLogWorker localGachaLogWorker;
+        private readonly MetadataViewModel metadataViewModel;
 
-        public GachaStatisticService()
+        public GachaStatisticService(MetadataViewModel metadataViewModel)
         {
+            this.metadataViewModel = metadataViewModel;
             localGachaLogWorker = new();
         }
 
@@ -26,14 +30,10 @@ namespace DGP.Genshin.Service.GachaStatistic
             await localGachaLogWorker.LoadAllAsync(gachaData);
         }
 
-        public async Task<(bool isOk, string? uid)> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, Action<FetchProgress> progressCallback, bool full = false)
+        public async Task<Result<bool, string>> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, IProgress<FetchProgress> progress, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            if (!isOk)
-            {
-                return (false, null);
-            }
-            if (url is null)
+            if (string.IsNullOrEmpty(url))
             {
                 await new ContentDialog()
                 {
@@ -42,12 +42,12 @@ namespace DGP.Genshin.Service.GachaStatistic
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 }.ShowAsync();
-                return (false, null);
+                return new(false, null!);
             }
             else
             {
                 IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
-                (bool isSuccess, string? uid) = await FetchGachaLogsAsync(gachaData, worker, progressCallback, full);
+                (bool isSuccess, string uid) = await FetchGachaLogsAsync(gachaData, worker, progress, full);
 
                 if (!isSuccess)
                 {
@@ -59,7 +59,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                         DefaultButton = ContentDialogButton.Primary
                     }.ShowAsync();
                 }
-                return (isSuccess, uid);
+                return new(isSuccess, uid);
             }
         }
 
@@ -79,8 +79,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="worker">工作器对象</param>
         /// <param name="full">是否增量获取</param>
         /// <returns>是否获取成功</returns>
-        private async Task<(bool isOk, string? uid)> FetchGachaLogsAsync(GachaDataCollection gachaData, IGachaLogWorker worker,
-            Action<FetchProgress> progressCallback, bool full = false)
+        private async Task<Result<bool, string>> FetchGachaLogsAsync(GachaDataCollection gachaData, IGachaLogWorker worker, IProgress<FetchProgress> progress, bool full = false)
         {
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
             if (gachaConfigTypes?.Types != null)
@@ -88,32 +87,28 @@ namespace DGP.Genshin.Service.GachaStatistic
                 string? uid = null;
                 foreach (ConfigType pool in gachaConfigTypes.Types)
                 {
-                    if (full)
-                    {
-                        uid = await worker.FetchGachaLogAggressivelyAsync(pool, progressCallback);
-                    }
-                    else
-                    {
-                        uid = await worker.FetchGachaLogIncreaselyAsync(pool, progressCallback);
-                    }
+                    uid = full 
+                        ? await worker.FetchGachaLogAggressivelyAsync(pool, progress) 
+                        : await worker.FetchGachaLogIncreaselyAsync(pool, progress);
 
                     if (worker.IsFetchDelayEnabled)
                     {
                         await Task.Delay(worker.GetRandomDelay());
                     }
                 }
-                localGachaLogWorker!.SaveAll(gachaData);
-                return (true, uid);
+
+                if (uid != null)
+                {
+                    localGachaLogWorker.SaveAll(gachaData);
+                    return new(true, uid);
+                }
             }
-            else
-            {
-                return (false, null);
-            }
+            return new(false, null!);
         }
 
         public Statistic GetStatistic(GachaDataCollection gachaData, string uid)
         {
-            return new StatisticBuilder().ToStatistic(gachaData[uid]!, uid);
+            return new StatisticBuilder(metadataViewModel).ToStatistic(gachaData[uid]!, uid);
         }
 
         #region Im/Export
@@ -127,12 +122,12 @@ namespace DGP.Genshin.Service.GachaStatistic
             await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
         }
 
-        public async Task<(bool isOk, string uid)> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
+        public async Task<Result<bool, string>> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
         {
             return await localGachaLogWorker!.ImportFromUIGFWAsync(path, gachaData);
         }
 
-        public async Task<(bool isOk, string uid)> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
+        public async Task<Result<bool, string>> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
         {
             return await localGachaLogWorker!.ImportFromUIGFJAsync(path, gachaData);
         }

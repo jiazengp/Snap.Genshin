@@ -207,8 +207,8 @@ namespace DGP.Genshin.Service
 
         public async Task SetCookieAsync()
         {
-            (ContentDialogResult result, string cookie) = await new CookieDialog().GetInputCookieAsync();
-            if (result is ContentDialogResult.Primary)
+            (bool isOk, string cookie) = await new CookieDialog().GetInputCookieAsync();
+            if (isOk)
             {
                 //prevent user input unexpected invalid cookie
                 if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
@@ -229,9 +229,9 @@ namespace DGP.Genshin.Service
 
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
-            (ContentDialogResult result, string newCookie) = await new CookieDialog().GetInputCookieAsync();
+            (bool isOk, string newCookie) = await new CookieDialog().GetInputCookieAsync();
 
-            if (result is ContentDialogResult.Primary)
+            if (isOk)
             {
                 if (await ValidateCookieAsync(newCookie))
                 {

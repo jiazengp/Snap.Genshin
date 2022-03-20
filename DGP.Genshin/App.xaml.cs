@@ -238,6 +238,7 @@ namespace DGP.Genshin
         }
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
+            e.Cancel = true;
             base.OnSessionEnding(e);
             if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
@@ -246,7 +247,6 @@ namespace DGP.Genshin
                 AutoWired<ISettingService>().UnInitialize();
                 try { ToastNotificationManagerCompat.History.Clear(); } catch { }
             }
-            e.Cancel = true;
         }
 
         private void ConfigureUnhandledException()

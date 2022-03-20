@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
 
 namespace DGP.Genshin.DataModel
 {
@@ -9,16 +8,27 @@ namespace DGP.Genshin.DataModel
     /// </summary>
     public class KeySource : ObservableObject
     {
+        public KeySource()
+        {
+
+        }
+
+        public KeySource(string key, string source)
+        {
+            Key = key;
+            Source = source;
+        }
         public string? Key { get; set; }
         public string? Source { get; set; }
 
-        [JsonIgnore] private bool isSelected = true;
-        [JsonIgnore]
+        #region Observable
+        private bool isSelected = true;
         public bool IsSelected
         {
             get => isSelected;
 
             set => SetProperty(ref isSelected, value);
         }
+        #endregion
     }
 }
