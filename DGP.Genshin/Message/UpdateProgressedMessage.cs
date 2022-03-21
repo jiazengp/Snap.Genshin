@@ -1,4 +1,6 @@
-﻿namespace DGP.Genshin.Message
+﻿using Snap.Net.Download;
+
+namespace DGP.Genshin.Message
 {
     public class UpdateProgressedMessage
     {
@@ -12,7 +14,12 @@
             }
         }
 
-
+        public UpdateProgressedMessage(DownloadInfomation infomation)
+        {
+            Value = infomation.Percent;
+            ValueString = infomation.ToString();
+            IsDownloading = infomation.IsDownloading;
+        }
         public UpdateProgressedMessage(double value, string valueString, bool isDownloading)
         {
             Value = value;

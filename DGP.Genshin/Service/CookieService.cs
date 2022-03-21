@@ -294,7 +294,6 @@ namespace DGP.Genshin.Service
         /// prevent multiple times initializaion
         /// </summary>
         private readonly WorkWatcher initialization = new(false);
-        //private bool isInitialized = false;
         public async Task InitializeAsync()
         {
             if (initialization.IsWorking || initialization.IsCompleted)

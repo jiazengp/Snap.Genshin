@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.Launching;
+﻿using DGP.Genshin.Core.ImplementationSwitching;
+using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.FPSUnlocking;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction.Launching;
@@ -8,7 +9,6 @@ using IniParser.Exceptions;
 using IniParser.Model;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
-using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
@@ -30,7 +30,7 @@ namespace DGP.Genshin.Service
     /// <summary>
     /// 启动服务的默认实现
     /// </summary>
-    [Service(typeof(ILaunchService), InjectAs.Singleton)]
+    [SwitchableImplementation(typeof(ILaunchService))]
     internal class LaunchService : ILaunchService
     {
         private const string AccountsFileName = "accounts.json";

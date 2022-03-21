@@ -116,14 +116,14 @@ namespace DGP.Genshin.Service
 
                 InnerDownloader = new(PackageUri, destinationPath);
                 notificationUpdater = new(NewVersion.ToString(), messenger);
-                InnerDownloader.ProgressChanged += notificationUpdater.OnProgressChanged;
+                IProgress<DownloadInfomation> progress = new Progress<DownloadInfomation>(notificationUpdater.OnProgressChanged);
                 //toast can only be shown & updated by main thread
                 notificationUpdater.ShowDownloadToastNotification();
 
                 bool caught = false;
                 try
                 {
-                    await InnerDownloader.DownloadAsync();
+                    await InnerDownloader.DownloadAsync(progress);
                 }
                 catch
                 {
@@ -290,19 +290,16 @@ namespace DGP.Genshin.Service
             /// <param name="totalBytesToReceive">总大小</param>
             /// <param name="bytesReceived">下载的大小</param>
             /// <param name="percent">进度</param>
-            internal void OnProgressChanged(long? totalBytesToReceive, long bytesReceived, double? percent)
+            internal void OnProgressChanged(DownloadInfomation downloadInfomation)
             {
                 //message will be sent anyway.
-                string valueString = $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
-                messenger.Send(new UpdateProgressedMessage(percent ?? 0, valueString, percent <= 1));
+                string valueString = downloadInfomation.ToString();
+                messenger.Send(new UpdateProgressedMessage(downloadInfomation));
                 //if user has dismissed the notification, we don't update it anymore
                 if (lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
                 {
-                    if (percent is not null)
-                    {
-                        //notification could only be updated by main thread.
-                        this.ExecuteOnUI(() => UpdateNotificationValue(totalBytesToReceive, bytesReceived, percent));
-                    }
+                    //notification could only be updated by main thread.
+                    this.ExecuteOnUI(() => UpdateNotificationValue(downloadInfomation));
                 }
             }
 
@@ -312,20 +309,20 @@ namespace DGP.Genshin.Service
             /// <param name="totalBytesToReceive">总大小</param>
             /// <param name="bytesReceived">下载的大小</param>
             /// <param name="percent">进度</param>
-            private void UpdateNotificationValue(long? totalBytesToReceive, long bytesReceived, double? percent)
+            private void UpdateNotificationValue(DownloadInfomation downloadInfomation)
             {
                 NotificationData data = new() { SequenceNumber = 0 };
 
-                data.Values["progressValue"] = $"{percent ?? 0}";
-                data.Values["progressValueString"] =
-                    $@"{percent:P2} - {bytesReceived * 1.0 / 1024 / 1024:F2}MB / {totalBytesToReceive * 1.0 / 1024 / 1024:F2}MB";
-                if (percent >= 1)
+                data.Values["progressValue"] = $"{downloadInfomation.Percent}";
+                data.Values["progressValueString"] = downloadInfomation.ToString();
+                if (!downloadInfomation.IsDownloading)
                 {
                     data.Values["progressStatus"] = "下载完成";
                 }
-
                 // Update the existing notification's data
-                lastNotificationUpdateResult = ToastNotificationManagerCompat.CreateToastNotifier().Update(data, UpdateNotificationTag);
+                lastNotificationUpdateResult = ToastNotificationManagerCompat
+                    .CreateToastNotifier()
+                    .Update(data, UpdateNotificationTag);
             }
         }
     }

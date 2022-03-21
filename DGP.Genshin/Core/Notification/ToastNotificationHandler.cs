@@ -48,7 +48,7 @@ namespace DGP.Genshin.Core.Notification
             }
             else if (args.TryGetValue("launch", out string launch))
             {
-                ILaunchService launchService = App.AutoWired<ILaunchService>();
+                ILaunchService launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
                 switch (launch)
                 {
                     case "game":

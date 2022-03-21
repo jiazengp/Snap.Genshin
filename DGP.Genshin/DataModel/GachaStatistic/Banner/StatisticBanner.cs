@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Genshin.DataModel.GachaStatistic.Banner
+﻿namespace DGP.Genshin.DataModel.GachaStatistic.Banner
 {
     /// <summary>
     /// 单个卡池统计信息

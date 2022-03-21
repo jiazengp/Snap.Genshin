@@ -22,9 +22,6 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </i:EventTrigger>
-        <i:EventTrigger EventName="Unloaded">
-            <i:InvokeCommandAction Command="{Binding CloseUICommand}"/>
-        </i:EventTrigger>
     </i:Interaction.Triggers>
     <Page.Resources>
         <helpers:StarConverter x:Key="StarConverter"/>
@@ -106,7 +103,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <ui:CommandBar Visibility="{Binding Avatars,Converter={StaticResource DataVisibilityRevertConverter}}">
+                    <ui:CommandBar>
                         <ui:CommandBar.Content>
                             <ui:AppBarElementContainer>
                                 <ComboBox Margin="12,4,0,0" Grid.Row="0" 
@@ -172,13 +169,12 @@
                                                     </Grid.ColumnDefinitions>
                                                     <cachedimage:CachedBitmapIcon Margin="6" Grid.Column="0" Height="32" Width="32"
                                                      UriSource="{Binding Icon}" RenderOptions.BitmapScalingMode="Fant"/>
-                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
-                                       Grid.Column="1" Margin="6" Text="{Binding Name}"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                                     <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                                                         <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}" IsEnabled="False"/>
                                                         <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}"
-                                              Value="{Binding LevelTarget}" Margin="6,0,0,0"/>
+                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Margin="6,0,0,0"
+                                                                      Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}" Value="{Binding LevelTarget}" />
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -219,10 +215,10 @@
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
                                                    Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                                     <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}" IsEnabled="False"/>
+                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}" IsEnabled="False" Width="64"/>
                                                         <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}"
-                                              Value="{Binding LevelTarget}" Margin="6,0,0,0"/>
+                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}" Width="64"
+                                                            Value="{Binding LevelTarget}" Margin="6,0,0,0"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -362,11 +358,236 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="所有角色" Visibility="Collapsed">
+            <TabItem Header="所有角色">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ui:CommandBar>
+                        <ui:AppBarButton Label="计算" Command="{Binding FullAvatarComputeCommand}">
+                            <ui:AppBarButton.Icon>
+                                <ui:FontIcon Glyph="&#xF246;"/>
+                            </ui:AppBarButton.Icon>
+                        </ui:AppBarButton>
+                    </ui:CommandBar>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="326"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition MaxWidth="360"/>
+                        </Grid.ColumnDefinitions>
+                        <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" Margin="0,12,0,0">
+                            <ui:GridView Margin="12,0,6,-4" SelectionMode="Single" ItemsSource="{Binding FullAvatars}" SelectedItem="{Binding SelectedFullAvatar}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <genshinelements:ContentIcon IsHitTestVisible="False" 
+                                        ForegroundUrl="{Binding Icon}" 
+                                        BackgroundUrl="{Binding AvatarLevel,Converter = {StaticResource StarConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                        </smoothscrollviewer:SmoothScrollViewer>
+                        <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Margin="-12,12,4,12">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,0" Background="{Binding SelectedFullAvatar.AvatarLevel,Converter = {StaticResource StarSolidConverter}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding SelectedFullAvatar.Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
+                                       Grid.Column="1" Margin="6" Text="{Binding SelectedFullAvatar.Name}"/>
+                                        <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding SelectedFullAvatar.LevelCurrent}"/>
+                                            <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding SelectedFullAvatar.LevelCurrent}" Maximum="{Binding SelectedFullAvatar.MaxLevel}"
+                                              Value="{Binding SelectedFullAvatar.LevelTarget}" Margin="6,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <ItemsControl ItemsSource="{Binding FullAvatarDetailData.SkillList}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="44"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <cachedimage:CachedBitmapIcon Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     UriSource="{Binding Icon}" RenderOptions.BitmapScalingMode="Fant"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="1" Margin="6" Text="{Binding Name}"/>
+                                                    <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding LevelCurrent}"/>
+                                                        <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                                        <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Margin="6,0,0,0"
+                                                                      Minimum="{Binding LevelCurrent}" Maximum="{Binding MaxLevel}" Value="{Binding LevelTarget}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </smoothscrollviewer:SmoothScrollViewer>
+                        <smoothscrollviewer:SmoothScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Margin="-12,12,0,12" Visibility="{Binding FullAvatarConsumption,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                <ui:CommandBar Margin="0,0,12,0" Background="Transparent"
+                                    Visibility="{Binding FullAvatarConsumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ui:CommandBar.Content>
+                                        <TextBlock Text="角色消耗" Margin="12,6,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </ui:CommandBar.Content>
+                                    <ui:AppBarButton Icon="Add" Label="添加到清单" Command="{Binding AddFullCharacterMaterialCommand}" CommandParameter="Avatar"/>
+                                </ui:CommandBar>
+                                <ItemsControl ItemsSource="{Binding FullAvatarConsumption.AvatarConsume}"
+                                    Visibility="{Binding FullAvatarConsumption.AvatarConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="36"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
+                                <ui:CommandBar Margin="0,12,12,0" Background="Transparent"
+                                    Visibility="{Binding FullAvatarConsumption.AvatarSkillConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ui:CommandBar.Content>
+                                        <TextBlock Text="天赋消耗" Margin="12,6,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </ui:CommandBar.Content>
+                                    <ui:AppBarButton Icon="Add" Label="添加到清单" Command="{Binding AddFullCharacterMaterialCommand}" CommandParameter="Skill"/>
+                                </ui:CommandBar>
+                                <ItemsControl ItemsSource="{Binding FullAvatarConsumption.AvatarSkillConsume}"
+                                    Visibility="{Binding FullAvatarConsumption.AvatarSkillConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="36"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </smoothscrollviewer:SmoothScrollViewer>
+                    </Grid>
+                </Grid>
             </TabItem>
-            <TabItem Header="所有武器" Visibility="Collapsed">
-
+            <TabItem Header="所有武器">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ui:CommandBar>
+                        <ui:AppBarButton Label="计算" Command="{Binding FullWeaponComputeCommand}">
+                            <ui:AppBarButton.Icon>
+                                <ui:FontIcon Glyph="&#xF246;"/>
+                            </ui:AppBarButton.Icon>
+                        </ui:AppBarButton>
+                    </ui:CommandBar>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <smoothscrollviewer:SmoothScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" Margin="0,12,0,0">
+                            <ui:GridView Margin="12,0,6,-4" SelectionMode="Single" ItemsSource="{Binding FullWeapons}" SelectedItem="{Binding SelectedFullWeapon}">
+                                <ui:GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <genshinelements:ContentIcon IsHitTestVisible="False" 
+                                                ForegroundUrl="{Binding Icon}" 
+                                                BackgroundUrl="{Binding WeaponLevel,Converter = {StaticResource StarConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ui:GridView.ItemTemplate>
+                            </ui:GridView>
+                        </smoothscrollviewer:SmoothScrollViewer>
+                        <smoothscrollviewer:SmoothScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Margin="-12,12,4,12">
+                                <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,0,12,0" Background="{Binding FullWeaponAvatarDetailData.Weapon.WeaponLevel,Converter = {StaticResource StarSolidConverter}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="32" Width="32"
+                                                     ImageUrl="{Binding FullWeaponAvatarDetailData.Weapon.Icon}"/>
+                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
+                                       Grid.Column="1" Margin="6" Text="{Binding FullWeaponAvatarDetailData.Weapon.Name}"/>
+                                        <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Value="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent}"/>
+                                            <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
+                                            <ui:NumberBox ValueChanged="NumberBoxValueChanged" GotFocus="NumberBoxGotFocus" Minimum="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent}" Maximum="{Binding FullWeaponAvatarDetailData.Weapon.MaxLevel}"
+                                              Value="{Binding FullWeaponAvatarDetailData.Weapon.LevelTarget}" Margin="6,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <ui:CommandBar Margin="0,12,12,0" Background="Transparent"
+                                    Visibility="{Binding FullWeaponConsumption,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ui:CommandBar.Content>
+                                        <TextBlock Text="武器消耗" Margin="12,6,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    </ui:CommandBar.Content>
+                                    <ui:AppBarButton Icon="Add" Label="添加到清单" Command="{Binding AddFullWeaponMaterialCommand}"/>
+                                </ui:CommandBar>
+                                <ItemsControl ItemsSource="{Binding FullWeaponConsumption.WeaponConsume}" Margin="0,0,0,0"
+                                    Visibility="{Binding FullWeaponConsumption.WeaponConsume,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="{StaticResource CompatCornerRadius}" Margin="12,4,12,0" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="36"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
+                                                     ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
+                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </smoothscrollviewer:SmoothScrollViewer>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

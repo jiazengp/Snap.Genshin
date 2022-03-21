@@ -1,8 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using WPFUI.Controls;
 
 namespace DGP.Genshin.Control.GenshinElement.Record
 {
-    public sealed partial class RecordFloorExpander : Expander
+    public sealed partial class RecordFloorExpander : CardExpander
     {
         public RecordFloorExpander()
         {

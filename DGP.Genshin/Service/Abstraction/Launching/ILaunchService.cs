@@ -1,4 +1,5 @@
-﻿using DGP.Genshin.DataModel.Launching;
+﻿using DGP.Genshin.Core.ImplementationSwitching;
+using DGP.Genshin.DataModel.Launching;
 using IniParser.Model;
 using Snap.Data.Primitive;
 using System;
@@ -11,6 +12,7 @@ namespace DGP.Genshin.Service.Abstraction.Launching
     /// <summary>
     /// 游戏启动服务
     /// </summary>
+    [SwitchableInterfaceDefinitionContract]
     public interface ILaunchService
     {
         /// <summary>
@@ -56,10 +58,32 @@ namespace DGP.Genshin.Service.Abstraction.Launching
         /// <param name="launcherPath">待检验的启动器路径</param>
         /// <returns>启动器路径</returns>
         string? SelectLaunchDirectoryIfIncorrect(string? launcherPath);
+        /// <summary>
+        /// 保存所有账号到本地文件
+        /// </summary>
+        /// <param name="accounts">待保存的账号列表</param>
         void SaveAllAccounts(IEnumerable<GenshinAccount> accounts);
+        /// <summary>
+        /// 从本地文件加载账号
+        /// </summary>
+        /// <returns>从文件创建的账号列表</returns>
         ObservableCollection<GenshinAccount> LoadAllAccount();
+        /// <summary>
+        /// 从注册表获取账号信息
+        /// </summary>
+        /// <returns></returns>
         GenshinAccount? GetFromRegistry();
+        /// <summary>
+        /// 将账号信息写入注册表
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         bool SetToRegistry(GenshinAccount? account);
+        /// <summary>
+        /// 动态更新解锁的帧率
+        /// 一般设置内部的unlocker即可
+        /// </summary>
+        /// <param name="targetFPS"></param>
         void SetTargetFPSDynamically(int targetFPS);
     }
 }

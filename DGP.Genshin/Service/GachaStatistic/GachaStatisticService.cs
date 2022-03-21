@@ -87,8 +87,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                 string? uid = null;
                 foreach (ConfigType pool in gachaConfigTypes.Types)
                 {
-                    uid = full 
-                        ? await worker.FetchGachaLogAggressivelyAsync(pool, progress) 
+                    uid = full
+                        ? await worker.FetchGachaLogAggressivelyAsync(pool, progress)
                         : await worker.FetchGachaLogIncreaselyAsync(pool, progress);
 
                     if (worker.IsFetchDelayEnabled)

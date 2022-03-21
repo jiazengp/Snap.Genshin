@@ -32,8 +32,9 @@ namespace DGP.Genshin.ViewModel
         #region Observables
         private List<LaunchScheme> knownSchemes = new()
         {
-            new LaunchScheme(name: "天空岛 | 官方服", channel: "1", cps: "pcadbdpz", subChannel: "1"),
-            new LaunchScheme(name: "世界树 | Bili服", channel: "14", cps: "bilibili", subChannel: "0")
+            new LaunchScheme(name: "官方服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
+            new LaunchScheme(name: "渠道服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0"),
+            new LaunchScheme(name: "国际服 | 插件支持", channel: "1", cps: "mihoyo", subChannel: "0")
         };
 
         private LaunchScheme? currentScheme;
@@ -149,9 +150,9 @@ namespace DGP.Genshin.ViewModel
         public ICommand ReselectLauncherPathCommand { get; }
         #endregion
 
-        public LaunchViewModel(ILaunchService launchService, IMessenger messenger, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        public LaunchViewModel(IMessenger messenger, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            this.launchService = launchService;
+            launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
             GameWatcher = launchService.GameWatcher;
 
             this.messenger = messenger;

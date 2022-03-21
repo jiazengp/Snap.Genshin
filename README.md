@@ -40,10 +40,12 @@
 # **我们正在为这些项目寻找维护者**
 
 下面的项目都曾或目前仍然与 Snap Genshin 高度相关  
-由于某些原因，下方的库或项目目前已经处于无人维护的状态  
+由于某些原因，下方的库或项目目前已经处于 无人维护/需要更多人维护 的状态  
 如果你了解相关的知识与技巧可以尝试提交PR来拯救它们
 
 > [解包 Json 查看器](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
 > [Xbox实时便笺树脂小组件](https://github.com/DGP-Studio/DGP.Genshin.GamebarWidget)  
 > [GHHW 角色爬虫](https://github.com/DGP-Studio/Crawler-ghhw)
+> [胡桃API 网页端]()
+> [胡桃API 服务端](https://github.com/DGP-Studio/Snap.Genshin.Website)
 </div>

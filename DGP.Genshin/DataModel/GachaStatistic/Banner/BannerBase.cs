@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic.Item;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 

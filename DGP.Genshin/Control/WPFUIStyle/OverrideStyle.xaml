@@ -167,7 +167,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type wu:CardExpander}">
+    <Style TargetType="{x:Type wu:CardExpander}" x:Key="DefaultCardExpanderStyle">
         <Setter Property="Foreground">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
@@ -341,6 +341,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type wu:CardExpander}" BasedOn="{StaticResource DefaultCardExpanderStyle}"/>
 
     <Style TargetType="{x:Type wu:CardAction}">
         <Setter Property="Foreground">

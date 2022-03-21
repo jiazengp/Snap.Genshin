@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace DGP.Genshin.DataModel.GachaStatistic.Banner
+﻿namespace DGP.Genshin.DataModel.GachaStatistic.Banner
 {
     /// <summary>
     /// 单个卡池信息

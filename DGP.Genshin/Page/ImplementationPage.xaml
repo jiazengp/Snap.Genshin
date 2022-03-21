@@ -7,6 +7,8 @@
       xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
       xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
       xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
+      xmlns:sw="clr-namespace:DGP.Genshin.Core.ImplementationSwitching"
+      d:DataContext="{d:DesignInstance sw:SwitchableImplementationManager}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ImplementationPage">
@@ -16,6 +18,12 @@
                 <ComboBox
                     ItemsSource="{Binding BackgroundProviders}"
                     SelectedItem="{Binding CurrentBackgroundProvider}"
+                    DisplayMemberPath="Description"/>
+            </wu:CardControl>
+            <wu:CardControl Title="ILaunchService" Subtitle="启动游戏服务" Margin="12,12,16,0">
+                <ComboBox
+                    ItemsSource="{Binding LaunchServices}"
+                    SelectedItem="{Binding CurrentLaunchService}"
                     DisplayMemberPath="Description"/>
             </wu:CardControl>
         </StackPanel>

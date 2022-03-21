@@ -1,7 +1,5 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic.Item;
-using Newtonsoft.Json;
 using Snap.Data.Primitive;
-using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModel.GachaStatistic.Banner

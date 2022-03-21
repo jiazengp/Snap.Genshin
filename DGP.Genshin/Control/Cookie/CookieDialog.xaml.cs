@@ -25,7 +25,7 @@ namespace DGP.Genshin.Control.Cookie
             ContentDialogResult result = await ShowAsync();
             string cookie = InputText.Text;
 
-            return new(result!=ContentDialogResult.Secondary, cookie);
+            return new(result != ContentDialogResult.Secondary, cookie);
         }
 
         private void AutoCookieButtonClick(object sender, RoutedEventArgs e)

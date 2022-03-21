@@ -25,9 +25,9 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenLauncherCommand { get; }
         public ICommand SignInCommand { get; }
 
-        public TaskbarIconViewModel(ILaunchService launchService, ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
+        public TaskbarIconViewModel(ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
-            this.launchService = launchService;
+            launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
             this.signInService = signInService;
 
             ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
