@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace DGP.Genshin.Factory.Abstraction
 {
     /// <summary>
-    /// Factory for creating <see cref="AsyncRelayCommand"/>s with additional processing.
+    /// Factory for creating <see cref="AsyncRelayCommand"/> with additional processing.
     /// </summary>
     public interface IAsyncRelayCommandFactory
     {

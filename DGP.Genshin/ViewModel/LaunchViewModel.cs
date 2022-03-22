@@ -34,7 +34,7 @@ namespace DGP.Genshin.ViewModel
         {
             new LaunchScheme(name: "官方服 | 天空岛", channel: "1", cps: "pcadbdpz", subChannel: "1"),
             new LaunchScheme(name: "渠道服 | 世界树", channel: "14", cps: "bilibili", subChannel: "0"),
-            new LaunchScheme(name: "国际服 | 插件支持", channel: "1", cps: "mihoyo", subChannel: "0")
+            new LaunchScheme(name: "国际服 | 需要插件", channel: "1", cps: "mihoyo", subChannel: "0")
         };
 
         private LaunchScheme? currentScheme;

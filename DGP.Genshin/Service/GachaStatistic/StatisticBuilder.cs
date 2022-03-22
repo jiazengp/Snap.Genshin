@@ -335,6 +335,15 @@ namespace DGP.Genshin.Service.GachaStatistic
                 newItem.Source = matched.Source;
                 newItem.Name = matched.Name;
                 newItem.Badge = matched.GetBadge();
+
+                if (banner?.UpStar5List?.FirstOrDefault(item => item.Name == matched.Name) is StatisticItem item5)
+                {
+                    item5.Count++;
+                }
+                if (banner?.UpStar4List?.FirstOrDefault(item => item.Name == matched.Name) is StatisticItem item4)
+                {
+                    item4.Count++;
+                }
             }
             else
             {

@@ -73,11 +73,11 @@ namespace DGP.Genshin.ViewModel
         private List<Talent> dailyTalents = null!;
 
         [IntegrityAware]
-        public ObservableCollection<WeaponMaterial> DailyWeapons
+        public List<WeaponMaterial> DailyWeapons
         {
-            get => ProxyCollcetion(ref dailyWeapons, DailyTalentsJson);
+            get => ProxyCollcetion(ref dailyWeapons, DailyWeaponsJson);
         }
-        private ObservableCollection<WeaponMaterial> dailyWeapons = null!;
+        private List<WeaponMaterial> dailyWeapons = null!;
 
         public List<SpecificBanner> SpecificBanners
         {

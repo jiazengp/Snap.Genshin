@@ -10,8 +10,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
     public class SpecificBanner : BannerBase, IPartiallyCloneable<SpecificBanner>
     {
         public string? Type { get; set; }
-        public List<SpecificItem>? UpStar5List { get; set; }
-        public List<SpecificItem>? UpStar4List { get; set; }
+        public List<StatisticItem>? UpStar5List { get; set; }
+        public List<StatisticItem>? UpStar4List { get; set; }
         public List<StatisticItem>? StatisticList5 { get; set; }
         public List<StatisticItem>? StatisticList4 { get; set; }
         public List<StatisticItem>? StatisticList3 { get; set; }

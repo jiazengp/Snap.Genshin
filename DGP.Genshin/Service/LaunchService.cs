@@ -301,7 +301,6 @@ namespace DGP.Genshin.Service
             //fix load file failure while launched by updater in admin
             return Json.FromFileOrNew<ObservableCollection<GenshinAccount>>(PathContext.Locate(AccountsFileName));
         }
-
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
             //trim account with same id
@@ -312,7 +311,6 @@ namespace DGP.Genshin.Service
         {
             return GenshinRegistry.Get();
         }
-
         public bool SetToRegistry(GenshinAccount? account)
         {
             return GenshinRegistry.Set(account);

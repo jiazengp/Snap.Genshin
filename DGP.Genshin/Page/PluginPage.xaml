@@ -56,8 +56,8 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Name}" 
-                                               Style="{StaticResource SubtitleTextBlockStyle}" FontSize="16"/>
-                                    <Button 
+                                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                                    <Button Command="{Binding SettingCommand}" Visibility="{Binding IsSettingSupported,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         Content="&#xE713;" HorizontalAlignment="Right"
                                         Padding="6" Background="Transparent"
@@ -70,8 +70,9 @@
                                         <Run Text="作者："/>
                                         <Run Text="{Binding Author,Mode=OneWay}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                                     </TextBlock>
-                                    <StackPanel>
-                                        <wu:Hyperlink HorizontalAlignment="Right" Content="插件详情" NavigateUri="{Binding DetailLink}"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center"/>
+                                        <wu:Hyperlink Margin="8,0,0,0" Content="详情" NavigateUri="{Binding DetailLink}"/>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

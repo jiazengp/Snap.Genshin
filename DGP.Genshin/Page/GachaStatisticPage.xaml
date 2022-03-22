@@ -50,10 +50,14 @@
                 BadgeUrl="{Binding Badge}"/>
         </DataTemplate>
         <DataTemplate x:Key="CircleDisplayTemplate">
-            <Border ci:ImageAsyncHelper.ImageUrl="{Binding Source}" 
+            <StackPanel>
+                <Border ci:ImageAsyncHelper.ImageUrl="{Binding Source}" 
                     RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
                     Height="32" Width="32"
                     HorizontalAlignment="Right" Margin="4"/>
+
+                <TextBlock MaxWidth="32" Text="{Binding Count}" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="SliceDisplayTemplate">
             <Grid SnapsToDevicePixels="True" UseLayoutRounding="True" Margin="2">
@@ -480,27 +484,42 @@
                             </ui:ListView.ItemTemplate>
                         </ui:ListView>
                     </s:SmoothScrollViewer>
-                    <Grid Margin="12,0,0,0" Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Grid.Row="0" Margin="4,0,8,4" Text="获取物品" Style="{StaticResource BaseTextBlockStyle}"/>
-                        <s:SmoothScrollViewer Grid.Row="1">
-                            <ItemsControl 
+                    <TabControl Margin="6,0,0,0" Grid.Column="1"
+                        Style="{StaticResource TabControlPivotStyle}"
+                        ItemContainerStyle="{StaticResource PivotItemStyle}">
+                        <TabItem Header="总计">
+                            <StackPanel Grid.Row="1" Margin="6,0,0,0">
+                                <ItemsControl  Margin="0,4,0,0" 
+                                               ItemsSource="{Binding SelectedSpecificBanner.StatisticList5}"
+                                               ItemsPanel="{StaticResource WrapPanelItemsPanel}"
+                                               ItemTemplate="{StaticResource TotalListTemplate}"/>
+                                <ItemsControl  Margin="0,4,0,0" 
+                                               ItemsSource="{Binding SelectedSpecificBanner.StatisticList4}"
+                                               ItemsPanel="{StaticResource WrapPanelItemsPanel}"
+                                               ItemTemplate="{StaticResource TotalListTemplate}"/>
+                                <ItemsControl  Margin="0,4,0,0" 
+                                               ItemsSource="{Binding SelectedSpecificBanner.StatisticList3}"
+                                               ItemsPanel="{StaticResource WrapPanelItemsPanel}"
+                                               ItemTemplate="{StaticResource TotalListTemplate}"/>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="分布">
+                            <s:SmoothScrollViewer Grid.Row="2" Margin="6,0,0,0">
+                                <ItemsControl 
                                 ItemsSource="{Binding SelectedSpecificBanner.Slices}"
                                 Margin="0,0,16,12">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <ItemsControl 
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <ItemsControl 
                                             ItemsSource="{Binding}"
                                             ItemTemplate="{StaticResource SliceDisplayTemplate}"
                                             ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </s:SmoothScrollViewer>
-                    </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </s:SmoothScrollViewer>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
             <TabItem Header="角色">

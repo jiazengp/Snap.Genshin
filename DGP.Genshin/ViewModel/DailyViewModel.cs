@@ -120,8 +120,9 @@ namespace DGP.Genshin.ViewModel
         {
             get
             {
-                todayMondstadtWeaponAscension ??= dataViewModel.DailyWeapons?
-                    .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek?.Value) && i.IsMondstadt());
+                todayMondstadtWeaponAscension ??= dataViewModel.DailyWeapons
+                    .Where(i => i.IsMondstadt())
+                    .Where(i => i.IsTodaysWeapon(SelectedDayOfWeek?.Value));
                 return todayMondstadtWeaponAscension;
             }
         }

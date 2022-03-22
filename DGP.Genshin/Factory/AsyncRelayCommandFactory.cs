@@ -16,37 +16,30 @@ namespace DGP.Genshin.Factory
         {
             return Register(new AsyncRelayCommand<T>(execute));
         }
-
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute)
         {
             return Register(new AsyncRelayCommand<T>(cancelableExecute));
         }
-
         public AsyncRelayCommand<T> Create<T>(Func<T?, Task> execute, Predicate<T?> canExecute)
         {
             return Register(new AsyncRelayCommand<T>(execute, canExecute));
         }
-
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute, Predicate<T?> canExecute)
         {
             return Register(new AsyncRelayCommand<T>(cancelableExecute, canExecute));
         }
-
         public AsyncRelayCommand Create(Func<Task> execute)
         {
             return Register(new AsyncRelayCommand(execute));
         }
-
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute)
         {
             return Register(new AsyncRelayCommand(cancelableExecute));
         }
-
         public AsyncRelayCommand Create(Func<Task> execute, Func<bool> canExecute)
         {
             return Register(new AsyncRelayCommand(execute, canExecute));
         }
-
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute)
         {
             return Register(new AsyncRelayCommand(cancelableExecute, canExecute));
@@ -57,24 +50,18 @@ namespace DGP.Genshin.Factory
             ReportException(command);
             return command;
         }
-
         private AsyncRelayCommand<T> Register<T>(AsyncRelayCommand<T> command)
         {
             ReportException(command);
             return command;
         }
-
         private void ReportException(IAsyncRelayCommand command)
         {
             command.PropertyChanged += (sender, args) =>
             {
-                if (sender is null)
+                if (sender is IAsyncRelayCommand asyncRelayCommand)
                 {
-                    return;
-                }
-                if (args.PropertyName == nameof(AsyncRelayCommand.ExecutionTask))
-                {
-                    if (sender is IAsyncRelayCommand asyncRelayCommand)
+                    if (args.PropertyName == nameof(AsyncRelayCommand.ExecutionTask))
                     {
                         if (asyncRelayCommand.ExecutionTask?.Exception is AggregateException exception)
                         {
