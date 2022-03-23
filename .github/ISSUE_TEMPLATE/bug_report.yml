@@ -17,7 +17,6 @@ body:
       description: | 
         `Win+R` 输入 `winver` 回车后在打开的窗口第二行可以找到
       placeholder: 例：22000.556
-      render: shell
     validations:
       required: true
    
@@ -27,7 +26,6 @@ body:
       label: Snap Genshin 版本
       description: 在应用程序的设置界面中靠下的位置可以找到
       placeholder: 例：2022.3.23.1
-      render: shell
     validations:
       required: true   
      
@@ -37,7 +35,6 @@ body:
       label: Snap Genshin 用户设备ID
       description: 在应用程序的设置界面中靠下的位置可以找到，并可以通过右侧按钮复制
       placeholder: 此ID不包含敏感信息，可以放心填写
-      render: shell
     validations:
       required: true   
 
@@ -46,7 +43,6 @@ body:
     attributes:
       label: 发生了什么？
       description: 详细的描述问题发生前后的行为，以便我们解决问题
-      render: shell
     validations:
       required: true
 
