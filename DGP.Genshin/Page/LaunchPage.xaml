@@ -47,21 +47,21 @@
                 <wu:CardExpander helper:IconHelper.Icon="&#xE748;" Margin="0,12,0,0" IsExpanded="True"
                             Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
                             Subtitle="在游戏内切换账号/更改游戏内设置/网络环境发生变化/后会自动检测">
-                    <ui:ListView 
+                    <wu:CardExpander.HeaderContent>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}" Margin="12,0,12,0" MinWidth="60"/>
+                            <Button Grid.Row="1" Content="删除" Command="{Binding DeleteAccountCommand}" Margin="0,0,12,0" MinWidth="60"/>
+                        </StackPanel>
+                    </wu:CardExpander.HeaderContent>
+                    <ui:ListView
                         ItemsSource="{Binding Accounts}" 
                         SelectedItem="{Binding SelectedAccount}"
                         SelectionMode="Single"
                         DisplayMemberPath="Name" Padding="0,0,0,4"/>
                 </wu:CardExpander>
-                <wu:CardControl helper:IconHelper.Icon="&#xE8FA;" Title="检测新账号" Subtitle="从注册表检测当前登录的原神账号" Margin="0,4,0,0">
-                    <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}"/>
-                </wu:CardControl>
-                <wu:CardControl helper:IconHelper.Icon="&#xE74D;" Title="删除当前账号" Subtitle="删除的账号将不会保存" Margin="0,4,0,0">
-                    <Button Grid.Row="1" Content="删除" Command="{Binding DeleteAccountCommand}"/>
-                </wu:CardControl>
 
                 <wu:CardControl helper:IconHelper.Icon="&#xE8E6;" Title="重选游戏路径" Subtitle="重新选择你的启动器存放路径" Margin="0,4,0,0">
-                    <Button Grid.Row="1" Content="重置" Command="{Binding ReselectLauncherPathCommand}"/>
+                    <Button Grid.Row="1" Content="重置游戏路径" Command="{Binding ReselectLauncherPathCommand}"/>
                 </wu:CardControl>
 
                 <wu:CardControl helper:IconHelper.Icon="&#xE8AB;" Title="服务器" Subtitle="切换游戏服务器，B服用户需要自备额外的SDK文件" Margin="0,12,0,0">
@@ -98,8 +98,8 @@
                     <ui:ToggleSwitch IsOn="{Binding UnlockFPS}"/>
                 </wu:CardControl>
                 <wu:Card Margin="0,4,0,0" IsEnabled="{Binding IsElevated}" BorderBrush="DarkRed" Background="#11FF0000">
-                    <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,0" TickFrequency="1" IsSnapToTickEnabled="True" 
-                                ui:ControlHelper.Header="{Binding RelativeSource={RelativeSource Self},Path=Value}"  Minimum="60" Maximum="360" Value="{Binding TargetFPS}"/>
+                    <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,0" TickFrequency="1" IsSnapToTickEnabled="True"
+                            ui:ControlHelper.Header="{Binding RelativeSource={RelativeSource Self},Path=Value}"  Minimum="60" Maximum="360" Value="{Binding TargetFPS}"/>
                 </wu:Card>
 
             </StackPanel>

@@ -31,20 +31,10 @@ namespace DGP.Genshin.ViewModel
     internal class MetadataViewModel : ObservableObject2
     {
         #region Consts
-        private const string BossesJson = "bosses.json";
         private const string CharactersJson = "characters.json";
-        private const string CitiesJson = "cities.json";
         private const string DailyTalentsJson = "dailytalents.json";
         private const string DailyWeaponsJson = "dailyweapons.json";
-        private const string ElementsJson = "elements.json";
-        private const string ElitesJson = "elites.json";
-        private const string GemStonesJson = "gemstones.json";
-        private const string LocalsJson = "locals.json";
-        private const string MonstersJson = "monsters.json";
-        private const string StarsJson = "stars.json";
         private const string WeaponsJson = "weapons.json";
-        private const string WeaponTypesJson = "weapontypes.json";
-        private const string WeeklyTalentsJson = "weeklytalents.json";
         private const string GachaEventJson = "gachaevents.json";
 
         private const string folderPath = "Metadata\\";

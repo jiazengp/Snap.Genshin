@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic.Item;
 using Snap.Data.Primitive;
+using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModel.GachaStatistic.Banner
@@ -23,8 +24,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
             return new SpecificBanner
             {
                 Type = Type,
-                UpStar5List = UpStar5List,
-                UpStar4List = UpStar4List,
+                UpStar5List = UpStar5List?.ClonePartially(),
+                UpStar4List = UpStar4List?.ClonePartially(),
                 CurrentName = CurrentName,
                 StartTime = StartTime,
                 EndTime = EndTime

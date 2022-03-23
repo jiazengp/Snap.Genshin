@@ -111,7 +111,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </smoothscrollviewer:SmoothScrollViewer>
-                    <Border Visibility="{Binding MaterialList,Mode=OneWay,Converter={StaticResource DataVisibilityConverter}}">
+                    <Border Visibility="{Binding IsListEmpty,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <TextBlock 
                             Text="清单为空，可前往上方角色/武器页签添加"
                             HorizontalAlignment="Center" VerticalAlignment="Center"

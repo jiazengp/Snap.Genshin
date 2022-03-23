@@ -25,62 +25,27 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Width="326">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Border Margin="12,0,12,12" CornerRadius="{StaticResource CompatCornerRadius}" 
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <ItemsControl
-                        Margin="6,6,0,0"
-                        ItemsSource="{Binding Elements}"
-                        ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ToggleButton Margin="0,0,6,0" IsChecked="{Binding IsSelected}" Command="{Binding DataContext.FilterCharacterCommand,ElementName=CharacterPageView}">
-                                    <ci:CachedImage ImageUrl="{Binding Source}" Width="16" Height="16"/>
-                                </ToggleButton>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl
-                        Margin="6,6,0,6"
-                        ItemsSource="{Binding WeaponTypes}"
-                        ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ToggleButton Margin="0,0,6,0" IsChecked="{Binding IsSelected}" Command="{Binding DataContext.FilterCharacterCommand,ElementName=CharacterPageView}">
-                                    <ci:CachedImage ImageUrl="{Binding Source}" Width="16" Height="16"/>
-                                </ToggleButton>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </Border>
-            <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                <ui:GridView 
+        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="324">
+            <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
                 SelectedItem="{Binding SelectedCharacter}"
                 SelectionMode="Single"
                 Margin="12,0,0,0"
                     IsSynchronizedWithCurrentItem="True">
-                    <ui:GridView.ItemTemplate>
-                        <DataTemplate>
-                            <genshinelements:ContentIcon
+                <ui:GridView.ItemTemplate>
+                    <DataTemplate>
+                        <genshinelements:ContentIcon
                             IsHitTestVisible="False"
                             IsCountVisible="False"
                             BackgroundUrl="{Binding Star}"
                             ForegroundUrl="{Binding Source}"
                             BadgeUrl="{Binding Element}"
                             VerticalAlignment="Top"/>
-                        </DataTemplate>
-                    </ui:GridView.ItemTemplate>
-                </ui:GridView>
-            </s:SmoothScrollViewer>
-        </Grid>
+                    </DataTemplate>
+                </ui:GridView.ItemTemplate>
+            </ui:GridView>
+        </s:SmoothScrollViewer>
         <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="1">
             <StackPanel Margin="0,0,12,0">
                 <!--名片-->

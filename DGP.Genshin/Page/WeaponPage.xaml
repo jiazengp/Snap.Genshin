@@ -102,48 +102,26 @@
                 </Border>
             </StackPanel>
         </s:SmoothScrollViewer>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Border Margin="12,0,12,12" Height="38" CornerRadius="{StaticResource CompatCornerRadius}" 
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                <ItemsControl
-                        Margin="6,0,0,0"
-                        ItemsSource="{Binding WeaponTypes}"
-                        ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}"
-                    VerticalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ToggleButton Margin="0,0,6,0" IsChecked="{Binding IsSelected}" Command="{Binding DataContext.FilterCharacterCommand,ElementName=WeaponPageView}">
-                                <ci:CachedImage ImageUrl="{Binding Source}" Width="16" Height="16"/>
-                            </ToggleButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-            <s:SmoothScrollViewer Padding="12,0" Grid.Row="1">
-                <ui:GridView 
+        <s:SmoothScrollViewer Padding="12,0" Grid.Column="1">
+            <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Weapons}" 
                 SelectedItem="{Binding SelectedWeapon}"
                 ItemsPanel="{StaticResource WrapPanelItemsPanel}"
                 Margin="0,0,0,0"
                     IsSynchronizedWithCurrentItem="True">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <genshinelements:ContentIcon
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <genshinelements:ContentIcon
                             IsHitTestVisible="False"
                             IsCountVisible="False"
                             BackgroundUrl="{Binding Star}"
                             ForegroundUrl="{Binding Source}"
                             BadgeUrl="{Binding Type}"
                             VerticalAlignment="Top"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ui:GridView>
-            </s:SmoothScrollViewer>
-        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ui:GridView>
+        </s:SmoothScrollViewer>
     </Grid>
 </ui:Page>
