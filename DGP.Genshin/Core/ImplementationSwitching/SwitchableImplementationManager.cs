@@ -61,6 +61,9 @@ namespace DGP.Genshin.Core.ImplementationSwitching
 
         public void UnInitialize()
         {
+            TypeData.BackgroundProviderName = CurrentBackgroundProvider!.Name;
+            TypeData.LaunchServiceName = CurrentLaunchService!.Name;
+
             Json.ToFile(PathContext.Locate(ImplementationsFile), TypeData);
         }
     }

@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.MiHoYo2;
+﻿using DGP.Genshin.DataModel.Reccording;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;

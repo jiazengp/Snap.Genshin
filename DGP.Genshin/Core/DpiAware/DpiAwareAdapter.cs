@@ -76,26 +76,22 @@ namespace DGP.Genshin.Core.DpiAware
 
         private IntPtr HwndHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            switch (message)
+            if(message is 0x02E0)
             {
-                case 0x02E0://WM_DPICHANGED
-                    RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
+                RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
 
-                    User32.SetWindowPos(hWnd, IntPtr.Zero, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top,
-                        User32.SetWindowPosFlags.DoNotChangeOwnerZOrder
-                        | User32.SetWindowPosFlags.DoNotActivate
-                        | User32.SetWindowPosFlags.IgnoreZOrder);
+                User32.SetWindowPos(hWnd, IntPtr.Zero, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top,
+                    User32.SetWindowPosFlags.DoNotChangeOwnerZOrder
+                    | User32.SetWindowPosFlags.DoNotActivate
+                    | User32.SetWindowPosFlags.IgnoreZOrder);
 
-                    //we modified this fragment to correct the wrong behaviour
-                    double newDpiRatio = DpiAware.GetScaleRatio(Window) * currentDpiRatio;
-                    if (newDpiRatio != currentDpiRatio)
-                    {
-                        UpdateDpiScaling(newDpiRatio);
-                    }
-
-                    break;
+                //we modified this fragment to correct the wrong behaviour
+                double newDpiRatio = DpiAware.GetScaleRatio(Window) * currentDpiRatio;
+                if (newDpiRatio != currentDpiRatio)
+                {
+                    UpdateDpiScaling(newDpiRatio);
+                }
             }
-
             return IntPtr.Zero;
         }
 

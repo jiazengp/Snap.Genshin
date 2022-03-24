@@ -20,14 +20,24 @@ namespace DGP.Genshin.Core.Notification
         /// <param name="toastArgs"></param>
         internal void OnActivatedByNotification(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
-            HandleNotificationActivationAsync(toastArgs).Forget();
-        }
-
-        private async Task HandleNotificationActivationAsync(ToastNotificationActivatedEventArgsCompat toastArgs)
-        {
             this.Log(Json.Stringify(toastArgs));
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
-            if (args.TryGetValue("action", out string action) && action == "update")
+            foreach ((string key, string value) in args)
+            {
+                HandleActionUpdateAsync(key, value).Forget();
+                HandleTaskbarHintHide(key, value);
+                HandleLaunchValueAsync(key, value).Forget();
+            }
+        }
+        /// <summary>
+        /// 处理更新通知
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private async Task HandleActionUpdateAsync(string key,string value)
+        {
+            if (key is "action" && value== "update")
             {
                 IUpdateService updateService = App.AutoWired<IUpdateService>();
                 if (updateService.PackageUri is not null)
@@ -42,14 +52,31 @@ namespace DGP.Genshin.Core.Notification
                         .SafeShow();
                 }
             }
-            else if (args.TryGetValue("taskbarhint", out string taskbarhint) && taskbarhint == "hide")
+        }
+        /// <summary>
+        /// 处理最小化到任务栏提示
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        private void HandleTaskbarHintHide(string key, string value)
+        {
+            if (key is"taskbarhint" && value == "hide")
             {
                 Setting2.IsTaskBarIconHintDisplay.Set(false);
             }
-            else if (args.TryGetValue("launch", out string launch))
+        }
+        /// <summary>
+        /// 处理启动游戏
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private async Task HandleLaunchValueAsync(string key, string value)
+        {
+            if (key is"launch")
             {
                 ILaunchService launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
-                switch (launch)
+                switch (value)
                 {
                     case "game":
                         {

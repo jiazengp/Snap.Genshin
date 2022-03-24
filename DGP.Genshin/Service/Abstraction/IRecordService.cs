@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.MiHoYo2;
+﻿using DGP.Genshin.DataModel.Reccording;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction

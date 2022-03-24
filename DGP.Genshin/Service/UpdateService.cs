@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Core.Notification;
-using DGP.Genshin.DataModel.Update;
+using DGP.Genshin.DataModel.Updating;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;

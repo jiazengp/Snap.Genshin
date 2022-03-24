@@ -23,8 +23,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Page.Resources>
-        <converters:HtmlStringConverter x:Key="HtmlStringConverter"/>
-        <converters:LongDateTimeConverter x:Key="LongDateTimeConverter"/>
         <converters:ElementConverter x:Key="ElementConverter"/>
         <converters:RarityConverter x:Key="RarityConverter"/>
         <ui:CubicBezierEase x:Key="CubicBezierEaseIn" EasingMode="EaseIn"/>

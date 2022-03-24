@@ -9,13 +9,18 @@ using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
+using Snap.Data.Utility.Extension;
 using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -68,31 +73,27 @@ namespace DGP.Genshin.Core.Background
             }
             else
             {
+                Grid backgroundPresenter = mainWindow.BackgroundGrid;
+                DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(0, animationDuration);
                 //Fade out old image
-                DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation(0, animationDuration);
-                fadeOutAnimation.EasingFunction = new CubicBezierEase { EasingMode = EasingMode.EaseOut };
-                fadeOutAnimation.FillBehavior = FillBehavior.Stop;
-
-                mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
+                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
                 await Task.Delay(animationDuration);
-                mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, null);
+                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
 
-                mainWindow.BackgroundGrid.Background = new ImageBrush
+                backgroundPresenter.Background = new ImageBrush
                 {
                     ImageSource = image,
                     Stretch = Stretch.UniformToFill,
                     Opacity = 0
                 };
+                
+                DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(Setting2.BackgroundOpacity, animationDuration);
                 //Fade in new image
-                DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation(Setting2.BackgroundOpacity, animationDuration);
-                fadeInAnimation.EasingFunction = new CubicBezierEase { EasingMode = EasingMode.EaseOut };
-                fadeInAnimation.FillBehavior = FillBehavior.Stop;
-
-                mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
+                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
                 await Task.Delay(animationDuration);
-                mainWindow.BackgroundGrid.Background.BeginAnimation(Brush.OpacityProperty, null);
-                mainWindow.BackgroundGrid.Background.Opacity = Setting2.BackgroundOpacity;
+                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
 
+                backgroundPresenter.Background.Opacity = Setting2.BackgroundOpacity;
                 messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
             }
         }
@@ -164,16 +165,17 @@ namespace DGP.Genshin.Core.Background
             }
             private BitmapImage GetBitmapImageFromPath(string randomPath)
             {
-                BitmapImage image;
+                BitmapImage image = new();
                 try
                 {
-                    using FileStream stream = new(randomPath, FileMode.Open);
-
-                    image = new();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = stream;
-                    image.EndInit();
+                    using (FileStream stream = new(randomPath, FileMode.Open))
+                    {
+                        using (image.AsDisposableInit())
+                        {
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = stream;
+                        }
+                    }
                 }
                 catch
                 {
@@ -181,6 +183,35 @@ namespace DGP.Genshin.Core.Background
                 }
 
                 return image;
+            }
+        }
+
+        [SwitchableImplementation(typeof(IBackgroundProvider), "Xunkong.Wallpaper", "寻空壁纸 实现")]
+        internal class XunkongWallpaperProvider : IBackgroundProvider
+        {
+            private const string Api = "https://api.xunkong.cc/v0.1/genshin/wallpaper/redirect/random";
+            // HttpClient is intended to be instantiated once per application, rather than per-use.
+            private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });
+
+            public async Task<BitmapImage?> GetNextBitmapImageAsync()
+            {
+                try
+                {
+                    using (HttpResponseMessage resp = await LazyHttpClient.Value.GetAsync(Api, HttpCompletionOption.ResponseContentRead))
+                    {
+                        Stream result = await resp.Content.ReadAsStreamAsync();
+                        BitmapImage bitmapImage = new();
+                        using (bitmapImage.AsDisposableInit())
+                        {
+                            bitmapImage.StreamSource = result;
+                        }
+                        return bitmapImage;
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
     }

@@ -2,6 +2,7 @@
 using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
+using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
@@ -9,7 +10,7 @@ using OfficeOpenXml;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
-using Snap.Data.Utility;
+using Snap.Data.Utility.Extension;
 using Snap.Exception;
 using Snap.Reflection;
 using System;
@@ -152,8 +153,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                 importData.Uid ??= item.Uid;
                 string? type = item.GachaType;
                 //refactor 400 type here to redirect list addition
-                type = type == "400" ? "301" : type;
-                _ = type ?? throw new UnexpectedNullException("卡池类型不应为 null");
+                type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
+                Requires.NotNull(type!, nameof(type));
                 if (!importData.Data.ContainsKey(type))
                 {
                     importData.Data.Add(type, new());
@@ -247,7 +248,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                             string? type = item.GachaType;
                             //refactor 400 type here to prevent 400 list json file creation
                             type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
-                            _ = type ?? throw new UnexpectedNullException("卡池类型不应为 null");
+                            Requires.NotNull(type!, nameof(type));
                             if (!importData.Data.ContainsKey(type))
                             {
                                 importData.Data.Add(type, new());
@@ -451,24 +452,23 @@ namespace DGP.Genshin.Service.GachaStatistic
         }
 
         #region Excel
-        public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaData)
+        public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaDataCollection)
         {
             lock (processing)
             {
-                EnsureGachaItemId(uid, gachaData);
+                EnsureGachaItemId(uid, gachaDataCollection);
 
-                if (gachaData[uid] is not null)
+                if (gachaDataCollection[uid] is GachaData gachaData)
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                    //FileStream can't be disposed by ExcelPackage,so we need to dispose it ourselves
                     using (FileStream fs = File.Create(fileName))
                     {
                         using (ExcelPackage package = new(fs))
                         {
-                            foreach (string pool in gachaData[uid]!.Keys)
+                            foreach (string pool in gachaData.Keys)
                             {
                                 ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
-                                IEnumerable<GachaLogItem>? logs = gachaData[uid]![pool];
+                                IEnumerable<GachaLogItem>? logs = gachaData[pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
                                 InitializeGachaLogSheetHeader(sheet);
@@ -477,7 +477,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 sheet.View.FreezePanes(2, 1);
                             }
 
-                            AddInterchangeableSheet(package, gachaData[uid]!);
+                            AddInterchangeableSheet(package, gachaData);
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";
@@ -595,7 +595,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 3 => System.Drawing.Color.FromArgb(255, 81, 128, 203),
                 4 => System.Drawing.Color.FromArgb(255, 161, 86, 224),
                 5 => System.Drawing.Color.FromArgb(255, 188, 105, 50),
-                _ => throw new ArgumentOutOfRangeException(nameof(rank)),
+                _ => throw Assumes.NotReachable(),
             };
         }
         #endregion

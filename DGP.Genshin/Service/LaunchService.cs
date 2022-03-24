@@ -282,18 +282,17 @@ namespace DGP.Genshin.Service
 
         public void SaveLaunchScheme(LaunchScheme? scheme)
         {
-            if (scheme is null)
+            if (scheme is not null)
             {
-                return;
-            }
-            GameConfig[GeneralSection][Channel] = scheme.Channel;
-            GameConfig[GeneralSection][CPS] = scheme.CPS;
-            GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
+                GameConfig[GeneralSection][Channel] = scheme.Channel;
+                GameConfig[GeneralSection][CPS] = scheme.CPS;
+                GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
 
-            string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-            string configFilePath = Path.Combine(unescapedGameFolder, ConfigFileName);
-            //new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
-            new FileIniDataParser().WriteFile(configFilePath, GameConfig, new UTF8Encoding(false));
+                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
+                string configFilePath = Path.Combine(unescapedGameFolder, ConfigFileName);
+                //new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
+                new FileIniDataParser().WriteFile(configFilePath, GameConfig, new UTF8Encoding(false));
+            }
         }
 
         public ObservableCollection<GenshinAccount> LoadAllAccount()

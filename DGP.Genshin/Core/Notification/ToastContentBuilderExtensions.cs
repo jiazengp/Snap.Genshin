@@ -29,7 +29,6 @@ namespace DGP.Genshin.Core.Notification
                     {
                         builder.Show();
                     }
-
                 }
                 catch (COMException) { }
                 catch (InvalidCastException) { }
@@ -58,7 +57,6 @@ namespace DGP.Genshin.Core.Notification
                     {
                         builder.Show();
                     }
-
                 }
                 catch (COMException) { }
                 catch (InvalidCastException) { }

@@ -8,6 +8,10 @@
 主程序使用了 WPF 作为基础 UI 框架  
 *由于 Win UI 3 目前阶段存在大量  BUG  故暂时不使用*
 
+## 实现文档
+
+[Snap Genshin 接口与实现](ApiDoc)
+
 ## 克隆Snap Genshin 主项目
 
 ### 对于组织内成员
@@ -93,23 +97,11 @@ if __name__ == '__main__':
     cmd('xcopy Metadata\\*.json Build\\Debug\\net6.0-windows10.0.18362.0\\Metadata\\ /e /y')
 ```
 
-脚本作用说明：
 
-> 1. 克隆库
-
-- 克隆 `git clone https://github.com/DGP-Studio/Snap.Genshin.git`
-
-- 克隆子模块（`git_submodule`方法）
-
-> 2. 生成的预准备
-
-- 取消私有库 `DGP.Genshin.Secret` 的引用和 `DGP.Snap.AutoVersion.exe` 的编译事件
-
-- 复制Metadata到Debug生成目录
 
 ## 生成与调试
 
-要求：`VS2022` ，工作负荷：`.NET 桌面开发（未来需要：使用C++的桌面开发，通用Windows平台开发）`
+要求：`VS2022` ，工作负荷：`.NET 桌面开发（未来可能需要：使用C++的桌面开发，通用Windows平台开发）`
 如果未在下方说明，正常的项目均可按常见的调试方法调试
 
 ### 调试 DGP.Genshin

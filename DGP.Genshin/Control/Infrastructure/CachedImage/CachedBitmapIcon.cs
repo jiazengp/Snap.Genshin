@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Threading;
+using Snap.Data.Utility.Extension;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -154,10 +155,11 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                         try
                         {
                             BitmapImage imageSource = new();
-                            imageSource.BeginInit();
-                            //imageSource.CreateOptions = BitmapCreateOptions.None;
-                            imageSource.StreamSource = stream;
-                            imageSource.EndInit();
+                            using (imageSource.AsDisposableInit())
+                            {
+                                //imageSource.CreateOptions = BitmapCreateOptions.None;
+                                imageSource.StreamSource = stream;
+                            }
                             _image.Source = imageSource;
                             _opacityMask.ImageSource = imageSource;
                         }

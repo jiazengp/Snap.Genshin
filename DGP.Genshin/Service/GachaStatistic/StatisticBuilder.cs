@@ -23,12 +23,6 @@ namespace DGP.Genshin.Service.GachaStatistic
     /// </summary>
     internal class StatisticBuilder
     {
-        private const double NonWeaponProb5 = 1.6 / 100.0;
-        private const double NonWeaponProb4 = 13 / 100.0;
-        private const int NonWeaponGranteeCount5 = 90;
-        private const double WeaponProb5 = 1.85 / 100.0;
-        private const double WeaponProb4 = 14.5 / 100.0;
-        private const int WeaponGranteeCount5 = 80;
         private const string RankFive = "5";
         private const string RankFour = "4";
         private const string RankThree = "3";
@@ -36,33 +30,10 @@ namespace DGP.Genshin.Service.GachaStatistic
         private const string MaxGuarantee = "大保底";
 
         /// <summary>
-        /// 卡池概率配置选项
-        /// </summary>
-        private record BannerInformation
-        {
-            public double Prob5 { get; set; }
-            public double Prob4 { get; set; }
-            public int GranteeCount { get; set; }
-        }
-
-        /// <summary>
         /// 表示一个对 <see cref="T"/> 类型的计数器
         /// </summary>
         /// <typeparam name="T"></typeparam>
         private class CounterOf<T> : Dictionary<string, T> { }
-
-        private static readonly BannerInformation NonWeaponInfo = new()
-        {
-            Prob5 = NonWeaponProb5,
-            Prob4 = NonWeaponProb4,
-            GranteeCount = NonWeaponGranteeCount5
-        };
-        private static readonly BannerInformation WeaponInfo = new()
-        {
-            Prob5 = WeaponProb5,
-            Prob4 = WeaponProb4,
-            GranteeCount = WeaponGranteeCount5
-        };
 
         private readonly MetadataViewModel metadataViewModel;
         public StatisticBuilder(MetadataViewModel metadataViewModel)
@@ -79,19 +50,25 @@ namespace DGP.Genshin.Service.GachaStatistic
         public Statistic ToStatistic(GachaData data, string uid)
         {
             Logger.LogStatic($"convert data of {uid} to statistic view");
+
             List<StatisticItem> characters = ToStatisticTotalCountList(data, "角色");
             List<StatisticItem> weapons = ToStatisticTotalCountList(data, "武器");
+
             Statistic statistic = new()
             {
                 Uid = uid,
+
                 Characters5 = characters.Where(i => i.StarUrl?.ToInt32Rank() == 5).ToList(),
                 Characters4 = characters.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
+
                 Weapons5 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 5).ToList(),
                 Weapons4 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
                 Weapons3 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 3).ToList(),
-                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间", NonWeaponInfo),
-                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形", WeaponInfo),
-                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动", NonWeaponInfo),
+
+                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间"),
+                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形"),
+                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动"),
+
                 SpecificBanners = ToSpecificBanners(data)
             };
             return statistic;
@@ -104,13 +81,19 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private StatisticBanner ToStatisticBanner(GachaData data, string type, string name, BannerInformation info)
+        private StatisticBanner ToStatisticBanner(GachaData data, string type, string name)
         {
             return data.TryGetValue(type, out List<GachaLogItem>? list)
                 ? BuildStatisticBanner(name, list!)
                 : (new() { CurrentName = name });
         }
 
+        /// <summary>
+        /// 构造统计卡池
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
         private StatisticBanner BuildStatisticBanner(string name, List<GachaLogItem> list)
         {
             //上次出货抽数
@@ -121,21 +104,41 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 TotalCount = list.Count,
                 CurrentName = name,
+
                 CountSinceLastStar5 = index5 == -1 ? 0 : index5,
                 CountSinceLastStar4 = index4 == -1 ? 0 : index4,
 
                 Star5Count = list.Count(i => i.Rank == RankFive),
                 Star4Count = list.Count(i => i.Rank == RankFour),
-                Star3Count = list.Count(i => i.Rank == RankThree),
+                Star3Count = list.Count(i => i.Rank == RankThree)
             };
-            if (list.Count > 0)
-            {
-                banner.StartTime = list.Last().Time;
-                banner.EndTime = list.First().Time;
-            }
-            banner.Star5List = ListOutStatisticStar5(list, banner.Star5Count);
+            SetStatisticBannerTime(banner, list);
+            SetStatisticBannerStar5List(banner, list, banner.Star5Count);
+            SetStatisticBannerBasicStat(banner);
+            SetStatisticBannerProbStat(banner);
+
+            return banner;
+        }
+
+        /// <summary>
+        /// 设置卡池的概率数据
+        /// </summary>
+        /// <param name="banner"></param>
+        private void SetStatisticBannerProbStat(StatisticBanner banner)
+        {
+            banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
+            banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
+            banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
+        }
+
+        /// <summary>
+        /// 设置卡池的基础统计数据
+        /// </summary>
+        /// <param name="banner"></param>
+        private void SetStatisticBannerBasicStat(StatisticBanner banner)
+        {
             //确保至少有一个五星
-            if (banner.Star5List.Count > 0)
+            if (banner.Star5List?.Count > 0)
             {
                 banner.AverageGetStar5 = banner.Star5List.Sum(i => i.Count) * 1.0 / banner.Star5List.Count;
                 banner.MaxGetStar5Count = banner.Star5List.Max(i => i.Count);
@@ -149,12 +152,20 @@ namespace DGP.Genshin.Service.GachaStatistic
                 banner.MinGetStar5Count = 0;
                 banner.NextGuaranteeType = MinGuarantee;
             }
+        }
 
-            banner.Star5Prob = banner.Star5Count * 1.0 / banner.TotalCount;
-            banner.Star4Prob = banner.Star4Count * 1.0 / banner.TotalCount;
-            banner.Star3Prob = banner.Star3Count * 1.0 / banner.TotalCount;
-
-            return banner;
+        /// <summary>
+        /// 从卡池列表中推断开始与结束时间
+        /// </summary>
+        /// <param name="banner"></param>
+        /// <param name="list"></param>
+        private void SetStatisticBannerTime(StatisticBanner banner, List<GachaLogItem> list)
+        {
+            if (list.Count > 0)
+            {
+                banner.StartTime = list.Last().Time;
+                banner.EndTime = list.First().Time;
+            }
         }
 
         /// <summary>
@@ -168,15 +179,15 @@ namespace DGP.Genshin.Service.GachaStatistic
             CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                _ = list ?? throw new UnexpectedNullException("卡池列表不应为 null");
+                Requires.NotNull(list!, nameof(list));
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
-                        _ = i.Name ?? throw new UnexpectedNullException("卡池物品名称不应为 null");
+                        Requires.NotNull(i.Name!, nameof(i.Name));
                         if (!counter.ContainsKey(i.Name))
                         {
-                            _ = i.Rank ?? throw new UnexpectedNullException("卡池物品稀有度不应为 null");
+                            Requires.NotNull(i.Rank!, nameof(i.Rank));
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,
@@ -224,7 +235,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                 .ThenByDescending(i => i.Count)
                 .ToList();
         }
-        private List<StatisticItem5Star> ListOutStatisticStar5(IEnumerable<GachaLogItem> items, int star5Count)
+        
+        private void SetStatisticBannerStar5List(StatisticBanner banner, IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm
             //search from the earliest time
@@ -256,7 +268,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 reversedItems.RemoveRange(0, count);
             }
             counter.Reverse();
-            return counter;
+            banner.Star5List = counter;
         }
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
@@ -331,10 +343,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
             if (matched is not null)
             {
-                newItem.StarUrl = matched.Star;
-                newItem.Source = matched.Source;
-                newItem.Name = matched.Name;
-                newItem.Badge = matched.GetBadge();
+                newItem.CopyFromPrimitive(matched);
 
                 if (banner?.UpStar5List?.FirstOrDefault(item => item.Name == matched.Name) is StatisticItem item5)
                 {
@@ -349,7 +358,6 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 newItem.Name = item.Name;
                 newItem.StarUrl = item.Rank is null ? null : StarHelper.FromInt32Rank(int.Parse(item.Rank));
-                new Event("Unsupported Item", item.Name ?? "No name").TrackAs(Event.GachaStatistic);
             }
             //? fix issue where crashes when no banner exists
             banner?.Items.Add(newItem);

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DGP.Genshin.Helper.Extension;
+using Microsoft.Win32;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,13 +24,17 @@ namespace DGP.Genshin.Helper
             }
         }
 
+        /// <summary>
+        /// 获取设备的UUID
+        /// </summary>
+        /// <returns>设备的UUID</returns>
         private static string GetUniqueUserID()
         {
             string UserName = Environment.UserName;
             object? MachineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, UserName);
             byte[] bytes = Encoding.UTF8.GetBytes(UserName + MachineGuid);
             byte[] hash = MD5.Create().ComputeHash(bytes);
-            return BitConverter.ToString(hash).Replace("-", "");
+            return hash.Stringify();
         }
     }
 }

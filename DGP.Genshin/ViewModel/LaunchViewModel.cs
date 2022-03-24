@@ -2,6 +2,7 @@
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.Factory.Abstraction;
+using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction.Launching;
@@ -181,17 +182,18 @@ namespace DGP.Genshin.ViewModel
             {
                 await MatchAccountAsync();
                 CurrentScheme = KnownSchemes
-                    .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+                    .First(item => item.CPS == launchService.GameConfig["General"]["cps"]);
             }
             else
             {
                 Setting2.LauncherPath.Set(null);
-                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+
+                await this.ExecuteOnUIAsync(new ContentDialog()
                 {
                     Title = "请尝试重新选择启动器路径",
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
-                }.ShowAsync).Task.Unwrap();
+                }.ShowAsync);
                 messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }
@@ -277,12 +279,12 @@ namespace DGP.Genshin.ViewModel
             else
             {
                 Setting2.LauncherPath.Set(null);
-                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                await this.ExecuteOnUIAsync(new ContentDialog()
                 {
                     Title = "请尝试重新选择启动器路径",
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
-                }.ShowAsync).Task.Unwrap();
+                }.ShowAsync);
                 messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }

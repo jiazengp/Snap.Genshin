@@ -1,5 +1,5 @@
 ﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
-using DGP.Genshin.DataModel.MiHoYo2;
+using DGP.Genshin.DataModel.Reccording;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;

@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
+using Snap.Data.Utility.Extension;
 using System;
 using System.IO;
 using System.Threading;
@@ -80,9 +81,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             BitmapImage bitmapImage = new();
             try
             {
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memoryStream;
-                bitmapImage.EndInit();
+                using (bitmapImage.AsDisposableInit())
+                {
+                    bitmapImage.StreamSource = memoryStream;
+                }  
             }
             catch { }
 

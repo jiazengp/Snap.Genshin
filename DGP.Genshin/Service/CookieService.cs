@@ -5,6 +5,7 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.UserInfo;
 using DGP.Genshin.Service.Abstraction;
+using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
@@ -177,7 +178,7 @@ namespace DGP.Genshin.Service
 
         public string CurrentCookie
         {
-            get => currentCookie ?? throw new UnexpectedNullException("Cookie 不应为 null");
+            get => Requires.NotNull(currentCookie!, nameof(currentCookie));
 
             private set
             {
@@ -195,7 +196,7 @@ namespace DGP.Genshin.Service
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    throw new SnapGenshinInternalException("Snap Genshin 无法访问所在的根目录，请将应用程序移动到别处，或尝试以管理员权限启动。");
+                    throw new SnapGenshinInternalException("Snap Genshin 无法访问当前目录，请将应用程序移动到别处。");
                 }
             }
         }

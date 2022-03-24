@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace DGP.Genshin.DataModel.Update
+namespace DGP.Genshin.DataModel.Updating
 {
     public class UpdateInfomation
     {

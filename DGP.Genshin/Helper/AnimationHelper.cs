@@ -22,5 +22,13 @@ namespace DGP.Genshin.Helper
                 EasingFunction = new PowerEase { EasingMode = EasingMode.EaseInOut }
             };
         }
+
+        public static DoubleAnimation CreateAnimation<TEasingFunction>(double toValue, double milliseconds=200,FillBehavior fillBehavior = FillBehavior.Stop) where TEasingFunction : EasingFunctionBase, new()
+        {
+            return new(toValue, new Duration(TimeSpan.FromMilliseconds(milliseconds)), fillBehavior)
+            {
+                EasingFunction = new TEasingFunction { EasingMode = EasingMode.EaseInOut }
+            };
+        }
     }
 }

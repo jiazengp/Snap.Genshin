@@ -9,6 +9,7 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstraction.Setting;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -134,8 +135,8 @@ namespace DGP.Genshin
 
         internal static object AutoWired(Type type)
         {
-            return Current.serviceManager.Services!.GetService(type)
-                ?? throw new SnapGenshinInternalException($"无法找到 {type} 类型的对象。");
+            object? service = Current.serviceManager.Services!.GetService(type);
+            return Requires.NotNull(service!, nameof(service));
         }
 
         /// <summary>
@@ -144,10 +145,10 @@ namespace DGP.Genshin
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
-        internal static T AutoWired<T>()
+        internal static T AutoWired<T>() where T : class
         {
-            return Current.serviceManager.Services!.GetService<T>()
-                ?? throw new SnapGenshinInternalException($"无法找到 {typeof(T)} 类型的对象。");
+            T? service = Current.serviceManager.Services!.GetService<T>();
+            return Requires.NotNull(service!, nameof(service));
         }
         #endregion
 

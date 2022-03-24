@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Threading;
+using Snap.Data.Utility.Extension;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,10 +35,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private static void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            DownloadImageAsync((CachedImage)obj, e.NewValue as string).Forget();
+            HitImageAsync((CachedImage)obj, e.NewValue as string).Forget();
         }
 
-        private static async Task DownloadImageAsync(CachedImage cachedImage, string? url)
+        private static async Task HitImageAsync(CachedImage cachedImage, string? url)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -55,11 +56,12 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                         cachedImage.Source = null;
                         return;
                     }
-                    bitmapImage.BeginInit();
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                    bitmapImage.StreamSource = memoryStream;
-                    bitmapImage.EndInit();
+                    using (bitmapImage.AsDisposableInit())
+                    {
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.CreateOptions = cachedImage.CreateOptions;
+                        bitmapImage.StreamSource = memoryStream;
+                    }
                     bitmapImage.Freeze();
                     cachedImage.Source = bitmapImage;
                 }

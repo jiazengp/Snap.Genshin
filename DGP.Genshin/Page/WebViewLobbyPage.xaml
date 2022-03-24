@@ -129,7 +129,7 @@
         </Grid.RowDefinitions>
         <ui:CommandBar Background="Transparent">
             <ui:CommandBar.Content>
-                <TextBlock Text="下次打开程序时生效" Margin="12,12,0,0"/>
+                <TextBlock Text="导航栏处的入口将在下次打开程序时生效" Margin="12,12,0,0"/>
             </ui:CommandBar.Content>
 
             <ui:AppBarButton Label="常用脚本" Command="{Binding CommonScriptCommand}">

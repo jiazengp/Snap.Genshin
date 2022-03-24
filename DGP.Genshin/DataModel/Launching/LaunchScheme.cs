@@ -1,11 +1,9 @@
-﻿namespace DGP.Genshin.DataModel.Launching
+﻿using Microsoft;
+
+namespace DGP.Genshin.DataModel.Launching
 {
     /// <summary>
     /// 启动方案
-    /// 官服
-    /// [General] channel = 1 cps = mihoyo sub_channel = 1
-    /// B服
-    /// [General] channel = 14 cps = bilibili sub_channel = 0
     /// </summary>
     public record LaunchScheme
     {
@@ -21,5 +19,16 @@
         public string Channel { get; set; }
         public string CPS { get; set; }
         public string SubChannel { get; set; }
+
+        public SchemeType GetSchemeType()
+        {
+            return (Channel, SubChannel) switch
+            {
+                ("1", "1") => SchemeType.Officical,
+                ("14", "0") => SchemeType.Bilibili,
+                ("1", "0") => SchemeType.Mihoyo,
+                (_, _) => throw Assumes.NotReachable()
+            };
+        }
     }
 }

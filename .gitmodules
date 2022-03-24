@@ -58,3 +58,6 @@
 [submodule "Plugins/SG.Plugin.Achievement.Exporter"]
 	path = Plugins/SG.Plugin.Achievement.Exporter
 	url = https://github.com/DGP-Studio/SG.Plugin.Achievement.Exporter.git
+[submodule "Plugins/Genshin.Launcher.Plus.SE.Plugin"]
+	path = Plugins/Genshin.Launcher.Plus.SE.Plugin
+	url = https://github.com/DawnFz/Genshin.Launcher.Plus.SE.Plugin.git

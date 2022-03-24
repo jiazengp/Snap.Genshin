@@ -17,5 +17,13 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
         {
             return $"{Time}-{Name}";
         }
+
+        public void CopyFromPrimitive(Primitive matched)
+        {
+            StarUrl = matched.Star;
+            Source = matched.Source;
+            Name = matched.Name;
+            Badge = matched.GetBadge();
+        }
     }
 }

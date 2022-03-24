@@ -1,4 +1,4 @@
-﻿using DGP.Genshin.DataModel.Update;
+﻿using DGP.Genshin.DataModel.Updating;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction.Updating

@@ -35,11 +35,11 @@ namespace DGP.Genshin.DataModel.Character
         public string? AscensionStat { get; set; }
         public string? AscensionStatValue { get; set; }
         public Talent? Talent { get; set; }
-        public Boss? Boss { get; set; }
-        public GemStone? GemStone { get; set; }
-        public Local? Local { get; set; }
-        public Monster? Monster { get; set; }
-        public Weekly? Weekly { get; set; }
+        public Material.Material? Boss { get; set; }
+        public Material.Material? GemStone { get; set; }
+        public Material.Material? Local { get; set; }
+        public Material.Material? Monster { get; set; }
+        public Material.Material? Weekly { get; set; }
 
         public override string? GetBadge()
         {

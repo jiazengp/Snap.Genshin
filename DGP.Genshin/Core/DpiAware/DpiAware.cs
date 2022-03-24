@@ -20,6 +20,7 @@ namespace DGP.Genshin.Core.DpiAware
         public static double GetScaleRatio(Window window)
         {
             HwndSource? hwndSource = PresentationSource.FromVisual(window) as HwndSource;
+            //TODO: verify use hwndSource there
             double wpfDpi = 96.0 * PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice.M11;
 
             if (IsSupported == false)
