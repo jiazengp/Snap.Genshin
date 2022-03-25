@@ -16,7 +16,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using Snap.Core.Logging;
-using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
@@ -27,6 +26,8 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
+using System.Windows.Media;
+using WPFUI.Appearance;
 
 namespace DGP.Genshin
 {
@@ -144,7 +145,6 @@ namespace DGP.Genshin
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        /// <exception cref="SnapGenshinInternalException">对应的服务类型未注册</exception>
         internal static T AutoWired<T>() where T : class
         {
             T? service = Current.serviceManager.Services!.GetService<T>();
@@ -282,20 +282,9 @@ namespace DGP.Genshin
         }
         private void UpdateAppTheme()
         {
-            ThemeManager.Current.ActualAccentColorChanged += OnActualAccentColorChanged;
             ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
             //set app accent color to correct color.
-            WPFUI.Theme.Manager.ChangeAccentColor(ThemeManager.Current.ActualAccentColor, WPFUI.Theme.Style.Unknown);
-        }
-        private void OnActualAccentColorChanged(ThemeManager sender, object e)
-        {
-            //only notify once
-            ThemeManager.Current.ActualAccentColorChanged -= OnActualAccentColorChanged;
-
-            new ToastContentBuilder()
-                .AddText("检测到系统强调色已更改")
-                .AddText("重启程序以正常显示颜色")
-                .SafeShow();
+            Accent.Change(ThemeManager.Current.ActualAccentColor, ThemeType.Unknown);
         }
         #endregion
     }

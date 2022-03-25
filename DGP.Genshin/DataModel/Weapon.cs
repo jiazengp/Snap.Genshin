@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.DataModel.Material;
-
-namespace DGP.Genshin.DataModel
+﻿namespace DGP.Genshin.DataModel
 {
     public class Weapon : Primitive
     {

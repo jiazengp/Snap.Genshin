@@ -121,9 +121,9 @@ namespace DGP.Genshin.Service
                 TotalCount = totalCount;
                 Info = ks?.Source?.ToShortFileName();
             }
-            public int CurrentCount { get; set; }
-            public int TotalCount { get; set; }
-            public string? Info { get; set; }
+            public int CurrentCount { get; init; }
+            public int TotalCount { get; init; }
+            public string? Info { get; init; }
         }
     }
 }

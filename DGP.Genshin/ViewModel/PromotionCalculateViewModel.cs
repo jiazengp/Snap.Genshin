@@ -12,7 +12,6 @@ using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
-using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -327,16 +326,16 @@ namespace DGP.Genshin.ViewModel
             Calculable calculable = SelectedAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => Consumption?.AvatarConsume ?? throw new SnapGenshinInternalException($"{nameof(Consumption.AvatarConsume)} 不应为 null"),
-                SkillTag => Consumption?.AvatarSkillConsume ?? throw new SnapGenshinInternalException($"{nameof(Consumption.AvatarSkillConsume)} 不应为 null"),
-                _ => throw new SnapGenshinInternalException($"{nameof(option)} 参数不正确")
+                AvatarTag => Requires.NotNull(Consumption?.AvatarConsume!, nameof(Consumption.AvatarConsume)),
+                SkillTag => Requires.NotNull(Consumption?.AvatarSkillConsume!, nameof(Consumption.AvatarSkillConsume)),
+                _ => throw Assumes.NotReachable()
             };
 
             string category = option switch
             {
                 AvatarTag => "角色消耗",
                 SkillTag => "天赋消耗",
-                _ => throw new SnapGenshinInternalException($"{nameof(option)} 参数不正确")
+                _ => throw Assumes.NotReachable()
             };
 
             if (await ConfirmAddAsync(calculable.Name!, category))
@@ -351,16 +350,16 @@ namespace DGP.Genshin.ViewModel
             Calculable calculable = SelectedFullAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => FullAvatarConsumption?.AvatarConsume ?? throw new SnapGenshinInternalException($"{nameof(FullAvatarConsumption.AvatarConsume)} 不应为 null"),
-                SkillTag => FullAvatarConsumption?.AvatarSkillConsume ?? throw new SnapGenshinInternalException($"{nameof(FullAvatarConsumption.AvatarSkillConsume)} 不应为 null"),
-                _ => throw new SnapGenshinInternalException($"{nameof(option)} 参数不正确")
+                AvatarTag => Requires.NotNull(FullAvatarConsumption?.AvatarConsume!, nameof(FullAvatarConsumption.AvatarConsume)),
+                SkillTag => Requires.NotNull(FullAvatarConsumption?.AvatarSkillConsume!, nameof(FullAvatarConsumption.AvatarSkillConsume)),
+                _ => throw Assumes.NotReachable()
             };
 
             string category = option switch
             {
                 AvatarTag => "角色消耗",
                 SkillTag => "天赋消耗",
-                _ => throw new SnapGenshinInternalException($"{nameof(option)} 参数不正确")
+                _ => throw Assumes.NotReachable()
             };
 
             if (await ConfirmAddAsync(calculable.Name!, category))
@@ -371,8 +370,8 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task AddWeaponMaterialToListAsync()
         {
-            Calculable calculable = AvatarDetailData?.Weapon ?? throw new SnapGenshinInternalException($"{nameof(AvatarDetailData.Weapon)} 不应为 null");
-            List<ConsumeItem> items = Consumption?.WeaponConsume ?? throw new SnapGenshinInternalException($"{nameof(Consumption.WeaponConsume)} 不应为 null");
+            Calculable calculable = Requires.NotNull(AvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
+            List<ConsumeItem> items = Requires.NotNull(Consumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
@@ -382,8 +381,8 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task AddFullWeaponMaterialToListAsync()
         {
-            Calculable calculable = FullWeaponAvatarDetailData?.Weapon ?? throw new SnapGenshinInternalException($"{nameof(AvatarDetailData.Weapon)} 不应为 null");
-            List<ConsumeItem> items = FullWeaponConsumption?.WeaponConsume ?? throw new SnapGenshinInternalException($"{nameof(Consumption.WeaponConsume)} 不应为 null");
+            Calculable calculable = Requires.NotNull(FullWeaponAvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
+            List<ConsumeItem> items = Requires.NotNull(FullWeaponConsumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {

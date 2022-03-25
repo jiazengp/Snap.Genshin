@@ -54,19 +54,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Core.Mvvm", "Common\Sn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.HutaoAPI", "DGP.Genshin.HutaoAPI\DGP.Genshin.HutaoAPI.csproj", "{E9551BCB-5788-4755-8901-CD579A524A4D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DGP.Genshin.Secret", "Common\DGP.Genshin.Secret\DGP.Genshin.Secret.shproj", "{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Reflection", "Common\Snap.Reflection\Snap.Reflection.csproj", "{A4020CA1-B975-437F-84A3-6FF46C195D4F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Achievement.Exporter.Plugin", "Plugins\SG.Plugin.Achievement.Exporter\src\Achievement.Exporter.Plugin.csproj", "{EF16C76B-B7B6-4EE0-AA0F-1533699847C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genshin.Launcher.Plus.SE.Plugin", "Plugins\Genshin.Launcher.Plus.SE.Plugin\Genshin.Launcher.Plus.SE.Plugin.csproj", "{1FB09BF8-34BF-4125-9227-14D369913D8D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.SourceGeneration", "DGP.Genshin.SourceGeneration\DGP.Genshin.SourceGeneration.csproj", "{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{bff58b44-5e4a-4f3c-9d7a-0733c0d798b8}*SharedItemsImports = 13
-		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{e4fac04f-49b9-42aa-b31e-6c7a0dbeb1fd}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -266,6 +262,14 @@ Global
 		{1FB09BF8-34BF-4125-9227-14D369913D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FB09BF8-34BF-4125-9227-14D369913D8D}.Release|x64.ActiveCfg = Release|x64
 		{1FB09BF8-34BF-4125-9227-14D369913D8D}.Release|x64.Build.0 = Release|x64
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{01BDA7DA-4F55-4C68-B65B-A8753E1616E8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -286,7 +290,6 @@ Global
 		{D09A8D83-7406-4328-9953-BBCF0E5FFDA1} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{B2759794-FDCD-4F6B-A24A-D2A35203EBD3} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
-		{BFF58B44-5E4A-4F3C-9D7A-0733C0D798B8} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{A4020CA1-B975-437F-84A3-6FF46C195D4F} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{EF16C76B-B7B6-4EE0-AA0F-1533699847C4} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 		{1FB09BF8-34BF-4125-9227-14D369913D8D} = {402B9B12-B187-47C3-9726-34B4931E77D7}

@@ -5,7 +5,6 @@ using DGP.Genshin.Service.Abstraction.GachaStatistic;
 using Microsoft;
 using Snap.Core.Logging;
 using Snap.Data.Primitive;
-using Snap.Exception;
 using Snap.Net.QueryString;
 using System;
 using System.Collections.Generic;
@@ -101,7 +100,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
-                    _ = log.List ?? throw new SnapGenshinInternalException("祈愿记录列表不应为null");
+                    Requires.NotNull(log.List!, nameof(log.List));
 
                     foreach (GachaLogItem item in log.List)
                     {
@@ -127,7 +126,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 else
                 {
                     WorkingUid = null;
-                    throw new InvalidOperationException("提供的Url无效");
+                    Verify.FailOperation("提供的Url无效");
                 }
                 if (IsFetchDelayEnabled)
                 {
@@ -174,7 +173,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 else
                 {
                     WorkingUid = null;
-                    throw new SnapGenshinInternalException("提供的Url无效");
+                    Verify.FailOperation("提供的Url无效");
                 }
                 if (IsFetchDelayEnabled)
                 {

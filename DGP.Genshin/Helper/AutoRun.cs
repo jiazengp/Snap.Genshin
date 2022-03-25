@@ -1,5 +1,5 @@
-﻿using Microsoft.Win32;
-using Snap.Exception;
+﻿using Microsoft;
+using Microsoft.Win32;
 using System.Diagnostics;
 
 namespace DGP.Genshin.Helper
@@ -23,12 +23,12 @@ namespace DGP.Genshin.Helper
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 RegistryKey? run = currentUser.CreateSubKey(RunPath);
-                _ = run ?? throw new SnapGenshinInternalException("创建注册表项失败");
+                Requires.NotNull(run!, nameof(run));
 
                 if (value)
                 {
                     string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
-                    _ = appFileName ?? throw new SnapGenshinInternalException("无法找到主程序集");
+                    Requires.NotNull(appFileName!, nameof(appFileName));
                     run.SetValue(AppName, appFileName);
                 }
                 else

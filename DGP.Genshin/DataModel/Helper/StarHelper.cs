@@ -1,4 +1,4 @@
-﻿using Snap.Exception;
+﻿using Microsoft;
 using System;
 using System.Windows.Media;
 
@@ -21,7 +21,7 @@ namespace DGP.Genshin.DataModel.Helper
                 3 => star3Url,
                 4 => star4Url,
                 5 or 105 => star5Url,
-                _ => throw new SnapGenshinInternalException($"稀有度不存在：{rank}")
+                _ => throw Assumes.NotReachable()
             };
         }
 

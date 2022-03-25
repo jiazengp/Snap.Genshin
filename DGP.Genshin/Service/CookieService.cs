@@ -15,7 +15,6 @@ using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
 using Snap.Data.Utility;
-using Snap.Exception;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -196,7 +195,7 @@ namespace DGP.Genshin.Service
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    throw new SnapGenshinInternalException("Snap Genshin 无法访问当前目录，请将应用程序移动到别处。");
+                    Verify.FailOperation("Snap Genshin 无法访问当前目录，请将应用程序移动到别处。");
                 }
             }
         }
@@ -252,7 +251,7 @@ namespace DGP.Genshin.Service
             }
             catch (IOException)
             {
-                throw new SnapGenshinInternalException("cookie.dat 文件被占用，保存cookie失败");
+                Verify.FailOperation("cookie.dat 文件被占用，保存cookie失败");
             }
         }
 

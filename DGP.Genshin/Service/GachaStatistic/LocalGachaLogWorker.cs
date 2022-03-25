@@ -11,7 +11,6 @@ using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
 using Snap.Data.Utility.Extension;
-using Snap.Exception;
 using Snap.Reflection;
 using System;
 using System.Collections.Generic;
@@ -234,7 +233,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             return await ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
             {
-                _ = file ?? throw new SnapGenshinInternalException("不正确的祈愿记录文件格式");
+                Requires.NotNull(file!, nameof(file));
                 ImportableGachaData importData = new();
                 importData.Uid = file.Info!.Uid;
                 importData.Data = new();

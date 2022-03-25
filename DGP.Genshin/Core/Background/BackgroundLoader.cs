@@ -4,22 +4,19 @@ using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction.Setting;
+using Microsoft;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
 using Snap.Data.Utility.Extension;
-using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -80,13 +77,15 @@ namespace DGP.Genshin.Core.Background
                 await Task.Delay(animationDuration);
                 backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
 
+
                 backgroundPresenter.Background = new ImageBrush
                 {
                     ImageSource = image,
                     Stretch = Stretch.UniformToFill,
                     Opacity = 0
                 };
-                
+
+
                 DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(Setting2.BackgroundOpacity, animationDuration);
                 //Fade in new image
                 backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
@@ -130,7 +129,14 @@ namespace DGP.Genshin.Core.Background
         }
         public void Receive(BackgroundChangeRequestMessage message)
         {
-            LoadNextWallpaperAsync().Forget();
+            try
+            {
+                LoadNextWallpaperAsync().Forget();
+            }
+            catch (Exception ex)
+            {
+                this.Log(ex);
+            }
         }
 
         [SwitchableImplementation(typeof(IBackgroundProvider))]
@@ -179,40 +185,13 @@ namespace DGP.Genshin.Core.Background
                 }
                 catch
                 {
-                    throw new SnapGenshinInternalException($"无法读取图片：{randomPath}");
+                    Verify.FailOperation($"无法读取图片：{randomPath}");
                 }
 
                 return image;
             }
         }
 
-        [SwitchableImplementation(typeof(IBackgroundProvider), "Xunkong.Wallpaper", "寻空壁纸 实现")]
-        internal class XunkongWallpaperProvider : IBackgroundProvider
-        {
-            private const string Api = "https://api.xunkong.cc/v0.1/genshin/wallpaper/redirect/random";
-            // HttpClient is intended to be instantiated once per application, rather than per-use.
-            private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });
 
-            public async Task<BitmapImage?> GetNextBitmapImageAsync()
-            {
-                try
-                {
-                    using (HttpResponseMessage resp = await LazyHttpClient.Value.GetAsync(Api, HttpCompletionOption.ResponseContentRead))
-                    {
-                        Stream result = await resp.Content.ReadAsStreamAsync();
-                        BitmapImage bitmapImage = new();
-                        using (bitmapImage.AsDisposableInit())
-                        {
-                            bitmapImage.StreamSource = result;
-                        }
-                        return bitmapImage;
-                    }
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
     }
 }

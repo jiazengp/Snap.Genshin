@@ -2,12 +2,12 @@
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Helper;
+using Microsoft;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Web.WebView2.Core;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
-using Snap.Exception;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
@@ -27,7 +27,7 @@ namespace DGP.Genshin.Page
             else
             {
                 new WebView2RuntimeWindow().ShowDialog();
-                throw new SnapGenshinInternalException("未找到可用的 WebView2运行时 安装");
+                Verify.FailOperation("未找到可用的 WebView2运行时 安装");
             }
         }
 

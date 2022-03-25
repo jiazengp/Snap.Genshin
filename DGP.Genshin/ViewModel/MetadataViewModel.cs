@@ -5,12 +5,12 @@ using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction.IntegrityCheck;
+using Microsoft;
 using Microsoft.Toolkit.Mvvm.Input;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Data.Json;
-using Snap.Exception;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -105,7 +105,7 @@ namespace DGP.Genshin.ViewModel
         {
             if (!PathContext.FolderExists(folderPath))
             {
-                throw new SnapGenshinInternalException("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
+                Verify.FailOperation("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
             }
             CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
             WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
@@ -215,7 +215,7 @@ namespace DGP.Genshin.ViewModel
                 }
                 else
                 {
-                    throw new SnapGenshinInternalException($"初始化列表{fileName}失败");
+                    throw Verify.FailOperation($"初始化列表{fileName}失败");
                 }
             }
         }

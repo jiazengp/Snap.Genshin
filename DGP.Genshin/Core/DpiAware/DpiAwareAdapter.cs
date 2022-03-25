@@ -76,7 +76,7 @@ namespace DGP.Genshin.Core.DpiAware
 
         private IntPtr HwndHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if(message is 0x02E0)
+            if (message is 0x02E0)
             {
                 RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
 

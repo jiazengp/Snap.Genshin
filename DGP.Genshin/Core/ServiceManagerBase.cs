@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Exception;
@@ -43,7 +44,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(interfaceInjectable.InterfaceType, type),
                         InjectAs.Transient => services.AddTransient(interfaceInjectable.InterfaceType, type),
-                        _ => throw new SnapGenshinInternalException($"未知的注入类型 {type}"),
+                        _ => throw Assumes.NotReachable()
                     };
                 }
                 else
@@ -52,7 +53,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(type),
                         InjectAs.Transient => services.AddTransient(type),
-                        _ => throw new SnapGenshinInternalException($"未知的注入类型 {type}"),
+                        _ => throw Assumes.NotReachable()
                     };
                 }
             }
@@ -63,7 +64,6 @@ namespace DGP.Genshin.Core
         /// </summary>
         /// <param name="services">容器</param>
         /// <param name="entryType">入口类型，该类型所在的程序集均会被扫描</param>
-        /// <exception cref="SnapGenshinInternalException">注册的类型为非已知类型</exception>
         protected virtual void RegisterServices(ServiceCollection services, Type entryType)
         {
             entryType.Assembly.ForEachType(type => RegisterService(services, type));

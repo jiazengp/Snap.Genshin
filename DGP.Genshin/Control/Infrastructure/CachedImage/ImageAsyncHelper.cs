@@ -84,7 +84,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 using (bitmapImage.AsDisposableInit())
                 {
                     bitmapImage.StreamSource = memoryStream;
-                }  
+                }
             }
             catch { }
 

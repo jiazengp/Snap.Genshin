@@ -35,9 +35,9 @@ namespace DGP.Genshin.Core.Notification
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        private async Task HandleActionUpdateAsync(string key,string value)
+        private async Task HandleActionUpdateAsync(string key, string value)
         {
-            if (key is "action" && value== "update")
+            if (key is "action" && value == "update")
             {
                 IUpdateService updateService = App.AutoWired<IUpdateService>();
                 if (updateService.PackageUri is not null)
@@ -60,7 +60,7 @@ namespace DGP.Genshin.Core.Notification
         /// <param name="value"></param>
         private void HandleTaskbarHintHide(string key, string value)
         {
-            if (key is"taskbarhint" && value == "hide")
+            if (key is "taskbarhint" && value == "hide")
             {
                 Setting2.IsTaskBarIconHintDisplay.Set(false);
             }
@@ -73,7 +73,7 @@ namespace DGP.Genshin.Core.Notification
         /// <returns></returns>
         private async Task HandleLaunchValueAsync(string key, string value)
         {
-            if (key is"launch")
+            if (key is "launch")
             {
                 ILaunchService launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
                 switch (value)

@@ -6,5 +6,4 @@
 |插件列表|
 |-|
 |[DawnFz/SG.Plugin.Injury.Calculator](https://github.com/DawnFz/SG.Plugin.Injury.Calculator)|
-|[emako/SG.Plugin.Drop.Wish](https://github.com/emako/SG.Plugin.Drop.Wish)|
-|[emako/SG.Plugin.Model.Viewer](https://github.com/emako/SG.Plugin.Model.Viewer)|
+|[DawnFz/Genshin.Launcher.Plus.SE.Plugin](https://github.com/DawnFz/Genshin.Launcher.Plus.SE.Plugin)|

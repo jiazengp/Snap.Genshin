@@ -236,10 +236,5 @@ namespace DGP.Genshin
             }
         }
         #endregion
-
-        private void SwitchWallPaperButtonClick(object sender, RoutedEventArgs e)
-        {
-            backgroundLoader.LoadNextWallpaperAsync().Forget();
-        }
     }
 }

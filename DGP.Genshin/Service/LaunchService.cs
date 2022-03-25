@@ -7,13 +7,13 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using IniParser;
 using IniParser.Exceptions;
 using IniParser.Model;
+using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
 using Snap.Data.Utility;
-using Snap.Exception;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -88,12 +88,12 @@ namespace DGP.Genshin.Service
 
         public IniData LauncherConfig
         {
-            get => launcherConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
+            get => Requires.NotNull(launcherConfig!, nameof(launcherConfig));
         }
 
         public IniData GameConfig
         {
-            get => gameConfig ?? throw new SnapGenshinInternalException("启动器路径不能为 null");
+            get => Requires.NotNull(gameConfig!, nameof(gameConfig));
         }
 
         public WorkWatcher GameWatcher { get; } = new();
@@ -159,7 +159,7 @@ namespace DGP.Genshin.Service
                 {
                     if (GameWatcher.IsWorking)
                     {
-                        throw new SnapGenshinInternalException("游戏已经启动");
+                        Verify.FailOperation("游戏已经启动");
                     }
                     //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
                     string commandLine = new CommandLineBuilder()

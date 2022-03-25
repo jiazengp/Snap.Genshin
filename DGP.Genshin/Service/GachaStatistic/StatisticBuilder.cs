@@ -3,13 +3,11 @@ using DGP.Genshin.DataModel.GachaStatistic;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.GachaStatistic.Item;
 using DGP.Genshin.DataModel.Helper;
-using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
 using Microsoft;
 using Snap.Core.Logging;
-using Snap.Exception;
 using Snap.Extenion.Enumerable;
 using System;
 using System.Collections.Generic;
@@ -235,7 +233,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 .ThenByDescending(i => i.Count)
                 .ToList();
         }
-        
+
         private void SetStatisticBannerStar5List(StatisticBanner banner, IEnumerable<GachaLogItem> items, int star5Count)
         {
             //prevent modify the items and simplify the algorithm

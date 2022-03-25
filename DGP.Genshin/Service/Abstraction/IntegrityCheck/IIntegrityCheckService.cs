@@ -27,17 +27,17 @@ namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
             /// <summary>
             /// 当前检查进度
             /// </summary>
-            int CurrentCount { get; set; }
+            int CurrentCount { get; }
 
             /// <summary>
             /// 总进度
             /// </summary>
-            int TotalCount { get; set; }
+            int TotalCount { get; }
 
             /// <summary>
             /// 描述
             /// </summary>
-            string? Info { get; set; }
+            string? Info { get; }
         }
     }
 }

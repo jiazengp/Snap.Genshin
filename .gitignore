@@ -14,32 +14,11 @@
 /DGP.Snap.AutoVersion/bin
 /DGP.Snap.AutoVersion/obj
 
-/DGP.Genshin.Mate/bin
-/DGP.Genshin.Mate/obj
-
-/DGP.Genshin.SDK/bin
-/DGP.Genshin.SDK/obj
-
 /DGP.Genshin.Updater/bin
 /DGP.Genshin.Updater/obj
 
-/DGP.Snap.SGInstaller/bin
-/DGP.Snap.SGInstaller/obj
-
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer/bin
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer/obj
-
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.CodeFixes/bin
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.CodeFixes/obj
-
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Package/bin
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Package/obj
-
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Test/bin
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Test/obj
-
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Vsix/bin
-/Analyzer/Snap.Genshin.Analyzer/Snap.Genshin.Analyzer.Vsix/obj
+/DGP.Genshin.SourceGeneration/bin
+/DGP.Genshin.SourceGeneration/obj
 
 /Plugins/DGP.Genshin.Sample.Plugin/bin
 /Plugins/DGP.Genshin.Sample.Plugin/obj

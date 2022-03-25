@@ -5,6 +5,7 @@ using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.Service.Abstraction.Updating;
+using Microsoft;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
@@ -12,7 +13,6 @@ using Octokit;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Json;
 using Snap.Data.Utility;
-using Snap.Exception;
 using Snap.Net.Download;
 using Snap.Threading;
 using System;
@@ -59,7 +59,7 @@ namespace DGP.Genshin.Service
                 {
                     UpdateAPI.PatchAPI => new PatchUpdateChecker(),
                     UpdateAPI.GithubAPI => new GithubUpdateChecker(),
-                    _ => throw new SnapGenshinInternalException("非法的更新通道值")
+                    _ => throw Assumes.NotReachable()
                 };
 
                 UpdateInfomation? info = await updateChecker.GetUpdateInfomationAsync();
@@ -111,8 +111,8 @@ namespace DGP.Genshin.Service
             {
                 string destinationPath = PathContext.Locate("Package.zip");
 
-                _ = PackageUri ?? throw new SnapGenshinInternalException("未找到更新包的下载地址");
-                _ = NewVersion ?? throw new SnapGenshinInternalException("未找到更新包的版本信息");
+                Requires.NotNull(PackageUri!, nameof(PackageUri));
+                Requires.NotNull(NewVersion!, nameof(NewVersion));
 
                 InnerDownloader = new(PackageUri, destinationPath);
                 notificationUpdater = new(NewVersion.ToString(), messenger);
