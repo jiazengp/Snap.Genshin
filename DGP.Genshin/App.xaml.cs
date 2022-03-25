@@ -69,7 +69,7 @@ namespace DGP.Genshin
 
         internal class DefaultContainter : Core.IContainer
         {
-            public T Find<T>()
+            public T Find<T>() where T : class
             {
                 return AutoWired<T>();
             }

@@ -10,6 +10,6 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T Find<T>();
+        T Find<T>() where T : class;
     }
 }
