@@ -3,17 +3,22 @@ using System;
 
 namespace DGP.Genshin.SourceGeneration
 {
+    /// <summary>
+    /// 需要在系统环境变量中添加
+    /// key: SGReleaseAppCenterSecret value: secret
+    /// Secret 获取
+    /// https://appcenter.ms/orgs/DGP-Studio/apps/SG-Release-New
+    /// </summary>
+    /// <param name="context"></param>
     [Generator]
     public class AppCenterGenerator : ISourceGenerator
     {
-        /// <summary>
-        /// 需要在系统环境变量中添加
-        /// key: SGReleaseAppCenterSecret value: secret
-        /// </summary>
-        /// <param name="context"></param>
+        private const string SecretKey = "SGReleaseAppCenterSecret";
+        private const string FileName = "AppCenterConfiguration.g.cs";
+
         public void Execute(GeneratorExecutionContext context)
         {
-            string secret = Environment.GetEnvironmentVariable("SGReleaseAppCenterSecret", EnvironmentVariableTarget.User);
+            string secret = Environment.GetEnvironmentVariable(SecretKey, EnvironmentVariableTarget.User);
             string name = this.GetGeneratorType().Namespace;
             string version = this.GetGeneratorType().Assembly.ImageRuntimeVersion;
             string sourceCode = $@"using DGP.Genshin.Helper;
@@ -56,7 +61,7 @@ namespace DGP.Genshin
         }}
     }}
 }}";
-            context.AddSource("AppCenterConfiguration.g.cs", sourceCode);
+            context.AddSource(FileName, sourceCode);
         }
 
         public void Initialize(GeneratorInitializationContext context)

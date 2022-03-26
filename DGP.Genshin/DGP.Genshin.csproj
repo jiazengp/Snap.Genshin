@@ -101,9 +101,5 @@
     <Resource Include="Resources\UI_ImgSign_ItemIcon.png" />
     <Resource Include="Resources\UI_ItemIcon_210.png" />
   </ItemGroup>
-  
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="..\Build\net6.0\DGP.Snap.AutoVersion.exe &quot;$(ProjectDir)&quot;" />
-  </Target>
 
 </Project>
