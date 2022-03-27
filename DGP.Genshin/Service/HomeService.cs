@@ -2,7 +2,6 @@
 using DGP.Genshin.Service.Abstraction;
 using Newtonsoft.Json;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using Snap.Data.Json;
 using System;
 using System.Collections.Generic;
@@ -21,15 +20,8 @@ namespace DGP.Genshin.Service
         {
             AnnouncementProvider provider = new();
             AnnouncementWrapper? wrapper = await provider.GetAnnouncementWrapperAsync(cancellationToken);
-            List<AnnouncementContent> contents = new();
-            try
-            {
-                contents = await provider.GetAnnouncementContentsAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                this.Log(ex.Message);
-            }
+            List<AnnouncementContent> contents = await provider.GetAnnouncementContentsAsync(cancellationToken);
+
             Dictionary<int, string?> contentMap = contents.ToDictionary(id => id.AnnId, iContent => iContent.Content);
             if (wrapper is not null)
             {
@@ -37,44 +29,12 @@ namespace DGP.Genshin.Service
                 {
                     //将活动公告置于上方
                     announcementListWrappers.Reverse();
-                    //匹配特殊的时间格式
-                    Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
-                    Regex timeTagInnerRegex = new("(?<=&lt;t.*?&gt;)(.*?)(?=&lt;/t&gt;)");
 
-                    announcementListWrappers.ForEach(listWrapper =>
-                    {
-                        listWrapper.List?.ForEach(item =>
-                        {
-                            string? rawContent = contentMap[item.AnnId];
-                            if (rawContent != null)
-                            {
-                                rawContent = timeTagRegrex.Replace(rawContent, x => timeTagInnerRegex.Match(x.Value).Value);
-                            }
-                            item.Content = rawContent;
-                            item.OpenAnnouncementUICommand = openAnnouncementUICommand;
-                        });
-                    });
+                    this.JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
 
                     if (announcementListWrappers[0].List is List<Announcement> activities)
                     {
-                        //Match d+/d+/d+ d+:d+:d+ time format
-                        Regex dateTimeRegex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                        activities.ForEach(item =>
-                        {
-                            Match matched = dateTimeRegex.Match(item.Content ?? "");
-                            if (matched.Success && DateTime.TryParse(matched.Value, out DateTime time))
-                            {
-                                if (time > item.StartTime && time < item.EndTime)
-                                {
-                                    item.StartTime = time;
-                                }
-                            }
-                        });
-
-                        wrapper.List[0].List = activities
-                            .OrderBy(i => i.StartTime)
-                            .ThenBy(i => i.EndTime)
-                            .ToList();
+                        this.AdjustActivitiesTime(wrapper, activities);
                     }
                     return wrapper;
                 }
@@ -82,12 +42,54 @@ namespace DGP.Genshin.Service
             return new();
         }
 
+        private void AdjustActivitiesTime(AnnouncementWrapper? wrapper, List<Announcement> activities)
+        {
+            //Match d+/d+/d+ d+:d+:d+ time format
+            Regex dateTimeRegex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            activities.ForEach(item =>
+            {
+                Match matched = dateTimeRegex.Match(item.Content ?? "");
+                if (matched.Success && DateTime.TryParse(matched.Value, out DateTime time))
+                {
+                    if (time > item.StartTime && time < item.EndTime)
+                    {
+                        item.StartTime = time;
+                    }
+                }
+            });
+
+            wrapper.List[0].List = activities
+                .OrderBy(i => i.StartTime)
+                .ThenBy(i => i.EndTime)
+                .ToList();
+        }
+        private void JoinAnnouncements(ICommand openAnnouncementUICommand, Dictionary<int, string?> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+        {
+            //匹配特殊的时间格式
+            Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
+            Regex timeTagInnerRegex = new("(?<=&lt;t.*?&gt;)(.*?)(?=&lt;/t&gt;)");
+
+            announcementListWrappers.ForEach(listWrapper =>
+            {
+                listWrapper.List?.ForEach(item =>
+                {
+                    //fix key issue
+                    if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
+                    {
+                        rawContent = timeTagRegrex.Replace(rawContent!, x => timeTagInnerRegex.Match(x.Value).Value);
+                    }
+                    item.Content = rawContent;
+                    item.OpenAnnouncementUICommand = openAnnouncementUICommand;
+                });
+            });
+        }
+
         private record ManifestoWrapper([property: JsonProperty("manifesto")] string Manifesto);
 
         public async Task<string> GetManifestoAsync(CancellationToken cancellationToken = default)
         {
             ManifestoWrapper? manifesto = await Json
-                .FromWebsiteAsync<ManifestoWrapper>("https://api.snapgenshin.com/manifesto")
+                .FromWebsiteAsync<ManifestoWrapper>("https://api.snapgenshin.com/manifesto", cancellationToken)
                 .ConfigureAwait(false);
             return manifesto?.Manifesto ?? "暂无 Snap Genshin 官方公告";
         }

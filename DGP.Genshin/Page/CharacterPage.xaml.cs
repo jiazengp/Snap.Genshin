@@ -8,8 +8,8 @@ namespace DGP.Genshin.Page
     {
         public CharacterPage(MetadataViewModel vm)
         {
-            DataContext = vm;
-            InitializeComponent();
+            this.DataContext = vm;
+            this.InitializeComponent();
         }
     }
 }

@@ -14,23 +14,23 @@ namespace DGP.Genshin.Core.Plugins
 
         public PluginLoadContext(string pluginPath) : base(true)
         {
-            internalResolver = new AssemblyDependencyResolver(pluginPath);
-            appAssemblyName = Assembly.GetExecutingAssembly().GetName();
+            this.internalResolver = new AssemblyDependencyResolver(pluginPath);
+            this.appAssemblyName = Assembly.GetExecutingAssembly().GetName();
         }
 
         protected override Assembly? Load(AssemblyName assemblyName)
         {
             //replace DGP.Genshin ref version to current release version
             //seems useless, but just keep this there
-            if (assemblyName.Name == appAssemblyName.Name)
+            if (assemblyName.Name == this.appAssemblyName.Name)
             {
-                assemblyName.Version = appAssemblyName.Version;
+                assemblyName.Version = this.appAssemblyName.Version;
             }
 
-            if (internalResolver.ResolveAssemblyToPath(assemblyName) is string assemblyPath)
+            if (this.internalResolver.ResolveAssemblyToPath(assemblyName) is string assemblyPath)
             {
                 this.Log($"Load {assemblyName} from {assemblyPath}");
-                return LoadFromAssemblyPath(assemblyPath);
+                return this.LoadFromAssemblyPath(assemblyPath);
             }
 
             return null;

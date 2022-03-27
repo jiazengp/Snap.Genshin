@@ -141,7 +141,7 @@
                     </ui:CommandBar>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="326"/>
+                            <ColumnDefinition Width="278"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition MaxWidth="360"/>
                         </Grid.ColumnDefinitions>
@@ -395,7 +395,7 @@
                     </ui:CommandBar>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="326"/>
+                            <ColumnDefinition Width="278"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition MaxWidth="360"/>
                         </Grid.ColumnDefinitions>

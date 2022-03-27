@@ -54,92 +54,92 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<LaunchScheme> KnownSchemes
         {
-            get => knownSchemes;
+            get => this.knownSchemes;
 
-            set => SetProperty(ref knownSchemes, value);
+            set => this.SetProperty(ref this.knownSchemes, value);
         }
         /// <summary>
         /// 当前启动方案
         /// </summary>
         public LaunchScheme? CurrentScheme
         {
-            get => currentScheme;
+            get => this.currentScheme;
 
-            set => SetPropertyAndCallbackOnCompletion(ref currentScheme, value, v => launchService.SaveLaunchScheme(v));
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.currentScheme, value, v => this.launchService.SaveLaunchScheme(v));
         }
         /// <summary>
         /// 是否全屏
         /// </summary>
         public bool IsFullScreen
         {
-            get => isFullScreen;
+            get => this.isFullScreen;
 
-            set => SetPropertyAndCallbackOnCompletion(ref isFullScreen, value, Setting2.IsFullScreen.Set);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.isFullScreen, value, Setting2.IsFullScreen.Set);
         }
         /// <summary>
         /// 是否无边框窗口
         /// </summary>
         public bool IsBorderless
         {
-            get => isBorderless;
+            get => this.isBorderless;
 
-            set => SetPropertyAndCallbackOnCompletion(ref isBorderless, value, Setting2.IsBorderless.Set);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.isBorderless, value, Setting2.IsBorderless.Set);
         }
         /// <summary>
         /// 是否解锁FPS上限
         /// </summary>
         public bool UnlockFPS
         {
-            get => unlockFPS;
+            get => this.unlockFPS;
 
-            set => SetPropertyAndCallbackOnCompletion(ref unlockFPS, value, Setting2.UnlockFPS.Set);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.unlockFPS, value, Setting2.UnlockFPS.Set);
         }
         /// <summary>
         /// 目标帧率
         /// </summary>
         public double TargetFPS
         {
-            get => targetFPS;
+            get => this.targetFPS;
 
-            set => SetPropertyAndCallbackOnCompletion(ref targetFPS, value, OnTargetFPSChanged);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.targetFPS, value, this.OnTargetFPSChanged);
         }
         [PropertyChangedCallback]
         private void OnTargetFPSChanged(double value)
         {
             Setting2.TargetFPS.Set(value);
-            launchService.SetTargetFPSDynamically((int)value);
+            this.launchService.SetTargetFPSDynamically((int)value);
         }
         public long ScreenWidth
         {
-            get => screenWidth;
+            get => this.screenWidth;
 
-            set => SetPropertyAndCallbackOnCompletion(ref screenWidth, value, Setting2.ScreenWidth.Set);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.screenWidth, value, Setting2.ScreenWidth.Set);
         }
         public long ScreenHeight
         {
-            get => screenHeight;
+            get => this.screenHeight;
 
-            set => SetPropertyAndCallbackOnCompletion(ref screenHeight, value, Setting2.ScreenHeight.Set);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.screenHeight, value, Setting2.ScreenHeight.Set);
         }
         public bool IsElevated
         {
             get
             {
-                isElevated ??= App.IsElevated;
-                return isElevated.Value;
+                this.isElevated ??= App.IsElevated;
+                return this.isElevated.Value;
             }
         }
         public ObservableCollection<GenshinAccount> Accounts
         {
-            get => accounts;
+            get => this.accounts;
 
-            set => SetProperty(ref accounts, value);
+            set => this.SetProperty(ref this.accounts, value);
         }
         public GenshinAccount? SelectedAccount
         {
-            get => selectedAccount;
+            get => this.selectedAccount;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedAccount, value, v => launchService.SetToRegistry(v));
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedAccount, value, v => this.launchService.SetToRegistry(v));
         }
 
         public WorkWatcher GameWatcher { get; }
@@ -147,42 +147,44 @@ namespace DGP.Genshin.ViewModel
         public ICommand OpenUICommand { get; }
         public ICommand LaunchCommand { get; }
         public ICommand MatchAccountCommand { get; }
+        public ICommand RenameAccountCommand { get; }
         public ICommand DeleteAccountCommand { get; }
         public ICommand ReselectLauncherPathCommand { get; }
         #endregion
 
         public LaunchViewModel(IMessenger messenger, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
-            GameWatcher = launchService.GameWatcher;
+            this.launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
+            this.GameWatcher = this.launchService.GameWatcher;
 
             this.messenger = messenger;
 
-            Accounts = launchService.LoadAllAccount();
+            this.Accounts = this.launchService.LoadAllAccount();
 
-            IsBorderless = Setting2.IsBorderless;
-            IsFullScreen = Setting2.IsFullScreen;
-            UnlockFPS = Setting2.UnlockFPS;
-            TargetFPS = Setting2.TargetFPS;
-            ScreenWidth = Setting2.ScreenWidth;
-            ScreenHeight = Setting2.ScreenHeight;
+            this.IsBorderless = Setting2.IsBorderless;
+            this.IsFullScreen = Setting2.IsFullScreen;
+            this.UnlockFPS = Setting2.UnlockFPS;
+            this.TargetFPS = Setting2.TargetFPS;
+            this.ScreenWidth = Setting2.ScreenWidth;
+            this.ScreenHeight = Setting2.ScreenHeight;
 
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-            LaunchCommand = asyncRelayCommandFactory.Create<string>(LaunchByOptionAsync);
-            MatchAccountCommand = asyncRelayCommandFactory.Create(() => MatchAccountAsync(true));
-            DeleteAccountCommand = new RelayCommand(DeleteAccount);
-            ReselectLauncherPathCommand = asyncRelayCommandFactory.Create(ReselectLauncherPathAsync);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            this.LaunchCommand = asyncRelayCommandFactory.Create<string>(this.LaunchByOptionAsync);
+            this.MatchAccountCommand = asyncRelayCommandFactory.Create(() => this.MatchAccountAsync(true));
+            this.RenameAccountCommand = asyncRelayCommandFactory.Create(this.RenameAccountAsync);
+            this.DeleteAccountCommand = new RelayCommand(this.DeleteAccount);
+            this.ReselectLauncherPathCommand = asyncRelayCommandFactory.Create(this.ReselectLauncherPathAsync);
         }
 
         private async Task OpenUIAsync()
         {
             string? launcherPath = Setting2.LauncherPath;
-            launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
-            if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
+            launcherPath = this.launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
+            if (launcherPath is not null && this.launchService.TryLoadIniData(launcherPath))
             {
-                await MatchAccountAsync();
-                CurrentScheme = KnownSchemes
-                    .First(item => item.CPS == launchService.GameConfig["General"]["cps"]);
+                await this.MatchAccountAsync();
+                this.CurrentScheme = this.KnownSchemes
+                    .First(item => item.CPS == this.launchService.GameConfig["General"]["cps"]);
             }
             else
             {
@@ -194,7 +196,7 @@ namespace DGP.Genshin.ViewModel
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
                 }.ShowAsync);
-                messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
+                this.messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }
         private async Task LaunchByOptionAsync(string? option)
@@ -203,29 +205,37 @@ namespace DGP.Genshin.ViewModel
             {
                 case "Launcher":
                     {
-                        launchService.OpenOfficialLauncher(ex =>
-                        HandleLaunchFailureAsync("打开启动器失败", ex).Forget());
+                        this.launchService.OpenOfficialLauncher(ex =>
+                        this.HandleLaunchFailureAsync("打开启动器失败", ex).Forget());
                         break;
                     }
                 case "Game":
                     {
-                        await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
-                        HandleLaunchFailureAsync("启动游戏失败", ex).Forget());
+                        await this.launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
+                        this.HandleLaunchFailureAsync("启动游戏失败", ex).Forget());
                         break;
                     }
             }
         }
         private void SaveAllAccounts()
         {
-            launchService.SaveAllAccounts(Accounts);
+            this.launchService.SaveAllAccounts(this.Accounts);
+        }
+        private async Task RenameAccountAsync()
+        {
+            if (this.SelectedAccount is not null)
+            {
+                this.SelectedAccount.Name = await new NameDialog { TargetAccount = SelectedAccount }.GetInputAsync();
+                this.SaveAllAccounts();
+            }
         }
         private void DeleteAccount()
         {
-            if (SelectedAccount is not null)
+            if (this.SelectedAccount is not null)
             {
-                Accounts.Remove(SelectedAccount);
-                SelectedAccount = Accounts.LastOrDefault();
-                SaveAllAccounts();
+                this.Accounts.Remove(this.SelectedAccount);
+                this.SelectedAccount = this.Accounts.LastOrDefault();
+                this.SaveAllAccounts();
             }
         }
 
@@ -235,13 +245,13 @@ namespace DGP.Genshin.ViewModel
         private async Task MatchAccountAsync(bool allowNewAccount = false)
         {
             //注册表内有账号信息
-            if (launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
+            if (this.launchService.GetFromRegistry() is GenshinAccount currentRegistryAccount)
             {
-                GenshinAccount? matched = Accounts.FirstOrDefault(a => a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
+                GenshinAccount? matched = this.Accounts.FirstOrDefault(a => a.MihoyoSDK == currentRegistryAccount.MihoyoSDK);
                 //账号列表内存在匹配项
                 if (matched is not null)
                 {
-                    selectedAccount = matched;
+                    this.selectedAccount = matched;
                 }
                 else
                 {
@@ -249,17 +259,17 @@ namespace DGP.Genshin.ViewModel
                     {
                         //命名
                         currentRegistryAccount.Name = await new NameDialog { TargetAccount = currentRegistryAccount }.GetInputAsync();
-                        Accounts.Add(currentRegistryAccount);
-                        selectedAccount = currentRegistryAccount;
+                        this.Accounts.Add(currentRegistryAccount);
+                        this.selectedAccount = currentRegistryAccount;
                     }
                 }
                 //prevent registry set
-                OnPropertyChanged(nameof(SelectedAccount));
-                SaveAllAccounts();
+                this.OnPropertyChanged(nameof(this.SelectedAccount));
+                this.SaveAllAccounts();
             }
             else
             {
-                SelectedAccount = Accounts.FirstOrDefault();
+                this.SelectedAccount = this.Accounts.FirstOrDefault();
                 new ToastContentBuilder()
                 .AddText("从注册表获取账号信息失败")
                 .SafeShow();
@@ -269,12 +279,12 @@ namespace DGP.Genshin.ViewModel
         {
             Setting2.LauncherPath.Set(null);
             string? launcherPath = Setting2.LauncherPath;
-            launcherPath = launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
-            if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
+            launcherPath = this.launchService.SelectLaunchDirectoryIfIncorrect(launcherPath);
+            if (launcherPath is not null && this.launchService.TryLoadIniData(launcherPath))
             {
-                await MatchAccountAsync();
-                CurrentScheme = KnownSchemes
-                    .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+                await this.MatchAccountAsync();
+                this.CurrentScheme = this.KnownSchemes
+                    .First(item => item.Channel == this.launchService.GameConfig["General"]["channel"]);
             }
             else
             {
@@ -285,7 +295,7 @@ namespace DGP.Genshin.ViewModel
                     Content = "可能是启动器路径设置错误\n或者读取游戏配置文件失败",
                     PrimaryButtonText = "确定"
                 }.ShowAsync);
-                messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
+                this.messenger.Send(new NavigateRequestMessage(typeof(HomePage), true));
             }
         }
         private async Task HandleLaunchFailureAsync(string title, Exception exception)

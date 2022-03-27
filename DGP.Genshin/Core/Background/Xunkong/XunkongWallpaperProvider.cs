@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Core.Background.Abstraction;
 using DGP.Genshin.Core.ImplementationSwitching;
-using Newtonsoft.Json;
 using Snap.Data.Json;
 using Snap.Data.Utility.Extension;
 using System.IO;
@@ -9,11 +8,15 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Core.Background.Xunkong
 {
-    [SwitchableImplementation(typeof(IBackgroundProvider), "Xunkong.Wallpaper", "寻空壁纸")]
+    /// <summary>
+    /// 寻空壁纸API实现
+    /// </summary>
+    [SwitchableImplementation(typeof(IBackgroundProvider), "Xunkong.Wallpaper", "Xunkong 壁纸实现")]
     internal class XunkongWallpaperProvider : IBackgroundProvider
     {
-        private const string Api = "https://api.xunkong.cc/v0.1/genshin/wallpaper/random";
+        private const string Api = "https://api.xunkong.cc/v0.1/wallpaper/random";
 
+        /// <inheritdoc/>
         public async Task<BitmapImage?> GetNextBitmapImageAsync()
         {
             try
@@ -26,8 +29,10 @@ namespace DGP.Genshin.Core.Background.Xunkong
                     {
                         bitmapImage.StreamSource = stream;
                     }
+
                     return bitmapImage;
                 }
+
                 return null;
             }
             catch
@@ -35,15 +40,5 @@ namespace DGP.Genshin.Core.Background.Xunkong
                 return null;
             }
         }
-    }
-
-    internal record XunkongResponse<T>
-    {
-        public T? Data { get; set; }
-    }
-
-    internal record XunkongWallpaperInfo
-    {
-        [JsonProperty("url")] public string? Url { get; set; }
     }
 }

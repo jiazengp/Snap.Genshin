@@ -8,8 +8,8 @@ namespace DGP.Genshin.Page
     {
         public WeeklyPage(WeeklyViewModel vm)
         {
-            DataContext = vm;
-            InitializeComponent();
+            this.DataContext = vm;
+            this.InitializeComponent();
         }
     }
 }

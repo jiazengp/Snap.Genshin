@@ -7,4 +7,4 @@ using System.Windows.Media;
 
 [assembly: AssemblyDescription("原神信息速查App")]
 [assembly: AssemblyCopyright("Copyright © DGP Studio 2022")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)] 

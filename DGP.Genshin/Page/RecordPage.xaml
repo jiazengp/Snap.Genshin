@@ -13,7 +13,7 @@
     xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
     xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
+    xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement" xmlns:sys="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="800"
     Title="RecordPage">
@@ -224,10 +224,8 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border Margin="0,0,12,12" Height="65.6" CornerRadius="{StaticResource CompatCornerRadius}">
-                                                        <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding Icon}" Stretch="UniformToFill"/>
-                                                        </Border.Background>
+                                                    <Border Margin="0,0,12,12" Height="65.6" CornerRadius="{StaticResource CompatCornerRadius}"
+                                                            c:ImageAsyncHelper.ImageUrl="{Binding Icon}" c:ImageAsyncHelper.StretchMode="UniformToFill">
                                                         <Border CornerRadius="0,4,0,4" HorizontalAlignment="Right" VerticalAlignment="Top" SnapsToDevicePixels="True"
                                                             Background="{StaticResource SystemControlBackgroundAltMediumBrush}" Padding="8,4">
                                                             <TextBlock Text="{Binding Name}" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -246,100 +244,120 @@
             <TabItem Header="角色信息">
                 <s:SmoothScrollViewer Margin="12,0,0,0">
                     <ItemsControl Margin="0,12,8,0" ItemsSource="{Binding CurrentRecord.DetailedAvatars}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                        
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <wu:Card Margin="0,0,8,8" Padding="-2">
+                                <wu:Card Margin="0,0,8,12" Padding="0" MaxWidth="1000">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Margin="6,6,3,0" Grid.Column="0" HorizontalAlignment="Left">
-                                            <Border Width="70" Height="70"
-                                                CornerRadius="{StaticResource CompatCornerRadius}" 
-                                                c:ImageAsyncHelper.ImageUrl="{Binding Rarity,Converter={StaticResource RarityConverter}}">
-                                                <Border Width="70" Height="70" HorizontalAlignment="Center"
-                                                    CornerRadius="{StaticResource CompatCornerRadius}" 
-                                                    c:ImageAsyncHelper.ImageUrl="{Binding Icon}"
-                                                    RenderOptions.BitmapScalingMode="HighQuality">
-                                                    <Grid>
-                                                        <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
-                                                            <c:CachedImage ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}"/>
-                                                        </Border>
-                                                        <Border CornerRadius="0,4,0,4" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ActivedConstellationNum}" FontSize="10"/>
-                                                        </Border>
-                                                        <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                    <GradientStop Color="#00000000"/>
-                                                                    <GradientStop Offset="1" Color="#CC000000"/>
-                                                                </LinearGradientBrush>
-                                                            </Border.Background>
-                                                            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
-                                                        </Border>
-                                                    </Grid>
-                                                </Border>
-                                            </Border>
-
-                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center">
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}Lv.{0} F.{1}">
-                                                        <Binding Path="Level"/>
-                                                        <Binding Path="Fetter"/>
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <StackPanel Margin="3,6,6,0" Grid.Column="1" HorizontalAlignment="Right">
-                                            <Border Width="70" Height="70"
-                                                CornerRadius="{StaticResource CompatCornerRadius}" 
-                                                c:ImageAsyncHelper.ImageUrl="{Binding Weapon.Rarity,Converter={StaticResource RarityConverter}}">
-                                                <Border Width="70" Height="70" HorizontalAlignment="Center"
-                                                    CornerRadius="{StaticResource CompatCornerRadius}" 
-                                                    c:ImageAsyncHelper.ImageUrl="{Binding Weapon.Icon}"
-                                                    RenderOptions.BitmapScalingMode="HighQuality">
-                                                    <Grid>
-                                                        <Border CornerRadius="0,4,0,4" Background="#66000000" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.AffixLevel}" FontSize="10"/>
-                                                        </Border>
-                                                        <Border CornerRadius="0,0,4,4" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                    <GradientStop Color="#00000000"/>
-                                                                    <GradientStop Offset="1" Color="#CC000000"/>
-                                                                </LinearGradientBrush>
-                                                            </Border.Background>
-                                                            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Weapon.Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
-                                                        </Border>
-                                                    </Grid>
-                                                </Border>
-                                            </Border>
-                                            <TextBlock Margin="0,2,0,0" HorizontalAlignment="Center" Text="{Binding Weapon.Level,StringFormat={}Lv.{0}}"/>
-                                        </StackPanel>
-                                        <ItemsControl Margin="0,4" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Reliquaries}" HorizontalAlignment="Center" Padding="0">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border Width="24" Height="24">
-                                                        <c:CachedImage ImageUrl="{Binding Icon}"/>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Column="0">
+                                                <c:CachedImage ImageUrl="{Binding Icon}" Width="32" Height="32" Margin="6"/>
+                                                <c:CachedImage ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}" Width="32" Height="32" Margin="6"/>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="6,0,0,0"
+                                                       Style="{StaticResource SubtitleTextBlockStyle}" TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal"  Grid.Column="1">
+                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}Lv.{0} 好感：{1}">
+                                                            <Binding Path="Level"/>
+                                                            <Binding Path="Fetter"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+                                                <ItemsControl Margin="0,0,0,0"
+                                                ItemsSource="{Binding Constellations}"
+                                                ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <c:CachedBitmapIcon 
+                                                                UriSource="{Binding Icon}"
+                                                                Width="32" Height="32" Margin="0,6,12,6">
+                                                                <c:CachedBitmapIcon.Style>
+                                                                    <Style TargetType="c:CachedBitmapIcon">
+                                                                        <Setter Property="Opacity" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsActived}" Value="False">
+                                                                                <Setter Property="Opacity" Value="0.2"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </c:CachedBitmapIcon.Style>
+                                                            </c:CachedBitmapIcon>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="6" Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                                <c:CachedImage ImageUrl="{Binding Weapon.Icon}" Width="32" Height="32"/>
+                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}Lv.{0} 精炼：{1}">
+                                                            <Binding Path="Level"/>
+                                                            <Binding Path="Weapon.AffixLevel"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <ItemsControl Margin="6,0,0,0" Grid.Column="1"
+                                                ItemsSource="{Binding Reliquaries}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Columns="5"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <c:CachedImage ImageUrl="{Binding Icon}" Width="32" Height="32"/>
+                                                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                                       Text="{Binding Level,StringFormat={}Lv.{0}}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                                        <Setter Property="Foreground" Value="White"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Rarity}" Value="5">
+                                                                                <Setter Property="Foreground" Value="#FFBC6932"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Rarity}" Value="4">
+                                                                                <Setter Property="Foreground" Value="#FFA156E0"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Rarity}" Value="3">
+                                                                                <Setter Property="Foreground" Value="#FF5180CB"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Rarity}" Value="2">
+                                                                                <Setter Property="Foreground" Value="#FF2A8F72"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Rarity}" Value="1">
+                                                                                <Setter Property="Foreground" Value="#FF72778B"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
                                     </Grid>
                                 </wu:Card>
                             </DataTemplate>

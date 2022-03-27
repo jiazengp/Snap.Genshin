@@ -1,4 +1,4 @@
-﻿using Snap.Data.Primitive;
+﻿using DGP.Genshin.Helper;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,68 +6,74 @@ using System.Windows.Media.Animation;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
+    /// <summary>
+    /// 角色武器图标
+    /// </summary>
     public sealed partial class ContentIcon : Button
     {
+        private const string FadeInAnimationKey = "FadeInAnimation";
+
+        private static readonly DependencyProperty BackgroundUrlProperty = Property<ContentIcon>.Depend<string>(nameof(BackgroundUrl));
+        private static readonly DependencyProperty ForegroundUrlProperty = Property<ContentIcon>.Depend<string>(nameof(ForegroundUrl));
+        private static readonly DependencyProperty BadgeUrlProperty = Property<ContentIcon>.Depend<string>(nameof(BadgeUrl));
+        private static readonly DependencyProperty IsCountVisibleProperty = Property<ContentIcon>.Depend<bool>(nameof(IsCountVisible), false);
+
+        /// <summary>
+        /// 构造一个新的图标
+        /// </summary>
         public ContentIcon()
         {
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
-            Loaded += ContentIcon_Loaded;
-            InitializeComponent();
+            this.Loaded += this.ContentIconLoaded;
+            this.InitializeComponent();
         }
 
-        private const string FadeInAnimationKey = "FadeInAnimation";
-
-        private void ContentIcon_Loaded(object sender, RoutedEventArgs e)
-        {
-            Storyboard? storyBoard = FindResource(FadeInAnimationKey) as Storyboard;
-            storyBoard?.Begin();
-            //thus only affect first load
-            Loaded -= ContentIcon_Loaded;
-        }
-
+        /// <summary>
+        /// 背景Url
+        /// </summary>
         public string BackgroundUrl
         {
-            get => (string)GetValue(BackgroundUrlProperty);
+            get => (string)this.GetValue(BackgroundUrlProperty);
 
-            set => SetValue(BackgroundUrlProperty, value);
+            set => this.SetValue(BackgroundUrlProperty, value);
         }
-        public static readonly DependencyProperty BackgroundUrlProperty =
-            DependencyProperty.Register(nameof(BackgroundUrl), typeof(string), typeof(ContentIcon));
 
+        /// <summary>
+        /// 前景Url
+        /// </summary>
         public string ForegroundUrl
         {
-            get => (string)GetValue(ForegroundUrlProperty);
+            get => (string)this.GetValue(ForegroundUrlProperty);
 
-            set => SetValue(ForegroundUrlProperty, value);
+            set => this.SetValue(ForegroundUrlProperty, value);
         }
-        public static readonly DependencyProperty ForegroundUrlProperty =
-            DependencyProperty.Register(nameof(ForegroundUrl), typeof(string), typeof(ContentIcon));
 
+        /// <summary>
+        /// 角标Url
+        /// </summary>
         public string BadgeUrl
         {
-            get => (string)GetValue(BadgeUrlProperty);
+            get => (string)this.GetValue(BadgeUrlProperty);
 
-            set => SetValue(BadgeUrlProperty, value);
+            set => this.SetValue(BadgeUrlProperty, value);
         }
-        public static readonly DependencyProperty BadgeUrlProperty =
-            DependencyProperty.Register(nameof(BadgeUrl), typeof(string), typeof(ContentIcon));
 
-        public string Text
-        {
-            get => (string)GetValue(TextProperty);
-
-            set => SetValue(TextProperty, value);
-        }
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ContentIcon), new PropertyMetadata(""));
-
+        /// <summary>
+        /// 数量是否可见
+        /// </summary>
         public bool IsCountVisible
         {
-            get => (bool)GetValue(IsCountVisibleProperty);
+            get => (bool)this.GetValue(IsCountVisibleProperty);
 
-            set => SetValue(IsCountVisibleProperty, value);
+            set => this.SetValue(IsCountVisibleProperty, value);
         }
-        public static readonly DependencyProperty IsCountVisibleProperty =
-            DependencyProperty.Register(nameof(IsCountVisible), typeof(bool), typeof(ContentIcon), new PropertyMetadata(BoxedValue.FalseBox));
+
+        private void ContentIconLoaded(object sender, RoutedEventArgs e)
+        {
+            (this.FindResource(FadeInAnimationKey) as Storyboard)?.Begin();
+
+            // thus only affect first load
+            this.Loaded -= this.ContentIconLoaded;
+        }
     }
 }

@@ -2,7 +2,6 @@
 using Snap.Win32;
 using Snap.Win32.NativeMethod;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -10,14 +9,17 @@ using System.Windows.Media;
 
 namespace DGP.Genshin.Core.DpiAware
 {
-
+    /// <summary>
+    /// 高分辨率适配器
+    /// </summary>
     internal class DpiAwareAdapter
     {
+        private readonly Window window;
+
         private HwndSource? hwndSource;
         [SuppressMessage("", "IDE0052")]
         private IntPtr? hwnd;
         private double currentDpiRatio;
-        private readonly Window Window;
 
         static DpiAwareAdapter()
         {
@@ -28,50 +30,54 @@ namespace DGP.Genshin.Core.DpiAware
             }
         }
 
-        public DpiAwareAdapter(Window mainWindow)
+        /// <summary>
+        /// 构造一个新的高分辨率适配器
+        /// </summary>
+        /// <param name="window">目标窗体</param>
+        public DpiAwareAdapter(Window window)
         {
-            Window = mainWindow;
-            mainWindow.Loaded += (_, _) => OnAttached();
-            mainWindow.Closing += (_, _) => OnDetaching();
+            this.window = window;
+            window.Loaded += (_, _) => this.OnAttached();
+            window.Closing += (_, _) => this.OnDetaching();
         }
 
-        protected void OnAttached()
+        private void OnAttached()
         {
-            if (Window.IsInitialized)
+            if (this.window.IsInitialized)
             {
-                AddHwndHook();
+                this.AddHwndHook();
             }
             else
             {
-                Window.SourceInitialized += AssociatedWindowSourceInitialized;
+                this.window.SourceInitialized += this.AssociatedWindowSourceInitialized;
             }
         }
 
-        protected void OnDetaching()
+        private void OnDetaching()
         {
-            RemoveHwndHook();
+            this.RemoveHwndHook();
         }
 
         private void AddHwndHook()
         {
-            hwndSource = PresentationSource.FromVisual(Window) as HwndSource;
-            hwndSource?.AddHook(HwndHook);
-            hwnd = new WindowInteropHelper(Window).Handle;
+            this.hwndSource = PresentationSource.FromVisual(this.window) as HwndSource;
+            this.hwndSource?.AddHook(this.HwndHook);
+            this.hwnd = new WindowInteropHelper(this.window).Handle;
         }
 
         private void RemoveHwndHook()
         {
-            Window.SourceInitialized -= AssociatedWindowSourceInitialized;
-            hwndSource?.RemoveHook(HwndHook);
-            hwnd = null;
+            this.window.SourceInitialized -= this.AssociatedWindowSourceInitialized;
+            this.hwndSource?.RemoveHook(this.HwndHook);
+            this.hwnd = null;
         }
 
         private void AssociatedWindowSourceInitialized(object? sender, EventArgs e)
         {
-            AddHwndHook();
+            this.AddHwndHook();
 
-            currentDpiRatio = DpiAware.GetScaleRatio(Window);
-            UpdateDpiScaling(currentDpiRatio, true);
+            this.currentDpiRatio = DpiAware.GetScaleRatio(this.window);
+            this.UpdateDpiScaling(this.currentDpiRatio, true);
         }
 
         private IntPtr HwndHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -80,37 +86,41 @@ namespace DGP.Genshin.Core.DpiAware
             {
                 RECT rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT))!;
 
-                User32.SetWindowPos(hWnd, IntPtr.Zero, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top,
+                User32.SetWindowPosFlags flag =
                     User32.SetWindowPosFlags.DoNotChangeOwnerZOrder
                     | User32.SetWindowPosFlags.DoNotActivate
-                    | User32.SetWindowPosFlags.IgnoreZOrder);
+                    | User32.SetWindowPosFlags.IgnoreZOrder;
+                User32.SetWindowPos(hWnd, IntPtr.Zero, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, flag);
 
-                //we modified this fragment to correct the wrong behaviour
-                double newDpiRatio = DpiAware.GetScaleRatio(Window) * currentDpiRatio;
-                if (newDpiRatio != currentDpiRatio)
+                // we modified this fragment to correct the wrong behaviour
+                double newDpiRatio = DpiAware.GetScaleRatio(this.window) * this.currentDpiRatio;
+                if (newDpiRatio != this.currentDpiRatio)
                 {
-                    UpdateDpiScaling(newDpiRatio);
+                    this.UpdateDpiScaling(newDpiRatio);
                 }
             }
+
             return IntPtr.Zero;
         }
 
         private void UpdateDpiScaling(double newDpiRatio, bool useSacleCenter = false)
         {
-            currentDpiRatio = newDpiRatio;
-            Logger.LogStatic($"Set dpi scaling to {currentDpiRatio:p2}");
-            Visual firstChild = (Visual)VisualTreeHelper.GetChild(Window, 0);
+            this.currentDpiRatio = newDpiRatio;
+            Logger.LogStatic($"Set dpi scaling to {this.currentDpiRatio:p2}");
+            Visual firstChild = (Visual)VisualTreeHelper.GetChild(this.window, 0);
             ScaleTransform transform;
             if (useSacleCenter)
             {
-                double centerX = Window.Left + Window.Width / 2;
-                double centerY = Window.Top + Window.Height / 2;
-                transform = new ScaleTransform(currentDpiRatio, currentDpiRatio, centerX, centerY);
+                double centerX = this.window.Left + (this.window.Width / 2);
+                double centerY = this.window.Top + (this.window.Height / 2);
+
+                transform = new ScaleTransform(this.currentDpiRatio, this.currentDpiRatio, centerX, centerY);
             }
             else
             {
-                transform = new ScaleTransform(currentDpiRatio, currentDpiRatio);
+                transform = new ScaleTransform(this.currentDpiRatio, this.currentDpiRatio);
             }
+
             firstChild.SetValue(Window.LayoutTransformProperty, transform);
         }
     }

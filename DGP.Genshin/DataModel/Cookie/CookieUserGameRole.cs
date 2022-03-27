@@ -9,15 +9,15 @@ namespace DGP.Genshin.DataModel.Cookie
     {
         public CookieUserGameRole(string cookie, UserGameRole userGameRole)
         {
-            Cookie = cookie;
-            UserGameRole = userGameRole;
+            this.Cookie = cookie;
+            this.UserGameRole = userGameRole;
         }
         public string Cookie { get; init; }
         public UserGameRole UserGameRole { get; init; }
 
         public override string ToString()
         {
-            return UserGameRole.ToString();
+            return this.UserGameRole.ToString();
         }
     }
 }

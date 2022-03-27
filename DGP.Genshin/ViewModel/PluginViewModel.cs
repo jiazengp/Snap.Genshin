@@ -19,10 +19,10 @@ namespace DGP.Genshin.ViewModel
 
         public IEnumerable<IPlugin> Plugins
         {
-            get => plugins;
+            get => this.plugins;
 
             [MemberNotNull(nameof(plugins))]
-            set => SetProperty(ref plugins, value);
+            set => this.SetProperty(ref this.plugins, value);
         }
 
         public ICommand OpenPluginFolderCommand { get; }
@@ -30,10 +30,10 @@ namespace DGP.Genshin.ViewModel
 
         public PluginViewModel()
         {
-            Plugins = App.Current.PluginService.Plugins;
+            this.Plugins = App.Current.PluginService.Plugins;
 
-            OpenPluginFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate(PluginFolder)));
-            OpenPluginListLinkCommand = new RelayCommand(() => Browser.Open(pluginsLink));
+            this.OpenPluginFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate(PluginFolder)));
+            this.OpenPluginListLinkCommand = new RelayCommand(() => Browser.Open(pluginsLink));
         }
     }
 }

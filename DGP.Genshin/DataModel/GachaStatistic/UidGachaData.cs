@@ -6,8 +6,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic
     {
         public UidGachaData(string uid, GachaData data)
         {
-            Uid = uid;
-            Data = data;
+            this.Uid = uid;
+            this.Data = data;
         }
         public string Uid { get; set; }
         public GachaData Data { get; set; }

@@ -15,17 +15,17 @@ namespace DGP.Genshin.DataModel.Character
         #region City Helper
         public bool IsMondstdat()
         {
-            return City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
+            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
         }
 
         public bool IsLiyue()
         {
-            return City == @"https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png";
+            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png";
         }
 
         public bool IsInazuma()
         {
-            return City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
+            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace DGP.Genshin.DataModel.Character
 
         public override string? GetBadge()
         {
-            return Element;
+            return this.Element;
         }
 
         #region Extend Portion

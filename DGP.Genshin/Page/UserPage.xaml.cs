@@ -9,7 +9,7 @@ namespace DGP.Genshin.Page
     {
         public UserPage(UserViewModel vm) : base(vm)
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

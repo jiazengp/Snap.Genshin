@@ -49,8 +49,8 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             Logger.LogStatic($"convert data of {uid} to statistic view");
 
-            List<StatisticItem> characters = ToStatisticTotalCountList(data, "角色");
-            List<StatisticItem> weapons = ToStatisticTotalCountList(data, "武器");
+            List<StatisticItem> characters = this.ToStatisticTotalCountList(data, "角色");
+            List<StatisticItem> weapons = this.ToStatisticTotalCountList(data, "武器");
 
             Statistic statistic = new()
             {
@@ -63,11 +63,11 @@ namespace DGP.Genshin.Service.GachaStatistic
                 Weapons4 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 4).ToList(),
                 Weapons3 = weapons.Where(i => i.StarUrl?.ToInt32Rank() == 3).ToList(),
 
-                Permanent = ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间"),
-                WeaponEvent = ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形"),
-                CharacterEvent = ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动"),
+                Permanent = this.ToStatisticBanner(data, ConfigType.PermanentWish, "奔行世间"),
+                WeaponEvent = this.ToStatisticBanner(data, ConfigType.WeaponEventWish, "神铸赋形"),
+                CharacterEvent = this.ToStatisticBanner(data, ConfigType.CharacterEventWish, "角色活动"),
 
-                SpecificBanners = ToSpecificBanners(data)
+                SpecificBanners = this.ToSpecificBanners(data)
             };
             return statistic;
         }
@@ -82,7 +82,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private StatisticBanner ToStatisticBanner(GachaData data, string type, string name)
         {
             return data.TryGetValue(type, out List<GachaLogItem>? list)
-                ? BuildStatisticBanner(name, list!)
+                ? this.BuildStatisticBanner(name, list!)
                 : (new() { CurrentName = name });
         }
 
@@ -110,10 +110,10 @@ namespace DGP.Genshin.Service.GachaStatistic
                 Star4Count = list.Count(i => i.Rank == RankFour),
                 Star3Count = list.Count(i => i.Rank == RankThree)
             };
-            SetStatisticBannerTime(banner, list);
-            SetStatisticBannerStar5List(banner, list, banner.Star5Count);
-            SetStatisticBannerBasicStat(banner);
-            SetStatisticBannerProbStat(banner);
+            this.SetStatisticBannerTime(banner, list);
+            this.SetStatisticBannerStar5List(banner, list, banner.Star5Count);
+            this.SetStatisticBannerBasicStat(banner);
+            this.SetStatisticBannerProbStat(banner);
 
             return banner;
         }
@@ -192,7 +192,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 Name = i.Name,
                                 StarUrl = StarHelper.FromInt32Rank(int.Parse(i.Rank))
                             };
-                            Primitive? item = metadataViewModel.FindPrimitiveByName(i.Name);
+                            Primitive? item = this.metadataViewModel.FindPrimitiveByName(i.Name);
                             counter[i.Name].Source = item?.Source;
                             counter[i.Name].Badge = item?.GetBadge();
                         }
@@ -246,7 +246,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 int count = reversedItems.IndexOf(currentStar5) + 1;
                 bool isBigGuarantee = counter.Count > 0 && !counter.Last().IsUp;
 
-                SpecificBanner? matchedBanner = metadataViewModel.SpecificBanners?.Find(b =>
+                SpecificBanner? matchedBanner = this.metadataViewModel.SpecificBanners?.Find(b =>
                     //match type first
                     b.Type == currentStar5.GachaType &&
                     currentStar5.Time >= b.StartTime &&
@@ -256,7 +256,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 counter.Add(new StatisticItem5Star()
                 {
                     GachaTypeName = gachTypeId is null ? gachTypeId : ConfigType.Known[gachTypeId],
-                    Source = metadataViewModel.FindSourceByName(currentStar5.Name),
+                    Source = this.metadataViewModel.FindSourceByName(currentStar5.Name),
                     Name = currentStar5.Name,
                     Count = count,
                     Time = currentStar5.Time,
@@ -271,7 +271,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private List<SpecificBanner> ToSpecificBanners(GachaData data)
         {
             //clone from metadata
-            List<SpecificBanner>? clonedBanners = metadataViewModel.SpecificBanners?.ClonePartially();
+            List<SpecificBanner>? clonedBanners = this.metadataViewModel.SpecificBanners?.ClonePartially();
             Requires.NotNull(clonedBanners!, nameof(clonedBanners));
 
             clonedBanners.ForEach(b => b.ClearItemsAndStar5List());
@@ -303,7 +303,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                             {
                                 permanent.EndTime = item.Time;
                             }
-                            AddItemToSpecificBanner(item, permanent);
+                            this.AddItemToSpecificBanner(item, permanent);
                         }
                     }
                     continue;
@@ -315,12 +315,12 @@ namespace DGP.Genshin.Service.GachaStatistic
                         //add item.GachaType compare to compat 2.3+ gacha
                         SpecificBanner? banner = clonedBanners
                             .Find(b => b.Type == item.GachaType && item.Time >= b.StartTime && item.Time <= b.EndTime);
-                        AddItemToSpecificBanner(item, banner);
+                        this.AddItemToSpecificBanner(item, banner);
                     }
                 }
             }
 
-            CalculateSpecificBannersDetail(clonedBanners);
+            this.CalculateSpecificBannersDetail(clonedBanners);
 
             List<SpecificBanner> resultList = clonedBanners
                 .WhereWhen(b => b.TotalCount > 0, !Setting2.IsBannerWithNoItemVisible.Get())
@@ -335,7 +335,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         }
         private void AddItemToSpecificBanner(GachaLogItem item, SpecificBanner? banner)
         {
-            Primitive? matched = metadataViewModel.FindPrimitiveByName(item.Name);
+            Primitive? matched = this.metadataViewModel.FindPrimitiveByName(item.Name);
 
             SpecificItem newItem = new() { Time = item.Time };
 
@@ -375,13 +375,13 @@ namespace DGP.Genshin.Service.GachaStatistic
                     continue;
                 }
 
-                BuildSpecificBannerSlices(banner);
+                this.BuildSpecificBannerSlices(banner);
 
                 banner.Star5Count = banner.Items.Count(i => i.StarUrl.IsRankAs(5));
                 banner.Star4Count = banner.Items.Count(i => i.StarUrl.IsRankAs(4));
                 banner.Star3Count = banner.Items.Count(i => i.StarUrl.IsRankAs(3));
 
-                List<StatisticItem> statisticList = ToSpecificTotalCountList(banner.Items);
+                List<StatisticItem> statisticList = this.ToSpecificTotalCountList(banner.Items);
 
                 banner.StatisticList5 = statisticList.Where(i => i.StarUrl.IsRankAs(5)).ToList();
                 banner.StatisticList4 = statisticList.Where(i => i.StarUrl.IsRankAs(4)).ToList();

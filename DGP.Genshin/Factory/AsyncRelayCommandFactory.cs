@@ -14,45 +14,45 @@ namespace DGP.Genshin.Factory
     {
         public AsyncRelayCommand<T> Create<T>(Func<T?, Task> execute)
         {
-            return Register(new AsyncRelayCommand<T>(execute));
+            return this.Register(new AsyncRelayCommand<T>(execute));
         }
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute)
         {
-            return Register(new AsyncRelayCommand<T>(cancelableExecute));
+            return this.Register(new AsyncRelayCommand<T>(cancelableExecute));
         }
         public AsyncRelayCommand<T> Create<T>(Func<T?, Task> execute, Predicate<T?> canExecute)
         {
-            return Register(new AsyncRelayCommand<T>(execute, canExecute));
+            return this.Register(new AsyncRelayCommand<T>(execute, canExecute));
         }
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute, Predicate<T?> canExecute)
         {
-            return Register(new AsyncRelayCommand<T>(cancelableExecute, canExecute));
+            return this.Register(new AsyncRelayCommand<T>(cancelableExecute, canExecute));
         }
         public AsyncRelayCommand Create(Func<Task> execute)
         {
-            return Register(new AsyncRelayCommand(execute));
+            return this.Register(new AsyncRelayCommand(execute));
         }
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute)
         {
-            return Register(new AsyncRelayCommand(cancelableExecute));
+            return this.Register(new AsyncRelayCommand(cancelableExecute));
         }
         public AsyncRelayCommand Create(Func<Task> execute, Func<bool> canExecute)
         {
-            return Register(new AsyncRelayCommand(execute, canExecute));
+            return this.Register(new AsyncRelayCommand(execute, canExecute));
         }
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute)
         {
-            return Register(new AsyncRelayCommand(cancelableExecute, canExecute));
+            return this.Register(new AsyncRelayCommand(cancelableExecute, canExecute));
         }
 
         private AsyncRelayCommand Register(AsyncRelayCommand command)
         {
-            ReportException(command);
+            this.ReportException(command);
             return command;
         }
         private AsyncRelayCommand<T> Register<T>(AsyncRelayCommand<T> command)
         {
-            ReportException(command);
+            this.ReportException(command);
             return command;
         }
         private void ReportException(IAsyncRelayCommand command)

@@ -7,8 +7,8 @@ namespace DGP.Genshin.Page
     {
         public ImplementationPage()
         {
-            DataContext = App.Current.SwitchableImplementationManager;
-            InitializeComponent();
+            this.DataContext = App.Current.SwitchableImplementationManager;
+            this.InitializeComponent();
         }
     }
 }

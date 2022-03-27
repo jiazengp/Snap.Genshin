@@ -23,16 +23,16 @@ namespace DGP.Genshin.ViewModel
 
         public List<Sponsor>? Sponsors
         {
-            get => sponsors;
+            get => this.sponsors;
 
-            set => SetProperty(ref sponsors, value);
+            set => this.SetProperty(ref this.sponsors, value);
         }
 
         public ICommand OpenUICommand { get; }
 
         public SponsorViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
         }
 
         private async Task OpenUIAsync()
@@ -44,7 +44,7 @@ namespace DGP.Genshin.ViewModel
                 Response<ListWrapper<Sponsor>>? response;
                 do
                 {
-                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(currentPage++, CancellationToken);
+                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(currentPage++, this.CancellationToken);
                     if (response?.Data?.List is List<Sponsor> part)
                     {
                         result.AddRange(part);
@@ -52,7 +52,7 @@ namespace DGP.Genshin.ViewModel
                 }
                 while (response?.Data?.TotalPage >= currentPage);
 
-                Sponsors = result;
+                this.Sponsors = result;
             }
             catch (TaskCanceledException) { this.Log("Open UI canceled"); }
         }

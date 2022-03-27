@@ -15,15 +15,15 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
 
         public override string ToString()
         {
-            return $"{Time}-{Name}";
+            return $"{this.Time}-{this.Name}";
         }
 
         public void CopyFromPrimitive(Primitive matched)
         {
-            StarUrl = matched.Star;
-            Source = matched.Source;
-            Name = matched.Name;
-            Badge = matched.GetBadge();
+            this.StarUrl = matched.Star;
+            this.Source = matched.Source;
+            this.Name = matched.Name;
+            this.Badge = matched.GetBadge();
         }
     }
 }

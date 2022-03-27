@@ -23,16 +23,15 @@ namespace DGP.Genshin.ViewModel
         private const string entriesFileName = "WebviewEntries.json";
         private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
 
-        private readonly IAsyncRelayCommandFactory asyncRelayCommandFactory;
         private readonly IMessenger messenger;
 
         private ObservableCollection<WebViewEntry>? entries;
 
         public ObservableCollection<WebViewEntry>? Entries
         {
-            get => entries;
+            get => this.entries;
 
-            set => SetProperty(ref entries, value);
+            set => this.SetProperty(ref this.entries, value);
         }
 
         public ICommand AddEntryCommand { get; }
@@ -43,16 +42,15 @@ namespace DGP.Genshin.ViewModel
 
         public WebViewLobbyViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
         {
-            this.asyncRelayCommandFactory = asyncRelayCommandFactory;
             this.messenger = messenger;
 
-            AddEntryCommand = asyncRelayCommandFactory.Create(AddEntryAsync);
-            ModifyCommand = asyncRelayCommandFactory.Create<WebViewEntry>(ModifyEntryAsync);
-            RemoveEntryCommand = new RelayCommand<WebViewEntry>(RemoveEntry);
-            NavigateCommand = new RelayCommand<WebViewEntry>(Navigate);
-            CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
+            this.AddEntryCommand = asyncRelayCommandFactory.Create(this.AddEntryAsync);
+            this.ModifyCommand = asyncRelayCommandFactory.Create<WebViewEntry>(this.ModifyEntryAsync);
+            this.RemoveEntryCommand = new RelayCommand<WebViewEntry>(this.RemoveEntry);
+            this.NavigateCommand = new RelayCommand<WebViewEntry>(this.Navigate);
+            this.CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
 
-            LoadEntries();
+            this.LoadEntries();
         }
 
         private async Task AddEntryAsync()
@@ -60,27 +58,27 @@ namespace DGP.Genshin.ViewModel
             WebViewEntry? entry = await new WebViewEntryDialog().GetWebViewEntryAsync();
             if (entry is not null)
             {
-                entry.ModifyCommand = ModifyCommand;
-                entry.RemoveCommand = RemoveEntryCommand;
-                entry.NavigateCommand = NavigateCommand;
-                Entries?.Add(entry);
-                SaveEntries();
+                entry.ModifyCommand = this.ModifyCommand;
+                entry.RemoveCommand = this.RemoveEntryCommand;
+                entry.NavigateCommand = this.NavigateCommand;
+                this.Entries?.Add(entry);
+                this.SaveEntries();
             }
         }
         private async Task ModifyEntryAsync(WebViewEntry? entry)
         {
             if (entry is not null)
             {
-                int index = Entries!.IndexOf(entry);
+                int index = this.Entries!.IndexOf(entry);
                 WebViewEntry? modified = await new WebViewEntryDialog(entry).GetWebViewEntryAsync();
                 if (modified is not null)
                 {
-                    modified.ModifyCommand = ModifyCommand;
-                    modified.RemoveCommand = RemoveEntryCommand;
-                    modified.NavigateCommand = NavigateCommand;
-                    Entries.RemoveAt(index);
-                    Entries.Insert(index, modified);
-                    SaveEntries();
+                    modified.ModifyCommand = this.ModifyCommand;
+                    modified.RemoveCommand = this.RemoveEntryCommand;
+                    modified.NavigateCommand = this.NavigateCommand;
+                    this.Entries.RemoveAt(index);
+                    this.Entries.Insert(index, modified);
+                    this.SaveEntries();
                 }
             }
         }
@@ -88,13 +86,13 @@ namespace DGP.Genshin.ViewModel
         {
             if (entry is not null)
             {
-                Entries!.Remove(entry);
-                SaveEntries();
+                this.Entries!.Remove(entry);
+                this.SaveEntries();
             }
         }
         private void Navigate(WebViewEntry? entry)
         {
-            messenger.Send(new NavigateRequestMessage(typeof(WebViewHostPage), false, entry));
+            this.messenger.Send(new NavigateRequestMessage(typeof(WebViewHostPage), false, entry));
         }
         private void LoadEntries()
         {
@@ -105,19 +103,19 @@ namespace DGP.Genshin.ViewModel
                 {
                     list.ForEach(entry =>
                     {
-                        entry.ModifyCommand = ModifyCommand;
-                        entry.RemoveCommand = RemoveEntryCommand;
-                        entry.NavigateCommand = NavigateCommand;
+                        entry.ModifyCommand = this.ModifyCommand;
+                        entry.RemoveCommand = this.RemoveEntryCommand;
+                        entry.NavigateCommand = this.NavigateCommand;
                     });
-                    Entries = new(list);
+                    this.Entries = new(list);
                     return;
                 }
             }
-            Entries = new();
+            this.Entries = new();
         }
         private void SaveEntries()
         {
-            Json.ToFile(PathContext.Locate(entriesFileName), Entries);
+            Json.ToFile(PathContext.Locate(entriesFileName), this.Entries);
         }
     }
 }

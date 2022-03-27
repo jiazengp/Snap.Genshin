@@ -25,7 +25,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private (int min, int max) delay = (500, 1000);
         public int GetRandomDelay()
         {
-            return DelayRange.min + random.Next(DelayRange.max - DelayRange.min, DelayRange.max);
+            return this.DelayRange.min + this.random.Next(this.DelayRange.max - this.DelayRange.min, this.DelayRange.max);
         }
 
         public GachaDataCollection WorkingGachaData { get; set; }
@@ -39,12 +39,12 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// </summary>
         public (int min, int max) DelayRange
         {
-            get => delay;
+            get => this.delay;
 
             set
             {
                 Requires.Range(value.min <= value.max, "祈愿记录获取延迟的最小值不能大于最大值");
-                delay = value;
+                this.delay = value;
             }
         }
 
@@ -57,15 +57,15 @@ namespace DGP.Genshin.Service.GachaStatistic
         public GachaLogWorker(string gachaLogUrl, GachaDataCollection gachaData, int batchSize = 20)
         {
             this.gachaLogUrl = gachaLogUrl;
-            WorkingGachaData = gachaData;
+            this.WorkingGachaData = gachaData;
             this.batchSize = batchSize;
         }
 
         private Config? gachaConfig;
         public async Task<Config?> GetCurrentGachaConfigAsync()
         {
-            gachaConfig ??= await GetGachaConfigAsync();
-            return gachaConfig;
+            this.gachaConfig ??= await this.GetGachaConfigAsync();
+            return this.gachaConfig;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 {"Accept", RequestOptions.Json },
                 {"User-Agent", RequestOptions.CommonUA2101 }
             });
-            Response<Config>? resp = await requester.GetAsync<Config>(gachaLogUrl?.Replace("getGachaLog?", "getConfigList?"));
+            Response<Config>? resp = await requester.GetAsync<Config>(this.gachaLogUrl?.Replace("getGachaLog?", "getConfigList?"));
             this.Log(resp?.Data);
             return resp?.Data;
         }
@@ -97,27 +97,27 @@ namespace DGP.Genshin.Service.GachaStatistic
             do
             {
                 progress.Report(new(type.Name, ++currentPage));
-                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
+                (bool Succeed, GachaLog log) = await this.TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
                     Requires.NotNull(log.List!, nameof(log.List));
 
                     foreach (GachaLogItem item in log.List)
                     {
-                        WorkingUid = item.Uid;
+                        this.WorkingUid = item.Uid;
                         //this one is increment
-                        if (item.TimeId > WorkingGachaData.GetNewestTimeIdOf(type, item.Uid))
+                        if (item.TimeId > this.WorkingGachaData.GetNewestTimeIdOf(type, item.Uid))
                         {
                             increment.Add(item);
                         }
                         else//already done the new item
                         {
-                            await MergeIncrementAsync(type, increment);
-                            return WorkingUid;
+                            await this.MergeIncrementAsync(type, increment);
+                            return this.WorkingUid;
                         }
                     }
                     //last page
-                    if (log.List.Count < batchSize)
+                    if (log.List.Count < this.batchSize)
                     {
                         break;
                     }
@@ -125,17 +125,17 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
                 else
                 {
-                    WorkingUid = null;
+                    this.WorkingUid = null;
                     Verify.FailOperation("提供的Url无效");
                 }
-                if (IsFetchDelayEnabled)
+                if (this.IsFetchDelayEnabled)
                 {
-                    await Task.Delay(GetRandomDelay());
+                    await Task.Delay(this.GetRandomDelay());
                 }
             } while (true);
             //first time fecth could go here
-            await MergeIncrementAsync(type, increment);
-            return WorkingUid;
+            await this.MergeIncrementAsync(type, increment);
+            return this.WorkingUid;
         }
 
         /// <summary>
@@ -152,18 +152,18 @@ namespace DGP.Genshin.Service.GachaStatistic
             do
             {
                 progress.Report(new(type.Name, ++currentPage));
-                (bool Succeed, GachaLog log) = await TryGetBatchAsync(type, endId);
+                (bool Succeed, GachaLog log) = await this.TryGetBatchAsync(type, endId);
                 if (Succeed)
                 {
                     if (log.List is not null)
                     {
                         foreach (GachaLogItem item in log.List)
                         {
-                            WorkingUid = item.Uid;
+                            this.WorkingUid = item.Uid;
                             full.Add(item);
                         }
                         //last page
-                        if (log.List.Count < batchSize)
+                        if (log.List.Count < this.batchSize)
                         {
                             break;
                         }
@@ -172,18 +172,18 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
                 else
                 {
-                    WorkingUid = null;
+                    this.WorkingUid = null;
                     Verify.FailOperation("提供的Url无效");
                 }
-                if (IsFetchDelayEnabled)
+                if (this.IsFetchDelayEnabled)
                 {
-                    await Task.Delay(GetRandomDelay());
+                    await Task.Delay(this.GetRandomDelay());
                 }
 
             } while (true);
             //first time fecth could go here
-            await MergeFullAsync(type, full);
-            return WorkingUid;
+            await this.MergeFullAsync(type, full);
+            return this.WorkingUid;
         }
 
         /// <summary>
@@ -195,16 +195,16 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             await Task.Yield();
             //卡池内没有物品导致无法判断Uid
-            if (WorkingUid is null)
+            if (this.WorkingUid is null)
             {
                 return;
             }
-            if (!WorkingGachaData.HasUid(WorkingUid))
+            if (!this.WorkingGachaData.HasUid(this.WorkingUid))
             {
-                WorkingGachaData.Add(WorkingUid, new GachaData());
+                this.WorkingGachaData.Add(this.WorkingUid, new GachaData());
             }
             //简单的将老数据插入到增量后侧，最后重置数据
-            GachaData data = WorkingGachaData[WorkingUid]!;
+            GachaData data = this.WorkingGachaData[this.WorkingUid]!;
             string? key = type.Key;
             if (key is not null)
             {
@@ -228,16 +228,16 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             await Task.Yield();
             //卡池内没有物品导致无法判断Uid
-            if (WorkingUid is null)
+            if (this.WorkingUid is null)
             {
                 return;
             }
-            if (!WorkingGachaData.HasUid(WorkingUid))
+            if (!this.WorkingGachaData.HasUid(this.WorkingUid))
             {
-                WorkingGachaData.Add(WorkingUid, new GachaData());
+                this.WorkingGachaData.Add(this.WorkingUid, new GachaData());
             }
             //将老数据插入到后侧，最后重置数据
-            GachaData data = WorkingGachaData[WorkingUid]!;
+            GachaData data = this.WorkingGachaData[this.WorkingUid]!;
             string? key = type.Key;
             if (key is not null)
             {
@@ -271,14 +271,14 @@ namespace DGP.Genshin.Service.GachaStatistic
         private async Task<Result<bool, GachaLog>> TryGetBatchAsync(ConfigType type, long endId)
         {
             //modify the url
-            string[]? splitedUrl = gachaLogUrl?.Split('?');
+            string[]? splitedUrl = this.gachaLogUrl?.Split('?');
             string? baseUrl = splitedUrl?[0];
 
             //parse querystrings
             QueryString query = QueryString.Parse(splitedUrl?[1]);
             query.Set("gacha_type", type.Key);
             //20 is the max size the api can return
-            query.Set("size", batchSize.ToString());
+            query.Set("size", this.batchSize.ToString());
             query.Set("lang", "zh-cn");
             query.Set("end_id", endId.ToString());
             string finalUrl = $"{baseUrl}?{query}";

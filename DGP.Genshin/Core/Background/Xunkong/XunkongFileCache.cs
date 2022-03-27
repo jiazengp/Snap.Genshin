@@ -17,18 +17,16 @@ namespace DGP.Genshin.Core.Background.Xunkong
     /// </summary>
     internal static class XunkongFileCache
     {
-        // Record whether a file is being written.
-        private static readonly Dictionary<string, bool> IsWritingFile = new();
-
         private const string CacheFolderName = "Background/Xunkong";
 
-        // HttpClient is intended to be instantiated once per application, rather than per-use.
+        // Record whether a file is being written.
+        private static readonly Dictionary<string, bool> IsWritingFile = new();
         private static readonly Lazy<HttpClient> LazyHttpClient = new(() => new() { Timeout = Timeout.InfiniteTimeSpan });
 
         /// <summary>
         /// Url命中
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="url">图片Url</param>
         /// <returns>缓存或下载的图片</returns>
         public static async Task<MemoryStream?> HitAsync(string? url)
         {
@@ -45,14 +43,15 @@ namespace DGP.Genshin.Core.Background.Xunkong
 
             MemoryStream memoryStream = new();
             FileStream? fileStream = null;
-            //未写文件且文件存在
-            //读取文件缓存并返回
+
+            // 未写文件且文件存在 读取文件缓存并返回
             if (!IsWritingFile.ContainsKey(fileName) && File.Exists(localFile))
             {
                 using (fileStream = new FileStream(localFile, FileMode.Open, FileAccess.Read))
                 {
                     await fileStream.CopyToAsync(memoryStream);
                 }
+
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
@@ -78,6 +77,7 @@ namespace DGP.Genshin.Core.Background.Xunkong
 
                     await CopyToCacheAndMemoryAsync(responseStream, memoryStream, fileStream, fileName);
                 }
+
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 Logger.LogStatic($"Download {uri} completed.");
                 return memoryStream;
@@ -89,6 +89,7 @@ namespace DGP.Genshin.Core.Background.Xunkong
                 {
                     await fileStream.DisposeAsync();
                 }
+
                 Logger.LogStatic(ex);
                 File.Delete(localFile);
                 Logger.LogStatic($"Caching {url} To {fileName} failed.File has deleted.");
@@ -96,31 +97,6 @@ namespace DGP.Genshin.Core.Background.Xunkong
             }
         }
 
-        /// <summary>
-        /// 用于图片缓存资源验证
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static bool Exists(string? url)
-        {
-            if (url is null)
-            {
-                return true;
-            }
-
-            Directory.CreateDirectory(CacheFolderName);
-
-            Uri uri = new(url);
-            string fileName = BuildFileName(uri);
-            string localFile = $"{CacheFolderName}\\{fileName}";
-            return File.Exists(localFile);
-        }
-
-        /// <summary>
-        /// 构造缓存文件名称
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
         private static string BuildFileName(Uri uri)
         {
             StringBuilder fileNameBuilder = new();
@@ -128,24 +104,16 @@ namespace DGP.Genshin.Core.Background.Xunkong
             {
                 string canonicalUrl = uri.ToString();
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
-                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower(CultureInfo.DefaultThreadCurrentCulture));
+                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant());
                 if (Path.HasExtension(canonicalUrl))
                 {
                     fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
                 }
             }
-            string fileName = fileNameBuilder.ToString();
-            return fileName;
+
+            return fileNameBuilder.ToString();
         }
 
-        /// <summary>
-        /// 复制到缓存与文件
-        /// </summary>
-        /// <param name="response"></param>
-        /// <param name="memory"></param>
-        /// <param name="file"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         private static async Task CopyToCacheAndMemoryAsync(Stream response, MemoryStream memory, FileStream? file, string fileName)
         {
             const int bufferSize = 128;
@@ -158,6 +126,7 @@ namespace DGP.Genshin.Core.Background.Xunkong
                 {
                     await file.WriteAsync(buffer.AsMemory(0, bytesRead));
                 }
+
                 await memory.WriteAsync(buffer.AsMemory(0, bytesRead));
             }
             while (bytesRead > 0);

@@ -8,8 +8,8 @@ namespace DGP.Genshin.Page
     {
         public GachaStatisticPage(GachaStatisticViewModel vm)
         {
-            DataContext = vm;
-            InitializeComponent();
+            this.DataContext = vm;
+            this.InitializeComponent();
         }
     }
 }

@@ -34,17 +34,17 @@ namespace DGP.Genshin.ViewModel
 
         public bool IsCookieVisible
         {
-            get => isCookieVisible;
+            get => this.isCookieVisible;
 
-            set => SetPropertyAndCallbackOnCompletion(ref isCookieVisible, value, TrySendCompletedMessage);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.isCookieVisible, value, this.TrySendCompletedMessage);
         }
 
         [PropertyChangedCallback]
         private void TrySendCompletedMessage()
         {
-            if (IsCookieVisible == false && integrityCheckService.IntegrityChecking.IsCompleted)
+            if (this.IsCookieVisible == false && this.integrityCheckService.IntegrityChecking.IsCompleted)
             {
-                messenger.Send(new SplashInitializationCompletedMessage(this));
+                this.messenger.Send(new SplashInitializationCompletedMessage(this));
             }
         }
         /// <summary>
@@ -52,39 +52,39 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool IsSplashNotVisible
         {
-            get => isSplashNotVisible;
+            get => this.isSplashNotVisible;
 
-            set => SetProperty(ref isSplashNotVisible, value);
+            set => this.SetProperty(ref this.isSplashNotVisible, value);
         }
         public string CurrentStateDescription
         {
-            get => currentStateDescription;
+            get => this.currentStateDescription;
 
-            set => SetProperty(ref currentStateDescription, value);
+            set => this.SetProperty(ref this.currentStateDescription, value);
         }
         public int CurrentCount
         {
-            get => currentCount;
+            get => this.currentCount;
 
-            set => SetProperty(ref currentCount, value);
+            set => this.SetProperty(ref this.currentCount, value);
         }
         public string? CurrentInfo
         {
-            get => currentInfo;
+            get => this.currentInfo;
 
-            set => SetProperty(ref currentInfo, value);
+            set => this.SetProperty(ref this.currentInfo, value);
         }
         public int? TotalCount
         {
-            get => totalCount;
+            get => this.totalCount;
 
-            set => SetProperty(ref totalCount, value);
+            set => this.SetProperty(ref this.totalCount, value);
         }
         public double Percent
         {
-            get => percent;
+            get => this.percent;
 
-            set => SetProperty(ref percent, value);
+            set => this.SetProperty(ref this.percent, value);
         }
         public WorkWatcher IntegrityChecking { get; set; } = new();
         #endregion
@@ -97,8 +97,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public void CompleteInitialization()
         {
-            CurrentStateDescription = "完成";
-            IsSplashNotVisible = true;
+            this.CurrentStateDescription = "完成";
+            this.IsSplashNotVisible = true;
         }
 
         public SplashViewModel(ICookieService cookieService, IIntegrityCheckService integrityCheckService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
@@ -107,32 +107,32 @@ namespace DGP.Genshin.ViewModel
             this.integrityCheckService = integrityCheckService;
             this.messenger = messenger;
 
-            SetCookieCommand = asyncRelayCommandFactory.Create(SetCookieAsync);
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            this.SetCookieCommand = asyncRelayCommandFactory.Create(this.SetCookieAsync);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
         }
 
         private async Task SetCookieAsync()
         {
-            await cookieService.SetCookieAsync();
-            IsCookieVisible = !cookieService.IsCookieAvailable;
+            await this.cookieService.SetCookieAsync();
+            this.IsCookieVisible = !this.cookieService.IsCookieAvailable;
         }
 
         private async Task OpenUIAsync()
         {
-            CurrentStateDescription = "等待网络连接...";
+            this.CurrentStateDescription = "等待网络连接...";
             await Network.WaitConnectionAsync();
-            CurrentStateDescription = "校验 Cookie 有效性...";
-            await PerformCookieServiceCheckAsync();
-            CurrentStateDescription = "校验 缓存资源 完整性...";
-            await PerformIntegrityServiceCheckAsync();
-            CurrentStateDescription = string.Empty;
-            TrySendCompletedMessage();
+            this.CurrentStateDescription = "校验 Cookie 有效性...";
+            await this.PerformCookieServiceCheckAsync();
+            this.CurrentStateDescription = "校验 缓存资源 完整性...";
+            await this.PerformIntegrityServiceCheckAsync();
+            this.CurrentStateDescription = string.Empty;
+            this.TrySendCompletedMessage();
         }
 
         private async Task PerformCookieServiceCheckAsync()
         {
-            await cookieService.InitializeAsync();
-            IsCookieVisible = !cookieService.IsCookieAvailable;
+            await this.cookieService.InitializeAsync();
+            this.IsCookieVisible = !this.cookieService.IsCookieAvailable;
         }
 
         private async Task PerformIntegrityServiceCheckAsync()
@@ -140,15 +140,15 @@ namespace DGP.Genshin.ViewModel
             Progress<IIntegrityCheckService.IIntegrityCheckState> progress = new();
             progress.ProgressChanged += (_, state) =>
             {
-                CurrentCount = state.CurrentCount;
-                Percent = (state.CurrentCount * 1D / TotalCount) ?? 0D;
-                TotalCount = state.TotalCount;
-                CurrentInfo = state.Info;
+                this.CurrentCount = state.CurrentCount;
+                this.Percent = (state.CurrentCount * 1D / this.TotalCount) ?? 0D;
+                this.TotalCount = state.TotalCount;
+                this.CurrentInfo = state.Info;
             };
 
-            using (IntegrityChecking.Watch())
+            using (this.IntegrityChecking.Watch())
             {
-                await integrityCheckService.CheckMetadataIntegrityAsync(progress);
+                await this.integrityCheckService.CheckMetadataIntegrityAsync(progress);
             }
         }
     }

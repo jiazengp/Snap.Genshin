@@ -9,10 +9,10 @@ namespace DGP.Genshin.DataModel.Launching
     {
         public LaunchScheme(string name, string channel, string cps, string subChannel)
         {
-            Name = name;
-            Channel = channel;
-            CPS = cps;
-            SubChannel = subChannel;
+            this.Name = name;
+            this.Channel = channel;
+            this.CPS = cps;
+            this.SubChannel = subChannel;
         }
 
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace DGP.Genshin.DataModel.Launching
 
         public SchemeType GetSchemeType()
         {
-            return (Channel, SubChannel) switch
+            return (this.Channel, this.SubChannel) switch
             {
                 ("1", "1") => SchemeType.Officical,
                 ("14", "0") => SchemeType.Bilibili,

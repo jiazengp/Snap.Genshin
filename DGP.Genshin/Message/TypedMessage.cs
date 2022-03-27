@@ -9,7 +9,7 @@
         public T Value { get; }
         public TypedMessage(T value)
         {
-            Value = value;
+            this.Value = value;
         }
     }
 }

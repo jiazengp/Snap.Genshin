@@ -25,7 +25,7 @@ namespace DGP.Genshin.Service
 
         public async Task InitializeAsync()
         {
-            messenger.RegisterAll(this);
+            this.messenger.RegisterAll(this);
             try
             {
                 await Task.Run(async () =>
@@ -33,30 +33,30 @@ namespace DGP.Genshin.Service
                     while (true)
                     {
                         double minutes = Setting2.ResinRefreshMinutes;
-                        await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
+                        await Task.Delay(TimeSpan.FromMinutes(minutes), this.cancellationTokenSource.Token);
                         //await Task.Delay(10000, cancellationTokenSource.Token);
                         this.Log("Tick scheduled");
-                        messenger.Send(new TickScheduledMessage());
+                        this.messenger.Send(new TickScheduledMessage());
                         DateTime current = DateTime.UtcNow + TimeSpan.FromHours(8);
-                        if (current.Date > lastScheduledTime.Date)
+                        if (current.Date > this.lastScheduledTime.Date)
                         {
                             this.Log("Date changed");
-                            messenger.Send(new DayChangedMessage());
+                            this.messenger.Send(new DayChangedMessage());
                         }
-                        lastScheduledTime = current;
+                        this.lastScheduledTime = current;
                     }
-                }, cancellationTokenSource.Token);
+                }, this.cancellationTokenSource.Token);
             }
             catch (TaskCanceledException) { }
         }
         public void UnInitialize()
         {
-            cancellationTokenSource.Cancel();
-            messenger.UnregisterAll(this);
+            this.cancellationTokenSource.Cancel();
+            this.messenger.UnregisterAll(this);
         }
         public void Receive(AppExitingMessage message)
         {
-            UnInitialize();
+            this.UnInitialize();
         }
     }
 }

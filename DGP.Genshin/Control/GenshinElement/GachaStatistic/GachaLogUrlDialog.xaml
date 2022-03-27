@@ -12,6 +12,6 @@
                   SecondaryButtonText="取消">
     <StackPanel>
         <TextBox x:Name="InputText" VerticalAlignment="Top" ui:ControlHelper.Header="在此处输入游戏内历史记录页面的Url"/>
-        <TextBlock Text="只允许以 https://webstatic.mihoyo.com 开头" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
+        <TextBlock Text="允许&#10;https://webstatic.mihoyo.com&#10;https://hk4e-api.mihoyo.com&#10;开头的链接" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
     </StackPanel>
 </ui:ContentDialog>

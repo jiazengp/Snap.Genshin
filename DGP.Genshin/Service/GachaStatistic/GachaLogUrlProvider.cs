@@ -38,7 +38,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 case GachaLogUrlMode.ManualInput:
                     return await GetUrlFromManualInputAsync();
                 default:
-                    return default!;//never happen
+                    throw Assumes.NotReachable();//never happen
             }
         }
 
@@ -81,7 +81,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 string url = input.Value.Trim();
                 //compat with iOS url
-                if (url.StartsWith(@"https://webstatic.mihoyo.com"))
+                if (url.StartsWith(@"https://webstatic.mihoyo.com") || url.StartsWith(@"https://hk4e-api.mihoyo.com"))
                 {
                     url = url.Replace("#/log", "");
                     string[] splitedUrl = url.Split('?');

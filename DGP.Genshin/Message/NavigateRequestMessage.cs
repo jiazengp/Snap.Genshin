@@ -6,8 +6,8 @@ namespace DGP.Genshin.Message
     {
         public NavigateRequestMessage(Type pageType, bool isSyncTabRequested = false, object? extraData = null) : base(pageType)
         {
-            IsSyncTabRequested = isSyncTabRequested;
-            ExtraData = extraData;
+            this.IsSyncTabRequested = isSyncTabRequested;
+            this.ExtraData = extraData;
         }
         public bool IsSyncTabRequested { get; set; }
         public object? ExtraData { get; set; }

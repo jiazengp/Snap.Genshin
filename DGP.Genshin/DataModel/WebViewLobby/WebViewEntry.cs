@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DGP.Genshin.Control.WebViewLobby;
+using Newtonsoft.Json;
 using System.Windows.Input;
 
 namespace DGP.Genshin.DataModel.WebViewLobby
@@ -7,11 +8,20 @@ namespace DGP.Genshin.DataModel.WebViewLobby
     {
         public WebViewEntry(string name, string navigateUrl, string? iconUrl, string? javaScript, bool showInNavView = true)
         {
-            Name = name;
-            NavigateUrl = navigateUrl;
-            IconUrl = iconUrl;
-            JavaScript = javaScript;
-            ShowInNavView = showInNavView;
+            this.Name = name;
+            this.NavigateUrl = navigateUrl;
+            this.IconUrl = iconUrl;
+            this.JavaScript = javaScript;
+            this.ShowInNavView = showInNavView;
+        }
+
+        public WebViewEntry(WebViewEntryDialog dialog)
+        {
+            this.Name = dialog.Name;
+            this.NavigateUrl = dialog.NavigateUrl;
+            this.IconUrl = dialog.IconUrl;
+            this.JavaScript = dialog.JavaScript;
+            this.ShowInNavView = dialog.ShowInNavView;
         }
 
         public string Name { get; set; }

@@ -34,33 +34,33 @@ namespace DGP.Genshin.Service
 
         public async Task InitializeAsync(CancellationToken cancellationToken = default)
         {
-            await playerRecordClient.InitializeAsync(cancellationToken);
+            await this.playerRecordClient.InitializeAsync(cancellationToken);
 
-            avatarMap = await playerRecordClient.GetAvatarMapAsync(cancellationToken);
-            weaponMap = await playerRecordClient.GetWeaponMapAsync(cancellationToken);
-            reliquaryMap = await playerRecordClient.GetReliquaryMapAsync(cancellationToken);
+            this.avatarMap = await this.playerRecordClient.GetAvatarMapAsync(cancellationToken);
+            this.weaponMap = await this.playerRecordClient.GetWeaponMapAsync(cancellationToken);
+            this.reliquaryMap = await this.playerRecordClient.GetReliquaryMapAsync(cancellationToken);
 
-            _avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
-            _avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
-            _teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
-            _weaponUsages = await playerRecordClient.GetWeaponUsagesAsync(cancellationToken);
-            _avatarReliquaryUsages = await playerRecordClient.GetAvatarReliquaryUsagesAsync(cancellationToken);
-            _teamCombinations = await playerRecordClient.GetTeamCombinationsAsync(cancellationToken);
+            this._avatarParticipations = await this.playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
+            this._avatarConstellationNums = await this.playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
+            this._teamCollocations = await this.playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
+            this._weaponUsages = await this.playerRecordClient.GetWeaponUsagesAsync(cancellationToken);
+            this._avatarReliquaryUsages = await this.playerRecordClient.GetAvatarReliquaryUsagesAsync(cancellationToken);
+            this._teamCombinations = await this.playerRecordClient.GetTeamCombinationsAsync(cancellationToken);
         }
 
         public async Task<Overview?> GetOverviewAsync(CancellationToken cancellationToken = default)
         {
-            return await playerRecordClient.GetOverviewAsync(cancellationToken);
+            return await this.playerRecordClient.GetOverviewAsync(cancellationToken);
         }
 
         public IList<Indexed<int, Item<double>>> GetAvatarParticipations()
         {
             List<Indexed<int, Item<double>>> avatarParticipationResults = new();
             //保证 12层在前
-            foreach (AvatarParticipation avatarParticipation in _avatarParticipations.OrderByDescending(x => x.Floor))
+            foreach (AvatarParticipation avatarParticipation in this._avatarParticipations.OrderByDescending(x => x.Floor))
             {
-                IEnumerable<Item<double>> result = avatarParticipation.AvatarUsage
-                    .Join(avatarMap, rate => rate.Id, avatar => avatar.Id,
+                IList<Item<double>> result = avatarParticipation.AvatarUsage
+                    .Join(this.avatarMap, rate => rate.Id, avatar => avatar.Id,
                     (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value))
                     .OrderByDescending(x => x.Value)
                     .ToList();
@@ -74,9 +74,9 @@ namespace DGP.Genshin.Service
         public IList<Rate<Item<IList<NamedValue<double>>>>> GetAvatarConstellations()
         {
             List<Rate<Item<IList<NamedValue<double>>>>> avatarConstellationsResults = new();
-            foreach (AvatarConstellationNum avatarConstellationNum in _avatarConstellationNums)
+            foreach (AvatarConstellationNum avatarConstellationNum in this._avatarConstellationNums)
             {
-                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == avatarConstellationNum.Avatar);
+                HutaoItem? matched = this.avatarMap.FirstOrDefault(x => x.Id == avatarConstellationNum.Avatar);
                 if (matched != null)
                 {
                     IList<NamedValue<double>> result = avatarConstellationNum.Rate
@@ -98,13 +98,13 @@ namespace DGP.Genshin.Service
         public IList<Item<IList<Item<double>>>> GetTeamCollocations()
         {
             List<Item<IList<Item<double>>>> teamCollocationsResults = new();
-            foreach (TeamCollocation teamCollocation in _teamCollocations)
+            foreach (TeamCollocation teamCollocation in this._teamCollocations)
             {
-                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avater);
+                HutaoItem? matched = this.avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avater);
                 if (matched != null)
                 {
                     IEnumerable<Item<double>> result = teamCollocation.Collocations
-                    .Join(avatarMap.DistinctBy(a => a.Id), rate => rate.Id, avatar => avatar.Id,
+                    .Join(this.avatarMap.DistinctBy(a => a.Id), rate => rate.Id, avatar => avatar.Id,
                     (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value));
 
                     teamCollocationsResults
@@ -121,13 +121,13 @@ namespace DGP.Genshin.Service
         public IList<Item<IList<Item<double>>>> GetWeaponUsages()
         {
             List<Item<IList<Item<double>>>> weaponUsagesResults = new();
-            foreach (WeaponUsage weaponUsage in _weaponUsages)
+            foreach (WeaponUsage weaponUsage in this._weaponUsages)
             {
-                HutaoItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == weaponUsage.Avatar);
+                HutaoItem? matchedAvatar = this.avatarMap.FirstOrDefault(x => x.Id == weaponUsage.Avatar);
                 if (matchedAvatar != null)
                 {
                     IEnumerable<Item<double>> result = weaponUsage.Weapons
-                    .Join(weaponMap, rate => rate.Id, weapon => weapon.Id,
+                    .Join(this.weaponMap, rate => rate.Id, weapon => weapon.Id,
                     (rate, weapon) => new Item<double>(weapon.Id, weapon.Name, weapon.Url, rate.Value));
 
                     weaponUsagesResults
@@ -144,9 +144,9 @@ namespace DGP.Genshin.Service
         public IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>> GetReliquaryUsages()
         {
             List<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>> reliquaryUsagesResults = new();
-            foreach (AvatarReliquaryUsage reliquaryUsage in _avatarReliquaryUsages)
+            foreach (AvatarReliquaryUsage reliquaryUsage in this._avatarReliquaryUsages)
             {
-                HutaoItem? matchedAvatar = avatarMap.FirstOrDefault(x => x.Id == reliquaryUsage.Avatar);
+                HutaoItem? matchedAvatar = this.avatarMap.FirstOrDefault(x => x.Id == reliquaryUsage.Avatar);
                 if (matchedAvatar != null)
                 {
                     List<NamedValue<Rate<IList<Item<int>>>>> result = new();
@@ -160,7 +160,7 @@ namespace DGP.Genshin.Service
                         {
                             //0 id 1 count
                             string[]? relicSetIdAndCount = relicAndCount.Split('-');
-                            HutaoItem? matchedRelic = reliquaryMap.FirstOrDefault(x => x.Id == int.Parse(relicSetIdAndCount[0]));
+                            HutaoItem? matchedRelic = this.reliquaryMap.FirstOrDefault(x => x.Id == int.Parse(relicSetIdAndCount[0]));
                             if (matchedRelic != null)
                             {
                                 string count = relicSetIdAndCount[1];
@@ -191,14 +191,14 @@ namespace DGP.Genshin.Service
         public IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations()
         {
             List<Indexed<string, Rate<Two<IList<HutaoItem>>>>> teamCombinationResults = new();
-            foreach (TeamCombination temaCombination in _teamCombinations.OrderByDescending(x => x.Level.Floor).ThenByDescending(x => x.Level.Index))
+            foreach (TeamCombination temaCombination in this._teamCombinations.OrderByDescending(x => x.Level.Floor).ThenByDescending(x => x.Level.Index))
             {
                 IList<Rate<Two<IList<HutaoItem>>>> teamRates = temaCombination.Teams
                 .Select(team => new Rate<Two<IList<HutaoItem>>>
                 {
                     Value = team.Value,
-                    Id = new(team.Id!.GetUp().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull().ToList(),
-                    team.Id!.GetDown().Select(id => avatarMap.FirstOrDefault(a => a.Id == id)).NotNull().ToList())
+                    Id = new(team.Id!.GetUp().Select(id => this.avatarMap.FirstOrDefault(a => a.Id == id)).NotNull().ToList(),
+                    team.Id!.GetDown().Select(id => this.avatarMap.FirstOrDefault(a => a.Id == id)).NotNull().ToList())
                 })
                 .ToList();
 
@@ -212,7 +212,7 @@ namespace DGP.Genshin.Service
 
         public async Task GetAllRecordsAndUploadAsync(string cookie, Func<PlayerRecord, Task<bool>> confirmFunc, Func<Response, Task> resultAsyncFunc, CancellationToken cancellationToken = default)
         {
-            await playerRecordClient.GetAllRecordsAndUploadAsync(cookie, confirmFunc, resultAsyncFunc, cancellationToken);
+            await this.playerRecordClient.GetAllRecordsAndUploadAsync(cookie, confirmFunc, resultAsyncFunc, cancellationToken);
         }
     }
 }

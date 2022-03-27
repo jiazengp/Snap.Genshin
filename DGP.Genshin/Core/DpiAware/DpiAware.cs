@@ -5,9 +5,16 @@ using System.Windows.Interop;
 
 namespace DGP.Genshin.Core.DpiAware
 {
+    /// <summary>
+    /// 分辨率感知
+    /// </summary>
     internal static class DpiAware
     {
         private static bool? isDpiMethodSupported = null;
+
+        /// <summary>
+        /// 是否支持分辨率感知
+        /// </summary>
         public static bool IsSupported
         {
             get
@@ -17,10 +24,16 @@ namespace DGP.Genshin.Core.DpiAware
             }
         }
 
+        /// <summary>
+        /// 获取缩放比
+        /// </summary>
+        /// <param name="window">目标窗体</param>
+        /// <returns>缩放比</returns>
         public static double GetScaleRatio(Window window)
         {
-            HwndSource? hwndSource = PresentationSource.FromVisual(window) as HwndSource;
-            //TODO: verify use hwndSource there
+            PresentationSource hwndSource = PresentationSource.FromVisual(window);
+
+            // TODO: verify use hwndSource there
             double wpfDpi = 96.0 * PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice.M11;
 
             if (IsSupported == false)
@@ -30,7 +43,7 @@ namespace DGP.Genshin.Core.DpiAware
             }
             else
             {
-                IntPtr monitor = User32.MonitorFromWindow(hwndSource!.Handle, User32.MonitorOpts.MONITOR_DEFAULTTONEAREST);
+                IntPtr monitor = User32.MonitorFromWindow(((HwndSource)hwndSource).Handle, User32.MonitorOpts.MONITOR_DEFAULTTONEAREST);
                 _ = SHCore.GetDpiForMonitor(monitor, SHCore.MonitorDpiType.MDT_EFFECTIVE_DPI, out uint dpiX, out uint _);
                 return dpiX / wpfDpi;
             }

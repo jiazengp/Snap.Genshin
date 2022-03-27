@@ -14,23 +14,32 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
     /// https://github.com/floydpink/CachedImage/blob/main/source/Image.cs
     public class CachedImage : System.Windows.Controls.Image
     {
+        private static readonly DependencyProperty ImageUrlProperty = Property<CachedImage>.Depend(nameof(ImageUrl), string.Empty, ImageUrlPropertyChanged);
+        private static readonly DependencyProperty CreateOptionsProperty = Property<CachedImage>.Depend<BitmapCreateOptions>(nameof(CreateOptions));
+
         static CachedImage()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CachedImage), new FrameworkPropertyMetadata(typeof(CachedImage)));
         }
 
+        /// <summary>
+        /// 图像Url
+        /// </summary>
         public string ImageUrl
         {
-            get => (string)GetValue(ImageUrlProperty);
+            get => (string)this.GetValue(ImageUrlProperty);
 
-            set => SetValue(ImageUrlProperty, value);
+            set => this.SetValue(ImageUrlProperty, value);
         }
 
+        /// <summary>
+        /// 创建选项
+        /// </summary>
         public BitmapCreateOptions CreateOptions
         {
-            get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
+            get => (BitmapCreateOptions)this.GetValue(CreateOptionsProperty);
 
-            set => SetValue(CreateOptionsProperty, value);
+            set => this.SetValue(CreateOptionsProperty, value);
         }
 
         private static void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -56,24 +65,21 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                         cachedImage.Source = null;
                         return;
                     }
+
                     using (bitmapImage.AsDisposableInit())
                     {
                         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                         bitmapImage.CreateOptions = cachedImage.CreateOptions;
                         bitmapImage.StreamSource = memoryStream;
                     }
+
                     bitmapImage.Freeze();
                     cachedImage.Source = bitmapImage;
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
-
-        public static readonly DependencyProperty ImageUrlProperty =
-            DependencyProperty.Register(nameof(ImageUrl), typeof(string), typeof(CachedImage),
-                new PropertyMetadata(string.Empty, ImageUrlPropertyChanged));
-
-        public static readonly DependencyProperty CreateOptionsProperty =
-            DependencyProperty.Register(nameof(CreateOptions), typeof(BitmapCreateOptions), typeof(CachedImage));
     }
 }

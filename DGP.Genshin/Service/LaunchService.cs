@@ -88,12 +88,12 @@ namespace DGP.Genshin.Service
 
         public IniData LauncherConfig
         {
-            get => Requires.NotNull(launcherConfig!, nameof(launcherConfig));
+            get => Requires.NotNull(this.launcherConfig!, nameof(this.launcherConfig));
         }
 
         public IniData GameConfig
         {
-            get => Requires.NotNull(gameConfig!, nameof(gameConfig));
+            get => Requires.NotNull(this.gameConfig!, nameof(this.gameConfig));
         }
 
         public WorkWatcher GameWatcher { get; } = new();
@@ -102,7 +102,7 @@ namespace DGP.Genshin.Service
         {
             PathContext.CreateFileOrIgnore(AccountsFileName);
             string? launcherPath = Setting2.LauncherPath;
-            TryLoadIniData(launcherPath);
+            this.TryLoadIniData(launcherPath);
         }
 
         [MemberNotNullWhen(true, nameof(gameConfig)), MemberNotNullWhen(true, nameof(launcherConfig))]
@@ -113,10 +113,10 @@ namespace DGP.Genshin.Service
                 try
                 {
                     string configPath = Path.Combine(Path.GetDirectoryName(launcherPath)!, ConfigFileName);
-                    launcherConfig = GetIniData(configPath);
+                    this.launcherConfig = this.GetIniData(configPath);
 
-                    string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-                    gameConfig = GetIniData(Path.Combine(unescapedGameFolder, ConfigFileName));
+                    string unescapedGameFolder = this.GetUnescapedGameFolderFromLauncherConfig();
+                    this.gameConfig = this.GetIniData(Path.Combine(unescapedGameFolder, ConfigFileName));
                 }
                 catch (ParsingException) { return false; }
                 catch (ArgumentNullException) { return false; }
@@ -152,12 +152,12 @@ namespace DGP.Genshin.Service
             string? launcherPath = Setting2.LauncherPath.Get();
             if (launcherPath is not null)
             {
-                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
-                string gamePath = Path.Combine(unescapedGameFolder, LauncherConfig[LauncherSection][GameName]);
+                string unescapedGameFolder = this.GetUnescapedGameFolderFromLauncherConfig();
+                string gamePath = Path.Combine(unescapedGameFolder, this.LauncherConfig[LauncherSection][GameName]);
 
                 try
                 {
-                    if (GameWatcher.IsWorking)
+                    if (this.GameWatcher.IsWorking)
                     {
                         Verify.FailOperation("游戏已经启动");
                     }
@@ -181,12 +181,12 @@ namespace DGP.Genshin.Service
                         }
                     };
 
-                    using (GameWatcher.Watch())
+                    using (this.GameWatcher.Watch())
                     {
                         if (option.UnlockFPS)
                         {
-                            unlocker = new(game, option.TargetFPS);
-                            UnlockResult result = await unlocker.StartProcessAndUnlockAsync();
+                            this.unlocker = new(game, option.TargetFPS);
+                            UnlockResult result = await this.unlocker.StartProcessAndUnlockAsync();
                             this.Log(result);
                         }
                         else
@@ -211,9 +211,9 @@ namespace DGP.Genshin.Service
         /// <param name="targetFPS"></param>
         public void SetTargetFPSDynamically(int targetFPS)
         {
-            if (unlocker is not null)
+            if (this.unlocker is not null)
             {
-                unlocker.TargetFPS = targetFPS;
+                this.unlocker.TargetFPS = targetFPS;
             }
         }
 
@@ -244,7 +244,7 @@ namespace DGP.Genshin.Service
         /// <returns></returns>
         private string GetUnescapedGameFolderFromLauncherConfig()
         {
-            string gameInstallPath = LauncherConfig[LauncherSection][GameInstallPath];
+            string gameInstallPath = this.LauncherConfig[LauncherSection][GameInstallPath];
             string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
             if (!hex4Result.Contains(@"\u"))//不包含中文
             {
@@ -284,14 +284,14 @@ namespace DGP.Genshin.Service
         {
             if (scheme is not null)
             {
-                GameConfig[GeneralSection][Channel] = scheme.Channel;
-                GameConfig[GeneralSection][CPS] = scheme.CPS;
-                GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
+                this.GameConfig[GeneralSection][Channel] = scheme.Channel;
+                this.GameConfig[GeneralSection][CPS] = scheme.CPS;
+                this.GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
 
-                string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
+                string unescapedGameFolder = this.GetUnescapedGameFolderFromLauncherConfig();
                 string configFilePath = Path.Combine(unescapedGameFolder, ConfigFileName);
                 //new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
-                new FileIniDataParser().WriteFile(configFilePath, GameConfig, new UTF8Encoding(false));
+                new FileIniDataParser().WriteFile(configFilePath, this.GameConfig, new UTF8Encoding(false));
             }
         }
 

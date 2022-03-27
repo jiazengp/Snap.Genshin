@@ -45,7 +45,7 @@
 
 > [解包 Json 查看器](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
 > [Xbox实时便笺树脂小组件](https://github.com/DGP-Studio/DGP.Genshin.GamebarWidget)  
-> [GHHW 角色爬虫](https://github.com/DGP-Studio/Crawler-ghhw)
-> [胡桃API 网页端]()
-> [胡桃API 服务端](https://github.com/DGP-Studio/Snap.Genshin.Website)
+> [GHHW 角色爬虫](https://github.com/DGP-Studio/Crawler-ghhw)  
+> [胡桃API 网页端](https://github.com/DGP-Studio/Snap.Genshin.HutaoWeb)  
+> [胡桃API 服务端](https://github.com/DGP-Studio/Snap.Genshin.Website)  
 </div>

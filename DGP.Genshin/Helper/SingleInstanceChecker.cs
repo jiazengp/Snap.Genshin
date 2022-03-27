@@ -41,28 +41,28 @@ namespace DGP.Genshin.Helper
             // check if it is already open.
             try
             {
-                IsEnsureingSingleInstance = true;
+                this.IsEnsureingSingleInstance = true;
                 // try to open it - if another instance is running, it will exist , if not it will throw
-                eventWaitHandle = EventWaitHandle.OpenExisting(uniqueEventName);
+                this.eventWaitHandle = EventWaitHandle.OpenExisting(this.uniqueEventName);
                 // Notify other instance so it could bring itself to foreground.
-                eventWaitHandle.Set();
+                this.eventWaitHandle.Set();
                 // Terminate this instance.
-                IsExitDueToSingleInstanceRestriction = true;
+                this.IsExitDueToSingleInstanceRestriction = true;
                 app.Shutdown();
             }
             catch (WaitHandleCannotBeOpenedException)
             {
                 // listen to a new event (this app instance will be the new "master")
-                eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, uniqueEventName);
+                this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, this.uniqueEventName);
             }
             finally
             {
-                IsEnsureingSingleInstance = false;
+                this.IsEnsureingSingleInstance = false;
             }
             new Task(() =>
             {
                 // if this instance gets the signal
-                while (eventWaitHandle.WaitOne())
+                while (this.eventWaitHandle.WaitOne())
                 {
                     App.Current.Dispatcher.Invoke(multiInstancePresentAction);
                 }

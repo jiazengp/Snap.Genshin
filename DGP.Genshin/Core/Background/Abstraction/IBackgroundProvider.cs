@@ -11,6 +11,10 @@ namespace DGP.Genshin.Core.Background.Abstraction
     [SwitchableInterfaceDefinitionContract]
     public interface IBackgroundProvider
     {
+        /// <summary>
+        /// 获取下一张壁纸
+        /// </summary>
+        /// <returns>下一张壁纸 或 <see langword="null"/> 如果获取失败</returns>
         Task<BitmapImage?> GetNextBitmapImageAsync();
     }
 }

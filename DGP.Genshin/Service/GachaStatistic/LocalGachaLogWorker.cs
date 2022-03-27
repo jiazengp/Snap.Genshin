@@ -49,7 +49,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             foreach (string uidFolder in Directory.EnumerateDirectories($@"{localFolder}"))
             {
                 string uid = new DirectoryInfo(uidFolder).Name;
-                LoadLogOf(uid, gachaData);
+                this.LoadLogOf(uid, gachaData);
             }
         }
         private void LoadLogOf(string uid, GachaDataCollection gachaData)
@@ -72,7 +72,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             foreach (UidGachaData entry in gachaData)
             {
-                SaveLogOf(entry.Uid, gachaData);
+                this.SaveLogOf(entry.Uid, gachaData);
             }
         }
 
@@ -121,10 +121,10 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 { "id", 0 },
                                 { "uigf_gacha_type", 0 }
                             };
-                            columnIndex = DetectColumn(metadataSheet, columnIndex, propertyColumn);
-                            List<UIGFItem> gachaLogs = EnumerateSheetData(metadataSheet, propertyColumn);
-                            ImportableGachaData importData = BuildImportableDataByList(gachaLogs);
-                            uid = await ImportImportableGachaDataAsync(importData, gachaData);
+                            columnIndex = this.DetectColumn(metadataSheet, columnIndex, propertyColumn);
+                            List<UIGFItem> gachaLogs = this.EnumerateSheetData(metadataSheet, propertyColumn);
+                            ImportableGachaData importData = this.BuildImportableDataByList(gachaLogs);
+                            uid = await this.ImportImportableGachaDataAsync(importData, gachaData);
                         }
                         else
                         {
@@ -132,7 +132,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                         }
                     }
                 }
-                SaveAll(gachaData);
+                this.SaveAll(gachaData);
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region UIGF.J
         public async Task<Result<bool, string>> ImportFromUIGFJAsync(string filePath, GachaDataCollection gachaData)
         {
-            return await ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
+            return await this.ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
             {
                 Requires.NotNull(file!, nameof(file));
                 ImportableGachaData importData = new();
@@ -284,8 +284,8 @@ namespace DGP.Genshin.Service.GachaStatistic
             try
             {
                 T? file = Json.FromFile<T>(filePath);
-                uid = await ImportImportableGachaDataAsync(converter.Invoke(file), gachaData);
-                SaveAll(gachaData);
+                uid = await this.ImportImportableGachaDataAsync(converter.Invoke(file), gachaData);
+                this.SaveAll(gachaData);
             }
             catch (Exception ex)
             {
@@ -312,8 +312,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                     //we need to perform merge operation
                     foreach ((string poolId, List<GachaLogItem>? logs) in data)
                     {
-                        TrimToBackIncrement(importable.Uid, poolId, gachaData, logs);
-                        MergeBackIncrement(importable.Uid, poolId, gachaData, logs ?? new());
+                        this.TrimToBackIncrement(importable.Uid, poolId, gachaData, logs);
+                        this.MergeBackIncrement(importable.Uid, poolId, gachaData, logs ?? new());
                     }
                 }
                 else
@@ -394,9 +394,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region export
         public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
         {
-            lock (processing)
+            lock (this.processing)
             {
-                EnsureGachaItemId(uid, gachaData);
+                this.EnsureGachaItemId(uid, gachaData);
 
                 UIGF? exportData = new()
                 {
@@ -453,9 +453,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         #region Excel
         public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaDataCollection)
         {
-            lock (processing)
+            lock (this.processing)
             {
-                EnsureGachaItemId(uid, gachaDataCollection);
+                this.EnsureGachaItemId(uid, gachaDataCollection);
 
                 if (gachaDataCollection[uid] is GachaData gachaData)
                 {
@@ -470,13 +470,13 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 IEnumerable<GachaLogItem>? logs = gachaData[pool];
                                 //fix issue with compatibility
                                 logs = logs?.Reverse();
-                                InitializeGachaLogSheetHeader(sheet);
-                                FillSheetWithGachaData(sheet, logs);
+                                this.InitializeGachaLogSheetHeader(sheet);
+                                this.FillSheetWithGachaData(sheet, logs);
                                 //freeze the title
                                 sheet.View.FreezePanes(2, 1);
                             }
 
-                            AddInterchangeableSheet(package, gachaData);
+                            this.AddInterchangeableSheet(package, gachaData);
 
                             package.Workbook.Properties.Title = "祈愿记录";
                             package.Workbook.Properties.Author = "Snap Genshin";
@@ -490,9 +490,9 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add(metadataSheetName);
             //header
-            InitializeInterchangeSheetHeader(interchangeSheet);
+            this.InitializeInterchangeSheetHeader(interchangeSheet);
             IOrderedEnumerable<GachaLogItem> combinedLogs = data.SelectMany(x => x.Value ?? new()).OrderBy(x => x.Id);
-            FillInterChangeSheet(interchangeSheet, combinedLogs);
+            this.FillInterChangeSheet(interchangeSheet, combinedLogs);
         }
         private void InitializeInterchangeSheetHeader(ExcelWorksheet sheet)
         {
@@ -541,7 +541,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
                     using (ExcelRange range = sheet.Cells[j, 1, j, 5])
                     {
-                        range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
+                        range.Style.Font.Color.SetColor(this.ToDrawingColor(int.Parse(item.Rank!)));
                     }
                 }
             }
@@ -578,7 +578,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
                     using (ExcelRange range = sheet.Cells[j, 1, j, 11])
                     {
-                        range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
+                        range.Style.Font.Color.SetColor(this.ToDrawingColor(int.Parse(item.Rank!)));
                     }
                 }
             }

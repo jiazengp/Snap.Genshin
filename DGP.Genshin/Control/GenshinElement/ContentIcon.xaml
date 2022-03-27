@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:c="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
-        d:DesignHeight="70" d:DesignWidth="70" 
-        Width="70" Height="0"
+        d:DesignHeight="{StaticResource ContentIconLength}" d:DesignWidth="{StaticResource ContentIconLength}" 
+        Width="{StaticResource ContentIconLength}" Height="0"
         Opacity="0"
         BorderThickness="0"
         RenderOptions.BitmapScalingMode="HighQuality" 
@@ -17,20 +18,20 @@
     <Button.Resources>
         <ui:CubicBezierEase x:Key="CubicBezierEase"/>
         <Storyboard x:Key="FadeInAnimation" Storyboard.TargetName="ContentButton">
-            <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="70" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
+            <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="{StaticResource ContentIconLength}" Duration="0:0:0.3" BeginTime="0:0:0.2" EasingFunction="{StaticResource CubicBezierEase}"/>
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5" EasingFunction="{StaticResource CubicBezierEase}"/>
         </Storyboard>
     </Button.Resources>
-    <Border Width="70" Height="70"
+    <Border Width="{StaticResource ContentIconLength}" Height="{StaticResource ContentIconLength}"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding BackgroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
-        <Border Width="70" Height="70" 
+        <Border Width="{StaticResource ContentIconLength}" Height="{StaticResource ContentIconLength}" 
                 CornerRadius="{StaticResource CompatCornerRadius}">
             <Border.Background>
                 <ImageBrush Stretch="UniformToFill"
                     ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_ImgSign_ItemIcon.png"/>
             </Border.Background>
-            <Border Width="70" Height="70" HorizontalAlignment="Center"
+            <Border Width="{StaticResource ContentIconLength}" Height="{StaticResource ContentIconLength}" HorizontalAlignment="Center"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
                 c:ImageAsyncHelper.ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
                 <Grid>
@@ -47,7 +48,9 @@
                                 <GradientStop Offset="1" Color="#CC000000"/>
                             </LinearGradientBrush>
                         </Border.Background>
-                        <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="10" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0"
+                                   Text="{Binding Name}" FontSize="10" FontWeight="Light" TextTrimming="CharacterEllipsis"
+                                   Style="{StaticResource BodyTextBlockStyle}"/>
                     </Border>
                 </Grid>
             </Border>

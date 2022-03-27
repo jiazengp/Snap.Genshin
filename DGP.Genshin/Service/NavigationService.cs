@@ -29,20 +29,20 @@ namespace DGP.Genshin.Service
 
         public NavigationView? NavigationView
         {
-            get => navigationView;
+            get => this.navigationView;
 
             set
             {
                 //remove old listener
-                if (navigationView != null)
+                if (this.navigationView != null)
                 {
-                    navigationView.ItemInvoked -= OnItemInvoked;
+                    this.navigationView.ItemInvoked -= this.OnItemInvoked;
                 }
-                navigationView = value;
+                this.navigationView = value;
                 //add new listener
-                if (navigationView != null)
+                if (this.navigationView != null)
                 {
-                    navigationView.ItemInvoked += OnItemInvoked;
+                    this.navigationView.ItemInvoked += this.OnItemInvoked;
                 }
             }
         }
@@ -57,109 +57,109 @@ namespace DGP.Genshin.Service
 
         ~NavigationService()
         {
-            messenger.UnregisterAll(this);
+            this.messenger.UnregisterAll(this);
         }
 
         public bool SyncTabWith(Type pageType)
         {
-            if (NavigationView is null)
+            if (this.NavigationView is null)
             {
                 return false;
             }
 
             if (pageType == typeof(SettingPage))
             {
-                NavigationView.SelectedItem = NavigationView.SettingsItem;
+                this.NavigationView.SelectedItem = this.NavigationView.SettingsItem;
             }
             else
             {
-                NavigationViewItem? target = NavigationView.MenuItems
+                NavigationViewItem? target = this.NavigationView.MenuItems
                     .OfType<NavigationViewItem>()
                     .FirstOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
-                NavigationView.SelectedItem = target;
+                this.NavigationView.SelectedItem = target;
             }
-            Selected = NavigationView.SelectedItem as NavigationViewItem;
+            this.Selected = this.NavigationView.SelectedItem as NavigationViewItem;
             return true;
         }
 
         public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
         {
-            Type? currentType = Frame?.Content?.GetType();
+            Type? currentType = this.Frame?.Content?.GetType();
             if (pageType is null || (currentType == pageType && currentType != typeof(WebViewHostPage)))
             {
                 return false;
             }
-            _ = isSyncTabRequested && SyncTabWith(pageType);
+            _ = isSyncTabRequested && this.SyncTabWith(pageType);
 
             bool result = false;
             try
             {
-                result = Frame?.Navigate(App.AutoWired(pageType), data) ?? false;
+                result = this.Frame?.Navigate(App.AutoWired(pageType), data) ?? false;
             }
             catch { }
             this.Log($"Navigate to {pageType}:{(result ? "succeed" : "failed")}");
             //分析页面统计数据时不应加入启动时导航的首个页面
-            if (HasEverNavigated)
+            if (this.HasEverNavigated)
             {
                 new Event(pageType, result).TrackAs(Event.OpenUI);
             }
             //fix memory leak issue
-            Frame?.RemoveBackEntry();
+            this.Frame?.RemoveBackEntry();
             //首次导航失败时使属性持续保存为false
-            HasEverNavigated |= result;
+            this.HasEverNavigated |= result;
             return result;
         }
 
         public bool Navigate(NavigateRequestMessage message)
         {
-            return Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
+            return this.Navigate(message.Value, message.IsSyncTabRequested, message.ExtraData);
         }
 
         public bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
             where T : System.Windows.Controls.Page
         {
-            return Navigate(typeof(T), isSyncTabRequested, data, info);
+            return this.Navigate(typeof(T), isSyncTabRequested, data, info);
         }
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            Selected = NavigationView?.SelectedItem as NavigationViewItem;
-            Type? targetType = args.IsSettingsInvoked ? typeof(SettingPage) : NavHelper.GetNavigateTo(Selected);
-            Navigate(targetType, false, NavHelper.GetExtraData(Selected));
+            this.Selected = this.NavigationView?.SelectedItem as NavigationViewItem;
+            Type? targetType = args.IsSettingsInvoked ? typeof(SettingPage) : NavHelper.GetNavigateTo(this.Selected);
+            this.Navigate(targetType, false, NavHelper.GetExtraData(this.Selected));
         }
 
         public bool AddToNavigation(ImportPageAttribute importPage)
         {
-            return AddToNavigation(importPage.PageType, importPage.Label, importPage.Icon);
+            return this.AddToNavigation(importPage.PageType, importPage.Label, importPage.Icon);
         }
 
         private bool AddToNavigation(Type pageType, string label, IconElement icon)
         {
-            if (NavigationView is null)
+            if (this.NavigationView is null)
             {
                 return false;
             }
             NavigationViewItem item = new() { Content = label, Icon = icon };
             NavHelper.SetNavigateTo(item, pageType);
             this.Log($"Add {pageType} to NavigationView");
-            return NavigationView.MenuItems.Add(item) != -1;
+            return this.NavigationView.MenuItems.Add(item) != -1;
         }
 
         public void AddWebViewEntries(ObservableCollection<WebViewEntry>? entries)
         {
-            if (NavigationView is null)
+            if (this.NavigationView is null)
             {
                 return;
             }
 
             if (entries is not null)
             {
-                NavigationViewItemHeader? header = NavigationView.MenuItems
+                NavigationViewItemHeader? header = this.NavigationView.MenuItems
                     .OfType<NavigationViewItemHeader>()
                     .SingleOrDefault(header => header.Content.ToString() == "网页");
                 if (header is not null)
                 {
-                    int headerIndex = NavigationView.MenuItems.IndexOf(header);
+                    int headerIndex = this.NavigationView.MenuItems.IndexOf(header);
 
                     if (entries.Count > 0)
                     {
@@ -185,7 +185,7 @@ namespace DGP.Genshin.Service
                             NavHelper.SetNavigateTo(item, typeof(WebViewHostPage));
                             NavHelper.SetExtraData(item, entry);
 
-                            NavigationView.MenuItems.Insert(++headerIndex, item);
+                            this.NavigationView.MenuItems.Insert(++headerIndex, item);
                         }
                     }
                 }
@@ -194,7 +194,7 @@ namespace DGP.Genshin.Service
 
         public void Receive(NavigateRequestMessage message)
         {
-            Navigate(message);
+            this.Navigate(message);
         }
     }
 }

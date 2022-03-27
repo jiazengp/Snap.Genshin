@@ -56,22 +56,22 @@ namespace DGP.Genshin.ViewModel
 
         public bool AutoDailySignInOnLaunch
         {
-            get => autoDailySignInOnLaunch;
+            get => this.autoDailySignInOnLaunch;
 
             set
             {
                 Setting2.AutoDailySignInOnLaunch.Set(value, false);
-                SetProperty(ref autoDailySignInOnLaunch, value);
+                this.SetProperty(ref this.autoDailySignInOnLaunch, value);
             }
         }
         public bool SignInSilently
         {
-            get => signInSilently;
+            get => this.signInSilently;
 
             set
             {
                 Setting2.SignInSilently.Set(value, false);
-                SetProperty(ref signInSilently, value);
+                this.SetProperty(ref this.signInSilently, value);
             }
         }
 
@@ -90,21 +90,21 @@ namespace DGP.Genshin.ViewModel
         private NamedValue<TimeSpan> selectedResinAutoRefreshTime;
         public NamedValue<TimeSpan> SelectedResinAutoRefreshTime
         {
-            get => selectedResinAutoRefreshTime;
+            get => this.selectedResinAutoRefreshTime;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedResinAutoRefreshTime, value, v => Setting2.ResinRefreshMinutes.Set(v.Value.TotalMinutes));
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedResinAutoRefreshTime, value, v => Setting2.ResinRefreshMinutes.Set(v.Value.TotalMinutes));
         }
         public ObservableCollection<CookieUserInfo> CookieUserInfos
         {
-            get => cookieUserInfos;
+            get => this.cookieUserInfos;
 
-            set => SetProperty(ref cookieUserInfos, value);
+            set => this.SetProperty(ref this.cookieUserInfos, value);
         }
         public CookieUserInfo? SelectedCookieUserInfo
         {
-            get => selectedCookieUserInfo;
+            get => this.selectedCookieUserInfo;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserInfo, value, OnSelectedCookieUserInfoChangedAsync);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedCookieUserInfo, value, this.OnSelectedCookieUserInfoChangedAsync);
         }
         [PropertyChangedCallback]
         private async Task OnSelectedCookieUserInfoChangedAsync(CookieUserInfo? cookieUserInfo)
@@ -113,13 +113,13 @@ namespace DGP.Genshin.ViewModel
             {
                 if (cookieUserInfo != null)
                 {
-                    cookieService.ChangeOrIgnoreCurrentCookie(cookieUserInfo.Cookie);
+                    this.cookieService.ChangeOrIgnoreCurrentCookie(cookieUserInfo.Cookie);
                     //update user game roles
-                    List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync(CancellationToken);
-                    CookieUserGameRoles = userGameRoles
+                    List<UserGameRole> userGameRoles = await new UserGameRoleProvider(this.cookieService.CurrentCookie).GetUserGameRolesAsync(this.CancellationToken);
+                    this.CookieUserGameRoles = userGameRoles
                         .Select(role => new CookieUserGameRole(cookieUserInfo.Cookie, role))
                         .ToList();
-                    SelectedCookieUserGameRole = CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
+                    this.SelectedCookieUserGameRole = this.CookieUserGameRoles.MatchedOrFirst(i => i.UserGameRole.IsChosen);
                 }
             }
             catch (TaskCanceledException) { this.Log("OnSelectedCookieUserInfoChangedAsync canceled by user switch page"); }
@@ -128,24 +128,24 @@ namespace DGP.Genshin.ViewModel
 
         public List<CookieUserGameRole>? CookieUserGameRoles
         {
-            get => cookieUserGameRoles;
+            get => this.cookieUserGameRoles;
 
-            set => SetProperty(ref cookieUserGameRoles, value);
+            set => this.SetProperty(ref this.cookieUserGameRoles, value);
         }
         public CookieUserGameRole? SelectedCookieUserGameRole
         {
-            get => selectedCookieUserGameRole;
+            get => this.selectedCookieUserGameRole;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedCookieUserGameRole, value, OnSelectedCookieUserGameRoleChangedAsync);
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedCookieUserGameRole, value, this.OnSelectedCookieUserGameRoleChangedAsync);
         }
         [PropertyChangedCallback]
         public async Task OnSelectedCookieUserGameRoleChangedAsync(CookieUserGameRole? cookieUserGameRole)
         {
-            UpdateDailyNote(cookieUserGameRole);
+            this.UpdateDailyNote(cookieUserGameRole);
             if (cookieUserGameRole is not null)
             {
                 UserGameRole role = cookieUserGameRole.UserGameRole;
-                JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
+                this.JourneyInfo = await new JourneyProvider(cookieUserGameRole.Cookie).GetMonthInfoAsync(role);
             }
         }
 
@@ -153,28 +153,28 @@ namespace DGP.Genshin.ViewModel
         {
             if (cookieUserGameRole != null)
             {
-                DailyNote = dailynoteService.GetDailyNote(cookieUserGameRole);
+                this.DailyNote = this.dailynoteService.GetDailyNote(cookieUserGameRole);
             }
         }
 
         public DailyNote? DailyNote
         {
-            get => dailyNote;
+            get => this.dailyNote;
 
-            set => SetProperty(ref dailyNote, value);
+            set => this.SetProperty(ref this.dailyNote, value);
         }
         public DailyNoteNotifyConfiguration DailyNoteNotifyConfiguration
         {
-            get => dailyNoteNotifyConfiguration;
+            get => this.dailyNoteNotifyConfiguration;
 
             [MemberNotNull(nameof(dailyNoteNotifyConfiguration))]
-            set => SetProperty(ref dailyNoteNotifyConfiguration, value);
+            set => this.SetProperty(ref this.dailyNoteNotifyConfiguration, value);
         }
         public JourneyInfo? JourneyInfo
         {
-            get => journeyInfo;
+            get => this.journeyInfo;
 
-            set => SetProperty(ref journeyInfo, value);
+            set => this.SetProperty(ref this.journeyInfo, value);
         }
         #endregion
 
@@ -186,46 +186,46 @@ namespace DGP.Genshin.ViewModel
         public UserViewModel(ICookieService cookieService, IDailyNoteService dailyNoteService, ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.cookieService = cookieService;
-            dailynoteService = dailyNoteService;
+            this.dailynoteService = dailyNoteService;
             this.messenger = messenger;
 
             //实时树脂
-            DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.GetNonValueType(() => new());
-            selectedResinAutoRefreshTime = ResinAutoRefreshTimes.First(s => s.Value.TotalMinutes == Setting2.ResinRefreshMinutes);
+            this.DailyNoteNotifyConfiguration = Setting2.DailyNoteNotifyConfiguration.GetNonValueType(() => new());
+            this.selectedResinAutoRefreshTime = this.ResinAutoRefreshTimes.First(s => s.Value.TotalMinutes == Setting2.ResinRefreshMinutes);
             //签到选项
-            AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch;
-            SignInSilently = Setting2.SignInSilently.Get();
-            SignInImmediatelyCommand = asyncRelayCommandFactory.Create(signInService.TrySignAllAccountsRolesInAsync);
+            this.AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch;
+            this.SignInSilently = Setting2.SignInSilently.Get();
+            this.SignInImmediatelyCommand = asyncRelayCommandFactory.Create(signInService.TrySignAllAccountsRolesInAsync);
 
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-            RemoveUserCommand = asyncRelayCommandFactory.Create(RemoveUserAsync);
-            AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-            RefreshCommand = new RelayCommand(RefreshUI);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            this.RemoveUserCommand = asyncRelayCommandFactory.Create(this.RemoveUserAsync);
+            this.AddUserCommand = asyncRelayCommandFactory.Create(this.AddUserAsync);
+            this.RefreshCommand = new RelayCommand(this.RefreshUI);
         }
 
         private async Task OpenUIAsync()
         {
             try
             {
-                foreach (string cookie in cookieService.Cookies)
+                foreach (string cookie in this.cookieService.Cookies)
                 {
-                    if (await new UserInfoProvider(cookie).GetUserInfoAsync(CancellationToken) is UserInfo info)
+                    if (await new UserInfoProvider(cookie).GetUserInfoAsync(this.CancellationToken) is UserInfo info)
                     {
-                        CookieUserInfos.Add(new CookieUserInfo(cookie, info));
+                        this.CookieUserInfos.Add(new CookieUserInfo(cookie, info));
                     }
                 }
-                SelectedCookieUserInfo = CookieUserInfos.FirstOrDefault(c => c.Cookie == cookieService.CurrentCookie);
+                this.SelectedCookieUserInfo = this.CookieUserInfos.FirstOrDefault(c => c.Cookie == this.cookieService.CurrentCookie);
             }
             catch (TaskCanceledException) { this.Log("Open UI canceled"); }
         }
         private async Task AddUserAsync()
         {
-            await cookieService.AddCookieToPoolOrIgnoreAsync();
-            RefreshUI();
+            await this.cookieService.AddCookieToPoolOrIgnoreAsync();
+            this.RefreshUI();
         }
         private async Task RemoveUserAsync()
         {
-            if (cookieService.Cookies.Count <= 1)
+            if (this.cookieService.Cookies.Count <= 1)
             {
                 await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
@@ -238,7 +238,7 @@ namespace DGP.Genshin.ViewModel
                 return;
             }
 
-            if (SelectedCookieUserInfo is not null)
+            if (this.SelectedCookieUserInfo is not null)
             {
                 ContentDialogResult result = await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
                 {
@@ -251,28 +251,28 @@ namespace DGP.Genshin.ViewModel
 
                 if (result is ContentDialogResult.Primary)
                 {
-                    cookieService.Cookies.Remove(SelectedCookieUserInfo.Cookie);
+                    this.cookieService.Cookies.Remove(this.SelectedCookieUserInfo.Cookie);
                 }
             }
         }
         private void RefreshUI()
         {
-            messenger.Send(new UserRequestRefreshMessage());
+            this.messenger.Send(new UserRequestRefreshMessage());
         }
 
         public void Receive(CookieAddedMessage message)
         {
             string newCookie = message.Value;
-            AddCookieUserInfoAsync(newCookie).Forget();
+            this.AddCookieUserInfoAsync(newCookie).Forget();
         }
         public void Receive(CookieRemovedMessage message)
         {
-            RemoveCookieUserInfo(message);
+            this.RemoveCookieUserInfo(message);
         }
         public void Receive(DailyNotesRefreshedMessage message)
         {
             this.Log("daily note updated");
-            UpdateDailyNote(SelectedCookieUserGameRole);
+            this.UpdateDailyNote(this.SelectedCookieUserGameRole);
         }
 
         private async Task AddCookieUserInfoAsync(string newCookie)
@@ -283,10 +283,10 @@ namespace DGP.Genshin.ViewModel
                 if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
                 {
                     //Can't use JoinableTaskFactory.SwitchToMainThreadAsync here
-                    App.Current.Dispatcher.Invoke(() => CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo)));
+                    App.Current.Dispatcher.Invoke(() => this.CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo)));
                 }
 
-                this.Log(cookieUserInfos.Count);
+                this.Log(this.cookieUserInfos.Count);
             }
             catch (Exception ex)
             {
@@ -297,16 +297,16 @@ namespace DGP.Genshin.ViewModel
         private void RemoveCookieUserInfo(CookieRemovedMessage message)
         {
             this.Log("Cookie removed");
-            CookieUserInfo? prevSelected = SelectedCookieUserInfo;
-            CookieUserInfo? currentRemoved = CookieUserInfos.First(u => u.Cookie == message.Value);
+            CookieUserInfo? prevSelected = this.SelectedCookieUserInfo;
+            CookieUserInfo? currentRemoved = this.CookieUserInfos.First(u => u.Cookie == message.Value);
 
-            CookieUserInfos.Remove(currentRemoved);
+            this.CookieUserInfos.Remove(currentRemoved);
 
             if (prevSelected == currentRemoved)
             {
-                SelectedCookieUserInfo = CookieUserInfos.First();
+                this.SelectedCookieUserInfo = this.CookieUserInfos.First();
             }
-            this.Log(cookieUserInfos.Count);
+            this.Log(this.cookieUserInfos.Count);
         }
     }
 }

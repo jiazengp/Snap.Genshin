@@ -17,9 +17,9 @@ namespace DGP.Genshin.Service.Abstraction.Setting
 
         public SettingDefinition(string name, T defaultValue, Func<object, T>? converter = null)
         {
-            Name = name;
-            DefaultValue = defaultValue;
-            Converter = converter;
+            this.Name = name;
+            this.DefaultValue = defaultValue;
+            this.Converter = converter;
         }
 
         public string Name { get; }
@@ -34,11 +34,11 @@ namespace DGP.Genshin.Service.Abstraction.Setting
         [return: NotNull]
         public T GetNonValueType(Func<T> defaultValueFactory)
         {
-            T obj = Get();
+            T obj = this.Get();
             if (obj is null)
             {
                 obj = defaultValueFactory.Invoke()!;
-                Set(obj);
+                this.Set(obj);
             }
             return obj;
         }
@@ -54,7 +54,7 @@ namespace DGP.Genshin.Service.Abstraction.Setting
         /// <param name="value"></param>
         public void Set(T value)
         {
-            Set(value, false);
+            this.Set(value, false);
         }
 
         public static implicit operator T(SettingDefinition<T> me)

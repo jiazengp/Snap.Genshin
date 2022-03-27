@@ -18,6 +18,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Page.Resources>
+        <ItemsPanelTemplate x:Key="Columns3UniformGridTemplate">
+            <UniformGrid Columns="3"/>
+        </ItemsPanelTemplate>
+
         <DataTemplate x:Key="CharacterTemplate">
             <controls:ContentIcon Width="70" Height="70" 
                                   Margin="0,0,6,6"
@@ -42,17 +46,74 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <ui:CommandBar HorizontalAlignment="Left" Background="Transparent">
-            <ui:AppBarElementContainer>
-                <ComboBox Margin="12,4,12,0" SelectedItem="{Binding SelectedDayOfWeek}" ItemsSource="{Binding DayOfWeeks}" DisplayMemberPath="Name"/>
-            </ui:AppBarElementContainer>
-        </ui:CommandBar>
         <s:SmoothScrollViewer Grid.Row="1" Padding="12,0" Style="{StaticResource DefaultScrollViewerStyle}">
-            <StackPanel Margin="0,0,0,12">
+            <ItemsControl ItemsSource="{Binding Cities}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <c:CachedBitmapIcon UriSource="{Binding Source}" Width="32" Height="32"/>
+                                <TextBlock 
+                                    Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}"
+                                    Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Margin="0,24,0,36">
+                                <ItemsControl
+                                    ItemsSource="{Binding Characters}"
+                                    ItemsPanel="{StaticResource Columns3UniformGridTemplate}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
+                                                    <c:CachedImage VerticalAlignment="Center" Width="28" Height="28" ImageUrl="{Binding Index.Source}"/>
+                                                    <TextBlock VerticalAlignment="Center" Margin="12,0,0,0" Text="{Binding Index.Name}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+                                                <ItemsControl 
+                                                    Grid.Row="1" Margin="0,12,0,0"
+                                                    ItemsSource="{Binding List}"
+                                                    ItemTemplate="{StaticResource CharacterTemplate}"
+                                                    ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl Margin="0,12,0,0"
+                                    ItemsSource="{Binding Weapons}"
+                                    ItemsPanel="{StaticResource Columns3UniformGridTemplate}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
+                                                    <c:CachedImage VerticalAlignment="Center" Width="28" Height="28" ImageUrl="{Binding Index.Source}"/>
+                                                    <TextBlock VerticalAlignment="Center" Margin="12,0,0,0" Text="{Binding Index.Name}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+                                                <ItemsControl 
+                                                    Grid.Row="1" Margin="0,12,0,0"
+                                                    ItemsSource="{Binding List}"
+                                                    ItemTemplate="{StaticResource WeaponTemplate}"
+                                                    ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--<StackPanel Margin="0,0,0,12">
                 <TextBlock Text="天赋材料" Margin=" 4,0" Style="{StaticResource TitleTextBlockStyle}"/>
                 <Grid Margin="0,12,0,0">
                     <Grid.ColumnDefinitions>
@@ -155,7 +216,7 @@
                     <ItemsControl Grid.Column="2" Grid.Row="2" Margin="4,12,4,0" ItemsSource="{Binding TodayInazumaWeapon4}" 
                               ItemTemplate="{StaticResource WeaponTemplate}" ItemsPanel="{StaticResource WrapPanelItemsPanel}"/>
                 </Grid>
-            </StackPanel>
+            </StackPanel>-->
         </s:SmoothScrollViewer>
     </Grid>
 </concurrent:AsyncPage>

@@ -5,19 +5,27 @@ using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Infrastructure.Markdown
 {
+    /// <summary>
+    /// 将文本转化为流文档
+    /// </summary>
     public class TextToFlowDocumentConverter : DependencyObject, IValueConverter
     {
-        public Markdown? Markdown
-        {
-            get => (Markdown)GetValue(MarkdownProperty);
+        private static readonly DependencyProperty MarkdownProperty = Property<TextToFlowDocumentConverter>.Depend<Markdown>(nameof(Markdown));
 
-            set => SetValue(MarkdownProperty, value);
-        }
-        public static readonly DependencyProperty MarkdownProperty =
-            DependencyProperty.Register(nameof(Markdown), typeof(Markdown), typeof(TextToFlowDocumentConverter));
+        private readonly Lazy<Markdown> mMarkdown = new(() => new Markdown());
 
         /// <summary>
-        /// Converts a value. 
+        /// 使用的转换对象
+        /// </summary>
+        public Markdown? Markdown
+        {
+            get => (Markdown)this.GetValue(MarkdownProperty);
+
+            set => this.SetValue(MarkdownProperty, value);
+        }
+
+        /// <summary>
+        /// Converts a value.
         /// </summary>
         /// <returns>
         /// A converted value. If the method returns null, the valid null value is used.
@@ -35,13 +43,13 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             string text = (string)value;
 
-            Markdown engine = Markdown ?? mMarkdown.Value;
+            Markdown engine = this.Markdown ?? this.mMarkdown.Value;
 
             return engine.Transform(text);
         }
 
         /// <summary>
-        /// Converts a value. 
+        /// Converts a value.
         /// </summary>
         /// <returns>
         /// A converted value. If the method returns null, the valid null value is used.
@@ -52,10 +60,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         /// <param name="culture">The culture to use in the converter.</param>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw Assumes.NotReachable();
         }
-
-        private readonly Lazy<Markdown> mMarkdown
-            = new(() => new Markdown());
     }
 }

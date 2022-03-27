@@ -14,7 +14,7 @@ namespace DGP.Genshin.DataModel
         [JsonIgnore]
         public SolidColorBrush? StarSolid
         {
-            get => StarHelper.ToSolid(Star);
+            get => StarHelper.ToSolid(this.Star);
         }
 
         public virtual string? GetBadge()

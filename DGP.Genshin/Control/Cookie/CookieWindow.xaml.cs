@@ -13,50 +13,61 @@ namespace DGP.Genshin.Control.Cookie
     /// </summary>
     public sealed partial class CookieWindow : Window, IDisposable
     {
-        public string? Cookie { get; private set; }
-        public bool IsLoggedIn { get; private set; }
-
+        /// <summary>
+        /// 构造一个新的Cookie窗体
+        /// </summary>
         public CookieWindow()
         {
-            InitializeComponent();
-            WebView.CoreWebView2InitializationCompleted += WebViewCoreWebView2InitializationCompleted;
+            this.InitializeComponent();
+            this.WebView.CoreWebView2InitializationCompleted += this.WebViewCoreWebView2InitializationCompleted;
+        }
+
+        /// <summary>
+        /// Cookie
+        /// </summary>
+        public string? Cookie { get; private set; }
+
+        /// <summary>
+        /// 是否登录成功
+        /// </summary>
+        public bool IsLoggedIn { get; private set; }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.WebView?.Dispose();
         }
 
         private void WebViewCoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
         {
-            WebView.CoreWebView2.ProcessFailed += WebViewCoreWebView2ProcessFailed;
+            this.WebView.CoreWebView2.ProcessFailed += this.WebViewCoreWebView2ProcessFailed;
             if (e.IsSuccess)
             {
-                ContinueButton.IsEnabled = true;
+                this.ContinueButton.IsEnabled = true;
             }
         }
 
         private void WebViewCoreWebView2ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
         {
-            ContinueButton.IsEnabled = false;
-            WebView?.Dispose();
+            this.ContinueButton.IsEnabled = false;
+            this.WebView?.Dispose();
         }
 
         private void ContinueButtonClick(object sender, RoutedEventArgs e)
         {
-            ContinueAsync().Forget();
+            this.ContinueAsync().Forget();
         }
 
         private async Task ContinueAsync()
         {
-            List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
+            List<CoreWebView2Cookie> cookies = await this.WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
             string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();
-            Cookie = string.Concat(cookiesString);
-            if (Cookie.Contains("account_id"))
+            this.Cookie = string.Concat(cookiesString);
+            if (this.Cookie.Contains("account_id"))
             {
-                IsLoggedIn = true;
-                Close();
+                this.IsLoggedIn = true;
+                this.Close();
             }
-        }
-
-        public void Dispose()
-        {
-            WebView?.Dispose();
         }
     }
 }

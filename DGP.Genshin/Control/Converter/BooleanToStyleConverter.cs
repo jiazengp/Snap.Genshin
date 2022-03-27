@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DGP.Genshin.Helper;
+using Microsoft;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -10,6 +12,30 @@ namespace DGP.Genshin.Control.Converter
     /// </summary>
     public sealed class BooleanToStyleConverter : DependencyObject, IValueConverter
     {
+        private static readonly DependencyProperty TrueStyleProperty = Property<BooleanToStyleConverter>.Depend<Style>(nameof(TrueStyle));
+        private static readonly DependencyProperty FalseStyleProperty = Property<BooleanToStyleConverter>.Depend<Style>(nameof(FalseStyle));
+
+        /// <summary>
+        /// 当值为<see cref="true"/>时的样式
+        /// </summary>
+        public Style TrueStyle
+        {
+            get => (Style)this.GetValue(TrueStyleProperty);
+
+            set => this.SetValue(TrueStyleProperty, value);
+        }
+
+        /// <summary>
+        /// 当值为<see cref="true"/>时的样式
+        /// </summary>
+        public Style FalseStyle
+        {
+            get => (Style)this.GetValue(FalseStyleProperty);
+
+            set => this.SetValue(FalseStyleProperty, value);
+        }
+
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool flag = false;
@@ -23,35 +49,13 @@ namespace DGP.Genshin.Control.Converter
                 flag = flag2.HasValue && flag2.Value;
             }
 
-            return !flag ? FalseStyle : TrueStyle;
+            return !flag ? this.FalseStyle : this.TrueStyle;
         }
 
-        /// <summary>
-        /// 不实现此方法
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw Assumes.NotReachable();
         }
-
-        public Style TrueStyle
-        {
-            get => (Style)GetValue(TrueStyleProperty);
-
-            set => SetValue(TrueStyleProperty, value);
-        }
-        public static readonly DependencyProperty TrueStyleProperty =
-            DependencyProperty.Register(nameof(TrueStyle), typeof(Style), typeof(BooleanToStyleConverter));
-
-        public Style FalseStyle
-        {
-            get => (Style)GetValue(FalseStyleProperty);
-
-            set => SetValue(FalseStyleProperty, value);
-        }
-        public static readonly DependencyProperty FalseStyleProperty =
-            DependencyProperty.Register(nameof(FalseStyle), typeof(Style), typeof(BooleanToStyleConverter));
     }
 }

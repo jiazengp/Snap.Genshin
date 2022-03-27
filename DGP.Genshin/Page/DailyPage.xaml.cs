@@ -9,7 +9,7 @@ namespace DGP.Genshin.Page
     {
         public DailyPage(DailyViewModel vm) : base(vm)
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

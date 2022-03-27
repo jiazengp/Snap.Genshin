@@ -15,8 +15,8 @@ namespace DGP.Genshin.DataModel
 
         public KeySource(string key, string source)
         {
-            Key = key;
-            Source = source;
+            this.Key = key;
+            this.Source = source;
         }
         public string? Key { get; set; }
         public string? Source { get; set; }
@@ -25,9 +25,9 @@ namespace DGP.Genshin.DataModel
         private bool isSelected = true;
         public bool IsSelected
         {
-            get => isSelected;
+            get => this.isSelected;
 
-            set => SetProperty(ref isSelected, value);
+            set => this.SetProperty(ref this.isSelected, value);
         }
         #endregion
     }

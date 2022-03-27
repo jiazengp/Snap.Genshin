@@ -3,7 +3,6 @@ using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
-using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -68,100 +67,100 @@ namespace DGP.Genshin.ViewModel
 
         public bool SkipCacheCheck
         {
-            get => skipCacheCheck;
+            get => this.skipCacheCheck;
 
             set
             {
                 Setting2.SkipCacheCheck.Set(value, false);
-                SetProperty(ref skipCacheCheck, value);
+                this.SetProperty(ref this.skipCacheCheck, value);
             }
         }
         public bool UpdateUseFastGit
         {
-            get => updateUseFastGit;
+            get => this.updateUseFastGit;
 
             set
             {
                 Setting2.UpdateUseFastGit.Set(value, false);
-                SetProperty(ref updateUseFastGit, value);
+                this.SetProperty(ref this.updateUseFastGit, value);
             }
         }
         public bool IsTaskBarIconEnabled
         {
-            get => isTaskBarIconEnabled;
+            get => this.isTaskBarIconEnabled;
 
             set
             {
                 Setting2.IsTaskBarIconEnabled.Set(value, false);
-                SetProperty(ref isTaskBarIconEnabled, value);
+                this.SetProperty(ref this.isTaskBarIconEnabled, value);
             }
         }
         public bool CloseMainWindowAfterInitializaion
         {
-            get => closeMainWindowAfterInitializaion;
+            get => this.closeMainWindowAfterInitializaion;
 
             set
             {
                 Setting2.CloseMainWindowAfterInitializaion.Set(value, false);
-                SetProperty(ref closeMainWindowAfterInitializaion, value);
+                this.SetProperty(ref this.closeMainWindowAfterInitializaion, value);
             }
         }
         public double BackgroundOpacity
         {
-            get => backgroundOpacity;
+            get => this.backgroundOpacity;
 
             set
             {
                 Setting2.BackgroundOpacity.Set(value, false);
-                Messenger.Send(new BackgroundOpacityChangedMessage(value));
-                SetProperty(ref backgroundOpacity, value);
+                this.Messenger.Send(new BackgroundOpacityChangedMessage(value));
+                this.SetProperty(ref this.backgroundOpacity, value);
             }
         }
         public bool IsBackgroundOpacityAdaptive
         {
-            get => isBackgroundOpacityAdaptive;
+            get => this.isBackgroundOpacityAdaptive;
 
             set
             {
                 Setting2.IsBackgroundOpacityAdaptive.Set(value, false);
-                SetProperty(ref isBackgroundOpacityAdaptive, value);
+                this.SetProperty(ref this.isBackgroundOpacityAdaptive, value);
             }
         }
         public string VersionString
         {
-            get => versionString;
+            get => this.versionString;
 
             [MemberNotNull("versionString")]
-            set => SetProperty(ref versionString, value);
+            set => this.SetProperty(ref this.versionString, value);
         }
         public string UserId
         {
-            get => userId;
+            get => this.userId;
 
             [MemberNotNull(nameof(userId))]
-            set => userId = value;
+            set => this.userId = value;
         }
         public bool IsBannerWithNoItemVisible
         {
-            get => isBannerWithNoItemVisible;
+            get => this.isBannerWithNoItemVisible;
 
             set
             {
                 Setting2.IsBannerWithNoItemVisible.Set(value, false);
-                SetProperty(ref isBannerWithNoItemVisible, value);
+                this.SetProperty(ref this.isBannerWithNoItemVisible, value);
             }
         }
         public AutoRun AutoRun
         {
-            get => autoRun;
+            get => this.autoRun;
 
-            set => autoRun = value;
+            set => this.autoRun = value;
         }
         public NamedValue<ApplicationTheme?> SelectedTheme
         {
-            get => selectedTheme;
+            get => this.selectedTheme;
 
-            set => SetPropertyAndCallbackOnCompletion(ref selectedTheme, value, v => { UpdateAppTheme(v!); });
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedTheme, value, v => { this.UpdateAppTheme(v!); });
         }
         [PropertyChangedCallback]
         private void UpdateAppTheme(NamedValue<ApplicationTheme?> value)
@@ -172,16 +171,16 @@ namespace DGP.Genshin.ViewModel
 
         public NamedValue<UpdateAPI> CurrentUpdateAPI
         {
-            get => currentUpdateAPI;
+            get => this.currentUpdateAPI;
 
-            set => SetPropertyAndCallbackOnCompletion(ref currentUpdateAPI, value, v => Setting2.UpdateAPI.Set(v.Value));
+            set => this.SetPropertyAndCallbackOnCompletion(ref this.currentUpdateAPI, value, v => Setting2.UpdateAPI.Set(v.Value));
         }
         public UpdateProgressedMessage UpdateInfo
         {
-            get => updateInfo;
+            get => this.updateInfo;
 
             [MemberNotNull(nameof(updateInfo))]
-            set => SetProperty(ref updateInfo, value);
+            set => this.SetProperty(ref this.updateInfo, value);
         }
         public string? ReleaseNote { get; }
         #endregion
@@ -194,36 +193,36 @@ namespace DGP.Genshin.ViewModel
         public ICommand NextWallpaperCommand { get; }
         public ICommand OpenImplementationPageCommand { get; }
 
-        public SettingViewModel(IUpdateService updateService, ICookieService cookieService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
+        public SettingViewModel(IUpdateService updateService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger) : base(messenger)
         {
             this.updateService = updateService;
 
-            selectedTheme = Themes.First(x => x.Value == Setting2.AppTheme);
-            currentUpdateAPI = UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
+            this.selectedTheme = this.Themes.First(x => x.Value == Setting2.AppTheme);
+            this.currentUpdateAPI = this.UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
 
-            SkipCacheCheck = Setting2.SkipCacheCheck;
-            UpdateUseFastGit = Setting2.UpdateUseFastGit;
-            IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled;
-            CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion;
-            BackgroundOpacity = Setting2.BackgroundOpacity;
-            IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
-            IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
+            this.SkipCacheCheck = Setting2.SkipCacheCheck;
+            this.UpdateUseFastGit = Setting2.UpdateUseFastGit;
+            this.IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled;
+            this.CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion;
+            this.BackgroundOpacity = Setting2.BackgroundOpacity;
+            this.IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
+            this.IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
 
             Version v = App.Current.Version;
-            VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
-            UserId = User.Id;
+            this.VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
+            this.UserId = User.Id;
 
-            UpdateInfo = UpdateProgressedMessage.Default;
-            ReleaseNote = updateService.ReleaseNote;
+            this.UpdateInfo = UpdateProgressedMessage.Default;
+            this.ReleaseNote = updateService.ReleaseNote;
 
-            CheckUpdateCommand = asyncRelayCommandFactory.Create(CheckUpdateAsync);
-            CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
+            this.CheckUpdateCommand = asyncRelayCommandFactory.Create(this.CheckUpdateAsync);
+            this.CopyUserIdCommand = new RelayCommand(this.CopyUserIdToClipBoard);
 
-            SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
-            OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
-            OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
-            NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
-            OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
+            this.SponsorUICommand = new RelayCommand(this.NavigateToSponsorPage);
+            this.OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
+            this.OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
+            this.NextWallpaperCommand = new RelayCommand(this.SwitchToNextWallpaper);
+            this.OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
         }
 
         private void CopyUserIdToClipBoard()
@@ -231,29 +230,29 @@ namespace DGP.Genshin.ViewModel
             Clipboard.Clear();
             try
             {
-                Clipboard.SetText(UserId);
+                Clipboard.SetText(this.UserId);
             }
             catch
             {
                 try
                 {
-                    Clipboard2.SetText(UserId);
+                    Clipboard2.SetText(this.UserId);
                 }
                 catch { }
             }
         }
         private void NavigateToSponsorPage()
         {
-            Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
+            this.Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
         }
         private async Task CheckUpdateAsync()
         {
-            UpdateState result = await updateService.CheckUpdateStateAsync();
+            UpdateState result = await this.updateService.CheckUpdateStateAsync();
             switch (result)
             {
                 case UpdateState.NeedUpdate:
                     {
-                        await updateService.DownloadAndInstallPackageAsync();
+                        await this.updateService.DownloadAndInstallPackageAsync();
                         break;
                     }
                 case UpdateState.IsNewestRelease:
@@ -283,16 +282,16 @@ namespace DGP.Genshin.ViewModel
         }
         private void SwitchToNextWallpaper()
         {
-            Messenger.Send(new BackgroundChangeRequestMessage());
+            this.Messenger.Send(new BackgroundChangeRequestMessage());
         }
 
         public void Receive(UpdateProgressedMessage message)
         {
-            UpdateInfo = message;
+            this.UpdateInfo = message;
         }
         public void Receive(AdaptiveBackgroundOpacityChangedMessage message)
         {
-            BackgroundOpacity = message.Value;
+            this.BackgroundOpacity = message.Value;
         }
     }
 }

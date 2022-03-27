@@ -12,7 +12,8 @@ namespace DGP.Genshin.SourceGeneration
         {
             string version = Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User);
 
-            string sourceCode= $@"using System.Reflection;
+            string sourceCode = $@"using System.Reflection;
+
 [assembly: AssemblyVersion(""{version}"")]";
 
             context.AddSource("AssemblyInfo.g.cs", sourceCode);
@@ -22,7 +23,7 @@ namespace DGP.Genshin.SourceGeneration
         {
             string currentVersion = $"{DateTime.Now:yyyy.M.d}.0";
             //环境变量中存在版本号
-            if(Environment.GetEnvironmentVariable(AutoVersionKey,EnvironmentVariableTarget.User) is string oldVersionString)
+            if (Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User) is string oldVersionString)
             {
                 if (string.Compare(currentVersion, oldVersionString) <= 0)
                 {

@@ -26,8 +26,8 @@ namespace DGP.Genshin.Core.Plugins
         /// <param name="iconFactoryType">图标构造工厂类的类型 必须继承自 <see cref="IconFactory"/></param>
         public ImportPageAttribute(Type pageType, string label, Type iconFactoryType)
         {
-            PageType = pageType;
-            Label = label;
+            this.PageType = pageType;
+            this.Label = label;
             if (typeof(IconFactory).IsAssignableFrom(iconFactoryType))
             {
                 if (Activator.CreateInstance(iconFactoryType) is IconFactory factory)
@@ -35,11 +35,11 @@ namespace DGP.Genshin.Core.Plugins
                     IconElement? icon = factory.GetIcon();
                     if (icon != null)
                     {
-                        Icon = icon;
+                        this.Icon = icon;
                     }
                 }
             }
-            Icon ??= new FontIcon() { Glyph = "\uE9CE" };
+            this.Icon ??= new FontIcon() { Glyph = "\uE9CE" };
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace DGP.Genshin.Core.Plugins
         /// <param name="glyph">图标字符串 详见 https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font </param>
         public ImportPageAttribute(Type pageType, string label, string glyph)
         {
-            PageType = pageType;
-            Label = label;
-            Icon = new FontIcon { Glyph = glyph };
+            this.PageType = pageType;
+            this.Label = label;
+            this.Icon = new FontIcon { Glyph = glyph };
         }
     }
 }

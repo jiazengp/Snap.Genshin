@@ -9,7 +9,7 @@ namespace DGP.Genshin.Page
     {
         public HomePage(HomeViewModel vm) : base(vm)
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace DGP.Genshin.DataModel.Reccording
         /// <param name="message"></param>
         public Record(string? message)
         {
-            Message = message;
+            this.Message = message;
         }
 
         public bool Success { get; set; }

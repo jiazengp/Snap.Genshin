@@ -22,32 +22,22 @@ namespace DGP.Genshin.Service.GachaStatistic
         public GachaStatisticService(MetadataViewModel metadataViewModel)
         {
             this.metadataViewModel = metadataViewModel;
-            localGachaLogWorker = new();
+            this.localGachaLogWorker = new();
         }
 
         public async Task LoadLocalGachaDataAsync(GachaDataCollection gachaData)
         {
-            await localGachaLogWorker.LoadAllAsync(gachaData);
+            await this.localGachaLogWorker.LoadAllAsync(gachaData);
         }
 
         public async Task<Result<bool, string>> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, IProgress<FetchProgress> progress, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            if (string.IsNullOrEmpty(url))
-            {
-                await new ContentDialog()
-                {
-                    Title = "获取祈愿记录失败",
-                    Content = GetUrlFailHintByMode(mode),
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                }.ShowAsync();
-                return new(false, null!);
-            }
-            else
+            //获取成功
+            if (isOk)
             {
                 IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
-                (bool isSuccess, string uid) = await FetchGachaLogsAsync(gachaData, worker, progress, full);
+                (bool isSuccess, string uid) = await this.FetchGachaLogsAsync(gachaData, worker, progress, full);
 
                 if (!isSuccess)
                 {
@@ -61,6 +51,19 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
                 return new(isSuccess, uid);
             }
+
+            if (mode != GachaLogUrlMode.ManualInput)
+            {
+                await new ContentDialog()
+                {
+                    Title = "获取祈愿记录失败",
+                    Content = this.GetUrlFailHintByMode(mode),
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                }.ShowAsync();
+            }
+
+            return new(false, null!);
         }
 
         private string GetUrlFailHintByMode(GachaLogUrlMode mode)
@@ -99,7 +102,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
                 if (uid != null)
                 {
-                    localGachaLogWorker.SaveAll(gachaData);
+                    this.localGachaLogWorker.SaveAll(gachaData);
                     return new(true, uid);
                 }
             }
@@ -108,28 +111,28 @@ namespace DGP.Genshin.Service.GachaStatistic
 
         public Statistic GetStatistic(GachaDataCollection gachaData, string uid)
         {
-            return new StatisticBuilder(metadataViewModel).ToStatistic(gachaData[uid]!, uid);
+            return new StatisticBuilder(this.metadataViewModel).ToStatistic(gachaData[uid]!, uid);
         }
 
         #region Im/Export
         public async Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path)
         {
-            await Task.Run(() => localGachaLogWorker!.ExportToUIGFW(uid, path, gachaData));
+            await Task.Run(() => this.localGachaLogWorker!.ExportToUIGFW(uid, path, gachaData));
         }
 
         public async Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path)
         {
-            await Task.Run(() => localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
+            await Task.Run(() => this.localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
         }
 
         public async Task<Result<bool, string>> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
         {
-            return await localGachaLogWorker!.ImportFromUIGFWAsync(path, gachaData);
+            return await this.localGachaLogWorker!.ImportFromUIGFWAsync(path, gachaData);
         }
 
         public async Task<Result<bool, string>> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
         {
-            return await localGachaLogWorker!.ImportFromUIGFJAsync(path, gachaData);
+            return await this.localGachaLogWorker!.ImportFromUIGFJAsync(path, gachaData);
         }
         #endregion
     }

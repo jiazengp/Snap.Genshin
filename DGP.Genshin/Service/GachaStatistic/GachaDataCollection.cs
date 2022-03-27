@@ -23,7 +23,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="data"></param>
         public void Add(string uid, GachaData data)
         {
-            Add(new(uid, data));
+            this.Add(new(uid, data));
         }
 
         public GachaData? this[string uid]

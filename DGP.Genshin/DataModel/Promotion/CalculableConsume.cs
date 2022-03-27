@@ -9,8 +9,8 @@ namespace DGP.Genshin.DataModel.Promotion
     {
         public CalculableConsume(Calculable calculable, List<ConsumeItem> consumption)
         {
-            Calculable = calculable;
-            ConsumeItems = consumption;
+            this.Calculable = calculable;
+            this.ConsumeItems = consumption;
         }
 
         public Calculable Calculable { get; set; }

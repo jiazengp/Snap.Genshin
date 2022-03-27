@@ -16,15 +16,15 @@ namespace DGP.Genshin.Message
 
         public UpdateProgressedMessage(DownloadInfomation infomation)
         {
-            Value = infomation.Percent;
-            ValueString = infomation.ToString();
-            IsDownloading = infomation.IsDownloading;
+            this.Value = infomation.Percent;
+            this.ValueString = infomation.ToString();
+            this.IsDownloading = infomation.IsDownloading;
         }
         public UpdateProgressedMessage(double value, string valueString, bool isDownloading)
         {
-            Value = value;
-            ValueString = valueString;
-            IsDownloading = isDownloading;
+            this.Value = value;
+            this.ValueString = valueString;
+            this.IsDownloading = isDownloading;
         }
 
         public double Value { get; }

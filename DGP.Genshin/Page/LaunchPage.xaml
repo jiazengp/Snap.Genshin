@@ -49,7 +49,8 @@
                             Subtitle="在游戏内切换账号/更改游戏内设置/网络环境发生变化/后会自动检测">
                     <wu:CardExpander.HeaderContent>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}" Margin="12,0,12,0" MinWidth="60"/>
+                            <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}" Margin="0,0,12,0" MinWidth="60"/>
+                            <Button Grid.Row="1" Content="重命名" Command="{Binding RenameAccountCommand}" Margin="0,0,12,0" MinWidth="60"/>
                             <Button Grid.Row="1" Content="删除" Command="{Binding DeleteAccountCommand}" Margin="0,0,12,0" MinWidth="60"/>
                         </StackPanel>
                     </wu:CardExpander.HeaderContent>

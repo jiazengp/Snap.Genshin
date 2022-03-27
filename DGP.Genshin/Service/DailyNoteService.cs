@@ -42,22 +42,22 @@ namespace DGP.Genshin.Service
 
         public void Initialize()
         {
-            messenger.RegisterAll(this);
-            scheduleService.InitializeAsync().Forget();
-            UpdateDailyNotesAsync().Forget();
+            this.messenger.RegisterAll(this);
+            this.scheduleService.InitializeAsync().Forget();
+            this.UpdateDailyNotesAsync().Forget();
         }
 
         public void UnInitialize()
         {
-            scheduleService.UnInitialize();
-            messenger.UnregisterAll(this);
+            this.scheduleService.UnInitialize();
+            this.messenger.UnregisterAll(this);
         }
 
         public DailyNote? GetDailyNote(CookieUserGameRole cookieUserGameRole)
         {
-            if (DailyNotes.ContainsKey(cookieUserGameRole))
+            if (this.DailyNotes.ContainsKey(cookieUserGameRole))
             {
-                return DailyNotes[cookieUserGameRole];
+                return this.DailyNotes[cookieUserGameRole];
             }
             else
             {
@@ -68,24 +68,24 @@ namespace DGP.Genshin.Service
         public void Receive(TickScheduledMessage message)
         {
             this.Log("scheduled tick received");
-            UpdateDailyNotesAsync().Forget();
+            this.UpdateDailyNotesAsync().Forget();
         }
         public void Receive(UserRequestRefreshMessage message)
         {
             this.Log("user requested a refresh");
-            UpdateDailyNotesAsync().Forget();
+            this.UpdateDailyNotesAsync().Forget();
         }
 
         private readonly TaskPreventer taskPreventer = new();
 
         private async Task UpdateDailyNotesAsync()
         {
-            if (taskPreventer.ShouldExecute)
+            if (this.taskPreventer.ShouldExecute)
             {
                 Dictionary<CookieUserGameRole, DailyNote?> dailyNotes = new();
-                using (await cookieService.CookiesLock.ReadLockAsync())
+                using (await this.cookieService.CookiesLock.ReadLockAsync())
                 {
-                    foreach (string cookie in cookieService.Cookies.ToList())
+                    foreach (string cookie in this.cookieService.Cookies.ToList())
                     {
                         List<UserGameRole> userGameRoles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                         DailyNoteProvider dailyNoteProvider = new(cookie);
@@ -94,20 +94,20 @@ namespace DGP.Genshin.Service
                             DailyNote? dailyNote = await dailyNoteProvider.GetDailyNoteAsync(userGameRole);
                             dailyNotes[new(cookie, userGameRole)] = dailyNote;
 
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyResin,
-                                EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyHomeCoin,
-                                EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyDailyTask,
-                                EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
-                            TrySendDailyNoteNotification(userGameRole, dailyNote, ContinueNotifyExpedition,
-                                EvaluateExpedition, dailyNote => "探索派遣已完成");
+                            this.TrySendDailyNoteNotification(userGameRole, dailyNote, this.ContinueNotifyResin,
+                                this.EvaluateResin, dailyNote => $"当前原粹树脂：{dailyNote.CurrentResin}");
+                            this.TrySendDailyNoteNotification(userGameRole, dailyNote, this.ContinueNotifyHomeCoin,
+                                this.EvaluateHomeCoin, dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
+                            this.TrySendDailyNoteNotification(userGameRole, dailyNote, this.ContinueNotifyDailyTask,
+                                this.EvaluateDailyTask, dailyNote => dailyNote.ExtraTaskRewardDescription);
+                            this.TrySendDailyNoteNotification(userGameRole, dailyNote, this.ContinueNotifyExpedition,
+                                this.EvaluateExpedition, dailyNote => "探索派遣已完成");
                         }
                     }
                 }
-                DailyNotes = dailyNotes;
-                messenger.Send(new DailyNotesRefreshedMessage());
-                taskPreventer.Release();
+                this.DailyNotes = dailyNotes;
+                this.messenger.Send(new DailyNotesRefreshedMessage());
+                this.taskPreventer.Release();
             }
         }
 

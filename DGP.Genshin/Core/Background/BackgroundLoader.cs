@@ -1,5 +1,4 @@
 ﻿using DGP.Genshin.Core.Background.Abstraction;
-using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
@@ -10,11 +9,7 @@ using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
-using Snap.Data.Utility.Extension;
-using Snap.Extenion.Enumerable;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -29,109 +24,48 @@ namespace DGP.Genshin.Core.Background
     /// </summary>
     internal class BackgroundLoader : IRecipient<BackgroundOpacityChangedMessage>, IRecipient<BackgroundChangeRequestMessage>
     {
-        private const int animationDuration = 500;
+        private const int AnimationDuration = 500;
 
         private readonly MainWindow mainWindow;
         private readonly IMessenger messenger;
 
+        /// <summary>
+        /// 构造一个新的背景图片加载器
+        /// </summary>
+        /// <param name="mainWindow">要操作的主窗体引用</param>
+        /// <param name="messenger">消息器</param>
         public BackgroundLoader(MainWindow mainWindow, IMessenger messenger)
         {
             this.mainWindow = mainWindow;
             this.messenger = messenger;
             messenger.RegisterAll(this);
         }
+
+        /// <summary>
+        /// 释放消息器
+        /// </summary>
         ~BackgroundLoader()
         {
-            messenger.UnregisterAll(this);
+            this.messenger.UnregisterAll(this);
         }
 
         private double Lightness { get; set; }
 
-        public async Task LoadNextWallpaperAsync()
+        /// <inheritdoc/>
+        void IRecipient<BackgroundOpacityChangedMessage>.Receive(BackgroundOpacityChangedMessage message)
         {
-            IBackgroundProvider? backgroundProvider = App.Current.SwitchableImplementationManager
-                .CurrentBackgroundProvider!.Factory.Value;
-            BitmapImage? image = await backgroundProvider.GetNextBitmapImageAsync();
-            if (image == null)
-            {
-                return;
-            }
-            TrySetTargetAdaptiveBackgroundOpacityValue(image);
-            //first pic
-            if (mainWindow.BackgroundGrid.Background is null)
-            {
-                //直接设置背景
-                mainWindow.BackgroundGrid.Background = new ImageBrush
-                {
-                    ImageSource = image,
-                    Stretch = Stretch.UniformToFill,
-                    Opacity = Setting2.BackgroundOpacity
-                };
-            }
-            else
-            {
-                Grid backgroundPresenter = mainWindow.BackgroundGrid;
-                DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(0, animationDuration);
-                //Fade out old image
-                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
-                await Task.Delay(animationDuration);
-                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
-
-
-                backgroundPresenter.Background = new ImageBrush
-                {
-                    ImageSource = image,
-                    Stretch = Stretch.UniformToFill,
-                    Opacity = 0
-                };
-
-
-                DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(Setting2.BackgroundOpacity, animationDuration);
-                //Fade in new image
-                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
-                await Task.Delay(animationDuration);
-                backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
-
-                backgroundPresenter.Background.Opacity = Setting2.BackgroundOpacity;
-                messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
-            }
-        }
-
-        /// <summary>
-        /// TODO: remove heavy work that blocks UI thread.
-        /// </summary>
-        /// <param name="image"></param>
-        private void TrySetTargetAdaptiveBackgroundOpacityValue(BitmapImage image)
-        {
-            if (Setting2.IsBackgroundOpacityAdaptive)
-            {
-                //this operation is really laggy
-                Lightness = image.GetPixels()
-                    .Cast<Pixel>()
-                    .Select(p => (p.Red * 0.299 + p.Green * 0.587 + p.Blue * 0.114) * (p.Alpha / 255D) / 255)
-                    .Average();
-
-                this.Log($"Lightness: {Lightness}");
-
-                bool isDarkMode = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
-                double targetOpacity = isDarkMode ? (1 - Lightness) * 0.4 : Lightness * 0.6;
-                this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
-                Setting2.BackgroundOpacity.Set(targetOpacity);
-            }
-        }
-
-        public void Receive(BackgroundOpacityChangedMessage message)
-        {
-            if (mainWindow.BackgroundGrid.Background is ImageBrush brush)
+            if (this.mainWindow.BackgroundGrid.Background is ImageBrush brush)
             {
                 brush.Opacity = message.Value;
             }
         }
-        public void Receive(BackgroundChangeRequestMessage message)
+
+        /// <inheritdoc/>
+        void IRecipient<BackgroundChangeRequestMessage>.Receive(BackgroundChangeRequestMessage message)
         {
             try
             {
-                LoadNextWallpaperAsync().Forget();
+                this.LoadNextWallpaperAsync().Forget();
             }
             catch (Exception ex)
             {
@@ -139,59 +73,83 @@ namespace DGP.Genshin.Core.Background
             }
         }
 
-        [SwitchableImplementation(typeof(IBackgroundProvider))]
-        internal class DefaultBackgroundProvider : IBackgroundProvider
+        /// <summary>
+        /// 尝试加载下一张壁纸
+        /// </summary>
+        /// <returns>任务</returns>
+        public async Task LoadNextWallpaperAsync()
         {
-            private const string BackgroundFolder = "Background";
-
-            private static readonly List<string> supportedFiles;
-            private static readonly IEnumerable<string> supportedExtensions =
-                new List<string>() { ".png", ".jpg", ".jpeg", ".bmp" };
-            private static string? latestFile;
-
-            static DefaultBackgroundProvider()
+            IBackgroundProvider? backgroundProvider = App.Current.SwitchableImplementationManager
+                .CurrentBackgroundProvider!.Factory.Value;
+            BitmapImage? image = await backgroundProvider.GetNextBitmapImageAsync();
+            if (image != null)
             {
-                string folder = PathContext.Locate(BackgroundFolder);
-                Directory.CreateDirectory(folder);
-                supportedFiles = Directory.EnumerateFiles(folder)
-                    .Where(path => supportedExtensions.Contains(Path.GetExtension(path).ToLowerInvariant()))
-                    .ToList();
-            }
+                this.TrySetTargetAdaptiveBackgroundOpacityValue(image);
 
-            public async Task<BitmapImage?> GetNextBitmapImageAsync()
-            {
-                await Task.Yield();
-                if (supportedFiles.GetRandomNoRepeat(latestFile) is string randomPath)
+                // first pic
+                if (this.mainWindow.BackgroundGrid.Background is null)
                 {
-                    latestFile = randomPath;
-                    this.Log($"Loading background wallpaper from {randomPath}");
-                    return GetBitmapImageFromPath(randomPath);
-                }
-                return null;
-            }
-            private BitmapImage GetBitmapImageFromPath(string randomPath)
-            {
-                BitmapImage image = new();
-                try
-                {
-                    using (FileStream stream = new(randomPath, FileMode.Open))
+                    // 直接设置背景
+                    this.mainWindow.BackgroundGrid.Background = new ImageBrush
                     {
-                        using (image.AsDisposableInit())
-                        {
-                            image.CacheOption = BitmapCacheOption.OnLoad;
-                            image.StreamSource = stream;
-                        }
-                    }
+                        ImageSource = image,
+                        Stretch = Stretch.UniformToFill,
+                        Opacity = Setting2.BackgroundOpacity,
+                    };
                 }
-                catch
+                else
                 {
-                    Verify.FailOperation($"无法读取图片：{randomPath}");
-                }
+                    Grid backgroundPresenter = this.mainWindow.BackgroundGrid;
+                    DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(0, AnimationDuration);
 
-                return image;
+                    // Fade out old image
+                    backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeOutAnimation);
+                    await Task.Delay(AnimationDuration);
+                    backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
+
+                    backgroundPresenter.Background = new ImageBrush
+                    {
+                        ImageSource = image,
+                        Stretch = Stretch.UniformToFill,
+                        Opacity = 0,
+                    };
+
+                    DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(Setting2.BackgroundOpacity, AnimationDuration);
+
+                    // Fade in new image
+                    backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, fadeInAnimation);
+                    await Task.Delay(AnimationDuration);
+                    backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
+
+                    backgroundPresenter.Background.Opacity = Setting2.BackgroundOpacity;
+                    this.messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
+                }
             }
         }
 
+        /// <summary>
+        /// 尝试设置自适应背景图片不透明度
+        /// 当未开启选项时自动跳过
+        /// TODO: remove heavy work that blocks UI thread.
+        /// </summary>
+        /// <param name="image">背景图片</param>
+        private void TrySetTargetAdaptiveBackgroundOpacityValue(BitmapImage image)
+        {
+            if (Setting2.IsBackgroundOpacityAdaptive)
+            {
+                // this operation is really laggy
+                this.Lightness = image.GetPixels()
+                    .Cast<Pixel>()
+                    .Select(p => ((p.Red * 0.299) + (p.Green * 0.587) + (p.Blue * 0.114)) * (p.Alpha / 255D) / 255)
+                    .Average();
 
+                this.Log($"Lightness: {this.Lightness}");
+
+                bool isDarkMode = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
+                double targetOpacity = isDarkMode ? (1 - this.Lightness) * 0.4 : this.Lightness * 0.6;
+                this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
+                Setting2.BackgroundOpacity.Set(targetOpacity);
+            }
+        }
     }
 }

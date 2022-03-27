@@ -7,7 +7,7 @@ namespace DGP.Genshin.Core.ImplementationSwitching
     {
         public SwitchableInterfaceTypeAttribute(Type type)
         {
-            Type = type;
+            this.Type = type;
         }
         public Type Type { get; }
     }

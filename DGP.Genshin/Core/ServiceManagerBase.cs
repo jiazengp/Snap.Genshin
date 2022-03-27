@@ -1,5 +1,4 @@
-﻿using Microsoft;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Exception;
@@ -19,7 +18,7 @@ namespace DGP.Genshin.Core
         /// </summary>
         public ServiceManagerBase()
         {
-            Services = ConfigureServices();
+            this.Services = this.ConfigureServices();
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace DGP.Genshin.Core
         /// <param name="entryType">入口类型，该类型所在的程序集均会被扫描</param>
         protected virtual void RegisterServices(ServiceCollection services, Type entryType)
         {
-            entryType.Assembly.ForEachType(type => RegisterService(services, type));
+            entryType.Assembly.ForEachType(type => this.RegisterService(services, type));
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace DGP.Genshin.Core
         protected virtual void OnProbingServices(ServiceCollection services)
         {
             //register default services
-            RegisterServices(services, typeof(App));
+            this.RegisterServices(services, typeof(App));
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace DGP.Genshin.Core
         protected IServiceProvider ConfigureServices()
         {
             ServiceCollection services = new();
-            OnProbingServices(services);
+            this.OnProbingServices(services);
             return services.BuildServiceProvider();
         }
     }

@@ -25,7 +25,7 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
         {
             get
             {
-                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name!));
+                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(this.Name!));
                 Color color = Color.FromRgb(
                     (byte)(codes[0] / 2 + 64),
                     (byte)(codes[1] / 2 + 64),
@@ -37,7 +37,7 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
         {
             get
             {
-                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Name!));
+                byte[] codes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(this.Name!));
                 Color color = Color.FromArgb(
                     102,
                     (byte)(codes[0] / 2 + 64),

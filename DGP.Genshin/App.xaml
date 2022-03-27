@@ -64,6 +64,8 @@
             <Thickness x:Key="PivotItemMargin">0</Thickness>
             <sys:Double x:Key="PivotHeaderItemFontSize">16</sys:Double>
 
+            <sys:Double x:Key="ContentIconLength">80</sys:Double>
+
             <SolidColorBrush x:Key="SystemAccentColorDark1Brush" Color="{ui:DynamicColor SystemAccentColorLight1}" />
             <SolidColorBrush x:Key="SystemAccentColorDark2Brush" Color="{ui:DynamicColor SystemAccentColorLight2}" />
             <SolidColorBrush x:Key="SystemAccentColorDark3Brush" Color="{ui:DynamicColor SystemAccentColorLight3}" />

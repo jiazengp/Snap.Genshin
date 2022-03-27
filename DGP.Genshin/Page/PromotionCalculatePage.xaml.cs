@@ -13,7 +13,7 @@ namespace DGP.Genshin.Page
     {
         public PromotionCalculatePage(PromotionCalculateViewModel vm) : base(vm)
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         #region NumberBoxDeleteButtonRemover
@@ -55,7 +55,7 @@ namespace DGP.Genshin.Page
 
         private void PageUnloaded(object sender, RoutedEventArgs e)
         {
-            ((PromotionCalculateViewModel)DataContext).CloseUICommand.Execute(null);
+            ((PromotionCalculateViewModel)this.DataContext).CloseUICommand.Execute(null);
         }
     }
 }

@@ -27,14 +27,14 @@ namespace DGP.Genshin.ViewModel
 
         public AnnouncementWrapper? Announcement
         {
-            get => announcement;
+            get => this.announcement;
 
-            set => SetProperty(ref announcement, value);
+            set => this.SetProperty(ref this.announcement, value);
         }
         public string? Manifesto
         {
-            get => manifesto;
-            set => SetProperty(ref manifesto, value);
+            get => this.manifesto;
+            set => this.SetProperty(ref this.manifesto, value);
         }
         public WorkWatcher OpeningUI { get; } = new(false);
         public ICommand OpenUICommand { get; }
@@ -44,18 +44,18 @@ namespace DGP.Genshin.ViewModel
         {
             this.homeService = homeService;
 
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-            OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            this.OpenAnnouncementUICommand = new RelayCommand<string>(this.OpenAnnouncementUI);
         }
 
         private async Task OpenUIAsync()
         {
-            using (OpeningUI.Watch())
+            using (this.OpeningUI.Watch())
             {
                 try
                 {
-                    Manifesto = await homeService.GetManifestoAsync(CancellationToken);
-                    Announcement = await homeService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
+                    this.Manifesto = await this.homeService.GetManifestoAsync(this.CancellationToken);
+                    this.Announcement = await this.homeService.GetAnnouncementsAsync(this.OpenAnnouncementUICommand, this.CancellationToken);
                 }
                 catch (TaskCanceledException) { this.Log("Open UI cancelled"); }
             }

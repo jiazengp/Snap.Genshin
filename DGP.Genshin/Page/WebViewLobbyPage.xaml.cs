@@ -8,8 +8,8 @@ namespace DGP.Genshin.Page
     {
         public WebViewLobbyPage(WebViewLobbyViewModel vm)
         {
-            DataContext = vm;
-            InitializeComponent();
+            this.DataContext = vm;
+            this.InitializeComponent();
         }
     }
 }

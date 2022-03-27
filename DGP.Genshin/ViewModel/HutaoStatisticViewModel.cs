@@ -39,51 +39,51 @@ namespace DGP.Genshin.ViewModel
 
         public bool ShouldUIPresent
         {
-            get => shouldUIPresent;
+            get => this.shouldUIPresent;
 
-            set => SetProperty(ref shouldUIPresent, value);
+            set => this.SetProperty(ref this.shouldUIPresent, value);
         }
         public Overview? Overview
         {
-            get => overview;
+            get => this.overview;
 
-            set => SetProperty(ref overview, value);
+            set => this.SetProperty(ref this.overview, value);
         }
         public IList<Indexed<int, Item<double>>>? AvatarParticipations
         {
-            get => avatarParticipations;
+            get => this.avatarParticipations;
 
-            set => SetProperty(ref avatarParticipations, value);
+            set => this.SetProperty(ref this.avatarParticipations, value);
         }
         public IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? AvatarReliquaryUsages
         {
-            get => avatarReliquaryUsages;
+            get => this.avatarReliquaryUsages;
 
-            set => SetProperty(ref avatarReliquaryUsages, value);
+            set => this.SetProperty(ref this.avatarReliquaryUsages, value);
         }
         public IList<Item<IList<Item<double>>>>? TeamCollocations
         {
-            get => teamCollocations;
+            get => this.teamCollocations;
 
-            set => SetProperty(ref teamCollocations, value);
+            set => this.SetProperty(ref this.teamCollocations, value);
         }
         public IList<Item<IList<Item<double>>>>? WeaponUsages
         {
-            get => weaponUsages;
+            get => this.weaponUsages;
 
-            set => SetProperty(ref weaponUsages, value);
+            set => this.SetProperty(ref this.weaponUsages, value);
         }
         public IList<Rate<Item<IList<NamedValue<double>>>>>? AvatarConstellations
         {
-            get => avatarConstellations;
+            get => this.avatarConstellations;
 
-            set => SetProperty(ref avatarConstellations, value);
+            set => this.SetProperty(ref this.avatarConstellations, value);
         }
         public IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? TeamCombinations
         {
-            get => teamCombinations;
+            get => this.teamCombinations;
 
-            set => SetProperty(ref teamCombinations, value);
+            set => this.SetProperty(ref this.teamCombinations, value);
         }
 
         public ICommand OpenUICommand { get; }
@@ -94,25 +94,25 @@ namespace DGP.Genshin.ViewModel
             this.cookieService = cookieService;
             this.hutaoStatisticService = hutaoStatisticService;
 
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-            UploadCommand = asyncRelayCommandFactory.Create(UploadRecordsAsync);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            this.UploadCommand = asyncRelayCommandFactory.Create(this.UploadRecordsAsync);
         }
 
         public async Task OpenUIAsync()
         {
             try
             {
-                await hutaoStatisticService.InitializeAsync(CancellationToken);
+                await this.hutaoStatisticService.InitializeAsync(this.CancellationToken);
 
-                Overview = await hutaoStatisticService.GetOverviewAsync(CancellationToken);
+                this.Overview = await this.hutaoStatisticService.GetOverviewAsync(this.CancellationToken);
                 //V1
-                AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
-                TeamCollocations = hutaoStatisticService.GetTeamCollocations();
-                WeaponUsages = hutaoStatisticService.GetWeaponUsages();
+                this.AvatarParticipations = this.hutaoStatisticService.GetAvatarParticipations();
+                this.TeamCollocations = this.hutaoStatisticService.GetTeamCollocations();
+                this.WeaponUsages = this.hutaoStatisticService.GetWeaponUsages();
                 //V2
-                AvatarReliquaryUsages = hutaoStatisticService.GetReliquaryUsages();
-                AvatarConstellations = hutaoStatisticService.GetAvatarConstellations();
-                TeamCombinations = hutaoStatisticService.GetTeamCombinations();
+                this.AvatarReliquaryUsages = this.hutaoStatisticService.GetReliquaryUsages();
+                this.AvatarConstellations = this.hutaoStatisticService.GetAvatarConstellations();
+                this.TeamCombinations = this.hutaoStatisticService.GetTeamCombinations();
             }
             catch (TaskCanceledException) { this.Log("Open UI cancelled"); }
             catch (Exception e)
@@ -128,14 +128,14 @@ namespace DGP.Genshin.ViewModel
                 return;
             }
 
-            ShouldUIPresent = true;
+            this.ShouldUIPresent = true;
         }
         public async Task UploadRecordsAsync()
         {
-            ShouldUIPresent = false;
+            this.ShouldUIPresent = false;
             try
             {
-                await hutaoStatisticService.GetAllRecordsAndUploadAsync(cookieService.CurrentCookie, ConfirmAsync, HandleResponseAsync, CancellationToken);
+                await this.hutaoStatisticService.GetAllRecordsAndUploadAsync(this.cookieService.CurrentCookie, this.ConfirmAsync, this.HandleResponseAsync, this.CancellationToken);
             }
             catch (TaskCanceledException) { this.Log("upload data cancelled by user switch page"); }
             catch (Exception e)
@@ -151,7 +151,7 @@ namespace DGP.Genshin.ViewModel
             }
             finally
             {
-                ShouldUIPresent = true;
+                this.ShouldUIPresent = true;
             }
         }
 

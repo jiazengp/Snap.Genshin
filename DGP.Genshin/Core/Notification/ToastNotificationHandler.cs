@@ -24,9 +24,9 @@ namespace DGP.Genshin.Core.Notification
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
             foreach ((string key, string value) in args)
             {
-                HandleActionUpdateAsync(key, value).Forget();
-                HandleTaskbarHintHide(key, value);
-                HandleLaunchValueAsync(key, value).Forget();
+                this.HandleActionUpdateAsync(key, value).Forget();
+                this.HandleTaskbarHintHide(key, value);
+                this.HandleLaunchValueAsync(key, value).Forget();
             }
         }
         /// <summary>

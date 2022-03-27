@@ -16,6 +16,18 @@ using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Control.Infrastructure.Markdown
 {
+    [SuppressMessage("", "SA1001")]
+    [SuppressMessage("", "SA1028")]
+    [SuppressMessage("", "SA1113")]
+    [SuppressMessage("", "SA1116")]
+    [SuppressMessage("", "SA1117")]
+    [SuppressMessage("", "SA1118")]
+    [SuppressMessage("", "SA1201")]
+    [SuppressMessage("", "SA1202")]
+    [SuppressMessage("", "SA1204")]
+    [SuppressMessage("", "SA1309")]
+    [SuppressMessage("", "SA1413")]
+    [SuppressMessage("", "SA1600")]
     public sealed class Markdown : DependencyObject
     {
         /// <summary>
@@ -45,16 +57,16 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style DocumentStyle
         {
-            get => (Style)GetValue(DocumentStyleProperty);
+            get => (Style)this.GetValue(DocumentStyleProperty);
 
-            set => SetValue(DocumentStyleProperty, value);
+            set => this.SetValue(DocumentStyleProperty, value);
         }
 
         public Style NormalParagraphStyle
         {
-            get => (Style)GetValue(NormalParagraphStyleProperty);
+            get => (Style)this.GetValue(NormalParagraphStyleProperty);
 
-            set => SetValue(NormalParagraphStyleProperty, value);
+            set => this.SetValue(NormalParagraphStyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for NormalParagraphStyle.  This enables animation, styling, binding, etc...
@@ -67,9 +79,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style Heading1Style
         {
-            get => (Style)GetValue(Heading1StyleProperty);
+            get => (Style)this.GetValue(Heading1StyleProperty);
 
-            set => SetValue(Heading1StyleProperty, value);
+            set => this.SetValue(Heading1StyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Heading1Style.  This enables animation, styling, binding, etc...
@@ -78,9 +90,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style Heading2Style
         {
-            get => (Style)GetValue(Heading2StyleProperty);
+            get => (Style)this.GetValue(Heading2StyleProperty);
 
-            set => SetValue(Heading2StyleProperty, value);
+            set => this.SetValue(Heading2StyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Heading2Style.  This enables animation, styling, binding, etc...
@@ -89,9 +101,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style Heading3Style
         {
-            get => (Style)GetValue(Heading3StyleProperty);
+            get => (Style)this.GetValue(Heading3StyleProperty);
 
-            set => SetValue(Heading3StyleProperty, value);
+            set => this.SetValue(Heading3StyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Heading3Style.  This enables animation, styling, binding, etc...
@@ -100,9 +112,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style Heading4Style
         {
-            get => (Style)GetValue(Heading4StyleProperty);
+            get => (Style)this.GetValue(Heading4StyleProperty);
 
-            set => SetValue(Heading4StyleProperty, value);
+            set => this.SetValue(Heading4StyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Heading4Style.  This enables animation, styling, binding, etc...
@@ -111,9 +123,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style CodeStyle
         {
-            get => (Style)GetValue(CodeStyleProperty);
+            get => (Style)this.GetValue(CodeStyleProperty);
 
-            set => SetValue(CodeStyleProperty, value);
+            set => this.SetValue(CodeStyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for CodeStyle.  This enables animation, styling, binding, etc...
@@ -122,9 +134,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style LinkStyle
         {
-            get => (Style)GetValue(LinkStyleProperty);
+            get => (Style)this.GetValue(LinkStyleProperty);
 
-            set => SetValue(LinkStyleProperty, value);
+            set => this.SetValue(LinkStyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for LinkStyle.  This enables animation, styling, binding, etc...
@@ -133,9 +145,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style ImageStyle
         {
-            get => (Style)GetValue(ImageStyleProperty);
+            get => (Style)this.GetValue(ImageStyleProperty);
 
-            set => SetValue(ImageStyleProperty, value);
+            set => this.SetValue(ImageStyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ImageStyle.  This enables animation, styling, binding, etc...
@@ -144,9 +156,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style SeparatorStyle
         {
-            get => (Style)GetValue(SeparatorStyleProperty);
+            get => (Style)this.GetValue(SeparatorStyleProperty);
 
-            set => SetValue(SeparatorStyleProperty, value);
+            set => this.SetValue(SeparatorStyleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for SeparatorStyle.  This enables animation, styling, binding, etc...
@@ -155,9 +167,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public string AssetPathRoot
         {
-            get => (string)GetValue(AssetPathRootProperty);
+            get => (string)this.GetValue(AssetPathRootProperty);
 
-            set => SetValue(AssetPathRootProperty, value);
+            set => this.SetValue(AssetPathRootProperty, value);
         }
 
         public static readonly DependencyProperty AssetPathRootProperty =
@@ -165,9 +177,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style TableStyle
         {
-            get => (Style)GetValue(TableStyleProperty);
+            get => (Style)this.GetValue(TableStyleProperty);
 
-            set => SetValue(TableStyleProperty, value);
+            set => this.SetValue(TableStyleProperty, value);
         }
 
         public static readonly DependencyProperty TableStyleProperty =
@@ -175,9 +187,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style TableHeaderStyle
         {
-            get => (Style)GetValue(TableHeaderStyleProperty);
+            get => (Style)this.GetValue(TableHeaderStyleProperty);
 
-            set => SetValue(TableHeaderStyleProperty, value);
+            set => this.SetValue(TableHeaderStyleProperty, value);
         }
 
         public static readonly DependencyProperty TableHeaderStyleProperty =
@@ -185,9 +197,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Style TableBodyStyle
         {
-            get => (Style)GetValue(TableBodyStyleProperty);
+            get => (Style)this.GetValue(TableBodyStyleProperty);
 
-            set => SetValue(TableBodyStyleProperty, value);
+            set => this.SetValue(TableBodyStyleProperty, value);
         }
 
         public static readonly DependencyProperty TableBodyStyleProperty =
@@ -195,7 +207,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
         public Markdown()
         {
-            HyperlinkCommand = NavigationCommands.GoToPage;
+            this.HyperlinkCommand = NavigationCommands.GoToPage;
         }
 
         public FlowDocument Transform(string text)
@@ -205,12 +217,12 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            text = Normalize(text);
-            FlowDocument document = Create<FlowDocument, Block>(RunBlockGamut(text));
+            text = this.Normalize(text);
+            FlowDocument document = this.Create<FlowDocument, Block>(this.RunBlockGamut(text));
 
-            if (DocumentStyle != null)
+            if (this.DocumentStyle != null)
             {
-                document.Style = DocumentStyle;
+                document.Style = this.DocumentStyle;
             }
             else
             {
@@ -230,11 +242,11 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return DoHeaders(text,
-                s1 => DoHorizontalRules(s1,
-                    s2 => DoLists(s2,
-                    s3 => DoTable(s3,
-                    sn => FormParagraphs(sn)))));
+            return this.DoHeaders(text,
+                s1 => this.DoHorizontalRules(s1,
+                    s2 => this.DoLists(s2,
+                    s3 => this.DoTable(s3,
+                    sn => this.FormParagraphs(sn)))));
         }
 
         /// <summary>
@@ -247,11 +259,11 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return DoCodeSpans(text,
-                s0 => DoImages(s0,
-                s1 => DoAnchors(s1,
-                s2 => DoItalicsAndBold(s2,
-                s3 => DoText(s3)))));
+            return this.DoCodeSpans(text,
+                s0 => this.DoImages(s0,
+                s1 => this.DoAnchors(s1,
+                s2 => this.DoItalicsAndBold(s2,
+                s3 => this.DoText(s3)))));
         }
 
         private static readonly Regex _newlinesLeadingTrailing = new(@"^\n+|\n+\z", RegexOptions.Compiled);
@@ -268,12 +280,12 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             // split on two or more newlines
-            string[] grafs = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, ""));
+            string[] grafs = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, string.Empty));
 
             foreach (string g in grafs)
             {
-                Paragraph block = Create<Paragraph, Inline>(RunSpanGamut(g));
-                block.Style = NormalParagraphStyle;
+                Paragraph block = this.Create<Paragraph, Inline>(this.RunSpanGamut(g));
+                block.Style = this.NormalParagraphStyle;
                 yield return block;
             }
         }
@@ -379,7 +391,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 )",
             GetNestedBracketsPattern(),
             GetNestedParensPatternWithWhiteSpace()),
-                  RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         private static readonly Regex _anchorInline = new(
             string.Format(CultureInfo.InvariantCulture, @"
@@ -399,7 +411,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                         )?                  # title is optional
                     \)
                 )", GetNestedBracketsPattern(), GetNestedParensPattern()),
-                  RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         /// <summary>
         /// Turn Markdown images into images
@@ -414,7 +426,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return Evaluate(text, _imageInline, ImageInlineEvaluator, defaultHandler);
+            return this.Evaluate(text, _imageInline, this.ImageInlineEvaluator, defaultHandler);
         }
 
         private Inline ImageInlineEvaluator(Match match)
@@ -431,7 +443,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             {
                 if (!Uri.IsWellFormedUriString(url, UriKind.Absolute) && !System.IO.Path.IsPathRooted(url))
                 {
-                    url = System.IO.Path.Combine(AssetPathRoot ?? string.Empty, url);
+                    url = System.IO.Path.Combine(this.AssetPathRoot ?? string.Empty, url);
                 }
 
                 imgSource = new BitmapImage();
@@ -449,13 +461,13 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             Image image = new() { Source = imgSource, Tag = linkText };
-            if (ImageStyle is null)
+            if (this.ImageStyle is null)
             {
                 image.Margin = new Thickness(0);
             }
             else
             {
-                image.Style = ImageStyle;
+                image.Style = this.ImageStyle;
             }
 
             // Bind size so document is updated when image is downloaded
@@ -469,13 +481,13 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
                 BindingExpressionBase bindingExpression = BindingOperations.SetBinding(image, FrameworkElement.WidthProperty, binding);
 
-                void downloadCompletedHandler(object? sender, EventArgs e)
+                void DownloadCompletedHandler(object? sender, EventArgs e)
                 {
-                    imgSource.DownloadCompleted -= downloadCompletedHandler;
+                    imgSource.DownloadCompleted -= DownloadCompletedHandler;
                     bindingExpression.UpdateTarget();
                 }
 
-                imgSource.DownloadCompleted += downloadCompletedHandler;
+                imgSource.DownloadCompleted += DownloadCompletedHandler;
             }
             else
             {
@@ -499,7 +511,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             // Next, inline-style links: [link text](url "optional title") or [link text](url "optional title")
-            return Evaluate(text, _anchorInline, AnchorInlineEvaluator, defaultHandler);
+            return this.Evaluate(text, _anchorInline, this.AnchorInlineEvaluator, defaultHandler);
         }
 
         private Inline AnchorInlineEvaluator(Match match)
@@ -513,17 +525,17 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             string url = match.Groups[3].Value;
             string title = match.Groups[6].Value;
 
-            Hyperlink result = Create<Hyperlink, Inline>(RunSpanGamut(linkText));
-            result.Command = HyperlinkCommand;
+            Hyperlink result = this.Create<Hyperlink, Inline>(this.RunSpanGamut(linkText));
+            result.Command = this.HyperlinkCommand;
             result.CommandParameter = url;
             if (!string.IsNullOrWhiteSpace(title))
             {
                 result.ToolTip = title;
             }
 
-            if (LinkStyle != null)
+            if (this.LinkStyle != null)
             {
-                result.Style = LinkStyle;
+                result.Style = this.LinkStyle;
             }
 
             return result;
@@ -570,8 +582,8 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return Evaluate(text, _headerSetext, m => SetextHeaderEvaluator(m),
-                s => Evaluate(s, _headerAtx, m => AtxHeaderEvaluator(m), defaultHandler));
+            return this.Evaluate(text, _headerSetext, m => this.SetextHeaderEvaluator(m),
+                s => this.Evaluate(s, _headerAtx, m => this.AtxHeaderEvaluator(m), defaultHandler));
         }
 
         private Block SetextHeaderEvaluator(Match match)
@@ -584,8 +596,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             string header = match.Groups[1].Value;
             int level = match.Groups[2].Value.StartsWith("=", StringComparison.Ordinal) ? 1 : 2;
 
-            //TODO: Style the paragraph based on the header level
-            return CreateHeader(level, RunSpanGamut(header.Trim()));
+            return this.CreateHeader(level, this.RunSpanGamut(header.Trim()));
         }
 
         private Block AtxHeaderEvaluator(Match match)
@@ -597,7 +608,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             string header = match.Groups[2].Value;
             int level = match.Groups[1].Value.Length;
-            return CreateHeader(level, RunSpanGamut(header));
+            return this.CreateHeader(level, this.RunSpanGamut(header));
         }
 
         public Block CreateHeader(int level, IEnumerable<Inline> content)
@@ -607,38 +618,38 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(content));
             }
 
-            Paragraph block = Create<Paragraph, Inline>(content);
+            Paragraph block = this.Create<Paragraph, Inline>(content);
 
             switch (level)
             {
                 case 1:
-                    if (Heading1Style != null)
+                    if (this.Heading1Style != null)
                     {
-                        block.Style = Heading1Style;
+                        block.Style = this.Heading1Style;
                     }
 
                     break;
 
                 case 2:
-                    if (Heading2Style != null)
+                    if (this.Heading2Style != null)
                     {
-                        block.Style = Heading2Style;
+                        block.Style = this.Heading2Style;
                     }
 
                     break;
 
                 case 3:
-                    if (Heading3Style != null)
+                    if (this.Heading3Style != null)
                     {
-                        block.Style = Heading3Style;
+                        block.Style = this.Heading3Style;
                     }
 
                     break;
 
                 case 4:
-                    if (Heading4Style != null)
+                    if (this.Heading4Style != null)
                     {
-                        block.Style = Heading4Style;
+                        block.Style = this.Heading4Style;
                     }
 
                     break;
@@ -674,7 +685,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return Evaluate(text, _horizontalRules, RuleEvaluator, defaultHandler);
+            return this.Evaluate(text, _horizontalRules, this.RuleEvaluator, defaultHandler);
         }
 
         private Block RuleEvaluator(Match match)
@@ -685,9 +696,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             Separator separator = new();
-            if (SeparatorStyle != null)
+            if (this.SeparatorStyle != null)
             {
-                separator.Style = SeparatorStyle;
+                separator.Style = this.SeparatorStyle;
             }
 
             BlockUIContainer container = new(separator);
@@ -731,13 +742,13 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             // We use a different prefix before nested lists than top-level lists.
             // See extended comment in _ProcessListItems().
-            if (_listLevel > 0)
+            if (this._listLevel > 0)
             {
-                return Evaluate(text, _listNested, ListEvaluator, defaultHandler);
+                return this.Evaluate(text, _listNested, this.ListEvaluator, defaultHandler);
             }
             else
             {
-                return Evaluate(text, _listTopLevel, ListEvaluator, defaultHandler);
+                return this.Evaluate(text, _listTopLevel, this.ListEvaluator, defaultHandler);
             }
         }
 
@@ -755,7 +766,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             // paragraph for the last item in a list, if necessary:
             list = Regex.Replace(list, @"\n{2,}", "\n\n\n");
 
-            List resultList = Create<List, ListItem>(ProcessListItems(list, listType == "ul" ? _markerUL : _markerOL));
+            List resultList = this.Create<List, ListItem>(this.ProcessListItems(list, listType == "ul" ? _markerUL : _markerOL));
 
             resultList.MarkerStyle = listType == "ul" ? TextMarkerStyle.Disc : TextMarkerStyle.Decimal;
 
@@ -768,7 +779,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         /// </summary>
         private IEnumerable<ListItem> ProcessListItems(string list, string marker)
         {
-            _listLevel++;
+            this._listLevel++;
             try
             {
                 // Trim trailing blank lines:
@@ -786,12 +797,12 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 MatchCollection matches = regex.Matches(list);
                 foreach (Match m in matches)
                 {
-                    yield return ListItemEvaluator(m);
+                    yield return this.ListItemEvaluator(m);
                 }
             }
             finally
             {
-                _listLevel--;
+                this._listLevel--;
             }
         }
 
@@ -808,12 +819,12 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             if (!string.IsNullOrEmpty(leadingLine) || Regex.IsMatch(item, @"\n{2,}"))
             {
                 // we could correct any bad indentation here..
-                return Create<ListItem, Block>(RunBlockGamut(item));
+                return this.Create<ListItem, Block>(this.RunBlockGamut(item));
             }
             else
             {
                 // recursion for sub-lists
-                return Create<ListItem, Block>(RunBlockGamut(item));
+                return this.Create<ListItem, Block>(this.RunBlockGamut(item));
             }
         }
 
@@ -842,7 +853,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return Evaluate(text, _table, TableEvalutor, defaultHandler);
+            return this.Evaluate(text, _table, this.TableEvalutor, defaultHandler);
         }
 
         private Block TableEvalutor(Match match)
@@ -865,12 +876,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 return trimRitm[1..^1].Split('|');
             }).ToList();
 
-            int maxColCount =
-                Math.Max(
-                    Math.Max(styles.Length, headers.Length),
-                    rowList.Select(ritm => ritm.Length).Max()
-                );
-
+            int maxColCount = Math.Max(Math.Max(styles.Length, headers.Length), rowList.Select(ritm => ritm.Length).Max());
 
             // table style
             List<TextAlignment?> aligns = new();
@@ -878,27 +884,32 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             {
                 char firstChar = colStyleTxt.First();
                 char lastChar = colStyleTxt.Last();
+
                 // center
                 if (firstChar == ':' && lastChar == ':')
                 {
                     aligns.Add(TextAlignment.Center);
                 }
+
                 // right
                 else if (lastChar == ':')
                 {
                     aligns.Add(TextAlignment.Right);
                 }
+
                 // left
                 else if (firstChar == ':')
                 {
                     aligns.Add(TextAlignment.Left);
                 }
+
                 // default
                 else
                 {
                     aligns.Add(null);
                 }
             }
+
             while (aligns.Count < maxColCount)
             {
                 aligns.Add(null);
@@ -906,9 +917,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             // table
             Table table = new();
-            if (TableStyle != null)
+            if (this.TableStyle != null)
             {
-                table.Style = TableStyle;
+                table.Style = this.TableStyle;
             }
 
             // table columns
@@ -919,27 +930,28 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             // table header
             TableRowGroup tableHeaderRG = new();
-            if (TableHeaderStyle != null)
+            if (this.TableHeaderStyle != null)
             {
-                tableHeaderRG.Style = TableHeaderStyle;
+                tableHeaderRG.Style = this.TableHeaderStyle;
             }
 
-            TableRow tableHeader = CreateTableRow(headers, aligns);
+            TableRow tableHeader = this.CreateTableRow(headers, aligns);
             tableHeaderRG.Rows.Add(tableHeader);
             table.RowGroups.Add(tableHeaderRG);
 
             // row
             TableRowGroup tableBodyRG = new();
-            if (TableBodyStyle != null)
+            if (this.TableBodyStyle != null)
             {
-                tableBodyRG.Style = TableBodyStyle;
+                tableBodyRG.Style = this.TableBodyStyle;
             }
 
             foreach (string[] rowAry in rowList)
             {
-                TableRow tableBody = CreateTableRow(rowAry, aligns);
+                TableRow tableBody = this.CreateTableRow(rowAry, aligns);
                 tableBodyRG.Rows.Add(tableBody);
             }
+
             table.RowGroups.Add(tableBodyRG);
 
             return table;
@@ -954,7 +966,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 string txt = txts[idx];
                 TextAlignment? align = aligns[idx];
 
-                Paragraph paragraph = Create<Paragraph, Inline>(RunSpanGamut(txt));
+                Paragraph paragraph = this.Create<Paragraph, Inline>(this.RunSpanGamut(txt));
                 TableCell cell = new(paragraph);
 
                 if (align.HasValue)
@@ -991,29 +1003,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                 throw new ArgumentNullException(nameof(text));
             }
 
-            //    * You can use multiple backticks as the delimiters if you want to
-            //        include literal backticks in the code span. So, this input:
-            //
-            //        Just type ``foo `bar` baz`` at the prompt.
-            //
-            //        Will translate to:
-            //
-            //          <p>Just type <code>foo `bar` baz</code> at the prompt.</p>
-            //
-            //        There's no arbitrary limit to the number of backticks you
-            //        can use as delimters. If you need three consecutive backticks
-            //        in your code, use four for delimiters, etc.
-            //
-            //    * You can use spaces to get literal backticks at the edges:
-            //
-            //          ... type `` `bar` `` ...
-            //
-            //        Turns to:
-            //
-            //          ... type <code>`bar`</code> ...         
-            //
-
-            return Evaluate(text, _codeSpan, CodeSpanEvaluator, defaultHandler);
+            return this.Evaluate(text, _codeSpan, this.CodeSpanEvaluator, defaultHandler);
         }
 
         private Inline CodeSpanEvaluator(Match match)
@@ -1024,13 +1014,13 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             string span = match.Groups[2].Value;
-            span = Regex.Replace(span, @"^[ ]*", ""); // leading whitespace
-            span = Regex.Replace(span, @"[ ]*$", ""); // trailing whitespace
+            span = Regex.Replace(span, @"^[ ]*", string.Empty); // leading whitespace
+            span = Regex.Replace(span, @"[ ]*$", string.Empty); // trailing whitespace
 
             Run result = new(span);
-            if (CodeStyle != null)
+            if (this.CodeStyle != null)
             {
-                result.Style = CodeStyle;
+                result.Style = this.CodeStyle;
             }
 
             return result;
@@ -1053,16 +1043,16 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             // <strong> must go first, then <em>
-            if (StrictBoldItalic)
+            if (this.StrictBoldItalic)
             {
-                return Evaluate(text, _strictBold, m => BoldEvaluator(m, 3),
-                    s1 => Evaluate(s1, _strictItalic, m => ItalicEvaluator(m, 3),
+                return this.Evaluate(text, _strictBold, m => this.BoldEvaluator(m, 3),
+                    s1 => this.Evaluate(s1, _strictItalic, m => this.ItalicEvaluator(m, 3),
                     s2 => defaultHandler(s2)));
             }
             else
             {
-                return Evaluate(text, _bold, m => BoldEvaluator(m, 2),
-                   s1 => Evaluate(s1, _italic, m => ItalicEvaluator(m, 2),
+                return this.Evaluate(text, _bold, m => this.BoldEvaluator(m, 2),
+                   s1 => this.Evaluate(s1, _italic, m => this.ItalicEvaluator(m, 2),
                    s2 => defaultHandler(s2)));
             }
         }
@@ -1075,7 +1065,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             string content = match.Groups[contentGroup].Value;
-            return Create<Italic, Inline>(RunSpanGamut(content));
+            return this.Create<Italic, Inline>(this.RunSpanGamut(content));
         }
 
         private Inline BoldEvaluator(Match match, int contentGroup)
@@ -1086,17 +1076,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
             }
 
             string content = match.Groups[contentGroup].Value;
-            return Create<Bold, Inline>(RunSpanGamut(content));
-        }
-
-        private static readonly Regex _outDent = new(@"^[ ]{1," + _tabWidth + @"}", RegexOptions.Multiline | RegexOptions.Compiled);
-
-        /// <summary>
-        /// Remove one level of line-leading spaces
-        /// </summary>
-        private string Outdent(string block)
-        {
-            return _outDent.Replace(block, "");
+            return this.Create<Bold, Inline>(this.RunSpanGamut(content));
         }
 
         /// <summary>
@@ -1142,9 +1122,10 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
                             line.Length = 0;
                             valid = false;
                         }
+
                         break;
                     case '\t':
-                        int width = _tabWidth - line.Length % _tabWidth;
+                        int width = _tabWidth - (line.Length % _tabWidth);
                         for (int k = 0; k < width; k++)
                         {
                             line.Append(' ');

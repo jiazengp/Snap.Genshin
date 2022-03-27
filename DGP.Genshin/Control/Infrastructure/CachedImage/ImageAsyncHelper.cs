@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using Snap.Data.Utility.Extension;
+using Snap.Threading;
 using System;
 using System.IO;
 using System.Threading;
@@ -21,26 +22,58 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
     /// </summary>
     public class ImageAsyncHelper
     {
-        #region ImageUrl
-        public static string GetImageUrl(Border obj)
-        {
-            return (string)obj.GetValue(ImageUrlProperty);
-        }
+        private static readonly DependencyProperty ImageUrlProperty = Property<ImageAsyncHelper>.Attach<string>("ImageUrl", HitImageCallback);
+        private static readonly DependencyProperty StretchModeProperty = Property<ImageAsyncHelper>.Attach("StretchMode", Stretch.Uniform);
 
-        public static void SetImageUrl(Border obj, Uri value)
-        {
-            obj.SetValue(ImageUrlProperty, value);
-        }
+        // 发送消息细粒度锁
+        private static readonly SemaphoreSlim SendMessageLocker = new(1, 1);
 
         private static int imageUrlHittingCount = 0;
-        private static readonly SemaphoreSlim sendMessageLocker = new(1, 1);
 
-        public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.RegisterAttached(
-            "ImageUrl",
-            typeof(string),
-            typeof(ImageAsyncHelper),
-            new PropertyMetadata((obj, e) =>
-            HitImageAsync((Border)obj, (string)e.NewValue).Forget()));
+        /// <summary>
+        /// 获取图片拉伸
+        /// </summary>
+        /// <param name="border">待获取的 <see cref="Border"/></param>
+        /// <returns>图片拉伸</returns>
+        public static Stretch GetStretchMode(Border border)
+        {
+            return (Stretch)border.GetValue(StretchModeProperty);
+        }
+
+        /// <summary>
+        /// 设置图片拉伸
+        /// </summary>
+        /// <param name="border">待设置的 <see cref="Border"/></param>
+        /// <param name="value">新的图片拉伸</param>
+        public static void SetStretchMode(Border border, Stretch value)
+        {
+            border.SetValue(StretchModeProperty, value);
+        }
+
+        /// <summary>
+        /// 获取图片链接
+        /// </summary>
+        /// <param name="border">待获取的 <see cref="Border"/></param>
+        /// <returns>图片链接</returns>
+        public static string GetImageUrl(Border border)
+        {
+            return (string)border.GetValue(ImageUrlProperty);
+        }
+
+        /// <summary>
+        /// 设置图片链接
+        /// </summary>
+        /// <param name="border">待设置的 <see cref="Border"/></param>
+        /// <param name="value">新的图片链接</param>
+        public static void SetImageUrl(Border border, Uri value)
+        {
+            border.SetValue(ImageUrlProperty, value);
+        }
+
+        private static void HitImageCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            HitImageAsync((Border)obj, (string)e.NewValue).Forget();
+        }
 
         private static async Task HitImageAsync(Border border, string url)
         {
@@ -52,63 +85,51 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             else
             {
                 ++imageUrlHittingCount;
-                await sendMessageLocker.WaitAsync();
-                //不存在图片，所以需要下载额外的资源
-                if (imageUrlHittingCount == 1)
+                using (await SendMessageLocker.EnterAsync())
                 {
-                    App.Messenger.Send(new ImageHitBeginMessage());
+                    // 不存在图片，所以需要下载额外的资源
+                    if (imageUrlHittingCount == 1)
+                    {
+                        App.Messenger.Send(new ImageHitBeginMessage());
+                    }
+
+                    Logger.LogStatic(imageUrlHittingCount);
                 }
-                Logger.LogStatic(imageUrlHittingCount);
-                sendMessageLocker.Release();
 
                 memoryStream = await FileCache.HitAsync(url);
+
                 --imageUrlHittingCount;
-
-                await sendMessageLocker.WaitAsync();
-                if (imageUrlHittingCount == 0)
+                using (await SendMessageLocker.EnterAsync())
                 {
-                    App.Messenger.Send(new ImageHitEndMessage());
-                }
-                Logger.LogStatic(imageUrlHittingCount);
-                sendMessageLocker.Release();
-            }
+                    if (imageUrlHittingCount == 0)
+                    {
+                        App.Messenger.Send(new ImageHitEndMessage());
+                    }
 
-            if (memoryStream == null)
-            {
-                return;
-            }
-
-            BitmapImage bitmapImage = new();
-            try
-            {
-                using (bitmapImage.AsDisposableInit())
-                {
-                    bitmapImage.StreamSource = memoryStream;
+                    Logger.LogStatic(imageUrlHittingCount);
                 }
             }
-            catch { }
 
-            border.Background = new ImageBrush()
+            if (memoryStream != null)
             {
-                ImageSource = bitmapImage,
-                Stretch = GetStretchMode(border)
-            };
-        }
-        #endregion
+                BitmapImage bitmapImage = new();
+                try
+                {
+                    using (bitmapImage.AsDisposableInit())
+                    {
+                        bitmapImage.StreamSource = memoryStream;
+                    }
+                }
+                catch
+                {
+                }
 
-        #region StretchMode
-        public static Stretch GetStretchMode(Border obj)
-        {
-            return (Stretch)obj.GetValue(StretchModeProperty);
+                border.Background = new ImageBrush()
+                {
+                    ImageSource = bitmapImage,
+                    Stretch = GetStretchMode(border),
+                };
+            }
         }
-
-        public static void SetStretchMode(Border obj, Stretch value)
-        {
-            obj.SetValue(StretchModeProperty, value);
-        }
-
-        public static readonly DependencyProperty StretchModeProperty = DependencyProperty.RegisterAttached(
-            "StretchMode", typeof(Stretch), typeof(ImageAsyncHelper), new PropertyMetadata(Stretch.Uniform));
-        #endregion
     }
 }

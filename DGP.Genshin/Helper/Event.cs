@@ -51,7 +51,7 @@ namespace DGP.Genshin.Helper
         /// <param name="name">事件名称</param>
         public void TrackAs(string name)
         {
-            if (Count > 0)
+            if (this.Count > 0)
             {
                 Analytics.TrackEvent(name, this);
             }

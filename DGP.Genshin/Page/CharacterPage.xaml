@@ -25,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="324">
+        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="272">
             <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
@@ -212,9 +212,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.NormalAttack.Source}"/>
+                                UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.NormalAttack.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -289,9 +289,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.TalentE.Source}"/>
+                                UriSource="{Binding SelectedCharacter.TalentE.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.TalentE.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -366,9 +366,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.TalentQ.Source}"/>
+                                UriSource="{Binding SelectedCharacter.TalentQ.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.TalentQ.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -446,9 +446,9 @@
                                         <ColumnDefinition Width="64"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ci:CachedImage 
-                                Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding Source}"/>
+                                    <ci:CachedBitmapIcon 
+                                        Margin="6" VerticalAlignment="Top"
+                                        UriSource="{Binding Source}"/>
                                     <StackPanel Margin="6" Grid.Column="1">
                                         <TextBlock Text="{Binding Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -469,9 +469,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation1.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation1.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation1.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -484,9 +484,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation2.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation2.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation2.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -499,9 +499,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation3.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation3.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation3.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -514,9 +514,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation4.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation4.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation4.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -529,9 +529,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation5.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation5.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation5.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
@@ -544,9 +544,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedImage 
+                            <ci:CachedBitmapIcon 
                                 Margin="6" VerticalAlignment="Top"
-                                ImageUrl="{Binding SelectedCharacter.Constellation.Constellation6.Source}"/>
+                                UriSource="{Binding SelectedCharacter.Constellation.Constellation6.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
                                 <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation6.Name}"
                                                Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>

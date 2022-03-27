@@ -9,7 +9,7 @@
     xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
-    PrimaryButtonText="确认" Title="为新账号设置名称" DefaultButton="Primary">
+    PrimaryButtonText="确认" Title="为当前账号设置名称" DefaultButton="Primary">
     <Grid>
         <smoothscrollviewer:SmoothScrollViewer>
             <StackPanel>
@@ -20,10 +20,6 @@
                         <TextBlock Margin="0,8,0,0" Text="{Binding TargetAccount.MihoyoSDK}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Expander>
-                <TextBlock Margin="0,6,0,0" Text="请不要尝试跳过此步骤"
-                           Foreground="Red" Style="{StaticResource BaseTextBlockStyle}"/>
-                <TextBlock Margin="0,6,0,0" Text="如果你频繁的看到此对话框&#10;请删除所有账号后重新添加"
-                           Foreground="DarkRed" Style="{StaticResource BaseTextBlockStyle}"/>
             </StackPanel>
         </smoothscrollviewer:SmoothScrollViewer>
     </Grid>

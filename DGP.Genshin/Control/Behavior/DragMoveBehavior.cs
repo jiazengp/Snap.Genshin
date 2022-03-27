@@ -9,14 +9,17 @@ namespace DGP.Genshin.Control.Behavior
     /// </summary>
     public sealed class DragMoveBehavior : Behavior<FrameworkElement>
     {
+        /// <inheritdoc/>
         protected override void OnAttached()
         {
-            AssociatedObject.MouseLeftButtonDown += MouseDown;
+            this.AssociatedObject.MouseLeftButtonDown += this.MouseDown;
             base.OnAttached();
         }
+
+        /// <inheritdoc/>
         protected override void OnDetaching()
         {
-            AssociatedObject.MouseLeftButtonDown -= MouseDown;
+            this.AssociatedObject.MouseLeftButtonDown -= this.MouseDown;
             base.OnDetaching();
         }
 

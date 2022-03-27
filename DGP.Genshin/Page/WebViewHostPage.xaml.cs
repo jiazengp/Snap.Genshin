@@ -22,7 +22,7 @@ namespace DGP.Genshin.Page
         {
             if (WebView2Helper.IsSupported)
             {
-                InitializeComponent();
+                this.InitializeComponent();
             }
             else
             {
@@ -33,41 +33,41 @@ namespace DGP.Genshin.Page
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            entry = e.ExtraData as WebViewEntry;
+            this.entry = e.ExtraData as WebViewEntry;
             base.OnNavigatedTo(e);
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            WebView?.Dispose();
+            this.WebView?.Dispose();
             base.OnNavigatedFrom(e);
         }
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            OpenTargetUrlAsync().Forget();
+            this.OpenTargetUrlAsync().Forget();
         }
         private void WebViewNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
-            ExecuteJavaScriptAsync().Forget();
+            this.ExecuteJavaScriptAsync().Forget();
         }
 
         private async Task OpenTargetUrlAsync()
         {
             try
             {
-                await WebView.EnsureCoreWebView2Async();
-                WebView.CoreWebView2.ProcessFailed += (s, e) => WebView?.Dispose();
+                await this.WebView.EnsureCoreWebView2Async();
+                this.WebView.CoreWebView2.ProcessFailed += (s, e) => this.WebView?.Dispose();
             }
             catch
             {
                 return;
             }
 
-            if (entry is not null)
+            if (this.entry is not null)
             {
                 try
                 {
-                    WebView.CoreWebView2.Navigate(entry.NavigateUrl);
+                    this.WebView.CoreWebView2.Navigate(this.entry.NavigateUrl);
                 }
                 catch
                 {
@@ -79,10 +79,10 @@ namespace DGP.Genshin.Page
         }
         private async Task ExecuteJavaScriptAsync()
         {
-            if (entry?.JavaScript is not null)
+            if (this.entry?.JavaScript is not null)
             {
                 this.Log("开始执行脚本");
-                string? result = await WebView.CoreWebView2.ExecuteScriptAsync(entry.JavaScript);
+                string? result = await this.WebView.CoreWebView2.ExecuteScriptAsync(this.entry.JavaScript);
                 this.Log($"执行完成:{result}");
             }
         }

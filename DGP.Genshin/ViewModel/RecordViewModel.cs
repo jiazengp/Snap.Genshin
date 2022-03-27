@@ -34,21 +34,21 @@ namespace DGP.Genshin.ViewModel
 
         public Record? CurrentRecord
         {
-            get => currentRecord;
+            get => this.currentRecord;
 
-            set => SetProperty(ref currentRecord, value);
+            set => this.SetProperty(ref this.currentRecord, value);
         }
         public string? StateDescription
         {
-            get => stateDescription;
+            get => this.stateDescription;
 
-            set => SetProperty(ref stateDescription, value);
+            set => this.SetProperty(ref this.stateDescription, value);
         }
         public List<UserGameRole> UserGameRoles
         {
-            get => userGameRoles;
+            get => this.userGameRoles;
 
-            set => SetProperty(ref userGameRoles, value);
+            set => this.SetProperty(ref this.userGameRoles, value);
         }
         public ICommand QueryCommand { get; }
         public ICommand OpenUICommand { get; }
@@ -58,15 +58,15 @@ namespace DGP.Genshin.ViewModel
             this.recordService = recordService;
             this.cookieService = cookieService;
 
-            QueryCommand = asyncRelayCommandFactory.Create<string>(UpdateRecordAsync);
-            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            this.QueryCommand = asyncRelayCommandFactory.Create<string>(this.UpdateRecordAsync);
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
         }
 
         private async Task OpenUIAsync()
         {
             try
             {
-                UserGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync(CancellationToken);
+                this.UserGameRoles = await new UserGameRoleProvider(this.cookieService.CurrentCookie).GetUserGameRolesAsync(this.CancellationToken);
             }
             catch (TaskCanceledException)
             {
@@ -75,15 +75,15 @@ namespace DGP.Genshin.ViewModel
         }
         private async Task UpdateRecordAsync(string? uid)
         {
-            if (updateRecordTaskPreventer.ShouldExecute)
+            if (this.updateRecordTaskPreventer.ShouldExecute)
             {
                 try
                 {
-                    Record record = await recordService.GetRecordAsync(uid);
+                    Record record = await this.recordService.GetRecordAsync(uid);
 
                     if (record.Success)
                     {
-                        CurrentRecord = record;
+                        this.CurrentRecord = record;
                     }
                     else
                     {
@@ -120,14 +120,14 @@ namespace DGP.Genshin.ViewModel
                 }
                 finally
                 {
-                    updateRecordTaskPreventer.Release();
+                    this.updateRecordTaskPreventer.Release();
                 }
             }
         }
 
         public void Receive(RecordProgressChangedMessage message)
         {
-            StateDescription = message.Value;
+            this.StateDescription = message.Value;
         }
     }
 }

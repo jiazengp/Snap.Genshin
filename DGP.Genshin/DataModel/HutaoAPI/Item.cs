@@ -9,10 +9,10 @@
     {
         public Item(int id, string? name, string? icon, TValue value)
         {
-            Id = id;
-            Name = name;
-            Icon = icon;
-            Value = value;
+            this.Id = id;
+            this.Name = name;
+            this.Icon = icon;
+            this.Value = value;
         }
 
         public int Id { get; init; }

@@ -14,7 +14,7 @@
 
         public override string? GetBadge()
         {
-            return Type;
+            return this.Type;
         }
     }
 }

@@ -1,36 +1,49 @@
-﻿using System;
+﻿using DGP.Genshin.Helper;
+using Microsoft;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
+    /// <summary>
+    /// 一元线性函数转换器
+    /// Y = A * X + B
+    /// </summary>
     public sealed class OneVariableLinearFunctionConverter : DependencyObject, IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return A * (double)value + B;
-        }
+        private static readonly DependencyProperty AProperty = Property<OneVariableLinearFunctionConverter>.Depend(nameof(A), 0D);
+        private static readonly DependencyProperty BProperty = Property<OneVariableLinearFunctionConverter>.Depend(nameof(B), 0D);
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// A
+        /// </summary>
         public double A
         {
-            get => (double)GetValue(AProperty);
-            set => SetValue(AProperty, value);
+            get => (double)this.GetValue(AProperty);
+            set => this.SetValue(AProperty, value);
         }
-        public static readonly DependencyProperty AProperty =
-            DependencyProperty.Register("A", typeof(double), typeof(OneVariableLinearFunctionConverter), new PropertyMetadata(0D));
 
+        /// <summary>
+        /// B
+        /// </summary>
         public double B
         {
-            get => (double)GetValue(BProperty);
-            set => SetValue(BProperty, value);
+            get => (double)this.GetValue(BProperty);
+            set => this.SetValue(BProperty, value);
         }
-        public static readonly DependencyProperty BProperty =
-            DependencyProperty.Register("B", typeof(double), typeof(OneVariableLinearFunctionConverter), new PropertyMetadata(0D));
+
+        /// <inheritdoc/>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (this.A * (double)value) + this.B;
+        }
+
+        /// <inheritdoc/>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw Assumes.NotReachable();
+        }
     }
 }

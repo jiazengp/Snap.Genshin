@@ -24,8 +24,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
             return new SpecificBanner
             {
                 Type = Type,
-                UpStar5List = UpStar5List?.ClonePartially(),
-                UpStar4List = UpStar4List?.ClonePartially(),
+                UpStar5List = this.UpStar5List?.ClonePartially(),
+                UpStar4List = this.UpStar4List?.ClonePartially(),
                 CurrentName = CurrentName,
                 StartTime = StartTime,
                 EndTime = EndTime
@@ -33,8 +33,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
         }
         public void ClearItemsAndStar5List()
         {
-            Items?.Clear();
-            Star5List?.Clear();
+            this.Items?.Clear();
+            this.Star5List?.Clear();
         }
     }
 }

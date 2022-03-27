@@ -58,7 +58,7 @@ namespace DGP.Genshin.Service
             {
                 this.cookieService = cookieService;
                 this.messenger = messenger;
-                AccountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
+                this.AccountIds.AddRange(collection.Select(item => this.GetCookiePairs(item)["account_id"]));
             }
 
             public new void Add(string cookie)
@@ -66,19 +66,19 @@ namespace DGP.Genshin.Service
                 if (!string.IsNullOrEmpty(cookie))
                 {
                     base.Add(cookie);
-                    messenger.Send(new CookieAddedMessage(cookie));
-                    cookieService.SaveCookies();
+                    this.messenger.Send(new CookieAddedMessage(cookie));
+                    this.cookieService.SaveCookies();
                 }
             }
 
             public bool AddOrIgnore(string cookie)
             {
-                if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
+                if (this.GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
                 {
-                    if (!AccountIds.Contains(id))
+                    if (!this.AccountIds.Contains(id))
                     {
-                        AccountIds.Add(id);
-                        Add(cookie);
+                        this.AccountIds.Add(id);
+                        this.Add(cookie);
                         return true;
                     }
                 }
@@ -87,11 +87,11 @@ namespace DGP.Genshin.Service
 
             public new bool Remove(string cookie)
             {
-                string id = GetCookiePairs(cookie)["account_id"];
-                AccountIds.Remove(id);
+                string id = this.GetCookiePairs(cookie)["account_id"];
+                this.AccountIds.Remove(id);
                 bool result = base.Remove(cookie);
-                messenger.Send(new CookieRemovedMessage(cookie));
-                cookieService.SaveCookies();
+                this.messenger.Send(new CookieRemovedMessage(cookie));
+                this.cookieService.SaveCookies();
                 return result;
             }
 
@@ -135,10 +135,10 @@ namespace DGP.Genshin.Service
         {
             this.messenger = messenger;
 
-            CookiesLock = new(joinableTaskContext);
+            this.CookiesLock = new(joinableTaskContext);
 
-            LoadCookies();
-            LoadCookie();
+            this.LoadCookies();
+            this.LoadCookie();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace DGP.Genshin.Service
             string? cookieFile = PathContext.Locate(CookieFile);
             if (File.Exists(cookieFile))
             {
-                CurrentCookie = File.ReadAllText(cookieFile);
+                this.CurrentCookie = File.ReadAllText(cookieFile);
             }
             else
             {
@@ -168,11 +168,11 @@ namespace DGP.Genshin.Service
             try
             {
                 IEnumerable<string> base64Cookies = Json.FromFile<IEnumerable<string>>(CookieListFile) ?? new List<string>();
-                Cookies = new CookiePool(this, messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
+                this.Cookies = new CookiePool(this, this.messenger, base64Cookies.Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b)));
             }
             catch (FileNotFoundException) { }
             catch (Exception ex) { Crashes.TrackError(ex); }
-            Cookies ??= new CookiePool(this, messenger, new List<string>());
+            this.Cookies ??= new CookiePool(this, this.messenger, new List<string>());
         }
 
         public string CurrentCookie
@@ -189,9 +189,9 @@ namespace DGP.Genshin.Service
 
                 try
                 {
-                    SaveCookie(value);
-                    Cookies.AddOrIgnore(currentCookie);
-                    messenger.Send(new CookieChangedMessage(currentCookie));
+                    this.SaveCookie(value);
+                    this.Cookies.AddOrIgnore(currentCookie);
+                    this.messenger.Send(new CookieChangedMessage(currentCookie));
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -202,7 +202,7 @@ namespace DGP.Genshin.Service
 
         public bool IsCookieAvailable
         {
-            get => initialization.IsCompleted && (!string.IsNullOrEmpty(currentCookie));
+            get => this.initialization.IsCompleted && (!string.IsNullOrEmpty(currentCookie));
         }
 
         public async Task SetCookieAsync()
@@ -211,11 +211,11 @@ namespace DGP.Genshin.Service
             if (isOk)
             {
                 //prevent user input unexpected invalid cookie
-                if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
+                if (!string.IsNullOrEmpty(cookie) && await this.ValidateCookieAsync(cookie))
                 {
-                    CurrentCookie = cookie;
+                    this.CurrentCookie = cookie;
                 }
-                File.WriteAllText(PathContext.Locate(CookieFile), CurrentCookie);
+                File.WriteAllText(PathContext.Locate(CookieFile), this.CurrentCookie);
             }
         }
 
@@ -223,7 +223,7 @@ namespace DGP.Genshin.Service
         {
             if (cookie is not null)
             {
-                CurrentCookie = cookie;
+                this.CurrentCookie = cookie;
             }
         }
 
@@ -233,11 +233,11 @@ namespace DGP.Genshin.Service
 
             if (isOk)
             {
-                if (await ValidateCookieAsync(newCookie))
+                if (await this.ValidateCookieAsync(newCookie))
                 {
-                    using (await CookiesLock.WriteLockAsync())
+                    using (await this.CookiesLock.WriteLockAsync())
                     {
-                        Cookies.AddOrIgnore(newCookie);
+                        this.Cookies.AddOrIgnore(newCookie);
                     }
                 }
             }
@@ -257,7 +257,7 @@ namespace DGP.Genshin.Service
 
         public void SaveCookies()
         {
-            IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
+            IEnumerable<string> encodedCookies = this.Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
             Json.ToFile(PathContext.Locate(CookieListFile), encodedCookies);
         }
 
@@ -296,27 +296,27 @@ namespace DGP.Genshin.Service
         private readonly WorkWatcher initialization = new(false);
         public async Task InitializeAsync()
         {
-            if (initialization.IsWorking || initialization.IsCompleted)
+            if (this.initialization.IsWorking || this.initialization.IsCompleted)
             {
                 return;
             }
-            using (initialization.Watch())
+            using (this.initialization.Watch())
             {
-                using (await CookiesLock.WriteLockAsync())
+                using (await this.CookiesLock.WriteLockAsync())
                 {
                     //enumerate the shallow copied list to remove item in foreach loop
                     //prevent InvalidOperationException
-                    foreach (string cookie in Cookies.ToList())
+                    foreach (string cookie in this.Cookies.ToList())
                     {
                         UserInfo? info = await new UserInfoProvider(cookie).GetUserInfoAsync();
                         if (info is null)
                         {
                             //删除用户无法手动选中的cookie(失效的cookie)
-                            Cookies.Remove(cookie);
+                            this.Cookies.Remove(cookie);
                         }
                     }
 
-                    if (Cookies.Count <= 0)
+                    if (this.Cookies.Count <= 0)
                     {
                         currentCookie = null;
                     }

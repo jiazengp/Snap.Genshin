@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft;
+using System;
 using System.Collections;
 using System.Globalization;
 using System.Windows;
@@ -12,18 +13,20 @@ namespace DGP.Genshin.Control.Converter
     /// </summary>
     public sealed class DataVisibilityRevertConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value switch
             {
                 ICollection collection => collection.Count > 0 ? Visibility.Visible : Visibility.Collapsed,
-                _ => value != null ? Visibility.Visible : Visibility.Collapsed
+                _ => value != null ? Visibility.Visible : Visibility.Collapsed,
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw Assumes.NotReachable();
         }
     }
 }

@@ -16,57 +16,57 @@ namespace DGP.Genshin.DataModel.DailyNote
 
         public bool KeepNotificationFront
         {
-            get => keepNotificationFront;
+            get => this.keepNotificationFront;
 
-            set => Set(ref keepNotificationFront, value);
+            set => this.Set(ref this.keepNotificationFront, value);
         }
         public bool NotifyOnResinReach20
         {
-            get => notifyOnResinReach20;
+            get => this.notifyOnResinReach20;
 
-            set => Set(ref notifyOnResinReach20, value);
+            set => this.Set(ref this.notifyOnResinReach20, value);
         }
         public bool NotifyOnResinReach40
         {
-            get => notifyOnResinReach40;
+            get => this.notifyOnResinReach40;
 
-            set => Set(ref notifyOnResinReach40, value);
+            set => this.Set(ref this.notifyOnResinReach40, value);
         }
         public bool NotifyOnResinReach80
         {
-            get => notifyOnResinReach80;
+            get => this.notifyOnResinReach80;
 
-            set => Set(ref notifyOnResinReach80, value);
+            set => this.Set(ref this.notifyOnResinReach80, value);
         }
         public bool NotifyOnResinReach120
         {
-            get => notifyOnResinReach120;
+            get => this.notifyOnResinReach120;
 
-            set => Set(ref notifyOnResinReach120, value);
+            set => this.Set(ref this.notifyOnResinReach120, value);
         }
         public bool NotifyOnResinReach155
         {
-            get => notifyOnResinReach155;
+            get => this.notifyOnResinReach155;
 
-            set => Set(ref notifyOnResinReach155, value);
+            set => this.Set(ref this.notifyOnResinReach155, value);
         }
         public bool NotifyOnHomeCoinReach80Percent
         {
-            get => notifyOnHomeCoinReach80Percent;
+            get => this.notifyOnHomeCoinReach80Percent;
 
-            set => Set(ref notifyOnHomeCoinReach80Percent, value);
+            set => this.Set(ref this.notifyOnHomeCoinReach80Percent, value);
         }
         public bool NotifyOnDailyTasksIncomplete
         {
-            get => notifyOnDailyTasksIncomplete;
+            get => this.notifyOnDailyTasksIncomplete;
 
-            set => Set(ref notifyOnDailyTasksIncomplete, value);
+            set => this.Set(ref this.notifyOnDailyTasksIncomplete, value);
         }
         public bool NotifyOnExpeditionsComplete
         {
-            get => notifyOnExpeditionsComplete;
+            get => this.notifyOnExpeditionsComplete;
 
-            set => Set(ref notifyOnExpeditionsComplete, value);
+            set => this.Set(ref this.notifyOnExpeditionsComplete, value);
         }
     }
 }
