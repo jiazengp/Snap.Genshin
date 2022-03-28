@@ -34,8 +34,8 @@
 
 ### 开发人员
 
-> [Snap Genshin 开发人员指南](/Developer/DeveloperGuide.md)  
-> [Snap Genshin 插件开发教程](/Developer/PluginTutorial.md)
+> [Snap Genshin 开发人员文档](https://github.com/DGP-Studio/Snap.Genshin.Docs/blob/main/docs/development/DeveloperGuide.md)  
+> [Snap Genshin 插件开发教程](https://github.com/DGP-Studio/Snap.Genshin.Docs/blob/main/docs/development/PluginTutorial.md)
 
 # **我们正在为这些项目寻找维护者**
 
