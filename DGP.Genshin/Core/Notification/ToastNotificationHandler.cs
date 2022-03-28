@@ -17,7 +17,7 @@ namespace DGP.Genshin.Core.Notification
         /// <summary>
         /// 在后台处理并响应通知
         /// </summary>
-        /// <param name="toastArgs"></param>
+        /// <param name="toastArgs">通知事件参数</param>
         internal void OnActivatedByNotification(ToastNotificationActivatedEventArgsCompat toastArgs)
         {
             this.Log(Json.Stringify(toastArgs));
@@ -29,12 +29,7 @@ namespace DGP.Genshin.Core.Notification
                 this.HandleLaunchValueAsync(key, value).Forget();
             }
         }
-        /// <summary>
-        /// 处理更新通知
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+
         private async Task HandleActionUpdateAsync(string key, string value)
         {
             if (key is "action" && value == "update")
@@ -53,11 +48,7 @@ namespace DGP.Genshin.Core.Notification
                 }
             }
         }
-        /// <summary>
-        /// 处理最小化到任务栏提示
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+
         private void HandleTaskbarHintHide(string key, string value)
         {
             if (key is "taskbarhint" && value == "hide")
@@ -65,12 +56,7 @@ namespace DGP.Genshin.Core.Notification
                 Setting2.IsTaskBarIconHintDisplay.Set(false);
             }
         }
-        /// <summary>
-        /// 处理启动游戏
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+
         private async Task HandleLaunchValueAsync(string key, string value)
         {
             if (key is "launch")
@@ -87,7 +73,7 @@ namespace DGP.Genshin.Core.Notification
                                 UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
                                 TargetFPS = (int)Setting2.TargetFPS.Get(),
                                 ScreenWidth = (int)Setting2.ScreenWidth.Get(),
-                                ScreenHeight = (int)Setting2.ScreenHeight.Get()
+                                ScreenHeight = (int)Setting2.ScreenHeight.Get(),
                             };
                             await launchService.LaunchAsync(launchOption, ex =>
                             {
@@ -98,6 +84,7 @@ namespace DGP.Genshin.Core.Notification
                             });
                             break;
                         }
+
                     case "launcher":
                         {
                             launchService.OpenOfficialLauncher(ex =>
@@ -109,6 +96,7 @@ namespace DGP.Genshin.Core.Notification
                             });
                             break;
                         }
+
                     default:
                         break;
                 }

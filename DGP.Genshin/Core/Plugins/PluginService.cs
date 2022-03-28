@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using Snap.Core.Logging;
+﻿using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
 using Snap.Reflection;
 using System;
@@ -19,25 +18,37 @@ namespace DGP.Genshin.Core.Plugins
         private readonly IEnumerable<Assembly> pluginAssemblies;
         private readonly IEnumerable<IPlugin> plugins;
 
-        public IEnumerable<Assembly> PluginAssemblies
-        {
-            get => this.pluginAssemblies;
-        }
-
-        public IEnumerable<IPlugin> Plugins
-        {
-            get => this.plugins;
-        }
-
+        /// <summary>
+        /// 构造一个新的插件服务
+        /// </summary>
         public PluginService()
         {
             this.pluginAssemblies = this.LoadAllPluginDlls();
             this.plugins = this.PluginAssemblies.Select(p => this.InstantiatePlugin(p)).NotNull();
         }
 
+        /// <inheritdoc/>
+        public IEnumerable<Assembly> PluginAssemblies
+        {
+            get => this.pluginAssemblies;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IPlugin> Plugins
+        {
+            get => this.plugins;
+        }
+
+        /// <inheritdoc/>
+        public IPlugin? InstantiatePlugin(Assembly assembly)
+        {
+            Type? type = assembly.GetTypes().FirstOrDefault(type => type.Implement<IPlugin>());
+            return type is null ? null : Activator.CreateInstance(type) as IPlugin;
+        }
+
         private IEnumerable<Assembly> LoadAllPluginDlls()
         {
-            //fix autorun fail issue
+            // fix autorun fail issue
             string pluginPath = PathContext.Locate(PluginFolder);
             Directory.CreateDirectory(pluginPath);
             IEnumerable<string> pluginsPaths = Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
@@ -63,17 +74,13 @@ namespace DGP.Genshin.Core.Plugins
                     {
                         loadContext.Unload();
                     }
+
                     this.Log(e);
                     this.Log($"Failed to load plugin from: {pluginLocation}");
                 }
             }
-            return plugins;
-        }
 
-        public IPlugin? InstantiatePlugin(Assembly assembly)
-        {
-            Type? type = assembly.GetTypes().FirstOrDefault(type => type.Implement<IPlugin>());
-            return type is null ? null : Activator.CreateInstance(type) as IPlugin;
+            return plugins;
         }
     }
 }

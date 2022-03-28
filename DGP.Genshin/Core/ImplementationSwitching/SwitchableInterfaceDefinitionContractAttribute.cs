@@ -8,6 +8,5 @@ namespace DGP.Genshin.Core.ImplementationSwitching
     [AttributeUsage(AttributeTargets.Interface)]
     public class SwitchableInterfaceDefinitionContractAttribute : Attribute
     {
-
     }
 }

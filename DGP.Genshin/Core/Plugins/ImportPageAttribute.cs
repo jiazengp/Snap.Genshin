@@ -13,10 +13,6 @@ namespace DGP.Genshin.Core.Plugins
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public class ImportPageAttribute : Attribute
     {
-        public Type PageType { get; set; }
-        public string Label { get; set; }
-        public IconElement Icon { get; set; }
-
         /// <summary>
         /// 指示插件需要申请额外的可导航页面,
         /// 一个插件可以申请多个页面
@@ -39,6 +35,7 @@ namespace DGP.Genshin.Core.Plugins
                     }
                 }
             }
+
             this.Icon ??= new FontIcon() { Glyph = "\uE9CE" };
         }
 
@@ -55,5 +52,20 @@ namespace DGP.Genshin.Core.Plugins
             this.Label = label;
             this.Icon = new FontIcon { Glyph = glyph };
         }
+
+        /// <summary>
+        /// 待导航的页面类型
+        /// </summary>
+        internal Type PageType { get; set; }
+
+        /// <summary>
+        /// 导航页面的标题
+        /// </summary>
+        internal string Label { get; set; }
+
+        /// <summary>
+        /// 导航页面的图标
+        /// </summary>
+        internal IconElement Icon { get; set; }
     }
 }
