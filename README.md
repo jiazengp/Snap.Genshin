@@ -32,6 +32,14 @@
 
 > [Snap Genshin 插件列表](/Plugins/README.md)
 
+
+### 开发人员
+
+> [Snap Genshin 开发人员文档](https://www.snapgenshin.com/development/DeveloperGuide.html)  
+> [Snap Genshin 插件开发教程](https://www.snapgenshin.com/development/PluginTutorial.html)
+
+=======
+
 # **我们正在为这些项目寻找维护者**
 
 下面的项目都曾或目前仍然与 Snap Genshin 高度相关  
