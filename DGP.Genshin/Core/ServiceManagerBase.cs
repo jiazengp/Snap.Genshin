@@ -43,7 +43,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(interfaceInjectable.InterfaceType, type),
                         InjectAs.Transient => services.AddTransient(interfaceInjectable.InterfaceType, type),
-                        _ => throw Assumes.NotReachable()
+                        _ => throw Assumes.NotReachable(),
                     };
                 }
                 else
@@ -52,7 +52,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(type),
                         InjectAs.Transient => services.AddTransient(type),
-                        _ => throw Assumes.NotReachable()
+                        _ => throw Assumes.NotReachable(),
                     };
                 }
             }
@@ -72,10 +72,10 @@ namespace DGP.Genshin.Core
         /// 探测服务
         /// 并向容器添加默认的 <see cref="IMessenger"/> 与 服务
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">待加入的目标服务集合</param>
         protected virtual void OnProbingServices(ServiceCollection services)
         {
-            //register default services
+            // register default services
             this.RegisterServices(services, typeof(App));
         }
 
@@ -85,6 +85,7 @@ namespace DGP.Genshin.Core
         /// <see cref="OnProbingServices(ServiceCollection)"/>会被调用以探测整个程序集
         /// 一旦服务配置完成，就无法继续注册
         /// </summary>
+        /// <returns>服务提供器</returns>
         protected IServiceProvider ConfigureServices()
         {
             ServiceCollection services = new();

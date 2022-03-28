@@ -5,7 +5,7 @@
 |![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)|
 |-|-|-|-|
 
-# [点击进入主页](https://www.snapgenshin.com/home/)
+## [www.snapgenshin.com](https://www.snapgenshin.com/home/)
 
 |如果你觉得我们的软件做的还不错，欢迎对我们投喂|[爱发电](https://afdian.net/@DismissedLight)|
 |-|-|
@@ -32,10 +32,13 @@
 
 > [Snap Genshin 插件列表](/Plugins/README.md)
 
+
 ### 开发人员
 
-> [Snap Genshin 开发人员文档](https://github.com/DGP-Studio/Snap.Genshin.Docs/blob/main/docs/development/DeveloperGuide.md)  
-> [Snap Genshin 插件开发教程](https://github.com/DGP-Studio/Snap.Genshin.Docs/blob/main/docs/development/PluginTutorial.md)
+> [Snap Genshin 开发人员文档](https://www.snapgenshin.com/development/DeveloperGuide.html)  
+> [Snap Genshin 插件开发教程](https://www.snapgenshin.com/development/PluginTutorial.html)
+
+=======
 
 # **我们正在为这些项目寻找维护者**
 

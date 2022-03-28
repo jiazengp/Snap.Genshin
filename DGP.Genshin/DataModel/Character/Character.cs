@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DGP.Genshin.DataModel.Character
 {
+    /// <summary>
+    /// 角色
+    /// </summary>
     public class Character : Primitive
     {
         public string? Weapon { get; set; }
@@ -11,24 +14,6 @@ namespace DGP.Genshin.DataModel.Character
         public string? GachaCard { get; set; }
         public string? GachaSplash { get; set; }
         public string? City { get; set; }
-
-        #region City Helper
-        public bool IsMondstdat()
-        {
-            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/monstadt_rep_70.png";
-        }
-
-        public bool IsLiyue()
-        {
-            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/liyue_rep_70.png";
-        }
-
-        public bool IsInazuma()
-        {
-            return this.City == @"https://genshin.honeyhunterworld.com/img/rep/inazuma_rep_70.png";
-        }
-        #endregion
-
         public string? BaseHP { get; set; }
         public string? BaseATK { get; set; }
         public string? BaseDEF { get; set; }

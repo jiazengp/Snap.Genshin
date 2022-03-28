@@ -9,7 +9,7 @@
         /// <summary>
         /// 主窗体尚未出现，但应用程序已经准备完成时触发
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container">容器</param>
         void Happen(IContainer container);
     }
 }

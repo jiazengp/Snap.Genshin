@@ -12,16 +12,22 @@ namespace DGP.Genshin.Core.Plugins
         private readonly AssemblyDependencyResolver internalResolver;
         private readonly AssemblyName appAssemblyName;
 
-        public PluginLoadContext(string pluginPath) : base(true)
+        /// <summary>
+        /// 构造一个新的插件加载上下文
+        /// </summary>
+        /// <param name="pluginPath">插件路径</param>
+        public PluginLoadContext(string pluginPath)
+            : base(true)
         {
             this.internalResolver = new AssemblyDependencyResolver(pluginPath);
             this.appAssemblyName = Assembly.GetExecutingAssembly().GetName();
         }
 
+        /// <inheritdoc/>
         protected override Assembly? Load(AssemblyName assemblyName)
         {
-            //replace DGP.Genshin ref version to current release version
-            //seems useless, but just keep this there
+            // replace DGP.Genshin ref version to current release version
+            // seems useless, but just keep this there
             if (assemblyName.Name == this.appAssemblyName.Name)
             {
                 assemblyName.Version = this.appAssemblyName.Version;

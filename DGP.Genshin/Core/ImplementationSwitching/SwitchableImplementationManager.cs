@@ -74,6 +74,11 @@ namespace DGP.Genshin.Core.ImplementationSwitching
         /// <typeparam name="T">服务类型</typeparam>
         internal class SwitchableEntry<T>
         {
+            /// <summary>
+            /// 构造一个新的可切换服务入口
+            /// </summary>
+            /// <param name="attribute">标记的特性</param>
+            /// <param name="factory">工厂</param>
             public SwitchableEntry(SwitchableImplementationAttribute attribute, Lazy<T> factory)
             {
                 this.Name = attribute.Name;
@@ -81,8 +86,19 @@ namespace DGP.Genshin.Core.ImplementationSwitching
                 this.Factory = factory;
             }
 
+            /// <summary>
+            /// 唯一名称
+            /// </summary>
             public string Name { get; }
+
+            /// <summary>
+            /// 展示描述
+            /// </summary>
             public string Description { get; }
+
+            /// <summary>
+            /// 工厂
+            /// </summary>
             public Lazy<T> Factory { get; }
         }
 
