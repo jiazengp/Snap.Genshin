@@ -7,21 +7,24 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
     /// </summary>
     public class StatisticItem : SpecificItem, IPartiallyCloneable<StatisticItem>
     {
-        public int Count { get; set; }
+        /// <summary>
+        /// 个数
+        /// </summary>
+        public int Count { get; set; } = 0;
 
         /// <summary>
         /// 隐藏了数量的克隆
         /// </summary>
-        /// <returns></returns>
+        /// <returns>克隆，隐藏了数量</returns>
         public StatisticItem ClonePartially()
         {
             return new()
             {
-                StarUrl = StarUrl,
-                Source = Source,
-                Name = Name,
-                Badge = Badge,
-                Time = Time
+                StarUrl = this.StarUrl,
+                Source = this.Source,
+                Name = this.Name,
+                Badge = this.Badge,
+                Time = this.Time,
             };
         }
     }

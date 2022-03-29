@@ -3,7 +3,6 @@ using DGP.Genshin.Core.ImplementationSwitching;
 using Snap.Core.Logging;
 using Snap.Data.Utility.Extension;
 using Snap.Extenion.Enumerable;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

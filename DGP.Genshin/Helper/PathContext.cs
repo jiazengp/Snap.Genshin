@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace DGP.Genshin.Helper
@@ -13,8 +12,8 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 检查文件是否存在
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="file">文件名称</param>
+        /// <returns>是否存在</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool FileExists(string file)
         {
@@ -24,8 +23,8 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 检查文件是否存在
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="folder">文件夹名称</param>
+        /// <returns>是否存在</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool FolderExists(string folder)
         {
@@ -35,9 +34,8 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 定位根目录中的文件或文件夹
         /// </summary>
-        /// <param name="folder"></param>
-        /// <param name="fileOrFolder"></param>
-        /// <returns></returns>
+        /// <param name="fileOrFolder">文件或文件夹</param>
+        /// <returns>绝对路径</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Locate(string fileOrFolder)
         {
@@ -47,9 +45,9 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 定位根目录下子文件夹中的文件
         /// </summary>
-        /// <param name="folder"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="folder">文件夹</param>
+        /// <param name="file">文件</param>
+        /// <returns>绝对路径</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Locate(string folder, string file)
         {
@@ -59,10 +57,10 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 将文件移动到指定的子目录
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="folder"></param>
-        /// <param name="overwrite"></param>
-        /// <returns></returns>
+        /// <param name="file">文件</param>
+        /// <param name="folder">文件夹</param>
+        /// <param name="overwrite">是否覆盖</param>
+        /// <returns>是否成功 当文件不存在时会失败</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool MoveToFolderOrIgnore(string file, string folder, bool overwrite = true)
         {
@@ -74,13 +72,14 @@ namespace DGP.Genshin.Helper
                 File.Move(file, target, overwrite);
                 return true;
             }
+
             return false;
         }
 
         /// <summary>
         /// 创建文件，若已存在文件，则不会创建
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">文件</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CreateFileOrIgnore(string file)
         {
@@ -94,7 +93,7 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 创建文件夹，若已存在文件，则不会创建
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="folder">文件夹</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CreateFolderOrIgnore(string folder)
         {
@@ -108,7 +107,7 @@ namespace DGP.Genshin.Helper
         /// <summary>
         /// 尝试删除文件夹
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="folder">文件夹</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DeleteFolderOrIgnore(string folder)
         {

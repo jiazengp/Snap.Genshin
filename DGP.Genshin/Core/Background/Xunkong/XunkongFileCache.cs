@@ -1,8 +1,5 @@
-﻿using DGP.Genshin.Helper;
-using Snap.Core.Logging;
-using System;
+﻿using Snap.Core.Logging;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;

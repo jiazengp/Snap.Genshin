@@ -8,6 +8,10 @@ namespace DGP.Genshin.Service.Abstraction.Updating
     /// </summary>
     public interface IUpdateChecker
     {
+        /// <summary>
+        /// 获取更新信息
+        /// </summary>
+        /// <returns>更新信息</returns>
         public Task<UpdateInfomation?> GetUpdateInfomationAsync();
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.Diagnostics;
 
 namespace DGP.Genshin.Helper
@@ -11,6 +10,10 @@ namespace DGP.Genshin.Helper
     {
         private const string AppName = "SnapGenshin";
         private const string RunPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+
+        /// <summary>
+        /// 是否自动启动
+        /// </summary>
         public bool IsAutoRun
         {
             get
@@ -19,6 +22,7 @@ namespace DGP.Genshin.Helper
                 RegistryKey? run = currentUser.OpenSubKey(RunPath);
                 return run?.GetValue(AppName) is not null;
             }
+
             set
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);

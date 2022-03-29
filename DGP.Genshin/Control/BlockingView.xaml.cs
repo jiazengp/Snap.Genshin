@@ -1,5 +1,5 @@
-﻿using DGP.Genshin.Message;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Message;
 using System.Windows;
 using System.Windows.Controls;
 

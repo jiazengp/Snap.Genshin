@@ -6,10 +6,18 @@ using WPFUI.Controls;
 
 namespace DGP.Genshin.Page
 {
+    /// <summary>
+    /// 玩家查询页面
+    /// </summary>
     [View(InjectAs.Transient)]
     internal partial class RecordPage : AsyncPage
     {
-        public RecordPage(RecordViewModel vm) : base(vm)
+        /// <summary>
+        /// 构造一个新的玩家查询页面
+        /// </summary>
+        /// <param name="vm">视图模型</param>
+        public RecordPage(RecordViewModel vm)
+            : base(vm)
         {
             this.InitializeComponent();
         }

@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DGP.Genshin.Control.Helper
 {

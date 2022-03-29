@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction.Updating
 {
@@ -38,6 +37,7 @@ namespace DGP.Genshin.Service.Abstraction.Updating
         /// 下载并安装更新包
         /// 尽量避免在捕获的上下文中使用
         /// </summary>
+        /// <returns>任务</returns>
         Task DownloadAndInstallPackageAsync();
     }
 }

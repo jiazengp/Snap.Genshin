@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Genshin.Core.ImplementationSwitching
+﻿namespace DGP.Genshin.Core.ImplementationSwitching
 {
     /// <summary>
     /// 标记可切换集合，告知类型检测服务可切换服务的类型

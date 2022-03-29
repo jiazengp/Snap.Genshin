@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Core.DependencyInjection;
 using Snap.Exception;
 using Snap.Reflection;
-using System;
 
 namespace DGP.Genshin.Core
 {

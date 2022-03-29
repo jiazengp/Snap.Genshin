@@ -1,15 +1,30 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DGP.Genshin.Helper.Extension
 {
+    /// <summary>
+    /// 扩展方法
+    /// </summary>
     public static class ObjectExtesions
     {
-        public static async Task<TResult> ExecuteOnUIAsync<TResult>(this object _, Func<Task<TResult>> func)
+        /// <summary>
+        /// 异步的委托主线程执行
+        /// </summary>
+        /// <typeparam name="TResult">The return value type of the specified delegate.</typeparam>
+        /// <param name="obj">对象</param>
+        /// <param name="func">待执行的委托</param>
+        /// <returns>委托的结果</returns>
+        public static async Task<TResult> ExecuteOnUIAsync<TResult>(this object obj, Func<Task<TResult>> func)
         {
             return await App.Current.Dispatcher.InvokeAsync(func).Task.Unwrap();
         }
-        public static void ExecuteOnUI(this object _, Action action)
+
+        /// <summary>
+        /// 委托主线程执行
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <param name="action">待执行的委托</param>
+        public static void ExecuteOnUI(this object obj, Action action)
         {
             App.Current.Dispatcher.Invoke(action);
         }

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-//禁用系统DPI感知
+// 禁用系统DPI感知
 [assembly: DisableDpiAwareness]
 
 [assembly: AssemblyDescription("原神信息速查App")]

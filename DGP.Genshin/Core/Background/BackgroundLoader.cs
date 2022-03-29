@@ -1,15 +1,12 @@
-﻿using DGP.Genshin.Core.Background.Abstraction;
-using DGP.Genshin.Helper;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Core.Background.Abstraction;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction.Setting;
-using Microsoft;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;

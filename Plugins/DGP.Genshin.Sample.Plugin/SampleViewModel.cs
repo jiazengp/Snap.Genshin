@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
 using System.Windows.Media;

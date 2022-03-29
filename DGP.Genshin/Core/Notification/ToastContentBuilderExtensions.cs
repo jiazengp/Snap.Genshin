@@ -1,13 +1,11 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Runtime.InteropServices;
 
 namespace DGP.Genshin.Core.Notification
 {
     /// <summary>
     /// 提供通知的安全调用方法
     /// </summary>
-    internal static class ToastContentBuilderExtensions
+    public static class ToastContentBuilderExtensions
     {
         /// <summary>
         /// 安全的在主线程上显示通知

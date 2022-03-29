@@ -1,12 +1,10 @@
-﻿using DGP.Genshin.Core.Notification;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Updating;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.Service.Abstraction.Updating;
-using Microsoft;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Octokit;
@@ -15,7 +13,6 @@ using Snap.Data.Json;
 using Snap.Data.Utility;
 using Snap.Net.Download;
 using Snap.Threading;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -26,6 +23,7 @@ using Windows.UI.Notifications;
 
 namespace DGP.Genshin.Service
 {
+    /// <inheritdoc cref="IUpdateService"/>
     [Service(typeof(IUpdateService), InjectAs.Singleton)]
     internal class UpdateService : IUpdateService
     {
@@ -34,11 +32,28 @@ namespace DGP.Genshin.Service
         private const string UpdaterFolder = "Updater";
 
         private readonly IMessenger messenger;
+        private readonly TaskPreventer updateTaskPreventer = new();
         private NotificationUpdater? notificationUpdater;
 
+        /// <summary>
+        /// 构造一个新的更新服务
+        /// </summary>
+        /// <param name="messenger">消息器</param>
+        public UpdateService(IMessenger messenger)
+        {
+            this.messenger = messenger;
+        }
+
+        /// <inheritdoc/>
         public Uri? PackageUri { get; private set; }
+
+        /// <inheritdoc/>
         public Version? NewVersion { get; private set; }
+
+        /// <inheritdoc/>
         public string? ReleaseNote { get; private set; }
+
+        /// <inheritdoc/>
         public Version CurrentVersion
         {
             get => App.Current.Version;
@@ -46,11 +61,7 @@ namespace DGP.Genshin.Service
 
         private Downloader? InnerDownloader { get; set; }
 
-        public UpdateService(IMessenger messenger)
-        {
-            this.messenger = messenger;
-        }
-
+        /// <inheritdoc/>
         public async Task<UpdateState> CheckUpdateStateAsync()
         {
             try
@@ -59,7 +70,7 @@ namespace DGP.Genshin.Service
                 {
                     UpdateAPI.PatchAPI => new PatchUpdateChecker(),
                     UpdateAPI.GithubAPI => new GithubUpdateChecker(),
-                    _ => throw Assumes.NotReachable()
+                    _ => throw Assumes.NotReachable(),
                 };
 
                 UpdateInfomation? info = await updateChecker.GetUpdateInfomationAsync();
@@ -103,8 +114,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        private readonly TaskPreventer updateTaskPreventer = new();
-
+        /// <inheritdoc/>
         public async Task DownloadAndInstallPackageAsync()
         {
             if (this.updateTaskPreventer.ShouldExecute)
@@ -117,7 +127,8 @@ namespace DGP.Genshin.Service
                 this.InnerDownloader = new(this.PackageUri, destinationPath);
                 this.notificationUpdater = new(this.NewVersion.ToString(), this.messenger);
                 IProgress<DownloadInfomation> progress = new Progress<DownloadInfomation>(this.notificationUpdater.OnProgressChanged);
-                //toast can only be shown & updated by main thread
+
+                // toast can only be shown & updated by main thread
                 this.notificationUpdater.ShowDownloadToastNotification();
 
                 bool caught = false;
@@ -145,6 +156,7 @@ namespace DGP.Genshin.Service
                 {
                     this.StartInstallUpdate();
                 }
+
                 this.updateTaskPreventer.Release();
             }
         }
@@ -162,14 +174,14 @@ namespace DGP.Genshin.Service
             {
                 try
                 {
-                    //Updater自带工作路径纠正
+                    // Updater自带工作路径纠正
                     Process.Start(new ProcessStartInfo()
                     {
-                        //fix auth exception
+                        // fix auth exception
                         Verb = "runas",
                         UseShellExecute = true,
                         FileName = oldUpdaterPath,
-                        Arguments = "UpdateInstall"
+                        Arguments = "UpdateInstall",
                     });
                     App.Current.Dispatcher.Invoke(App.Current.Shutdown);
                 }
@@ -195,19 +207,7 @@ namespace DGP.Genshin.Service
         /// </summary>
         internal class GithubUpdateChecker : IUpdateChecker
         {
-            /// <summary>
-            /// because repo cant cantain original token string
-            /// so we store base64 encoded value here
-            /// https://github.com/settings/tokens
-            /// </summary>
-            internal class GithubToken : Base64Converter
-            {
-                private GithubToken() { }
-                public static string GetToken()
-                {
-                    return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
-                }
-            }
+            /// <inheritdoc/>
             public async Task<UpdateInfomation?> GetUpdateInfomationAsync()
             {
                 try
@@ -221,12 +221,33 @@ namespace DGP.Genshin.Service
                     {
                         ReleaseNote = release.Body,
                         PackageUrl = new Uri(release.Assets[0].BrowserDownloadUrl),
-                        Version = release.TagName
+                        Version = release.TagName,
                     };
                 }
                 catch
                 {
                     return null;
+                }
+            }
+
+            /// <summary>
+            /// because repo cant cantain original token string
+            /// so we store base64 encoded value here
+            /// https://github.com/settings/tokens
+            /// </summary>
+            internal class GithubToken : Base64Converter
+            {
+                private GithubToken()
+                {
+                }
+
+                /// <summary>
+                /// 获取Github令牌
+                /// </summary>
+                /// <returns>Github令牌</returns>
+                public static string GetToken()
+                {
+                    return Base64Decode(Encoding.UTF8, "Z2hwX3lDRWdVTVNaNnRRV2JpNjZMUWYyTUprbWFQVFI3bTEwYkVnTw==");
                 }
             }
         }
@@ -236,6 +257,7 @@ namespace DGP.Genshin.Service
         /// </summary>
         internal class PatchUpdateChecker : IUpdateChecker
         {
+            /// <inheritdoc/>
             public async Task<UpdateInfomation?> GetUpdateInfomationAsync()
             {
                 return await Json.FromWebsiteAsync<UpdateInfomation>("https://patch.snapgenshin.com/getPatch");
@@ -247,10 +269,16 @@ namespace DGP.Genshin.Service
         /// </summary>
         internal class NotificationUpdater
         {
-            private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
             private readonly string progressTitle;
             private readonly IMessenger messenger;
 
+            private NotificationUpdateResult lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+
+            /// <summary>
+            /// 构造一个新的通知更新器
+            /// </summary>
+            /// <param name="progressTitle">进度标题</param>
+            /// <param name="messenger">消息器</param>
             public NotificationUpdater(string progressTitle, IMessenger messenger)
             {
                 this.progressTitle = progressTitle;
@@ -267,38 +295,39 @@ namespace DGP.Genshin.Service
                     .AddText("下载更新中...")
                     .AddVisualChild(new AdaptiveProgressBar()
                     {
-                        Title = progressTitle,
+                        Title = this.progressTitle,
                         Value = new BindableProgressBarValue("progressValue"),
                         ValueStringOverride = new BindableString("progressValueString"),
-                        Status = new BindableString("progressStatus")
+                        Status = new BindableString("progressStatus"),
                     })
                     .SafeShow(toast =>
                     {
                         toast.Tag = UpdateNotificationTag;
-                        toast.Data = new(new Dictionary<string, string>()
-                        {
-                        {"progressValue", "0" },
-                        {"progressValueString", "0% - 0MB / 0MB" },
-                        {"progressStatus", "下载中..." }
-                        }, 0);
+                        toast.Data = new(
+                            new Dictionary<string, string>()
+                            {
+                                { "progressValue", "0" },
+                                { "progressValueString", "0% - 0MB / 0MB" },
+                                { "progressStatus", "下载中..." },
+                            },
+                            0);
                     });
             }
 
             /// <summary>
             /// 进度更新
             /// </summary>
-            /// <param name="totalBytesToReceive">总大小</param>
-            /// <param name="bytesReceived">下载的大小</param>
-            /// <param name="percent">进度</param>
+            /// <param name="downloadInfomation">下载信息</param>
             internal void OnProgressChanged(DownloadInfomation downloadInfomation)
             {
-                //message will be sent anyway.
+                // message will be sent anyway.
                 string valueString = downloadInfomation.ToString();
                 this.messenger.Send(new UpdateProgressedMessage(downloadInfomation));
-                //if user has dismissed the notification, we don't update it anymore
+
+                // if user has dismissed the notification, we don't update it anymore
                 if (this.lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
                 {
-                    //notification could only be updated by main thread.
+                    // notification could only be updated by main thread.
                     this.ExecuteOnUI(() => this.UpdateNotificationValue(downloadInfomation));
                 }
             }
@@ -306,9 +335,7 @@ namespace DGP.Genshin.Service
             /// <summary>
             /// 更新下载进度通知上的进度条
             /// </summary>
-            /// <param name="totalBytesToReceive">总大小</param>
-            /// <param name="bytesReceived">下载的大小</param>
-            /// <param name="percent">进度</param>
+            /// <param name="downloadInfomation">下载信息</param>
             private void UpdateNotificationValue(DownloadInfomation downloadInfomation)
             {
                 NotificationData data = new() { SequenceNumber = 0 };
@@ -319,6 +346,7 @@ namespace DGP.Genshin.Service
                 {
                     data.Values["progressStatus"] = "下载完成";
                 }
+
                 // Update the existing notification's data
                 this.lastNotificationUpdateResult = ToastNotificationManagerCompat
                     .CreateToastNotifier()

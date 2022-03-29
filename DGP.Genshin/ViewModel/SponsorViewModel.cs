@@ -1,6 +1,6 @@
-﻿using DGP.Genshin.Control.Infrastructure.Concurrent;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DGP.Genshin.Control.Infrastructure.Concurrent;
 using DGP.Genshin.Factory.Abstraction;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Net.Afdian;
@@ -11,16 +11,32 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
+    /// <summary>
+    /// 赞助者列表视图模型
+    /// </summary>
     [ViewModel(InjectAs.Transient)]
     internal class SponsorViewModel : ObservableObject, ISupportCancellation
     {
         private const string UserId = "8f9ed3e87f4911ebacb652540025c377";
         private const string Token = "Th98JamKvc5FHYyErgM4d6spAXGVwbPD";
 
-        public CancellationToken CancellationToken { get; set; }
-
         private List<Sponsor>? sponsors;
 
+        /// <summary>
+        /// 构造一个新的赞助者列表视图模型
+        /// </summary>
+        /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
+        public SponsorViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        {
+            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+        }
+
+        /// <inheritdoc/>
+        public CancellationToken CancellationToken { get; set; }
+
+        /// <summary>
+        /// 赞助者列表
+        /// </summary>
         public List<Sponsor>? Sponsors
         {
             get => this.sponsors;
@@ -28,12 +44,10 @@ namespace DGP.Genshin.ViewModel
             set => this.SetProperty(ref this.sponsors, value);
         }
 
+        /// <summary>
+        /// 打开界面时触发的命令
+        /// </summary>
         public ICommand OpenUICommand { get; }
-
-        public SponsorViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
-        {
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
-        }
 
         private async Task OpenUIAsync()
         {
@@ -54,7 +68,10 @@ namespace DGP.Genshin.ViewModel
 
                 this.Sponsors = result;
             }
-            catch (TaskCanceledException) { this.Log("Open UI canceled"); }
+            catch (TaskCanceledException)
+            {
+                this.Log("Open UI canceled");
+            }
         }
     }
 }

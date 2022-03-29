@@ -1,12 +1,28 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace DGP.Genshin.DataModel.Updating
 {
+    /// <summary>
+    /// 更新信息
+    /// </summary>
     public class UpdateInfomation
     {
-        [JsonProperty("body")] public string? ReleaseNote { get; set; }
-        [JsonProperty("browser_download_url")] public Uri? PackageUrl { get; set; }
-        [JsonProperty("tag_name")] public string Version { get; set; } = null!;
+        /// <summary>
+        /// 更新日志
+        /// </summary>
+        [JsonProperty("body")]
+        public string? ReleaseNote { get; set; }
+
+        /// <summary>
+        /// 更新包Url
+        /// </summary>
+        [JsonProperty("browser_download_url")]
+        public Uri? PackageUrl { get; set; }
+
+        /// <summary>
+        /// 版本号
+        /// </summary>
+        [JsonProperty("tag_name")]
+        public string Version { get; set; } = null!;
     }
 }

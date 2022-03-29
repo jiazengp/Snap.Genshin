@@ -9,9 +9,9 @@
         /// <summary>
         /// 使用定义获取设置值
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="definition"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">设置项的类型</typeparam>
+        /// <param name="definition">设置定义</param>
+        /// <returns>设置项的值</returns>
         T Get<T>(SettingDefinition<T> definition);
 
         /// <summary>
@@ -22,11 +22,10 @@
         /// <summary>
         /// 使用定义设置设置值
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="definition"></param>
-        /// <param name="value"></param>
-        /// <param name="notify"></param>
-        /// <param name="log"></param>
+        /// <typeparam name="T">设置项的类型</typeparam>
+        /// <param name="definition">定义</param>
+        /// <param name="value">值</param>
+        /// <param name="log">输出到日志</param>
         void Set<T>(SettingDefinition<T> definition, object? value, bool log = false);
 
         /// <summary>

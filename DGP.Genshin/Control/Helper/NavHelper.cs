@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using ModernWpf.Controls;
-using System;
+﻿using ModernWpf.Controls;
 using System.Windows;
 
 namespace DGP.Genshin.Control.Helper

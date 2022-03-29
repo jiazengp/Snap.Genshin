@@ -5,7 +5,5 @@
     /// </summary>
     public class DailyNotesRefreshedMessage
     {
-
     }
-
 }

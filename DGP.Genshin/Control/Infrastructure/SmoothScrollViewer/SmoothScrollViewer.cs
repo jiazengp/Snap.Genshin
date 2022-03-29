@@ -1,6 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using Snap.Data.Primitive;
-using System;
+﻿using Snap.Data.Primitive;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

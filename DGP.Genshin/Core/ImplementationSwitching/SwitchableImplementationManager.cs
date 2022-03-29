@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.Core.Background.Abstraction;
 using DGP.Genshin.Service.Abstraction.Launching;
 using Snap.Data.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

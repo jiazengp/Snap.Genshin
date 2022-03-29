@@ -2,6 +2,9 @@
 
 namespace DGP.Genshin.DataModel.DailyNote
 {
+    /// <summary>
+    /// 封装实时便笺提醒开关
+    /// </summary>
     public class DailyNoteNotifyConfiguration : Observable
     {
         private bool notifyOnResinReach20;
@@ -14,54 +17,89 @@ namespace DGP.Genshin.DataModel.DailyNote
         private bool notifyOnExpeditionsComplete;
         private bool keepNotificationFront;
 
+        /// <summary>
+        /// 保持通知在前台不收入通知中心
+        /// </summary>
         public bool KeepNotificationFront
         {
             get => this.keepNotificationFront;
 
             set => this.Set(ref this.keepNotificationFront, value);
         }
+
+        /// <summary>
+        /// 当树脂达到20时提醒
+        /// </summary>
         public bool NotifyOnResinReach20
         {
             get => this.notifyOnResinReach20;
 
             set => this.Set(ref this.notifyOnResinReach20, value);
         }
+
+        /// <summary>
+        /// 当树脂达到40时提醒
+        /// </summary>
         public bool NotifyOnResinReach40
         {
             get => this.notifyOnResinReach40;
 
             set => this.Set(ref this.notifyOnResinReach40, value);
         }
+
+        /// <summary>
+        /// 当树脂达到80时提醒
+        /// </summary>
         public bool NotifyOnResinReach80
         {
             get => this.notifyOnResinReach80;
 
             set => this.Set(ref this.notifyOnResinReach80, value);
         }
+
+        /// <summary>
+        /// 当树脂达到120时提醒
+        /// </summary>
         public bool NotifyOnResinReach120
         {
             get => this.notifyOnResinReach120;
 
             set => this.Set(ref this.notifyOnResinReach120, value);
         }
+
+        /// <summary>
+        /// 当树脂达到155时提醒
+        /// </summary>
         public bool NotifyOnResinReach155
         {
             get => this.notifyOnResinReach155;
 
             set => this.Set(ref this.notifyOnResinReach155, value);
         }
+
+        /// <summary>
+        /// 当洞天宝钱达到80%时提醒
+        /// </summary>
         public bool NotifyOnHomeCoinReach80Percent
         {
             get => this.notifyOnHomeCoinReach80Percent;
 
             set => this.Set(ref this.notifyOnHomeCoinReach80Percent, value);
         }
+
+        /// <summary>
+        /// 当每日任务奖励未领取时提醒
+        /// </summary>
         public bool NotifyOnDailyTasksIncomplete
         {
             get => this.notifyOnDailyTasksIncomplete;
 
             set => this.Set(ref this.notifyOnDailyTasksIncomplete, value);
         }
+
+        /// <summary>
+        /// 当探索派遣全部完成时提醒
+        /// </summary>
         public bool NotifyOnExpeditionsComplete
         {
             get => this.notifyOnExpeditionsComplete;

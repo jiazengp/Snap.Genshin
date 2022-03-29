@@ -1,13 +1,12 @@
-﻿using DGP.Genshin.Core.Background.Abstraction;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Core.Background.Abstraction;
 using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.Core.Plugins;
 using DGP.Genshin.Service.Abstraction.Launching;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.Threading;
 using Snap.Extenion.Enumerable;
 using Snap.Reflection;
-using System;
 using System.Collections.Generic;
 
 namespace DGP.Genshin.Core

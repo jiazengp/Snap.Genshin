@@ -2,7 +2,6 @@
 using DGP.Genshin.DataModel.Launching;
 using IniParser.Model;
 using Snap.Data.Primitive;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -24,13 +23,18 @@ namespace DGP.Genshin.Service.Abstraction.Launching
         /// 启动器配置文件
         /// </summary>
         IniData LauncherConfig { get; }
+
+        /// <summary>
+        /// 游戏启动监视器
+        /// </summary>
         WorkWatcher GameWatcher { get; }
 
         /// <summary>
         /// 异步启动游戏
         /// </summary>
-        /// <param name="scheme">启动方案</param>
+        /// <param name="option">启动方案</param>
         /// <param name="failAction">启动失败回调</param>
+        /// <returns>结果</returns>
         Task LaunchAsync(LaunchOption option, Action<Exception> failAction);
 
         /// <summary>
@@ -58,32 +62,37 @@ namespace DGP.Genshin.Service.Abstraction.Launching
         /// <param name="launcherPath">待检验的启动器路径</param>
         /// <returns>启动器路径</returns>
         string? SelectLaunchDirectoryIfIncorrect(string? launcherPath);
+
         /// <summary>
         /// 保存所有账号到本地文件
         /// </summary>
         /// <param name="accounts">待保存的账号列表</param>
         void SaveAllAccounts(IEnumerable<GenshinAccount> accounts);
+
         /// <summary>
         /// 从本地文件加载账号
         /// </summary>
         /// <returns>从文件创建的账号列表</returns>
         ObservableCollection<GenshinAccount> LoadAllAccount();
+
         /// <summary>
         /// 从注册表获取账号信息
         /// </summary>
-        /// <returns></returns>
+        /// <returns>注册表中的账号信息，当注册表中不存在信息时，返回 <see langword="null"/></returns>
         GenshinAccount? GetFromRegistry();
+
         /// <summary>
         /// 将账号信息写入注册表
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="account">待写入的账号</param>
+        /// <returns>是否写入成功</returns>
         bool SetToRegistry(GenshinAccount? account);
+
         /// <summary>
         /// 动态更新解锁的帧率
         /// 一般设置内部的unlocker即可
         /// </summary>
-        /// <param name="targetFPS"></param>
+        /// <param name="targetFPS">目标帧率</param>
         void SetTargetFPSDynamically(int targetFPS);
     }
 }

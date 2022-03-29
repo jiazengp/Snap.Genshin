@@ -1,5 +1,4 @@
 ﻿using Snap.Data.Primitive;
-using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
@@ -9,16 +8,6 @@ namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
     /// </summary>
     public interface IIntegrityCheckService
     {
-        /// <summary>
-        /// 完整性检查监视器
-        /// </summary>
-        WorkWatcher IntegrityChecking { get; }
-
-        /// <summary>
-        /// 检查基础缓存图片完整性，不完整的自动下载补全
-        /// </summary>
-        Task CheckMetadataIntegrityAsync(IProgress<IIntegrityCheckState> progress);
-
         /// <summary>
         /// 封装完整性检查进度报告
         /// </summary>
@@ -39,5 +28,17 @@ namespace DGP.Genshin.Service.Abstraction.IntegrityCheck
             /// </summary>
             string? Info { get; }
         }
+
+        /// <summary>
+        /// 完整性检查监视器
+        /// </summary>
+        WorkWatcher IntegrityChecking { get; }
+
+        /// <summary>
+        /// 检查基础缓存图片完整性，不完整的自动下载补全
+        /// </summary>
+        /// <param name="progress">进度</param>
+        /// <returns>任务</returns>
+        Task CheckMetadataIntegrityAsync(IProgress<IIntegrityCheckState> progress);
     }
 }

@@ -12,7 +12,7 @@ namespace DGP.Genshin.Helper
         private static bool isSupported = false;
 
         /// <summary>
-        /// 检测WebView 是否存在
+        /// 检测 WebView2 是否存在
         /// </summary>
         public static bool IsSupported
         {
@@ -34,6 +34,7 @@ namespace DGP.Genshin.Helper
                     {
                         isSupported = false;
                     }
+
                     return isSupported;
                 }
             }

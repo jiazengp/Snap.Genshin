@@ -1,8 +1,6 @@
 ﻿using DGP.Genshin.Control;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.WebViewLobby;
-using DGP.Genshin.Helper;
-using Microsoft;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Web.WebView2.Core;
@@ -14,10 +12,17 @@ using System.Windows.Navigation;
 
 namespace DGP.Genshin.Page
 {
+    /// <summary>
+    /// 自定义网页呈现页面
+    /// </summary>
     [View(InjectAs.Transient)]
     internal partial class WebViewHostPage : ModernWpf.Controls.Page
     {
         private WebViewEntry? entry;
+
+        /// <summary>
+        /// 构造一个新的自定义网页呈现页面
+        /// </summary>
         public WebViewHostPage()
         {
             if (WebView2Helper.IsSupported)
@@ -31,11 +36,14 @@ namespace DGP.Genshin.Page
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.entry = e.ExtraData as WebViewEntry;
             base.OnNavigatedTo(e);
         }
+
+        /// <inheritdoc/>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.WebView?.Dispose();
@@ -46,6 +54,7 @@ namespace DGP.Genshin.Page
         {
             this.OpenTargetUrlAsync().Forget();
         }
+
         private void WebViewNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
             this.ExecuteJavaScriptAsync().Forget();
@@ -77,6 +86,7 @@ namespace DGP.Genshin.Page
                 }
             }
         }
+
         private async Task ExecuteJavaScriptAsync()
         {
             if (this.entry?.JavaScript is not null)

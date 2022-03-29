@@ -1,8 +1,6 @@
 ﻿using DGP.Genshin.DataModel.WebViewLobby;
 using Microsoft.VisualStudio.Threading;
 using ModernWpf.Controls;
-using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;

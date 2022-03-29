@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DGP.Genshin.Core.Plugins
+﻿namespace DGP.Genshin.Core.Plugins
 {
     /// <summary>
     /// 实现插件接口

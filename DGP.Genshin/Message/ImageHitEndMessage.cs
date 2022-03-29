@@ -1,8 +1,8 @@
 ﻿namespace DGP.Genshin.Message
 {
-    public class ImageHitBeginMessage
-    {
-    }
+    /// <summary>
+    /// 图像下载结束消息
+    /// </summary>
     public class ImageHitEndMessage
     {
     }

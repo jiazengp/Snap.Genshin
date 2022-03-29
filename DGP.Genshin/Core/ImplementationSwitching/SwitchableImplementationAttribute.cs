@@ -1,7 +1,4 @@
-﻿using Microsoft;
-using System;
-
-namespace DGP.Genshin.Core.ImplementationSwitching
+﻿namespace DGP.Genshin.Core.ImplementationSwitching
 {
     /// <summary>
     /// 表示该类作为可切换的实现注入切换上下文

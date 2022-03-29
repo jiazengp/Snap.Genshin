@@ -1,13 +1,20 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Helper.Extension
 {
+    /// <summary>
+    /// 扩展方法
+    /// </summary>
     public static class BitmapSourceExtensions
     {
+        /// <summary>
+        /// 获取 <see cref="BitmapSource"/> 的像素数据
+        /// </summary>
+        /// <param name="source">图像</param>
+        /// <returns>像素数组</returns>
         public static Pixel[,] GetPixels(this BitmapSource source)
         {
             try
@@ -18,6 +25,7 @@ namespace DGP.Genshin.Helper.Extension
                 {
                     source = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
                 }
+
                 Pixel[,] pixels = new Pixel[source.PixelWidth, source.PixelHeight];
                 GCHandle pinnedPixels = GCHandle.Alloc(pixels, GCHandleType.Pinned);
                 source.CopyPixels(
@@ -33,7 +41,6 @@ namespace DGP.Genshin.Helper.Extension
                 Snap.Core.Logging.Logger.LogStatic(ex);
                 throw;
             }
-
         }
     }
 }

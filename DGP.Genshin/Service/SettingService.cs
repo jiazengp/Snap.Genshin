@@ -1,10 +1,8 @@
-﻿using DGP.Genshin.Helper;
-using DGP.Genshin.Service.Abstraction.Setting;
+﻿using DGP.Genshin.Service.Abstraction.Setting;
 using Newtonsoft.Json;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -20,6 +18,7 @@ namespace DGP.Genshin.Service
 
         private ConcurrentDictionary<string, object?> settings = new();
 
+        /// <inheritdoc/>
         public T Get<T>(SettingDefinition<T> definition)
         {
             string key = definition.Name;
@@ -51,6 +50,7 @@ namespace DGP.Genshin.Service
             }
         }
 
+        /// <inheritdoc/>
         public void Set<T>(SettingDefinition<T> definition, object? value, bool log = false)
         {
             string key = definition.Name;
@@ -58,9 +58,11 @@ namespace DGP.Genshin.Service
             {
                 this.Log($"setting {key} to {value} internally without notify");
             }
+
             this.settings[key] = value;
         }
 
+        /// <inheritdoc/>
         public void Initialize()
         {
             if (File.Exists(this.settingFile))
@@ -68,8 +70,9 @@ namespace DGP.Genshin.Service
                 try
                 {
                     this.settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(this.settingFile));
+
+                    // only catch those exception that json file corrupted
                 }
-                //only catch those exception that json file corrupted
                 catch (JsonReaderException)
                 {
                     this.settings = new();
@@ -77,6 +80,7 @@ namespace DGP.Genshin.Service
             }
         }
 
+        /// <inheritdoc/>
         public void UnInitialize()
         {
             string settingString = Json.Stringify(this.settings);

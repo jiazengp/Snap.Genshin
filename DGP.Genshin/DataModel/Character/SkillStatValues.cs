@@ -1,5 +1,10 @@
 ﻿namespace DGP.Genshin.DataModel.Character
 {
+    /// <summary>
+    /// 技能表
+    /// </summary>
+    [SuppressMessage("", "SA1516")]
+    [SuppressMessage("", "SA1600")]
     public class SkillStatValues
     {
         public string? Lv1 { get; set; }

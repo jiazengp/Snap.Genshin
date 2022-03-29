@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Helper.Extension;
 using Microsoft.Win32;
-using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -14,13 +13,17 @@ namespace DGP.Genshin.Helper
         private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
         private const string MachineGuidValue = "MachineGuid";
 
-        private static string? userId;
+        private static string? id;
+
+        /// <summary>
+        /// 用户设备ID
+        /// </summary>
         public static string Id
         {
             get
             {
-                userId ??= GetUniqueUserID();
-                return userId;
+                id ??= GetUniqueUserID();
+                return id;
             }
         }
 
@@ -30,9 +33,9 @@ namespace DGP.Genshin.Helper
         /// <returns>设备的UUID</returns>
         private static string GetUniqueUserID()
         {
-            string UserName = Environment.UserName;
-            object? MachineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, UserName);
-            byte[] bytes = Encoding.UTF8.GetBytes(UserName + MachineGuid);
+            string userName = Environment.UserName;
+            object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
+            byte[] bytes = Encoding.UTF8.GetBytes($"{userName}{machineGuid}");
             byte[] hash = MD5.Create().ComputeHash(bytes);
             return hash.Stringify();
         }

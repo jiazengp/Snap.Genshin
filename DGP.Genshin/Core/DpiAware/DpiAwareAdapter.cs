@@ -1,7 +1,6 @@
 ﻿using Snap.Core.Logging;
 using Snap.Win32;
 using Snap.Win32.NativeMethod;
-using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;

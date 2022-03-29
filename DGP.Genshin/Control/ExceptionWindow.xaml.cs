@@ -1,7 +1,5 @@
 ﻿using DGP.Genshin.Control.Infrastructure.Observable;
 using Snap.Win32;
-using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace DGP.Genshin.Control

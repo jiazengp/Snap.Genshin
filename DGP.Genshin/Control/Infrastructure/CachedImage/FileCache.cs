@@ -1,5 +1,4 @@
 ﻿using Snap.Core.Logging;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;

@@ -12,7 +12,8 @@ namespace DGP.Genshin.Service.Abstraction
         /// 查询玩家信息
         /// </summary>
         /// <param name="uid">uid</param>
+        /// <param name="progress">进度</param>
         /// <returns>查询完成的记录封装</returns>
-        Task<Record> GetRecordAsync(string? uid);
+        Task<Record> GetRecordAsync(string? uid, IProgress<string?> progress);
     }
 }

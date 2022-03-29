@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xaml.Behaviors;
-using System;
 using System.Windows;
 
 namespace DGP.Genshin.Control.Behavior

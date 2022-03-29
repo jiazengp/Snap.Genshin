@@ -2,6 +2,12 @@
 
 namespace DGP.Genshin.DataModel.Character
 {
+    /// <summary>
+    /// 角色统计值
+    /// </summary>
+    [SuppressMessage("", "SA1134")]
+    [SuppressMessage("", "SA1516")]
+    [SuppressMessage("", "SA1600")]
     public class CharStatValues
     {
         [JsonProperty("1")] public string? Level1 { get; set; }

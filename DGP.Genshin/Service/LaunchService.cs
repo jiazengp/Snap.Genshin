@@ -1,24 +1,20 @@
 ﻿using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.FPSUnlocking;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Service.Abstraction.Launching;
 using DGP.Genshin.Service.Abstraction.Setting;
 using IniParser;
 using IniParser.Exceptions;
 using IniParser.Model;
-using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using Snap.Data.Primitive;
 using Snap.Data.Utility;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -44,60 +40,13 @@ namespace DGP.Genshin.Service
         private const string ConfigFileName = "config.ini";
         private const string LauncherExecutable = "launcher.exe";
 
-        /// <summary>
-        /// 定义了对注册表的操作
-        /// </summary>
-        private class GenshinRegistry
-        {
-            private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
-            private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
-
-            public static bool Set(GenshinAccount? account)
-            {
-                if (account?.MihoyoSDK is not null)
-                {
-                    Registry.SetValue(GenshinKey, SdkKey, Encoding.UTF8.GetBytes(account.MihoyoSDK));
-                    return true;
-                }
-                return false;
-            }
-
-            /// <summary>
-            /// 在注册表中获取账号信息
-            /// 若不提供命名，则返回的账号仅用于比较，不应存入列表中
-            /// </summary>
-            /// <param name="accountNamer"></param>
-            /// <returns></returns>
-            public static GenshinAccount? Get()
-            {
-                object? sdk = Registry.GetValue(GenshinKey, SdkKey, string.Empty);
-
-                if (sdk is null)
-                {
-                    return null;
-                }
-
-                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
-
-                return new GenshinAccount { MihoyoSDK = sdkString };
-            }
-        }
-
         private IniData? launcherConfig;
         private IniData? gameConfig;
+        private Unlocker? unlocker;
 
-        public IniData LauncherConfig
-        {
-            get => Requires.NotNull(this.launcherConfig!, nameof(this.launcherConfig));
-        }
-
-        public IniData GameConfig
-        {
-            get => Requires.NotNull(this.gameConfig!, nameof(this.gameConfig));
-        }
-
-        public WorkWatcher GameWatcher { get; } = new();
-
+        /// <summary>
+        /// 构造一个新的默认启动服务
+        /// </summary>
         public LaunchService()
         {
             PathContext.CreateFileOrIgnore(AccountsFileName);
@@ -105,7 +54,24 @@ namespace DGP.Genshin.Service
             this.TryLoadIniData(launcherPath);
         }
 
-        [MemberNotNullWhen(true, nameof(gameConfig)), MemberNotNullWhen(true, nameof(launcherConfig))]
+        /// <inheritdoc/>
+        public IniData LauncherConfig
+        {
+            get => Requires.NotNull(this.launcherConfig!, nameof(this.launcherConfig));
+        }
+
+        /// <inheritdoc/>
+        public IniData GameConfig
+        {
+            get => Requires.NotNull(this.gameConfig!, nameof(this.gameConfig));
+        }
+
+        /// <inheritdoc/>
+        public WorkWatcher GameWatcher { get; } = new();
+
+        /// <inheritdoc/>
+        [MemberNotNullWhen(true, nameof(gameConfig))]
+        [MemberNotNullWhen(true, nameof(launcherConfig))]
         public bool TryLoadIniData(string? launcherPath)
         {
             if (launcherPath != null)
@@ -118,13 +84,20 @@ namespace DGP.Genshin.Service
                     string unescapedGameFolder = this.GetUnescapedGameFolderFromLauncherConfig();
                     this.gameConfig = this.GetIniData(Path.Combine(unescapedGameFolder, ConfigFileName));
                 }
-                catch (ParsingException) { return false; }
-                catch (ArgumentNullException) { return false; }
+                catch (ParsingException)
+                {
+                    return false;
+                }
+                catch (ArgumentNullException)
+                {
+                    return false;
+                }
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
                     return false;
                 }
+
                 return true;
             }
             else
@@ -133,20 +106,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        /// <summary>
-        /// 读取 ini 文件
-        /// </summary>
-        /// <param name="file">文件路径</param>
-        /// <returns></returns>
-        private IniData GetIniData(string file)
-        {
-            FileIniDataParser parser = new();
-            parser.Parser.Configuration.AssigmentSpacer = string.Empty;
-            return parser.ReadFile(file);
-        }
-
-        private Unlocker? unlocker;
-
+        /// <inheritdoc/>
         public async Task LaunchAsync(LaunchOption option, Action<Exception> failAction)
         {
             string? launcherPath = Setting2.LauncherPath.Get();
@@ -161,7 +121,8 @@ namespace DGP.Genshin.Service
                     {
                         Verify.FailOperation("游戏已经启动");
                     }
-                    //https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
+
+                    // https://docs.unity.cn/cn/current/Manual/CommandLineArguments.html
                     string commandLine = new CommandLineBuilder()
                         .AppendIf("-popupwindow", option.IsBorderless)
                         .Append("-screen-fullscreen", option.IsFullScreen ? 1 : 0)
@@ -177,8 +138,8 @@ namespace DGP.Genshin.Service
                             Verb = "runas",
                             WorkingDirectory = Path.GetDirectoryName(gamePath),
                             UseShellExecute = true,
-                            Arguments = commandLine
-                        }
+                            Arguments = commandLine,
+                        },
                     };
 
                     using (this.GameWatcher.Watch())
@@ -205,10 +166,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        /// <summary>
-        /// 动态更改FPS，仅在使用解锁帧率后有效
-        /// </summary>
-        /// <param name="targetFPS"></param>
+        /// <inheritdoc/>
         public void SetTargetFPSDynamically(int targetFPS)
         {
             if (this.unlocker is not null)
@@ -217,6 +175,7 @@ namespace DGP.Genshin.Service
             }
         }
 
+        /// <inheritdoc/>
         public void OpenOfficialLauncher(Action<Exception>? failAction)
         {
             string? launcherPath = Setting2.LauncherPath.Get();
@@ -236,24 +195,7 @@ namespace DGP.Genshin.Service
             }
         }
 
-        /// <summary>
-        /// 还原转义后的原游戏目录
-        /// 目录符号应为/
-        /// 因为配置中的游戏目录若包含中文会转义为 \xaaaa 形态
-        /// </summary>
-        /// <returns></returns>
-        private string GetUnescapedGameFolderFromLauncherConfig()
-        {
-            string gameInstallPath = this.LauncherConfig[LauncherSection][GameInstallPath];
-            string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
-            if (!hex4Result.Contains(@"\u"))//不包含中文
-            {
-                //fix path with \
-                hex4Result = hex4Result.Replace(@"\", @"\\");
-            }
-            return Regex.Unescape(hex4Result);
-        }
-
+        /// <inheritdoc/>
         public string? SelectLaunchDirectoryIfIncorrect(string? launcherPath)
         {
             if (!File.Exists(launcherPath) || Path.GetFileName(launcherPath) != LauncherExecutable)
@@ -264,7 +206,7 @@ namespace DGP.Genshin.Service
                     Filter = "启动器|launcher.exe",
                     Title = "选择启动器文件",
                     CheckPathExists = true,
-                    FileName = LauncherExecutable
+                    FileName = LauncherExecutable,
                 };
 
                 if (openFileDialog.ShowDialog() == true)
@@ -277,9 +219,11 @@ namespace DGP.Genshin.Service
                     }
                 }
             }
+
             return launcherPath;
         }
 
+        /// <inheritdoc/>
         public void SaveLaunchScheme(LaunchScheme? scheme)
         {
             if (scheme is not null)
@@ -290,29 +234,101 @@ namespace DGP.Genshin.Service
 
                 string unescapedGameFolder = this.GetUnescapedGameFolderFromLauncherConfig();
                 string configFilePath = Path.Combine(unescapedGameFolder, ConfigFileName);
-                //new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
+
+                // new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
                 new FileIniDataParser().WriteFile(configFilePath, this.GameConfig, new UTF8Encoding(false));
             }
         }
 
+        /// <inheritdoc/>
         public ObservableCollection<GenshinAccount> LoadAllAccount()
         {
-            //fix load file failure while launched by updater in admin
+            // fix load file failure while launched by updater in admin
             return Json.FromFileOrNew<ObservableCollection<GenshinAccount>>(PathContext.Locate(AccountsFileName));
         }
+
+        /// <inheritdoc/>
         public void SaveAllAccounts(IEnumerable<GenshinAccount> accounts)
         {
-            //trim account with same id
+            // trim account with same id
             Json.ToFile(PathContext.Locate(AccountsFileName), accounts.DistinctBy(account => account.MihoyoSDK));
         }
 
+        /// <inheritdoc/>
         public GenshinAccount? GetFromRegistry()
         {
             return GenshinRegistry.Get();
         }
+
+        /// <inheritdoc/>
         public bool SetToRegistry(GenshinAccount? account)
         {
             return GenshinRegistry.Set(account);
+        }
+
+        /// <summary>
+        /// 读取 ini 文件
+        /// </summary>
+        /// <param name="file">文件路径</param>
+        /// <returns>ini数据</returns>
+        private IniData GetIniData(string file)
+        {
+            FileIniDataParser parser = new();
+            parser.Parser.Configuration.AssigmentSpacer = string.Empty;
+            return parser.ReadFile(file);
+        }
+
+        private string GetUnescapedGameFolderFromLauncherConfig()
+        {
+            string gameInstallPath = this.LauncherConfig[LauncherSection][GameInstallPath];
+            string? hex4Result = Regex.Replace(gameInstallPath, @"\\x([0-9a-f]{4})", @"\u$1");
+
+            // 不包含中文
+            if (!hex4Result.Contains(@"\u"))
+            {
+                // fix path with \
+                hex4Result = hex4Result.Replace(@"\", @"\\");
+            }
+
+            return Regex.Unescape(hex4Result);
+        }
+
+        /// <summary>
+        /// 定义了对注册表的操作
+        /// </summary>
+        private class GenshinRegistry
+        {
+            private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
+            private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+
+            public static bool Set(GenshinAccount? account)
+            {
+                if (account?.MihoyoSDK is not null)
+                {
+                    Registry.SetValue(GenshinKey, SdkKey, Encoding.UTF8.GetBytes(account.MihoyoSDK));
+                    return true;
+                }
+
+                return false;
+            }
+
+            /// <summary>
+            /// 在注册表中获取账号信息
+            /// </summary>
+            /// <returns>当前注册表中的信息</returns>
+            public static GenshinAccount? Get()
+            {
+                object? sdk = Registry.GetValue(GenshinKey, SdkKey, string.Empty);
+
+                if (sdk is null)
+                {
+                    return null;
+                }
+
+                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
+
+                return new GenshinAccount { MihoyoSDK = sdkString };
+            }
         }
     }
 }

@@ -23,11 +23,11 @@ namespace DGP.Genshin.SourceGeneration
         {
             string currentVersion = $"{DateTime.Now:yyyy.M.d}.0";
             //环境变量中存在版本号
-            if (Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User) is string oldVersionString)
+            if (Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User) is string oldVersion)
             {
-                if (string.Compare(currentVersion, oldVersionString) <= 0)
+                if (new Version(currentVersion) <= new Version(oldVersion))
                 {
-                    currentVersion = oldVersionString;
+                    currentVersion = oldVersion;
                 }
             }
             //递增版本号

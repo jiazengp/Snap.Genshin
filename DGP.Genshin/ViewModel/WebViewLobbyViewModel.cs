@@ -1,11 +1,10 @@
-﻿using DGP.Genshin.Control.WebViewLobby;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Control.WebViewLobby;
 using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Factory.Abstraction;
-using DGP.Genshin.Helper;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Json;
@@ -17,29 +16,24 @@ using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
+    /// <summary>
+    /// 自定义网页管理视图模型
+    /// </summary>
     [ViewModel(InjectAs.Singleton)]
     internal class WebViewLobbyViewModel : ObservableObject2
     {
-        private const string entriesFileName = "WebviewEntries.json";
-        private const string commonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
+        private const string EntriesFileName = "WebviewEntries.json";
+        private const string CommonScriptLinkUrl = "https://www.snapgenshin.com/documents/features/customize-webpage.html";
 
         private readonly IMessenger messenger;
 
         private ObservableCollection<WebViewEntry>? entries;
 
-        public ObservableCollection<WebViewEntry>? Entries
-        {
-            get => this.entries;
-
-            set => this.SetProperty(ref this.entries, value);
-        }
-
-        public ICommand AddEntryCommand { get; }
-        public ICommand CommonScriptCommand { get; }
-        public ICommand ModifyCommand { get; }
-        public ICommand RemoveEntryCommand { get; }
-        public ICommand NavigateCommand { get; }
-
+        /// <summary>
+        /// 构造一个新的自定义网页管理视图模型
+        /// </summary>
+        /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
+        /// <param name="messenger">消息器</param>
         public WebViewLobbyViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
         {
             this.messenger = messenger;
@@ -48,10 +42,45 @@ namespace DGP.Genshin.ViewModel
             this.ModifyCommand = asyncRelayCommandFactory.Create<WebViewEntry>(this.ModifyEntryAsync);
             this.RemoveEntryCommand = new RelayCommand<WebViewEntry>(this.RemoveEntry);
             this.NavigateCommand = new RelayCommand<WebViewEntry>(this.Navigate);
-            this.CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = commonScriptLinkUrl, UseShellExecute = true }));
+            this.CommonScriptCommand = new RelayCommand(() => Process.Start(new ProcessStartInfo() { FileName = CommonScriptLinkUrl, UseShellExecute = true }));
 
             this.LoadEntries();
         }
+
+        /// <summary>
+        /// 自定义网页集合
+        /// </summary>
+        public ObservableCollection<WebViewEntry>? Entries
+        {
+            get => this.entries;
+
+            set => this.SetProperty(ref this.entries, value);
+        }
+
+        /// <summary>
+        /// 添加页面命令
+        /// </summary>
+        public ICommand AddEntryCommand { get; }
+
+        /// <summary>
+        /// 打开常用脚本网页
+        /// </summary>
+        public ICommand CommonScriptCommand { get; }
+
+        /// <summary>
+        /// 修改页面命令
+        /// </summary>
+        public ICommand ModifyCommand { get; }
+
+        /// <summary>
+        /// 移除页面命令
+        /// </summary>
+        public ICommand RemoveEntryCommand { get; }
+
+        /// <summary>
+        /// 打开页面命令
+        /// </summary>
+        public ICommand NavigateCommand { get; }
 
         private async Task AddEntryAsync()
         {
@@ -65,6 +94,7 @@ namespace DGP.Genshin.ViewModel
                 this.SaveEntries();
             }
         }
+
         private async Task ModifyEntryAsync(WebViewEntry? entry)
         {
             if (entry is not null)
@@ -82,6 +112,7 @@ namespace DGP.Genshin.ViewModel
                 }
             }
         }
+
         private void RemoveEntry(WebViewEntry? entry)
         {
             if (entry is not null)
@@ -90,15 +121,17 @@ namespace DGP.Genshin.ViewModel
                 this.SaveEntries();
             }
         }
+
         private void Navigate(WebViewEntry? entry)
         {
             this.messenger.Send(new NavigateRequestMessage(typeof(WebViewHostPage), false, entry));
         }
+
         private void LoadEntries()
         {
-            if (PathContext.FileExists(entriesFileName))
+            if (PathContext.FileExists(EntriesFileName))
             {
-                List<WebViewEntry>? list = Json.FromFile<List<WebViewEntry>>(PathContext.Locate(entriesFileName));
+                List<WebViewEntry>? list = Json.FromFile<List<WebViewEntry>>(PathContext.Locate(EntriesFileName));
                 if (list is not null)
                 {
                     list.ForEach(entry =>
@@ -111,11 +144,13 @@ namespace DGP.Genshin.ViewModel
                     return;
                 }
             }
+
             this.Entries = new();
         }
+
         private void SaveEntries()
         {
-            Json.ToFile(PathContext.Locate(entriesFileName), this.Entries);
+            Json.ToFile(PathContext.Locate(EntriesFileName), this.Entries);
         }
     }
 }

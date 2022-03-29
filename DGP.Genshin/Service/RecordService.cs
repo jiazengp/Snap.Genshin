@@ -1,12 +1,9 @@
 ﻿using DGP.Genshin.DataModel.Reccording;
-using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Record;
 using DGP.Genshin.MiHoYoAPI.Record.Avatar;
 using DGP.Genshin.MiHoYoAPI.Record.SpiralAbyss;
 using DGP.Genshin.Service.Abstraction;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Snap.Core.DependencyInjection;
-using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service
@@ -18,77 +15,65 @@ namespace DGP.Genshin.Service
     internal class RecordService : IRecordService
     {
         private readonly ICookieService cookieService;
-        private readonly IMessenger messenger;
 
-        public RecordService(ICookieService cookieService, IMessenger messenger)
+        /// <summary>
+        /// 构造一个默认的玩家查询服务
+        /// </summary>
+        /// <param name="cookieService">cookie服务</param>
+        /// <param name="messenger">消息器</param>
+        public RecordService(ICookieService cookieService)
         {
-            this.messenger = messenger;
             this.cookieService = cookieService;
         }
 
-        public async Task<Record> GetRecordAsync(string? uid)
+        /// <inheritdoc/>
+        public async Task<Record> GetRecordAsync(string? uid, IProgress<string?> progress)
         {
+            // dispatch to new thread
             Record? result = await Task.Run(async () =>
             {
-                if (uid is null)
+                try
                 {
-                    return new Record("请输入Uid");
+                    Requires.NotNull(uid!, nameof(uid));
+                    RecordProvider recordProvider = new(this.cookieService.CurrentCookie);
+
+                    string? server = recordProvider.EvaluateUidRegion(uid);
+                    Requires.NotNull(server!, nameof(server));
+
+                    progress.Report("正在获取 玩家基础统计信息 (1/4)");
+                    PlayerInfo? playerInfo = await recordProvider.GetPlayerInfoAsync(uid, server);
+                    Requires.NotNull(playerInfo!, nameof(playerInfo));
+
+                    progress.Report("正在获取 本期深境螺旋信息 (2/4)");
+                    SpiralAbyss? spiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, SpiralAbyssType.Current);
+                    Requires.NotNull(spiralAbyss!, nameof(spiralAbyss));
+
+                    progress.Report("正在获取 上期深境螺旋信息 (3/4)");
+                    SpiralAbyss? lastSpiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, SpiralAbyssType.Last);
+                    Requires.NotNull(lastSpiralAbyss!, nameof(lastSpiralAbyss));
+
+                    progress.Report("正在获取 详细角色信息 (4/4)");
+                    DetailedAvatarWrapper? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
+                    Requires.NotNull(detailedAvatarInfo!, nameof(detailedAvatarInfo));
+
+                    return new Record
+                    {
+                        Success = true,
+                        UserId = uid,
+                        PlayerInfo = playerInfo,
+                        SpiralAbyss = spiralAbyss,
+                        LastSpiralAbyss = lastSpiralAbyss,
+                        DetailedAvatars = detailedAvatarInfo.Avatars,
+                    };
                 }
-
-                RecordProvider recordProvider = new(this.cookieService.CurrentCookie);
-
-                //figure out the server
-                string? server = recordProvider.EvaluateUidRegion(uid);
-                if (server is null)
+                catch (ArgumentNullException ex)
                 {
-                    this.messenger.Send(new RecordProgressChangedMessage(null));
-                    return new Record("不支持查询此UID");
+                    return new Record(ex.Message);
                 }
-
-                this.messenger.Send(new RecordProgressChangedMessage("正在获取 玩家基础统计信息 (1/4)"));
-                PlayerInfo? playerInfo = await recordProvider.GetPlayerInfoAsync(uid, server);
-                if (playerInfo is null)
+                finally
                 {
-                    this.messenger.Send(new RecordProgressChangedMessage(null));
-                    return new Record($"获取玩家基本信息失败");
+                    progress.Report(null);
                 }
-
-                this.messenger.Send(new RecordProgressChangedMessage("正在获取 本期深境螺旋信息 (2/4)"));
-                SpiralAbyss? spiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 1);
-                if (spiralAbyss is null)
-                {
-                    this.messenger.Send(new RecordProgressChangedMessage(null));
-                    return new Record($"获取本期深境螺旋信息失败");
-                }
-
-                this.messenger.Send(new RecordProgressChangedMessage("正在获取 上期深境螺旋信息 (3/4)"));
-                SpiralAbyss? lastSpiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, 2);
-                if (lastSpiralAbyss is null)
-                {
-                    this.messenger.Send(new RecordProgressChangedMessage(null));
-                    return new Record($"获取上期深境螺旋信息失败");
-                }
-
-                this.messenger.Send(new RecordProgressChangedMessage("正在获取 详细角色信息 (4/4)"));
-                DetailedAvatarWrapper? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
-                if (detailedAvatarInfo is null)
-                {
-                    this.messenger.Send(new RecordProgressChangedMessage(null));
-                    return new Record($"获取详细角色信息失败");
-                }
-
-                this.messenger.Send(new RecordProgressChangedMessage(null));
-                //return
-                return new Record
-                {
-                    Success = true,
-                    UserId = uid,
-                    Server = server,
-                    PlayerInfo = playerInfo,
-                    SpiralAbyss = spiralAbyss,
-                    LastSpiralAbyss = lastSpiralAbyss,
-                    DetailedAvatars = detailedAvatarInfo.Avatars
-                };
             });
             return result;
         }

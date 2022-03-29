@@ -3,7 +3,6 @@ using DGP.Genshin.DataModel.WebViewLobby;
 using DGP.Genshin.Message;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using System;
 using System.Collections.ObjectModel;
 
 namespace DGP.Genshin.Service.Abstraction
@@ -58,7 +57,8 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="data">要传递的数据</param>
         /// <param name="info">导航动画变换信息</param>
         /// <returns>是否导航成功</returns>
-        bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null) where T : System.Windows.Controls.Page;
+        bool Navigate<T>(bool isSyncTabRequested = false, object? data = null, NavigationTransitionInfo? info = null)
+            where T : System.Windows.Controls.Page;
 
         /// <summary>
         /// 同步导航标签

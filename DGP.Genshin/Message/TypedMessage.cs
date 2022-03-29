@@ -6,10 +6,18 @@
     /// <typeparam name="T">类型</typeparam>
     public class TypedMessage<T>
     {
-        public T Value { get; }
+        /// <summary>
+        /// 构造一个新的消息
+        /// </summary>
+        /// <param name="value">值</param>
         public TypedMessage(T value)
         {
             this.Value = value;
         }
+
+        /// <summary>
+        /// 值
+        /// </summary>
+        public T Value { get; }
     }
 }

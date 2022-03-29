@@ -5,7 +5,6 @@ using DGP.Genshin.ViewModel;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Primitive;
-using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.GachaStatistic
@@ -19,21 +18,28 @@ namespace DGP.Genshin.Service.GachaStatistic
         private readonly LocalGachaLogWorker localGachaLogWorker;
         private readonly MetadataViewModel metadataViewModel;
 
+        /// <summary>
+        /// 构造一个新的祈愿记录服务
+        /// </summary>
+        /// <param name="metadataViewModel">元数据视图模型</param>
         public GachaStatisticService(MetadataViewModel metadataViewModel)
         {
             this.metadataViewModel = metadataViewModel;
             this.localGachaLogWorker = new();
         }
 
+        /// <inheritdoc/>
         public async Task LoadLocalGachaDataAsync(GachaDataCollection gachaData)
         {
             await this.localGachaLogWorker.LoadAllAsync(gachaData);
         }
 
+        /// <inheritdoc/>
         public async Task<Result<bool, string>> RefreshAsync(GachaDataCollection gachaData, GachaLogUrlMode mode, IProgress<FetchProgress> progress, bool full = false)
         {
             (bool isOk, string? url) = await GachaLogUrlProvider.GetUrlAsync(mode);
-            //获取成功
+
+            // 获取成功
             if (isOk)
             {
                 IGachaLogWorker worker = new GachaLogWorker(url, gachaData);
@@ -46,9 +52,10 @@ namespace DGP.Genshin.Service.GachaStatistic
                         Title = "获取祈愿配置信息失败",
                         Content = "可能是验证密钥已过期",
                         PrimaryButtonText = "确定",
-                        DefaultButton = ContentDialogButton.Primary
+                        DefaultButton = ContentDialogButton.Primary,
                     }.ShowAsync();
                 }
+
                 return new(isSuccess, uid);
             }
 
@@ -59,11 +66,41 @@ namespace DGP.Genshin.Service.GachaStatistic
                     Title = "获取祈愿记录失败",
                     Content = this.GetUrlFailHintByMode(mode),
                     PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
+                    DefaultButton = ContentDialogButton.Primary,
                 }.ShowAsync();
             }
 
             return new(false, null!);
+        }
+
+        /// <inheritdoc/>
+        public Statistic GetStatistic(GachaDataCollection gachaData, string uid)
+        {
+            return new StatisticBuilder(this.metadataViewModel).ToStatistic(uid, gachaData[uid]!);
+        }
+
+        /// <inheritdoc/>
+        public async Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path)
+        {
+            await Task.Run(() => this.localGachaLogWorker.ExportToUIGFW(uid, path, gachaData));
+        }
+
+        /// <inheritdoc/>
+        public async Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path)
+        {
+            await Task.Run(() => this.localGachaLogWorker.ExportToUIGFJ(uid, path, gachaData));
+        }
+
+        /// <inheritdoc/>
+        public async Task<Result<bool, string>> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
+        {
+            return await this.localGachaLogWorker.ImportFromUIGFWAsync(path, gachaData);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Result<bool, string>> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
+        {
+            return await this.localGachaLogWorker.ImportFromUIGFJAsync(path, gachaData);
         }
 
         private string GetUrlFailHintByMode(GachaLogUrlMode mode)
@@ -80,11 +117,12 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// 获取祈愿记录
         /// </summary>
         /// <param name="worker">工作器对象</param>
-        /// <param name="full">是否增量获取</param>
+        /// <param name="full">是否全量获取</param>
         /// <returns>是否获取成功</returns>
         private async Task<Result<bool, string>> FetchGachaLogsAsync(GachaDataCollection gachaData, IGachaLogWorker worker, IProgress<FetchProgress> progress, bool full = false)
         {
             Config? gachaConfigTypes = await worker.GetCurrentGachaConfigAsync();
+
             if (gachaConfigTypes?.Types != null)
             {
                 string? uid = null;
@@ -106,34 +144,8 @@ namespace DGP.Genshin.Service.GachaStatistic
                     return new(true, uid);
                 }
             }
+
             return new(false, null!);
         }
-
-        public Statistic GetStatistic(GachaDataCollection gachaData, string uid)
-        {
-            return new StatisticBuilder(this.metadataViewModel).ToStatistic(gachaData[uid]!, uid);
-        }
-
-        #region Im/Export
-        public async Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path)
-        {
-            await Task.Run(() => this.localGachaLogWorker!.ExportToUIGFW(uid, path, gachaData));
-        }
-
-        public async Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path)
-        {
-            await Task.Run(() => this.localGachaLogWorker!.ExportToUIGFJ(uid, path, gachaData));
-        }
-
-        public async Task<Result<bool, string>> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path)
-        {
-            return await this.localGachaLogWorker!.ImportFromUIGFWAsync(path, gachaData);
-        }
-
-        public async Task<Result<bool, string>> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path)
-        {
-            return await this.localGachaLogWorker!.ImportFromUIGFJAsync(path, gachaData);
-        }
-        #endregion
     }
 }

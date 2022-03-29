@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using Snap.Data.Primitive;
 using Snap.Win32;
 using System.Threading.Tasks;

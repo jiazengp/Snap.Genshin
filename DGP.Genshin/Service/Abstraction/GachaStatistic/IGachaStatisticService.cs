@@ -2,7 +2,6 @@
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.GachaStatistic;
 using Snap.Data.Primitive;
-using System;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Service.Abstraction.GachaStatistic
@@ -36,6 +35,7 @@ namespace DGP.Genshin.Service.Abstraction.GachaStatistic
         /// <param name="gachaData">抽卡源数据</param>
         /// <param name="uid">uid</param>
         /// <param name="path">待写入的文件路径</param>
+        /// <returns>任务</returns>
         Task ExportDataToExcelAsync(GachaDataCollection gachaData, string uid, string path);
 
         /// <summary>
@@ -44,26 +44,30 @@ namespace DGP.Genshin.Service.Abstraction.GachaStatistic
         /// <param name="gachaData">抽卡源数据</param>
         /// <param name="uid">uid</param>
         /// <param name="path">待写入的文件路径</param>
+        /// <returns>任务</returns>
         Task ExportDataToJsonAsync(GachaDataCollection gachaData, string uid, string path);
 
         /// <summary>
         /// 异步从Excel导入记录
         /// </summary>
-        /// <param name="gachaData"></param>
-        /// <param name="path"></param>
+        /// <param name="gachaData">存储的记录集合</param>
+        /// <param name="path">文件位置</param>
+        /// <returns>执行的结果</returns>
         Task<Result<bool, string>> ImportFromUIGFWAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 异步从Json导入记录
         /// </summary>
-        /// <param name="gachaData"></param>
-        /// <param name="path"></param>
+        /// <param name="gachaData">存储的记录集合</param>
+        /// <param name="path">文件位置</param>
+        /// <returns>执行的结果</returns>
         Task<Result<bool, string>> ImportFromUIGFJAsync(GachaDataCollection gachaData, string path);
 
         /// <summary>
         /// 加载本地储存的记录数据
         /// </summary>
-        /// <param name="gachaData"></param>
+        /// <param name="gachaData">存储的记录集合</param>
+        /// <returns>任务</returns>
         Task LoadLocalGachaDataAsync(GachaDataCollection gachaData);
     }
 }

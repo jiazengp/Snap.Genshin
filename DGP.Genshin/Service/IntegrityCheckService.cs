@@ -8,11 +8,9 @@ using Snap.Core.Logging;
 using Snap.Data.Primitive;
 using Snap.Reflection;
 using Snap.Threading;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
 using IState = DGP.Genshin.Service.Abstraction.IntegrityCheck.IIntegrityCheckService.IIntegrityCheckState;
 
 namespace DGP.Genshin.Service
@@ -25,40 +23,24 @@ namespace DGP.Genshin.Service
     {
         private readonly MetadataViewModel metadataViewModel;
 
-        public IntegrityCheckService(MetadataViewModel metadataViewModel)
-        {
-            this.metadataViewModel = metadataViewModel;
-        }
-
         /// <summary>
         /// 累计检查的个数
         /// </summary>
         private int cumulatedCount;
 
-        public WorkWatcher IntegrityChecking { get; } = new(false);
-
         /// <summary>
-        /// 检查单个集合的Source
+        /// 构造一个新的完整性检测服务
         /// </summary>
-        /// <typeparam name="T">包含的物品类型</typeparam>
-        /// <param name="collection">集合</param>
-        /// <param name="totalCount">总个数</param>
-        /// <param name="progress">进度</param>
-        private async Task CheckIntegrityAsync<T>(IEnumerable<T>? collection, int totalCount, IProgress<IState> progress) where T : KeySource
+        /// <param name="metadataViewModel">元数据视图模型</param>
+        public IntegrityCheckService(MetadataViewModel metadataViewModel)
         {
-            if (collection is not null)
-            {
-                await collection.ParallelForEachAsync(async t =>
-                {
-                    if (!FileCache.Exists(t.Source))
-                    {
-                        using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                    }
-                    progress.Report(new IntegrityState(++this.cumulatedCount, totalCount, t));
-                });
-            }
+            this.metadataViewModel = metadataViewModel;
         }
 
+        /// <inheritdoc/>
+        public WorkWatcher IntegrityChecking { get; } = new(false);
+
+        /// <inheritdoc/>
         public async Task CheckMetadataIntegrityAsync(IProgress<IState> progress)
         {
             this.Log("Integrity Check Start");
@@ -69,10 +51,35 @@ namespace DGP.Genshin.Service
                     this.Log("Integrity Check Suppressed by User Settings");
                     return;
                 }
+
                 int totalCount = this.GetTotalCount(this.metadataViewModel);
 
                 await Task.WhenAll(this.BuildIntegrityTasks(this.metadataViewModel, totalCount, progress));
                 this.Log($"Integrity Check Complete with {totalCount} entries");
+            }
+        }
+
+        /// <summary>
+        /// 检查单个集合的Source
+        /// </summary>
+        /// <typeparam name="T">包含的物品类型</typeparam>
+        /// <param name="collection">集合</param>
+        /// <param name="totalCount">总个数</param>
+        /// <param name="progress">进度</param>
+        private async Task CheckIntegrityAsync<T>(IEnumerable<T>? collection, int totalCount, IProgress<IState> progress)
+            where T : KeySource
+        {
+            if (collection is not null)
+            {
+                await collection.ParallelForEachAsync(async t =>
+                {
+                    if (!FileCache.Exists(t.Source))
+                    {
+                        using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                    }
+
+                    progress.Report(new IntegrityState(++this.cumulatedCount, totalCount, t));
+                });
             }
         }
 
@@ -112,17 +119,29 @@ namespace DGP.Genshin.Service
             /// <summary>
             /// 构造新的进度实例
             /// </summary>
-            /// <param name="count"></param>
-            /// <param name="totalCount"></param>
-            /// <param name="ks"></param>
+            /// <param name="count">当前个数</param>
+            /// <param name="totalCount">总个数</param>
+            /// <param name="ks">当前检查完成的源</param>
             public IntegrityState(int count, int totalCount, KeySource? ks)
             {
                 this.CurrentCount = count;
                 this.TotalCount = totalCount;
                 this.Info = ks?.Source?.ToShortFileName();
             }
+
+            /// <summary>
+            /// 当前个数
+            /// </summary>
             public int CurrentCount { get; init; }
+
+            /// <summary>
+            /// 总个数
+            /// </summary>
             public int TotalCount { get; init; }
+
+            /// <summary>
+            /// 展示信息
+            /// </summary>
             public string? Info { get; init; }
         }
     }

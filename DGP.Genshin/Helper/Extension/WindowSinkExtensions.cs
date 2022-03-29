@@ -1,23 +1,23 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Interop;
-
 using static Snap.Win32.NativeMethod.User32;
 
 namespace DGP.Genshin.Helper.Extension
 {
-    public static class WindowExtensions
+    /// <summary>
+    /// 扩展方法
+    /// </summary>
+    public static class WindowSinkExtensions
     {
-        #region Bottom Most Window
         /// <summary>
         /// 使窗体置于桌面底端
         /// </summary>
-        /// <param name="window"></param>
+        /// <param name="window">目标窗口</param>
         public static void SetInDesktop(this Window window)
         {
             IntPtr hWnd = new WindowInteropHelper(window).Handle;
-            //notify windows to create a WorkerW
+
+            // notify windows to create a WorkerW
             IntPtr hProgManWnd = FindWindow("Progman", "Program Manager");
             SendMessageTimeout(hProgManWnd, 1324u, new UIntPtr(0u), IntPtr.Zero, SendMessageTimeoutFlags.SMTO_NORMAL, 1000u, out UIntPtr _);
             ConfigureWorkerW();
@@ -40,44 +40,11 @@ namespace DGP.Genshin.Helper.Extension
                         break;
                     }
                 }
+
                 hWorkerWnd = FindWindowEx(IntPtr.Zero, hWorkerWnd, "WorkerW", IntPtr.Zero);
             }
 
             _ = ShowWindow(hWorkerWnd, SW_HIDE);
         }
-        #endregion
-
-        #region Acrylic
-        private static readonly uint acrylicBackgroundColor = 0x808080; /* BGR color format */
-
-        /// <summary>
-        /// 启用亚克力
-        /// </summary>
-        /// <param name="window"></param>
-        internal static void EnableAcrylic(this Window window)
-        {
-            AccentPolicy accent = new()
-            {
-                AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
-                GradientColor = 0 << 24 | acrylicBackgroundColor & 0xFFFFFF
-            };
-
-            int accentStructSize = Marshal.SizeOf(accent);
-
-            IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
-            Marshal.StructureToPtr(accent, accentPtr, false);
-
-            WindowCompositionAttributeData data = new()
-            {
-                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
-                SizeOfData = accentStructSize,
-                Data = accentPtr
-            };
-
-            _ = SetWindowCompositionAttribute(new WindowInteropHelper(window).Handle, ref data);
-
-            Marshal.FreeHGlobal(accentPtr);
-        }
-        #endregion
     }
 }

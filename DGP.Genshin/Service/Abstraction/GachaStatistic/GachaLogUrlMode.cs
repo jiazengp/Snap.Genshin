@@ -9,9 +9,10 @@
         /// 从游戏日志获取
         /// </summary>
         GameLogFile,
+
         /// <summary>
         /// 手动输入
         /// </summary>
-        ManualInput
+        ManualInput,
     }
 }

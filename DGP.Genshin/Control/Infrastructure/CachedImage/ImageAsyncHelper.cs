@@ -1,10 +1,9 @@
-﻿using DGP.Genshin.Message;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Message;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using Snap.Data.Utility.Extension;
 using Snap.Threading;
-using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;

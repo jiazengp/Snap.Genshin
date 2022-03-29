@@ -23,6 +23,6 @@
         /// <summary>
         /// 更新不可用
         /// </summary>
-        NotAvailable = 3
+        NotAvailable = 3,
     }
 }

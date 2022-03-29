@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;

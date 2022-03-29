@@ -7,14 +7,28 @@ namespace DGP.Genshin.DataModel.Cookie
     /// </summary>
     public record CookieUserGameRole
     {
+        /// <summary>
+        /// 构造一个新的Cookie角色信息记录
+        /// </summary>
+        /// <param name="cookie">cookie</param>
+        /// <param name="userGameRole">角色信息</param>
         public CookieUserGameRole(string cookie, UserGameRole userGameRole)
         {
             this.Cookie = cookie;
             this.UserGameRole = userGameRole;
         }
+
+        /// <summary>
+        /// Cookie
+        /// </summary>
         public string Cookie { get; init; }
+
+        /// <summary>
+        /// 角色信息
+        /// </summary>
         public UserGameRole UserGameRole { get; init; }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return this.UserGameRole.ToString();

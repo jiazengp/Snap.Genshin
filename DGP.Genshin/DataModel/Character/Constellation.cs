@@ -1,5 +1,10 @@
 ﻿namespace DGP.Genshin.DataModel.Character
 {
+    /// <summary>
+    /// 命座信息
+    /// </summary>
+    [SuppressMessage("", "SA1516")]
+    [SuppressMessage("", "SA1600")]
     public class Constellation
     {
         public DescribedNameSource? Constellation1 { get; set; }

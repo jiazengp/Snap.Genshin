@@ -1,8 +1,6 @@
 ﻿using DGP.Genshin.DataModel.GachaStatistic;
-using DGP.Genshin.Helper;
 using DGP.Genshin.MiHoYoAPI.Gacha;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
-using Microsoft;
 using Microsoft.AppCenter.Crashes;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
@@ -12,7 +10,6 @@ using Snap.Data.Json;
 using Snap.Data.Primitive;
 using Snap.Data.Utility.Extension;
 using Snap.Reflection;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,51 +20,46 @@ namespace DGP.Genshin.Service.GachaStatistic
 {
     /// <summary>
     /// 本地抽卡记录工作器
+    /// TODO: 将导入导出工作拆分到其他的类
     /// </summary>
     internal class LocalGachaLogWorker
     {
+        private const string LocalFolder = "GachaStatistic";
+        private const string MetadataSheetName = "原始数据";
+
         /// <summary>
         /// 导入导出操作锁
         /// </summary>
         private readonly object processing = new();
-        private const string localFolder = "GachaStatistic";
-        private const string metadataSheetName = "原始数据";
 
-        #region Initialization
         /// <summary>
         /// 初始化 <see cref="LocalGachaLogWorker"/>的一个实例，并初始化本地数据
         /// 本地数据在初始化完成后随即可用
         /// </summary>
-        /// <param name="data"></param>
         public LocalGachaLogWorker()
         {
-            Directory.CreateDirectory(localFolder);
+            Directory.CreateDirectory(LocalFolder);
         }
+
+        /// <summary>
+        /// 加载所有数据
+        /// </summary>
+        /// <param name="gachaData">存放的祈愿数据集合</param>
+        /// <returns>任务</returns>
         public async Task LoadAllAsync(GachaDataCollection gachaData)
         {
             await Task.Yield();
-            foreach (string uidFolder in Directory.EnumerateDirectories($@"{localFolder}"))
+            foreach (string uidFolder in Directory.EnumerateDirectories($@"{LocalFolder}"))
             {
                 string uid = new DirectoryInfo(uidFolder).Name;
                 this.LoadLogOf(uid, gachaData);
             }
         }
-        private void LoadLogOf(string uid, GachaDataCollection gachaData)
-        {
-            gachaData.Add(uid, new GachaData());
-            foreach (string p in Directory.EnumerateFiles($@"{localFolder}\{uid}"))
-            {
-                FileInfo fileInfo = new(p);
-                string pool = fileInfo.Name.Replace(".json", "");
-                if (gachaData[uid] is GachaData user)
-                {
-                    user[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
-                }
-            }
-        }
-        #endregion
 
-        #region save
+        /// <summary>
+        /// 保存所有数据
+        /// </summary>
+        /// <param name="gachaData">存放的祈愿数据集合</param>
         public void SaveAll(GachaDataCollection gachaData)
         {
             foreach (UidGachaData entry in gachaData)
@@ -76,24 +68,16 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        private void SaveLogOf(string uid, GachaDataCollection gachaData)
-        {
-            string uidFolder = PathContext.Locate(localFolder, uid);
-            Directory.CreateDirectory(uidFolder);
-            foreach ((string uidName, List<GachaLogItem>? logs) in gachaData[uid]!)
-            {
-                Json.ToFile($@"{uidFolder}\{uidName}.json", logs);
-            }
-        }
-        #endregion
-
-        #region import
-
-        #region UIGF.W
+        /// <summary>
+        /// 从UIGFW导入
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="gachaData">祈愿数据</param>
+        /// <returns>导入操作的结果</returns>
         public async Task<Result<bool, string>> ImportFromUIGFWAsync(string filePath, GachaDataCollection gachaData)
         {
             bool successful = true;
-            string uid = "";
+            string uid = string.Empty;
             try
             {
                 using (FileStream fs = File.OpenRead(filePath))
@@ -102,11 +86,12 @@ namespace DGP.Genshin.Service.GachaStatistic
                     using (ExcelPackage package = new(fs))
                     {
                         ExcelWorksheets? sheets = package.Workbook.Worksheets;
-                        if (sheets.Any(s => s.Name == metadataSheetName))
+                        if (sheets.Any(s => s.Name == MetadataSheetName))
                         {
-                            ExcelWorksheet metadataSheet = sheets[metadataSheetName]!;
+                            ExcelWorksheet metadataSheet = sheets[MetadataSheetName]!;
                             int columnIndex = 1;
-                            //记录属性的列号
+
+                            // 记录属性的列号
                             Dictionary<string, int> propertyColumn = new()
                             {
                                 { "uid", 0 },
@@ -119,8 +104,9 @@ namespace DGP.Genshin.Service.GachaStatistic
                                 { "item_type", 0 },
                                 { "rank_type", 0 },
                                 { "id", 0 },
-                                { "uigf_gacha_type", 0 }
+                                { "uigf_gacha_type", 0 },
                             };
+
                             columnIndex = this.DetectColumn(metadataSheet, columnIndex, propertyColumn);
                             List<UIGFItem> gachaLogs = this.EnumerateSheetData(metadataSheet, propertyColumn);
                             ImportableGachaData importData = this.BuildImportableDataByList(gachaLogs);
@@ -132,6 +118,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                         }
                     }
                 }
+
                 this.SaveAll(gachaData);
             }
             catch (Exception ex)
@@ -140,95 +127,16 @@ namespace DGP.Genshin.Service.GachaStatistic
                 Crashes.TrackError(ex);
                 successful = false;
             }
+
             return new(successful, uid);
         }
 
-        private ImportableGachaData BuildImportableDataByList(List<UIGFItem> gachaLogs)
-        {
-            ImportableGachaData importData = new();
-            importData.Data = new();
-            foreach (GachaLogItem item in gachaLogs)
-            {
-                importData.Uid ??= item.Uid;
-                string? type = item.GachaType;
-                //refactor 400 type here to redirect list addition
-                type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
-                Requires.NotNull(type!, nameof(type));
-                if (!importData.Data.ContainsKey(type))
-                {
-                    importData.Data.Add(type, new());
-                }
-                importData.Data[type]!.Add(item);
-            }
-            foreach ((string poolId, List<GachaLogItem>? logs) in importData.Data)
-            {
-                importData.Data[poolId] = logs?.OrderByDescending(x => x.Id).ToList();
-            }
-
-            return importData;
-        }
-
-        private List<UIGFItem> EnumerateSheetData(ExcelWorksheet metadataSheet, Dictionary<string, int> propertyColumn)
-        {
-            int row = 2;
-            List<UIGFItem> gachaLogs = new();
-            //read data
-            while (true)
-            {
-                //判定当前行首列的值，为空则记录已经到达末尾
-                if (metadataSheet.Cells[row, 1].Value == null)
-                {
-                    break;
-                }
-                UIGFItem item = new();
-                //reflection magic here.
-                item.ForEachPropertyInfoWithAttribute<JsonPropertyAttribute>((itemProperty, attribute) =>
-                {
-                    int matchedPropertyColumn = propertyColumn[attribute.PropertyName!];
-                    if (matchedPropertyColumn != 0)
-                    {
-                        switch (itemProperty.Name)
-                        {
-                            case nameof(item.Time):
-                                {
-                                    DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
-                                    itemProperty.SetValue(item, value);
-                                    break;
-                                }
-                            default:
-                                itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
-                                break;
-                        }
-                    }
-                });
-
-                gachaLogs.Add(item);
-                row++;
-            }
-
-            return gachaLogs;
-        }
-
-        private int DetectColumn(ExcelWorksheet metadataSheet, int columnIndex, Dictionary<string, int> propertyColumn)
-        {
-            //detect column property name
-            while (true)
-            {
-                string header = metadataSheet.Cells[1, columnIndex].GetValue<string>();
-                if (header is null)
-                {
-                    break;
-                }
-                propertyColumn[header] = columnIndex;
-                columnIndex++;
-            }
-
-            return columnIndex;
-        }
-
-        #endregion
-
-        #region UIGF.J
+        /// <summary>
+        /// 从UIGFJ导入
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="gachaData">祈愿数据</param>
+        /// <returns>导入操作的结果</returns>
         public async Task<Result<bool, string>> ImportFromUIGFJAsync(string filePath, GachaDataCollection gachaData)
         {
             return await this.ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
@@ -245,41 +153,227 @@ namespace DGP.Genshin.Service.GachaStatistic
                         {
                             item.Uid ??= importData.Uid;
                             string? type = item.GachaType;
-                            //refactor 400 type here to prevent 400 list json file creation
+
+                            // refactor 400 type here to prevent 400 list json file creation
                             type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
                             Requires.NotNull(type!, nameof(type));
                             if (!importData.Data.ContainsKey(type))
                             {
                                 importData.Data.Add(type, new());
                             }
+
                             importData.Data[type]!.Add(item);
                         }
                     }
+
                     foreach ((string poolId, List<GachaLogItem>? logs) in importData.Data)
                     {
                         if (logs is not null)
                         {
-                            //importData.Data[kvp.Key] = ;Fix ordered list got ignored issue
                             importData.Data[poolId] = logs.OrderByDescending(x => x.TimeId).ToList();
                         }
                     }
                 }
+
                 return importData;
             });
         }
 
-        #region import core method
         /// <summary>
-        /// 泛式方法，将其他类型的数据转化为可导入的类型后调用 <see cref="ImportImportableGachaDataAsync"/> 进行导入的实际操作
+        /// 导出到UIGFJ
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <param name="converter"></param>
-        /// <returns></returns>
-        public async Task<Result<bool, string>> ImportFromExternalDataAsync<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
+        /// <param name="uid">uid</param>
+        /// <param name="fileName">文件路径</param>
+        /// <param name="gachaData">祈愿数据</param>
+        public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
+        {
+            lock (this.processing)
+            {
+                this.EnsureGachaItemId(uid, gachaData);
+
+                UIGF? exportData = new()
+                {
+                    Info = new()
+                    {
+                        Uid = uid,
+                        Language = "zh-cn",
+                        ExportTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
+                        ExportTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                        ExportApp = "Snap Genshin",
+                        ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
+                        UIGFVersion = "v2.2",
+                    },
+                    List = gachaData[uid]!
+                    .SelectMany(pair => pair.Value!
+                    .Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key))),
+                };
+                Json.ToFile(fileName, exportData);
+            }
+        }
+
+        /// <summary>
+        /// 导出到UIGFW
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="fileName">文件路径</param>
+        /// <param name="gachaDataCollection">祈愿数据</param>
+        public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaDataCollection)
+        {
+            lock (this.processing)
+            {
+                this.EnsureGachaItemId(uid, gachaDataCollection);
+
+                if (gachaDataCollection[uid] is GachaData gachaData)
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (FileStream fs = File.Create(fileName))
+                    {
+                        using (ExcelPackage package = new(fs))
+                        {
+                            foreach (string pool in gachaData.Keys)
+                            {
+                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
+                                IEnumerable<GachaLogItem>? logs = gachaData[pool];
+
+                                // fix issue with compatibility
+                                logs = logs?.Reverse();
+                                this.InitializeGachaLogSheetHeader(sheet);
+                                this.FillSheetWithGachaData(sheet, logs);
+
+                                // freeze the title
+                                sheet.View.FreezePanes(2, 1);
+                            }
+
+                            this.AddInterchangeableSheet(package, gachaData);
+
+                            package.Workbook.Properties.Title = "祈愿记录";
+                            package.Workbook.Properties.Author = "Snap Genshin";
+                            package.Save();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LoadLogOf(string uid, GachaDataCollection gachaData)
+        {
+            gachaData.Add(uid, new GachaData());
+            foreach (string p in Directory.EnumerateFiles($@"{LocalFolder}\{uid}"))
+            {
+                FileInfo fileInfo = new(p);
+                string pool = fileInfo.Name.Replace(".json", string.Empty);
+                if (gachaData[uid] is GachaData user)
+                {
+                    user[pool] = Json.FromFile<List<GachaLogItem>>(fileInfo);
+                }
+            }
+        }
+
+        private void SaveLogOf(string uid, GachaDataCollection gachaData)
+        {
+            string uidFolder = PathContext.Locate(LocalFolder, uid);
+            Directory.CreateDirectory(uidFolder);
+            foreach ((string uidName, List<GachaLogItem>? logs) in gachaData[uid]!)
+            {
+                Json.ToFile($@"{uidFolder}\{uidName}.json", logs);
+            }
+        }
+
+        private ImportableGachaData BuildImportableDataByList(List<UIGFItem> gachaLogs)
+        {
+            ImportableGachaData importData = new() { Data = new() };
+
+            foreach (GachaLogItem item in gachaLogs)
+            {
+                importData.Uid ??= item.Uid;
+                string? type = item.GachaType;
+
+                // refactor 400 type here to redirect list addition
+                type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
+                Requires.NotNull(type!, nameof(type));
+                if (!importData.Data.ContainsKey(type))
+                {
+                    importData.Data.Add(type, new());
+                }
+
+                importData.Data[type]!.Add(item);
+            }
+
+            foreach ((string poolId, List<GachaLogItem>? logs) in importData.Data)
+            {
+                importData.Data[poolId] = logs?.OrderByDescending(x => x.Id).ToList();
+            }
+
+            return importData;
+        }
+
+        private List<UIGFItem> EnumerateSheetData(ExcelWorksheet metadataSheet, Dictionary<string, int> propertyColumn)
+        {
+            int row = 2;
+            List<UIGFItem> gachaLogs = new();
+
+            // read data
+            while (true)
+            {
+                // 判定当前行首列的值，为空则记录已经到达末尾
+                if (metadataSheet.Cells[row, 1].Value == null)
+                {
+                    break;
+                }
+
+                UIGFItem item = new();
+
+                // reflection magic here.
+                item.ForEachPropertyInfoWithAttribute<JsonPropertyAttribute>((itemProperty, attribute) =>
+                {
+                    int matchedPropertyColumn = propertyColumn[attribute.PropertyName!];
+                    if (matchedPropertyColumn != 0)
+                    {
+                        switch (itemProperty.Name)
+                        {
+                            case nameof(item.Time):
+                                {
+                                    DateTime value = Convert.ToDateTime(metadataSheet.Cells[row, matchedPropertyColumn].GetValue<string>());
+                                    itemProperty.SetValue(item, value);
+                                    break;
+                                }
+
+                            default:
+                                itemProperty.SetValue(item, metadataSheet.Cells[row, matchedPropertyColumn].Value);
+                                break;
+                        }
+                    }
+                });
+
+                gachaLogs.Add(item);
+                row++;
+            }
+
+            return gachaLogs;
+        }
+
+        private int DetectColumn(ExcelWorksheet metadataSheet, int columnIndex, Dictionary<string, int> propertyColumn)
+        {
+            // detect column property name
+            while (true)
+            {
+                string header = metadataSheet.Cells[1, columnIndex].GetValue<string>();
+                if (header is null)
+                {
+                    break;
+                }
+
+                propertyColumn[header] = columnIndex;
+                columnIndex++;
+            }
+
+            return columnIndex;
+        }
+
+        private async Task<Result<bool, string>> ImportFromExternalDataAsync<T>(string filePath, GachaDataCollection gachaData, Func<T?, ImportableGachaData> converter)
         {
             bool successful = true;
-            string uid = "";
+            string uid = string.Empty;
 
             try
             {
@@ -300,16 +394,13 @@ namespace DGP.Genshin.Service.GachaStatistic
         private async Task<string> ImportImportableGachaDataAsync(ImportableGachaData importable, GachaDataCollection gachaData)
         {
             await Task.Yield();
-            if (importable.Uid is null)
-            {
-                throw new InvalidOperationException("未提供Uid");
-            }
+            Requires.NotNull(importable.Uid!, nameof(importable.Uid));
 
             if (importable.Data is GachaData data)
             {
                 if (gachaData[importable.Uid] is not null)
                 {
-                    //we need to perform merge operation
+                    // we need to perform merge operation
                     foreach ((string poolId, List<GachaLogItem>? logs) in data)
                     {
                         this.TrimToBackIncrement(importable.Uid, poolId, gachaData, logs);
@@ -318,9 +409,10 @@ namespace DGP.Genshin.Service.GachaStatistic
                 }
                 else
                 {
-                    //is new uid
+                    // is new uid
                     gachaData.Add(importable.Uid, data);
                 }
+
                 return importable.Uid;
             }
             else
@@ -329,14 +421,6 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        /// <summary>
-        /// 从数据尾部选出需要合并的部分
-        /// 并裁剪列表
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <param name="poolType"></param>
-        /// <param name="importList"></param>
-        /// <returns>经过修改的原列表</returns>
         private void TrimToBackIncrement(string uid, string poolType, GachaDataCollection gachaData, List<GachaLogItem>? importList)
         {
             GachaData source = gachaData[uid]!;
@@ -345,21 +429,25 @@ namespace DGP.Genshin.Service.GachaStatistic
             if (sourceItems?.Count > 0)
             {
                 long sourceLastTimeId = sourceItems.Last().TimeId;
-                //首个比当前最后的物品id早的物品
+
+                // 首个比当前最后的物品id早的物品
                 int? index = importList?.FindIndex(i => i.TimeId < sourceLastTimeId);
-                //fix repeat item issues
+
+                // fix repeat item issues
                 if (index < 0)
                 {
-                    //查找相等
+                    // 查找相等
                     index = importList?.FindIndex(i => i.TimeId == sourceLastTimeId);
                     if (index < 0)
                     {
                         return;
                     }
+
                     importList?.RemoveRange(0, index!.Value + 1);
                     return;
                 }
-                //修改了原先的列表
+
+                // 修改了原先的列表
                 if (index is not null)
                 {
                     importList?.RemoveRange(0, index.Value);
@@ -367,54 +455,17 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        /// <summary>
-        /// 合并老数据
-        /// </summary>
-        /// <param name="type">卡池</param>
-        /// <param name="backIncrement">增量</param>
         private void MergeBackIncrement(string uid, string type, GachaDataCollection gachaData, List<GachaLogItem>? backIncrement)
         {
             GachaData dict = gachaData[uid]!;
 
             if (dict.ContainsKey(type) && backIncrement is not null)
             {
-                dict[type]?.AddRange(backIncrement);
+                dict[type]!.AddRange(backIncrement);
             }
             else
             {
                 dict[type] = backIncrement;
-            }
-        }
-        #endregion
-
-        #endregion
-
-        #endregion
-
-        #region export
-        public void ExportToUIGFJ(string uid, string fileName, GachaDataCollection gachaData)
-        {
-            lock (this.processing)
-            {
-                this.EnsureGachaItemId(uid, gachaData);
-
-                UIGF? exportData = new()
-                {
-                    Info = new()
-                    {
-                        Uid = uid,
-                        Language = "zh-cn",
-                        ExportTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
-                        ExportTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                        ExportApp = "Snap Genshin",
-                        ExportAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
-                        UIGFVersion = "v2.2"
-                    },
-                    List = gachaData[uid]!
-                    .SelectMany(pair => pair.Value!
-                    .Select(item => item.ToChild<GachaLogItem, UIGFItem>(u => u.UIGFGachaType = pair.Key)))
-                };
-                Json.ToFile(fileName, exportData);
             }
         }
 
@@ -424,22 +475,25 @@ namespace DGP.Genshin.Service.GachaStatistic
             {
                 if (banner is not null)
                 {
-                    //seek last valid Id item index
+                    // seek last valid Id item index
                     int index = 0;
                     while (index < banner.Count && !string.IsNullOrEmpty(banner[index].Id))
                     {
                         index++;
                     }
+
                     if (index < banner.Count)
                     {
                         index--;
-                        //prepare id for generation,this id is separated for each banner
+
+                        // prepare id for generation,this id is separated for each banner
                         long preparedId = 1612303200000000000L;
                         if (index >= 0 && long.TryParse(banner[index].Id, out long lastValidId))
                         {
                             preparedId = lastValidId;
                         }
-                        //fullfill empty id
+
+                        // fullfill empty id
                         index++;
                         for (int i = index; i < banner.Count; i++)
                         {
@@ -450,50 +504,18 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        #region Excel
-        public void ExportToUIGFW(string uid, string fileName, GachaDataCollection gachaDataCollection)
-        {
-            lock (this.processing)
-            {
-                this.EnsureGachaItemId(uid, gachaDataCollection);
-
-                if (gachaDataCollection[uid] is GachaData gachaData)
-                {
-                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                    using (FileStream fs = File.Create(fileName))
-                    {
-                        using (ExcelPackage package = new(fs))
-                        {
-                            foreach (string pool in gachaData.Keys)
-                            {
-                                ExcelWorksheet sheet = package.Workbook.Worksheets.Add(ConfigType.Known[pool]);
-                                IEnumerable<GachaLogItem>? logs = gachaData[pool];
-                                //fix issue with compatibility
-                                logs = logs?.Reverse();
-                                this.InitializeGachaLogSheetHeader(sheet);
-                                this.FillSheetWithGachaData(sheet, logs);
-                                //freeze the title
-                                sheet.View.FreezePanes(2, 1);
-                            }
-
-                            this.AddInterchangeableSheet(package, gachaData);
-
-                            package.Workbook.Properties.Title = "祈愿记录";
-                            package.Workbook.Properties.Author = "Snap Genshin";
-                            package.Save();
-                        }
-                    }
-                }
-            }
-        }
         private void AddInterchangeableSheet(ExcelPackage package, GachaData data)
         {
-            ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add(metadataSheetName);
-            //header
+            ExcelWorksheet interchangeSheet = package.Workbook.Worksheets.Add(MetadataSheetName);
+
+            // header
             this.InitializeInterchangeSheetHeader(interchangeSheet);
-            IOrderedEnumerable<GachaLogItem> combinedLogs = data.SelectMany(x => x.Value ?? new()).OrderBy(x => x.Id);
+            IEnumerable<GachaLogItem> combinedLogs = data
+                .SelectMany(x => x.Value ?? new())
+                .OrderBy(x => x.Id);
             this.FillInterChangeSheet(interchangeSheet, combinedLogs);
         }
+
         private void InitializeInterchangeSheetHeader(ExcelWorksheet sheet)
         {
             sheet.Cells[1, 1].Value = "count";
@@ -508,9 +530,10 @@ namespace DGP.Genshin.Service.GachaStatistic
             sheet.Cells[1, 10].Value = "uid";
             sheet.Cells[1, 11].Value = "uigf_gacha_type";
         }
+
         private void InitializeGachaLogSheetHeader(ExcelWorksheet sheet)
         {
-            //header
+            // header
             sheet.Cells[1, 1].Value = "时间";
             sheet.Cells[1, 2].Value = "名称";
             sheet.Cells[1, 3].Value = "物品类型";
@@ -518,14 +541,9 @@ namespace DGP.Genshin.Service.GachaStatistic
             sheet.Cells[1, 5].Value = "祈愿类型";
         }
 
-        /// <summary>
-        /// 填充单个sheet
-        /// </summary>
-        /// <param name="sheet"></param>
-        /// <param name="logs">包含单个 概率共享卡池 的物品的列表</param>
         private void FillSheetWithGachaData(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)
         {
-            //content
+            // content
             int? count = logs?.Count();
             int j = 1;
             if (count > 0 && logs is not null)
@@ -545,18 +563,14 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                 }
             }
-            //自适应
+
+            // 自适应
             sheet.Cells[1, 1, j, 6].AutoFitColumns(0);
         }
 
-        /// <summary>
-        /// 填充单个sheet
-        /// </summary>
-        /// <param name="sheet"></param>
-        /// <param name="logs">包含单个 概率共享卡池 的物品的列表</param>
         private void FillInterChangeSheet(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)
         {
-            //content
+            // content
             int? count = logs?.Count();
             int j = 1;
             if (count > 0 && logs is not null)
@@ -582,10 +596,12 @@ namespace DGP.Genshin.Service.GachaStatistic
                     }
                 }
             }
-            //自适应
+
+            // 自适应
             sheet.Cells[1, 1, j, 11].AutoFitColumns(0);
         }
-        public System.Drawing.Color ToDrawingColor(int rank)
+
+        private System.Drawing.Color ToDrawingColor(int rank)
         {
             return rank switch
             {
@@ -597,8 +613,5 @@ namespace DGP.Genshin.Service.GachaStatistic
                 _ => throw Assumes.NotReachable(),
             };
         }
-        #endregion
-
-        #endregion
     }
 }

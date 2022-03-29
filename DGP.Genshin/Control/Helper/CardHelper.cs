@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Helper;
-using System.Windows;
+﻿using System.Windows;
 using WPFUI.Controls;
 
 namespace DGP.Genshin.Control.Helper
