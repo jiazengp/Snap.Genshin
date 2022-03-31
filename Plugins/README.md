@@ -7,3 +7,4 @@
 |-|
 |[DawnFz/SG.Plugin.Injury.Calculator](https://github.com/DawnFz/SG.Plugin.Injury.Calculator)|
 |[DawnFz/Genshin.Launcher.Plus.SE.Plugin](https://github.com/DawnFz/Genshin.Launcher.Plus.SE.Plugin)|
+|[ss22219/Snap.Genshin.MapTrack](https://github.com/ss22219/Snap.Genshin.MapTrack)|
