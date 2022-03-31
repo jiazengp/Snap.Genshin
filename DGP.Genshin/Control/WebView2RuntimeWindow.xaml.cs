@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace DGP.Genshin.Control
+﻿namespace DGP.Genshin.Control
 {
     /// <summary>
     /// WebView2运行时提示窗体
@@ -12,7 +10,7 @@ namespace DGP.Genshin.Control
         /// </summary>
         public WebView2RuntimeWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

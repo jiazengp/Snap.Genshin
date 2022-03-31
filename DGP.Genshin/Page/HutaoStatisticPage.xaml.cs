@@ -17,7 +17,7 @@ namespace DGP.Genshin.Page
         public HutaoStatisticPage(HutaoStatisticViewModel vm)
             : base(vm)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

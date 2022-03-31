@@ -30,7 +30,7 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public async Task InitializeAsync()
         {
-            this.messenger.RegisterAll(this);
+            messenger.RegisterAll(this);
             try
             {
                 await Task.Run(
@@ -39,22 +39,22 @@ namespace DGP.Genshin.Service
                         while (true)
                         {
                             double minutes = Setting2.ResinRefreshMinutes;
-                            await Task.Delay(TimeSpan.FromMinutes(minutes), this.cancellationTokenSource.Token);
+                            await Task.Delay(TimeSpan.FromMinutes(minutes), cancellationTokenSource.Token);
 
                             // await Task.Delay(10000, cancellationTokenSource.Token);
                             this.Log("Tick scheduled");
-                            this.messenger.Send(new TickScheduledMessage());
+                            messenger.Send(new TickScheduledMessage());
                             DateTime current = DateTime.UtcNow + TimeSpan.FromHours(8);
-                            if (current.Date > this.lastScheduledTime.Date)
+                            if (current.Date > lastScheduledTime.Date)
                             {
                                 this.Log("Date changed");
-                                this.messenger.Send(new DayChangedMessage());
+                                messenger.Send(new DayChangedMessage());
                             }
 
-                            this.lastScheduledTime = current;
+                            lastScheduledTime = current;
                         }
                     },
-                    this.cancellationTokenSource.Token);
+                    cancellationTokenSource.Token);
             }
             catch (TaskCanceledException)
             {
@@ -64,14 +64,14 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public void UnInitialize()
         {
-            this.cancellationTokenSource.Cancel();
-            this.messenger.UnregisterAll(this);
+            cancellationTokenSource.Cancel();
+            messenger.UnregisterAll(this);
         }
 
         /// <inheritdoc/>
         public void Receive(AppExitingMessage message)
         {
-            this.UnInitialize();
+            UnInitialize();
         }
     }
 }

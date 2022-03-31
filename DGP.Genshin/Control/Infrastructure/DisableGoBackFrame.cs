@@ -11,7 +11,7 @@
         public DisableGoBackFrame()
         {
             // remove all command bindings to prevent hotkey go back.
-            this.CommandBindings.Clear();
+            CommandBindings.Clear();
         }
     }
 }

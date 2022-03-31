@@ -2,7 +2,6 @@
 using Snap.Data.Primitive;
 using Snap.Win32;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Control.Cookie
@@ -19,7 +18,7 @@ namespace DGP.Genshin.Control.Cookie
         /// </summary>
         public CookieDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -28,8 +27,8 @@ namespace DGP.Genshin.Control.Cookie
         /// <returns>输入的结果</returns>
         public async Task<Result<bool, string>> GetInputCookieAsync()
         {
-            ContentDialogResult result = await this.ShowAsync();
-            string cookie = this.InputText.Text;
+            ContentDialogResult result = await ShowAsync();
+            string cookie = InputText.Text;
 
             return new(result != ContentDialogResult.Secondary, cookie);
         }
@@ -51,7 +50,7 @@ namespace DGP.Genshin.Control.Cookie
                     cookieWindow.ShowDialog();
                     if (cookieWindow.IsLoggedIn)
                     {
-                        this.InputText.Text = cookieWindow.Cookie;
+                        InputText.Text = cookieWindow.Cookie;
                     }
                 }
             }
@@ -59,12 +58,12 @@ namespace DGP.Genshin.Control.Cookie
 
         private void InputTextChanged(object sender, TextChangedEventArgs e)
         {
-            string text = this.InputText.Text;
+            string text = InputText.Text;
 
             bool inputEmpty = string.IsNullOrEmpty(text);
             bool inputHasAccountId = text.Contains("account_id");
 
-            (this.PrimaryButtonText, this.IsPrimaryButtonEnabled) = (inputEmpty, inputHasAccountId) switch
+            (PrimaryButtonText, IsPrimaryButtonEnabled) = (inputEmpty, inputHasAccountId) switch
             {
                 (true, _) => ("请输入Cookie", false),
                 (false, true) => ("确认", true),

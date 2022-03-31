@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DGP.Genshin.Message;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace DGP.Genshin.Control
@@ -19,8 +18,8 @@ namespace DGP.Genshin.Control
         /// </summary>
         public BlockingView()
         {
-            this.DataContext = this;
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
 
             App.Messenger.RegisterAll(this);
         }
@@ -38,9 +37,9 @@ namespace DGP.Genshin.Control
         /// </summary>
         public bool ShouldPresent
         {
-            get => (bool)this.GetValue(ShouldPresentProperty);
+            get => (bool)GetValue(ShouldPresentProperty);
 
-            set => this.SetValue(ShouldPresentProperty, value);
+            set => SetValue(ShouldPresentProperty, value);
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace DGP.Genshin.Control
         /// <param name="message">图像下载消息</param>
         void IRecipient<ImageHitBeginMessage>.Receive(ImageHitBeginMessage message)
         {
-            this.ShouldPresent = true;
+            ShouldPresent = true;
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace DGP.Genshin.Control
         /// <param name="message">图像下载消息</param>
         void IRecipient<ImageHitEndMessage>.Receive(ImageHitEndMessage message)
         {
-            this.ShouldPresent = false;
+            ShouldPresent = false;
         }
     }
 }

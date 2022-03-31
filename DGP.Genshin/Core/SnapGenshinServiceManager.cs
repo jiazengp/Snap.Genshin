@@ -34,7 +34,7 @@ namespace DGP.Genshin.Core
             base.OnProbingServices(services);
 
             // insert plugins services here
-            this.RegisterPluginsServices(services, App.Current.PluginService.Plugins);
+            RegisterPluginsServices(services, App.Current.PluginService.Plugins);
         }
 
         /// <inheritdoc/>
@@ -43,7 +43,7 @@ namespace DGP.Genshin.Core
             // filter out switchable implementation
             if (type.TryGetAttribute(out SwitchableImplementationAttribute? attr))
             {
-                this.RegisterSwitchableImplementation(type, attr);
+                RegisterSwitchableImplementation(type, attr);
             }
             else
             {
@@ -58,7 +58,7 @@ namespace DGP.Genshin.Core
         /// <param name="plugins">插件集合</param>
         private void RegisterPluginsServices(ServiceCollection services, IEnumerable<IPlugin> plugins)
         {
-            plugins.ForEach(plugin => this.RegisterServices(services, plugin.GetType()));
+            plugins.ForEach(plugin => RegisterServices(services, plugin.GetType()));
         }
 
         private void RegisterSwitchableImplementation(Type type, SwitchableImplementationAttribute attr)

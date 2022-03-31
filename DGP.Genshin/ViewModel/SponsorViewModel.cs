@@ -7,7 +7,6 @@ using Snap.Net.Afdian;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -28,7 +27,7 @@ namespace DGP.Genshin.ViewModel
         /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
         public SponsorViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         /// <inheritdoc/>
@@ -39,9 +38,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<Sponsor>? Sponsors
         {
-            get => this.sponsors;
+            get => sponsors;
 
-            set => this.SetProperty(ref this.sponsors, value);
+            set => SetProperty(ref sponsors, value);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace DGP.Genshin.ViewModel
                 Response<ListWrapper<Sponsor>>? response;
                 do
                 {
-                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(currentPage++, this.CancellationToken);
+                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(currentPage++, CancellationToken);
                     if (response?.Data?.List is List<Sponsor> part)
                     {
                         result.AddRange(part);
@@ -66,7 +65,7 @@ namespace DGP.Genshin.ViewModel
                 }
                 while (response?.Data?.TotalPage >= currentPage);
 
-                this.Sponsors = result;
+                Sponsors = result;
             }
             catch (TaskCanceledException)
             {

@@ -15,12 +15,12 @@ namespace DGP.Genshin.DataModel.Launching
         /// 记录性文本
         /// </summary>
         [JsonProperty("Name")]
-        public string? Name { get => this.name; set => this.SetProperty(ref this.name, value); }
+        public string? Name { get => name; set => SetProperty(ref name, value); }
 
         /// <summary>
         /// 包含了账户登录信息
         /// </summary>
         [JsonProperty("MIHOYOSDK_ADL_PROD_CN_h3123967166")]
-        public string? MihoyoSDK { get => this.mihoyoSDK; set => this.SetProperty(ref this.mihoyoSDK, value); }
+        public string? MihoyoSDK { get => mihoyoSDK; set => SetProperty(ref mihoyoSDK, value); }
     }
 }

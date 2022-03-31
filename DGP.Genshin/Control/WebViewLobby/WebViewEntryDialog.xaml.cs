@@ -4,7 +4,6 @@ using ModernWpf.Controls;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Control.WebViewLobby
 {
@@ -27,15 +26,15 @@ namespace DGP.Genshin.Control.WebViewLobby
         {
             if (entry is not null)
             {
-                this.NavigateUrl = entry.NavigateUrl;
-                this.EntryName = entry.Name;
-                this.IconUrl = entry.IconUrl;
-                this.JavaScript = entry.JavaScript;
-                this.ShowInNavView = entry.ShowInNavView;
+                NavigateUrl = entry.NavigateUrl;
+                EntryName = entry.Name;
+                IconUrl = entry.IconUrl;
+                JavaScript = entry.JavaScript;
+                ShowInNavView = entry.ShowInNavView;
             }
 
-            this.DataContext = this;
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
         }
 
         /// <summary>
@@ -43,9 +42,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         /// </summary>
         public string NavigateUrl
         {
-            get => (string)this.GetValue(NavigateUrlProperty);
+            get => (string)GetValue(NavigateUrlProperty);
 
-            set => this.SetValue(NavigateUrlProperty, value);
+            set => SetValue(NavigateUrlProperty, value);
         }
 
         /// <summary>
@@ -53,9 +52,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         /// </summary>
         public string EntryName
         {
-            get => (string)this.GetValue(EntryNameProperty);
+            get => (string)GetValue(EntryNameProperty);
 
-            set => this.SetValue(EntryNameProperty, value);
+            set => SetValue(EntryNameProperty, value);
         }
 
         /// <summary>
@@ -64,9 +63,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         [AllowNull]
         public string IconUrl
         {
-            get => (string)this.GetValue(IconUrlProperty);
+            get => (string)GetValue(IconUrlProperty);
 
-            set => this.SetValue(IconUrlProperty, value);
+            set => SetValue(IconUrlProperty, value);
         }
 
         /// <summary>
@@ -75,9 +74,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         [AllowNull]
         public string JavaScript
         {
-            get => (string)this.GetValue(JavaScriptProperty);
+            get => (string)GetValue(JavaScriptProperty);
 
-            set => this.SetValue(JavaScriptProperty, value);
+            set => SetValue(JavaScriptProperty, value);
         }
 
         /// <summary>
@@ -85,9 +84,9 @@ namespace DGP.Genshin.Control.WebViewLobby
         /// </summary>
         public bool ShowInNavView
         {
-            get => (bool)this.GetValue(ShowInNavViewProperty);
+            get => (bool)GetValue(ShowInNavViewProperty);
 
-            set => this.SetValue(ShowInNavViewProperty, value);
+            set => SetValue(ShowInNavViewProperty, value);
         }
 
         /// <summary>
@@ -96,14 +95,14 @@ namespace DGP.Genshin.Control.WebViewLobby
         /// <returns>编辑后的入口对象/returns>
         public async Task<WebViewEntry?> GetWebViewEntryAsync()
         {
-            if (await this.ShowAsync() != ContentDialogResult.Secondary)
+            if (await ShowAsync() != ContentDialogResult.Secondary)
             {
-                if (this.NavigateUrl is not null)
+                if (NavigateUrl is not null)
                 {
-                    if (this.JavaScript is not null)
+                    if (JavaScript is not null)
                     {
-                        this.JavaScript = new Regex("(\r\n|\r|\n)").Replace(this.JavaScript, " ");
-                        this.JavaScript = new Regex(@"\s+").Replace(this.JavaScript, " ");
+                        JavaScript = new Regex("(\r\n|\r|\n)").Replace(JavaScript, " ");
+                        JavaScript = new Regex(@"\s+").Replace(JavaScript, " ");
                     }
 
                     return new WebViewEntry(this);
@@ -115,16 +114,16 @@ namespace DGP.Genshin.Control.WebViewLobby
 
         private void AutoTitleIconButtonClick(object sender, RoutedEventArgs e)
         {
-            this.FindTitleIconAsync().Forget();
+            FindTitleIconAsync().Forget();
         }
 
         private async Task FindTitleIconAsync()
         {
-            if (this.NavigateUrl is not null)
+            if (NavigateUrl is not null)
             {
                 using (HttpClient client = new())
                 {
-                    if (Uri.TryCreate(this.NavigateUrl, UriKind.Absolute, out Uri? navigateUri))
+                    if (Uri.TryCreate(NavigateUrl, UriKind.Absolute, out Uri? navigateUri))
                     {
                         string response;
                         try
@@ -140,7 +139,7 @@ namespace DGP.Genshin.Control.WebViewLobby
 
                         // 匹配标题
                         m = new Regex("(?<=<title>)(.*)(?=</title>)").Match(response);
-                        this.EntryName = m.Success ? m.Value : "自动获取失败";
+                        EntryName = m.Success ? m.Value : "自动获取失败";
 
                         // 匹配图标
                         m = new Regex("(?<=rel[ =]+\"[shortcut icon]+\" href=\")(.*?)(?=\")").Match(response);
@@ -152,14 +151,14 @@ namespace DGP.Genshin.Control.WebViewLobby
                             {
                                 Uri iconUri = pathUri.IsAbsoluteUri
                                     ? pathUri
-                                    : new Uri(new Uri(this.NavigateUrl), pathUri);
-                                this.IconUrl = iconUri.ToString();
+                                    : new Uri(new Uri(NavigateUrl), pathUri);
+                                IconUrl = iconUri.ToString();
                             }
                         }
                     }
                     else
                     {
-                        this.NavigateUrl = "该Url无效";
+                        NavigateUrl = "该Url无效";
                     }
                 }
             }

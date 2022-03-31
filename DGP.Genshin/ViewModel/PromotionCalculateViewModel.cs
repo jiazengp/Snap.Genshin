@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -68,23 +67,23 @@ namespace DGP.Genshin.ViewModel
         {
             this.materialListService = materialListService;
 
-            this.calculator = new(cookieService.CurrentCookie);
-            this.userGameRoleProvider = new(cookieService.CurrentCookie);
+            calculator = new(cookieService.CurrentCookie);
+            userGameRoleProvider = new(cookieService.CurrentCookie);
 
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
-            this.CloseUICommand = new RelayCommand(this.CloseUI);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            CloseUICommand = new RelayCommand(CloseUI);
 
-            this.ComputeCommand = asyncRelayCommandFactory.Create(this.ComputeAsync);
-            this.FullAvatarComputeCommand = asyncRelayCommandFactory.Create(this.ComputerFullAvatarAsync);
-            this.FullWeaponComputeCommand = asyncRelayCommandFactory.Create(this.ComputerFullWeaponAsync);
+            ComputeCommand = asyncRelayCommandFactory.Create(ComputeAsync);
+            FullAvatarComputeCommand = asyncRelayCommandFactory.Create(ComputerFullAvatarAsync);
+            FullWeaponComputeCommand = asyncRelayCommandFactory.Create(ComputerFullWeaponAsync);
 
-            this.AddCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(this.AddCharacterMaterialToListAsync);
-            this.AddWeaponMaterialCommand = asyncRelayCommandFactory.Create(this.AddWeaponMaterialToListAsync);
+            AddCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(AddCharacterMaterialToListAsync);
+            AddWeaponMaterialCommand = asyncRelayCommandFactory.Create(AddWeaponMaterialToListAsync);
 
-            this.AddFullCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(this.AddFullCharacterMaterialToListAsync);
-            this.AddFullWeaponMaterialCommand = asyncRelayCommandFactory.Create(this.AddFullWeaponMaterialToListAsync);
+            AddFullCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(AddFullCharacterMaterialToListAsync);
+            AddFullWeaponMaterialCommand = asyncRelayCommandFactory.Create(AddFullWeaponMaterialToListAsync);
 
-            this.RemoveMaterialCommand = asyncRelayCommandFactory.Create<CalculableConsume>(this.RemoveMaterialFromListAsync);
+            RemoveMaterialCommand = asyncRelayCommandFactory.Create<CalculableConsume>(RemoveMaterialFromListAsync);
         }
 
         /// <inheritdoc/>
@@ -95,9 +94,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public IEnumerable<UserGameRole>? UserGameRoles
         {
-            get => this.userGameRoles;
+            get => userGameRoles;
 
-            set => this.SetProperty(ref this.userGameRoles, value);
+            set => SetProperty(ref userGameRoles, value);
         }
 
         /// <summary>
@@ -105,9 +104,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public UserGameRole? SelectedUserGameRole
         {
-            get => this.selectedUserGameRole;
+            get => selectedUserGameRole;
 
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedUserGameRole, value, this.UpdateAvatarListAsync);
+            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarListAsync);
         }
 
         /// <summary>
@@ -115,9 +114,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public IEnumerable<Avatar>? Avatars
         {
-            get => this.avatars;
+            get => avatars;
 
-            set => this.SetProperty(ref this.avatars, value);
+            set => SetProperty(ref avatars, value);
         }
 
         /// <summary>
@@ -125,9 +124,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Avatar? SelectedAvatar
         {
-            get => this.selectedAvatar;
+            get => selectedAvatar;
 
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedAvatar, value, this.UpdateAvatarDetailDataAsync);
+            set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailDataAsync);
         }
 
         /// <summary>
@@ -135,9 +134,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public AvatarDetailData? AvatarDetailData
         {
-            get => this.avatarDetailData;
+            get => avatarDetailData;
 
-            set => this.SetProperty(ref this.avatarDetailData, value);
+            set => SetProperty(ref avatarDetailData, value);
         }
 
         /// <summary>
@@ -145,9 +144,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Consumption? Consumption
         {
-            get => this.consumption;
+            get => consumption;
 
-            set => this.SetProperty(ref this.consumption, value);
+            set => SetProperty(ref consumption, value);
         }
 
         /// <summary>
@@ -165,8 +164,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<Avatar>? FullAvatars
         {
-            get => this.fullAvatars;
-            set => this.SetProperty(ref this.fullAvatars, value);
+            get => fullAvatars;
+            set => SetProperty(ref fullAvatars, value);
         }
 
         /// <summary>
@@ -174,8 +173,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Avatar? SelectedFullAvatar
         {
-            get => this.selectedFullAvatar;
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedFullAvatar, value, this.UpdateFullAvatarDetailData);
+            get => selectedFullAvatar;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedFullAvatar, value, UpdateFullAvatarDetailData);
         }
 
         /// <summary>
@@ -183,8 +182,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public AvatarDetailData? FullAvatarDetailData
         {
-            get => this.fullAvatarDetailData;
-            set => this.SetProperty(ref this.fullAvatarDetailData, value);
+            get => fullAvatarDetailData;
+            set => SetProperty(ref fullAvatarDetailData, value);
         }
 
         /// <summary>
@@ -192,8 +191,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Consumption? FullAvatarConsumption
         {
-            get => this.fullAvatarConsumption;
-            set => this.SetProperty(ref this.fullAvatarConsumption, value);
+            get => fullAvatarConsumption;
+            set => SetProperty(ref fullAvatarConsumption, value);
         }
 
         /// <summary>
@@ -211,8 +210,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<Weapon>? FullWeapons
         {
-            get => this.fullWeapons;
-            set => this.SetProperty(ref this.fullWeapons, value);
+            get => fullWeapons;
+            set => SetProperty(ref fullWeapons, value);
         }
 
         /// <summary>
@@ -220,8 +219,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Weapon? SelectedFullWeapon
         {
-            get => this.selectedFullWeapon;
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedFullWeapon, value, this.UpdateFullWeaponAvatarDetailData);
+            get => selectedFullWeapon;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedFullWeapon, value, UpdateFullWeaponAvatarDetailData);
         }
 
         /// <summary>
@@ -229,8 +228,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public AvatarDetailData? FullWeaponAvatarDetailData
         {
-            get => this.fullWeaponAvatarDetailData;
-            set => this.SetProperty(ref this.fullWeaponAvatarDetailData, value);
+            get => fullWeaponAvatarDetailData;
+            set => SetProperty(ref fullWeaponAvatarDetailData, value);
         }
 
         /// <summary>
@@ -238,8 +237,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Consumption? FullWeaponConsumption
         {
-            get => this.fullWeaponConsumption;
-            set => this.SetProperty(ref this.fullWeaponConsumption, value);
+            get => fullWeaponConsumption;
+            set => SetProperty(ref fullWeaponConsumption, value);
         }
 
         /// <summary>
@@ -255,16 +254,16 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 材料清单是否为空
         /// </summary>
-        public bool IsListEmpty { get => this.isListEmpty; set => this.SetProperty(ref this.isListEmpty, value); }
+        public bool IsListEmpty { get => isListEmpty; set => SetProperty(ref isListEmpty, value); }
 
         /// <summary>
         /// 材料清单
         /// </summary>
         public MaterialList? MaterialList
         {
-            get => this.materialList;
+            get => materialList;
 
-            set => this.SetProperty(ref this.materialList, value);
+            set => SetProperty(ref materialList, value);
         }
 
         /// <summary>
@@ -291,20 +290,20 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                this.MaterialList = this.materialListService.Load();
-                this.MaterialList.ForEach(item => item.RemoveCommand = this.RemoveMaterialCommand);
+                MaterialList = materialListService.Load();
+                MaterialList.ForEach(item => item.RemoveCommand = RemoveMaterialCommand);
 
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                IsListEmpty = MaterialList.IsNullOrEmpty();
 
-                this.UserGameRoles = await this.userGameRoleProvider.GetUserGameRolesAsync(this.CancellationToken);
-                this.SelectedUserGameRole = this.UserGameRoles.FirstOrDefault();
+                UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync(CancellationToken);
+                SelectedUserGameRole = UserGameRoles.FirstOrDefault();
 
-                List<Avatar> avatars = await this.calculator.GetAvatarListAsync(new(), cancellationToken: this.CancellationToken);
-                this.FullAvatars = avatars.Where(x => x.Name != "旅行者").ToList();
-                this.SelectedFullAvatar = this.FullAvatars.FirstOrDefault();
+                List<Avatar> avatars = await calculator.GetAvatarListAsync(new(), cancellationToken: CancellationToken);
+                FullAvatars = avatars.Where(x => x.Name != "旅行者").ToList();
+                SelectedFullAvatar = FullAvatars.FirstOrDefault();
 
-                this.FullWeapons = await this.calculator.GetWeaponListAsync(new(), cancellationToken: this.CancellationToken);
-                this.SelectedFullWeapon = this.FullWeapons.FirstOrDefault();
+                FullWeapons = await calculator.GetWeaponListAsync(new(), cancellationToken: CancellationToken);
+                SelectedFullWeapon = FullWeapons.FirstOrDefault();
             }
             catch (TaskCanceledException)
             {
@@ -314,25 +313,25 @@ namespace DGP.Genshin.ViewModel
 
         private void CloseUI()
         {
-            this.materialListService.Save(this.MaterialList);
+            materialListService.Save(MaterialList);
         }
 
         private async Task ComputeAsync()
         {
             try
             {
-                if (this.SelectedAvatar is not null && this.AvatarDetailData is not null)
+                if (SelectedAvatar is not null && AvatarDetailData is not null)
                 {
                     AvatarPromotionDelta delta = new()
                     {
-                        AvatarId = this.SelectedAvatar.Id,
-                        AvatarLevelCurrent = this.SelectedAvatar.LevelCurrent,
-                        AvatarLevelTarget = this.SelectedAvatar.LevelTarget,
-                        SkillList = this.AvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()),
-                        Weapon = this.AvatarDetailData.Weapon?.ToPromotionDelta(),
-                        ReliquaryList = this.AvatarDetailData.ReliquaryList?.Select(r => r.ToPromotionDelta()),
+                        AvatarId = SelectedAvatar.Id,
+                        AvatarLevelCurrent = SelectedAvatar.LevelCurrent,
+                        AvatarLevelTarget = SelectedAvatar.LevelTarget,
+                        SkillList = AvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()),
+                        Weapon = AvatarDetailData.Weapon?.ToPromotionDelta(),
+                        ReliquaryList = AvatarDetailData.ReliquaryList?.Select(r => r.ToPromotionDelta()),
                     };
-                    this.Consumption = await this.calculator.ComputeAsync(delta, this.CancellationToken);
+                    Consumption = await calculator.ComputeAsync(delta, CancellationToken);
                 }
             }
             catch (TaskCanceledException)
@@ -345,16 +344,16 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                if (this.SelectedFullAvatar is not null && this.FullAvatarDetailData is not null)
+                if (SelectedFullAvatar is not null && FullAvatarDetailData is not null)
                 {
                     AvatarPromotionDelta delta = new()
                     {
-                        AvatarId = this.SelectedFullAvatar.Id,
-                        AvatarLevelCurrent = this.SelectedFullAvatar.LevelCurrent,
-                        AvatarLevelTarget = this.SelectedFullAvatar.LevelTarget,
-                        SkillList = this.FullAvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()),
+                        AvatarId = SelectedFullAvatar.Id,
+                        AvatarLevelCurrent = SelectedFullAvatar.LevelCurrent,
+                        AvatarLevelTarget = SelectedFullAvatar.LevelTarget,
+                        SkillList = FullAvatarDetailData.SkillList?.Select(s => s.ToPromotionDelta()),
                     };
-                    this.FullAvatarConsumption = await this.calculator.ComputeAsync(delta, this.CancellationToken);
+                    FullAvatarConsumption = await calculator.ComputeAsync(delta, CancellationToken);
                 }
             }
             catch (TaskCanceledException)
@@ -367,13 +366,13 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                if (this.FullWeaponAvatarDetailData is not null)
+                if (FullWeaponAvatarDetailData is not null)
                 {
                     AvatarPromotionDelta delta = new()
                     {
-                        Weapon = this.FullWeaponAvatarDetailData.Weapon?.ToPromotionDelta(),
+                        Weapon = FullWeaponAvatarDetailData.Weapon?.ToPromotionDelta(),
                     };
-                    this.FullWeaponConsumption = await this.calculator.ComputeAsync(delta, this.CancellationToken);
+                    FullWeaponConsumption = await calculator.ComputeAsync(delta, CancellationToken);
                 }
             }
             catch (TaskCanceledException)
@@ -384,12 +383,12 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddCharacterMaterialToListAsync(string? option)
         {
-            Requires.NotNull(this.SelectedAvatar!, nameof(this.SelectedAvatar));
-            Calculable calculable = this.SelectedAvatar;
+            Requires.NotNull(SelectedAvatar!, nameof(SelectedAvatar));
+            Calculable calculable = SelectedAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => Requires.NotNull(this.Consumption?.AvatarConsume!, nameof(this.Consumption.AvatarConsume)),
-                SkillTag => Requires.NotNull(this.Consumption?.AvatarSkillConsume!, nameof(this.Consumption.AvatarSkillConsume)),
+                AvatarTag => Requires.NotNull(Consumption?.AvatarConsume!, nameof(Consumption.AvatarConsume)),
+                SkillTag => Requires.NotNull(Consumption?.AvatarSkillConsume!, nameof(Consumption.AvatarSkillConsume)),
                 _ => throw Assumes.NotReachable(),
             };
 
@@ -400,21 +399,21 @@ namespace DGP.Genshin.ViewModel
                 _ => throw Assumes.NotReachable(),
             };
 
-            if (await this.ConfirmAddAsync(calculable.Name!, category))
+            if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                this.MaterialList?.Add(new(calculable, items) { RemoveCommand = this.RemoveMaterialCommand });
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
         private async Task AddFullCharacterMaterialToListAsync(string? option)
         {
-            Requires.NotNull(this.SelectedFullAvatar!, nameof(this.SelectedFullAvatar));
-            Calculable calculable = this.SelectedFullAvatar;
+            Requires.NotNull(SelectedFullAvatar!, nameof(SelectedFullAvatar));
+            Calculable calculable = SelectedFullAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => Requires.NotNull(this.FullAvatarConsumption?.AvatarConsume!, nameof(this.FullAvatarConsumption.AvatarConsume)),
-                SkillTag => Requires.NotNull(this.FullAvatarConsumption?.AvatarSkillConsume!, nameof(this.FullAvatarConsumption.AvatarSkillConsume)),
+                AvatarTag => Requires.NotNull(FullAvatarConsumption?.AvatarConsume!, nameof(FullAvatarConsumption.AvatarConsume)),
+                SkillTag => Requires.NotNull(FullAvatarConsumption?.AvatarSkillConsume!, nameof(FullAvatarConsumption.AvatarSkillConsume)),
                 _ => throw Assumes.NotReachable(),
             };
 
@@ -425,34 +424,34 @@ namespace DGP.Genshin.ViewModel
                 _ => throw Assumes.NotReachable(),
             };
 
-            if (await this.ConfirmAddAsync(calculable.Name!, category))
+            if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                this.MaterialList?.Add(new(calculable, items) { RemoveCommand = this.RemoveMaterialCommand });
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
         private async Task AddWeaponMaterialToListAsync()
         {
-            Calculable calculable = Requires.NotNull(this.AvatarDetailData?.Weapon!, nameof(this.AvatarDetailData.Weapon));
-            List<ConsumeItem> items = Requires.NotNull(this.Consumption?.WeaponConsume!, nameof(this.Consumption.WeaponConsume));
+            Calculable calculable = Requires.NotNull(AvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
+            List<ConsumeItem> items = Requires.NotNull(Consumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
 
-            if (await this.ConfirmAddAsync(calculable.Name!, "武器消耗"))
+            if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                this.MaterialList?.Add(new(calculable, items) { RemoveCommand = this.RemoveMaterialCommand });
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
         private async Task AddFullWeaponMaterialToListAsync()
         {
-            Calculable calculable = Requires.NotNull(this.FullWeaponAvatarDetailData?.Weapon!, nameof(this.AvatarDetailData.Weapon));
-            List<ConsumeItem> items = Requires.NotNull(this.FullWeaponConsumption?.WeaponConsume!, nameof(this.Consumption.WeaponConsume));
+            Calculable calculable = Requires.NotNull(FullWeaponAvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
+            List<ConsumeItem> items = Requires.NotNull(FullWeaponConsumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
 
-            if (await this.ConfirmAddAsync(calculable.Name!, "武器消耗"))
+            if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                this.MaterialList?.Add(new(calculable, items) { RemoveCommand = this.RemoveMaterialCommand });
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
@@ -469,8 +468,8 @@ namespace DGP.Genshin.ViewModel
 
             if (result == ContentDialogResult.Primary && item is not null)
             {
-                this.MaterialList?.Remove(item);
-                this.IsListEmpty = this.MaterialList.IsEmpty();
+                MaterialList?.Remove(item);
+                IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
@@ -496,18 +495,18 @@ namespace DGP.Genshin.ViewModel
                 {
                     Requires.NotNull(selected.GameUid!, nameof(selected.GameUid));
                     Requires.NotNull(selected.Region!, nameof(selected.Region));
-                    List<Avatar> avatars = await this.calculator.GetSyncedAvatarListAsync(
+                    List<Avatar> avatars = await calculator.GetSyncedAvatarListAsync(
                         new(selected.GameUid, selected.Region),
                         true,
-                        this.CancellationToken);
+                        CancellationToken);
                     int index = avatars.FindIndex(x => x.Name == "旅行者");
                     if (avatars.ExistsIndex(index))
                     {
                         avatars.RemoveAt(index);
                     }
 
-                    this.Avatars = avatars;
-                    this.SelectedAvatar = this.Avatars?.FirstOrDefault();
+                    Avatars = avatars;
+                    SelectedAvatar = Avatars?.FirstOrDefault();
                 }
             }
             catch (TaskCanceledException)
@@ -521,29 +520,29 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                this.Consumption = null;
-                Requires.NotNull(this.SelectedUserGameRole!, nameof(this.SelectedUserGameRole));
+                Consumption = null;
+                Requires.NotNull(SelectedUserGameRole!, nameof(SelectedUserGameRole));
 
                 if (avatar is not null)
                 {
-                    string? uid = this.SelectedUserGameRole.GameUid;
-                    string? region = this.SelectedUserGameRole.Region;
+                    string? uid = SelectedUserGameRole.GameUid;
+                    string? region = SelectedUserGameRole.Region;
 
                     Requires.NotNull(uid!, nameof(uid));
                     Requires.NotNull(region!, nameof(region));
 
                     int avatarId = avatar.Id;
 
-                    this.AvatarDetailData = await this.calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region, this.CancellationToken);
+                    AvatarDetailData = await calculator.GetSyncedAvatarDetailDataAsync(avatarId, uid, region, CancellationToken);
 
                     avatar.LevelTarget = avatar.LevelCurrent;
-                    this.AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
-                    if (this.AvatarDetailData?.Weapon is not null)
+                    AvatarDetailData?.SkillList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
+                    if (AvatarDetailData?.Weapon is not null)
                     {
-                        this.AvatarDetailData.Weapon.LevelTarget = this.AvatarDetailData.Weapon.LevelCurrent;
+                        AvatarDetailData.Weapon.LevelTarget = AvatarDetailData.Weapon.LevelCurrent;
                     }
 
-                    this.AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
+                    AvatarDetailData?.ReliquaryList?.ForEach(x => x.LevelTarget = x.LevelCurrent);
                 }
             }
             catch (TaskCanceledException)
@@ -558,16 +557,16 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                this.FullAvatarConsumption = null;
+                FullAvatarConsumption = null;
                 if (avatar is not null)
                 {
-                    this.FullAvatarDetailData = new()
+                    FullAvatarDetailData = new()
                     {
-                        SkillList = await this.calculator.GetAvatarSkillListAsync(avatar, this.CancellationToken),
+                        SkillList = await calculator.GetAvatarSkillListAsync(avatar, CancellationToken),
                     };
                     avatar.LevelTarget = 90;
-                    this.FullAvatarDetailData.SkillList.ForEach(x => x.LevelCurrent = 1);
-                    this.FullAvatarDetailData.SkillList.ForEach(x => x.LevelTarget = 10);
+                    FullAvatarDetailData.SkillList.ForEach(x => x.LevelCurrent = 1);
+                    FullAvatarDetailData.SkillList.ForEach(x => x.LevelTarget = 10);
                 }
             }
             catch (TaskCanceledException)
@@ -579,13 +578,13 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private void UpdateFullWeaponAvatarDetailData()
         {
-            this.FullWeaponConsumption = null;
-            this.FullWeaponAvatarDetailData = new() { Weapon = this.SelectedFullWeapon };
+            FullWeaponConsumption = null;
+            FullWeaponAvatarDetailData = new() { Weapon = SelectedFullWeapon };
 
-            if (this.SelectedFullWeapon is not null && this.FullWeaponAvatarDetailData?.Weapon is not null)
+            if (SelectedFullWeapon is not null && FullWeaponAvatarDetailData?.Weapon is not null)
             {
-                this.FullWeaponAvatarDetailData.Weapon.LevelCurrent = 1;
-                this.FullWeaponAvatarDetailData.Weapon.LevelTarget = this.SelectedFullWeapon.MaxLevel;
+                FullWeaponAvatarDetailData.Weapon.LevelCurrent = 1;
+                FullWeaponAvatarDetailData.Weapon.LevelTarget = SelectedFullWeapon.MaxLevel;
             }
         }
     }

@@ -21,9 +21,9 @@
         /// <param name="converter">转换器</param>
         public SettingDefinition(string name, T defaultValue, Func<object, T>? converter = null)
         {
-            this.Name = name;
-            this.DefaultValue = defaultValue;
-            this.Converter = converter;
+            Name = name;
+            DefaultValue = defaultValue;
+            Converter = converter;
         }
 
         /// <summary>
@@ -67,11 +67,11 @@
         [return: NotNull]
         public T GetNonValueType(Func<T> defaultValueFactory)
         {
-            T obj = this.Get();
+            T obj = Get();
             if (obj is null)
             {
                 obj = defaultValueFactory.Invoke()!;
-                this.Set(obj);
+                Set(obj);
             }
 
             return obj;
@@ -93,7 +93,7 @@
         /// <param name="value">值</param>
         public void Set(T value)
         {
-            this.Set(value, false);
+            Set(value, false);
         }
     }
 }

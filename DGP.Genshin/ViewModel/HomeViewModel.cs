@@ -11,7 +11,6 @@ using Snap.Core.Logging;
 using Snap.Data.Primitive;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -35,8 +34,8 @@ namespace DGP.Genshin.ViewModel
         {
             this.homeService = homeService;
 
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
-            this.OpenAnnouncementUICommand = new RelayCommand<string>(this.OpenAnnouncementUI);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
         }
 
         /// <inheritdoc/>
@@ -47,9 +46,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public AnnouncementWrapper? Announcement
         {
-            get => this.announcement;
+            get => announcement;
 
-            set => this.SetProperty(ref this.announcement, value);
+            set => SetProperty(ref announcement, value);
         }
 
         /// <summary>
@@ -57,8 +56,8 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public string? Manifesto
         {
-            get => this.manifesto;
-            set => this.SetProperty(ref this.manifesto, value);
+            get => manifesto;
+            set => SetProperty(ref manifesto, value);
         }
 
         /// <summary>
@@ -78,12 +77,12 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            using (this.OpeningUI.Watch())
+            using (OpeningUI.Watch())
             {
                 try
                 {
-                    this.Manifesto = await this.homeService.GetManifestoAsync(this.CancellationToken);
-                    this.Announcement = await this.homeService.GetAnnouncementsAsync(this.OpenAnnouncementUICommand, this.CancellationToken);
+                    Manifesto = await homeService.GetManifestoAsync(CancellationToken);
+                    Announcement = await homeService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
                 }
                 catch (TaskCanceledException)
                 {

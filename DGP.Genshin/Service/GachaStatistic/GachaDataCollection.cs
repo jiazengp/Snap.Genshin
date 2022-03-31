@@ -33,7 +33,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         /// <param name="data">祈愿记录</param>
         public void Add(string uid, GachaData data)
         {
-            this.Add(new(uid, data));
+            Add(new(uid, data));
         }
 
         /// <summary>

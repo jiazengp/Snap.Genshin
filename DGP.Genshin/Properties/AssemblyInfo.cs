@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Windows;
 using System.Windows.Media;
 
 // 禁用系统DPI感知

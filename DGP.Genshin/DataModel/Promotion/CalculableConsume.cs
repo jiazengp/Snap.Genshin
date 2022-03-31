@@ -1,7 +1,6 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Calculation;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace DGP.Genshin.DataModel.Promotion
 {
@@ -17,8 +16,8 @@ namespace DGP.Genshin.DataModel.Promotion
         /// <param name="consumption">消耗</param>
         public CalculableConsume(Calculable calculable, List<ConsumeItem> consumption)
         {
-            this.Calculable = calculable;
-            this.ConsumeItems = consumption;
+            Calculable = calculable;
+            ConsumeItems = consumption;
         }
 
         /// <summary>

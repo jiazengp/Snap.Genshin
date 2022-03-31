@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -49,8 +48,8 @@ namespace DGP.Genshin.ViewModel
             this.recordService = recordService;
             this.cookieService = cookieService;
 
-            this.QueryCommand = asyncRelayCommandFactory.Create<string>(this.UpdateRecordAsync);
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            QueryCommand = asyncRelayCommandFactory.Create<string>(UpdateRecordAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         /// <inheritdoc/>
@@ -61,9 +60,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Record? CurrentRecord
         {
-            get => this.currentRecord;
+            get => currentRecord;
 
-            set => this.SetProperty(ref this.currentRecord, value);
+            set => SetProperty(ref currentRecord, value);
         }
 
         /// <summary>
@@ -71,9 +70,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public string? StateDescription
         {
-            get => this.stateDescription;
+            get => stateDescription;
 
-            set => this.SetProperty(ref this.stateDescription, value);
+            set => SetProperty(ref stateDescription, value);
         }
 
         /// <summary>
@@ -81,9 +80,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<UserGameRole> UserGameRoles
         {
-            get => this.userGameRoles;
+            get => userGameRoles;
 
-            set => this.SetProperty(ref this.userGameRoles, value);
+            set => SetProperty(ref userGameRoles, value);
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                this.UserGameRoles = await new UserGameRoleProvider(this.cookieService.CurrentCookie).GetUserGameRolesAsync(this.CancellationToken);
+                UserGameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie).GetUserGameRolesAsync(CancellationToken);
             }
             catch (TaskCanceledException)
             {
@@ -110,17 +109,17 @@ namespace DGP.Genshin.ViewModel
 
         private async Task UpdateRecordAsync(string? uid)
         {
-            if (this.updateRecordTaskPreventer.ShouldExecute)
+            if (updateRecordTaskPreventer.ShouldExecute)
             {
-                IProgress<string?> progress = new Progress<string?>(this.OnProgressChanged);
+                IProgress<string?> progress = new Progress<string?>(OnProgressChanged);
 
                 try
                 {
-                    Record record = await this.recordService.GetRecordAsync(uid, progress);
+                    Record record = await recordService.GetRecordAsync(uid, progress);
 
                     if (record.Success)
                     {
-                        this.CurrentRecord = record;
+                        CurrentRecord = record;
                     }
                     else
                     {
@@ -157,14 +156,14 @@ namespace DGP.Genshin.ViewModel
                 }
                 finally
                 {
-                    this.updateRecordTaskPreventer.Release();
+                    updateRecordTaskPreventer.Release();
                 }
             }
         }
 
         private void OnProgressChanged(string? message)
         {
-            this.StateDescription = message;
+            StateDescription = message;
         }
     }
 }

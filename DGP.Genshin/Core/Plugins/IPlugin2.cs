@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace DGP.Genshin.Core.Plugins
+﻿namespace DGP.Genshin.Core.Plugins
 {
     /// <summary>
     /// 插件功能拓展接口

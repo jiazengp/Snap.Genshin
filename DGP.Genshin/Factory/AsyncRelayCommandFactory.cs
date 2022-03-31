@@ -15,60 +15,60 @@ namespace DGP.Genshin.Factory
         /// <inheritdoc/>
         public AsyncRelayCommand<T> Create<T>(Func<T?, Task> execute)
         {
-            return this.Register(new AsyncRelayCommand<T>(execute));
+            return Register(new AsyncRelayCommand<T>(execute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute)
         {
-            return this.Register(new AsyncRelayCommand<T>(cancelableExecute));
+            return Register(new AsyncRelayCommand<T>(cancelableExecute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand<T> Create<T>(Func<T?, Task> execute, Predicate<T?> canExecute)
         {
-            return this.Register(new AsyncRelayCommand<T>(execute, canExecute));
+            return Register(new AsyncRelayCommand<T>(execute, canExecute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand<T> Create<T>(Func<T?, CancellationToken, Task> cancelableExecute, Predicate<T?> canExecute)
         {
-            return this.Register(new AsyncRelayCommand<T>(cancelableExecute, canExecute));
+            return Register(new AsyncRelayCommand<T>(cancelableExecute, canExecute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand Create(Func<Task> execute)
         {
-            return this.Register(new AsyncRelayCommand(execute));
+            return Register(new AsyncRelayCommand(execute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute)
         {
-            return this.Register(new AsyncRelayCommand(cancelableExecute));
+            return Register(new AsyncRelayCommand(cancelableExecute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand Create(Func<Task> execute, Func<bool> canExecute)
         {
-            return this.Register(new AsyncRelayCommand(execute, canExecute));
+            return Register(new AsyncRelayCommand(execute, canExecute));
         }
 
         /// <inheritdoc/>
         public AsyncRelayCommand Create(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute)
         {
-            return this.Register(new AsyncRelayCommand(cancelableExecute, canExecute));
+            return Register(new AsyncRelayCommand(cancelableExecute, canExecute));
         }
 
         private AsyncRelayCommand Register(AsyncRelayCommand command)
         {
-            this.ReportException(command);
+            ReportException(command);
             return command;
         }
 
         private AsyncRelayCommand<T> Register<T>(AsyncRelayCommand<T> command)
         {
-            this.ReportException(command);
+            ReportException(command);
             return command;
         }
 

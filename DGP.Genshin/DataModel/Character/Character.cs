@@ -116,7 +116,7 @@ namespace DGP.Genshin.DataModel.Character
         /// <inheritdoc/>
         public override string? GetBadge()
         {
-            return this.Element;
+            return Element;
         }
     }
 }

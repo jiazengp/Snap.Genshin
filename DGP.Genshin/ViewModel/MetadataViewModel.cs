@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
 using DataModelWeapon = DGP.Genshin.DataModel.Weapon;
 using WeaponMaterial = DGP.Genshin.DataModel.Material.Weapon;
 
@@ -53,13 +52,13 @@ namespace DGP.Genshin.ViewModel
                 Verify.FailOperation("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
             }
 
-            this.CharacterInitializeCommand = new RelayCommand(() => { this.SelectedCharacter ??= this.Characters?.First(); });
-            this.WeaponInitializeCommand = new RelayCommand(() => { this.SelectedWeapon ??= this.Weapons?.First(); });
-            this.GachaSplashCommand = new RelayCommand(() =>
+            CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
+            WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
+            GachaSplashCommand = new RelayCommand(() =>
             {
                 new CharacterGachaSplashWindow()
                 {
-                    Source = this.SelectedCharacter?.GachaSplash,
+                    Source = SelectedCharacter?.GachaSplash,
                     Owner = App.Current.MainWindow,
                 }.ShowDialog();
             });
@@ -71,7 +70,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<Character> Characters
         {
-            get => this.ProxyCollcetion(ref this.characters, CharactersJson);
+            get => ProxyCollcetion(ref characters, CharactersJson);
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<DataModelWeapon> Weapons
         {
-            get => this.ProxyCollcetion(ref this.weapons, WeaponsJson);
+            get => ProxyCollcetion(ref weapons, WeaponsJson);
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public List<Talent> DailyTalents
         {
-            get => this.ProxyCollcetion(ref this.dailyTalents, DailyTalentsJson);
+            get => ProxyCollcetion(ref dailyTalents, DailyTalentsJson);
         }
 
         /// <summary>
@@ -98,7 +97,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public List<WeaponMaterial> DailyWeapons
         {
-            get => this.ProxyCollcetion(ref this.dailyWeapons, DailyWeaponsJson);
+            get => ProxyCollcetion(ref dailyWeapons, DailyWeaponsJson);
         }
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<SpecificBanner> SpecificBanners
         {
-            get => this.ProxyCollcetion(ref this.specificBanners, GachaEventJson);
+            get => ProxyCollcetion(ref specificBanners, GachaEventJson);
         }
 
         /// <summary>
@@ -114,9 +113,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Character? SelectedCharacter
         {
-            get => this.selectedCharacter;
+            get => selectedCharacter;
 
-            set => this.SetProperty(ref this.selectedCharacter, value);
+            set => SetProperty(ref selectedCharacter, value);
         }
 
         /// <summary>
@@ -124,9 +123,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public DataModelWeapon? SelectedWeapon
         {
-            get => this.selectedWeapon;
+            get => selectedWeapon;
 
-            set => this.SetProperty(ref this.selectedWeapon, value);
+            set => SetProperty(ref selectedWeapon, value);
         }
 
         /// <summary>
@@ -156,8 +155,8 @@ namespace DGP.Genshin.ViewModel
                 return null;
             }
 
-            return (Primitive?)this.characters?.FirstOrDefault(c => c.Name == name)
-                ?? this.weapons?.FirstOrDefault(w => w.Name == name)
+            return (Primitive?)characters?.FirstOrDefault(c => c.Name == name)
+                ?? weapons?.FirstOrDefault(w => w.Name == name)
                 ?? null;
         }
 
@@ -174,7 +173,7 @@ namespace DGP.Genshin.ViewModel
                 return null;
             }
 
-            return this.FindPrimitiveByName(name)?.Source;
+            return FindPrimitiveByName(name)?.Source;
         }
 
         private T ProxyCollcetion<T>(ref T collection, string fileName)

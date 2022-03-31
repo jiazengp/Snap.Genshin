@@ -2,7 +2,6 @@
 using Snap.Data.Utility.Extension;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -51,9 +50,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         /// <returns>The Uri of the bitmap to use as the icon content. The default is **null**.</returns>
         public Uri UriSource
         {
-            get => (Uri)this.GetValue(UriSourceProperty);
+            get => (Uri)GetValue(UriSourceProperty);
 
-            set => this.SetValue(UriSourceProperty, value);
+            set => SetValue(UriSourceProperty, value);
         }
 
         private static void OnUriSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -84,9 +83,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         /// </returns>
         public bool ShowAsMonochrome
         {
-            get => (bool)this.GetValue(ShowAsMonochromeProperty);
+            get => (bool)GetValue(ShowAsMonochromeProperty);
 
-            set => this.SetValue(ShowAsMonochromeProperty, value);
+            set => SetValue(ShowAsMonochromeProperty, value);
         }
 
         private static void OnShowAsMonochromeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -98,35 +97,35 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private protected override void InitializeChildren()
         {
-            this._image = new CachedImage
+            _image = new CachedImage
             {
                 Visibility = Visibility.Hidden
             };
 
-            this._opacityMask = new ImageBrush();
-            this._foreground = new Rectangle
+            _opacityMask = new ImageBrush();
+            _foreground = new Rectangle
             {
                 OpacityMask = _opacityMask
             };
 
-            this.ApplyForeground();
-            this.ApplyUriSource();
+            ApplyForeground();
+            ApplyUriSource();
 
-            this.Children.Add(this._image);
+            Children.Add(_image);
 
-            this.ApplyShowAsMonochrome();
+            ApplyShowAsMonochrome();
         }
 
         private protected override void OnShouldInheritForegroundFromVisualParentChanged()
         {
-            this.ApplyForeground();
+            ApplyForeground();
         }
 
         private protected override void OnVisualParentForegroundPropertyChanged(DependencyPropertyChangedEventArgs args)
         {
-            if (this.ShouldInheritForegroundFromVisualParent)
+            if (ShouldInheritForegroundFromVisualParent)
             {
-                this.ApplyForeground();
+                ApplyForeground();
             }
         }
 
@@ -137,22 +136,22 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private void ApplyForeground()
         {
-            if (this._foreground != null)
+            if (_foreground != null)
             {
-                this._foreground.Fill = this.ShouldInheritForegroundFromVisualParent ? this.VisualParentForeground : this.Foreground;
+                _foreground.Fill = ShouldInheritForegroundFromVisualParent ? VisualParentForeground : Foreground;
             }
         }
 
         private void ApplyUriSource()
         {
-            this.ApplyUriSourceAsync().Forget();
+            ApplyUriSourceAsync().Forget();
         }
 
         private async Task ApplyUriSourceAsync()
         {
-            if (this._image != null && this._opacityMask != null)
+            if (_image != null && _opacityMask != null)
             {
-                Uri uriSource = this.UriSource;
+                Uri uriSource = UriSource;
                 if (uriSource != null)
                 {
                     MemoryStream? stream = await FileCache.HitAsync(uriSource.ToString());
@@ -167,8 +166,8 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                                 imageSource.StreamSource = stream;
                             }
 
-                            this._image.Source = imageSource;
-                            this._opacityMask.ImageSource = imageSource;
+                            _image.Source = imageSource;
+                            _opacityMask.ImageSource = imageSource;
                         }
                         catch
                         {
@@ -177,33 +176,33 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 }
                 else
                 {
-                    this._image.ClearValue(Image.SourceProperty);
-                    this._opacityMask.ClearValue(ImageBrush.ImageSourceProperty);
+                    _image.ClearValue(Image.SourceProperty);
+                    _opacityMask.ClearValue(ImageBrush.ImageSourceProperty);
                 }
             }
         }
 
         private void ApplyShowAsMonochrome()
         {
-            bool showAsMonochrome = this.ShowAsMonochrome;
+            bool showAsMonochrome = ShowAsMonochrome;
 
-            if (this._image != null)
+            if (_image != null)
             {
-                this._image.Visibility = showAsMonochrome ? Visibility.Hidden : Visibility.Visible;
+                _image.Visibility = showAsMonochrome ? Visibility.Hidden : Visibility.Visible;
             }
 
-            if (this._foreground != null)
+            if (_foreground != null)
             {
                 if (showAsMonochrome)
                 {
-                    if (!this.Children.Contains(this._foreground))
+                    if (!Children.Contains(_foreground))
                     {
-                        this.Children.Add(this._foreground);
+                        Children.Add(_foreground);
                     }
                 }
                 else
                 {
-                    this.Children.Remove(this._foreground);
+                    Children.Remove(_foreground);
                 }
             }
         }

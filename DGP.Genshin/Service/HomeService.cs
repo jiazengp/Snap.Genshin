@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.Service
 {
@@ -38,11 +37,11 @@ namespace DGP.Genshin.Service
                 // 将活动公告置于上方
                 announcementListWrappers.Reverse();
 
-                this.JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
+                JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
 
                 if (announcementListWrappers[0].List is List<Announcement> activities)
                 {
-                    this.AdjustActivitiesTime(ref activities);
+                    AdjustActivitiesTime(ref activities);
                 }
 
                 return wrapper;

@@ -22,20 +22,20 @@ namespace DGP.Genshin.Core.Plugins
         /// </summary>
         public PluginService()
         {
-            this.pluginAssemblies = this.LoadAllPluginDlls();
-            this.plugins = this.PluginAssemblies.Select(p => this.InstantiatePlugin(p)).NotNull();
+            pluginAssemblies = LoadAllPluginDlls();
+            plugins = PluginAssemblies.Select(p => InstantiatePlugin(p)).NotNull();
         }
 
         /// <inheritdoc/>
         public IEnumerable<Assembly> PluginAssemblies
         {
-            get => this.pluginAssemblies;
+            get => pluginAssemblies;
         }
 
         /// <inheritdoc/>
         public IEnumerable<IPlugin> Plugins
         {
-            get => this.plugins;
+            get => plugins;
         }
 
         /// <inheritdoc/>

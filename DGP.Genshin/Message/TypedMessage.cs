@@ -12,7 +12,7 @@
         /// <param name="value">值</param>
         public TypedMessage(T value)
         {
-            this.Value = value;
+            Value = value;
         }
 
         /// <summary>

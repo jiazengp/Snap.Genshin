@@ -47,10 +47,10 @@ namespace DGP.Genshin.Service
         {
             this.messenger = messenger;
 
-            this.CookiesLock = new(joinableTaskContext);
+            CookiesLock = new(joinableTaskContext);
 
-            this.LoadCookies();
-            this.LoadCookie();
+            LoadCookies();
+            LoadCookie();
         }
 
         /// <inheritdoc/>
@@ -75,9 +75,9 @@ namespace DGP.Genshin.Service
 
                 try
                 {
-                    this.SaveCookie(value);
-                    this.Cookies.AddOrIgnore(currentCookie);
-                    this.messenger.Send(new CookieChangedMessage(currentCookie));
+                    SaveCookie(value);
+                    Cookies.AddOrIgnore(currentCookie);
+                    messenger.Send(new CookieChangedMessage(currentCookie));
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -89,7 +89,7 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public bool IsCookieAvailable
         {
-            get => this.initialization.IsCompleted && (!string.IsNullOrEmpty(currentCookie));
+            get => initialization.IsCompleted && (!string.IsNullOrEmpty(currentCookie));
         }
 
         /// <inheritdoc/>
@@ -99,12 +99,12 @@ namespace DGP.Genshin.Service
             if (isOk)
             {
                 // prevent user input unexpected invalid cookie
-                if (!string.IsNullOrEmpty(cookie) && await this.ValidateCookieAsync(cookie))
+                if (!string.IsNullOrEmpty(cookie) && await ValidateCookieAsync(cookie))
                 {
-                    this.CurrentCookie = cookie;
+                    CurrentCookie = cookie;
                 }
 
-                File.WriteAllText(PathContext.Locate(CookieFile), this.CurrentCookie);
+                File.WriteAllText(PathContext.Locate(CookieFile), CurrentCookie);
             }
         }
 
@@ -113,7 +113,7 @@ namespace DGP.Genshin.Service
         {
             if (cookie is not null)
             {
-                this.CurrentCookie = cookie;
+                CurrentCookie = cookie;
             }
         }
 
@@ -124,11 +124,11 @@ namespace DGP.Genshin.Service
 
             if (isOk)
             {
-                if (await this.ValidateCookieAsync(newCookie))
+                if (await ValidateCookieAsync(newCookie))
                 {
-                    using (await this.CookiesLock.WriteLockAsync())
+                    using (await CookiesLock.WriteLockAsync())
                     {
-                        this.Cookies.AddOrIgnore(newCookie);
+                        Cookies.AddOrIgnore(newCookie);
                     }
                 }
             }
@@ -150,34 +150,34 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public void SaveCookies()
         {
-            IEnumerable<string> encodedCookies = this.Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
+            IEnumerable<string> encodedCookies = Cookies.Select(c => Base64Converter.Base64Encode(Encoding.UTF8, c));
             Json.ToFile(PathContext.Locate(CookieListFile), encodedCookies);
         }
 
         /// <inheritdoc/>
         public async Task InitializeAsync()
         {
-            if (this.initialization.IsWorking || this.initialization.IsCompleted)
+            if (initialization.IsWorking || initialization.IsCompleted)
             {
                 return;
             }
 
-            using (this.initialization.Watch())
+            using (initialization.Watch())
             {
-                using (await this.CookiesLock.WriteLockAsync())
+                using (await CookiesLock.WriteLockAsync())
                 {
                     // Enumerate the shallow copied list to remove item in foreach loop
                     // Prevent InvalidOperationException
-                    foreach (string cookie in this.Cookies.ToList())
+                    foreach (string cookie in Cookies.ToList())
                     {
                         if (await new UserInfoProvider(cookie).GetUserInfoAsync() is null)
                         {
                             // 删除用户无法手动选中的cookie(失效的cookie)
-                            this.Cookies.Remove(cookie);
+                            Cookies.Remove(cookie);
                         }
                     }
 
-                    if (this.Cookies.Count <= 0)
+                    if (Cookies.Count <= 0)
                     {
                         currentCookie = null;
                     }
@@ -201,7 +201,7 @@ namespace DGP.Genshin.Service
             string? cookieFile = PathContext.Locate(CookieFile);
             if (File.Exists(cookieFile))
             {
-                this.CurrentCookie = File.ReadAllText(cookieFile);
+                CurrentCookie = File.ReadAllText(cookieFile);
             }
             else
             {
@@ -219,9 +219,9 @@ namespace DGP.Genshin.Service
             IEnumerable<string> cookies = Json
                     .FromFileOrNew<List<string>>(CookieListFile)
                     .Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b));
-            this.Cookies = new CookiePool(this, this.messenger, cookies);
+            Cookies = new CookiePool(this, messenger, cookies);
 
-            Requires.NotNull(this.Cookies!, nameof(this.Cookies));
+            Requires.NotNull(Cookies!, nameof(Cookies));
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace DGP.Genshin.Service
             {
                 this.cookieService = cookieService;
                 this.messenger = messenger;
-                this.acountIds.AddRange(collection.Select(item => this.GetCookiePairs(item)["account_id"]));
+                acountIds.AddRange(collection.Select(item => GetCookiePairs(item)["account_id"]));
             }
 
             /// <inheritdoc/>
@@ -283,20 +283,20 @@ namespace DGP.Genshin.Service
                 if (!string.IsNullOrEmpty(cookie))
                 {
                     base.Add(cookie);
-                    this.messenger.Send(new CookieAddedMessage(cookie));
-                    this.cookieService.SaveCookies();
+                    messenger.Send(new CookieAddedMessage(cookie));
+                    cookieService.SaveCookies();
                 }
             }
 
             /// <inheritdoc/>
             public bool AddOrIgnore(string cookie)
             {
-                if (this.GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
+                if (GetCookiePairs(cookie).TryGetValue("account_id", out string? id))
                 {
-                    if (!this.acountIds.Contains(id))
+                    if (!acountIds.Contains(id))
                     {
-                        this.acountIds.Add(id);
-                        this.Add(cookie);
+                        acountIds.Add(id);
+                        Add(cookie);
                         return true;
                     }
                 }
@@ -307,11 +307,11 @@ namespace DGP.Genshin.Service
             /// <inheritdoc/>
             public new bool Remove(string cookie)
             {
-                string id = this.GetCookiePairs(cookie)["account_id"];
-                this.acountIds.Remove(id);
+                string id = GetCookiePairs(cookie)["account_id"];
+                acountIds.Remove(id);
                 bool result = base.Remove(cookie);
-                this.messenger.Send(new CookieRemovedMessage(cookie));
-                this.cookieService.SaveCookies();
+                messenger.Send(new CookieRemovedMessage(cookie));
+                cookieService.SaveCookies();
                 return result;
             }
 

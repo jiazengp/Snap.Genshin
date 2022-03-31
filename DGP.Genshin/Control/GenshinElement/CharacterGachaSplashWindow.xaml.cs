@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace DGP.Genshin.Control.GenshinElement
+﻿namespace DGP.Genshin.Control.GenshinElement
 {
     /// <summary>
     /// 角色卡池立绘展示窗口
@@ -15,8 +13,8 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public CharacterGachaSplashWindow()
         {
-            this.DataContext = this;
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
         }
 
         /// <summary>
@@ -24,9 +22,9 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public string? Source
         {
-            get => (string)this.GetValue(SourceProperty);
+            get => (string)GetValue(SourceProperty);
 
-            set => this.SetValue(SourceProperty, value);
+            set => SetValue(SourceProperty, value);
         }
     }
 }

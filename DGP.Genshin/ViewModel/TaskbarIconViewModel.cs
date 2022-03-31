@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -30,15 +29,15 @@ namespace DGP.Genshin.ViewModel
         public TaskbarIconViewModel(ISignInService signInService, IAsyncRelayCommandFactory asyncRelayCommandFactory, IMessenger messenger)
             : base(messenger)
         {
-            this.launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
+            launchService = App.Current.SwitchableImplementationManager.CurrentLaunchService!.Factory.Value;
             this.signInService = signInService;
 
-            this.ShowMainWindowCommand = new RelayCommand(this.OpenMainWindow);
-            this.ExitCommand = new RelayCommand(this.ExitApp);
-            this.RestartAsElevatedCommand = new RelayCommand(App.RestartAsElevated);
-            this.LaunchGameCommand = asyncRelayCommandFactory.Create(this.LaunchGameAsync);
-            this.OpenLauncherCommand = new RelayCommand(this.OpenLauncher);
-            this.SignInCommand = asyncRelayCommandFactory.Create(this.SignInAsync);
+            ShowMainWindowCommand = new RelayCommand(OpenMainWindow);
+            ExitCommand = new RelayCommand(ExitApp);
+            RestartAsElevatedCommand = new RelayCommand(App.RestartAsElevated);
+            LaunchGameCommand = asyncRelayCommandFactory.Create(LaunchGameAsync);
+            OpenLauncherCommand = new RelayCommand(OpenLauncher);
+            SignInCommand = asyncRelayCommandFactory.Create(SignInAsync);
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task LaunchGameAsync()
         {
-            await this.launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
+            await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
             {
                 new ToastContentBuilder()
                     .AddText("启动游戏失败")
@@ -94,7 +93,7 @@ namespace DGP.Genshin.ViewModel
 
         private void OpenLauncher()
         {
-            this.launchService.OpenOfficialLauncher(ex =>
+            launchService.OpenOfficialLauncher(ex =>
             {
                 new ToastContentBuilder()
                     .AddText("打开启动器失败")
@@ -105,7 +104,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task SignInAsync()
         {
-            await this.signInService.TrySignAllAccountsRolesInAsync();
+            await signInService.TrySignAllAccountsRolesInAsync();
         }
     }
 }

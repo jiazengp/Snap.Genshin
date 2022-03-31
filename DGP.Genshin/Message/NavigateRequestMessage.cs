@@ -14,8 +14,8 @@
         public NavigateRequestMessage(Type pageType, bool isSyncTabRequested = false, object? extraData = null)
             : base(pageType)
         {
-            this.IsSyncTabRequested = isSyncTabRequested;
-            this.ExtraData = extraData;
+            IsSyncTabRequested = isSyncTabRequested;
+            ExtraData = extraData;
         }
 
         /// <summary>

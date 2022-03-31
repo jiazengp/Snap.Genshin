@@ -16,8 +16,6 @@ using Snap.Win32;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -55,31 +53,31 @@ namespace DGP.Genshin.ViewModel
         {
             this.updateService = updateService;
 
-            this.selectedTheme = this.Themes.First(x => x.Value == Setting2.AppTheme);
-            this.currentUpdateAPI = this.UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
+            selectedTheme = Themes.First(x => x.Value == Setting2.AppTheme);
+            currentUpdateAPI = UpdateAPIs.First(x => x.Value == Setting2.UpdateAPI);
 
-            this.SkipCacheCheck = Setting2.SkipCacheCheck;
-            this.IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled;
-            this.CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion;
-            this.BackgroundOpacity = Setting2.BackgroundOpacity;
-            this.IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
-            this.IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
+            SkipCacheCheck = Setting2.SkipCacheCheck;
+            IsTaskBarIconEnabled = Setting2.IsTaskBarIconEnabled;
+            CloseMainWindowAfterInitializaion = Setting2.CloseMainWindowAfterInitializaion;
+            BackgroundOpacity = Setting2.BackgroundOpacity;
+            IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
+            IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
 
             Version v = App.Current.Version;
-            this.VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
-            this.UserId = User.Id;
+            VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
+            UserId = User.Id;
 
-            this.UpdateInfo = UpdateProgressedMessage.Default;
-            this.ReleaseNote = updateService.ReleaseNote;
+            UpdateInfo = UpdateProgressedMessage.Default;
+            ReleaseNote = updateService.ReleaseNote;
 
-            this.CheckUpdateCommand = asyncRelayCommandFactory.Create(this.CheckUpdateAsync);
-            this.CopyUserIdCommand = new RelayCommand(this.CopyUserIdToClipBoard);
+            CheckUpdateCommand = asyncRelayCommandFactory.Create(CheckUpdateAsync);
+            CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
 
-            this.SponsorUICommand = new RelayCommand(this.NavigateToSponsorPage);
-            this.OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
-            this.OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
-            this.NextWallpaperCommand = new RelayCommand(this.SwitchToNextWallpaper);
-            this.OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
+            SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
+            OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
+            OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
+            NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
+            OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
         }
 
         /// <summary>
@@ -106,12 +104,12 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool SkipCacheCheck
         {
-            get => this.skipCacheCheck;
+            get => skipCacheCheck;
 
             set
             {
                 Setting2.SkipCacheCheck.Set(value, false);
-                this.SetProperty(ref this.skipCacheCheck, value);
+                SetProperty(ref skipCacheCheck, value);
             }
         }
 
@@ -120,12 +118,12 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool IsTaskBarIconEnabled
         {
-            get => this.isTaskBarIconEnabled;
+            get => isTaskBarIconEnabled;
 
             set
             {
                 Setting2.IsTaskBarIconEnabled.Set(value, false);
-                this.SetProperty(ref this.isTaskBarIconEnabled, value);
+                SetProperty(ref isTaskBarIconEnabled, value);
             }
         }
 
@@ -134,12 +132,12 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool CloseMainWindowAfterInitializaion
         {
-            get => this.closeMainWindowAfterInitializaion;
+            get => closeMainWindowAfterInitializaion;
 
             set
             {
                 Setting2.CloseMainWindowAfterInitializaion.Set(value, false);
-                this.SetProperty(ref this.closeMainWindowAfterInitializaion, value);
+                SetProperty(ref closeMainWindowAfterInitializaion, value);
             }
         }
 
@@ -148,13 +146,13 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public double BackgroundOpacity
         {
-            get => this.backgroundOpacity;
+            get => backgroundOpacity;
 
             set
             {
                 Setting2.BackgroundOpacity.Set(value, false);
-                this.Messenger.Send(new BackgroundOpacityChangedMessage(value));
-                this.SetProperty(ref this.backgroundOpacity, value);
+                Messenger.Send(new BackgroundOpacityChangedMessage(value));
+                SetProperty(ref backgroundOpacity, value);
             }
         }
 
@@ -163,12 +161,12 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool IsBackgroundOpacityAdaptive
         {
-            get => this.isBackgroundOpacityAdaptive;
+            get => isBackgroundOpacityAdaptive;
 
             set
             {
                 Setting2.IsBackgroundOpacityAdaptive.Set(value, false);
-                this.SetProperty(ref this.isBackgroundOpacityAdaptive, value);
+                SetProperty(ref isBackgroundOpacityAdaptive, value);
             }
         }
 
@@ -177,10 +175,10 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public string VersionString
         {
-            get => this.versionString;
+            get => versionString;
 
             [MemberNotNull("versionString")]
-            set => this.SetProperty(ref this.versionString, value);
+            set => SetProperty(ref versionString, value);
         }
 
         /// <summary>
@@ -188,10 +186,10 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public string UserId
         {
-            get => this.userId;
+            get => userId;
 
             [MemberNotNull(nameof(userId))]
-            set => this.userId = value;
+            set => userId = value;
         }
 
         /// <summary>
@@ -199,12 +197,12 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool IsBannerWithNoItemVisible
         {
-            get => this.isBannerWithNoItemVisible;
+            get => isBannerWithNoItemVisible;
 
             set
             {
                 Setting2.IsBannerWithNoItemVisible.Set(value, false);
-                this.SetProperty(ref this.isBannerWithNoItemVisible, value);
+                SetProperty(ref isBannerWithNoItemVisible, value);
             }
         }
 
@@ -213,9 +211,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public AutoRun AutoRun
         {
-            get => this.autoRun;
+            get => autoRun;
 
-            set => this.autoRun = value;
+            set => autoRun = value;
         }
 
         /// <summary>
@@ -223,9 +221,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public NamedValue<ApplicationTheme?> SelectedTheme
         {
-            get => this.selectedTheme;
+            get => selectedTheme;
 
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.selectedTheme, value, v => { this.UpdateAppTheme(v!); });
+            set => SetPropertyAndCallbackOnCompletion(ref selectedTheme, value, v => { UpdateAppTheme(v!); });
         }
 
         /// <summary>
@@ -233,9 +231,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public NamedValue<UpdateAPI> CurrentUpdateAPI
         {
-            get => this.currentUpdateAPI;
+            get => currentUpdateAPI;
 
-            set => this.SetPropertyAndCallbackOnCompletion(ref this.currentUpdateAPI, value, v => Setting2.UpdateAPI.Set(v.Value));
+            set => SetPropertyAndCallbackOnCompletion(ref currentUpdateAPI, value, v => Setting2.UpdateAPI.Set(v.Value));
         }
 
         /// <summary>
@@ -243,10 +241,10 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public UpdateProgressedMessage UpdateInfo
         {
-            get => this.updateInfo;
+            get => updateInfo;
 
             [MemberNotNull(nameof(updateInfo))]
-            set => this.SetProperty(ref this.updateInfo, value);
+            set => SetProperty(ref updateInfo, value);
         }
 
         /// <summary>
@@ -292,13 +290,13 @@ namespace DGP.Genshin.ViewModel
         /// <inheritdoc/>
         public void Receive(UpdateProgressedMessage message)
         {
-            this.UpdateInfo = message;
+            UpdateInfo = message;
         }
 
         /// <inheritdoc/>
         public void Receive(AdaptiveBackgroundOpacityChangedMessage message)
         {
-            this.BackgroundOpacity = message.Value;
+            BackgroundOpacity = message.Value;
         }
 
         private void CopyUserIdToClipBoard()
@@ -306,13 +304,13 @@ namespace DGP.Genshin.ViewModel
             Clipboard.Clear();
             try
             {
-                Clipboard.SetText(this.UserId);
+                Clipboard.SetText(UserId);
             }
             catch
             {
                 try
                 {
-                    Clipboard2.SetText(this.UserId);
+                    Clipboard2.SetText(UserId);
                 }
                 catch
                 {
@@ -322,17 +320,17 @@ namespace DGP.Genshin.ViewModel
 
         private void NavigateToSponsorPage()
         {
-            this.Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
+            Messenger.Send(new NavigateRequestMessage(typeof(SponsorPage)));
         }
 
         private async Task CheckUpdateAsync()
         {
-            UpdateState result = await this.updateService.CheckUpdateStateAsync();
+            UpdateState result = await updateService.CheckUpdateStateAsync();
             switch (result)
             {
                 case UpdateState.NeedUpdate:
                     {
-                        await this.updateService.DownloadAndInstallPackageAsync();
+                        await updateService.DownloadAndInstallPackageAsync();
                         break;
                     }
 
@@ -367,7 +365,7 @@ namespace DGP.Genshin.ViewModel
 
         private void SwitchToNextWallpaper()
         {
-            this.Messenger.Send(new BackgroundChangeRequestMessage());
+            Messenger.Send(new BackgroundChangeRequestMessage());
         }
 
         [PropertyChangedCallback]

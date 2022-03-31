@@ -3,7 +3,6 @@ using Microsoft.Web.WebView2.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Control.Cookie
 {
@@ -17,8 +16,8 @@ namespace DGP.Genshin.Control.Cookie
         /// </summary>
         public CookieWindow()
         {
-            this.InitializeComponent();
-            this.WebView.CoreWebView2InitializationCompleted += this.WebViewCoreWebView2InitializationCompleted;
+            InitializeComponent();
+            WebView.CoreWebView2InitializationCompleted += WebViewCoreWebView2InitializationCompleted;
         }
 
         /// <summary>
@@ -34,38 +33,38 @@ namespace DGP.Genshin.Control.Cookie
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.WebView?.Dispose();
+            WebView?.Dispose();
         }
 
         private void WebViewCoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
         {
-            this.WebView.CoreWebView2.ProcessFailed += this.WebViewCoreWebView2ProcessFailed;
+            WebView.CoreWebView2.ProcessFailed += WebViewCoreWebView2ProcessFailed;
             if (e.IsSuccess)
             {
-                this.ContinueButton.IsEnabled = true;
+                ContinueButton.IsEnabled = true;
             }
         }
 
         private void WebViewCoreWebView2ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
         {
-            this.ContinueButton.IsEnabled = false;
-            this.WebView?.Dispose();
+            ContinueButton.IsEnabled = false;
+            WebView?.Dispose();
         }
 
         private void ContinueButtonClick(object sender, RoutedEventArgs e)
         {
-            this.ContinueAsync().Forget();
+            ContinueAsync().Forget();
         }
 
         private async Task ContinueAsync()
         {
-            List<CoreWebView2Cookie> cookies = await this.WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
+            List<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://bbs.mihoyo.com");
             string[] cookiesString = cookies.Select(c => $"{c.Name}={c.Value};").ToArray();
-            this.Cookie = string.Concat(cookiesString);
-            if (this.Cookie.Contains("account_id"))
+            Cookie = string.Concat(cookiesString);
+            if (Cookie.Contains("account_id"))
             {
-                this.IsLoggedIn = true;
-                this.Close();
+                IsLoggedIn = true;
+                Close();
             }
         }
     }

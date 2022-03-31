@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Interop;
+﻿using System.Windows.Interop;
 using static Snap.Win32.NativeMethod.User32;
 
 namespace DGP.Genshin.Helper.Extension

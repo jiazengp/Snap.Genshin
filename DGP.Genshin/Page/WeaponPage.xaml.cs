@@ -15,8 +15,8 @@ namespace DGP.Genshin.Page
         /// <param name="vm">视图模型</param>
         public WeaponPage(MetadataViewModel vm)
         {
-            this.DataContext = vm;
-            this.InitializeComponent();
+            DataContext = vm;
+            InitializeComponent();
         }
     }
 }

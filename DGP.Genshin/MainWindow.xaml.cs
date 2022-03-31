@@ -18,7 +18,6 @@ using Snap.Threading;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin
 {
@@ -45,19 +44,19 @@ namespace DGP.Genshin
         /// </summary>
         public MainWindow()
         {
-            this.InitializeContent();
+            InitializeContent();
 
             // support per monitor dpi awareness
             _ = new DpiAwareAdapter(this);
 
             // randomly load a image as background
-            this.backgroundLoader = new(this, App.Messenger);
-            this.backgroundLoader.LoadNextWallpaperAsync().Forget();
+            backgroundLoader = new(this, App.Messenger);
+            backgroundLoader.LoadNextWallpaperAsync().Forget();
 
             // initialize NavigationService
-            this.navigationService = App.AutoWired<INavigationService>();
-            this.navigationService.NavigationView = this.NavView;
-            this.navigationService.Frame = this.ContentFrame;
+            navigationService = App.AutoWired<INavigationService>();
+            navigationService.NavigationView = NavView;
+            navigationService.Frame = ContentFrame;
 
             // register messages
             App.Messenger.RegisterAll(this);
@@ -74,27 +73,27 @@ namespace DGP.Genshin
         /// <inheritdoc/>
         public void Receive(SplashInitializationCompletedMessage viewModelReference)
         {
-            this.PostInitializeAsync(viewModelReference).Forget();
+            PostInitializeAsync(viewModelReference).Forget();
         }
 
         /// <inheritdoc/>
         protected override void OnClosing(CancelEventArgs e)
         {
-            this.TrySaveWindowState();
-            if (this.initializingWindow.CurrentCount < 1)
+            TrySaveWindowState();
+            if (initializingWindow.CurrentCount < 1)
             {
                 e.Cancel = true;
                 return;
             }
 
-            using (this.initializingWindow.Enter())
+            using (initializingWindow.Enter())
             {
                 base.OnClosing(e);
             }
 
             bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
-            if (this.hasInitializationCompleted && isTaskbarIconEnabled)
+            if (hasInitializationCompleted && isTaskbarIconEnabled)
             {
                 if ((!hasEverClose) && Setting2.IsTaskBarIconHintDisplay.Get())
                 {
@@ -117,30 +116,30 @@ namespace DGP.Genshin
 
         private void InitializeContent()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             // restore width and height from setting
-            this.Width = Setting2.MainWindowWidth.Get();
-            this.Height = Setting2.MainWindowHeight.Get();
+            Width = Setting2.MainWindowWidth.Get();
+            Height = Setting2.MainWindowHeight.Get();
 
             // restore pane state
-            this.NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen.Get();
+            NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen.Get();
         }
 
         private async Task PostInitializeAsync(SplashInitializationCompletedMessage viewModelReference)
         {
-            using (await this.initializingWindow.EnterAsync())
+            using (await initializingWindow.EnterAsync())
             {
                 SplashViewModel splashViewModel = viewModelReference.Value;
-                this.AddAdditionalNavigationViewItems();
+                AddAdditionalNavigationViewItems();
 
                 // preprocess
                 if (!hasEverOpen)
                 {
-                    this.CheckUpdateForWhatsNewAsync().Forget();
-                    this.TrySignInOnStartUpAsync().Forget();
+                    CheckUpdateForWhatsNewAsync().Forget();
+                    TrySignInOnStartUpAsync().Forget();
 
-                    this.TryInitializeTaskbarIcon();
+                    TryInitializeTaskbarIcon();
 
                     // 树脂服务
                     App.AutoWired<IDailyNoteService>().Initialize();
@@ -149,10 +148,10 @@ namespace DGP.Genshin
                 splashViewModel.CompleteInitialization();
 
                 await Task.Delay(TimeSpan.FromMilliseconds(800));
-                this.navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+                navigationService.Navigate<HomePage>(isSyncTabRequested: true);
             }
 
-            this.hasInitializationCompleted = true;
+            hasInitializationCompleted = true;
 
             if (!hasEverOpen)
             {
@@ -160,7 +159,7 @@ namespace DGP.Genshin
                 {
                     if ((!App.IsLaunchedByUser) && Setting2.CloseMainWindowAfterInitializaion.Get())
                     {
-                        this.Close();
+                        Close();
                     }
                 }
             }
@@ -172,23 +171,23 @@ namespace DGP.Genshin
         private void AddAdditionalNavigationViewItems()
         {
             // webview entries must add first
-            this.navigationService.AddWebViewEntries(App.AutoWired<WebViewLobbyViewModel>().Entries);
+            navigationService.AddWebViewEntries(App.AutoWired<WebViewLobbyViewModel>().Entries);
 
             // then we add pilugin pages
             App.Current.PluginService.Plugins.ForEach(plugin =>
             plugin.ForEachAttribute<ImportPageAttribute>(importPage =>
-            this.navigationService.AddToNavigation(importPage)));
+            navigationService.AddToNavigation(importPage)));
         }
 
         private void TrySaveWindowState()
         {
-            if (this.WindowState == WindowState.Normal)
+            if (WindowState == WindowState.Normal)
             {
-                Setting2.MainWindowWidth.Set(this.Width);
-                Setting2.MainWindowHeight.Set(this.Height);
+                Setting2.MainWindowWidth.Set(Width);
+                Setting2.MainWindowHeight.Set(Height);
             }
 
-            Setting2.IsNavigationViewPaneOpen.Set(this.NavView.IsPaneOpen);
+            Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
         }
 
         private void TryInitializeTaskbarIcon()
@@ -213,7 +212,7 @@ namespace DGP.Genshin
 
         private async Task CheckUpdateForWhatsNewAsync()
         {
-            await this.CheckUpdateForNotificationAsync();
+            await CheckUpdateForNotificationAsync();
             IUpdateService updateService = App.AutoWired<IUpdateService>();
             Setting2.AppVersion.Set(updateService.CurrentVersion);
         }

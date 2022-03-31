@@ -33,7 +33,7 @@
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"{this.Time}-{this.Name}";
+            return $"{Time}-{Name}";
         }
 
         /// <summary>
@@ -42,10 +42,10 @@
         /// <param name="primitive">原件</param>
         public void CopyFromPrimitive(Primitive primitive)
         {
-            this.StarUrl = primitive.Star;
-            this.Source = primitive.Source;
-            this.Name = primitive.Name;
-            this.Badge = primitive.GetBadge();
+            StarUrl = primitive.Star;
+            Source = primitive.Source;
+            Name = primitive.Name;
+            Badge = primitive.GetBadge();
         }
     }
 }

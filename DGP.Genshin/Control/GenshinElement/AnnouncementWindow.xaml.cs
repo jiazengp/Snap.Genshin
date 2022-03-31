@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.Threading;
 using Snap.Data.Utility;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Control.GenshinElement
 {
@@ -24,39 +23,39 @@ namespace DGP.Genshin.Control.GenshinElement
         public AnnouncementWindow(string? content)
         {
             // 不需要在此处检查WebView2可用性，由使用方代为检查
-            this.targetContent = content;
-            this.InitializeComponent();
+            targetContent = content;
+            InitializeComponent();
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.WebView?.Dispose();
+            WebView?.Dispose();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            this.LoadAnnouncementAsync().Forget();
+            LoadAnnouncementAsync().Forget();
         }
 
         private async Task LoadAnnouncementAsync()
         {
             try
             {
-                await this.WebView.EnsureCoreWebView2Async();
-                this.WebView.CoreWebView2.ProcessFailed += (_, _) => this.WebView?.Dispose();
+                await WebView.EnsureCoreWebView2Async();
+                WebView.CoreWebView2.ProcessFailed += (_, _) => WebView?.Dispose();
 
                 // support click open browser.
-                await this.WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
-                this.WebView.CoreWebView2.WebMessageReceived += (_, e) => Browser.Open(e.TryGetWebMessageAsString);
+                await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
+                WebView.CoreWebView2.WebMessageReceived += (_, e) => Browser.Open(e.TryGetWebMessageAsString);
             }
             catch
             {
-                this.Close();
+                Close();
                 return;
             }
 
-            this.WebView.NavigateToString(this.targetContent);
+            WebView.NavigateToString(targetContent);
         }
     }
 }

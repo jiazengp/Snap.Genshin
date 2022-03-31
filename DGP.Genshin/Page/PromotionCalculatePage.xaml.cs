@@ -2,7 +2,6 @@
 using DGP.Genshin.ViewModel;
 using Snap.Core.DependencyInjection;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -21,13 +20,13 @@ namespace DGP.Genshin.Page
         public PromotionCalculatePage(PromotionCalculateViewModel vm)
             : base(vm)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void NumberBoxValueChanged(ModernWpf.Controls.NumberBox sender, ModernWpf.Controls.NumberBoxValueChangedEventArgs args)
         {
             List<Button> buttons = new();
-            this.FindChildren(sender, buttons);
+            FindChildren(sender, buttons);
             if (buttons.Count > 0)
             {
                 ((Grid)buttons[0].Parent).Children.Remove(buttons[0]);
@@ -37,7 +36,7 @@ namespace DGP.Genshin.Page
         private void NumberBoxGotFocus(object sender, RoutedEventArgs e)
         {
             List<Button> buttons = new();
-            this.FindChildren((ModernWpf.Controls.NumberBox)sender, buttons);
+            FindChildren((ModernWpf.Controls.NumberBox)sender, buttons);
             if (buttons.Count > 0)
             {
                 ((Grid)buttons[0].Parent).Children.Remove(buttons[0]);
@@ -57,13 +56,13 @@ namespace DGP.Genshin.Page
                     results.Add(asType);
                 }
 
-                this.FindChildren<T>(current, results);
+                FindChildren<T>(current, results);
             }
         }
 
         private void PageUnloaded(object sender, RoutedEventArgs e)
         {
-            ((PromotionCalculateViewModel)this.DataContext).CloseUICommand.Execute(null);
+            ((PromotionCalculateViewModel)DataContext).CloseUICommand.Execute(null);
         }
     }
 }

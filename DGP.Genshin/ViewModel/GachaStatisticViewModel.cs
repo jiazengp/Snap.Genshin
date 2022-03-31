@@ -14,7 +14,6 @@ using Snap.Data.Utility;
 using Snap.Threading;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -43,16 +42,16 @@ namespace DGP.Genshin.ViewModel
         {
             this.gachaStatisticService = gachaStatisticService;
 
-            this.Progress = new Progress<FetchProgress>(this.OnFetchProgressed);
+            Progress = new Progress<FetchProgress>(OnFetchProgressed);
 
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
-            this.GachaLogAutoFindCommand = asyncRelayCommandFactory.Create(this.RefreshByAutoFindModeAsync);
-            this.GachaLogManualCommand = asyncRelayCommandFactory.Create(this.RefreshByManualAsync);
-            this.ImportFromUIGFJCommand = asyncRelayCommandFactory.Create(this.ImportFromUIGFJAsync);
-            this.ImportFromUIGFWCommand = asyncRelayCommandFactory.Create(this.ImportFromUIGFWAsync);
-            this.ExportToUIGFWCommand = asyncRelayCommandFactory.Create(this.ExportToUIGFWAsync);
-            this.ExportToUIGFJCommand = asyncRelayCommandFactory.Create(this.ExportToUIGFJAsync);
-            this.OpenGachaStatisticFolderCommand = new RelayCommand(this.OpenGachaStatisticFolder);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+            GachaLogAutoFindCommand = asyncRelayCommandFactory.Create(RefreshByAutoFindModeAsync);
+            GachaLogManualCommand = asyncRelayCommandFactory.Create(RefreshByManualAsync);
+            ImportFromUIGFJCommand = asyncRelayCommandFactory.Create(ImportFromUIGFJAsync);
+            ImportFromUIGFWCommand = asyncRelayCommandFactory.Create(ImportFromUIGFWAsync);
+            ExportToUIGFWCommand = asyncRelayCommandFactory.Create(ExportToUIGFWAsync);
+            ExportToUIGFJCommand = asyncRelayCommandFactory.Create(ExportToUIGFJAsync);
+            OpenGachaStatisticFolderCommand = new RelayCommand(OpenGachaStatisticFolder);
         }
 
         /// <summary>
@@ -60,9 +59,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public Statistic? Statistic
         {
-            get => this.statistic;
+            get => statistic;
 
-            set => this.SetProperty(ref this.statistic, value);
+            set => SetProperty(ref statistic, value);
         }
 
         /// <summary>
@@ -70,9 +69,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public UidGachaData? SelectedUserGachaData
         {
-            get => this.selectedUserGachaData;
+            get => selectedUserGachaData;
 
-            set => this.SetPropertyAndCallbackOverridePropertyState(ref this.selectedUserGachaData, value, this.SyncStatisticWithUid);
+            set => SetPropertyAndCallbackOverridePropertyState(ref selectedUserGachaData, value, SyncStatisticWithUid);
         }
 
         /// <summary>
@@ -80,9 +79,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public GachaDataCollection UserGachaDataCollection
         {
-            get => this.userGachaDataCollection;
+            get => userGachaDataCollection;
 
-            set => this.SetProperty(ref this.userGachaDataCollection, value);
+            set => SetProperty(ref userGachaDataCollection, value);
         }
 
         /// <summary>
@@ -90,9 +89,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public FetchProgress? FetchProgress
         {
-            get => this.fetchProgress;
+            get => fetchProgress;
 
-            set => this.SetProperty(ref this.fetchProgress, value);
+            set => SetProperty(ref fetchProgress, value);
         }
 
         /// <summary>
@@ -100,9 +99,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public SpecificBanner? SelectedSpecificBanner
         {
-            get => this.selectedSpecificBanner;
+            get => selectedSpecificBanner;
 
-            set => this.SetProperty(ref this.selectedSpecificBanner, value);
+            set => SetProperty(ref selectedSpecificBanner, value);
         }
 
         /// <summary>
@@ -110,9 +109,9 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public bool IsFullFetch
         {
-            get => this.isFullFetch;
+            get => isFullFetch;
 
-            set => this.SetProperty(ref this.isFullFetch, value);
+            set => SetProperty(ref isFullFetch, value);
         }
 
         /// <summary>
@@ -159,21 +158,21 @@ namespace DGP.Genshin.ViewModel
 
         private async Task OpenUIAsync()
         {
-            await this.gachaStatisticService.LoadLocalGachaDataAsync(this.UserGachaDataCollection);
-            this.SelectedUserGachaData = this.UserGachaDataCollection.FirstOrDefault();
+            await gachaStatisticService.LoadLocalGachaDataAsync(UserGachaDataCollection);
+            SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault();
         }
 
         private async Task RefreshByAutoFindModeAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
                 try
                 {
-                    (bool isOk, string uid) = await this.gachaStatisticService.RefreshAsync(this.UserGachaDataCollection, GachaLogUrlMode.GameLogFile, this.Progress, this.IsFullFetch);
-                    this.FetchProgress = null;
+                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, Progress, IsFullFetch);
+                    FetchProgress = null;
                     if (isOk)
                     {
-                        this.SelectedUserGachaData = this.UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
                 catch (Exception ex)
@@ -181,21 +180,21 @@ namespace DGP.Genshin.ViewModel
                     this.Log(ex);
                 }
 
-                this.taskPreventer.Release();
+                taskPreventer.Release();
             }
         }
 
         private async Task RefreshByManualAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
                 try
                 {
-                    (bool isOk, string uid) = await this.gachaStatisticService.RefreshAsync(this.UserGachaDataCollection, GachaLogUrlMode.ManualInput, this.Progress, this.IsFullFetch);
-                    this.FetchProgress = null;
+                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.ManualInput, Progress, IsFullFetch);
+                    FetchProgress = null;
                     if (isOk)
                     {
-                        this.SelectedUserGachaData = this.UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
                 catch (Exception ex)
@@ -203,18 +202,18 @@ namespace DGP.Genshin.ViewModel
                     this.Log(ex);
                 }
 
-                this.taskPreventer.Release();
+                taskPreventer.Release();
             }
         }
 
         private void OnFetchProgressed(FetchProgress p)
         {
-            this.FetchProgress = p;
+            FetchProgress = p;
         }
 
         private async Task ImportFromUIGFJAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
                 OpenFileDialog openFileDialog = new()
                 {
@@ -225,7 +224,7 @@ namespace DGP.Genshin.ViewModel
                 };
                 if (openFileDialog.ShowDialog() is true)
                 {
-                    (bool isOk, string uid) = await this.gachaStatisticService.ImportFromUIGFJAsync(this.UserGachaDataCollection, openFileDialog.FileName);
+                    (bool isOk, string uid) = await gachaStatisticService.ImportFromUIGFJAsync(UserGachaDataCollection, openFileDialog.FileName);
                     if (!isOk)
                     {
                         await new ContentDialog()
@@ -238,19 +237,19 @@ namespace DGP.Genshin.ViewModel
                     }
                     else
                     {
-                        this.SelectedUserGachaData = this.UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
 
-                this.taskPreventer.Release();
+                taskPreventer.Release();
             }
         }
 
         private async Task ExportToUIGFJAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
-                if (this.SelectedUserGachaData is not null)
+                if (SelectedUserGachaData is not null)
                 {
                     SaveFileDialog dialog = new()
                     {
@@ -258,11 +257,11 @@ namespace DGP.Genshin.ViewModel
                         Title = "保存到文件",
                         ValidateNames = true,
                         CheckPathExists = true,
-                        FileName = $"{this.SelectedUserGachaData.Uid}.json",
+                        FileName = $"{SelectedUserGachaData.Uid}.json",
                     };
                     if (dialog.ShowDialog() is true)
                     {
-                        await this.gachaStatisticService.ExportDataToJsonAsync(this.UserGachaDataCollection, this.SelectedUserGachaData.Uid, dialog.FileName);
+                        await gachaStatisticService.ExportDataToJsonAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
                         await new ContentDialog
                         {
                             Title = "导出祈愿记录完成",
@@ -272,14 +271,14 @@ namespace DGP.Genshin.ViewModel
                         }.ShowAsync();
                     }
 
-                    this.taskPreventer.Release();
+                    taskPreventer.Release();
                 }
             }
         }
 
         private async Task ImportFromUIGFWAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
                 OpenFileDialog openFileDialog = new()
                 {
@@ -290,7 +289,7 @@ namespace DGP.Genshin.ViewModel
                 };
                 if (openFileDialog.ShowDialog() is true)
                 {
-                    (bool isOk, string uid) = await this.gachaStatisticService.ImportFromUIGFWAsync(this.UserGachaDataCollection, openFileDialog.FileName);
+                    (bool isOk, string uid) = await gachaStatisticService.ImportFromUIGFWAsync(UserGachaDataCollection, openFileDialog.FileName);
                     if (!isOk)
                     {
                         await new ContentDialog()
@@ -303,19 +302,19 @@ namespace DGP.Genshin.ViewModel
                     }
                     else
                     {
-                        this.SelectedUserGachaData = this.UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
+                        SelectedUserGachaData = UserGachaDataCollection.FirstOrDefault(u => u.Uid == uid);
                     }
                 }
 
-                this.taskPreventer.Release();
+                taskPreventer.Release();
             }
         }
 
         private async Task ExportToUIGFWAsync()
         {
-            if (this.taskPreventer.ShouldExecute)
+            if (taskPreventer.ShouldExecute)
             {
-                if (this.SelectedUserGachaData is not null)
+                if (SelectedUserGachaData is not null)
                 {
                     SaveFileDialog dialog = new()
                     {
@@ -323,12 +322,12 @@ namespace DGP.Genshin.ViewModel
                         Title = "保存到表格",
                         ValidateNames = true,
                         CheckPathExists = true,
-                        FileName = $"{this.SelectedUserGachaData.Uid}.xlsx",
+                        FileName = $"{SelectedUserGachaData.Uid}.xlsx",
                     };
                     if (dialog.ShowDialog() is true)
                     {
                         this.Log("try to export to excel");
-                        await this.gachaStatisticService.ExportDataToExcelAsync(this.UserGachaDataCollection, this.SelectedUserGachaData.Uid, dialog.FileName);
+                        await gachaStatisticService.ExportDataToExcelAsync(UserGachaDataCollection, SelectedUserGachaData.Uid, dialog.FileName);
                         await new ContentDialog
                         {
                             Title = "导出祈愿记录完成",
@@ -338,7 +337,7 @@ namespace DGP.Genshin.ViewModel
                         }.ShowAsync();
                     }
 
-                    this.taskPreventer.Release();
+                    taskPreventer.Release();
                 }
             }
         }
@@ -354,11 +353,11 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private void SyncStatisticWithUid()
         {
-            this.Log($"try read:{this.SelectedUserGachaData}");
-            if (this.SelectedUserGachaData is not null)
+            this.Log($"try read:{SelectedUserGachaData}");
+            if (SelectedUserGachaData is not null)
             {
-                this.Statistic = this.gachaStatisticService.GetStatistic(this.UserGachaDataCollection, this.SelectedUserGachaData.Uid);
-                this.SelectedSpecificBanner = this.Statistic.SpecificBanners?.FirstOrDefault();
+                Statistic = gachaStatisticService.GetStatistic(UserGachaDataCollection, SelectedUserGachaData.Uid);
+                SelectedSpecificBanner = Statistic.SpecificBanners?.FirstOrDefault();
             }
         }
     }

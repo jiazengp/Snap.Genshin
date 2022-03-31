@@ -12,7 +12,7 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public ElementsProgressBar()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

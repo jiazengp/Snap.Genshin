@@ -55,12 +55,12 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
         {
             return new SpecificBanner
             {
-                Type = this.Type,
-                UpStar5List = this.UpStar5List?.ClonePartially(),
-                UpStar4List = this.UpStar4List?.ClonePartially(),
-                CurrentName = this.CurrentName,
-                StartTime = this.StartTime,
-                EndTime = this.EndTime,
+                Type = Type,
+                UpStar5List = UpStar5List?.ClonePartially(),
+                UpStar4List = UpStar4List?.ClonePartially(),
+                CurrentName = CurrentName,
+                StartTime = StartTime,
+                EndTime = EndTime,
             };
         }
 
@@ -69,8 +69,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Banner
         /// </summary>
         public void ClearItemsAndStar5List()
         {
-            this.Items?.Clear();
-            this.Star5List?.Clear();
+            Items?.Clear();
+            Star5List?.Clear();
         }
     }
 }

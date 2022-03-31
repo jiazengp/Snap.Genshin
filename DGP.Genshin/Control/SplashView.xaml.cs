@@ -13,8 +13,8 @@ namespace DGP.Genshin.Control
         /// </summary>
         public SplashView()
         {
-            this.DataContext = App.AutoWired<SplashViewModel>();
-            this.InitializeComponent();
+            DataContext = App.AutoWired<SplashViewModel>();
+            InitializeComponent();
         }
     }
 }

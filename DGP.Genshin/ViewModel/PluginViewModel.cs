@@ -4,7 +4,6 @@ using DGP.Genshin.Core.Plugins;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Utility;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -24,10 +23,10 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public PluginViewModel()
         {
-            this.Plugins = App.Current.PluginService.Plugins;
+            Plugins = App.Current.PluginService.Plugins;
 
-            this.OpenPluginFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate(PluginFolder)));
-            this.OpenPluginListLinkCommand = new RelayCommand(() => Browser.Open(PluginsLink));
+            OpenPluginFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate(PluginFolder)));
+            OpenPluginListLinkCommand = new RelayCommand(() => Browser.Open(PluginsLink));
         }
 
         /// <summary>
@@ -35,10 +34,10 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public IEnumerable<IPlugin> Plugins
         {
-            get => this.plugins;
+            get => plugins;
 
             [MemberNotNull(nameof(plugins))]
-            set => this.SetProperty(ref this.plugins, value);
+            set => SetProperty(ref plugins, value);
         }
 
         /// <summary>

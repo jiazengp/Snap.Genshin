@@ -14,8 +14,8 @@ namespace DGP.Genshin.DataModel.Cookie
         /// <param name="userInfo">用户信息</param>
         public CookieUserInfo(string cookie, UserInfo userInfo)
         {
-            this.Cookie = cookie;
-            this.UserInfo = userInfo;
+            Cookie = cookie;
+            UserInfo = userInfo;
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace DGP.Genshin.Page
         public WeeklyPage(WeeklyViewModel vm)
             : base(vm)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

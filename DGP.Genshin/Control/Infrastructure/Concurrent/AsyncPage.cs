@@ -17,14 +17,14 @@ namespace DGP.Genshin.Control.Infrastructure.Concurrent
         /// <param name="viewModel">视图模型</param>
         public AsyncPage(ISupportCancellation viewModel)
         {
-            viewModel.CancellationToken = this.viewLoadingConcellationTokenSource.Token;
-            this.DataContext = viewModel;
+            viewModel.CancellationToken = viewLoadingConcellationTokenSource.Token;
+            DataContext = viewModel;
         }
 
         /// <inheritdoc/>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            this.viewLoadingConcellationTokenSource.Cancel();
+            viewLoadingConcellationTokenSource.Cancel();
             base.OnNavigatingFrom(e);
         }
     }

@@ -43,7 +43,7 @@ namespace DGP.Genshin.Core.Background
         /// </summary>
         ~BackgroundLoader()
         {
-            this.messenger.UnregisterAll(this);
+            messenger.UnregisterAll(this);
         }
 
         private double Lightness { get; set; }
@@ -51,7 +51,7 @@ namespace DGP.Genshin.Core.Background
         /// <inheritdoc/>
         void IRecipient<BackgroundOpacityChangedMessage>.Receive(BackgroundOpacityChangedMessage message)
         {
-            if (this.mainWindow.BackgroundGrid.Background is ImageBrush brush)
+            if (mainWindow.BackgroundGrid.Background is ImageBrush brush)
             {
                 brush.Opacity = message.Value;
             }
@@ -62,7 +62,7 @@ namespace DGP.Genshin.Core.Background
         {
             try
             {
-                this.LoadNextWallpaperAsync().Forget();
+                LoadNextWallpaperAsync().Forget();
             }
             catch (Exception ex)
             {
@@ -81,13 +81,13 @@ namespace DGP.Genshin.Core.Background
             BitmapImage? image = await backgroundProvider.GetNextBitmapImageAsync();
             if (image != null)
             {
-                this.TrySetTargetAdaptiveBackgroundOpacityValue(image);
+                TrySetTargetAdaptiveBackgroundOpacityValue(image);
 
                 // first pic
-                if (this.mainWindow.BackgroundGrid.Background is null)
+                if (mainWindow.BackgroundGrid.Background is null)
                 {
                     // 直接设置背景
-                    this.mainWindow.BackgroundGrid.Background = new ImageBrush
+                    mainWindow.BackgroundGrid.Background = new ImageBrush
                     {
                         ImageSource = image,
                         Stretch = Stretch.UniformToFill,
@@ -96,7 +96,7 @@ namespace DGP.Genshin.Core.Background
                 }
                 else
                 {
-                    Grid backgroundPresenter = this.mainWindow.BackgroundGrid;
+                    Grid backgroundPresenter = mainWindow.BackgroundGrid;
                     DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(0, AnimationDuration);
 
                     // Fade out old image
@@ -119,7 +119,7 @@ namespace DGP.Genshin.Core.Background
                     backgroundPresenter.Background.BeginAnimation(Brush.OpacityProperty, null);
 
                     backgroundPresenter.Background.Opacity = Setting2.BackgroundOpacity;
-                    this.messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
+                    messenger.Send(new AdaptiveBackgroundOpacityChangedMessage(Setting2.BackgroundOpacity));
                 }
             }
         }
@@ -135,15 +135,15 @@ namespace DGP.Genshin.Core.Background
             if (Setting2.IsBackgroundOpacityAdaptive)
             {
                 // this operation is really laggy
-                this.Lightness = image.GetPixels()
+                Lightness = image.GetPixels()
                     .Cast<Pixel>()
                     .Select(p => ((p.Red * 0.299) + (p.Green * 0.587) + (p.Blue * 0.114)) * (p.Alpha / 255D) / 255)
                     .Average();
 
-                this.Log($"Lightness: {this.Lightness}");
+                this.Log($"Lightness: {Lightness}");
 
                 bool isDarkMode = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
-                double targetOpacity = isDarkMode ? (1 - this.Lightness) * 0.4 : this.Lightness * 0.6;
+                double targetOpacity = isDarkMode ? (1 - Lightness) * 0.4 : Lightness * 0.6;
                 this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
                 Setting2.BackgroundOpacity.Set(targetOpacity);
             }

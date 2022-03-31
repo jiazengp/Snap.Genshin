@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
@@ -17,9 +15,9 @@ namespace DGP.Genshin.Control.Converter
         /// </summary>
         public Style TrueStyle
         {
-            get => (Style)this.GetValue(TrueStyleProperty);
+            get => (Style)GetValue(TrueStyleProperty);
 
-            set => this.SetValue(TrueStyleProperty, value);
+            set => SetValue(TrueStyleProperty, value);
         }
 
         /// <summary>
@@ -27,9 +25,9 @@ namespace DGP.Genshin.Control.Converter
         /// </summary>
         public Style FalseStyle
         {
-            get => (Style)this.GetValue(FalseStyleProperty);
+            get => (Style)GetValue(FalseStyleProperty);
 
-            set => this.SetValue(FalseStyleProperty, value);
+            set => SetValue(FalseStyleProperty, value);
         }
 
         /// <inheritdoc/>
@@ -46,7 +44,7 @@ namespace DGP.Genshin.Control.Converter
                 flag = flag2.HasValue && flag2.Value;
             }
 
-            return !flag ? this.FalseStyle : this.TrueStyle;
+            return !flag ? FalseStyle : TrueStyle;
         }
 
         /// <inheritdoc/>

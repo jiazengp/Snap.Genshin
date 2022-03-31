@@ -12,7 +12,7 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         /// </summary>
         public StatisticCard()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

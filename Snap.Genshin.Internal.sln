@@ -63,7 +63,6 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{bff58b44-5e4a-4f3c-9d7a-0733c0d798b8}*SharedItemsImports = 13
-		Common\DGP.Genshin.Secret\DGP.Genshin.Secret.projitems*{e4fac04f-49b9-42aa-b31e-6c7a0dbeb1fd}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

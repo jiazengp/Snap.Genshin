@@ -16,10 +16,10 @@
         /// <param name="value">值</param>
         public Item(int id, string? name, string? icon, TValue value)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Icon = icon;
-            this.Value = value;
+            Id = id;
+            Name = name;
+            Icon = icon;
+            Value = value;
         }
 
         /// <summary>

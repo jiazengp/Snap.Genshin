@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
-using System.Windows;
 using WPFUI.Appearance;
 
 namespace DGP.Genshin
@@ -48,11 +47,11 @@ namespace DGP.Genshin
         public App()
         {
             // prevent later call change executing assembly
-            _ = this.Version;
-            this.pluginService = new PluginService();
-            this.switchableImplementationManager = new();
-            this.serviceManager = new SnapGenshinServiceManager();
-            this.switchableImplementationManager.SwitchToCorrectImplementations();
+            _ = Version;
+            pluginService = new PluginService();
+            switchableImplementationManager = new();
+            serviceManager = new SnapGenshinServiceManager();
+            switchableImplementationManager.SwitchToCorrectImplementations();
         }
 
         /// <summary>
@@ -95,8 +94,8 @@ namespace DGP.Genshin
         {
             get
             {
-                this.version ??= Assembly.GetExecutingAssembly().GetName().Version!;
-                return this.version;
+                version ??= Assembly.GetExecutingAssembly().GetName().Version!;
+                return version;
             }
         }
 
@@ -110,7 +109,7 @@ namespace DGP.Genshin
         /// </summary>
         internal ServiceManagerBase ServiceManager
         {
-            get => this.serviceManager;
+            get => serviceManager;
         }
 
         /// <summary>
@@ -118,7 +117,7 @@ namespace DGP.Genshin
         /// </summary>
         internal IPluginService PluginService
         {
-            get => this.pluginService;
+            get => pluginService;
         }
 
         /// <summary>
@@ -126,7 +125,7 @@ namespace DGP.Genshin
         /// </summary>
         internal SwitchableImplementationManager SwitchableImplementationManager
         {
-            get => this.switchableImplementationManager;
+            get => switchableImplementationManager;
         }
 
         /// <summary>
@@ -209,25 +208,25 @@ namespace DGP.Genshin
         /// <inheritdoc/>
         protected override void OnStartup(StartupEventArgs e)
         {
-            this.ConfigureWorkingDirectory();
-            this.ConfigureUnhandledException();
+            ConfigureWorkingDirectory();
+            ConfigureUnhandledException();
 
             // handle notification activation
-            this.ConfigureToastNotification();
-            this.singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
+            ConfigureToastNotification();
+            singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
 
             // app center services
-            this.ConfigureAppCenter(true);
+            ConfigureAppCenter(true);
 
             // global requester callback
-            this.ConfigureRequester();
+            ConfigureRequester();
 
             // services
             AutoWired<ISettingService>().Initialize();
 
             // app theme
-            this.UpdateAppTheme();
-            this.TriggerAppStartUpEvent();
+            UpdateAppTheme();
+            TriggerAppStartUpEvent();
 
             // open main window
             base.OnStartup(e);
@@ -237,10 +236,10 @@ namespace DGP.Genshin
         /// <inheritdoc/>
         protected override void OnExit(ExitEventArgs e)
         {
-            if (!this.singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
-                this.switchableImplementationManager.UnInitialize();
+                switchableImplementationManager.UnInitialize();
 
                 // make sure settings are saved last
                 AutoWired<ISettingService>().UnInitialize();
@@ -263,10 +262,10 @@ namespace DGP.Genshin
         {
             e.Cancel = true;
             base.OnSessionEnding(e);
-            if (!this.singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
             {
                 Messenger.Send(new AppExitingMessage());
-                this.switchableImplementationManager.UnInitialize();
+                switchableImplementationManager.UnInitialize();
                 AutoWired<ISettingService>().UnInitialize();
                 try
                 {
@@ -289,19 +288,19 @@ namespace DGP.Genshin
 
         private void TriggerAppStartUpEvent()
         {
-            this.pluginService.Plugins
+            pluginService.Plugins
                 .OfType<IAppStartUp>()
-                .ForEach(notified => notified.Happen(this.DI));
+                .ForEach(notified => notified.Happen(DI));
         }
 
         private void ConfigureUnhandledException()
         {
-            AppDomain.CurrentDomain.UnhandledException += this.OnUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (!this.singleInstanceChecker.IsEnsureingSingleInstance)
+            if (!singleInstanceChecker.IsEnsureingSingleInstance)
             {
                 // unhandled exception now can be uploaded automatically
                 new ExceptionWindow((Exception)e.ExceptionObject).ShowDialog();
@@ -327,7 +326,7 @@ namespace DGP.Genshin
 
         private void ConfigureToastNotification()
         {
-            ToastNotificationManagerCompat.OnActivated += this.toastNotificationHandler.OnActivatedByNotification;
+            ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
         }
 
         private void UpdateAppTheme()

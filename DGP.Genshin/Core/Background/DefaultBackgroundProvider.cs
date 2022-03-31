@@ -47,7 +47,7 @@ namespace DGP.Genshin.Core.Background
             {
                 latestFilePath = randomPath;
                 this.Log($"Loading background wallpaper from {randomPath}");
-                return this.GetBitmapImageFromPath(randomPath);
+                return GetBitmapImageFromPath(randomPath);
             }
 
             return null;

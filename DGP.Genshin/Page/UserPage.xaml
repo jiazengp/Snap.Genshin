@@ -466,6 +466,20 @@
                                         </TextBlock>
                                     </Grid>
                                 </wu:Card>
+                                <wu:Card Padding="0" Margin="0,12,0,0" Visibility="{Binding DailyNote.Transformer.Obtained,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="参量质变仪" Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock Margin="0,4,0,0" Text="{Binding DailyNote.Transformer.RecoveryTime.TimeFormatted}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   Text="{Binding DailyNote.Transformer.RecoveryTime.ReachedFormatted}"/>
+                                    </Grid>
+                                </wu:Card>
                                 <wu:Card Padding="0" Margin="0,12,0,0">
                                     <Grid>
                                         <Grid.RowDefinitions>

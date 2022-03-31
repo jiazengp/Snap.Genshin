@@ -25,9 +25,9 @@ namespace DGP.Genshin.Service
             T defaultValue = definition.DefaultValue;
             Func<object, T>? converter = definition.Converter;
 
-            if (!this.settings.TryGetValue(key, out object? value))
+            if (!settings.TryGetValue(key, out object? value))
             {
-                this.settings[key] = defaultValue;
+                settings[key] = defaultValue;
                 return defaultValue;
             }
             else
@@ -59,23 +59,23 @@ namespace DGP.Genshin.Service
                 this.Log($"setting {key} to {value} internally without notify");
             }
 
-            this.settings[key] = value;
+            settings[key] = value;
         }
 
         /// <inheritdoc/>
         public void Initialize()
         {
-            if (File.Exists(this.settingFile))
+            if (File.Exists(settingFile))
             {
                 try
                 {
-                    this.settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(this.settingFile));
+                    settings = Json.ToObjectOrNew<ConcurrentDictionary<string, object?>>(File.ReadAllText(settingFile));
 
                     // only catch those exception that json file corrupted
                 }
                 catch (JsonReaderException)
                 {
-                    this.settings = new();
+                    settings = new();
                 }
             }
         }
@@ -83,9 +83,9 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public void UnInitialize()
         {
-            string settingString = Json.Stringify(this.settings);
+            string settingString = Json.Stringify(settings);
             this.Log(settingString);
-            File.WriteAllText(this.settingFile, settingString);
+            File.WriteAllText(settingFile, settingString);
         }
     }
 }

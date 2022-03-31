@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace DGP.Genshin.Control.Helper
+﻿namespace DGP.Genshin.Control.Helper
 {
     /// <summary>
     /// Segou Fluent Icons 图标帮助类

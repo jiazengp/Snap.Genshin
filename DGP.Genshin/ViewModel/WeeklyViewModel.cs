@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using WeeklyDefinition = DGP.Genshin.DataModel.Material.Weeklies;
 
 namespace DGP.Genshin.ViewModel
@@ -33,7 +32,7 @@ namespace DGP.Genshin.ViewModel
         {
             this.metadata = metadata;
 
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         /// <inheritdoc/>
@@ -42,7 +41,7 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 周本列表
         /// </summary>
-        public IList<Weekly>? Weeklies { get => this.weeklies; set => this.SetProperty(ref this.weeklies, value); }
+        public IList<Weekly>? Weeklies { get => weeklies; set => SetProperty(ref weeklies, value); }
 
         /// <summary>
         /// 打开界面触发的命令
@@ -53,8 +52,8 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                await Task.Delay(500, this.CancellationToken);
-                this.BuildWeeklies();
+                await Task.Delay(500, CancellationToken);
+                BuildWeeklies();
             }
             catch (TaskCanceledException)
             {
@@ -64,46 +63,46 @@ namespace DGP.Genshin.ViewModel
 
         private void BuildWeeklies()
         {
-            this.Weeklies = new List<Weekly>()
+            Weeklies = new List<Weekly>()
             {
                 new Weekly(
                     "裂空的魔龙",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.DvalinsPlume),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.DvalinsClaw),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.DvalinsSigh)),
+                    IndexedFromWeeklyName(WeeklyDefinition.DvalinsPlume),
+                    IndexedFromWeeklyName(WeeklyDefinition.DvalinsClaw),
+                    IndexedFromWeeklyName(WeeklyDefinition.DvalinsSigh)),
                 new Weekly(
                     "北风的王狼",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.TailofBoreas),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.RingofBoreas),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.SpiritLocketofBoreas)),
+                    IndexedFromWeeklyName(WeeklyDefinition.TailofBoreas),
+                    IndexedFromWeeklyName(WeeklyDefinition.RingofBoreas),
+                    IndexedFromWeeklyName(WeeklyDefinition.SpiritLocketofBoreas)),
 
                 new Weekly(
                     "「公子」",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.TuskofMonocerosCaeli),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.ShardofaFoulLegacy),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.ShadowoftheWarrior)),
+                    IndexedFromWeeklyName(WeeklyDefinition.TuskofMonocerosCaeli),
+                    IndexedFromWeeklyName(WeeklyDefinition.ShardofaFoulLegacy),
+                    IndexedFromWeeklyName(WeeklyDefinition.ShadowoftheWarrior)),
                 new Weekly(
                     "若陀龙王",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.DragonLordsCrown),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.BloodjadeBranch),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.GildedScale)),
+                    IndexedFromWeeklyName(WeeklyDefinition.DragonLordsCrown),
+                    IndexedFromWeeklyName(WeeklyDefinition.BloodjadeBranch),
+                    IndexedFromWeeklyName(WeeklyDefinition.GildedScale)),
 
                 new Weekly(
                     "「女士」",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.MoltenMoment),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.HellfireButterfly),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.AshenHeart)),
+                    IndexedFromWeeklyName(WeeklyDefinition.MoltenMoment),
+                    IndexedFromWeeklyName(WeeklyDefinition.HellfireButterfly),
+                    IndexedFromWeeklyName(WeeklyDefinition.AshenHeart)),
                 new Weekly(
                     "祸津御建鸣神命",
-                    this.IndexedFromWeeklyName(WeeklyDefinition.MudraoftheMaleficGeneral),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.TearsoftheCalamitousGod),
-                    this.IndexedFromWeeklyName(WeeklyDefinition.TheMeaningofAeons)),
+                    IndexedFromWeeklyName(WeeklyDefinition.MudraoftheMaleficGeneral),
+                    IndexedFromWeeklyName(WeeklyDefinition.TearsoftheCalamitousGod),
+                    IndexedFromWeeklyName(WeeklyDefinition.TheMeaningofAeons)),
             };
         }
 
         private Indexed<Material?, Character> IndexedFromWeeklyName(string weeklyName)
         {
-            List<Character> list = this.metadata.Characters
+            List<Character> list = metadata.Characters
                 .Where(c => c.Weekly!.Source == weeklyName)
                 .ToList();
             return new(list.FirstOrDefault()?.Weekly, list);
@@ -123,10 +122,10 @@ namespace DGP.Genshin.ViewModel
             /// <param name="third">材料3列表</param>
             public Weekly(string name, Indexed<Material?, Character> first, Indexed<Material?, Character> second, Indexed<Material?, Character> third)
             {
-                this.Name = name;
-                this.First = first;
-                this.Second = second;
-                this.Third = third;
+                Name = name;
+                First = first;
+                Second = second;
+                Third = third;
             }
 
             /// <summary>

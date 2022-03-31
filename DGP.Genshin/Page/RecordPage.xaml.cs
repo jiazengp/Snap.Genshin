@@ -19,24 +19,24 @@ namespace DGP.Genshin.Page
         public RecordPage(RecordViewModel vm)
             : base(vm)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private RecordViewModel ViewModel
         {
-            get => (RecordViewModel)this.DataContext;
+            get => (RecordViewModel)DataContext;
         }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             string? uid = args.ChosenSuggestion != null ? args.ChosenSuggestion.ToString() : args.QueryText;
-            this.ViewModel.QueryCommand.Execute(uid);
+            ViewModel.QueryCommand.Execute(uid);
         }
 
         private void CardAction_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             string? uid = (string?)((CardAction)sender).CommandParameter;
-            this.ViewModel.QueryCommand.Execute(uid);
+            ViewModel.QueryCommand.Execute(uid);
         }
     }
 }

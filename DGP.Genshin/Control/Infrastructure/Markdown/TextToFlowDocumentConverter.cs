@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Infrastructure.Markdown
 {
@@ -18,9 +16,9 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         /// </summary>
         public Markdown? Markdown
         {
-            get => (Markdown)this.GetValue(MarkdownProperty);
+            get => (Markdown)GetValue(MarkdownProperty);
 
-            set => this.SetValue(MarkdownProperty, value);
+            set => SetValue(MarkdownProperty, value);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
 
             string text = (string)value;
 
-            Markdown engine = this.Markdown ?? this.mMarkdown.Value;
+            Markdown engine = Markdown ?? mMarkdown.Value;
 
             return engine.Transform(text);
         }

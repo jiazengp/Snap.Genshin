@@ -14,8 +14,8 @@ namespace DGP.Genshin.Control.GenshinElement.HutaoStatistic
         /// <param name="playerRecord">待确认上传的记录</param>
         public UploadDialog(PlayerRecord playerRecord)
         {
-            this.DataContext = playerRecord;
-            this.InitializeComponent();
+            DataContext = playerRecord;
+            InitializeComponent();
         }
     }
 }

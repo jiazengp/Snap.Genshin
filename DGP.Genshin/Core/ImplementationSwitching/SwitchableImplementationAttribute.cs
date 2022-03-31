@@ -25,11 +25,11 @@
         /// <param name="description">显示的描述</param>
         public SwitchableImplementationAttribute(Type targetInterface, string name, string description)
         {
-            this.TargetType = targetInterface;
+            TargetType = targetInterface;
             Requires.Argument(name != DefaultName, nameof(name), "注册的名称不能与默认实现名称相同");
-            this.Name = name;
+            Name = name;
             Requires.Argument(description != DefaultDescription, nameof(name), "注册的描述不能与默认实现描述相同");
-            this.Description = description;
+            Description = description;
         }
 
         /// <summary>
@@ -38,9 +38,9 @@
         /// <param name="targetInterface">目标实现接口</param>
         internal SwitchableImplementationAttribute(Type targetInterface)
         {
-            this.TargetType = targetInterface;
-            this.Name = DefaultName;
-            this.Description = DefaultDescription;
+            TargetType = targetInterface;
+            Name = DefaultName;
+            Description = DefaultDescription;
         }
 
         /// <summary>

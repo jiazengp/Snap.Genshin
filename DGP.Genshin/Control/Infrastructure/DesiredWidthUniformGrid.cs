@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows.Controls.Primitives;
 
 namespace DGP.Genshin.Control.Infrastructure
 {
@@ -17,15 +16,15 @@ namespace DGP.Genshin.Control.Infrastructure
         /// </summary>
         public double ColumnDesiredWidth
         {
-            get => (double)this.GetValue(ColumnDesiredWidthProperty);
+            get => (double)GetValue(ColumnDesiredWidthProperty);
 
-            set => this.SetValue(ColumnDesiredWidthProperty, value);
+            set => SetValue(ColumnDesiredWidthProperty, value);
         }
 
         /// <inheritdoc/>
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
-            this.SetCorrectColumn();
+            SetCorrectColumn();
             base.OnRenderSizeChanged(sizeInfo);
         }
 
@@ -36,9 +35,9 @@ namespace DGP.Genshin.Control.Infrastructure
 
         private void SetCorrectColumn()
         {
-            if (this.ColumnDesiredWidth > 0)
+            if (ColumnDesiredWidth > 0)
             {
-                this.Columns = (int)Math.Round(this.ActualWidth / this.ColumnDesiredWidth);
+                Columns = (int)Math.Round(ActualWidth / ColumnDesiredWidth);
             }
         }
     }

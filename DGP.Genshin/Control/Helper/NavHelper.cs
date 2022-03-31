@@ -1,5 +1,4 @@
 ﻿using ModernWpf.Controls;
-using System.Windows;
 
 namespace DGP.Genshin.Control.Helper
 {

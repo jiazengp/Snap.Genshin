@@ -16,15 +16,16 @@ namespace DGP.Genshin.DataModel.DailyNote
         private bool notifyOnDailyTasksIncomplete;
         private bool notifyOnExpeditionsComplete;
         private bool keepNotificationFront;
+        private bool notifyOnTransformerReady;
 
         /// <summary>
         /// 保持通知在前台不收入通知中心
         /// </summary>
         public bool KeepNotificationFront
         {
-            get => this.keepNotificationFront;
+            get => keepNotificationFront;
 
-            set => this.Set(ref this.keepNotificationFront, value);
+            set => Set(ref keepNotificationFront, value);
         }
 
         /// <summary>
@@ -32,9 +33,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnResinReach20
         {
-            get => this.notifyOnResinReach20;
+            get => notifyOnResinReach20;
 
-            set => this.Set(ref this.notifyOnResinReach20, value);
+            set => Set(ref notifyOnResinReach20, value);
         }
 
         /// <summary>
@@ -42,9 +43,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnResinReach40
         {
-            get => this.notifyOnResinReach40;
+            get => notifyOnResinReach40;
 
-            set => this.Set(ref this.notifyOnResinReach40, value);
+            set => Set(ref notifyOnResinReach40, value);
         }
 
         /// <summary>
@@ -52,9 +53,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnResinReach80
         {
-            get => this.notifyOnResinReach80;
+            get => notifyOnResinReach80;
 
-            set => this.Set(ref this.notifyOnResinReach80, value);
+            set => Set(ref notifyOnResinReach80, value);
         }
 
         /// <summary>
@@ -62,9 +63,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnResinReach120
         {
-            get => this.notifyOnResinReach120;
+            get => notifyOnResinReach120;
 
-            set => this.Set(ref this.notifyOnResinReach120, value);
+            set => Set(ref notifyOnResinReach120, value);
         }
 
         /// <summary>
@@ -72,9 +73,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnResinReach155
         {
-            get => this.notifyOnResinReach155;
+            get => notifyOnResinReach155;
 
-            set => this.Set(ref this.notifyOnResinReach155, value);
+            set => Set(ref notifyOnResinReach155, value);
         }
 
         /// <summary>
@@ -82,9 +83,19 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnHomeCoinReach80Percent
         {
-            get => this.notifyOnHomeCoinReach80Percent;
+            get => notifyOnHomeCoinReach80Percent;
 
-            set => this.Set(ref this.notifyOnHomeCoinReach80Percent, value);
+            set => Set(ref notifyOnHomeCoinReach80Percent, value);
+        }
+
+        /// <summary>
+        /// 当参量质变仪可用时提醒
+        /// </summary>
+        public bool NotifyOnTransformerReady
+        {
+            get => notifyOnTransformerReady;
+
+            set => Set(ref notifyOnTransformerReady, value);
         }
 
         /// <summary>
@@ -92,9 +103,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnDailyTasksIncomplete
         {
-            get => this.notifyOnDailyTasksIncomplete;
+            get => notifyOnDailyTasksIncomplete;
 
-            set => this.Set(ref this.notifyOnDailyTasksIncomplete, value);
+            set => Set(ref notifyOnDailyTasksIncomplete, value);
         }
 
         /// <summary>
@@ -102,9 +113,9 @@ namespace DGP.Genshin.DataModel.DailyNote
         /// </summary>
         public bool NotifyOnExpeditionsComplete
         {
-            get => this.notifyOnExpeditionsComplete;
+            get => notifyOnExpeditionsComplete;
 
-            set => this.Set(ref this.notifyOnExpeditionsComplete, value);
+            set => Set(ref notifyOnExpeditionsComplete, value);
         }
     }
 }

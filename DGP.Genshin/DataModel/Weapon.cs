@@ -53,7 +53,7 @@
         /// <inheritdoc/>
         public override string? GetBadge()
         {
-            return this.Type;
+            return Type;
         }
     }
 }

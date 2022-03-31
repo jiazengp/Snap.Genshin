@@ -20,11 +20,11 @@ namespace DGP.Genshin.DataModel.GachaStatistic.Item
         {
             return new()
             {
-                StarUrl = this.StarUrl,
-                Source = this.Source,
-                Name = this.Name,
-                Badge = this.Badge,
-                Time = this.Time,
+                StarUrl = StarUrl,
+                Source = Source,
+                Name = Name,
+                Badge = Badge,
+                Time = Time,
             };
         }
     }

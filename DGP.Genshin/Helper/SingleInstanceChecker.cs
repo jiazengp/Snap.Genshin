@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DGP.Genshin.Helper
 {
@@ -41,26 +40,26 @@ namespace DGP.Genshin.Helper
             // check if it is already open.
             try
             {
-                this.IsEnsureingSingleInstance = true;
-                this.eventWaitHandle = EventWaitHandle.OpenExisting(this.uniqueEventName);
-                this.eventWaitHandle.Set();
-                this.IsExitDueToSingleInstanceRestriction = true;
+                IsEnsureingSingleInstance = true;
+                eventWaitHandle = EventWaitHandle.OpenExisting(uniqueEventName);
+                eventWaitHandle.Set();
+                IsExitDueToSingleInstanceRestriction = true;
 
                 app.Shutdown();
             }
             catch (WaitHandleCannotBeOpenedException)
             {
-                this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, this.uniqueEventName);
+                eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, uniqueEventName);
             }
             finally
             {
-                this.IsEnsureingSingleInstance = false;
+                IsEnsureingSingleInstance = false;
             }
 
             new Task(() =>
             {
                 // if this instance gets the signal
-                while (this.eventWaitHandle.WaitOne())
+                while (eventWaitHandle.WaitOne())
                 {
                     App.Current.Dispatcher.Invoke(multiInstancePresentAction);
                 }

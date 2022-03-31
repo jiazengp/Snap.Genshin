@@ -14,8 +14,8 @@ namespace DGP.Genshin.DataModel.Cookie
         /// <param name="userGameRole">角色信息</param>
         public CookieUserGameRole(string cookie, UserGameRole userGameRole)
         {
-            this.Cookie = cookie;
-            this.UserGameRole = userGameRole;
+            Cookie = cookie;
+            UserGameRole = userGameRole;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace DGP.Genshin.DataModel.Cookie
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.UserGameRole.ToString();
+            return UserGameRole.ToString();
         }
     }
 }

@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using DataModelWeapon = DGP.Genshin.DataModel.Weapon;
 using WeaponMaterial = DGP.Genshin.DataModel.Material.Weapon;
 
@@ -37,9 +36,9 @@ namespace DGP.Genshin.ViewModel
         /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
         public DailyViewModel(MetadataViewModel metadataViewModel, IAsyncRelayCommandFactory asyncRelayCommandFactory)
         {
-            this.metadata = metadataViewModel;
+            metadata = metadataViewModel;
 
-            this.OpenUICommand = asyncRelayCommandFactory.Create(this.OpenUIAsync);
+            OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         }
 
         /// <inheritdoc/>
@@ -48,7 +47,7 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 城市
         /// </summary>
-        public IList<City>? Cities { get => this.cities; set => this.SetProperty(ref this.cities, value); }
+        public IList<City>? Cities { get => cities; set => SetProperty(ref cities, value); }
 
         /// <summary>
         /// 打开界面触发的命令
@@ -59,8 +58,8 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                await Task.Delay(500, this.CancellationToken);
-                this.BuildCities();
+                await Task.Delay(500, CancellationToken);
+                BuildCities();
             }
             catch (TaskCanceledException)
             {
@@ -72,47 +71,47 @@ namespace DGP.Genshin.ViewModel
         {
             List<Indexed<Talent, Character>> mondstadtCharacter = new()
             {
-                this.IndexedFromTalentName(Talent.Freedom),
-                this.IndexedFromTalentName(Talent.Resistance),
-                this.IndexedFromTalentName(Talent.Ballad),
+                IndexedFromTalentName(Talent.Freedom),
+                IndexedFromTalentName(Talent.Resistance),
+                IndexedFromTalentName(Talent.Ballad),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> mondstadtWeapon = new()
             {
-                this.IndexedFromMaterialName(WeaponMaterial.Decarabian),
-                this.IndexedFromMaterialName(WeaponMaterial.BorealWolf),
-                this.IndexedFromMaterialName(WeaponMaterial.DandelionGladiator),
+                IndexedFromMaterialName(WeaponMaterial.Decarabian),
+                IndexedFromMaterialName(WeaponMaterial.BorealWolf),
+                IndexedFromMaterialName(WeaponMaterial.DandelionGladiator),
             };
             City mondstadt = new("蒙德", MondstadtIcon, mondstadtCharacter, mondstadtWeapon);
 
             List<Indexed<Talent, Character>> liyueCharacter = new()
             {
-                this.IndexedFromTalentName(Talent.Prosperity),
-                this.IndexedFromTalentName(Talent.Diligence),
-                this.IndexedFromTalentName(Talent.Gold),
+                IndexedFromTalentName(Talent.Prosperity),
+                IndexedFromTalentName(Talent.Diligence),
+                IndexedFromTalentName(Talent.Gold),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> liyueWeapon = new()
             {
-                this.IndexedFromMaterialName(WeaponMaterial.Guyun),
-                this.IndexedFromMaterialName(WeaponMaterial.MistVeiled),
-                this.IndexedFromMaterialName(WeaponMaterial.Aerosiderite),
+                IndexedFromMaterialName(WeaponMaterial.Guyun),
+                IndexedFromMaterialName(WeaponMaterial.MistVeiled),
+                IndexedFromMaterialName(WeaponMaterial.Aerosiderite),
             };
             City liyue = new("璃月", LiyueIcon, liyueCharacter, liyueWeapon);
 
             List<Indexed<Talent, Character>> inazumaCharacter = new()
             {
-                this.IndexedFromTalentName(Talent.Transience),
-                this.IndexedFromTalentName(Talent.Elegance),
-                this.IndexedFromTalentName(Talent.Light),
+                IndexedFromTalentName(Talent.Transience),
+                IndexedFromTalentName(Talent.Elegance),
+                IndexedFromTalentName(Talent.Light),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> inazumaWeapon = new()
             {
-                this.IndexedFromMaterialName(WeaponMaterial.DistantSea),
-                this.IndexedFromMaterialName(WeaponMaterial.Narukami),
-                this.IndexedFromMaterialName(WeaponMaterial.Mask),
+                IndexedFromMaterialName(WeaponMaterial.DistantSea),
+                IndexedFromMaterialName(WeaponMaterial.Narukami),
+                IndexedFromMaterialName(WeaponMaterial.Mask),
             };
             City inazuma = new("稻妻", InazumaIcon, inazumaCharacter, inazumaWeapon);
 
-            this.Cities = new List<City>()
+            Cities = new List<City>()
             {
                 mondstadt,
                 liyue,
@@ -123,15 +122,15 @@ namespace DGP.Genshin.ViewModel
         private Indexed<Talent, Character> IndexedFromTalentName(string talentName)
         {
             return new(
-                this.metadata.DailyTalents.First(t => t.Source == talentName),
-                this.metadata.Characters.Where(c => c.Talent!.Source == talentName).ToList());
+                metadata.DailyTalents.First(t => t.Source == talentName),
+                metadata.Characters.Where(c => c.Talent!.Source == talentName).ToList());
         }
 
         private Indexed<WeaponMaterial, DataModelWeapon> IndexedFromMaterialName(string materialName)
         {
             return new(
-                this.metadata.DailyWeapons.First(t => t.Source == materialName),
-                this.metadata.Weapons.Where(c => c.Ascension!.Source == materialName).ToList());
+                metadata.DailyWeapons.First(t => t.Source == materialName),
+                metadata.Weapons.Where(c => c.Ascension!.Source == materialName).ToList());
         }
 
         /// <summary>
@@ -148,10 +147,10 @@ namespace DGP.Genshin.ViewModel
             /// <param name="weapons">武器列表</param>
             public City(string name, string source, IList<Indexed<Talent, Character>> characters, IList<Indexed<WeaponMaterial, DataModelWeapon>> weapons)
             {
-                this.Name = name;
-                this.Source = source;
-                this.Characters = characters;
-                this.Weapons = weapons;
+                Name = name;
+                Source = source;
+                Characters = characters;
+                Weapons = weapons;
             }
 
             /// <summary>

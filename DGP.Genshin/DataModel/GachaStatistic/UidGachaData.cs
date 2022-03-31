@@ -14,8 +14,8 @@ namespace DGP.Genshin.DataModel.GachaStatistic
         /// <param name="data">祈愿记录数据</param>
         public UidGachaData(string uid, GachaData data)
         {
-            this.Uid = uid;
-            this.Data = data;
+            Uid = uid;
+            Data = data;
         }
 
         /// <summary>

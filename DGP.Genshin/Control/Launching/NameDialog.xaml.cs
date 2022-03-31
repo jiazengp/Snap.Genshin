@@ -17,8 +17,8 @@ namespace DGP.Genshin.Control.Launching
         /// </summary>
         public NameDialog()
         {
-            this.DataContext = this;
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace DGP.Genshin.Control.Launching
         /// </summary>
         public string? Input
         {
-            get => this.input;
+            get => input;
 
-            set => this.Set(ref this.input, value);
+            set => Set(ref input, value);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace DGP.Genshin.Control.Launching
         /// </summary>
         public GenshinAccount? TargetAccount
         {
-            get => this.targetAccount;
+            get => targetAccount;
 
-            set => this.Set(ref this.targetAccount, value);
+            set => Set(ref targetAccount, value);
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace DGP.Genshin.Control.Launching
         /// <returns>用户输入的字符串或 <see langword="null"/></returns>
         public async Task<string?> GetInputAsync()
         {
-            await this.ShowAsync();
-            return this.Input;
+            await ShowAsync();
+            return Input;
         }
     }
 }

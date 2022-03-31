@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
@@ -18,8 +16,8 @@ namespace DGP.Genshin.Control.Converter
         /// </summary>
         public double A
         {
-            get => (double)this.GetValue(AProperty);
-            set => this.SetValue(AProperty, value);
+            get => (double)GetValue(AProperty);
+            set => SetValue(AProperty, value);
         }
 
         /// <summary>
@@ -27,14 +25,14 @@ namespace DGP.Genshin.Control.Converter
         /// </summary>
         public double B
         {
-            get => (double)this.GetValue(BProperty);
-            set => this.SetValue(BProperty, value);
+            get => (double)GetValue(BProperty);
+            set => SetValue(BProperty, value);
         }
 
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (this.A * (double)value) + this.B;
+            return (A * (double)value) + B;
         }
 
         /// <inheritdoc/>

@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace DGP.Genshin.Helper
+﻿namespace DGP.Genshin.Helper
 {
     /// <summary>
     /// 快速创建 <see cref="TOwner"/> 的 <see cref="DependencyProperty"/>

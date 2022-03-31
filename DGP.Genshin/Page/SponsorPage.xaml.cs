@@ -17,7 +17,7 @@ namespace DGP.Genshin.Page
         public SponsorPage(SponsorViewModel vm)
             : base(vm)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -38,15 +38,15 @@ namespace DGP.Genshin.Service
         /// </summary>
         ~SignInService()
         {
-            this.messenger.UnregisterAll(this);
+            messenger.UnregisterAll(this);
         }
 
         /// <inheritdoc/>
         public async Task TrySignAllAccountsRolesInAsync()
         {
-            using (await this.cookieService.CookiesLock.ReadLockAsync())
+            using (await cookieService.CookiesLock.ReadLockAsync())
             {
-                foreach (string cookie in this.cookieService.Cookies)
+                foreach (string cookie in cookieService.Cookies)
                 {
                     List<UserGameRole> roles = await new UserGameRoleProvider(cookie).GetUserGameRolesAsync();
                     foreach (UserGameRole role in roles)
@@ -61,7 +61,7 @@ namespace DGP.Genshin.Service
                             .SafeShow(toast => { toast.SuppressPopup = Setting2.SignInSilently; }, false);
                     }
 
-                    if (this.cookieService.Cookies.Count > 10)
+                    if (cookieService.Cookies.Count > 10)
                     {
                         await Task.Delay(15000);
                     }
@@ -74,7 +74,7 @@ namespace DGP.Genshin.Service
         {
             if (Setting2.AutoDailySignInOnLaunch)
             {
-                this.TrySignAllAccountsRolesInAsync().Forget();
+                TrySignAllAccountsRolesInAsync().Forget();
             }
         }
     }

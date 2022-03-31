@@ -44,7 +44,7 @@ namespace DGP.Genshin.Service
         public async Task CheckMetadataIntegrityAsync(IProgress<IState> progress)
         {
             this.Log("Integrity Check Start");
-            using (this.IntegrityChecking.Watch())
+            using (IntegrityChecking.Watch())
             {
                 if (Setting2.SkipCacheCheck)
                 {
@@ -52,9 +52,9 @@ namespace DGP.Genshin.Service
                     return;
                 }
 
-                int totalCount = this.GetTotalCount(this.metadataViewModel);
+                int totalCount = GetTotalCount(metadataViewModel);
 
-                await Task.WhenAll(this.BuildIntegrityTasks(this.metadataViewModel, totalCount, progress));
+                await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
                 this.Log($"Integrity Check Complete with {totalCount} entries");
             }
         }
@@ -78,7 +78,7 @@ namespace DGP.Genshin.Service
                         using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
                     }
 
-                    progress.Report(new IntegrityState(++this.cumulatedCount, totalCount, t));
+                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
                 });
             }
         }
@@ -106,7 +106,7 @@ namespace DGP.Genshin.Service
 
             metadata.ForEachPropertyWithAttribute<IEnumerable<KeySource>, IntegrityAwareAttribute>((keySources, attr) =>
             {
-                tasks.Add(this.CheckIntegrityAsync(keySources, totalCount, progress));
+                tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
             });
             return tasks;
         }
@@ -124,9 +124,9 @@ namespace DGP.Genshin.Service
             /// <param name="ks">当前检查完成的源</param>
             public IntegrityState(int count, int totalCount, KeySource? ks)
             {
-                this.CurrentCount = count;
-                this.TotalCount = totalCount;
-                this.Info = ks?.Source?.ToShortFileName();
+                CurrentCount = count;
+                TotalCount = totalCount;
+                Info = ks?.Source?.ToShortFileName();
             }
 
             /// <summary>

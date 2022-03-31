@@ -5,11 +5,14 @@ using System.IO.Compression;
 
 namespace DGP.Genshin.Updater
 {
+    /// <summary>
+    /// 主入口点
+    /// </summary>
     internal class Program
     {
         private static void Main(string[] args)
         {
-            //fix unable to find file issue
+            // fix unable to find file issue
             if (Path.GetDirectoryName(AppContext.BaseDirectory) is string exePath)
             {
                 Environment.CurrentDirectory = exePath;
@@ -30,7 +33,7 @@ namespace DGP.Genshin.Updater
                     Console.WriteLine($"未在 {Directory.GetParent(AppContext.BaseDirectory)} 找到更新文件 'Package.zip'");
                     Console.ReadKey();
                     break;
-            };
+            }
         }
 
         private static void ManualUpdate()
@@ -72,6 +75,7 @@ namespace DGP.Genshin.Updater
                     }
                 }
             }
+
             Console.WriteLine("正在启动Snap Genshin");
             Process.Start("../DGP.Genshin.exe");
         }

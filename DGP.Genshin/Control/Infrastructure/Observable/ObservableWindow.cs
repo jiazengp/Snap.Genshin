@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace DGP.Genshin.Control.Infrastructure.Observable
 {
@@ -14,7 +13,7 @@ namespace DGP.Genshin.Control.Infrastructure.Observable
         /// </summary>
         public ObservableWindow()
         {
-            this.DataContext = this;
+            DataContext = this;
         }
 
         /// <inheritdoc/>
@@ -35,7 +34,7 @@ namespace DGP.Genshin.Control.Infrastructure.Observable
             }
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace DGP.Genshin.Control.Infrastructure.Observable
         /// <param name="propertyName">属性名称</param>
         protected void OnPropertyChanged(string propertyName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

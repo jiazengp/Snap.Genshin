@@ -2,7 +2,6 @@
 using Snap.Data.Utility.Extension;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Control.Infrastructure.CachedImage
@@ -27,9 +26,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         /// </summary>
         public string ImageUrl
         {
-            get => (string)this.GetValue(ImageUrlProperty);
+            get => (string)GetValue(ImageUrlProperty);
 
-            set => this.SetValue(ImageUrlProperty, value);
+            set => SetValue(ImageUrlProperty, value);
         }
 
         /// <summary>
@@ -37,9 +36,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         /// </summary>
         public BitmapCreateOptions CreateOptions
         {
-            get => (BitmapCreateOptions)this.GetValue(CreateOptionsProperty);
+            get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
 
-            set => this.SetValue(CreateOptionsProperty, value);
+            set => SetValue(CreateOptionsProperty, value);
         }
 
         private static void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

@@ -35,7 +35,7 @@ namespace DGP.Genshin.Service
                 try
                 {
                     Requires.NotNull(uid!, nameof(uid));
-                    RecordProvider recordProvider = new(this.cookieService.CurrentCookie);
+                    RecordProvider recordProvider = new(cookieService.CurrentCookie);
 
                     string? server = recordProvider.EvaluateUidRegion(uid);
                     Requires.NotNull(server!, nameof(server));

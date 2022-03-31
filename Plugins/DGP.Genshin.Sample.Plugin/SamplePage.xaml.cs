@@ -8,8 +8,8 @@ namespace DGP.Genshin.Sample.Plugin
     {
         public SamplePage(SampleViewModel vm)
         {
-            this.DataContext = vm;
-            this.InitializeComponent();
+            DataContext = vm;
+            InitializeComponent();
         }
     }
 }

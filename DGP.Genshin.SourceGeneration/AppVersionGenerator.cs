@@ -22,6 +22,7 @@ namespace DGP.Genshin.SourceGeneration
         public void Initialize(GeneratorInitializationContext context)
         {
             string currentVersion = $"{DateTime.Now:yyyy.M.d}.0";
+
             //环境变量中存在版本号
             if (Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User) is string oldVersion)
             {
@@ -30,6 +31,7 @@ namespace DGP.Genshin.SourceGeneration
                     currentVersion = oldVersion;
                 }
             }
+
             //递增版本号
             string[] versionSegments = currentVersion.Split('.');
 

@@ -14,7 +14,7 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         /// </summary>
         public GachaLogUrlDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -23,8 +23,8 @@ namespace DGP.Genshin.Control.GenshinElement.GachaStatistic
         /// <returns>用户输入的结果</returns>
         public async Task<Result<bool, string>> GetInputUrlAsync()
         {
-            bool isOk = await this.ShowAsync() != ContentDialogResult.Secondary;
-            return Results.Condition(isOk, this.InputText.Text, string.Empty);
+            bool isOk = await ShowAsync() != ContentDialogResult.Secondary;
+            return Results.Condition(isOk, InputText.Text, string.Empty);
         }
     }
 }

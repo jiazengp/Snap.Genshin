@@ -23,7 +23,7 @@ namespace DGP.Genshin.DataModel
         /// </summary>
         public SolidColorBrush? StarSolid
         {
-            get => StarHelper.ToSolid(this.Star);
+            get => StarHelper.ToSolid(Star);
         }
 
         /// <summary>

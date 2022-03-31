@@ -20,7 +20,7 @@ namespace DGP.Genshin.Core.ImplementationSwitching
         /// </summary>
         public SwitchableImplementationManager()
         {
-            this.TypeData = Json.FromFileOrNew<ImplmentationTypeData>(PathContext.Locate(ImplementationsFile));
+            TypeData = Json.FromFileOrNew<ImplmentationTypeData>(PathContext.Locate(ImplementationsFile));
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace DGP.Genshin.Core.ImplementationSwitching
         /// </summary>
         public void SwitchToCorrectImplementations()
         {
-            this.CurrentBackgroundProvider = this.BackgroundProviders.First(i => i.Name == this.TypeData.BackgroundProviderName);
-            this.CurrentLaunchService = this.LaunchServices.First(i => i.Name == this.TypeData.LaunchServiceName);
+            CurrentBackgroundProvider = BackgroundProviders.First(i => i.Name == TypeData.BackgroundProviderName);
+            CurrentLaunchService = LaunchServices.First(i => i.Name == TypeData.LaunchServiceName);
         }
 
         /// <summary>
@@ -61,10 +61,10 @@ namespace DGP.Genshin.Core.ImplementationSwitching
         /// </summary>
         public void UnInitialize()
         {
-            this.TypeData.BackgroundProviderName = this.CurrentBackgroundProvider!.Name;
-            this.TypeData.LaunchServiceName = this.CurrentLaunchService!.Name;
+            TypeData.BackgroundProviderName = CurrentBackgroundProvider!.Name;
+            TypeData.LaunchServiceName = CurrentLaunchService!.Name;
 
-            Json.ToFile(PathContext.Locate(ImplementationsFile), this.TypeData);
+            Json.ToFile(PathContext.Locate(ImplementationsFile), TypeData);
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace DGP.Genshin.Core.ImplementationSwitching
             /// <param name="factory">工厂</param>
             public SwitchableEntry(SwitchableImplementationAttribute attribute, Lazy<T> factory)
             {
-                this.Name = attribute.Name;
-                this.Description = attribute.Description;
-                this.Factory = factory;
+                Name = attribute.Name;
+                Description = attribute.Description;
+                Factory = factory;
             }
 
             /// <summary>

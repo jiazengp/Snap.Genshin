@@ -12,7 +12,7 @@
         /// <param name="type">可切换服务的类型</param>
         public SwitchableInterfaceTypeAttribute(Type type)
         {
-            this.Type = type;
+            Type = type;
         }
 
         /// <summary>

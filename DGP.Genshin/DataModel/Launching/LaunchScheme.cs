@@ -14,10 +14,10 @@
         /// <param name="subChannel">子通道</param>
         public LaunchScheme(string name, string channel, string cps, string subChannel)
         {
-            this.Name = name;
-            this.Channel = channel;
-            this.CPS = cps;
-            this.SubChannel = subChannel;
+            Name = name;
+            Channel = channel;
+            CPS = cps;
+            SubChannel = subChannel;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <returns>方案类型</returns>
         public SchemeType GetSchemeType()
         {
-            return (this.Channel, this.SubChannel) switch
+            return (Channel, SubChannel) switch
             {
                 ("1", "1") => SchemeType.Officical,
                 ("14", "0") => SchemeType.Bilibili,

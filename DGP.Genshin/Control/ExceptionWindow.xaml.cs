@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.Control.Infrastructure.Observable;
 using Snap.Win32;
-using System.Windows;
 
 namespace DGP.Genshin.Control
 {
@@ -17,8 +16,8 @@ namespace DGP.Genshin.Control
         /// <param name="ex">要展示的异常</param>
         public ExceptionWindow(Exception ex)
         {
-            this.ExceptionObject = ex;
-            this.InitializeComponent();
+            ExceptionObject = ex;
+            InitializeComponent();
         }
 
         /// <summary>
@@ -26,10 +25,10 @@ namespace DGP.Genshin.Control
         /// </summary>
         public Exception ExceptionObject
         {
-            get => this.exceptionObject;
+            get => exceptionObject;
 
             [MemberNotNull(nameof(exceptionObject))]
-            set => this.Set(ref this.exceptionObject, value);
+            set => Set(ref exceptionObject, value);
         }
 
         /// <summary>
@@ -37,12 +36,12 @@ namespace DGP.Genshin.Control
         /// </summary>
         public string ExceptionType
         {
-            get => this.ExceptionObject.GetType().ToString();
+            get => ExceptionObject.GetType().ToString();
         }
 
         private void CopyInfoAppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            string stackTrace = this.ExceptionObject.ToString();
+            string stackTrace = ExceptionObject.ToString();
 
             // clear before copy
             Clipboard.Clear();

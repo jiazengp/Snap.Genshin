@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xaml.Behaviors;
-using System.Windows;
 
 namespace DGP.Genshin.Control.Behavior
 {
@@ -11,14 +10,14 @@ namespace DGP.Genshin.Control.Behavior
         /// <inheritdoc/>
         protected override void OnAttached()
         {
-            this.AssociatedObject.MouseLeftButtonDown += this.MouseDown;
+            AssociatedObject.MouseLeftButtonDown += MouseDown;
             base.OnAttached();
         }
 
         /// <inheritdoc/>
         protected override void OnDetaching()
         {
-            this.AssociatedObject.MouseLeftButtonDown -= this.MouseDown;
+            AssociatedObject.MouseLeftButtonDown -= MouseDown;
             base.OnDetaching();
         }
 

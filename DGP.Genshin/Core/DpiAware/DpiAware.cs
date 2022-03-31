@@ -1,5 +1,4 @@
 ﻿using Snap.Win32.NativeMethod;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace DGP.Genshin.Core.DpiAware

@@ -1,8 +1,6 @@
 ﻿using ModernWpf.Controls;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -43,8 +41,8 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         private void OnForegroundPropertyChanged(DependencyPropertyChangedEventArgs args)
         {
             BaseValueSource baseValueSource = DependencyPropertyHelper.GetValueSource(this, args.Property).BaseValueSource;
-            this._isForegroundDefaultOrInherited = baseValueSource <= BaseValueSource.Inherited;
-            this.UpdateShouldInheritForegroundFromVisualParent();
+            _isForegroundDefaultOrInherited = baseValueSource <= BaseValueSource.Inherited;
+            UpdateShouldInheritForegroundFromVisualParent();
         }
 
         /// <summary>
@@ -57,9 +55,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         [Category("Appearance")]
         public Brush Foreground
         {
-            get => (Brush)this.GetValue(ForegroundProperty);
+            get => (Brush)GetValue(ForegroundProperty);
 
-            set => this.SetValue(ForegroundProperty, value);
+            set => SetValue(ForegroundProperty, value);
         }
 
         #endregion
@@ -75,9 +73,9 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private protected Brush VisualParentForeground
         {
-            get => (Brush)this.GetValue(VisualParentForegroundProperty);
+            get => (Brush)GetValue(VisualParentForegroundProperty);
 
-            set => this.SetValue(VisualParentForegroundProperty, value);
+            set => SetValue(VisualParentForegroundProperty, value);
         }
 
         private static void OnVisualParentForegroundPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -93,17 +91,17 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private protected bool ShouldInheritForegroundFromVisualParent
         {
-            get => this._shouldInheritForegroundFromVisualParent;
+            get => _shouldInheritForegroundFromVisualParent;
 
             private set
             {
-                if (this._shouldInheritForegroundFromVisualParent != value)
+                if (_shouldInheritForegroundFromVisualParent != value)
                 {
-                    this._shouldInheritForegroundFromVisualParent = value;
+                    _shouldInheritForegroundFromVisualParent = value;
 
-                    if (this._shouldInheritForegroundFromVisualParent)
+                    if (_shouldInheritForegroundFromVisualParent)
                     {
-                        this.SetBinding(VisualParentForegroundProperty,
+                        SetBinding(VisualParentForegroundProperty,
                             new Binding
                             {
                                 Path = new PropertyPath(TextElement.ForegroundProperty),
@@ -112,10 +110,10 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                     }
                     else
                     {
-                        this.ClearValue(VisualParentForegroundProperty);
+                        ClearValue(VisualParentForegroundProperty);
                     }
 
-                    this.OnShouldInheritForegroundFromVisualParentChanged();
+                    OnShouldInheritForegroundFromVisualParentChanged();
                 }
             }
         }
@@ -126,19 +124,19 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private void UpdateShouldInheritForegroundFromVisualParent()
         {
-            this.ShouldInheritForegroundFromVisualParent =
-                this._isForegroundDefaultOrInherited &&
-                this.Parent != null &&
-                this.VisualParent != null &&
-                this.Parent != this.VisualParent;
+            ShouldInheritForegroundFromVisualParent =
+                _isForegroundDefaultOrInherited &&
+                Parent != null &&
+                VisualParent != null &&
+                Parent != VisualParent;
         }
 
         private protected UIElementCollection Children
         {
             get
             {
-                this.EnsureLayoutRoot();
-                return this._layoutRoot!.Children;
+                EnsureLayoutRoot();
+                return _layoutRoot!.Children;
             }
         }
 
@@ -153,8 +151,8 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         {
             if (index == 0)
             {
-                this.EnsureLayoutRoot();
-                return this._layoutRoot!;
+                EnsureLayoutRoot();
+                return _layoutRoot!;
             }
             else
             {
@@ -164,39 +162,39 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            this.EnsureLayoutRoot();
-            this._layoutRoot!.Measure(availableSize);
-            return this._layoutRoot.DesiredSize;
+            EnsureLayoutRoot();
+            _layoutRoot!.Measure(availableSize);
+            return _layoutRoot.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            this.EnsureLayoutRoot();
-            this._layoutRoot!.Arrange(new Rect(default(Point), finalSize));
+            EnsureLayoutRoot();
+            _layoutRoot!.Arrange(new Rect(default(Point), finalSize));
             return finalSize;
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
             base.OnVisualParentChanged(oldParent);
-            this.UpdateShouldInheritForegroundFromVisualParent();
+            UpdateShouldInheritForegroundFromVisualParent();
         }
 
         private void EnsureLayoutRoot()
         {
-            if (this._layoutRoot != null)
+            if (_layoutRoot != null)
             {
                 return;
             }
 
-            this._layoutRoot = new Grid
+            _layoutRoot = new Grid
             {
                 Background = Brushes.Transparent,
                 SnapsToDevicePixels = true,
             };
-            this.InitializeChildren();
+            InitializeChildren();
 
-            this.AddVisualChild(this._layoutRoot);
+            AddVisualChild(_layoutRoot);
         }
 
         private Grid? _layoutRoot;

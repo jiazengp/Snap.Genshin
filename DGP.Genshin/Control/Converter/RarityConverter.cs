@@ -1,6 +1,5 @@
 ﻿using DGP.Genshin.DataModel.Helper;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {

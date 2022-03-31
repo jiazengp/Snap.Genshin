@@ -76,9 +76,9 @@ namespace DGP.Genshin.Service
                 UpdateInfomation? info = await updateChecker.GetUpdateInfomationAsync();
                 if (info != null)
                 {
-                    this.ReleaseNote = info.ReleaseNote;
-                    this.PackageUri = info.PackageUrl;
-                    this.NewVersion = new Version(info.Version);
+                    ReleaseNote = info.ReleaseNote;
+                    PackageUri = info.PackageUrl;
+                    NewVersion = new Version(info.Version);
                 }
                 else
                 {
@@ -91,13 +91,13 @@ namespace DGP.Genshin.Service
                 }
                 else
                 {
-                    if (this.NewVersion > this.CurrentVersion)
+                    if (NewVersion > CurrentVersion)
                     {
                         return UpdateState.NeedUpdate;
                     }
                     else
                     {
-                        if (this.NewVersion == this.CurrentVersion)
+                        if (NewVersion == CurrentVersion)
                         {
                             return UpdateState.IsNewestRelease;
                         }
@@ -117,24 +117,24 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public async Task DownloadAndInstallPackageAsync()
         {
-            if (this.updateTaskPreventer.ShouldExecute)
+            if (updateTaskPreventer.ShouldExecute)
             {
                 string destinationPath = PathContext.Locate("Package.zip");
 
-                Requires.NotNull(this.PackageUri!, nameof(this.PackageUri));
-                Requires.NotNull(this.NewVersion!, nameof(this.NewVersion));
+                Requires.NotNull(PackageUri!, nameof(PackageUri));
+                Requires.NotNull(NewVersion!, nameof(NewVersion));
 
-                this.InnerDownloader = new(this.PackageUri, destinationPath);
-                this.notificationUpdater = new(this.NewVersion.ToString(), this.messenger);
-                IProgress<DownloadInfomation> progress = new Progress<DownloadInfomation>(this.notificationUpdater.OnProgressChanged);
+                InnerDownloader = new(PackageUri, destinationPath);
+                notificationUpdater = new(NewVersion.ToString(), messenger);
+                IProgress<DownloadInfomation> progress = new Progress<DownloadInfomation>(notificationUpdater.OnProgressChanged);
 
                 // toast can only be shown & updated by main thread
-                this.notificationUpdater.ShowDownloadToastNotification();
+                notificationUpdater.ShowDownloadToastNotification();
 
                 bool caught = false;
                 try
                 {
-                    await this.InnerDownloader.DownloadAsync(progress);
+                    await InnerDownloader.DownloadAsync(progress);
                 }
                 catch
                 {
@@ -142,7 +142,7 @@ namespace DGP.Genshin.Service
                 }
                 finally
                 {
-                    this.messenger.Send(UpdateProgressedMessage.Default);
+                    messenger.Send(UpdateProgressedMessage.Default);
                 }
 
                 if (caught)
@@ -154,10 +154,10 @@ namespace DGP.Genshin.Service
                 }
                 else
                 {
-                    this.StartInstallUpdate();
+                    StartInstallUpdate();
                 }
 
-                this.updateTaskPreventer.Release();
+                updateTaskPreventer.Release();
             }
         }
 
@@ -290,12 +290,12 @@ namespace DGP.Genshin.Service
             /// </summary>
             internal void ShowDownloadToastNotification()
             {
-                this.lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
+                lastNotificationUpdateResult = NotificationUpdateResult.Succeeded;
                 new ToastContentBuilder()
                     .AddText("下载更新中...")
                     .AddVisualChild(new AdaptiveProgressBar()
                     {
-                        Title = this.progressTitle,
+                        Title = progressTitle,
                         Value = new BindableProgressBarValue("progressValue"),
                         ValueStringOverride = new BindableString("progressValueString"),
                         Status = new BindableString("progressStatus"),
@@ -322,13 +322,13 @@ namespace DGP.Genshin.Service
             {
                 // message will be sent anyway.
                 string valueString = downloadInfomation.ToString();
-                this.messenger.Send(new UpdateProgressedMessage(downloadInfomation));
+                messenger.Send(new UpdateProgressedMessage(downloadInfomation));
 
                 // if user has dismissed the notification, we don't update it anymore
-                if (this.lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
+                if (lastNotificationUpdateResult is NotificationUpdateResult.Succeeded)
                 {
                     // notification could only be updated by main thread.
-                    this.ExecuteOnUI(() => this.UpdateNotificationValue(downloadInfomation));
+                    this.ExecuteOnUI(() => UpdateNotificationValue(downloadInfomation));
                 }
             }
 
@@ -348,7 +348,7 @@ namespace DGP.Genshin.Service
                 }
 
                 // Update the existing notification's data
-                this.lastNotificationUpdateResult = ToastNotificationManagerCompat
+                lastNotificationUpdateResult = ToastNotificationManagerCompat
                     .CreateToastNotifier()
                     .Update(data, UpdateNotificationTag);
             }

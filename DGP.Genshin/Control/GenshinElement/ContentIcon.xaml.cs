@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
@@ -23,8 +22,8 @@ namespace DGP.Genshin.Control.GenshinElement
         public ContentIcon()
         {
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
-            this.Loaded += this.ContentIconLoaded;
-            this.InitializeComponent();
+            Loaded += ContentIconLoaded;
+            InitializeComponent();
         }
 
         /// <summary>
@@ -32,9 +31,9 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public string BackgroundUrl
         {
-            get => (string)this.GetValue(BackgroundUrlProperty);
+            get => (string)GetValue(BackgroundUrlProperty);
 
-            set => this.SetValue(BackgroundUrlProperty, value);
+            set => SetValue(BackgroundUrlProperty, value);
         }
 
         /// <summary>
@@ -42,9 +41,9 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public string ForegroundUrl
         {
-            get => (string)this.GetValue(ForegroundUrlProperty);
+            get => (string)GetValue(ForegroundUrlProperty);
 
-            set => this.SetValue(ForegroundUrlProperty, value);
+            set => SetValue(ForegroundUrlProperty, value);
         }
 
         /// <summary>
@@ -52,9 +51,9 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public string BadgeUrl
         {
-            get => (string)this.GetValue(BadgeUrlProperty);
+            get => (string)GetValue(BadgeUrlProperty);
 
-            set => this.SetValue(BadgeUrlProperty, value);
+            set => SetValue(BadgeUrlProperty, value);
         }
 
         /// <summary>
@@ -62,17 +61,17 @@ namespace DGP.Genshin.Control.GenshinElement
         /// </summary>
         public bool IsCountVisible
         {
-            get => (bool)this.GetValue(IsCountVisibleProperty);
+            get => (bool)GetValue(IsCountVisibleProperty);
 
-            set => this.SetValue(IsCountVisibleProperty, value);
+            set => SetValue(IsCountVisibleProperty, value);
         }
 
         private void ContentIconLoaded(object sender, RoutedEventArgs e)
         {
-            (this.FindResource(FadeInAnimationKey) as Storyboard)?.Begin();
+            (FindResource(FadeInAnimationKey) as Storyboard)?.Begin();
 
             // thus only affect first load
-            this.Loaded -= this.ContentIconLoaded;
+            Loaded -= ContentIconLoaded;
         }
     }
 }

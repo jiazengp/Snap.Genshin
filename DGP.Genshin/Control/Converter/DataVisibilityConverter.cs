@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace DGP.Genshin.Control.Converter
 {
