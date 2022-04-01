@@ -61,10 +61,9 @@ namespace DGP.Genshin.Service
                             .SafeShow(toast => { toast.SuppressPopup = Setting2.SignInSilently; }, false);
                     }
 
-                    if (cookieService.Cookies.Count > 10)
-                    {
-                        await Task.Delay(15000);
-                    }
+                    // Starting from 2022.4.1 or so
+                    // We need always wait 15 seconds to sign another account in.
+                    await Task.Delay(15000);
                 }
             }
         }
