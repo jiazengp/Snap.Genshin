@@ -46,6 +46,8 @@ namespace DGP.Genshin.Service
 
         private Dictionary<UserGameRole, bool> ContinueNotifyHomeCoin { get; } = new();
 
+        private Dictionary<UserGameRole, bool> ContinueNotifyTransformer { get; } = new();
+
         private Dictionary<UserGameRole, bool> ContinueNotifyDailyTask { get; } = new();
 
         private Dictionary<UserGameRole, bool> ContinueNotifyExpedition { get; } = new();
@@ -68,14 +70,8 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public DailyNote? GetDailyNote(CookieUserGameRole cookieUserGameRole)
         {
-            if (DailyNotes.ContainsKey(cookieUserGameRole))
-            {
-                return DailyNotes[cookieUserGameRole];
-            }
-            else
-            {
-                return null;
-            }
+            DailyNotes.TryGetValue(cookieUserGameRole, out DailyNote? dailyNote);
+            return dailyNote;
         }
 
         /// <inheritdoc/>
@@ -120,6 +116,12 @@ namespace DGP.Genshin.Service
                                 ContinueNotifyHomeCoin,
                                 EvaluateHomeCoin,
                                 dailyNote => $"当前洞天宝钱：{dailyNote.CurrentHomeCoin}");
+                            TrySendDailyNoteNotification(
+                                userGameRole,
+                                dailyNote,
+                                ContinueNotifyTransformer,
+                                EvaluateTransformer,
+                                dailyNote => $"参量质变仪已可使用");
                             TrySendDailyNoteNotification(
                                 userGameRole,
                                 dailyNote,
@@ -217,6 +219,16 @@ namespace DGP.Genshin.Service
         private bool EvaluateHomeCoin(DailyNoteNotifyConfiguration notify, DailyNote note)
         {
             return notify.NotifyOnHomeCoinReach80Percent && (note.CurrentHomeCoin >= (note.MaxHomeCoin * 0.8));
+        }
+
+        private bool EvaluateTransformer(DailyNoteNotifyConfiguration notify, DailyNote note)
+        {
+            if (note.Transformer?.RecoveryTime is null)
+            {
+                return false;
+            }
+
+            return notify.NotifyOnTransformerReady && (note.Transformer.RecoveryTime.Reached);
         }
 
         private bool EvaluateDailyTask(DailyNoteNotifyConfiguration notify, DailyNote note)

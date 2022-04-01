@@ -46,7 +46,7 @@
         /// 注册附加属性
         /// </summary>
         /// <typeparam name="TProperty">属性的类型</typeparam>
-        /// <param name="name">属性名称，会自动去除Get Set Property</param>
+        /// <param name="name">属性名称</param>
         /// <returns>注册的附加属性</returns>
         public static DependencyProperty Attach<TProperty>(string name)
         {
@@ -57,7 +57,7 @@
         /// 注册附加属性
         /// </summary>
         /// <typeparam name="TProperty">属性的类型</typeparam>
-        /// <param name="name">属性名称，会自动去除Get Set Property</param>
+        /// <param name="name">属性名称</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns>注册的附加属性</returns>
         public static DependencyProperty Attach<TProperty>(string name, TProperty defaultValue)
@@ -69,7 +69,7 @@
         /// 注册附加属性
         /// </summary>
         /// <typeparam name="TProperty">属性的类型</typeparam>
-        /// <param name="name">属性名称，会自动去除Get Set Property</param>
+        /// <param name="name">属性名称</param>
         /// <param name="callback">属性更改回调</param>
         /// <returns>注册的附加属性</returns>
         public static DependencyProperty Attach<TProperty>(string name, PropertyChangedCallback callback)

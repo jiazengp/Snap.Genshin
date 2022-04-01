@@ -557,6 +557,10 @@
                                             <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnHomeCoinReach80Percent}"/>
                                         </wu:CardControl>
                                         <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
+                                            Title="参量质变仪" Subtitle="当参量质变仪准备好时提醒我">
+                                            <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnTransformerReady}"/>
+                                        </wu:CardControl>
+                                        <wu:CardControl BorderBrush="{x:Null}" Background="Transparent"
                                             Title="每日任务" Subtitle="当每日任务未完成或完成但未领取奖励时提醒我">
                                             <ui:ToggleSwitch IsOn="{Binding DailyNoteNotifyConfiguration.NotifyOnDailyTasksIncomplete}"/>
                                         </wu:CardControl>
