@@ -68,13 +68,10 @@
         public T GetNonValueType(Func<T> defaultValueFactory)
         {
             T obj = Get();
-            if (obj is null)
-            {
-                obj = defaultValueFactory.Invoke()!;
-                Set(obj);
-            }
+            obj ??= defaultValueFactory.Invoke();
 
-            return obj;
+            Set(obj);
+            return obj!;
         }
 
         /// <summary>

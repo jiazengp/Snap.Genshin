@@ -7,15 +7,27 @@ namespace DGP.Genshin.SourceGeneration
     public class AppVersionGenerator : ISourceGenerator
     {
         private const string AutoVersionKey = "SGAppAutoVersion";
+        private const string AutoVersionEnabledKey = "SGAppAutoVersionEnabled";
 
         public void Execute(GeneratorExecutionContext context)
         {
-            string version = Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User);
+            string? enabled = Environment.GetEnvironmentVariable(AutoVersionEnabledKey, EnvironmentVariableTarget.User);
+            string sourceCode;
 
-            string sourceCode = $@"using System.Reflection;
+            if (enabled == "true")
+            {
+                string version = Environment.GetEnvironmentVariable(AutoVersionKey, EnvironmentVariableTarget.User);
+
+                sourceCode = $@"using System.Reflection;
 
 [assembly: AssemblyVersion(""{version}"")]";
+            }
+            else
+            {
+                sourceCode = $@"using System.Reflection;
 
+[assembly: AssemblyVersion(""2022.4.1.0"")]";
+            }
             context.AddSource("AssemblyInfo.g.cs", sourceCode);
         }
 

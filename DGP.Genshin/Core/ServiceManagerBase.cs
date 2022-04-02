@@ -57,7 +57,7 @@ namespace DGP.Genshin.Core
         }
 
         /// <summary>
-        /// 向容器注册服务
+        /// 向容器注册服务, 调用<see cref="RegisterService(ServiceCollection, Type)"/>
         /// </summary>
         /// <param name="services">容器</param>
         /// <param name="entryType">入口类型，该类型所在的程序集均会被扫描</param>

@@ -49,7 +49,7 @@ namespace DGP.Genshin.Core.Background
         private double Lightness { get; set; }
 
         /// <inheritdoc/>
-        void IRecipient<BackgroundOpacityChangedMessage>.Receive(BackgroundOpacityChangedMessage message)
+        public void Receive(BackgroundOpacityChangedMessage message)
         {
             if (mainWindow.BackgroundGrid.Background is ImageBrush brush)
             {
@@ -58,7 +58,7 @@ namespace DGP.Genshin.Core.Background
         }
 
         /// <inheritdoc/>
-        void IRecipient<BackgroundChangeRequestMessage>.Receive(BackgroundChangeRequestMessage message)
+        public void Receive(BackgroundChangeRequestMessage message)
         {
             try
             {
@@ -83,11 +83,13 @@ namespace DGP.Genshin.Core.Background
             {
                 TrySetTargetAdaptiveBackgroundOpacityValue(image);
 
+                Grid backgroundPresenter = mainWindow.BackgroundGrid;
+
                 // first pic
-                if (mainWindow.BackgroundGrid.Background is null)
+                if (backgroundPresenter.Background is null)
                 {
                     // 直接设置背景
-                    mainWindow.BackgroundGrid.Background = new ImageBrush
+                    backgroundPresenter.Background = new ImageBrush
                     {
                         ImageSource = image,
                         Stretch = Stretch.UniformToFill,
@@ -96,7 +98,6 @@ namespace DGP.Genshin.Core.Background
                 }
                 else
                 {
-                    Grid backgroundPresenter = mainWindow.BackgroundGrid;
                     DoubleAnimation fadeOutAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(0, AnimationDuration);
 
                     // Fade out old image

@@ -40,6 +40,8 @@ namespace DGP.Genshin.Core
         /// <inheritdoc/>
         protected override void RegisterService(ServiceCollection services, Type type)
         {
+            base.RegisterService(services, type);
+
             // filter out switchable implementation
             if (type.TryGetAttribute(out SwitchableImplementationAttribute? attr))
             {
