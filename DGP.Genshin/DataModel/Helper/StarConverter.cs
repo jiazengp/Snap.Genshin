@@ -16,7 +16,7 @@ namespace DGP.Genshin.DataModel.Helper
         /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw Assumes.NotReachable();
+            throw Must.NeverHappen();
         }
     }
 }

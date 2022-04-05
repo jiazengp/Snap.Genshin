@@ -141,7 +141,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             return await ImportFromExternalDataAsync<UIGF>(filePath, gachaData, file =>
             {
-                Requires.NotNull(file!, nameof(file));
+                Must.NotNull(file!);
                 ImportableGachaData importData = new();
                 importData.Uid = file.Info!.Uid;
                 importData.Data = new();
@@ -156,7 +156,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
                             // refactor 400 type here to prevent 400 list json file creation
                             type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
-                            Requires.NotNull(type!, nameof(type));
+                            Must.NotNull(type!);
                             if (!importData.Data.ContainsKey(type))
                             {
                                 importData.Data.Add(type, new());
@@ -290,7 +290,7 @@ namespace DGP.Genshin.Service.GachaStatistic
 
                 // refactor 400 type here to redirect list addition
                 type = type == ConfigType.CharacterEventWish2 ? ConfigType.CharacterEventWish : type;
-                Requires.NotNull(type!, nameof(type));
+                Must.NotNull(type!);
                 if (!importData.Data.ContainsKey(type))
                 {
                     importData.Data.Add(type, new());
@@ -394,7 +394,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         private async Task<string> ImportImportableGachaDataAsync(ImportableGachaData importable, GachaDataCollection gachaData)
         {
             await Task.Yield();
-            Requires.NotNull(importable.Uid!, nameof(importable.Uid));
+            Must.NotNull(importable.Uid!);
 
             if (importable.Data is GachaData data)
             {
@@ -610,7 +610,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 3 => System.Drawing.Color.FromArgb(255, 81, 128, 203),
                 4 => System.Drawing.Color.FromArgb(255, 161, 86, 224),
                 5 => System.Drawing.Color.FromArgb(255, 188, 105, 50),
-                _ => throw Assumes.NotReachable(),
+                _ => throw Must.NeverHappen(),
             };
         }
     }

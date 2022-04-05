@@ -52,8 +52,11 @@ namespace DGP.Genshin.Core.ImplementationSwitching
         /// </summary>
         public void SwitchToCorrectImplementations()
         {
-            CurrentBackgroundProvider = BackgroundProviders.First(i => i.Name == TypeData.BackgroundProviderName);
-            CurrentLaunchService = LaunchServices.First(i => i.Name == TypeData.LaunchServiceName);
+            CurrentBackgroundProvider = BackgroundProviders.FirstOrDefault(i => i.Name == TypeData.BackgroundProviderName)
+                ?? BackgroundProviders.First(i => i.Name == SwitchableImplementationAttribute.DefaultName);
+
+            CurrentLaunchService = LaunchServices.FirstOrDefault(i => i.Name == TypeData.LaunchServiceName)
+                ?? LaunchServices.First(i => i.Name == SwitchableImplementationAttribute.DefaultName);
         }
 
         /// <summary>

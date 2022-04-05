@@ -240,7 +240,7 @@ namespace DGP.Genshin.ViewModel
             {
                 await MatchAccountAsync();
                 CurrentScheme = KnownSchemes
-                    .First(item => item.CPS == launchService.GameConfig["General"]["cps"]);
+                    .FirstOrDefault(item => item.CPS == launchService.GameConfig["General"]["cps"]);
             }
             else
             {

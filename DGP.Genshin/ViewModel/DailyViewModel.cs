@@ -69,45 +69,48 @@ namespace DGP.Genshin.ViewModel
 
         private void BuildCities()
         {
+            DateTime now = DateTime.UtcNow + TimeSpan.FromHours(4);
+            DayOfWeek dayOfWeek = now.DayOfWeek;
+
             List<Indexed<Talent, Character>> mondstadtCharacter = new()
             {
-                IndexedFromTalentName(Talent.Freedom),
-                IndexedFromTalentName(Talent.Resistance),
-                IndexedFromTalentName(Talent.Ballad),
+                IndexedFromTalentName(Talent.Freedom, dayOfWeek, 1),
+                IndexedFromTalentName(Talent.Resistance, dayOfWeek, 2),
+                IndexedFromTalentName(Talent.Ballad, dayOfWeek, 0),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> mondstadtWeapon = new()
             {
-                IndexedFromMaterialName(WeaponMaterial.Decarabian),
-                IndexedFromMaterialName(WeaponMaterial.BorealWolf),
-                IndexedFromMaterialName(WeaponMaterial.DandelionGladiator),
+                IndexedFromMaterialName(WeaponMaterial.Decarabian, dayOfWeek, 1),
+                IndexedFromMaterialName(WeaponMaterial.BorealWolf, dayOfWeek, 2),
+                IndexedFromMaterialName(WeaponMaterial.DandelionGladiator, dayOfWeek, 0),
             };
             City mondstadt = new("蒙德", MondstadtIcon, mondstadtCharacter, mondstadtWeapon);
 
             List<Indexed<Talent, Character>> liyueCharacter = new()
             {
-                IndexedFromTalentName(Talent.Prosperity),
-                IndexedFromTalentName(Talent.Diligence),
-                IndexedFromTalentName(Talent.Gold),
+                IndexedFromTalentName(Talent.Prosperity, dayOfWeek, 1),
+                IndexedFromTalentName(Talent.Diligence, dayOfWeek, 2),
+                IndexedFromTalentName(Talent.Gold, dayOfWeek, 0),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> liyueWeapon = new()
             {
-                IndexedFromMaterialName(WeaponMaterial.Guyun),
-                IndexedFromMaterialName(WeaponMaterial.MistVeiled),
-                IndexedFromMaterialName(WeaponMaterial.Aerosiderite),
+                IndexedFromMaterialName(WeaponMaterial.Guyun, dayOfWeek, 1),
+                IndexedFromMaterialName(WeaponMaterial.MistVeiled, dayOfWeek, 2),
+                IndexedFromMaterialName(WeaponMaterial.Aerosiderite, dayOfWeek, 0),
             };
             City liyue = new("璃月", LiyueIcon, liyueCharacter, liyueWeapon);
 
             List<Indexed<Talent, Character>> inazumaCharacter = new()
             {
-                IndexedFromTalentName(Talent.Transience),
-                IndexedFromTalentName(Talent.Elegance),
-                IndexedFromTalentName(Talent.Light),
+                IndexedFromTalentName(Talent.Transience, dayOfWeek, 1),
+                IndexedFromTalentName(Talent.Elegance, dayOfWeek, 2),
+                IndexedFromTalentName(Talent.Light, dayOfWeek, 0),
             };
             List<Indexed<WeaponMaterial, DataModelWeapon>> inazumaWeapon = new()
             {
-                IndexedFromMaterialName(WeaponMaterial.DistantSea),
-                IndexedFromMaterialName(WeaponMaterial.Narukami),
-                IndexedFromMaterialName(WeaponMaterial.Mask),
+                IndexedFromMaterialName(WeaponMaterial.DistantSea, dayOfWeek, 1),
+                IndexedFromMaterialName(WeaponMaterial.Narukami, dayOfWeek, 2),
+                IndexedFromMaterialName(WeaponMaterial.Mask, dayOfWeek, 0),
             };
             City inazuma = new("稻妻", InazumaIcon, inazumaCharacter, inazumaWeapon);
 
@@ -119,18 +122,26 @@ namespace DGP.Genshin.ViewModel
             };
         }
 
-        private Indexed<Talent, Character> IndexedFromTalentName(string talentName)
+        private Indexed<Talent, Character> IndexedFromTalentName(string talentName, DayOfWeek dayOfWeek, int position)
         {
             return new(
-                metadata.DailyTalents.First(t => t.Source == talentName),
-                metadata.Characters.Where(c => c.Talent!.Source == talentName).ToList());
+                metadata.DailyTalents
+                    .First(t => t.Source == talentName)
+                    .SetAvailability(dayOfWeek == DayOfWeek.Sunday || (int)dayOfWeek % 3 == position),
+                metadata.Characters
+                    .Where(c => c.Talent!.Source == talentName)
+                    .ToList());
         }
 
-        private Indexed<WeaponMaterial, DataModelWeapon> IndexedFromMaterialName(string materialName)
+        private Indexed<WeaponMaterial, DataModelWeapon> IndexedFromMaterialName(string materialName, DayOfWeek dayOfWeek, int position)
         {
             return new(
-                metadata.DailyWeapons.First(t => t.Source == materialName),
-                metadata.Weapons.Where(c => c.Ascension!.Source == materialName).ToList());
+                metadata.DailyWeapons
+                    .First(t => t.Source == materialName)
+                    .SetAvailability(dayOfWeek == DayOfWeek.Sunday || (int)dayOfWeek % 3 == position),
+                metadata.Weapons
+                    .Where(c => c.Ascension!.Source == materialName)
+                    .ToList());
         }
 
         /// <summary>

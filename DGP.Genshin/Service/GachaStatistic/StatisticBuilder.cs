@@ -143,15 +143,15 @@ namespace DGP.Genshin.Service.GachaStatistic
             CounterOf<StatisticItem> counter = new();
             foreach (List<GachaLogItem>? list in data.Values)
             {
-                Requires.NotNull(list!, nameof(list));
+                Must.NotNull(list!);
                 foreach (GachaLogItem i in list)
                 {
                     if (i.ItemType == itemType)
                     {
-                        Requires.NotNull(i.Name!, nameof(i.Name));
+                        Must.NotNull(i.Name!);
                         if (!counter.ContainsKey(i.Name))
                         {
-                            Requires.NotNull(i.Rank!, nameof(i.Rank));
+                            Must.NotNull(i.Rank!);
                             counter[i.Name] = new StatisticItem()
                             {
                                 Count = 0,
@@ -235,7 +235,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             // clone from metadata
             List<SpecificBanner>? clonedBanners = metadataViewModel.SpecificBanners?.ClonePartially();
-            Requires.NotNull(clonedBanners!, nameof(clonedBanners));
+            Must.NotNull(clonedBanners!);
 
             clonedBanners.ForEach(b => b.ClearItemsAndStar5List());
 

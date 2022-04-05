@@ -27,12 +27,12 @@ namespace DGP.Genshin.Helper
             {
                 RegistryKey currentUser = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 RegistryKey? run = currentUser.CreateSubKey(RunPath);
-                Requires.NotNull(run!, nameof(run));
+                Must.NotNull(run!);
 
                 if (value)
                 {
                     string? appFileName = Process.GetCurrentProcess().MainModule?.FileName;
-                    Requires.NotNull(appFileName!, nameof(appFileName));
+                    Must.NotNull(appFileName!);
                     run.SetValue(AppName, appFileName);
                 }
                 else

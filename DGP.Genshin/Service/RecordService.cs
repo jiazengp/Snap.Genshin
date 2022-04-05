@@ -34,27 +34,27 @@ namespace DGP.Genshin.Service
             {
                 try
                 {
-                    Requires.NotNull(uid!, nameof(uid));
+                    Must.NotNull(uid!);
                     RecordProvider recordProvider = new(cookieService.CurrentCookie);
 
                     string? server = recordProvider.EvaluateUidRegion(uid);
-                    Requires.NotNull(server!, nameof(server));
+                    Must.NotNull(server!);
 
                     progress.Report("正在获取 玩家基础统计信息 (1/4)");
                     PlayerInfo? playerInfo = await recordProvider.GetPlayerInfoAsync(uid, server);
-                    Requires.NotNull(playerInfo!, nameof(playerInfo));
+                    Must.NotNull(playerInfo!);
 
                     progress.Report("正在获取 本期深境螺旋信息 (2/4)");
                     SpiralAbyss? spiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, SpiralAbyssType.Current);
-                    Requires.NotNull(spiralAbyss!, nameof(spiralAbyss));
+                    Must.NotNull(spiralAbyss!);
 
                     progress.Report("正在获取 上期深境螺旋信息 (3/4)");
                     SpiralAbyss? lastSpiralAbyss = await recordProvider.GetSpiralAbyssAsync(uid, server, SpiralAbyssType.Last);
-                    Requires.NotNull(lastSpiralAbyss!, nameof(lastSpiralAbyss));
+                    Must.NotNull(lastSpiralAbyss!);
 
                     progress.Report("正在获取 详细角色信息 (4/4)");
                     DetailedAvatarWrapper? detailedAvatarInfo = await recordProvider.GetDetailAvaterInfoAsync(uid, server, playerInfo);
-                    Requires.NotNull(detailedAvatarInfo!, nameof(detailedAvatarInfo));
+                    Must.NotNull(detailedAvatarInfo!);
 
                     return new Record
                     {

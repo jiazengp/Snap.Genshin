@@ -201,9 +201,9 @@ namespace DGP.Genshin
 
         private async Task TrySignInOnStartUpAsync()
         {
-            if (Setting2.AutoDailySignInOnLaunch.Get())
+            if (Setting2.AutoDailySignInOnLaunch)
             {
-                if (Setting2.LastAutoSignInTime.Get() < DateTime.Today)
+                if (DateTime.Today > Setting2.LastAutoSignInTime)
                 {
                     await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
                 }
@@ -213,19 +213,19 @@ namespace DGP.Genshin
         private async Task CheckUpdateForWhatsNewAsync()
         {
             await CheckUpdateForNotificationAsync();
-            IUpdateService updateService = App.AutoWired<IUpdateService>();
-            Setting2.AppVersion.Set(updateService.CurrentVersion);
+            Setting2.AppVersion.Set(App.AutoWired<IUpdateService>().CurrentVersion);
         }
 
         private async Task CheckUpdateForNotificationAsync()
         {
-            switch (await App.AutoWired<IUpdateService>().CheckUpdateStateAsync())
+            IUpdateService updateService = App.AutoWired<IUpdateService>();
+            switch (await updateService.CheckUpdateStateAsync())
             {
                 case UpdateState.NeedUpdate:
                     {
                         new ToastContentBuilder()
                             .AddText("有新的更新可用")
-                            .AddText(App.AutoWired<IUpdateService>().NewVersion?.ToString())
+                            .AddText(updateService.NewVersion?.ToString())
                             .AddButton(new ToastButton()
                                 .SetContent("更新")
                                 .AddArgument("action", "update")

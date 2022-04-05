@@ -70,7 +70,13 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<Character> Characters
         {
-            get => ProxyCollcetion(ref characters, CharactersJson);
+            get => ProxyCollcetion(ref characters, CharactersJson, collection =>
+                {
+                    return new(collection
+                            .OrderByDescending(i => i.Star)
+                            .ThenBy(i => i.Element)
+                            .ThenBy(i => i.Name));
+                });
         }
 
         /// <summary>
@@ -79,7 +85,13 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<DataModelWeapon> Weapons
         {
-            get => ProxyCollcetion(ref weapons, WeaponsJson);
+            get => ProxyCollcetion(ref weapons, WeaponsJson, collection =>
+            {
+                return new(collection
+                        .OrderByDescending(i => i.Star)
+                        .ThenBy(i => i.Type)
+                        .ThenBy(i => i.Name));
+            });
         }
 
         /// <summary>
@@ -176,7 +188,7 @@ namespace DGP.Genshin.ViewModel
             return FindPrimitiveByName(name)?.Source;
         }
 
-        private T ProxyCollcetion<T>(ref T collection, string fileName)
+        private T ProxyCollcetion<T>(ref T collection, string fileName, Func<T, T>? firstTimeProcessor = null)
             where T : new()
         {
             if (collection is not null)
@@ -191,6 +203,11 @@ namespace DGP.Genshin.ViewModel
                     string json = File.ReadAllText(path);
                     this.Log($"{fileName} loaded.");
                     collection ??= Json.ToObjectOrNew<T>(json);
+                    if (firstTimeProcessor != null)
+                    {
+                        collection = firstTimeProcessor(collection);
+                    }
+
                     return collection;
                 }
                 else

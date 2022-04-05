@@ -62,7 +62,7 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public string CurrentCookie
         {
-            get => Requires.NotNull(currentCookie!, nameof(currentCookie));
+            get => Must.NotNull(currentCookie!);
 
             private set
             {
@@ -221,7 +221,7 @@ namespace DGP.Genshin.Service
                     .Select(b => Base64Converter.Base64Decode(Encoding.UTF8, b));
             Cookies = new CookiePool(this, messenger, cookies);
 
-            Requires.NotNull(Cookies!, nameof(Cookies));
+            Must.NotNull(Cookies!);
         }
 
         /// <summary>

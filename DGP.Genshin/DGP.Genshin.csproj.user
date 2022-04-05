@@ -107,9 +107,9 @@
     <Page Update="Control\WPFUIStyle\OverrideStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Resource Update="MainWindow.xaml">
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

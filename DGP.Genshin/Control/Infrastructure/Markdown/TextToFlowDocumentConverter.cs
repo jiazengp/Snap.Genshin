@@ -57,7 +57,7 @@ namespace DGP.Genshin.Control.Infrastructure.Markdown
         /// <param name="culture">The culture to use in the converter.</param>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw Assumes.NotReachable();
+            throw Must.NeverHappen();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(interfaceInjectable.InterfaceType, type),
                         InjectAs.Transient => services.AddTransient(interfaceInjectable.InterfaceType, type),
-                        _ => throw Assumes.NotReachable(),
+                        _ => throw Must.NeverHappen(),
                     };
                 }
                 else
@@ -50,7 +50,7 @@ namespace DGP.Genshin.Core
                     {
                         InjectAs.Singleton => services.AddSingleton(type),
                         InjectAs.Transient => services.AddTransient(type),
-                        _ => throw Assumes.NotReachable(),
+                        _ => throw Must.NeverHappen(),
                     };
                 }
             }

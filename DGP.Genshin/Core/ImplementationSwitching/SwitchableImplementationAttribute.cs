@@ -30,7 +30,7 @@
             Requires.Argument(name != DefaultName, nameof(name), "注册的名称不能与默认实现名称相同");
             Name = name;
 
-            Requires.Argument(description != DefaultDescription, nameof(name), "注册的描述不能与默认实现描述相同");
+            Requires.Argument(description != DefaultDescription, nameof(description), "注册的描述不能与默认实现描述相同");
             Description = description;
         }
 

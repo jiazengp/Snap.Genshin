@@ -103,7 +103,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         /// <returns>图片是否已经缓存</returns>
         public static bool Exists(string? url)
         {
-            Requires.NotNull(url!, nameof(url));
+            Must.NotNull(url!);
 
             PathContext.CreateFolderOrIgnore(CacheFolderName);
 

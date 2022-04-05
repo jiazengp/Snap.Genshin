@@ -1,5 +1,6 @@
 ﻿global using DGP.Genshin.Helper;
 global using Microsoft;
+global using Snap;
 global using System;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Windows;

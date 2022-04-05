@@ -49,5 +49,21 @@
         /// 抗争
         /// </summary>
         public const string Resistance = @"https://genshin.honeyhunterworld.com/img/upgrade/guide/i_453.png";
+
+        /// <summary>
+        /// 是否为今天的材料
+        /// </summary>
+        public bool IsAvailable { get; set; }
+
+        /// <summary>
+        /// 设置材料的可用性
+        /// </summary>
+        /// <param name="availablity">是否可用</param>
+        /// <returns>当前材料</returns>
+        public Talent SetAvailability(bool availablity)
+        {
+            IsAvailable = availablity;
+            return this;
+        }
     }
 }

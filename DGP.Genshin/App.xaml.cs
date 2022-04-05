@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using WPFUI.Appearance;
 
 namespace DGP.Genshin
@@ -190,7 +191,7 @@ namespace DGP.Genshin
         internal static object AutoWired(Type type)
         {
             object? service = Current.serviceManager.Services!.GetService(type);
-            return Requires.NotNull(service!, nameof(service));
+            return Must.NotNull(service!);
         }
 
         /// <summary>
@@ -202,7 +203,7 @@ namespace DGP.Genshin
             where T : class
         {
             T? service = Current.serviceManager.Services!.GetService<T>();
-            return Requires.NotNull(service!, nameof(service));
+            return Must.NotNull(service!);
         }
 
         /// <inheritdoc/>
@@ -310,7 +311,12 @@ namespace DGP.Genshin
         private void ConfigureRequester()
         {
             Requester.ResponseFailedAction = (ex, method, desc) =>
-            Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });
+            {
+                if (ex is not TaskCanceledException)
+                {
+                    Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });
+                }
+            };
         }
 
         private void ConfigureWorkingDirectory()

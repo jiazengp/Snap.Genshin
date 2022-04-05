@@ -4,7 +4,6 @@ using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.VisualStudio.Threading;
-using ModernWpf;
 using ModernWpf.Media.Animation;
 using Snap.Core.Logging;
 using System.Linq;
@@ -143,8 +142,7 @@ namespace DGP.Genshin.Core.Background
 
                 this.Log($"Lightness: {Lightness}");
 
-                bool isDarkMode = ThemeManager.Current.ActualApplicationTheme == ApplicationTheme.Dark;
-                double targetOpacity = isDarkMode ? (1 - Lightness) * 0.4 : Lightness * 0.6;
+                double targetOpacity = (1 - Lightness) * 0.4;
                 this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
                 Setting2.BackgroundOpacity.Set(targetOpacity);
             }

@@ -383,20 +383,20 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddCharacterMaterialToListAsync(string? option)
         {
-            Requires.NotNull(SelectedAvatar!, nameof(SelectedAvatar));
+            Must.NotNull(SelectedAvatar!);
             Calculable calculable = SelectedAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => Requires.NotNull(Consumption?.AvatarConsume!, nameof(Consumption.AvatarConsume)),
-                SkillTag => Requires.NotNull(Consumption?.AvatarSkillConsume!, nameof(Consumption.AvatarSkillConsume)),
-                _ => throw Assumes.NotReachable(),
+                AvatarTag => Must.NotNull(Consumption?.AvatarConsume!),
+                SkillTag => Must.NotNull(Consumption?.AvatarSkillConsume!),
+                _ => throw Must.NeverHappen(),
             };
 
             string category = option switch
             {
                 AvatarTag => "角色消耗",
                 SkillTag => "天赋消耗",
-                _ => throw Assumes.NotReachable(),
+                _ => throw Must.NeverHappen(),
             };
 
             if (await ConfirmAddAsync(calculable.Name!, category))
@@ -408,20 +408,20 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddFullCharacterMaterialToListAsync(string? option)
         {
-            Requires.NotNull(SelectedFullAvatar!, nameof(SelectedFullAvatar));
+            Must.NotNull(SelectedFullAvatar!);
             Calculable calculable = SelectedFullAvatar;
             List<ConsumeItem> items = option switch
             {
-                AvatarTag => Requires.NotNull(FullAvatarConsumption?.AvatarConsume!, nameof(FullAvatarConsumption.AvatarConsume)),
-                SkillTag => Requires.NotNull(FullAvatarConsumption?.AvatarSkillConsume!, nameof(FullAvatarConsumption.AvatarSkillConsume)),
-                _ => throw Assumes.NotReachable(),
+                AvatarTag => Must.NotNull(FullAvatarConsumption?.AvatarConsume!),
+                SkillTag => Must.NotNull(FullAvatarConsumption?.AvatarSkillConsume!),
+                _ => throw Must.NeverHappen(),
             };
 
             string category = option switch
             {
                 AvatarTag => "角色消耗",
                 SkillTag => "天赋消耗",
-                _ => throw Assumes.NotReachable(),
+                _ => throw Must.NeverHappen(),
             };
 
             if (await ConfirmAddAsync(calculable.Name!, category))
@@ -433,8 +433,8 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddWeaponMaterialToListAsync()
         {
-            Calculable calculable = Requires.NotNull(AvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
-            List<ConsumeItem> items = Requires.NotNull(Consumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
+            Calculable calculable = Must.NotNull(AvatarDetailData?.Weapon!);
+            List<ConsumeItem> items = Must.NotNull(Consumption?.WeaponConsume!);
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
@@ -445,8 +445,8 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddFullWeaponMaterialToListAsync()
         {
-            Calculable calculable = Requires.NotNull(FullWeaponAvatarDetailData?.Weapon!, nameof(AvatarDetailData.Weapon));
-            List<ConsumeItem> items = Requires.NotNull(FullWeaponConsumption?.WeaponConsume!, nameof(Consumption.WeaponConsume));
+            Calculable calculable = Must.NotNull(FullWeaponAvatarDetailData?.Weapon!);
+            List<ConsumeItem> items = Must.NotNull(FullWeaponConsumption?.WeaponConsume!);
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
@@ -493,8 +493,8 @@ namespace DGP.Genshin.ViewModel
             {
                 if (selected is not null)
                 {
-                    Requires.NotNull(selected.GameUid!, nameof(selected.GameUid));
-                    Requires.NotNull(selected.Region!, nameof(selected.Region));
+                    Must.NotNull(selected.GameUid!);
+                    Must.NotNull(selected.Region!);
                     List<Avatar> avatars = await calculator.GetSyncedAvatarListAsync(
                         new(selected.GameUid, selected.Region),
                         true,
@@ -521,15 +521,15 @@ namespace DGP.Genshin.ViewModel
             try
             {
                 Consumption = null;
-                Requires.NotNull(SelectedUserGameRole!, nameof(SelectedUserGameRole));
+                Must.NotNull(SelectedUserGameRole!);
 
                 if (avatar is not null)
                 {
                     string? uid = SelectedUserGameRole.GameUid;
                     string? region = SelectedUserGameRole.Region;
 
-                    Requires.NotNull(uid!, nameof(uid));
-                    Requires.NotNull(region!, nameof(region));
+                    Must.NotNull(uid!);
+                    Must.NotNull(region!);
 
                     int avatarId = avatar.Id;
 

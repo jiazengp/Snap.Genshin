@@ -27,7 +27,7 @@ namespace DGP.Genshin.DataModel.Helper
                 3 => Star3Url,
                 4 => Star4Url,
                 5 or 105 => Star5Url,
-                _ => throw Assumes.NotReachable(),
+                _ => throw Must.NeverHappen(),
             };
         }
 

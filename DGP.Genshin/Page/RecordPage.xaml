@@ -255,117 +255,105 @@
                     <ItemsControl Margin="0,12,8,0" ItemsSource="{Binding CurrentRecord.DetailedAvatars}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <wu:Card Margin="0,0,8,12" Padding="0" MaxWidth="1000">
+                                <wu:Card Margin="0,0,8,12" Padding="0" MaxWidth="1200">
                                     <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Column="0">
-                                                <c:CachedImage ImageUrl="{Binding Icon}" Width="32" Height="32" Margin="6"/>
-                                                <c:CachedImage ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}" Width="32" Height="32" Margin="6"/>
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="6,0,0,0"
-                                                       Style="{StaticResource SubtitleTextBlockStyle}" TextTrimming="CharacterEllipsis"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal"  Grid.Column="1">
-                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}Lv.{0} 好感：{1}">
-                                                            <Binding Path="Level"/>
-                                                            <Binding Path="Fetter"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-                                            </StackPanel>
-                                            <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
-                                                <ItemsControl Margin="0,0,0,0"
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="264"/>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <c:CachedImage Grid.Column="0" ImageUrl="{Binding Icon}" Width="32" Height="32" Margin="6"/>
+                                        <c:CachedImage Grid.Column="1" ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}" Width="32" Height="32" Margin="6"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center" Margin="6,0,0,0"
+                                                       Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="3" Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Lv.{0} 好感：{1}">
+                                                    <Binding Path="Level"/>
+                                                    <Binding Path="Fetter"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <ItemsControl Grid.Column="4" HorizontalAlignment="Left"
                                                 ItemsSource="{Binding Constellations}"
                                                 ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <c:CachedBitmapIcon 
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <c:CachedBitmapIcon 
                                                                 UriSource="{Binding Icon}"
                                                                 Width="32" Height="32" Margin="0,6,12,6">
-                                                                <c:CachedBitmapIcon.Style>
-                                                                    <Style TargetType="c:CachedBitmapIcon">
-                                                                        <Setter Property="Opacity" Value="1"/>
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IsActived}" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.2"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </c:CachedBitmapIcon.Style>
-                                                            </c:CachedBitmapIcon>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </Grid>
-                                        <Grid Margin="6" Grid.Row="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="3*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-                                                <c:CachedImage ImageUrl="{Binding Weapon.Icon}" Width="32" Height="32"/>
-                                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}Lv.{0} 精炼：{1}">
-                                                            <Binding Path="Level"/>
-                                                            <Binding Path="Weapon.AffixLevel"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-                                            </StackPanel>
-                                            <ItemsControl Margin="6,0,0,0" Grid.Column="1"
+                                                        <c:CachedBitmapIcon.Style>
+                                                            <Style TargetType="c:CachedBitmapIcon">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsActived}" Value="False">
+                                                                        <Setter Property="Opacity" Value="0.2"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </c:CachedBitmapIcon.Style>
+                                                    </c:CachedBitmapIcon>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <c:CachedImage Grid.Column="5" ImageUrl="{Binding Weapon.Icon}" Width="32" Height="32"/>
+                                        <TextBlock Grid.Column="6" Margin="6,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Lv.{0} 精炼：{1}">
+                                                    <Binding Path="Weapon.Level"/>
+                                                    <Binding Path="Weapon.AffixLevel"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <ItemsControl Grid.Column="7" Margin="0,0,6,0"
                                                 ItemsSource="{Binding Reliquaries}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <UniformGrid Columns="5"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <c:CachedImage ImageUrl="{Binding Icon}" Width="32" Height="32"/>
-                                                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                                       Text="{Binding Level,StringFormat={}Lv.{0}}">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
-                                                                        <Setter Property="Foreground" Value="White"/>
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding Rarity}" Value="5">
-                                                                                <Setter Property="Foreground" Value="#FFBC6932"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding Rarity}" Value="4">
-                                                                                <Setter Property="Foreground" Value="#FFA156E0"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding Rarity}" Value="3">
-                                                                                <Setter Property="Foreground" Value="#FF5180CB"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding Rarity}" Value="2">
-                                                                                <Setter Property="Foreground" Value="#FF2A8F72"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding Rarity}" Value="1">
-                                                                                <Setter Property="Foreground" Value="#FF72778B"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Grid>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="5"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="44"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <c:CachedImage Grid.Column="0" ImageUrl="{Binding Icon}" Width="32" Height="32" Margin="6"/>
+                                                        <TextBlock Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                                   Text="{Binding Level,StringFormat={}Lv.{0}}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Rarity}" Value="5">
+                                                                            <Setter Property="Foreground" Value="#FFBC6932"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Rarity}" Value="4">
+                                                                            <Setter Property="Foreground" Value="#FFA156E0"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Rarity}" Value="3">
+                                                                            <Setter Property="Foreground" Value="#FF5180CB"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Rarity}" Value="2">
+                                                                            <Setter Property="Foreground" Value="#FF2A8F72"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Rarity}" Value="1">
+                                                                            <Setter Property="Foreground" Value="#FF72778B"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </Grid>
                                 </wu:Card>
                             </DataTemplate>

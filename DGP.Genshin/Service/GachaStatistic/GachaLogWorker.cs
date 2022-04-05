@@ -84,7 +84,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 (bool isOk, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (isOk)
                 {
-                    Requires.NotNull(log.List!, nameof(log.List));
+                    Must.NotNull(log.List!);
 
                     foreach (GachaLogItem item in log.List)
                     {
@@ -141,7 +141,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 (bool isOk, GachaLog log) = await TryGetBatchAsync(type, endId);
                 if (isOk)
                 {
-                    Requires.NotNull(log.List!, nameof(log.List));
+                    Must.NotNull(log.List!);
 
                     foreach (GachaLogItem item in log.List)
                     {

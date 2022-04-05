@@ -51,7 +51,7 @@
                 ("1", "1") => SchemeType.Officical,
                 ("14", "0") => SchemeType.Bilibili,
                 ("1", "0") => SchemeType.Mihoyo,
-                (_, _) => throw Assumes.NotReachable(),
+                _ => throw Must.NeverHappen(),
             };
         }
     }

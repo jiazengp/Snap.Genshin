@@ -286,13 +286,13 @@ namespace DGP.Genshin.ViewModel
         {
             if (cookieService.Cookies.Count <= 1)
             {
-                await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                await new ContentDialog()
                 {
                     Title = "删除用户失败",
                     Content = "我们需要至少一个用户的信息才能使程序正常运转。",
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary,
-                }.ShowAsync).Task.Unwrap();
+                }.ShowAsync();
 
                 // fix remove cookie crash.
                 return;
@@ -300,14 +300,14 @@ namespace DGP.Genshin.ViewModel
 
             if (SelectedCookieUserInfo is not null)
             {
-                ContentDialogResult result = await App.Current.Dispatcher.InvokeAsync(new ContentDialog()
+                ContentDialogResult result = await new ContentDialog()
                 {
                     Title = "确定要删除该用户吗?",
                     Content = "删除用户的操作不可撤销。",
                     PrimaryButtonText = "确定",
                     SecondaryButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary,
-                }.ShowAsync).Task.Unwrap();
+                }.ShowAsync();
 
                 if (result is ContentDialogResult.Primary)
                 {

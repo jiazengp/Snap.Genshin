@@ -70,7 +70,7 @@ namespace DGP.Genshin.Service
                 {
                     UpdateAPI.PatchAPI => new PatchUpdateChecker(),
                     UpdateAPI.GithubAPI => new GithubUpdateChecker(),
-                    _ => throw Assumes.NotReachable(),
+                    _ => throw Must.NeverHappen(),
                 };
 
                 UpdateInfomation? info = await updateChecker.GetUpdateInfomationAsync();
@@ -121,8 +121,8 @@ namespace DGP.Genshin.Service
             {
                 string destinationPath = PathContext.Locate("Package.zip");
 
-                Requires.NotNull(PackageUri!, nameof(PackageUri));
-                Requires.NotNull(NewVersion!, nameof(NewVersion));
+                Must.NotNull(PackageUri!);
+                Must.NotNull(NewVersion!);
 
                 InnerDownloader = new(PackageUri, destinationPath);
                 notificationUpdater = new(NewVersion.ToString(), messenger);

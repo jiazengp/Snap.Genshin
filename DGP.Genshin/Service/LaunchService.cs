@@ -57,13 +57,13 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public IniData LauncherConfig
         {
-            get => Requires.NotNull(launcherConfig!, nameof(launcherConfig));
+            get => Must.NotNull(launcherConfig!);
         }
 
         /// <inheritdoc/>
         public IniData GameConfig
         {
-            get => Requires.NotNull(gameConfig!, nameof(gameConfig));
+            get => Must.NotNull(gameConfig!);
         }
 
         /// <inheritdoc/>
@@ -134,11 +134,11 @@ namespace DGP.Genshin.Service
                     {
                         StartInfo = new()
                         {
+                            Arguments = commandLine,
                             FileName = gamePath,
+                            UseShellExecute = true,
                             Verb = "runas",
                             WorkingDirectory = Path.GetDirectoryName(gamePath),
-                            UseShellExecute = true,
-                            Arguments = commandLine,
                         },
                     };
 

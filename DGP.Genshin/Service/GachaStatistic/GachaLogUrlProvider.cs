@@ -39,7 +39,7 @@ namespace DGP.Genshin.Service.GachaStatistic
                 case GachaLogUrlMode.ManualInput:
                     return await GetUrlFromManualInputAsync();
                 default:
-                    throw Assumes.NotReachable();
+                    throw Must.NeverHappen();
             }
         }
 

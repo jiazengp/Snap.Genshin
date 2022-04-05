@@ -25,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="272">
+        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="360">
             <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
@@ -69,7 +69,7 @@
                                     <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.Element}" ShowAsMonochrome="False"/>
                                 </Border>
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.Weapon}"/>
+                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
                                 </Border>
                             </StackPanel>
                             <Grid Grid.Row="1">
@@ -570,7 +570,7 @@
                         ci:ImageAsyncHelper.StretchMode="Uniform" MinHeight="320" Padding="6,0">
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6" 
                                 ToolTipService.ToolTip="查看大图" Command="{Binding GachaSplashCommand}">
-                            <ui:FontIcon Glyph="&#xE78B;" Foreground="White"/>
+                            <ui:FontIcon Glyph="&#xE8A7;" Foreground="White"/>
                         </Button>
                     </Border>
                 </Border>
