@@ -1762,89 +1762,12 @@
   {
     "GoalId": 0,
     "PreStageAchievementId": 0,
-    "OrderId": 1006,
-    "Title": "除了时间，什么也没丢",
-    "Description": "解开两座日晷的秘密。",
-    "IsDisuse": false,
-    "Id": 81006,
-    "FinishRewardId": "801006",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1007,
-    "Title": "与一位往昔神灵的谈话",
-    "Description": "了解一位往昔神灵的故事。",
-    "IsDisuse": false,
-    "Id": 81007,
-    "FinishRewardId": "801007",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1008,
-    "Title": "卧龙藏螭",
-    "Description": "了解关于「螭」的故事。",
-    "IsDisuse": false,
-    "Id": 81008,
-    "FinishRewardId": "801008",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1009,
-    "Title": "战祸不息",
-    "Description": "将某个古老遗迹中的宝物卖个好价钱…",
-    "IsDisuse": false,
-    "Id": 81009,
-    "FinishRewardId": "801009",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
     "OrderId": 1010,
     "Title": "冢里最好的剑",
     "Description": "解开剑冢的三层封印。",
     "IsDisuse": true,
     "Id": 81010,
     "FinishRewardId": "801010",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1011,
-    "Title": "渌华池之影",
-    "Description": "帮助梵米尔取到他想要的景致。",
-    "IsDisuse": false,
-    "Id": 81011,
-    "FinishRewardId": "801011",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1012,
-    "Title": "零号玩家",
-    "Description": "陪小姜玩一场简单的游戏。",
-    "IsDisuse": false,
-    "Id": 81012,
-    "FinishRewardId": "801012",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 1013,
-    "Title": "盘木森森，荫蔽家庭",
-    "Description": "见证元鸿一家的故事。",
-    "IsDisuse": false,
-    "Id": 81013,
-    "FinishRewardId": "801013",
     "FinishRewardCount": 5
   },
   {
@@ -3918,17 +3841,6 @@
   {
     "GoalId": 0,
     "PreStageAchievementId": 0,
-    "OrderId": 1205,
-    "Title": "照亮黑暗",
-    "Description": "送出些许光明。",
-    "IsDisuse": true,
-    "Id": 81219,
-    "FinishRewardId": "801219",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
     "OrderId": 1206,
     "Title": "「只需一些柴火、一些醋…」",
     "Description": "通往地面的密道…大概不止一条。",
@@ -4072,17 +3984,6 @@
   {
     "GoalId": 0,
     "PreStageAchievementId": 0,
-    "OrderId": 2011,
-    "Title": "「这风晶蝶还蛮大的」",
-    "Description": "击败一个未能吸收晶球的无相之风。",
-    "IsDisuse": true,
-    "Id": 82011,
-    "FinishRewardId": "802011",
-    "FinishRewardCount": 10
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
     "OrderId": 2012,
     "Title": "「…不代表最终品质」",
     "Description": "击败一个进行了四种元素转变的无相之风。",
@@ -4127,17 +4028,6 @@
   {
     "GoalId": 0,
     "PreStageAchievementId": 0,
-    "OrderId": 2016,
-    "Title": "「我有金钟罩♬」",
-    "Description": "通过连续结晶反应，获得超过1分钟的护盾。",
-    "IsDisuse": true,
-    "Id": 82016,
-    "FinishRewardId": "802016",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
     "OrderId": 2017,
     "Title": "大黄金丘丘王",
     "Description": "在魔化状态结束前，击败丘丘岩盔王。",
@@ -4145,17 +4035,6 @@
     "Id": 82017,
     "FinishRewardId": "802017",
     "FinishRewardCount": 10
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 2018,
-    "Title": "天降正义",
-    "Description": "使用下落攻击，在坠落超过5秒后击败一名敌人。",
-    "IsDisuse": true,
-    "Id": 82018,
-    "FinishRewardId": "802018",
-    "FinishRewardCount": 5
   },
   {
     "GoalId": 6,
@@ -6184,17 +6063,6 @@
   {
     "GoalId": 0,
     "PreStageAchievementId": 0,
-    "OrderId": 4041,
-    "Title": "善事有善报",
-    "Description": "拆穿玛乔丽小姐，并获得杰克的答谢。",
-    "IsDisuse": true,
-    "Id": 84517,
-    "FinishRewardId": "804517",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
     "OrderId": 4042,
     "Title": "「您好，亲爱的爸爸…」",
     "Description": "了解提米的故事。",
@@ -6223,17 +6091,6 @@
     "IsDisuse": true,
     "Id": 84520,
     "FinishRewardId": "804520",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 4045,
-    "Title": "未曾设想的味道",
-    "Description": "完成神秘特调。",
-    "IsDisuse": true,
-    "Id": 84521,
-    "FinishRewardId": "804521",
     "FinishRewardCount": 5
   },
   {
@@ -6564,17 +6421,6 @@
     "IsDisuse": true,
     "Id": 85006,
     "FinishRewardId": "805006",
-    "FinishRewardCount": 5
-  },
-  {
-    "GoalId": 0,
-    "PreStageAchievementId": 0,
-    "OrderId": 6000,
-    "Title": "(test)测试进入MainCoop保存点(或)",
-    "Description": "(test)测试进入MainCoop保存点(或)",
-    "IsDisuse": true,
-    "Id": 84027,
-    "FinishRewardId": "804027",
     "FinishRewardCount": 5
   },
   {
