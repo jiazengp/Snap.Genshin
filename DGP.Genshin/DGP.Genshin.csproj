@@ -39,11 +39,13 @@
     <None Remove="Resources\UI_ChapterIcon_Hutao.png" />
     <None Remove="Resources\UI_EmotionIcon72.png" />
     <None Remove="Resources\UI_GachaSettlement_Bg2.png" />
+    <None Remove="Resources\UI_Icon_Achievement.png" />
     <None Remove="Resources\UI_ImgSign_ItemIcon.png" />
     <None Remove="Resources\UI_ItemIcon_210.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\UI_Icon_Achievement.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
 

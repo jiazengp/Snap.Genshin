@@ -136,6 +136,11 @@ namespace DGP.Genshin.Service.Abstraction.Setting
         public static readonly SettingDefinition<bool> IsBackgroundOpacityAdaptive = new("IsBackgroundOpacityAdaptive", false);
 
         /// <summary>
+        /// 是否启用背景模糊
+        /// </summary>
+        public static readonly SettingDefinition<bool> IsBackgroundBlurEnabled = new("IsBackgroundBlurEnabled", true);
+
+        /// <summary>
         /// 非值类型转换器
         /// </summary>
         /// <typeparam name="T">值的类型</typeparam>

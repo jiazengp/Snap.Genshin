@@ -26,6 +26,9 @@ namespace DGP.Genshin
     /// </summary>
     internal partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
     {
+        private const int MinSaveableWidth = 600;
+        private const int MinSaveableHeight = 375;
+
         private static bool hasEverOpen = false;
         private static bool hasEverClose = false;
 
@@ -183,8 +186,8 @@ namespace DGP.Genshin
         {
             if (WindowState == WindowState.Normal)
             {
-                Setting2.MainWindowWidth.Set(Width);
-                Setting2.MainWindowHeight.Set(Height);
+                Setting2.MainWindowWidth.Set(Width < MinSaveableWidth ? MinSaveableWidth : Width);
+                Setting2.MainWindowHeight.Set(Height < MinSaveableHeight ? MinSaveableHeight : Height);
             }
 
             Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);

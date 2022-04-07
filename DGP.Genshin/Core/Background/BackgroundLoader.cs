@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Core.Background
@@ -21,6 +22,8 @@ namespace DGP.Genshin.Core.Background
     internal class BackgroundLoader : IRecipient<BackgroundOpacityChangedMessage>, IRecipient<BackgroundChangeRequestMessage>
     {
         private const int AnimationDuration = 500;
+
+        private static readonly BlurEffect BlurEffect = new() { Radius = 60, RenderingBias = RenderingBias.Quality };
 
         private readonly MainWindow mainWindow;
         private readonly IMessenger messenger;
@@ -80,9 +83,9 @@ namespace DGP.Genshin.Core.Background
             BitmapImage? image = await backgroundProvider.GetNextBitmapImageAsync();
             if (image != null)
             {
-                TrySetTargetAdaptiveBackgroundOpacityValue(image);
-
                 Grid backgroundPresenter = mainWindow.BackgroundGrid;
+                TrySetTargetAdaptiveBackgroundOpacityValue(image);
+                TrySetBackgroundBlur(backgroundPresenter);
 
                 // first pic
                 if (backgroundPresenter.Background is null)
@@ -124,6 +127,18 @@ namespace DGP.Genshin.Core.Background
             }
         }
 
+        private void TrySetBackgroundBlur(Grid backgroundPresenter)
+        {
+            if (Setting2.IsBackgroundBlurEnabled)
+            {
+                backgroundPresenter.Effect = BlurEffect;
+            }
+            else
+            {
+                backgroundPresenter.Effect = null;
+            }
+        }
+
         /// <summary>
         /// 尝试设置自适应背景图片不透明度
         /// 当未开启选项时自动跳过
@@ -141,8 +156,8 @@ namespace DGP.Genshin.Core.Background
                     .Average();
 
                 this.Log($"Lightness: {Lightness}");
-
-                double targetOpacity = (1 - Lightness) * 0.4;
+                double opacityFactor = Setting2.IsBackgroundBlurEnabled ? 0.8 : 0.4;
+                double targetOpacity = (1 - Lightness) * opacityFactor;
                 this.Log($"Adjust BackgroundOpacity to {targetOpacity}");
                 Setting2.BackgroundOpacity.Set(targetOpacity);
             }

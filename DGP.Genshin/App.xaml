@@ -525,8 +525,8 @@
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>
-            
-            <Style TargetType="{x:Type ge:ContentIcon}">
+
+            <Style x:Key="DefaultContentIconStyle" TargetType="{x:Type ge:ContentIcon}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -557,6 +557,8 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="{x:Type ge:ContentIcon}" BasedOn="{StaticResource DefaultContentIconStyle}"/>
+            
             <Style TargetType="{x:Type ui:FontIcon}">
                 <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons"/>
             </Style>

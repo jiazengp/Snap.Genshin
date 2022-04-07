@@ -36,6 +36,9 @@
     <Compile Update="Control\WebViewLobby\WebViewEntryDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Page\AchievementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Page\HutaoStatisticPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,6 +108,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\WPFUIStyle\OverrideStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\AchievementPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Resource Update="MainWindow.xaml">

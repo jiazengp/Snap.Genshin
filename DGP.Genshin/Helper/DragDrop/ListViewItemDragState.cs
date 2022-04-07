@@ -1,0 +1,75 @@
+﻿using System.Windows.Controls;
+
+namespace DGP.Genshin.Helper.DragDrop
+{
+    /// <summary>
+    /// Exposes attached properties used in conjunction with the ListViewDragDropManager class.
+    /// Those properties can be used to allow triggers to modify the appearance of ListViewItems
+    /// in a ListView during a drag-drop operation.
+    /// </summary>
+    [SuppressMessage("", "SA1201")]
+    [SuppressMessage("", "SA1615")]
+    public static class ListViewItemDragState
+    {
+        /// <summary>
+        /// Identifies the ListViewItemDragState's IsBeingDragged attached property.
+        /// This field is read-only.
+        /// </summary>
+        public static readonly DependencyProperty IsBeingDraggedProperty =
+            DependencyProperty.RegisterAttached(
+                "IsBeingDragged",
+                typeof(bool),
+                typeof(ListViewItemDragState),
+                new UIPropertyMetadata(false));
+
+        /// <summary>
+        /// Returns true if the specified ListViewItem is being dragged, else false.
+        /// </summary>
+        /// <param name="item">The ListViewItem to check.</param>
+        public static bool GetIsBeingDragged(ListViewItem item)
+        {
+            return (bool)item.GetValue(IsBeingDraggedProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsBeingDragged attached property for the specified ListViewItem.
+        /// </summary>
+        /// <param name="item">The ListViewItem to set the property on.</param>
+        /// <param name="value">Pass true if the element is being dragged, else false.</param>
+        internal static void SetIsBeingDragged(ListViewItem item, bool value)
+        {
+            item.SetValue(IsBeingDraggedProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the ListViewItemDragState's IsUnderDragCursor attached property.
+        /// This field is read-only.
+        /// </summary>
+        public static readonly DependencyProperty IsUnderDragCursorProperty =
+            DependencyProperty.RegisterAttached(
+                "IsUnderDragCursor",
+                typeof(bool),
+                typeof(ListViewItemDragState),
+                new UIPropertyMetadata(false));
+
+        /// <summary>
+        /// Returns true if the specified ListViewItem is currently underneath the cursor
+        /// during a drag-drop operation, else false.
+        /// </summary>
+        /// <param name="item">The ListViewItem to check.</param>
+        public static bool GetIsUnderDragCursor(ListViewItem item)
+        {
+            return (bool)item.GetValue(IsUnderDragCursorProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsUnderDragCursor attached property for the specified ListViewItem.
+        /// </summary>
+        /// <param name="item">The ListViewItem to set the property on.</param>
+        /// <param name="value">Pass true if the element is underneath the drag cursor, else false.</param>
+        internal static void SetIsUnderDragCursor(ListViewItem item, bool value)
+        {
+            item.SetValue(IsUnderDragCursorProperty, value);
+        }
+    }
+}

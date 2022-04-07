@@ -31,8 +31,10 @@
                 <ImageBrush Stretch="UniformToFill"
                     ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_ImgSign_ItemIcon.png"/>
             </Border.Background>
-            <Border Width="{StaticResource ContentIconLength}" Height="{StaticResource ContentIconLength}" HorizontalAlignment="Center"
+            <Border
+                Width="{StaticResource ContentIconLength}" Height="{StaticResource ContentIconLength}" HorizontalAlignment="Center"
                 CornerRadius="{StaticResource CompatCornerRadius}" 
+                Opacity="{Binding ForegroundOpacity,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}"
                 c:ImageAsyncHelper.ImageUrl="{Binding ForegroundUrl,RelativeSource={RelativeSource FindAncestor,AncestorType=Button}}">
                 <Grid>
                     <Border Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">

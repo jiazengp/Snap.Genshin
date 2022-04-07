@@ -40,7 +40,7 @@
     </Page.Resources>
     <Grid>
         <s:SmoothScrollViewer>
-            <StackPanel Margin="0,0,0,12" MinWidth="800" MaxWidth="1000">
+            <StackPanel Margin="0,0,0,12" MaxWidth="1000">
                 <TextBlock Text="外观" Style="{StaticResource BaseTextBlockStyle}" Margin="12,0,0,0"/>
                 <wu:CardControl helper:IconHelper.Icon="&#xE790;" Icon="DarkTheme24" Title="主题" Subtitle="更改应用的主题颜色" Margin="12,12,16,0">
                     <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" DisplayMemberPath="Name"/>
@@ -56,6 +56,9 @@
                         <Slider Width="200" Maximum="1" Value="{Binding BackgroundOpacity,Mode=TwoWay}" TickFrequency="0.01" IsSnapToTickEnabled="True"/>
                         <TextBlock Text="{Binding BackgroundOpacity,StringFormat={}{0:p0}}" VerticalAlignment="Center" Margin="12,0,0,0" Width="40"/>
                     </StackPanel>
+                </wu:CardControl>
+                <wu:CardControl helper:IconHelper.Icon="&#xE91B;" Title="高斯模糊" Subtitle="使图片以模糊形式呈现，下一张壁纸生效" Margin="12,4,16,0">
+                    <ui:ToggleSwitch IsOn="{Binding IsBackgroundBlurEnabled}"/>
                 </wu:CardControl>
                 <wu:CardControl helper:IconHelper.Icon="&#xF08C;" Title="自动调整" Subtitle="根据背景图片亮度自动调整不透明度" Margin="12,4,16,0">
                     <ui:ToggleSwitch IsOn="{Binding IsBackgroundOpacityAdaptive}"/>

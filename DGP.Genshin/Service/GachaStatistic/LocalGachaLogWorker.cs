@@ -539,25 +539,44 @@ namespace DGP.Genshin.Service.GachaStatistic
             sheet.Cells[1, 3].Value = "物品类型";
             sheet.Cells[1, 4].Value = "星级";
             sheet.Cells[1, 5].Value = "祈愿类型";
+
+            // extra
+            sheet.Cells[1, 6].Value = "总抽数";
+            sheet.Cells[1, 7].Value = "距上一个五星";
         }
 
         private void FillSheetWithGachaData(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)
         {
             // content
             int? count = logs?.Count();
-            int j = 1;
+            int row = 1;
+            int star5Counter = 0;
             if (count > 0 && logs is not null)
             {
                 foreach (GachaLogItem item in logs)
                 {
-                    j++;
-                    sheet.Cells[j, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
-                    sheet.Cells[j, 2].Value = item.Name;
-                    sheet.Cells[j, 3].Value = item.ItemType;
-                    sheet.Cells[j, 4].Value = int.Parse(item.Rank!);
-                    sheet.Cells[j, 5].Value = item.GachaType?.ToString();
+                    row++;
 
-                    using (ExcelRange range = sheet.Cells[j, 1, j, 5])
+                    int rank = int.Parse(item.Rank!);
+                    sheet.Cells[row, 1].Value = item.Time.ToString("yyyy-MM-dd HH:mm:ss");
+                    sheet.Cells[row, 2].Value = item.Name;
+                    sheet.Cells[row, 3].Value = item.ItemType;
+                    sheet.Cells[row, 4].Value = rank;
+                    if (ConfigType.Known.TryGetValue(item.GachaType ?? string.Empty, out string? type))
+                    {
+                        sheet.Cells[row, 5].Value = type;
+                    }
+
+                    // extra
+                    sheet.Cells[row, 6].Value = row - 1;
+                    star5Counter++;
+                    sheet.Cells[row, 7].Value = star5Counter;
+                    if (rank >= 5)
+                    {
+                        star5Counter = 0;
+                    }
+
+                    using (ExcelRange range = sheet.Cells[row, 1, row, 7])
                     {
                         range.Style.Font.Color.SetColor(ToDrawingColor(int.Parse(item.Rank!)));
                     }
@@ -565,7 +584,7 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
 
             // 自适应
-            sheet.Cells[1, 1, j, 6].AutoFitColumns(0);
+            sheet.Cells[1, 1, row, 7].AutoFitColumns(0);
         }
 
         private void FillInterChangeSheet(ExcelWorksheet sheet, IEnumerable<GachaLogItem>? logs)

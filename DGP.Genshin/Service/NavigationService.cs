@@ -115,8 +115,9 @@ namespace DGP.Genshin.Service
             {
                 result = Frame?.Navigate(App.AutoWired(pageType), data) ?? false;
             }
-            catch
+            catch (Exception ex)
             {
+                this.Log(ex);
             }
 
             this.Log($"Navigate to {pageType}:{(result ? "succeed" : "failed")}");

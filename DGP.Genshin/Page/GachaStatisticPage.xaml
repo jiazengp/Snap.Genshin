@@ -90,7 +90,7 @@
                         RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True" UseLayoutRounding="True"
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Width="35" Height="35"/>
-                    <Grid.Style>
+                    <!--<Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
                                 <DataTrigger 
@@ -109,7 +109,7 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Grid.Style>
+                    </Grid.Style>-->
                 </Grid>
             </Grid>
         </DataTemplate>

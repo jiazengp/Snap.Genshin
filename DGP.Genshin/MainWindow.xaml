@@ -13,8 +13,8 @@
     mc:Ignorable="d"
     x:Name="Window"
     Title="Snap 原神" 
-    MinWidth="1138" MinHeight="703"
     Width="1108" Height="750" 
+    MinWidth="460" MinHeight="200"
     WindowStartupLocation="CenterScreen"
     UseLayoutRounding="True"
     SnapsToDevicePixels="True"
@@ -22,7 +22,12 @@
     ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
-    <Grid x:Name="BackgroundGrid" RenderOptions.BitmapScalingMode="Fant">
+    <Grid>
+        <Grid x:Name="BackgroundGrid" RenderOptions.BitmapScalingMode="Fant" Margin="-60">
+            <Grid.Effect>
+                <BlurEffect Radius="60" KernelType="Gaussian" RenderingBias="Quality"/>
+            </Grid.Effect>
+        </Grid>
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"
             x:Name="NavView" 
@@ -60,13 +65,13 @@
                 <ui:NavigationViewItemHeader Content="WIKI"/>
                 <ui:NavigationViewItem Content="日常材料" helpers:NavHelper.NavigateTo="{x:Type pages:DailyPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="周常材料" helpers:NavHelper.NavigateTo="{x:Type pages:WeeklyPage}" Icon="CalendarWeek"/>
-                <ui:NavigationViewItem Content="角色" helpers:NavHelper.NavigateTo="{x:Type pages:CharacterPage}">
+                <ui:NavigationViewItem Content="角色资料" helpers:NavHelper.NavigateTo="{x:Type pages:CharacterPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Avatar.png" 
                                        UriSource="pack://application:,,,/Resources/UI_BagTabIcon_Avatar.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="武器" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponPage}">
+                <ui:NavigationViewItem Content="武器资料" helpers:NavHelper.NavigateTo="{x:Type pages:WeaponPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_BagTabIcon_Weapon.png"  
                                        UriSource="pack://application:,,,/Resources/UI_BagTabIcon_Weapon.png"/>
@@ -74,6 +79,13 @@
                 </ui:NavigationViewItem>
 
                 <ui:NavigationViewItemHeader Content="工具"/>
+                <ui:NavigationViewItem Content="成就统计" helpers:NavHelper.NavigateTo="{x:Type pages:AchievementPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_Icon_Achievement.png"  
+                                       UriSource="pack://application:,,,/Resources/UI_Icon_Achievement.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                                       
                 <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
                 <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
 

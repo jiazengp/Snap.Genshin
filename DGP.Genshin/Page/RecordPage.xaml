@@ -260,57 +260,53 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="44"/>
                                             <ColumnDefinition Width="44"/>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="120"/>
-                                            <ColumnDefinition Width="264"/>
+                                            <ColumnDefinition Width="88"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition Width="44"/>
-                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="108"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <c:CachedImage Grid.Column="0" ImageUrl="{Binding Icon}" Width="32" Height="32" Margin="6"/>
                                         <c:CachedImage Grid.Column="1" ImageUrl="{Binding Element,Converter={StaticResource ElementConverter}}" Width="32" Height="32" Margin="6"/>
+
                                         <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center" Margin="6,0,0,0"
                                                        Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Grid.Column="3" Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}Lv.{0} 好感：{1}">
-                                                    <Binding Path="Level"/>
-                                                    <Binding Path="Fetter"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <ItemsControl Grid.Column="4" HorizontalAlignment="Left"
-                                                ItemsSource="{Binding Constellations}"
-                                                ItemsPanel="{StaticResource HorizontalStackPanelItemsPanel}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <c:CachedBitmapIcon 
-                                                                UriSource="{Binding Icon}"
-                                                                Width="32" Height="32" Margin="0,6,12,6">
-                                                        <c:CachedBitmapIcon.Style>
-                                                            <Style TargetType="c:CachedBitmapIcon">
-                                                                <Setter Property="Opacity" Value="1"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsActived}" Value="False">
-                                                                        <Setter Property="Opacity" Value="0.2"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </c:CachedBitmapIcon.Style>
-                                                    </c:CachedBitmapIcon>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <c:CachedImage Grid.Column="5" ImageUrl="{Binding Weapon.Icon}" Width="32" Height="32"/>
-                                        <TextBlock Grid.Column="6" Margin="6,0,0,0" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}Lv.{0} 精炼：{1}">
-                                                    <Binding Path="Weapon.Level"/>
-                                                    <Binding Path="Weapon.AffixLevel"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <ItemsControl Grid.Column="7" Margin="0,0,6,0"
+                                        <Border Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="60"
+                                                Padding="8,4" BorderThickness="1" Height="28" CornerRadius="4">
+                                            <TextBlock Text="{Binding Level,StringFormat={}Lv.{0}}" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="60"
+                                                Padding="8,4" BorderThickness="1" Height="28" CornerRadius="4">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <ui:FontIcon VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"
+                                                         Grid.Column="4" Glyph="&#xEB51;" Foreground="#FFC72335"/>
+                                                <TextBlock Text="{Binding Fetter}" Margin="8,0,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="48"
+                                                Padding="8,4" Margin="0,0,2,0" BorderThickness="1" Height="28" CornerRadius="4">
+                                            <TextBlock Text="{Binding ActivedConstellationNum,StringFormat={}{0} 命}" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <Rectangle Grid.Column="5" Width="1" Margin="0,2" HorizontalAlignment="Right" Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}"/>
+                                        <c:CachedImage Grid.Column="6" ImageUrl="{Binding Weapon.Icon}" Width="32" Height="32"/>
+                                        
+                                        <TextBlock Grid.Column="7" Text="{Binding Weapon.Name}" VerticalAlignment="Center" Margin="6,0,0,0"
+                                                       Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                        <Border Grid.Column="8" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="60"
+                                                Padding="8,4" BorderThickness="1" Height="28" CornerRadius="4">
+                                            <TextBlock Text="{Binding Weapon.Level,StringFormat={}Lv.{0}}" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        
+                                        <Border Grid.Column="9" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="48"
+                                                Padding="8,4" Margin="0,0,2,0" BorderThickness="1" Height="28" CornerRadius="4">
+                                            <TextBlock Text="{Binding ActivedConstellationNum,StringFormat={}精炼：{0}}" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <Rectangle Grid.Column="9" Width="1" Margin="0,2" HorizontalAlignment="Right" Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}"/>
+                                        <ItemsControl Grid.Column="10" Margin="0,0,6,0"
                                                 ItemsSource="{Binding Reliquaries}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>

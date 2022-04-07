@@ -41,6 +41,7 @@ namespace DGP.Genshin.ViewModel
         private bool isBackgroundOpacityAdaptive;
         private bool isBannerWithNoItemVisible;
         private NamedValue<UpdateAPI> currentUpdateAPI;
+        private bool isBackgroundBlurEnabled;
 
         /// <summary>
         /// 构造一个新的设置视图模型
@@ -62,6 +63,7 @@ namespace DGP.Genshin.ViewModel
             BackgroundOpacity = Setting2.BackgroundOpacity;
             IsBackgroundOpacityAdaptive = Setting2.IsBackgroundOpacityAdaptive;
             IsBannerWithNoItemVisible = Setting2.IsBannerWithNoItemVisible;
+            IsBackgroundBlurEnabled = Setting2.IsBackgroundBlurEnabled;
 
             Version v = App.Current.Version;
             VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
@@ -106,11 +108,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => skipCacheCheck;
 
-            set
-            {
-                Setting2.SkipCacheCheck.Set(value, false);
-                SetProperty(ref skipCacheCheck, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref skipCacheCheck, value, Setting2.SkipCacheCheck.Set);
         }
 
         /// <summary>
@@ -120,11 +118,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => isTaskBarIconEnabled;
 
-            set
-            {
-                Setting2.IsTaskBarIconEnabled.Set(value, false);
-                SetProperty(ref isTaskBarIconEnabled, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref isTaskBarIconEnabled, value, Setting2.IsTaskBarIconEnabled.Set);
         }
 
         /// <summary>
@@ -134,11 +128,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => closeMainWindowAfterInitializaion;
 
-            set
-            {
-                Setting2.CloseMainWindowAfterInitializaion.Set(value, false);
-                SetProperty(ref closeMainWindowAfterInitializaion, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref closeMainWindowAfterInitializaion, value, Setting2.CloseMainWindowAfterInitializaion.Set);
         }
 
         /// <summary>
@@ -163,11 +153,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => isBackgroundOpacityAdaptive;
 
-            set
-            {
-                Setting2.IsBackgroundOpacityAdaptive.Set(value, false);
-                SetProperty(ref isBackgroundOpacityAdaptive, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref isBackgroundOpacityAdaptive, value, Setting2.IsBackgroundOpacityAdaptive.Set);
         }
 
         /// <summary>
@@ -199,11 +185,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => isBannerWithNoItemVisible;
 
-            set
-            {
-                Setting2.IsBannerWithNoItemVisible.Set(value, false);
-                SetProperty(ref isBannerWithNoItemVisible, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref isBannerWithNoItemVisible, value, Setting2.IsBannerWithNoItemVisible.Set);
         }
 
         /// <summary>
@@ -245,6 +227,15 @@ namespace DGP.Genshin.ViewModel
 
             [MemberNotNull(nameof(updateInfo))]
             set => SetProperty(ref updateInfo, value);
+        }
+
+        /// <summary>
+        /// 是否启用背景模糊
+        /// </summary>
+        public bool IsBackgroundBlurEnabled
+        {
+            get => isBackgroundBlurEnabled;
+            set => SetPropertyAndCallbackOnCompletion(ref isBackgroundBlurEnabled, value, Setting2.IsBackgroundBlurEnabled.Set);
         }
 
         /// <summary>

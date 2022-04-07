@@ -50,11 +50,12 @@
             </ui:CommandBar>
             <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                 <ui:ListView
-                        Padding="0" 
-                        ItemsSource="{Binding CookieUserInfos}" 
-                        SelectedItem="{Binding SelectedCookieUserInfo}" 
-                        SelectionMode="Single"
-                        HorizontalContentAlignment="Left">
+                    Padding="0" 
+                    ItemsSource="{Binding CookieUserInfos}" 
+                    SelectedItem="{Binding SelectedCookieUserInfo}" 
+                    SelectionMode="Single"
+                    HorizontalContentAlignment="Left"
+                    >
                     <ui:ListView.Resources>
                         <Style TargetType="ui:ListViewItem">
                             <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />

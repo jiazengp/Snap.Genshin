@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DGP.Genshin.Control.GenshinElement;
 using DGP.Genshin.DataModel;
+using DGP.Genshin.DataModel.Achievement;
 using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
@@ -30,6 +31,8 @@ namespace DGP.Genshin.ViewModel
         private const string DailyWeaponsJson = "dailyweapons.json";
         private const string WeaponsJson = "weapons.json";
         private const string GachaEventJson = "gachaevents.json";
+        private const string AchieventsJson = "achievements.json";
+        private const string AchieventGoalsJson = "achievementgoals.json";
 
         private const string FolderPath = "Metadata\\";
 
@@ -38,6 +41,8 @@ namespace DGP.Genshin.ViewModel
         private List<Talent> dailyTalents = null!;
         private List<WeaponMaterial> dailyWeapons = null!;
         private List<SpecificBanner> specificBanners = null!;
+        private List<Achievement> achievements = null!;
+        private List<AchievementGoal> achievementGoals = null!;
 
         private Character? selectedCharacter;
         private DataModelWeapon? selectedWeapon;
@@ -121,6 +126,22 @@ namespace DGP.Genshin.ViewModel
         }
 
         /// <summary>
+        /// 成就列表
+        /// </summary>
+        public List<Achievement> Achievements
+        {
+            get => ProxyCollcetion(ref achievements, AchieventsJson);
+        }
+
+        /// <summary>
+        /// 成就大纲
+        /// </summary>
+        public List<AchievementGoal> AchievementGoals
+        {
+            get => ProxyCollcetion(ref achievementGoals, AchieventGoalsJson);
+        }
+
+        /// <summary>
         /// 当前选择的角色
         /// </summary>
         public Character? SelectedCharacter
@@ -167,7 +188,7 @@ namespace DGP.Genshin.ViewModel
                 return null;
             }
 
-            return (Primitive?)characters?.FirstOrDefault(c => c.Name == name)
+            return characters?.FirstOrDefault(c => c.Name == name) as Primitive
                 ?? weapons?.FirstOrDefault(w => w.Name == name)
                 ?? null;
         }
@@ -180,11 +201,6 @@ namespace DGP.Genshin.ViewModel
         /// <returns>Url</returns>
         public string? FindSourceByName(string? name)
         {
-            if (name is null)
-            {
-                return null;
-            }
-
             return FindPrimitiveByName(name)?.Source;
         }
 
