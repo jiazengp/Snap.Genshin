@@ -8,6 +8,7 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -52,8 +53,8 @@ namespace DGP.Genshin.Service
                     foreach (UserGameRole role in roles)
                     {
                         string result = await new SignInProvider(cookie).SignInAsync(role);
-
-                        Setting2.LastAutoSignInTime.Set(DateTime.UtcNow);
+                        this.Log(Setting2.SignInSilently.Get());
+                        Setting2.LastAutoSignInTime.Set(DateTime.UtcNow + TimeSpan.FromHours(8));
                         new ToastContentBuilder()
                             .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
                             .AddText(result)
@@ -63,7 +64,7 @@ namespace DGP.Genshin.Service
 
                     // Starting from 2022.4.1 or so
                     // We need always wait 15 seconds to sign another account in.
-                    await Task.Delay(15000);
+                    await Task.Delay(TimeSpan.FromSeconds(15));
                 }
             }
         }

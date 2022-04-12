@@ -5,9 +5,11 @@ using DGP.Genshin.Service.Abstraction.Achievement;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +28,8 @@ namespace DGP.Genshin.ViewModel
         private List<AchievementGoal> achievementGoals = null!;
 
         private string? query;
+        private bool incompletedFirst = true;
+        private double completedProgress;
 
         /// <summary>
         /// 构造一个新的成就视图模型
@@ -41,6 +45,7 @@ namespace DGP.Genshin.ViewModel
             CloseUICommand = new RelayCommand(CloseUI);
             RefreshQueryCommand = new RelayCommand<string>(RefreshQuery);
             ImportFromCocoGoatCommand = asyncRelayCommandFactory.Create(ImportFromCocoGoatAsync);
+            ImportFromClipboardCommand = asyncRelayCommandFactory.Create(ImportFromClipBoardAsync);
         }
 
         /// <summary>
@@ -74,6 +79,24 @@ namespace DGP.Genshin.ViewModel
         }
 
         /// <summary>
+        /// 未完成优先
+        /// </summary>
+        public bool IncompletedFirst
+        {
+            get => incompletedFirst;
+            set => SetPropertyAndCallbackOnCompletion(ref incompletedFirst, value, RefreshView);
+        }
+
+        /// <summary>
+        /// 当前成就分类完成进度
+        /// </summary>
+        public double CompletedProgress
+        {
+            get => completedProgress;
+            set => SetProperty(ref completedProgress, value);
+        }
+
+        /// <summary>
         /// 打开界面时触发的命令
         /// </summary>
         public ICommand OpenUICommand { get; }
@@ -92,6 +115,11 @@ namespace DGP.Genshin.ViewModel
         /// 从椰羊导入命令
         /// </summary>
         public ICommand ImportFromCocoGoatCommand { get; }
+
+        /// <summary>
+        /// 从剪贴板导入
+        /// </summary>
+        public ICommand ImportFromClipboardCommand { get; set; }
 
         private void OpenUI()
         {
@@ -127,6 +155,8 @@ namespace DGP.Genshin.ViewModel
                 {
                     Must.NotNull(Achievements!);
                     int totalCount = SetAchievementsState(data, Achievements);
+                    this.Log(totalCount);
+                    RefreshView();
                     await new ContentDialog()
                     {
                         Title = "导入成功",
@@ -140,11 +170,41 @@ namespace DGP.Genshin.ViewModel
                     await new ContentDialog()
                     {
                         Title = "导入失败",
-                        Content = $"选择的文件中包含的成就格式不正确\n请尝试 椰羊-设置-本地导出-导出数据\n解压压缩包后选择 \"成就导出.json\" 再导入",
+                        Content = $"选择的文件中包含的成就格式不正确\n请尝试 椰羊-设置-本地导出-导出数据\n解压压缩包后再导入",
                         PrimaryButtonText = "确认",
                         DefaultButton = ContentDialogButton.Primary,
                     }.ShowAsync();
                 }
+            }
+        }
+
+        private async Task ImportFromClipBoardAsync()
+        {
+            string dataString = Clipboard.GetText();
+            IEnumerable<IdTime>? data = achievementService.TryGetImportData(dataString);
+            if (data != null)
+            {
+                Must.NotNull(Achievements!);
+                int totalCount = SetAchievementsState(data, Achievements);
+                this.Log(totalCount);
+                RefreshView();
+                await new ContentDialog()
+                {
+                    Title = "导入成功",
+                    Content = $"共同步了 {totalCount} 个成就",
+                    PrimaryButtonText = "确认",
+                    DefaultButton = ContentDialogButton.Primary,
+                }.ShowAsync();
+            }
+            else
+            {
+                await new ContentDialog()
+                {
+                    Title = "导入失败",
+                    Content = $"剪贴板中包含的成就格式不正确\n请尝试 椰羊-设置-本地导出-导出数据\n解压压缩包后选择 \"成就导出.json\" 再导入",
+                    PrimaryButtonText = "确认",
+                    DefaultButton = ContentDialogButton.Primary,
+                }.ShowAsync();
             }
         }
 
@@ -168,7 +228,29 @@ namespace DGP.Genshin.ViewModel
         {
             if (SelectedAchievementGoal != null && Achievements != null)
             {
-                CollectionViewSource.GetDefaultView(Achievements).Refresh();
+                ICollectionView view = CollectionViewSource.GetDefaultView(Achievements);
+                view.SortDescriptions.Clear();
+                if (IncompletedFirst)
+                {
+                    view.SortDescriptions.Add(new(nameof(Achievement.IsCompleted), ListSortDirection.Ascending));
+                }
+
+                view.Refresh();
+
+                // update progress value
+                int total = 0;
+                int completed = 0;
+
+                foreach (Achievement item in view)
+                {
+                    total++;
+                    if (item.IsCompleted)
+                    {
+                        completed++;
+                    }
+                }
+
+                CompletedProgress = (double)completed / total;
             }
         }
 

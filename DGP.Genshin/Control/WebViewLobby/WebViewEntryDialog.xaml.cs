@@ -12,6 +12,7 @@ namespace DGP.Genshin.Control.WebViewLobby
     /// </summary>
     public partial class WebViewEntryDialog : ContentDialog
     {
+        private const string WhiteSpace = " ";
         private static readonly DependencyProperty NavigateUrlProperty = Property<WebViewEntryDialog>.Depend<string>(nameof(NavigateUrl));
         private static readonly DependencyProperty EntryNameProperty = Property<WebViewEntryDialog>.Depend<string>(nameof(EntryName));
         private static readonly DependencyProperty IconUrlProperty = Property<WebViewEntryDialog>.Depend<string>(nameof(IconUrl));
@@ -101,8 +102,8 @@ namespace DGP.Genshin.Control.WebViewLobby
                 {
                     if (JavaScript is not null)
                     {
-                        JavaScript = new Regex("(\r\n|\r|\n)").Replace(JavaScript, " ");
-                        JavaScript = new Regex(@"\s+").Replace(JavaScript, " ");
+                        JavaScript = new Regex("(\r\n|\r|\n)").Replace(JavaScript, WhiteSpace);
+                        JavaScript = new Regex(@"\s+").Replace(JavaScript, WhiteSpace);
                     }
 
                     return new WebViewEntry(this);

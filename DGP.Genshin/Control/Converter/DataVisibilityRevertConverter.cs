@@ -15,6 +15,7 @@ namespace DGP.Genshin.Control.Converter
             return value switch
             {
                 ICollection collection => collection.Count > 0 ? Visibility.Visible : Visibility.Collapsed,
+                int integer => integer != 0 ? Visibility.Visible : Visibility.Collapsed,
                 _ => value != null ? Visibility.Visible : Visibility.Collapsed,
             };
         }

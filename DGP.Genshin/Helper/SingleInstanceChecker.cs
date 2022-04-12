@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using DGP.Genshin.Helper.Extension;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.Helper
@@ -61,7 +62,7 @@ namespace DGP.Genshin.Helper
                 // if this instance gets the signal
                 while (eventWaitHandle.WaitOne())
                 {
-                    App.Current.Dispatcher.Invoke(multiInstancePresentAction);
+                    this.ExecuteOnUI(multiInstancePresentAction);
                 }
             }).Start();
         }

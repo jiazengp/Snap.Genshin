@@ -303,7 +303,7 @@
                                         
                                         <Border Grid.Column="9" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="48"
                                                 Padding="8,4" Margin="0,0,2,0" BorderThickness="1" Height="28" CornerRadius="4">
-                                            <TextBlock Text="{Binding ActivedConstellationNum,StringFormat={}精炼：{0}}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Weapon.AffixLevel,StringFormat={}精炼：{0}}" HorizontalAlignment="Center"/>
                                         </Border>
                                         <Rectangle Grid.Column="9" Width="1" Margin="0,2" HorizontalAlignment="Right" Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}"/>
                                         <ItemsControl Grid.Column="10" Margin="0,0,6,0"

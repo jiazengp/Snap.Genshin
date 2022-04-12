@@ -5,6 +5,7 @@ using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Net.Afdian;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,25 +53,31 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                int currentPage = 1;
+                int nextPage = 1;
                 List<Sponsor> result = new();
                 Response<ListWrapper<Sponsor>>? response;
                 do
                 {
-                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(currentPage++, CancellationToken);
+                    response = await new AfdianProvider(UserId, Token).QuerySponsorAsync(nextPage++, CancellationToken);
                     if (response?.Data?.List is List<Sponsor> part)
                     {
                         result.AddRange(part);
                     }
                 }
-                while (response?.Data?.TotalPage >= currentPage);
+                while (nextPage <= response?.Data?.TotalPage);
 
-                Sponsors = result;
+                Sponsors = result.Where(s => !SponsorTooEarly(s)).ToList();
             }
             catch (TaskCanceledException)
             {
                 this.Log("Open UI canceled");
             }
+        }
+
+        private bool SponsorTooEarly(Sponsor s)
+        {
+            long limitTime = DateTimeOffset.UtcNow.AddDays(-30).ToUnixTimeSeconds();
+            return s.LastPayTime < limitTime;
         }
     }
 }

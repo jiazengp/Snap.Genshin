@@ -26,11 +26,19 @@
         <ui:CommandBar IsOpen="False" Height="40" Background="Transparent">
             <ui:CommandBar.Content>
                 <ToggleButton x:Name="PaneOpenButton" ui:ControlHelper.CornerRadius="0"
-                                          Background="Transparent" IsChecked="False" Height="40"
-                                          FontSize="16">
-                    <TextBlock Text="{Binding SelectedAchievementGoal.Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                          Background="Transparent" Height="40"
+                                          FontSize="16" IsChecked="True" >
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} - {1:p2}">
+                                <Binding Path="SelectedAchievementGoal.Name"/>
+                                <Binding Path="CompletedProgress"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </ToggleButton>
             </ui:CommandBar.Content>
+            
             <ui:AppBarElementContainer>
                 <ui:AutoSuggestBox Margin="0,4,4,0"
                                    MinWidth="240" 
@@ -40,6 +48,13 @@
                                    QuerySubmitted="AutoSuggestBoxQuerySubmitted"/>
             </ui:AppBarElementContainer>
             <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarToggleButton Label="优先未完成" Icon="Sort" IsChecked="{Binding IncompletedFirst}"/>
+                <ui:AppBarSeparator/>
+                <ui:AppBarButton Label="从 剪贴板 导入" Command="{Binding ImportFromClipboardCommand}">
+                    <ui:AppBarButton.Icon>
+                        <ui:FontIcon Glyph="&#xEDE1;"/>
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
                 <ui:AppBarButton Label="从 椰羊 导入" Command="{Binding ImportFromCocoGoatCommand}">
                     <ui:AppBarButton.Icon>
                         <ui:FontIcon Glyph="&#xEDE1;"/>
@@ -47,8 +62,13 @@
                 </ui:AppBarButton>
             </ui:CommandBar.SecondaryCommands>
         </ui:CommandBar>
-        <ui:SplitView Grid.Row="1" OpenPaneLength="240" DisplayMode="Inline" PaneBackground="Transparent"
-                      IsPaneOpen="{Binding ElementName=PaneOpenButton,Path=IsChecked}">
+        <ui:SplitView
+            Grid.Row="1"
+            OpenPaneLength="240"
+            DisplayMode="Inline"
+            PaneBackground="Transparent"
+            IsPaneOpen="{Binding ElementName=PaneOpenButton,Path=IsChecked}"
+            Focusable="False">
             <ui:SplitView.Pane>
                 <smoothscrollviewer:SmoothScrollViewer>
                     <ui:ListView Padding="0"
@@ -64,7 +84,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-
+                    <ProgressBar ui:ControlHelper.CornerRadius="0" Value="{Binding CompletedProgress}" Maximum="1" MinHeight="2"/>
                     <smoothscrollviewer:SmoothScrollViewer Grid.Row="1">
                         <ItemsControl ItemsSource="{Binding Achievements,IsAsync=True}" Margin="12,12,16,0">
                             <ItemsControl.ItemTemplate>

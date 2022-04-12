@@ -49,6 +49,3 @@
 [submodule "Common/Snap.Reflection"]
 	path = Common/Snap.Reflection
 	url = https://github.com/DGP-Studio/Snap.Reflection.git
-[submodule "Plugins/SG.Plugin.Achievement.Exporter"]
-	path = Plugins/SG.Plugin.Achievement.Exporter
-	url = https://github.com/DGP-Studio/SG.Plugin.Achievement.Exporter.git

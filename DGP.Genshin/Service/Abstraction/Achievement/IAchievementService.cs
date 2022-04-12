@@ -10,7 +10,7 @@ namespace DGP.Genshin.Service.Abstraction.Achievement
     public interface IAchievementService
     {
         /// <summary>
-        /// 读取已完成的项目数据
+        /// 从本地读取已完成的项目数据
         /// </summary>
         /// <returns>已完成的项目列表</returns>
         List<IdTime> GetCompletedItems();
@@ -28,5 +28,12 @@ namespace DGP.Genshin.Service.Abstraction.Achievement
         /// <param name="fileName">文件路径</param>
         /// <returns>可导入的成就数据</returns>
         IEnumerable<IdTime>? TryGetImportData(ImportAchievementSource source, string fileName);
+
+        /// <summary>
+        /// 从字符串中获取导入的数据
+        /// </summary>
+        /// <param name="dataString">数据字符串</param>
+        /// <returns>可导入的成就数据</returns>
+        IEnumerable<IdTime>? TryGetImportData(string dataString);
     }
 }

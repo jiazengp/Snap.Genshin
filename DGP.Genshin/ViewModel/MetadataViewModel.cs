@@ -75,7 +75,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<Character> Characters
         {
-            get => ProxyCollcetion(ref characters, CharactersJson, collection =>
+            get => ProbeCollcetion(ref characters, CharactersJson, collection =>
                 {
                     return new(collection
                             .OrderByDescending(i => i.Star)
@@ -90,7 +90,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public ObservableCollection<DataModelWeapon> Weapons
         {
-            get => ProxyCollcetion(ref weapons, WeaponsJson, collection =>
+            get => ProbeCollcetion(ref weapons, WeaponsJson, collection =>
             {
                 return new(collection
                         .OrderByDescending(i => i.Star)
@@ -105,7 +105,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public List<Talent> DailyTalents
         {
-            get => ProxyCollcetion(ref dailyTalents, DailyTalentsJson);
+            get => ProbeCollcetion(ref dailyTalents, DailyTalentsJson);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace DGP.Genshin.ViewModel
         [IntegrityAware]
         public List<WeaponMaterial> DailyWeapons
         {
-            get => ProxyCollcetion(ref dailyWeapons, DailyWeaponsJson);
+            get => ProbeCollcetion(ref dailyWeapons, DailyWeaponsJson);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<SpecificBanner> SpecificBanners
         {
-            get => ProxyCollcetion(ref specificBanners, GachaEventJson);
+            get => ProbeCollcetion(ref specificBanners, GachaEventJson);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<Achievement> Achievements
         {
-            get => ProxyCollcetion(ref achievements, AchieventsJson);
+            get => ProbeCollcetion(ref achievements, AchieventsJson);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<AchievementGoal> AchievementGoals
         {
-            get => ProxyCollcetion(ref achievementGoals, AchieventGoalsJson);
+            get => ProbeCollcetion(ref achievementGoals, AchieventGoalsJson);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace DGP.Genshin.ViewModel
             return FindPrimitiveByName(name)?.Source;
         }
 
-        private T ProxyCollcetion<T>(ref T collection, string fileName, Func<T, T>? firstTimeProcessor = null)
+        private T ProbeCollcetion<T>(ref T collection, string fileName, Func<T, T>? firstTimeFactory = null)
             where T : new()
         {
             if (collection is not null)
@@ -219,9 +219,9 @@ namespace DGP.Genshin.ViewModel
                     string json = File.ReadAllText(path);
                     this.Log($"{fileName} loaded.");
                     collection ??= Json.ToObjectOrNew<T>(json);
-                    if (firstTimeProcessor != null)
+                    if (firstTimeFactory != null)
                     {
-                        collection = firstTimeProcessor(collection);
+                        collection = firstTimeFactory(collection);
                     }
 
                     return collection;

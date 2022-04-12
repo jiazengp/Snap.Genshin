@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DGP.Genshin.Control;
 using DGP.Genshin.Core;
+using DGP.Genshin.Core.Activation;
 using DGP.Genshin.Core.ImplementationSwitching;
 using DGP.Genshin.Core.LifeCycle;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Core.Plugins;
+using DGP.Genshin.Helper.UrlProtocol;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstraction.Setting;
@@ -35,6 +37,7 @@ namespace DGP.Genshin
         private static bool? isElevated;
 
         private readonly ToastNotificationHandler toastNotificationHandler = new();
+        private readonly LaunchHandler launchHandler = new();
         private readonly SingleInstanceChecker singleInstanceChecker = new("Snap.Genshin");
         private readonly ServiceManagerBase serviceManager;
         private readonly IPluginService pluginService;
@@ -210,11 +213,16 @@ namespace DGP.Genshin
         protected override void OnStartup(StartupEventArgs e)
         {
             ConfigureWorkingDirectory();
+            ConfigureUrlProtocol();
             ConfigureUnhandledException();
 
             // handle notification activation
             ConfigureToastNotification();
-            singleInstanceChecker.Ensure(Current, () => BringWindowToFront<MainWindow>());
+            singleInstanceChecker.Ensure(Current, () =>
+            {
+                BringWindowToFront<MainWindow>();
+                launchHandler.Handle(UrlProtocol.Argument);
+            });
 
             // app center services
             ConfigureAppCenter(true);
@@ -232,6 +240,8 @@ namespace DGP.Genshin
             // open main window
             base.OnStartup(e);
             BringWindowToFront<MainWindow>();
+
+            launchHandler.Handle(UrlProtocol.Argument);
         }
 
         /// <inheritdoc/>
@@ -252,6 +262,8 @@ namespace DGP.Genshin
                 {
                 }
 
+                // clear protocol launch arguments.
+                UrlProtocol.Argument = string.Empty;
                 this.Log($"Exit code : {e.ApplicationExitCode}");
             }
 
@@ -333,6 +345,23 @@ namespace DGP.Genshin
         private void ConfigureToastNotification()
         {
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
+        }
+
+        private void ConfigureUrlProtocol()
+        {
+            UrlProtocol.Register();
+
+            // launched by other app
+            string[] segments = Environment.CommandLine.Split(' ');
+            if (segments.Length > 1)
+            {
+                // trim app path.
+                UrlProtocol.Argument = string.Concat(segments[1..]);
+            }
+            else
+            {
+                UrlProtocol.Argument = string.Empty;
+            }
         }
 
         private void UpdateAppTheme()

@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.MiHoYoAPI.Calculation;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DGP.Genshin.DataModel.Promotion
 {
@@ -14,10 +15,10 @@ namespace DGP.Genshin.DataModel.Promotion
         /// </summary>
         /// <param name="calculable">可计算</param>
         /// <param name="consumption">消耗</param>
-        public CalculableConsume(Calculable calculable, List<ConsumeItem> consumption)
+        public CalculableConsume(Calculable calculable, List<ConsumeItem>? consumption)
         {
             Calculable = calculable;
-            ConsumeItems = consumption;
+            ConsumeItems = consumption is not null ? new(consumption) : new();
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace DGP.Genshin.DataModel.Promotion
         /// <summary>
         /// 消耗物品的列表
         /// </summary>
-        public List<ConsumeItem> ConsumeItems { get; set; }
+        public ObservableCollection<ConsumeItem> ConsumeItems { get; set; }
 
         /// <summary>
         /// 移除命令

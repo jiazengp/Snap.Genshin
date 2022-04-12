@@ -55,7 +55,7 @@ namespace DGP.Genshin.Core.Notification
                     }
                     else
                     {
-                        builder.Show();
+                        builder.Show(customizeToast);
                     }
                 }
                 catch (Exception)

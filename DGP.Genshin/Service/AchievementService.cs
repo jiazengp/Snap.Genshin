@@ -60,5 +60,13 @@ namespace DGP.Genshin.Service
                 return null;
             }
         }
+
+        /// <inheritdoc/>
+        public IEnumerable<IdTime>? TryGetImportData(string dataString)
+        {
+            IEnumerable<IdTimeStamp>? idTimeStamps = Json.ToObject<IEnumerable<IdTimeStamp>>(dataString);
+            return idTimeStamps?
+                .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+        }
     }
 }

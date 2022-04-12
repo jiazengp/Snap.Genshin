@@ -383,8 +383,7 @@ namespace DGP.Genshin.ViewModel
 
         private async Task AddCharacterMaterialToListAsync(string? option)
         {
-            Must.NotNull(SelectedAvatar!);
-            Calculable calculable = SelectedAvatar;
+            Calculable calculable = Must.NotNull(SelectedAvatar!);
             List<ConsumeItem> items = option switch
             {
                 AvatarTag => Must.NotNull(Consumption?.AvatarConsume!),
@@ -401,7 +400,7 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -426,7 +425,7 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -438,7 +437,10 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items)
+                {
+                    RemoveCommand = RemoveMaterialCommand,
+                });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -450,7 +452,10 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                MaterialList?.Add(new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items)
+                {
+                    RemoveCommand = RemoveMaterialCommand,
+                });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -495,6 +500,7 @@ namespace DGP.Genshin.ViewModel
                 {
                     Must.NotNull(selected.GameUid!);
                     Must.NotNull(selected.Region!);
+
                     List<Avatar> avatars = await calculator.GetSyncedAvatarListAsync(
                         new(selected.GameUid, selected.Region),
                         true,
@@ -525,11 +531,8 @@ namespace DGP.Genshin.ViewModel
 
                 if (avatar is not null)
                 {
-                    string? uid = SelectedUserGameRole.GameUid;
-                    string? region = SelectedUserGameRole.Region;
-
-                    Must.NotNull(uid!);
-                    Must.NotNull(region!);
+                    string uid = Must.NotNull(SelectedUserGameRole.GameUid!);
+                    string region = Must.NotNull(SelectedUserGameRole.Region!);
 
                     int avatarId = avatar.Id;
 

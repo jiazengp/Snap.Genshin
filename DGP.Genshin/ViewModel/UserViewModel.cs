@@ -78,7 +78,7 @@ namespace DGP.Genshin.ViewModel
 
             // 签到选项
             AutoDailySignInOnLaunch = Setting2.AutoDailySignInOnLaunch;
-            SignInSilently = Setting2.SignInSilently.Get();
+            SignInSilently = Setting2.SignInSilently;
             SignInImmediatelyCommand = asyncRelayCommandFactory.Create(signInService.TrySignAllAccountsRolesInAsync);
 
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
@@ -108,11 +108,7 @@ namespace DGP.Genshin.ViewModel
         {
             get => signInSilently;
 
-            set
-            {
-                Setting2.SignInSilently.Set(value, false);
-                SetProperty(ref signInSilently, value);
-            }
+            set => SetPropertyAndCallbackOnCompletion(ref signInSilently, value, Setting2.SignInSilently.Set);
         }
 
         /// <summary>

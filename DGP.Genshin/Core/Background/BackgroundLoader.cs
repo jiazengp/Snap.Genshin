@@ -23,7 +23,7 @@ namespace DGP.Genshin.Core.Background
     {
         private const int AnimationDuration = 500;
 
-        private static readonly BlurEffect BlurEffect = new() { Radius = 60, RenderingBias = RenderingBias.Quality };
+        private static readonly BlurEffect BlurEffect = new() { Radius = 60, RenderingBias = RenderingBias.Performance };
 
         private readonly MainWindow mainWindow;
         private readonly IMessenger messenger;
@@ -131,7 +131,7 @@ namespace DGP.Genshin.Core.Background
         {
             if (Setting2.IsBackgroundBlurEnabled)
             {
-                backgroundPresenter.Effect = BlurEffect;
+                backgroundPresenter.Effect ??= BlurEffect;
             }
             else
             {

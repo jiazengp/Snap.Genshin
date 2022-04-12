@@ -60,9 +60,17 @@ namespace DGP.Genshin.DataModel.Achievement
             set
             {
                 Set(ref isCompleted, value);
-                if (CompleteDateTime == default(DateTime))
+
+                if (value)
                 {
-                    CompleteDateTime = DateTime.Now;
+                    if (CompleteDateTime == default(DateTime))
+                    {
+                        CompleteDateTime = DateTime.Now;
+                    }
+                }
+                else
+                {
+                    CompleteDateTime = default(DateTime);
                 }
             }
         }

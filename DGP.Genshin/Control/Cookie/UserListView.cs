@@ -1,5 +1,4 @@
-﻿using DGP.Genshin.Control.Infrastructure;
-using DGP.Genshin.DataModel.Cookie;
+﻿using DGP.Genshin.DataModel.Cookie;
 
 namespace DGP.Genshin.Control.Cookie
 {
