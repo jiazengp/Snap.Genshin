@@ -113,12 +113,12 @@ namespace DGP.Genshin.Service.Abstraction.Setting
         /// <summary>
         /// 主窗体宽度
         /// </summary>
-        public static readonly SettingDefinition<double> MainWindowWidth = new("MainWindowWidth", 0D);
+        public static readonly SettingDefinition<double> MainWindowWidth = new("MainWindowWidth", 1108D);
 
         /// <summary>
         /// 主窗体高度
         /// </summary>
-        public static readonly SettingDefinition<double> MainWindowHeight = new("MainWindowHeight", 0D);
+        public static readonly SettingDefinition<double> MainWindowHeight = new("MainWindowHeight", 750D);
 
         /// <summary>
         /// 导航栏是否展开

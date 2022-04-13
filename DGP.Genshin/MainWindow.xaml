@@ -23,11 +23,7 @@
     ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Grid>
-        <Grid x:Name="BackgroundGrid" RenderOptions.BitmapScalingMode="Fant" Margin="-60">
-            <Grid.Effect>
-                <BlurEffect Radius="60" KernelType="Gaussian" RenderingBias="Quality"/>
-            </Grid.Effect>
-        </Grid>
+        <Grid x:Name="BackgroundGrid" RenderOptions.BitmapScalingMode="Fant" Margin="-60"/>
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"
             x:Name="NavView" 
@@ -41,7 +37,7 @@
                 <ui:NavigationViewItem Content="首页" helpers:NavHelper.NavigateTo="{x:Type pages:HomePage}" Icon="Home"/>
                 <ui:NavigationViewItem Content="账号管理" helpers:NavHelper.NavigateTo="{x:Type pages:UserPage}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Glyph="&#xE748;"/>
+                        <ui:FontIcon Glyph="&#xEF58;"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="启动游戏" helpers:NavHelper.NavigateTo="{x:Type pages:LaunchPage}">
@@ -55,13 +51,7 @@
                             UriSource="pack://application:,,,/Resources/UI_BtnIcon_Gacha.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="胡桃数据库" helpers:NavHelper.NavigateTo="{x:Type pages:HutaoStatisticPage}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_ChapterIcon_Hutao.png"
-                                       UriSource="pack://application:,,,/Resources/UI_ChapterIcon_Hutao.png"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
-                
+
                 <ui:NavigationViewItemHeader Content="WIKI"/>
                 <ui:NavigationViewItem Content="日常材料" helpers:NavHelper.NavigateTo="{x:Type pages:DailyPage}" Icon="CalendarDay"/>
                 <ui:NavigationViewItem Content="周常材料" helpers:NavHelper.NavigateTo="{x:Type pages:WeeklyPage}" Icon="CalendarWeek"/>
@@ -79,15 +69,20 @@
                 </ui:NavigationViewItem>
 
                 <ui:NavigationViewItemHeader Content="工具"/>
+                <ui:NavigationViewItem Content="胡桃数据库" helpers:NavHelper.NavigateTo="{x:Type pages:HutaoStatisticPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_ChapterIcon_Hutao.png"
+                                       UriSource="pack://application:,,,/Resources/UI_ChapterIcon_Hutao.png"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
+                <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
                 <ui:NavigationViewItem Content="成就统计" helpers:NavHelper.NavigateTo="{x:Type pages:AchievementPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:BitmapIcon d:UriSource="D:\\Develop/Projects/Snap.Genshin/DGP.Genshin/Resources/UI_Icon_Achievement.png"  
                                        UriSource="pack://application:,,,/Resources/UI_Icon_Achievement.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                                       
-                <ui:NavigationViewItem Content="养成计算" helpers:NavHelper.NavigateTo="{x:Type pages:PromotionCalculatePage}" Icon="Calculator"/>
-                <ui:NavigationViewItem Content="玩家查询" helpers:NavHelper.NavigateTo="{x:Type pages:RecordPage}" Icon="Find"/>
 
                 <ui:NavigationViewItemHeader Content="网页" Visibility="Collapsed"/>
                 <ui:NavigationViewItem Content="自定义网页" helpers:NavHelper.NavigateTo="{x:Type pages:WebViewLobbyPage}">

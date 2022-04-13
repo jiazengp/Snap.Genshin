@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.ViewModel;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
+using System.Windows.Navigation;
 
 namespace DGP.Genshin.Page
 {
@@ -8,7 +9,7 @@ namespace DGP.Genshin.Page
     /// 成就页面
     /// </summary>
     [View(InjectAs.Transient)]
-    internal partial class AchievementPage : System.Windows.Controls.Page
+    internal partial class AchievementPage : ModernWpf.Controls.Page
     {
         /// <summary>
         /// 构造一个新的成就页面
@@ -18,6 +19,12 @@ namespace DGP.Genshin.Page
         {
             DataContext = vm;
             InitializeComponent();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ((AchievementViewModel)DataContext).OpenUICommand.Execute(e.ExtraData);
         }
 
         private void PageUnloaded(object sender, RoutedEventArgs e)

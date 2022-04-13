@@ -66,16 +66,7 @@ namespace DGP.Genshin.Core.Notification
                 {
                     case "game":
                         {
-                            LaunchOption? launchOption = new()
-                            {
-                                IsBorderless = Setting2.IsBorderless.Get(),
-                                IsFullScreen = Setting2.IsFullScreen.Get(),
-                                UnlockFPS = App.IsElevated && Setting2.UnlockFPS.Get(),
-                                TargetFPS = (int)Setting2.TargetFPS.Get(),
-                                ScreenWidth = (int)Setting2.ScreenWidth.Get(),
-                                ScreenHeight = (int)Setting2.ScreenHeight.Get(),
-                            };
-                            await launchService.LaunchAsync(launchOption, ex =>
+                            await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
                             {
                                 new ToastContentBuilder()
                                     .AddText("启动游戏失败")

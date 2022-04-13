@@ -46,7 +46,7 @@
                 <TextBlock Text="常规" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0"/>
                 <wu:CardExpander helper:IconHelper.Icon="&#xE748;" Margin="0,12,0,0" IsExpanded="True"
                             Header="{Binding SelectedAccount.Name,StringFormat={}当前账号{0}}"
-                            Subtitle="在游戏内切换账号/更改游戏内设置/网络环境发生变化/后会自动检测">
+                            Subtitle="在游戏内切换账号/更改游戏内设置/网络环境发生变化/后需要重新手动检测">
                     <wu:CardExpander.HeaderContent>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Button Grid.Row="1" Content="检测" Command="{Binding MatchAccountCommand}" Margin="0,0,12,0" MinWidth="60"/>
@@ -61,11 +61,11 @@
                         DisplayMemberPath="Name" Padding="0,0,0,4"/>
                 </wu:CardExpander>
 
-                <wu:CardControl helper:IconHelper.Icon="&#xE8E6;" Title="重选游戏路径" Subtitle="重新选择你的启动器存放路径" Margin="0,4,0,0">
-                    <Button Grid.Row="1" Content="重置游戏路径" Command="{Binding ReselectLauncherPathCommand}"/>
+                <wu:CardControl helper:IconHelper.Icon="&#xE8E6;" Title="重选官方启动器路径" Subtitle="重新选择你的官方启动器存放路径" Margin="0,4,0,0">
+                    <Button Grid.Row="1" Content="重置" Command="{Binding ReselectLauncherPathCommand}"/>
                 </wu:CardControl>
 
-                <wu:CardControl helper:IconHelper.Icon="&#xE8AB;" Title="服务器" Subtitle="切换游戏服务器，B服用户需要自备额外的SDK文件" Margin="0,12,0,0">
+                <wu:CardControl helper:IconHelper.Icon="&#xE8AB;" Title="服务器" Subtitle="切换游戏服务器，Bilibili服用户需要自备额外的SDK文件" Margin="0,12,0,0">
                     <ComboBox Margin="12,0,0,0"
                             HorizontalAlignment="Stretch" 
                             ItemsSource="{Binding KnownSchemes}"
@@ -93,16 +93,15 @@
                     <ui:NumberBox Value="{Binding ScreenHeight,Mode=TwoWay}"/>
                 </wu:CardControl>
 
-                <TextBlock Text="高级 [使用下方的功能可能造成的任何后果将由您自己负责]" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0" Foreground="DarkRed"/>
-                <wu:CardControl helper:IconHelper.Icon="&#xE785;" Title="解锁帧率上限" Subtitle="需要以管理员模式启动，解锁60帧上限" 
-                                        Margin="0,12,0,0" IsEnabled="{Binding IsElevated}" BorderBrush="DarkRed" Background="#11FF0000">
-                    <ui:ToggleSwitch IsOn="{Binding UnlockFPS}"/>
-                </wu:CardControl>
-                <wu:Card Margin="0,4,0,0" IsEnabled="{Binding IsElevated}" BorderBrush="DarkRed" Background="#11FF0000">
-                    <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,0" TickFrequency="1" IsSnapToTickEnabled="True"
+                <TextBlock Text="怂别用，用别怂" Style="{StaticResource BaseTextBlockStyle}" Margin="0,36,0,0" Foreground="DarkRed"/>
+                <wu:CardExpander helper:IconHelper.Icon="&#xE785;" Header="解锁帧率上限" Subtitle="需要以管理员模式启动，解锁60帧上限" IsExpanded="True"
+                                        Margin="0,12,0,0" IsEnabled="{Binding IsElevated}">
+                    <wu:CardExpander.HeaderContent>
+                        <ui:ToggleSwitch IsOn="{Binding UnlockFPS}" Margin="12,0"/>
+                    </wu:CardExpander.HeaderContent>
+                    <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="12,6" TickFrequency="1" IsSnapToTickEnabled="True"
                             ui:ControlHelper.Header="{Binding RelativeSource={RelativeSource Self},Path=Value}"  Minimum="60" Maximum="360" Value="{Binding TargetFPS}"/>
-                </wu:Card>
-
+                </wu:CardExpander>
             </StackPanel>
         </s:SmoothScrollViewer>
     </Grid>

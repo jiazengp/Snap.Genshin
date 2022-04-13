@@ -639,7 +639,7 @@
                 <TabItem Header="签到">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="600" MaxWidth="640"/>
+                            <ColumnDefinition MinWidth="520" MaxWidth="640"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <s:SmoothScrollViewer>

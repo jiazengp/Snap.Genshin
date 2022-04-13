@@ -183,7 +183,7 @@ namespace DGP.Genshin.Service
                         FileName = oldUpdaterPath,
                         Arguments = "UpdateInstall",
                     });
-                    App.Current.Dispatcher.Invoke(App.Current.Shutdown);
+                    this.ExecuteOnUI(App.Current.Shutdown);
                 }
                 catch (Win32Exception)
                 {

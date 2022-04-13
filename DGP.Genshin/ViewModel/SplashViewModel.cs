@@ -21,6 +21,8 @@ namespace DGP.Genshin.ViewModel
         private readonly IIntegrityCheckService integrityCheckService;
         private readonly IMessenger messenger;
 
+        private bool hasEverSend = false;
+
         private bool isCookieVisible = false;
         private bool isSplashNotVisible = false;
         private string currentStateDescription = "初始化...";
@@ -188,9 +190,13 @@ namespace DGP.Genshin.ViewModel
         [PropertyChangedCallback]
         private void TrySendCompletedMessage()
         {
-            if (IsCookieVisible == false && integrityCheckService.IntegrityChecking.IsCompleted)
+            if (!hasEverSend)
             {
-                messenger.Send(new SplashInitializationCompletedMessage(this));
+                if (IsCookieVisible == false && integrityCheckService.IntegrityChecking.IsCompleted)
+                {
+                    messenger.Send(new SplashInitializationCompletedMessage(this));
+                    hasEverSend = true;
+                }
             }
         }
     }

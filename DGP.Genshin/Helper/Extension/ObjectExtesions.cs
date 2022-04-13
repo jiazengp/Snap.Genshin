@@ -14,6 +14,7 @@ namespace DGP.Genshin.Helper.Extension
         /// <param name="obj">对象</param>
         /// <param name="func">待执行的委托</param>
         /// <returns>委托的结果</returns>
+        [SuppressMessage("", "VSTHRD001")]
         public static async Task<TResult> ExecuteOnUIAsync<TResult>(this object obj, Func<Task<TResult>> func)
         {
             return await App.Current.Dispatcher.InvokeAsync(func).Task.Unwrap();
@@ -24,6 +25,7 @@ namespace DGP.Genshin.Helper.Extension
         /// </summary>
         /// <param name="obj">对象</param>
         /// <param name="action">待执行的委托</param>
+        [SuppressMessage("", "VSTHRD001")]
         public static void ExecuteOnUI(this object obj, Action action)
         {
             App.Current.Dispatcher.Invoke(action);

@@ -19,7 +19,8 @@
         }
 
         /// <summary>
-        /// 是否要求同步导航项选中，仅当页面在左侧导航栏中存在入口点时才这么做
+        /// 是否要求同步导航项选中
+        /// 仅当页面在左侧导航栏中存在入口点时才这么做
         /// </summary>
         internal bool IsSyncTabRequested { get; set; }
 

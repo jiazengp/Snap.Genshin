@@ -13,6 +13,7 @@ namespace DGP.Genshin.Core.Notification
         /// </summary>
         /// <param name="builder">操作的通知建造器</param>
         /// <param name="delegateToMainThread">是否委托主线程完成操作</param>
+        [SuppressMessage("", "VSTHRD001")]
         public static void SafeShow(this ToastContentBuilder builder, bool delegateToMainThread = true)
         {
             // skip windows 7
@@ -42,6 +43,7 @@ namespace DGP.Genshin.Core.Notification
         /// <param name="builder">操作的通知建造器</param>
         /// <param name="customizeToast">自定义通知回调</param>
         /// <param name="delegateToMainThread">是否委托主线程完成操作</param>
+        [SuppressMessage("", "VSTHRD001")]
         public static void SafeShow(this ToastContentBuilder builder, CustomizeToast customizeToast, bool delegateToMainThread = true)
         {
             // skip windows 7

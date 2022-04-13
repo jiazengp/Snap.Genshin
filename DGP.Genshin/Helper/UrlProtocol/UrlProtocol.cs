@@ -12,6 +12,9 @@ namespace DGP.Genshin.Helper.UrlProtocol
         private const string ProtocolName = "snapgenshin";
         private const string LastLaunchParameterKey = "LastLaunchParameter";
 
+        /// <summary>
+        /// Url协议启动参数
+        /// </summary>
         public static string Argument
         {
             get

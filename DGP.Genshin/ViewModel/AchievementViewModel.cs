@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Achievement;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Service.Abstraction.Achievement;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
-using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModel
 {
@@ -37,15 +37,15 @@ namespace DGP.Genshin.ViewModel
         /// <param name="achievementService">成就服务</param>
         /// <param name="metadataViewModel">元数据视图模型</param>
         /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-        public AchievementViewModel(IAchievementService achievementService, MetadataViewModel metadataViewModel, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        public AchievementViewModel(IAchievementService achievementService, MetadataViewModel metadataViewModel)
         {
             this.metadataViewModel = metadataViewModel;
             this.achievementService = achievementService;
-            OpenUICommand = new RelayCommand(OpenUI);
+            OpenUICommand = new RelayCommand<Func<IAchievementService, IEnumerable<IdTime>?>>(OpenUI);
             CloseUICommand = new RelayCommand(CloseUI);
             RefreshQueryCommand = new RelayCommand<string>(RefreshQuery);
-            ImportFromCocoGoatCommand = asyncRelayCommandFactory.Create(ImportFromCocoGoatAsync);
-            ImportFromClipboardCommand = asyncRelayCommandFactory.Create(ImportFromClipBoardAsync);
+            ImportFromCocoGoatCommand = new RelayCommand(ImportFromCocoGoat);
+            ImportFromClipboardCommand = new RelayCommand(ImportFromClipBoard);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public ICommand ImportFromClipboardCommand { get; set; }
 
-        private void OpenUI()
+        private void OpenUI(Func<IAchievementService, IEnumerable<IdTime>?>? importer)
         {
             AchievementGoals = metadataViewModel.AchievementGoals;
             Achievements = new(metadataViewModel.Achievements);
@@ -129,6 +129,13 @@ namespace DGP.Genshin.ViewModel
             SetAchievementsState(idTimes, Achievements);
             SelectedAchievementGoal = AchievementGoals.First();
             CollectionViewSource.GetDefaultView(Achievements).Filter = OnFilterAchievement;
+
+            // has a specific importer.
+            if (importer != null)
+            {
+                IEnumerable<IdTime>? result = importer.Invoke(achievementService);
+                ImportData(result);
+            }
         }
 
         private void CloseUI()
@@ -139,7 +146,7 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        private async Task ImportFromCocoGoatAsync()
+        private void ImportFromCocoGoat()
         {
             OpenFileDialog openFileDialog = new()
             {
@@ -151,60 +158,36 @@ namespace DGP.Genshin.ViewModel
             if (openFileDialog.ShowDialog() is true)
             {
                 IEnumerable<IdTime>? data = achievementService.TryGetImportData(ImportAchievementSource.Cocogoat, openFileDialog.FileName);
-                if (data != null)
-                {
-                    Must.NotNull(Achievements!);
-                    int totalCount = SetAchievementsState(data, Achievements);
-                    this.Log(totalCount);
-                    RefreshView();
-                    await new ContentDialog()
-                    {
-                        Title = "导入成功",
-                        Content = $"共同步了 {totalCount} 个成就",
-                        PrimaryButtonText = "确认",
-                        DefaultButton = ContentDialogButton.Primary,
-                    }.ShowAsync();
-                }
-                else
-                {
-                    await new ContentDialog()
-                    {
-                        Title = "导入失败",
-                        Content = $"选择的文件中包含的成就格式不正确\n请尝试 椰羊-设置-本地导出-导出数据\n解压压缩包后再导入",
-                        PrimaryButtonText = "确认",
-                        DefaultButton = ContentDialogButton.Primary,
-                    }.ShowAsync();
-                }
+                ImportData(data);
             }
         }
 
-        private async Task ImportFromClipBoardAsync()
+        private void ImportFromClipBoard()
         {
             string dataString = Clipboard.GetText();
             IEnumerable<IdTime>? data = achievementService.TryGetImportData(dataString);
+            ImportData(data);
+        }
+
+        private void ImportData(IEnumerable<IdTime>? data)
+        {
             if (data != null)
             {
                 Must.NotNull(Achievements!);
                 int totalCount = SetAchievementsState(data, Achievements);
                 this.Log(totalCount);
                 RefreshView();
-                await new ContentDialog()
-                {
-                    Title = "导入成功",
-                    Content = $"共同步了 {totalCount} 个成就",
-                    PrimaryButtonText = "确认",
-                    DefaultButton = ContentDialogButton.Primary,
-                }.ShowAsync();
+                new ToastContentBuilder()
+                    .AddText("导入成功")
+                    .AddText($"共同步了 {totalCount} 个成就。")
+                    .SafeShow();
             }
             else
             {
-                await new ContentDialog()
-                {
-                    Title = "导入失败",
-                    Content = $"剪贴板中包含的成就格式不正确\n请尝试 椰羊-设置-本地导出-导出数据\n解压压缩包后选择 \"成就导出.json\" 再导入",
-                    PrimaryButtonText = "确认",
-                    DefaultButton = ContentDialogButton.Primary,
-                }.ShowAsync();
+                new ToastContentBuilder()
+                    .AddText("导入失败")
+                    .AddText($"导入的数据中包含了不正确的项目。")
+                    .SafeShow();
             }
         }
 

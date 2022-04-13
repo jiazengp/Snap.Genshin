@@ -1,30 +1,20 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using DGP.Genshin.Core.Background;
+﻿using DGP.Genshin.Core.Background;
 using DGP.Genshin.Core.DpiAware;
 using DGP.Genshin.Core.Notification;
-using DGP.Genshin.Core.Plugins;
-using DGP.Genshin.Message.Internal;
-using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.Setting;
-using DGP.Genshin.Service.Abstraction.Updating;
-using DGP.Genshin.ViewModel;
-using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
-using Snap.Extenion.Enumerable;
-using Snap.Reflection;
 using Snap.Threading;
 using System.ComponentModel;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DGP.Genshin
 {
     /// <summary>
     /// 主窗体
     /// </summary>
-    internal partial class MainWindow : Window, IRecipient<SplashInitializationCompletedMessage>
+    internal partial class MainWindow : Window
     {
         private const int MinSaveableWidth = 600;
         private const int MinSaveableHeight = 375;
@@ -38,6 +28,8 @@ namespace DGP.Genshin
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private readonly INavigationService navigationService;
         private readonly BackgroundLoader backgroundLoader;
+        [SuppressMessage("", "IDE0052")]
+        private readonly MainRecipient mainRecipient;
 
         private bool hasInitializationCompleted = false;
 
@@ -47,6 +39,9 @@ namespace DGP.Genshin
         /// </summary>
         public MainWindow()
         {
+            navigationService = App.AutoWired<INavigationService>();
+            mainRecipient = new(this, navigationService);
+
             InitializeContent();
 
             // support per monitor dpi awareness
@@ -57,46 +52,43 @@ namespace DGP.Genshin
             backgroundLoader.LoadNextWallpaperAsync().Forget();
 
             // initialize NavigationService
-            navigationService = App.AutoWired<INavigationService>();
             navigationService.NavigationView = NavView;
             navigationService.Frame = ContentFrame;
-
-            // register messages
-            App.Messenger.RegisterAll(this);
         }
 
         /// <summary>
-        /// 释放消息器资源
+        /// 是否曾打开过
         /// </summary>
-        ~MainWindow()
-        {
-            App.Messenger.UnregisterAll(this);
-        }
+        public static bool HasEverOpen { get => hasEverOpen; set => hasEverOpen = value; }
 
-        /// <inheritdoc/>
-        public void Receive(SplashInitializationCompletedMessage viewModelReference)
-        {
-            PostInitializeAsync(viewModelReference).Forget();
-        }
+        /// <summary>
+        /// 指示主窗体是否在初始化
+        /// </summary>
+        public SemaphoreSlim InitializingWindow { get => initializingWindow; }
+
+        /// <summary>
+        /// 是否初始化完成
+        /// </summary>
+        public bool HasInitializationCompleted { get => hasInitializationCompleted; set => hasInitializationCompleted = value; }
 
         /// <inheritdoc/>
         protected override void OnClosing(CancelEventArgs e)
         {
             TrySaveWindowState();
-            if (initializingWindow.CurrentCount < 1)
+            if (InitializingWindow.CurrentCount < 1)
             {
                 e.Cancel = true;
                 return;
             }
 
-            using (initializingWindow.Enter())
+            using (InitializingWindow.Enter())
             {
                 base.OnClosing(e);
             }
 
             bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
-            if (hasInitializationCompleted && isTaskbarIconEnabled)
+            if (HasInitializationCompleted && isTaskbarIconEnabled)
             {
                 if ((!hasEverClose) && Setting2.IsTaskBarIconHintDisplay.Get())
                 {
@@ -122,64 +114,11 @@ namespace DGP.Genshin
             InitializeComponent();
 
             // restore width and height from setting
-            Width = Setting2.MainWindowWidth.Get();
-            Height = Setting2.MainWindowHeight.Get();
+            Width = Setting2.MainWindowWidth;
+            Height = Setting2.MainWindowHeight;
 
             // restore pane state
-            NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen.Get();
-        }
-
-        private async Task PostInitializeAsync(SplashInitializationCompletedMessage viewModelReference)
-        {
-            using (await initializingWindow.EnterAsync())
-            {
-                SplashViewModel splashViewModel = viewModelReference.Value;
-                AddAdditionalNavigationViewItems();
-
-                // preprocess
-                if (!hasEverOpen)
-                {
-                    CheckUpdateForWhatsNewAsync().Forget();
-                    TrySignInOnStartUpAsync().Forget();
-
-                    TryInitializeTaskbarIcon();
-
-                    // 树脂服务
-                    App.AutoWired<IDailyNoteService>().Initialize();
-                }
-
-                splashViewModel.CompleteInitialization();
-
-                await Task.Delay(TimeSpan.FromMilliseconds(800));
-                navigationService.Navigate<HomePage>(isSyncTabRequested: true);
-            }
-
-            hasInitializationCompleted = true;
-
-            if (!hasEverOpen)
-            {
-                if (Setting2.IsTaskBarIconEnabled && (App.Current.NotifyIcon is not null))
-                {
-                    if ((!App.IsLaunchedByUser) && Setting2.CloseMainWindowAfterInitializaion.Get())
-                    {
-                        Close();
-                    }
-                }
-            }
-
-            // 设置已经打开过状态
-            hasEverOpen = true;
-        }
-
-        private void AddAdditionalNavigationViewItems()
-        {
-            // webview entries must add first
-            navigationService.AddWebViewEntries(App.AutoWired<WebViewLobbyViewModel>().Entries);
-
-            // then we add pilugin pages
-            App.Current.PluginService.Plugins.ForEach(plugin =>
-            plugin.ForEachAttribute<ImportPageAttribute>(importPage =>
-            navigationService.AddToNavigation(importPage)));
+            NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen;
         }
 
         private void TrySaveWindowState()
@@ -191,67 +130,6 @@ namespace DGP.Genshin
             }
 
             Setting2.IsNavigationViewPaneOpen.Set(NavView.IsPaneOpen);
-        }
-
-        private void TryInitializeTaskbarIcon()
-        {
-            if (Setting2.IsTaskBarIconEnabled.Get() && App.Current.NotifyIcon is null)
-            {
-                App.Current.NotifyIcon = App.Current.FindResource("TaskbarIcon") as TaskbarIcon;
-                App.Current.NotifyIcon!.DataContext = App.AutoWired<TaskbarIconViewModel>();
-            }
-        }
-
-        private async Task TrySignInOnStartUpAsync()
-        {
-            if (Setting2.AutoDailySignInOnLaunch)
-            {
-                if (DateTime.Today > Setting2.LastAutoSignInTime)
-                {
-                    await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
-                }
-            }
-        }
-
-        private async Task CheckUpdateForWhatsNewAsync()
-        {
-            await CheckUpdateForNotificationAsync();
-            Setting2.AppVersion.Set(App.AutoWired<IUpdateService>().CurrentVersion);
-        }
-
-        private async Task CheckUpdateForNotificationAsync()
-        {
-            IUpdateService updateService = App.AutoWired<IUpdateService>();
-            switch (await updateService.CheckUpdateStateAsync())
-            {
-                case UpdateState.NeedUpdate:
-                    {
-                        new ToastContentBuilder()
-                            .AddText("有新的更新可用")
-                            .AddText(updateService.NewVersion?.ToString())
-                            .AddButton(new ToastButton()
-                                .SetContent("更新")
-                                .AddArgument("action", "update")
-                                .SetBackgroundActivation())
-                            .AddButton(new ToastButtonDismiss("忽略"))
-                            .SafeShow();
-                        break;
-                    }
-
-                case UpdateState.NotAvailable:
-                    {
-                        new ToastContentBuilder()
-                            .AddText("检查更新失败")
-                            .AddText("无法连接到 Github")
-                            .SafeShow();
-                        break;
-                    }
-
-                case UpdateState.IsNewestRelease:
-                case UpdateState.IsInsiderVersion:
-                default:
-                    break;
-            }
         }
     }
 }

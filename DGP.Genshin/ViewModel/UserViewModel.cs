@@ -4,6 +4,7 @@ using DGP.Genshin.Control.Infrastructure.Concurrent;
 using DGP.Genshin.DataModel.Cookie;
 using DGP.Genshin.DataModel.DailyNote;
 using DGP.Genshin.Factory.Abstraction;
+using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Journey;
@@ -324,7 +325,7 @@ namespace DGP.Genshin.ViewModel
                 this.Log("new Cookie added");
                 if (await new UserInfoProvider(newCookie).GetUserInfoAsync() is UserInfo newInfo)
                 {
-                    App.Current.Dispatcher.Invoke(() => CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo)));
+                    this.ExecuteOnUI(() => CookieUserInfos.Add(new CookieUserInfo(newCookie, newInfo)));
                 }
 
                 this.Log(cookieUserInfos.Count);

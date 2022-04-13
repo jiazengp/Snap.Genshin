@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\cocogoat.ico" />
     <None Remove="Resources\Eff_Sc_StarSky01.png" />
     <None Remove="Resources\ElementProgress.png" />
     <None Remove="Resources\Segoe Fluent Icons.ttf" />
@@ -45,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\cocogoat.ico" />
     <Resource Include="Resources\UI_Icon_Achievement.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>

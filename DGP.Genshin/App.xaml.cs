@@ -167,11 +167,25 @@ namespace DGP.Genshin
         public static void BringWindowToFront<TWindow>()
             where TWindow : Window, new()
         {
+            _ = TryBringWindowToFront<TWindow>();
+        }
+
+        /// <summary>
+        /// 尝试查找 <see cref="App.Current.Windows"/> 集合中的对应 <typeparamref name="TWindow"/> 类型的 Window
+        /// 将其唤至前台
+        /// </summary>
+        /// <typeparam name="TWindow">窗体类型</typeparam>
+        /// <returns>该窗体是否为新创建的，或仅仅是前台激活</returns>
+        public static bool TryBringWindowToFront<TWindow>()
+            where TWindow : Window, new()
+        {
+            bool windowCreated = false;
             TWindow? window = Current.Windows.OfType<TWindow>().FirstOrDefault();
 
             if (window is null)
             {
                 window = new();
+                windowCreated = true;
             }
 
             if (window.WindowState == WindowState.Minimized || window.Visibility != Visibility.Visible)
@@ -184,6 +198,8 @@ namespace DGP.Genshin
             window.Topmost = true;
             window.Topmost = false;
             window.Focus();
+
+            return windowCreated;
         }
 
         /// <summary>
@@ -218,30 +234,37 @@ namespace DGP.Genshin
 
             // handle notification activation
             ConfigureToastNotification();
+
             singleInstanceChecker.Ensure(Current, () =>
             {
-                BringWindowToFront<MainWindow>();
                 launchHandler.Handle(UrlProtocol.Argument);
             });
 
-            // app center services
-            ConfigureAppCenter(true);
+            // prevent later call to execute if multiple instance present
+            if (!singleInstanceChecker.IsExitDueToSingleInstanceRestriction)
+            {
+                // app center services
+                ConfigureAppCenter(true);
 
-            // global requester callback
-            ConfigureRequester();
+                // global requester callback
+                ConfigureRequester();
 
-            // services
-            AutoWired<ISettingService>().Initialize();
+                // services
+                AutoWired<ISettingService>().Initialize();
 
-            // app theme
-            UpdateAppTheme();
-            TriggerAppStartUpEvent();
+                // app theme
+                UpdateAppTheme();
+                TriggerAppStartUpEvent();
 
-            // open main window
-            base.OnStartup(e);
-            BringWindowToFront<MainWindow>();
+                // open main window
+                base.OnStartup(e);
+                BringWindowToFront<MainWindow>();
 
-            launchHandler.Handle(UrlProtocol.Argument);
+                if (!IsLaunchedByUser)
+                {
+                    launchHandler.Handle(UrlProtocol.Argument);
+                }
+            }
         }
 
         /// <inheritdoc/>
