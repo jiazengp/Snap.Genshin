@@ -19,7 +19,7 @@ namespace DGP.Genshin.Service
     /// <summary>
     /// 导航服务的默认实现
     /// </summary>
-    [Service(typeof(INavigationService), InjectAs.Transient)]
+    [Service(typeof(INavigationService), InjectAs.Singleton)]
     internal class NavigationService : INavigationService, IRecipient<NavigateRequestMessage>
     {
         private readonly IMessenger messenger;

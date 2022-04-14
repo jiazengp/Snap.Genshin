@@ -79,13 +79,7 @@ namespace DGP.Genshin
                     splashViewModel.CompleteInitialization();
 
                     await Task.Delay(TimeSpan.FromMilliseconds(800));
-
-                    if (!navigationService.HasEverNavigated)
-                    {
-                        navigationService.Navigate<HomePage>(isSyncTabRequested: true);
-                    }
-
-                    mainWindow.HasInitializationCompleted = true;
+                    navigationService.Navigate<HomePage>(isSyncTabRequested: true);
                 }
 
                 // 首次启动

@@ -31,8 +31,6 @@ namespace DGP.Genshin
         [SuppressMessage("", "IDE0052")]
         private readonly MainRecipient mainRecipient;
 
-        private bool hasInitializationCompleted = false;
-
         /// <summary>
         /// 构造新的主窗体的实例
         /// Do NOT set DataContext for mainwindow
@@ -66,11 +64,6 @@ namespace DGP.Genshin
         /// </summary>
         public SemaphoreSlim InitializingWindow { get => initializingWindow; }
 
-        /// <summary>
-        /// 是否初始化完成
-        /// </summary>
-        public bool HasInitializationCompleted { get => hasInitializationCompleted; set => hasInitializationCompleted = value; }
-
         /// <inheritdoc/>
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -88,7 +81,7 @@ namespace DGP.Genshin
 
             bool isTaskbarIconEnabled = Setting2.IsTaskBarIconEnabled.Get() && (App.Current.NotifyIcon is not null);
 
-            if (HasInitializationCompleted && isTaskbarIconEnabled)
+            if (isTaskbarIconEnabled)
             {
                 if ((!hasEverClose) && Setting2.IsTaskBarIconHintDisplay.Get())
                 {
