@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Achievement;
-using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Service.Abstraction.Achievement;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;

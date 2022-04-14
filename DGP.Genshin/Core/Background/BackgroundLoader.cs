@@ -85,7 +85,6 @@ namespace DGP.Genshin.Core.Background
             {
                 Grid backgroundPresenter = mainWindow.BackgroundGrid;
                 TrySetTargetAdaptiveBackgroundOpacityValue(image);
-                TrySetBackgroundBlur(backgroundPresenter);
 
                 // first pic
                 if (backgroundPresenter.Background is null)
@@ -97,6 +96,7 @@ namespace DGP.Genshin.Core.Background
                         Stretch = Stretch.UniformToFill,
                         Opacity = Setting2.BackgroundOpacity,
                     };
+                    TrySetBackgroundBlur(backgroundPresenter);
                 }
                 else
                 {
@@ -113,7 +113,7 @@ namespace DGP.Genshin.Core.Background
                         Stretch = Stretch.UniformToFill,
                         Opacity = 0,
                     };
-
+                    TrySetBackgroundBlur(backgroundPresenter);
                     DoubleAnimation fadeInAnimation = AnimationHelper.CreateAnimation<CubicBezierEase>(Setting2.BackgroundOpacity, AnimationDuration);
 
                     // Fade in new image

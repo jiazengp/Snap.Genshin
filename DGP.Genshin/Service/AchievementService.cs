@@ -64,9 +64,16 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public IEnumerable<IdTime>? TryGetImportData(string dataString)
         {
-            IEnumerable<IdTimeStamp>? idTimeStamps = Json.ToObject<IEnumerable<IdTimeStamp>>(dataString);
-            return idTimeStamps?
-                .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+            try
+            {
+                IEnumerable<IdTimeStamp>? idTimeStamps = Json.ToObject<IEnumerable<IdTimeStamp>>(dataString);
+                return idTimeStamps?
+                    .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+            }
+            catch (Newtonsoft.Json.JsonReaderException)
+            {
+                return null;
+            }
         }
     }
 }

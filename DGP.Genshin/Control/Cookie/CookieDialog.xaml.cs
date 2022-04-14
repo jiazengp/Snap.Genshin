@@ -26,8 +26,8 @@ namespace DGP.Genshin.Control.Cookie
         /// </summary>
         public bool IsAutoWindowOptionVisible
         {
-            get { return (bool)GetValue(IsAutoWindowOptionVisibleProperty); }
-            set { SetValue(IsAutoWindowOptionVisibleProperty, value); }
+            get => (bool)GetValue(IsAutoWindowOptionVisibleProperty);
+            set => SetValue(IsAutoWindowOptionVisibleProperty, value);
         }
 
         /// <summary>
