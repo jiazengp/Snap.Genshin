@@ -17,7 +17,7 @@
         <TextBox Margin="0,0,0,8" x:Name="InputText" TextChanged="InputTextChanged" 
                  ui:ControlHelper.PlaceholderText="在此处输入" VerticalAlignment="Top"/>
         <wu:CardAction
-            Margin="0,8,0,0" Visibility="{Binding IsAutoWindowOptionVisible}"
+            Margin="0,8,0,0" Visibility="{Binding IsAutoWindowOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
             helper:IconHelper.Icon="&#xE8A7;"
             helper:CardHelper.ActionTitle="自动获取"
             helper:CardHelper.ActionSubtitle="在新的窗口中操作，不支持多账号"

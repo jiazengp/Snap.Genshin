@@ -18,6 +18,8 @@ namespace DGP.Genshin.Control.Cookie
         /// <param name="isAutoWindowOptionVisible">自动获取Cookie模式入口是否可见</param>
         public CookieDialog(bool isAutoWindowOptionVisible = true)
         {
+            IsAutoWindowOptionVisible = isAutoWindowOptionVisible;
+            DataContext = this;
             InitializeComponent();
         }
 
