@@ -67,6 +67,7 @@ namespace DGP.Genshin
         /// <inheritdoc/>
         protected override void OnClosing(CancelEventArgs e)
         {
+            navigationService.HasEverNavigated = false;
             TrySaveWindowState();
             if (InitializingWindow.CurrentCount < 1)
             {

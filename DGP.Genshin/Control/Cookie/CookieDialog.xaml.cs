@@ -1,6 +1,5 @@
 ﻿using ModernWpf.Controls;
 using Snap.Data.Primitive;
-using Snap.Win32;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -11,14 +10,24 @@ namespace DGP.Genshin.Control.Cookie
     /// </summary>
     public sealed partial class CookieDialog : ContentDialog
     {
-        private const string CookieCode = "javascript:(()=>{_=(n)=>{for(i in(r=document.cookie.split(';'))){var a=r[i].split('=');if(a[0].trim()==n)return a[1]}};c=_('account_id')||alert('无效的Cookie,请重新登录!');c&&confirm('将Cookie复制到剪贴板?')&&copy(document.cookie)})();";
+        private static readonly DependencyProperty IsAutoWindowOptionVisibleProperty = Property<CookieDialog>.Depend(nameof(IsAutoWindowOptionVisible), true);
 
         /// <summary>
         /// 构造一个新的对话框实例
         /// </summary>
-        public CookieDialog()
+        /// <param name="isAutoWindowOptionVisible">自动获取Cookie模式入口是否可见</param>
+        public CookieDialog(bool isAutoWindowOptionVisible = true)
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 自动获取Cookie模式入口是否可见
+        /// </summary>
+        public bool IsAutoWindowOptionVisible
+        {
+            get { return (bool)GetValue(IsAutoWindowOptionVisibleProperty); }
+            set { SetValue(IsAutoWindowOptionVisibleProperty, value); }
         }
 
         /// <summary>
@@ -69,26 +78,6 @@ namespace DGP.Genshin.Control.Cookie
                 (false, true) => ("确认", true),
                 (false, false) => ("该Cookie无效", false),
             };
-        }
-
-        private void CopyCodeButtonClick(object sender, RoutedEventArgs e)
-        {
-            // clear before copy
-            Clipboard.Clear();
-            try
-            {
-                Clipboard.SetText(CookieCode);
-            }
-            catch
-            {
-                try
-                {
-                    Clipboard2.SetText(CookieCode);
-                }
-                catch
-                {
-                }
-            }
         }
     }
 }

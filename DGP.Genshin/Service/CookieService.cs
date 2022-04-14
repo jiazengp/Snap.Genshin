@@ -120,7 +120,7 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public async Task AddCookieToPoolOrIgnoreAsync()
         {
-            (bool isOk, string newCookie) = await new CookieDialog().GetInputCookieAsync();
+            (bool isOk, string newCookie) = await new CookieDialog(false).GetInputCookieAsync();
 
             if (isOk)
             {
@@ -143,7 +143,7 @@ namespace DGP.Genshin.Service
             }
             catch (IOException)
             {
-                Verify.FailOperation("cookie.dat 文件被占用，保存cookie失败");
+                Verify.FailOperation($"{CookieFile} 文件被占用，保存cookie失败");
             }
         }
 

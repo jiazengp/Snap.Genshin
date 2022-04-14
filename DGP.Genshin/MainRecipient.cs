@@ -77,9 +77,6 @@ namespace DGP.Genshin
                     }
 
                     splashViewModel.CompleteInitialization();
-
-                    await Task.Delay(TimeSpan.FromMilliseconds(800));
-                    navigationService.Navigate<HomePage>(isSyncTabRequested: true);
                 }
 
                 // 首次启动
@@ -103,6 +100,13 @@ namespace DGP.Genshin
                 // 设置已经打开过 状态
                 MainWindow.HasEverOpen = true;
                 App.Messenger.Send(new PostInitializationCompletedMessage(mainWindow));
+
+                await Task.Delay(TimeSpan.FromMilliseconds(800));
+                if (!navigationService.HasEverNavigated)
+                {
+                    navigationService.Navigate<HomePage>(isSyncTabRequested: true);
+                }
+
                 PostInitializationTaskPreventer.Release();
             }
         }

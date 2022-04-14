@@ -174,10 +174,18 @@
                                         <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
                                             Grid.Column="1" Margin="6" Text="{Binding SelectedAvatar.Name}"/>
                                         <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                            <wu:NumberBox Value="{Binding SelectedAvatar.LevelCurrent}" IsEnabled="False" ControlsVisible="False" Width="40"/>
+                                            <wu:NumberBox
+                                                DataContext="{Binding SelectedAvatar}"
+                                                Text="{Binding LevelCurrent,Mode=TwoWay}"
+                                                Value="{Binding LevelCurrent}"
+                                                IsEnabled="False" ControlsVisible="False" Width="40"/>
                                             <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0" />
-                                            <wu:NumberBox Min="{Binding SelectedAvatar.LevelCurrent}" Max="{Binding SelectedAvatar.MaxLevel}"
-                                              Value="{Binding SelectedAvatar.LevelTarget,Mode=TwoWay}" Margin="6,0,0,0" Width="72"/>
+                                            <wu:NumberBox
+                                                DataContext="{Binding SelectedAvatar}"
+                                                Min="{Binding LevelCurrent}"
+                                                Max="{Binding MaxLevel}"
+                                                Text="{Binding LevelTarget,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                Margin="6,0,0,0" Width="72"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -196,10 +204,14 @@
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                                     <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right"
                                                                 Visibility="{Binding LevelCurrent,Converter={StaticResource DataVisibilityRevertConverter}}">
-                                                        <wu:NumberBox Value="{Binding LevelCurrent}" IsEnabled="False" ControlsVisible="False" Width="40"/>
+                                                        <wu:NumberBox Value="{Binding LevelCurrent}"
+                                                                      IsEnabled="False" ControlsVisible="False" Width="40"/>
                                                         <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                                        <wu:NumberBox Margin="6,0,0,0" Min="{Binding LevelCurrent}" Max="{Binding MaxLevel}"
-                                                                      Value="{Binding LevelTarget,Mode=TwoWay}" Width="72"/>
+                                                        <wu:NumberBox
+                                                            Margin="6,0,0,0" Width="72"
+                                                            Min="{Binding LevelCurrent}"
+                                                            Max="{Binding MaxLevel}"
+                                                            Text="{Binding LevelTarget,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -218,10 +230,17 @@
                                         <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
                                        Grid.Column="1" Margin="6" Text="{Binding AvatarDetailData.Weapon.Name}"/>
                                         <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                            <wu:NumberBox Value="{Binding AvatarDetailData.Weapon.LevelCurrent}" IsEnabled="False" ControlsVisible="False" Width="40"/>
+                                            <wu:NumberBox
+                                                Text="{Binding AvatarDetailData.Weapon.LevelCurrent,Mode=TwoWay}"
+                                                Value="{Binding AvatarDetailData.Weapon.LevelCurrent,Mode=TwoWay}"
+                                                IsEnabled="False" ControlsVisible="False" Width="40"/>
                                             <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                            <wu:NumberBox Min="{Binding AvatarDetailData.Weapon.LevelCurrent}" Max="{Binding AvatarDetailData.Weapon.MaxLevel}"
-                                              Value="{Binding AvatarDetailData.Weapon.LevelTarget,Mode=TwoWay}" Margin="6,0,0,0" Width="72"/>
+                                            <wu:NumberBox DataContext="{Binding AvatarDetailData.Weapon}"
+                                                Min="{Binding LevelCurrent}"
+                                                Max="{Binding MaxLevel}"
+                                                Text="{Binding LevelTarget,Mode=TwoWay}"
+                                                Value="{Binding LevelTarget,Mode=TwoWay}"
+                                                Margin="6,0,0,0" Width="72"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -240,10 +259,17 @@
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
                                                    Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                                     <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <wu:NumberBox Value="{Binding LevelCurrent}" IsEnabled="False" ControlsVisible="False" Width="40"/>
+                                                        <wu:NumberBox
+                                                            Text="{Binding LevelCurrent,Mode=TwoWay}"
+                                                            Value="{Binding LevelCurrent}"
+                                                            IsEnabled="False" ControlsVisible="False" Width="40"/>
                                                         <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                                        <wu:NumberBox Min="{Binding LevelCurrent}" Max="{Binding MaxLevel}" Width="72"
-                                                            Value="{Binding LevelTarget,Mode=TwoWay}" Margin="6,0,0,0"/>
+                                                        <wu:NumberBox
+                                                            Min="{Binding LevelCurrent}"
+                                                            Max="{Binding MaxLevel}"
+                                                            Text="{Binding LevelTarget,Mode=TwoWay}"
+                                                            Value="{Binding LevelTarget,Mode=TwoWay}"
+                                                            Width="72" Margin="6,0,0,0"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -272,8 +298,7 @@
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
-                                                     ImageUrl="{Binding Icon}"/>
+                                                    <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24" ImageUrl="{Binding Icon}"/>
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
                                                         Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
@@ -429,10 +454,15 @@
                                         <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
                                        Grid.Column="1" Margin="6" Text="{Binding SelectedFullAvatar.Name}"/>
                                         <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                            <wu:NumberBox Value="{Binding SelectedFullAvatar.LevelCurrent}"/>
+                                            <wu:NumberBox
+                                                Width="72" Margin="12,0,0,0"
+                                                Text="{Binding SelectedFullAvatar.LevelCurrent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                             <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                            <wu:NumberBox Min="{Binding SelectedFullAvatar.LevelCurrent}" Max="{Binding SelectedFullAvatar.MaxLevel}"
-                                              Value="{Binding SelectedFullAvatar.LevelTarget,Mode=TwoWay}" Margin="6,0,0,0"/>
+                                            <wu:NumberBox
+                                                Min="{Binding SelectedFullAvatar.LevelCurrent}"
+                                                Max="{Binding SelectedFullAvatar.MaxLevel}"
+                                                Text="{Binding SelectedFullAvatar.LevelTarget,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                Margin="6,0,0,0" Width="72"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -450,10 +480,14 @@
                                                      UriSource="{Binding Icon}" RenderOptions.BitmapScalingMode="Fant"/>
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="1" Margin="6" Text="{Binding Name}"/>
                                                     <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <wu:NumberBox Value="{Binding LevelCurrent}"/>
+                                                        <wu:NumberBox Width="72"
+                                                            Text="{Binding LevelCurrent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                                         <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                                        <wu:NumberBox Margin="6,0,0,0" Min="{Binding LevelCurrent}" Max="{Binding MaxLevel}"
-                                                                      Value="{Binding LevelTarget,Mode=TwoWay}" />
+                                                        <wu:NumberBox
+                                                            Margin="6,0,0,0" Width="72"
+                                                            Min="{Binding LevelCurrent}"
+                                                            Max="{Binding MaxLevel}"
+                                                            Text="{Binding LevelTarget,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -515,9 +549,9 @@
                                                     <cachedimage:CachedImage Margin="6" Grid.Column="0" Height="24" Width="24"
                                                      ImageUrl="{Binding Icon}"/>
                                                     <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"
-                                                   Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
+                                                        Grid.Column="1" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="6" Text="{Binding Name}"/>
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource BodyTextBlockStyle}"
-                                                   Grid.Column="2" Margin="6" Text="{Binding Num}" />
+                                                        Grid.Column="2" Margin="6" Text="{Binding Num}" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -573,10 +607,14 @@
                                         <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}"
                                        Grid.Column="1" Margin="6" Text="{Binding FullWeaponAvatarDetailData.Weapon.Name}"/>
                                         <StackPanel Grid.Column="2" Margin="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                            <wu:NumberBox Value="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent}"/>
+                                            <wu:NumberBox Margin="12,0,0,0" Width="72"
+                                                Text="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                             <TextBlock VerticalAlignment="Center" Text="-" Margin="6,0,0,0"/>
-                                            <wu:NumberBox Min="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent}" Max="{Binding FullWeaponAvatarDetailData.Weapon.MaxLevel}"
-                                              Value="{Binding FullWeaponAvatarDetailData.Weapon.LevelTarget,Mode=TwoWay}" Margin="6,0,0,0"/>
+                                            <wu:NumberBox
+                                                Min="{Binding FullWeaponAvatarDetailData.Weapon.LevelCurrent}"
+                                                Max="{Binding FullWeaponAvatarDetailData.Weapon.MaxLevel}"
+                                                Text="{Binding FullWeaponAvatarDetailData.Weapon.LevelTarget,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                Margin="6,0,0,0" Width="72"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>

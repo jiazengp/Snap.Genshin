@@ -6,6 +6,7 @@ using DGP.Genshin.Message;
 using DGP.Genshin.Page;
 using DGP.Genshin.Service.Abstraction;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Snap.Core.DependencyInjection;
@@ -18,6 +19,8 @@ namespace DGP.Genshin.Service
 {
     /// <summary>
     /// 导航服务的默认实现
+    /// 注册的类型实际上没有意义，但是为了防止多次创建导航服务
+    /// 注册为单例
     /// </summary>
     [Service(typeof(INavigationService), InjectAs.Singleton)]
     internal class NavigationService : INavigationService, IRecipient<NavigateRequestMessage>
@@ -206,7 +209,12 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public void Receive(NavigateRequestMessage message)
         {
-            Navigate(message);
+            if (!Navigate(message))
+            {
+                new ToastContentBuilder()
+                    .AddText("导航到指定的页面失败")
+                    .Show();
+            }
         }
 
         private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
