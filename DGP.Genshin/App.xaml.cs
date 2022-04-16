@@ -347,6 +347,14 @@ namespace DGP.Genshin
         {
             Requester.ResponseFailedAction = (ex, method, desc) =>
             {
+                if (ex is AggregateException aggregateException)
+                {
+                    foreach (Exception flattened in aggregateException.Flatten().InnerExceptions)
+                    {
+                        Crashes.TrackError(flattened, new Dictionary<string, string> { { method, desc } });
+                    }
+                }
+
                 if (ex is not TaskCanceledException)
                 {
                     Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });

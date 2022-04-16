@@ -167,7 +167,7 @@ namespace DGP.Genshin
         {
             if (Setting2.AutoDailySignInOnLaunch)
             {
-                if (DateTime.Today > Setting2.LastAutoSignInTime)
+                if ((DateTime.UtcNow.AddHours(8)).Date > Setting2.LastAutoSignInTime)
                 {
                     await App.AutoWired<ISignInService>().TrySignAllAccountsRolesInAsync();
                 }

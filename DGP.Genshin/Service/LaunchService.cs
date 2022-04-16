@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Core.ImplementationSwitching;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Launching;
 using DGP.Genshin.FPSUnlocking;
 using DGP.Genshin.Service.Abstraction.Launching;
@@ -7,6 +8,7 @@ using IniParser;
 using IniParser.Exceptions;
 using IniParser.Model;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Snap.Core.Logging;
 using Snap.Data.Json;
@@ -228,15 +230,30 @@ namespace DGP.Genshin.Service
         {
             if (scheme is not null)
             {
-                GameConfig[GeneralSection][Channel] = scheme.Channel;
-                GameConfig[GeneralSection][CPS] = scheme.CPS;
-                GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
-
                 string unescapedGameFolder = GetUnescapedGameFolderFromLauncherConfig();
                 string configFilePath = Path.Combine(unescapedGameFolder, ConfigFileName);
 
-                // new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
-                new FileIniDataParser().WriteFile(configFilePath, GameConfig, new UTF8Encoding(false));
+                bool shouldSave = SwitchSchemeForFileOperations(scheme, unescapedGameFolder);
+
+                if (shouldSave)
+                {
+                    GameConfig[GeneralSection][Channel] = scheme.Channel;
+                    GameConfig[GeneralSection][CPS] = scheme.CPS;
+                    GameConfig[GeneralSection][SubChannel] = scheme.SubChannel;
+
+                    try
+                    {
+                        // new UTF8Encoding(false) compat with https://github.com/DawnFz/GenShin-LauncherDIY
+                        new FileIniDataParser().WriteFile(configFilePath, GameConfig, new UTF8Encoding(false));
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        new ToastContentBuilder()
+                            .AddText("保存服务器配置失败")
+                            .AddText("无法写入游戏所在目录的配置文件")
+                            .SafeShow();
+                    }
+                }
             }
         }
 
@@ -293,6 +310,86 @@ namespace DGP.Genshin.Service
             return Regex.Unescape(hex4Result);
         }
 
+        private bool SwitchSchemeForFileOperations(LaunchScheme scheme, string unescapedGameFolder)
+        {
+            string bilibiliSdkFile = Path.Combine(unescapedGameFolder, "YuanShen_Data/Plugins/PCGameSDK.dll");
+            string bilibiliSdkBakFile = Path.Combine(unescapedGameFolder, "YuanShen_Data/Plugins/PCGameSDK.dll.bak");
+
+            bool shouldSave = true;
+            switch (scheme.GetSchemeType())
+            {
+                // this type is not support by default
+                case SchemeType.Mihoyo:
+                    {
+                        new ToastContentBuilder()
+                            .AddText("尚未切换到国际服服务实现")
+                            .AddText("请安装相关插件后在设置中切换")
+                            .SafeShow();
+                        break;
+                    }
+
+                case SchemeType.Bilibili:
+                    {
+                        if (File.Exists(bilibiliSdkBakFile))
+                        {
+                            try
+                            {
+                                File.Move(bilibiliSdkBakFile, bilibiliSdkFile);
+                            }
+                            catch
+                            {
+                                new ToastContentBuilder()
+                                    .AddText("备份 Bilibili SDK 失败")
+                                    .AddText("服务器选项不会保存")
+                                    .SafeShow();
+                                shouldSave = false;
+                            }
+                        }
+                        else
+                        {
+                            new ToastContentBuilder()
+                                .AddText("未在游戏目录发现 Bilibili SDK 备份")
+                                .AddText("服务器选项不会保存")
+                                .SafeShow();
+                            shouldSave = false;
+                        }
+
+                        break;
+                    }
+
+                case SchemeType.Officical:
+                    {
+                        if (File.Exists(bilibiliSdkFile))
+                        {
+                            try
+                            {
+                                File.Move(bilibiliSdkFile, bilibiliSdkBakFile);
+                            }
+                            catch
+                            {
+                                new ToastContentBuilder()
+                                    .AddText("备份 Bilibili SDK 失败")
+                                    .AddText("服务器选项不会保存")
+                                    .SafeShow();
+                                shouldSave = false;
+                            }
+                        }
+                        else
+                        {
+                            new ToastContentBuilder()
+                                    .AddText("未在游戏目录发现 Bilibili SDK")
+                                    .AddText("服务器选项不会保存")
+                                    .SafeShow();
+                            shouldSave = false;
+                        }
+
+                        break;
+                    }
+            }
+
+            return shouldSave;
+        }
+
         /// <summary>
         /// 定义了对注册表的操作
         /// </summary>
@@ -318,16 +415,15 @@ namespace DGP.Genshin.Service
             /// <returns>当前注册表中的信息</returns>
             public static GenshinAccount? Get()
             {
-                object? sdk = Registry.GetValue(GenshinKey, SdkKey, string.Empty);
+                object? sdk = Registry.GetValue(GenshinKey, SdkKey, Array.Empty<byte>());
 
-                if (sdk is null)
+                if (sdk is byte[] bytes)
                 {
-                    return null;
+                    string sdkString = Encoding.UTF8.GetString(bytes);
+                    return new GenshinAccount { MihoyoSDK = sdkString };
                 }
 
-                string sdkString = Encoding.UTF8.GetString((byte[])sdk);
-
-                return new GenshinAccount { MihoyoSDK = sdkString };
+                return null;
             }
         }
     }

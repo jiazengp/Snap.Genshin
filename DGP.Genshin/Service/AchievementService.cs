@@ -1,6 +1,7 @@
 ﻿using DGP.Genshin.DataModel.Achievement;
 using DGP.Genshin.DataModel.Achievement.CocoGoat;
 using DGP.Genshin.Service.Abstraction.Achievement;
+using Newtonsoft.Json;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Json;
 using System.Collections.Generic;
@@ -70,7 +71,15 @@ namespace DGP.Genshin.Service
                 return idTimeStamps?
                     .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
             }
-            catch (Newtonsoft.Json.JsonReaderException)
+            catch (JsonReaderException)
+            {
+                return null;
+            }
+            catch (ArgumentException)
+            {
+                return null;
+            }
+            catch (JsonSerializationException)
             {
                 return null;
             }

@@ -48,10 +48,6 @@ namespace DGP.Genshin.Control.Cookie
         {
             if (!WebView2Helper.IsSupported)
             {
-                Button button = (Button)sender;
-                button.IsEnabled = false;
-                button.Content = "需要先安装 WebView2运行时";
-
                 new WebView2RuntimeWindow().ShowDialog();
             }
             else

@@ -13,6 +13,7 @@ using Snap.Core.Mvvm.Messaging;
 using Snap.Data.Json;
 using Snap.Threading;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -109,11 +110,10 @@ namespace DGP.Genshin.Core.Activation
                             path = path.Trim('"');
                             this.Log($"Matched as : [{path}]");
 
-                            Func<IAchievementService, IEnumerable<IdTime>?> importer = (IAchievementService _) =>
+                            Func<IAchievementService, IEnumerable<IdTime>?> importer = (IAchievementService service) =>
                             {
-                                IEnumerable<IdTimeStamp>? idTimeStamps = Json.FromFile<IEnumerable<IdTimeStamp>>(path);
-                                return idTimeStamps?
-                                    .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+                                string data = File.ReadAllText(path);
+                                return service.TryGetImportData(data);
                             };
 
                             App.Messenger.Send(new NavigateRequestMessage(typeof(AchievementPage), true, importer));
@@ -122,12 +122,10 @@ namespace DGP.Genshin.Core.Activation
 
                     case "/import/clipboard":
                         {
-                            Func<IAchievementService, IEnumerable<IdTime>?> importer = (IAchievementService _) =>
+                            Func<IAchievementService, IEnumerable<IdTime>?> importer = (IAchievementService service) =>
                             {
                                 string data = Clipboard.GetText();
-                                IEnumerable<IdTimeStamp>? idTimeStamps = Json.ToObject<IEnumerable<IdTimeStamp>>(data);
-                                return idTimeStamps?
-                                    .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+                                return service.TryGetImportData(data);
                             };
 
                             App.Messenger.Send(new NavigateRequestMessage(typeof(AchievementPage), true, importer));

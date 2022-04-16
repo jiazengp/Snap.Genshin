@@ -206,7 +206,7 @@ namespace DGP.Genshin.Service
             else
             {
                 this.Log("无可用的Cookie");
-                File.Create(cookieFile).Dispose();
+                PathContext.CreateFileOrIgnore(CookieFile);
             }
         }
 
