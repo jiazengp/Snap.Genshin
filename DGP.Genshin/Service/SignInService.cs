@@ -53,8 +53,7 @@ namespace DGP.Genshin.Service
                     foreach (UserGameRole role in roles)
                     {
                         string result = await new SignInProvider(cookie).SignInAsync(role);
-                        this.Log(Setting2.SignInSilently.Get());
-                        Setting2.LastAutoSignInTime.Set(DateTime.UtcNow + TimeSpan.FromHours(8));
+                        Setting2.LastAutoSignInTime.Set(DateTime.UtcNow.AddHours(8));
                         new ToastContentBuilder()
                             .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
                             .AddText(result)

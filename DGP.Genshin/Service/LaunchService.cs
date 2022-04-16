@@ -340,7 +340,7 @@ namespace DGP.Genshin.Service
                             {
                                 new ToastContentBuilder()
                                     .AddText("备份 Bilibili SDK 失败")
-                                    .AddText("服务器选项不会保存")
+                                    .AddText("转换可能不会生效")
                                     .SafeShow();
                                 shouldSave = false;
                             }
@@ -349,9 +349,8 @@ namespace DGP.Genshin.Service
                         {
                             new ToastContentBuilder()
                                 .AddText("未在游戏目录发现 Bilibili SDK 备份")
-                                .AddText("服务器选项不会保存")
+                                .AddText("转换可能不会生效")
                                 .SafeShow();
-                            shouldSave = false;
                         }
 
                         break;
@@ -369,7 +368,7 @@ namespace DGP.Genshin.Service
                             {
                                 new ToastContentBuilder()
                                     .AddText("备份 Bilibili SDK 失败")
-                                    .AddText("服务器选项不会保存")
+                                    .AddText("转换可能不会生效")
                                     .SafeShow();
                                 shouldSave = false;
                             }
@@ -377,10 +376,9 @@ namespace DGP.Genshin.Service
                         else
                         {
                             new ToastContentBuilder()
-                                    .AddText("未在游戏目录发现 Bilibili SDK")
-                                    .AddText("服务器选项不会保存")
+                                    .AddText("未在游戏目录发现 Bilibili SDK 备份")
+                                    .AddText("转换可能不会生效")
                                     .SafeShow();
-                            shouldSave = false;
                         }
 
                         break;

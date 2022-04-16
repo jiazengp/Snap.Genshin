@@ -28,7 +28,6 @@ namespace DGP.Genshin
         private readonly SemaphoreSlim initializingWindow = new(1, 1);
         private readonly INavigationService navigationService;
         private readonly BackgroundLoader backgroundLoader;
-        [SuppressMessage("", "IDE0052")]
         private readonly MainRecipient mainRecipient;
 
         /// <summary>
@@ -39,6 +38,9 @@ namespace DGP.Genshin
         {
             navigationService = App.AutoWired<INavigationService>();
             mainRecipient = new(this, navigationService);
+
+            // suppress IDE0052
+            _ = mainRecipient;
 
             InitializeContent();
 

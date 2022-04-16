@@ -91,6 +91,10 @@ namespace DGP.Genshin
                             MainWindow.HasEverOpen = true;
                             mainWindow.Close();
 
+                            // release PostInitializationTaskPreventer before return and eventually close window
+                            // fix CloseMainWindowAfterInitializaion break initialization issue
+                            PostInitializationTaskPreventer.Release();
+
                             // prevent later messenger call
                             return;
                         }

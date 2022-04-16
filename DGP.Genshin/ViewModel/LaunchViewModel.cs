@@ -239,8 +239,9 @@ namespace DGP.Genshin.ViewModel
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
                 await MatchAccountAsync();
-                CurrentScheme = KnownSchemes
+                currentScheme = KnownSchemes
                     .FirstOrDefault(item => item.CPS == launchService.GameConfig["General"]["cps"]);
+                OnPropertyChanged(nameof(currentScheme));
             }
             else
             {
@@ -344,8 +345,9 @@ namespace DGP.Genshin.ViewModel
             if (launcherPath is not null && launchService.TryLoadIniData(launcherPath))
             {
                 await MatchAccountAsync();
-                CurrentScheme = KnownSchemes
+                currentScheme = KnownSchemes
                     .First(item => item.Channel == launchService.GameConfig["General"]["channel"]);
+                OnPropertyChanged(nameof(CurrentScheme));
             }
             else
             {
