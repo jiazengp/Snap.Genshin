@@ -27,6 +27,11 @@
     <Page.Resources>
         <converter:OneVariableLinearFunctionConverter x:Key="OpacityConverter" A="0.7" B="0.3"/>
 
+        <ItemsPanelTemplate x:Key="UniformGrid4ItemsPanel">
+            <UniformGrid Columns="4"/>
+        </ItemsPanelTemplate>
+        
+
         <Style TargetType="TabItem" x:Key="AvatarParticipationsPivotItemStyle" BasedOn="{StaticResource PivotItemStyle}">
             <Setter Property="Header" Value="{Binding Index}"/>
             <Setter Property="HeaderStringFormat" Value="{}第 {0} 层"/>
@@ -72,56 +77,51 @@
                         <smoothscrollviewer:SmoothScrollViewer>
                             <!-- IEnumerable<Rate<Two<IEnumerable<GenshinItem>>>> -->
                             <ItemsControl ItemsSource="{Binding List}" Grid.Row="1" Margin="12,12,4,0">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <!-- Rate<Two<IEnumerable<GenshinItem>>> -->
                                     <DataTemplate>
                                         <wu:Card Margin="0,0,12,12" Padding="6">
                                             <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                
-                                                <Grid HorizontalAlignment="Stretch" Grid.Column="1">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <!-- IEnumerable<GenshinItem> -->
-                                                    <ItemsControl ItemsSource="{Binding Id.First}" Margin="0,0,0,0" Grid.Row="0">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                        <ItemsControl.ItemTemplate>
-                                                            <!-- GenshinItem -->
-                                                            <DataTemplate>
-                                                                <cachedimage:CachedImage Width="32" Height="32" ImageUrl="{Binding Url}"/>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                    <!-- IEnumerable<GenshinItem> -->
-                                                    <ItemsControl ItemsSource="{Binding Id.Second}" Margin="0,6,0,0" Grid.Row="1">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <UniformGrid Columns="4" SnapsToDevicePixels="True"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                        <ItemsControl.ItemTemplate>
-                                                            <!-- GenshinItem -->
-                                                            <DataTemplate>
-                                                                <cachedimage:CachedImage Width="32" Height="32" ImageUrl="{Binding Url}"/>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </Grid>
-                                                <TextBlock Text="{Binding Value,StringFormat={}上场 {0} 次}" Margin="0,12,0,0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto" MinWidth="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <!-- IEnumerable<GenshinItem> -->
+                                                <ItemsControl
+                                                    ItemsSource="{Binding Id.First}"
+                                                    Margin="0,0,0,0"
+                                                    Grid.Column="0"
+                                                    ItemsPanel="{StaticResource UniformGrid4ItemsPanel}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <!-- GenshinItem -->
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <cachedimage:CachedImage MaxWidth="100" MaxHeight="100" ImageUrl="{Binding Url}" Margin="12,0"/>
+                                                                <TextBlock Text="{Binding Name}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <Rectangle Width="1" Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}" HorizontalAlignment="Right" Grid.Column="0"/>
+                                                <!-- IEnumerable<GenshinItem> -->
+                                                <ItemsControl
+                                                    ItemsSource="{Binding Id.Second}"
+                                                    Margin="0,0,0,0"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{StaticResource UniformGrid4ItemsPanel}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <!-- GenshinItem -->
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <cachedimage:CachedImage MaxWidth="100" MaxHeight="100" ImageUrl="{Binding Url}" Margin="12,0"/>
+                                                                <TextBlock Text="{Binding Name}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <Rectangle Width="1" Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}" HorizontalAlignment="Right" Grid.Column="1"/>
+                                                <TextBlock Text="{Binding Value,StringFormat={}上场 {0} 次}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             </Grid>
                                         </wu:Card>
                                     </DataTemplate>
@@ -140,20 +140,34 @@
             Visibility="{Binding ShouldUIPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,12,0" Style="{StaticResource CaptionTextBlockStyle}"
+                    <TextBlock Margin="0,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"
                                    VerticalAlignment="Center" TextAlignment="Left">
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="{}满星:{0}&#10;总计:{1}">
+                            <MultiBinding StringFormat="{}满星:{0} 总计:{1}">
                                 <Binding Path="Overview.FullStarPlayerCount"/>
                                 <Binding Path="Overview.CollectedPlayerCount"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
+                    <TextBlock VerticalAlignment="Center" Margin="6,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionTextBlockStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PeriodUploaded}" Value="True">
+                                        <Setter Property="Text" Value="本轮已提交"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PeriodUploaded}" Value="False">
+                                        <Setter Property="Text" Value="本轮未提交"/>
+                                        <Setter Property="Foreground" Value="DarkRed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                     <ui:CommandBar Background="Transparent" VerticalAlignment="Center">
                         <ui:AppBarButton Icon="Upload" Label="提交我的数据" Command="{Binding UploadCommand}"/>
                     </ui:CommandBar>
                 </StackPanel>
-
             </ui:PivotHelper.RightHeader>
             <TabItem Header="角色出场">
                 <TabControl 

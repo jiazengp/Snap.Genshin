@@ -44,6 +44,14 @@ namespace DGP.Genshin.Service.Abstraction
         Task<Overview?> GetOverviewAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 获取uid是否在当期上传了数据
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>当期是否上传了数据</returns>
+        Task<bool> GetPeriodUploadedAsync(string uid, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// 获取圣遗物搭配
         /// </summary>
         /// <returns>圣遗物搭配</returns>

@@ -325,6 +325,7 @@ namespace DGP.Genshin.Service
                             .AddText("尚未切换到国际服服务实现")
                             .AddText("请安装相关插件后在设置中切换")
                             .SafeShow();
+                        shouldSave = false;
                         break;
                     }
 

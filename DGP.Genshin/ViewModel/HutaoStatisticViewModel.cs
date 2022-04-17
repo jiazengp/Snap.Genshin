@@ -6,12 +6,14 @@ using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Helper.Extension;
 using DGP.Genshin.HutaoAPI.GetModel;
 using DGP.Genshin.HutaoAPI.PostModel;
+using DGP.Genshin.MiHoYoAPI.GameRole;
 using DGP.Genshin.MiHoYoAPI.Response;
 using DGP.Genshin.Service.Abstraction;
 using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Primitive;
+using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,6 +37,7 @@ namespace DGP.Genshin.ViewModel
         private IList<Item<IList<Item<double>>>>? weaponUsages;
         private IList<Rate<Item<IList<NamedValue<double>>>>>? avatarConstellations;
         private IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? teamCombinations;
+        private bool periodUploaded;
 
         /// <summary>
         /// 构造一个新的胡桃数据库视图模型
@@ -72,6 +75,15 @@ namespace DGP.Genshin.ViewModel
             get => overview;
 
             set => SetProperty(ref overview, value);
+        }
+
+        /// <summary>
+        /// 当前是否已经上传
+        /// </summary>
+        public bool PeriodUploaded
+        {
+            get => periodUploaded;
+            set => SetProperty(ref periodUploaded, value);
         }
 
         /// <summary>
@@ -152,6 +164,9 @@ namespace DGP.Genshin.ViewModel
 
                 Overview = await hutaoStatisticService.GetOverviewAsync(CancellationToken);
 
+                // PeriodUploaded
+                await UpdatePreiodUploadedAsync();
+
                 // V1
                 AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
@@ -180,6 +195,14 @@ namespace DGP.Genshin.ViewModel
             }
 
             ShouldUIPresent = true;
+        }
+
+        private async Task UpdatePreiodUploadedAsync()
+        {
+            List<UserGameRole> gameRoles = await new UserGameRoleProvider(cookieService.CurrentCookie)
+                .GetUserGameRolesAsync(CancellationToken);
+            UserGameRole? role = gameRoles.MatchedOrFirst(role => role.IsChosen);
+            PeriodUploaded = await hutaoStatisticService.GetPeriodUploadedAsync(Must.NotNull(role!.GameUid!), CancellationToken);
         }
 
         private async Task UploadRecordsAsync()
@@ -224,6 +247,8 @@ namespace DGP.Genshin.ViewModel
                 PrimaryButtonText = "确定",
                 DefaultButton = ContentDialogButton.Primary,
             }.ShowAsync();
+
+            await UpdatePreiodUploadedAsync();
         }
     }
 }

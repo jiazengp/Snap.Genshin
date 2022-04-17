@@ -56,6 +56,12 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
+        public async Task<bool> GetPeriodUploadedAsync(string uid, CancellationToken cancellationToken = default)
+        {
+            return await playerRecordClient.CheckPeriodRecordUploadedAsync(uid, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public IList<Indexed<int, Item<double>>> GetAvatarParticipations()
         {
             List<Indexed<int, Item<double>>> avatarParticipationResults = new();
@@ -111,7 +117,7 @@ namespace DGP.Genshin.Service
             List<Item<IList<Item<double>>>> teamCollocationsResults = new();
             foreach (TeamCollocation teamCollocation in teamCollocations)
             {
-                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avater);
+                HutaoItem? matched = avatarMap.FirstOrDefault(x => x.Id == teamCollocation.Avatar);
                 if (matched != null)
                 {
                     IEnumerable<Item<double>> result = teamCollocation.Collocations
@@ -241,7 +247,7 @@ namespace DGP.Genshin.Service
                 teamCombinationResults
                     .Add(new Indexed<string, Rate<Two<IList<HutaoItem>>>>(
                         $"{temaCombination.Level.Floor}-{temaCombination.Level.Index}",
-                        teamRates.OrderByDescending(x => x.Value).Take(16).ToList()));
+                        teamRates.OrderByDescending(x => x.Value)/*.Take(16)*/.ToList()));
             }
 
             return teamCombinationResults;

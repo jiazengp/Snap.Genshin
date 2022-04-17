@@ -41,7 +41,7 @@
                                   Margin="0,0,0,24" SnapsToDevicePixels="True">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <infrastructures:DesiredWidthUniformGrid ColumnDesiredWidth="280"/>
+                                            <infrastructures:DesiredWidthUniformGrid ColumnDesiredWidth="320"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
