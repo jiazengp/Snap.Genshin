@@ -107,22 +107,17 @@
                             Value="{Binding CountSinceLastStar4}"
                             Maximum="10"
                             Foreground="{StaticResource Star4Brush}"/>
-                        <Grid Margin="0,8,0,0">
-                            <TextBlock 
-                                Text="记录时间" 
-                                Style="{StaticResource BodyTextBlockStyle}"/>
-                            <TextBlock 
+                        <TextBlock Margin="0,8,0,0"
                                 FontFamily="Consolas"
-                                HorizontalAlignment="Right"
+                                HorizontalAlignment="Left"
                                 Style="{StaticResource BodyTextBlockStyle}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
-                                        <Binding Path="StartTime"/>
-                                        <Binding Path="EndTime"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:yyyy.MM.dd} - {1:yyyy.MM.dd}">
+                                    <Binding Path="StartTime"/>
+                                    <Binding Path="EndTime"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                         <Separator Margin="-12,6,-12,0"/>
                     </StackPanel>
 

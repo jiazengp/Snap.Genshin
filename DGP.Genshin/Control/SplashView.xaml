@@ -53,13 +53,25 @@
         <converter:BooleanRevertConverter x:Key="BooleanRevertConverter"/>
     </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}">
+        <!--<Border>
+            <ui:BitmapIcon
+                UriSource="pack://application:,,,/DGP.Genshin;component/Resources/splash.png"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" ShowAsMonochrome="True"
+                Opacity="0.2">
+                <ui:BitmapIcon.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#00000000"/>
+                        <GradientStop Offset="1" Color="#80000000"/>
+                    </LinearGradientBrush>
+                </ui:BitmapIcon.OpacityMask>
+            </ui:BitmapIcon>
+        </Border>-->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,12">
-            <StackPanel Margin="12" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Image Width="80" Height="80" RenderOptions.BitmapScalingMode="HighQuality" 
-                       Source="pack://application:,,,/DGP.Genshin;component/SG_Logo.ico"/>
-            </StackPanel>
+            <TextBlock
+                     HorizontalAlignment="Center" VerticalAlignment="Top"
+                     Text="Snap Genshin" FontFamily="{StaticResource KhaenriahNeueFontFamily}" FontSize="32"/>
             <wu:CardAction helper:CardHelper.ActionTitle="设置Cookie" 
-                           helper:CardHelper.ActionSubtitle="我们只需要一份米游社Cookie就能继续，稍后可以添加更多Cookie" 
+                           helper:CardHelper.ActionSubtitle="我们只需要一份米游社 Cookie 就能继续" 
                            Visibility="{Binding IsCookieVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                            Command="{Binding SetCookieCommand}" Margin="0,36,0,0"/>
         </StackPanel>

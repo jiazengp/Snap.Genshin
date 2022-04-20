@@ -21,6 +21,8 @@ namespace DGP.Genshin.ViewModel
 {
     /// <summary>
     /// 养成计算视图模型
+    /// 按 [已有角色等级] 排序 按[获取角色时间] 排序
+    /// 按【角色稀有度】筛选 按【武器类型】筛选 按【好感度等级】筛选 按（元素）筛选
     /// </summary>
     [ViewModel(InjectAs.Transient)]
     internal class PromotionCalculateViewModel : ObservableRecipient2, ISupportCancellation

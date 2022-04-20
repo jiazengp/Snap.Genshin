@@ -100,17 +100,26 @@
                     helper:CardHelper.ActionSubtitle="配置应用的可更换服务实现"
                     Command="{Binding OpenImplementationPageCommand}"
                     Margin="12,12,16,0"/>
+                
+                <TextBlock Text="缓存" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardAction 
                     helper:IconHelper.Icon="&#xE838;" 
                     helper:CardHelper.ActionTitle="打开图片缓存文件夹" 
                     helper:CardHelper.ActionSubtitle="大部分图片资源缓存在这个文件夹内" 
                     Command="{Binding OpenCacheFolderCommand}"
                     Margin="12,12,16,0"/>
-                
+                <wu:CardControl 
+                    helper:IconHelper.Icon="&#xE8BA;" 
+                    Title="缓存角色资源" 
+                    Subtitle="缓存所有角色的图片资源,可能会花费数十分钟"
+                    Command="{Binding DownloadCharactersCacheCommand}"
+                    Margin="12,4,16,0">
+                    <Button Content="立即缓存" Command="{Binding DownloadCharactersCacheCommand}" Margin="12,0,0,0"/>
+                </wu:CardControl>
                 <TextBlock Text="关于 Snap 原神" Style="{StaticResource BaseTextBlockStyle}" Margin="12,36,0,0"/>
                 <wu:CardExpander helper:IconHelper.Icon="&#xE946;" Header="Snap 原神" Subtitle="{Binding VersionString}" Margin="12,12,16,0">
                     <wu:CardExpander.HeaderContent>
-                        <Button Tag="Github" Content="检查更新" Command="{Binding CheckUpdateCommand}" Margin="12,0"/>
+                        <Button Content="检查更新" Command="{Binding CheckUpdateCommand}" Margin="12,0"/>
                     </wu:CardExpander.HeaderContent>
                     <FlowDocumentScrollViewer IsHitTestVisible="False"
                         Document="{Binding ReleaseNote,Converter={StaticResource TextToFlowDocumentConverter}}"/>

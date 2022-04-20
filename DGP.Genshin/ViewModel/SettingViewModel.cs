@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Control.Infrastructure.CachedImage;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
@@ -8,12 +9,15 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
+using ModernWpf.Controls;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using Snap.Data.Utility;
+using Snap.Threading;
 using Snap.Win32;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,18 +72,17 @@ namespace DGP.Genshin.ViewModel
             Version v = App.Current.Version;
             VersionString = $"Snap Genshin {v.Major} - Version {v.Minor}.{v.Build} Build {v.Revision}";
             UserId = User.Id;
-
             UpdateInfo = UpdateProgressedMessage.Default;
             ReleaseNote = updateService.ReleaseNote;
 
             CheckUpdateCommand = asyncRelayCommandFactory.Create(CheckUpdateAsync);
             CopyUserIdCommand = new RelayCommand(CopyUserIdToClipBoard);
-
             SponsorUICommand = new RelayCommand(NavigateToSponsorPage);
             OpenBackgroundFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Background")));
             OpenCacheFolderCommand = new RelayCommand(() => FileExplorer.Open(PathContext.Locate("Cache")));
             NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
             OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
+            DownloadCharactersCacheCommand = asyncRelayCommandFactory.Create(DownloadCharactersCacheAsync);
         }
 
         /// <summary>
@@ -140,7 +143,7 @@ namespace DGP.Genshin.ViewModel
 
             set
             {
-                Setting2.BackgroundOpacity.Set(value, false);
+                Setting2.BackgroundOpacity.Set(value);
                 Messenger.Send(new BackgroundOpacityChangedMessage(value));
                 SetProperty(ref backgroundOpacity, value);
             }
@@ -278,6 +281,11 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public ICommand OpenImplementationPageCommand { get; }
 
+        /// <summary>
+        /// 下载所有角色资源命令
+        /// </summary>
+        public ICommand DownloadCharactersCacheCommand { get; set; }
+
         /// <inheritdoc/>
         public void Receive(UpdateProgressedMessage message)
         {
@@ -357,6 +365,30 @@ namespace DGP.Genshin.ViewModel
         private void SwitchToNextWallpaper()
         {
             Messenger.Send(new BackgroundChangeRequestMessage());
+        }
+
+        private async Task DownloadCharactersCacheAsync()
+        {
+            MetadataViewModel metadataViewModel = App.AutoWired<MetadataViewModel>();
+            await metadataViewModel.Characters.ParallelForEachAsync(async character =>
+            {
+                if (character.Profile != null && !FileCache.Exists(character.Profile))
+                {
+                    using MemoryStream? memoryStream = await ImageAsyncHelper.HitImageCoreAsync(character.Profile);
+                }
+
+                if (character.GachaSplash != null && !FileCache.Exists(character.GachaSplash))
+                {
+                    using MemoryStream? memoryStream = await ImageAsyncHelper.HitImageCoreAsync(character.GachaSplash);
+                }
+            });
+
+            await new ContentDialog
+            {
+                Title = "缓存检查完成",
+                PrimaryButtonText = "确认",
+                DefaultButton = ContentDialogButton.Primary,
+            }.ShowAsync();
         }
 
         [PropertyChangedCallback]

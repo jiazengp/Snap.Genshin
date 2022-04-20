@@ -68,6 +68,42 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
             border.SetValue(ImageUrlProperty, value);
         }
 
+        /// <summary>
+        /// 缓存图片并尝试唤起阻塞视图
+        /// </summary>
+        /// <param name="url">地址</param>
+        /// <returns>内存流，包含了获取的图片</returns>
+        internal static async Task<MemoryStream?> HitImageCoreAsync(string url)
+        {
+            MemoryStream? memoryStream = null;
+            ++imageUrlHittingCount;
+            using (await SendMessageLocker.EnterAsync())
+            {
+                // 不存在图片，所以需要下载额外的资源
+                if (imageUrlHittingCount == 1)
+                {
+                    App.Messenger.Send(new ImageHitBeginMessage());
+                }
+
+                Logger.LogStatic(imageUrlHittingCount);
+            }
+
+            memoryStream = await FileCache.HitAsync(url);
+
+            --imageUrlHittingCount;
+            using (await SendMessageLocker.EnterAsync())
+            {
+                if (imageUrlHittingCount == 0)
+                {
+                    App.Messenger.Send(new ImageHitEndMessage());
+                }
+
+                Logger.LogStatic(imageUrlHittingCount);
+            }
+
+            return memoryStream;
+        }
+
         private static void HitImageCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             HitImageAsync((Border)obj, (string)e.NewValue).Forget();
@@ -75,38 +111,7 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
 
         private static async Task HitImageAsync(Border border, string url)
         {
-            MemoryStream? memoryStream;
-            if (FileCache.Exists(url))
-            {
-                memoryStream = await FileCache.HitAsync(url);
-            }
-            else
-            {
-                ++imageUrlHittingCount;
-                using (await SendMessageLocker.EnterAsync())
-                {
-                    // 不存在图片，所以需要下载额外的资源
-                    if (imageUrlHittingCount == 1)
-                    {
-                        App.Messenger.Send(new ImageHitBeginMessage());
-                    }
-
-                    Logger.LogStatic(imageUrlHittingCount);
-                }
-
-                memoryStream = await FileCache.HitAsync(url);
-
-                --imageUrlHittingCount;
-                using (await SendMessageLocker.EnterAsync())
-                {
-                    if (imageUrlHittingCount == 0)
-                    {
-                        App.Messenger.Send(new ImageHitEndMessage());
-                    }
-
-                    Logger.LogStatic(imageUrlHittingCount);
-                }
-            }
+            MemoryStream? memoryStream = await HitImageInternalAsync(url);
 
             if (memoryStream != null)
             {
@@ -128,6 +133,13 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                     Stretch = GetStretchMode(border),
                 };
             }
+        }
+
+        private static async Task<MemoryStream?> HitImageInternalAsync(string url)
+        {
+            return FileCache.Exists(url)
+                ? await FileCache.HitAsync(url)
+                : await HitImageCoreAsync(url);
         }
     }
 }

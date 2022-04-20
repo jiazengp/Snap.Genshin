@@ -33,6 +33,7 @@
     <None Remove="Resources\cocogoat.ico" />
     <None Remove="Resources\Eff_Sc_StarSky01.png" />
     <None Remove="Resources\ElementProgress.png" />
+    <None Remove="Resources\KhaenriahNeue.otf" />
     <None Remove="Resources\Segoe Fluent Icons.ttf" />
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resources\UI_BagTabIcon_Weapon.png" />
@@ -47,6 +48,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\cocogoat.ico" />
+    <Resource Include="Resources\KhaenriahNeue.otf" />
     <Resource Include="Resources\UI_Icon_Achievement.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>

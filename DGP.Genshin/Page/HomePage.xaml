@@ -55,11 +55,10 @@
                                                         <RowDefinition Height="auto"/>
                                                     </Grid.RowDefinitions>
                                                     <Border CornerRadius="{StaticResource CompatCornerRadiusTop}" RenderOptions.BitmapScalingMode="Fant"
-                                                    Height="{Binding Path=ActualWidth,ElementName=WidthBorder,Converter={StaticResource PercentageToHeightConverter}}">
+                                                        Height="{Binding Path=ActualWidth,ElementName=WidthBorder,Converter={StaticResource PercentageToHeightConverter}}">
                                                         <Border.Background>
                                                             <ImageBrush ImageSource="{Binding Banner}" Stretch="UniformToFill"/>
                                                         </Border.Background>
-
                                                         <Grid>
                                                             <Border Height="16"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                                                 Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BooleanToVisibilityConverter}}">

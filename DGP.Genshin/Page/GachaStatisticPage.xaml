@@ -488,20 +488,22 @@
                         Style="{StaticResource TabControlPivotStyle}"
                         ItemContainerStyle="{StaticResource PivotItemStyle}">
                         <TabItem Header="总计">
-                            <StackPanel Grid.Row="1" Margin="6,0,0,0">
-                                <ItemsControl  Margin="0,4,0,0" 
+                            <s:SmoothScrollViewer>
+                                <StackPanel Grid.Row="1" Margin="6,0,0,0">
+                                    <ItemsControl  Margin="0,4,0,0" 
                                                ItemsSource="{Binding SelectedSpecificBanner.StatisticList5}"
                                                ItemsPanel="{StaticResource WrapPanelItemsPanel}"
                                                ItemTemplate="{StaticResource TotalListTemplate}"/>
-                                <ItemsControl  Margin="0,4,0,0" 
+                                    <ItemsControl  Margin="0,4,0,0" 
                                                ItemsSource="{Binding SelectedSpecificBanner.StatisticList4}"
                                                ItemsPanel="{StaticResource WrapPanelItemsPanel}"
                                                ItemTemplate="{StaticResource TotalListTemplate}"/>
-                                <ItemsControl  Margin="0,4,0,0" 
+                                    <ItemsControl  Margin="0,4,0,0" 
                                                ItemsSource="{Binding SelectedSpecificBanner.StatisticList3}"
                                                ItemsPanel="{StaticResource WrapPanelItemsPanel}"
                                                ItemTemplate="{StaticResource TotalListTemplate}"/>
-                            </StackPanel>
+                                </StackPanel>
+                            </s:SmoothScrollViewer>
                         </TabItem>
                         <TabItem Header="分布">
                             <s:SmoothScrollViewer Grid.Row="2" Margin="6,0,0,0">

@@ -182,20 +182,20 @@
                                     <DataTemplate>
                                         <StackPanel Margin="6,0,0,0">
                                             <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
-                                            <TextBlock Text="{Binding Values.Level1}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level20}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level20p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level40}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level40p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level50}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level50p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level60}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level60p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level70}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level70p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level80}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level80p}" Margin="0,4,0,0"/>
-                                            <TextBlock Text="{Binding Values.Level90}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Values.Level1}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level20}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level20p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level40}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level40p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level50}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level50p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level60}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level60p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level70}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level70p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level80}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level80p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding Values.Level90}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -212,7 +212,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
+                            <ci:CachedBitmapIcon
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -257,21 +259,21 @@
                                         <DataTemplate>
                                             <StackPanel Margin="24,0,0,0">
                                                 <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
-                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -289,7 +291,9 @@
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
+                            <ci:CachedBitmapIcon
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.TalentE.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -334,21 +338,21 @@
                                         <DataTemplate>
                                             <StackPanel Margin="24,0,0,0">
                                                 <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
-                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -367,6 +371,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.TalentQ.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -411,21 +417,21 @@
                                         <DataTemplate>
                                             <StackPanel Margin="24,0,0,0">
                                                 <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
-                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0"/>
-                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding Values.Lv1}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv2}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv3}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv4}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv5}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv6}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv7}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv8}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv9}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv10}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv11}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv12}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv13}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv14}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Values.Lv15}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -447,6 +453,8 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <ci:CachedBitmapIcon 
+                                        Height="52"
+                                        HorizontalAlignment="Center"
                                         Margin="6" VerticalAlignment="Top"
                                         UriSource="{Binding Source}"/>
                                     <StackPanel Margin="6" Grid.Column="1">
@@ -470,6 +478,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation1.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -485,6 +495,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation2.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -500,6 +512,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation3.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -515,6 +529,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation4.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -530,6 +546,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation5.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
@@ -545,6 +563,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <ci:CachedBitmapIcon 
+                                Height="52"
+                                HorizontalAlignment="Center"
                                 Margin="6" VerticalAlignment="Top"
                                 UriSource="{Binding SelectedCharacter.Constellation.Constellation6.Source}"/>
                             <StackPanel Margin="6" Grid.Column="1">
