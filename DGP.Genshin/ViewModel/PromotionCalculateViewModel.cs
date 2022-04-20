@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Control.GenshinElement.PromotionCalculate;
 using DGP.Genshin.Control.Infrastructure.Concurrent;
 using DGP.Genshin.DataModel.Promotion;
 using DGP.Genshin.Factory.Abstraction;
@@ -85,6 +86,7 @@ namespace DGP.Genshin.ViewModel
             AddFullCharacterMaterialCommand = asyncRelayCommandFactory.Create<string>(AddFullCharacterMaterialToListAsync);
             AddFullWeaponMaterialCommand = asyncRelayCommandFactory.Create(AddFullWeaponMaterialToListAsync);
 
+            EditMaterialCommand = asyncRelayCommandFactory.Create<CalculableConsume>(EditMaterialAsync);
             RemoveMaterialCommand = asyncRelayCommandFactory.Create<CalculableConsume>(RemoveMaterialFromListAsync);
         }
 
@@ -279,21 +281,30 @@ namespace DGP.Genshin.ViewModel
         public ICommand AddWeaponMaterialCommand { get; }
 
         /// <summary>
-        /// 移除材料命令
-        /// </summary>
-        public ICommand RemoveMaterialCommand { get; }
-
-        /// <summary>
         /// 退出界面时触发的命令
         /// </summary>
         public ICommand CloseUICommand { get; }
+
+        /// <summary>
+        /// 修改材料命令
+        /// </summary>
+        private ICommand EditMaterialCommand { get; }
+
+        /// <summary>
+        /// 移除材料命令
+        /// </summary>
+        private ICommand RemoveMaterialCommand { get; }
 
         private async Task OpenUIAsync()
         {
             try
             {
                 MaterialList = materialListService.Load();
-                MaterialList.ForEach(item => item.RemoveCommand = RemoveMaterialCommand);
+                MaterialList.ForEach(item =>
+                {
+                    item.EditCommand = EditMaterialCommand;
+                    item.RemoveCommand = RemoveMaterialCommand;
+                });
 
                 IsListEmpty = MaterialList.IsNullOrEmpty();
 
@@ -427,7 +438,11 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                MaterialList?.Insert(0, new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items)
+                {
+                    RemoveCommand = RemoveMaterialCommand,
+                    EditCommand = EditMaterialCommand,
+                });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -442,6 +457,7 @@ namespace DGP.Genshin.ViewModel
                 MaterialList?.Insert(0, new(calculable, items)
                 {
                     RemoveCommand = RemoveMaterialCommand,
+                    EditCommand = EditMaterialCommand,
                 });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
@@ -457,6 +473,7 @@ namespace DGP.Genshin.ViewModel
                 MaterialList?.Insert(0, new(calculable, items)
                 {
                     RemoveCommand = RemoveMaterialCommand,
+                    EditCommand = EditMaterialCommand,
                 });
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
@@ -477,6 +494,22 @@ namespace DGP.Genshin.ViewModel
             {
                 MaterialList?.Remove(item);
                 IsListEmpty = MaterialList.IsNullOrEmpty();
+            }
+        }
+
+        private async Task EditMaterialAsync(CalculableConsume? item)
+        {
+            if (item is not null)
+            {
+                await new MaterialListDialog(item).ShowAsync();
+
+                foreach (ConsumeItem cItem in item.ConsumeItems.ToList())
+                {
+                    if (cItem.Num <= 0)
+                    {
+                        item.ConsumeItems.Remove(cItem);
+                    }
+                }
             }
         }
 

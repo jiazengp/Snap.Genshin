@@ -18,7 +18,9 @@ namespace DGP.Genshin.DataModel.Promotion
         public CalculableConsume(Calculable calculable, List<ConsumeItem>? consumption)
         {
             Calculable = calculable;
-            ConsumeItems = consumption is not null ? new(consumption) : new();
+            ConsumeItems = consumption is null
+                ? new()
+                : new(consumption);
         }
 
         /// <summary>
@@ -36,5 +38,11 @@ namespace DGP.Genshin.DataModel.Promotion
         /// </summary>
         [JsonIgnore]
         public ICommand? RemoveCommand { get; set; }
+
+        /// <summary>
+        /// 编辑命令
+        /// </summary>
+        [JsonIgnore]
+        public ICommand? EditCommand { get; set; }
     }
 }

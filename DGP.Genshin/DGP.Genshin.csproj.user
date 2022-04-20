@@ -30,6 +30,9 @@
     <Compile Update="Control\GenshinElement\CharacterGachaSplashWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\GenshinElement\PromotionCalculate\MaterialListDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\WebView2RuntimeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +90,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\GenshinElement\HutaoStatistic\UploadDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\GenshinElement\PromotionCalculate\MaterialListDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\ModernStyle\Dark.xaml">
