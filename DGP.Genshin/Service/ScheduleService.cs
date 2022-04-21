@@ -16,7 +16,7 @@ namespace DGP.Genshin.Service
         private readonly CancellationTokenSource cancellationTokenSource = new();
         private readonly IMessenger messenger;
 
-        private DateTime lastScheduledTime = DateTime.UtcNow + TimeSpan.FromHours(8);
+        private DateTime lastScheduledTime = DateTime.UtcNow.AddHours(8);
 
         /// <summary>
         /// 构造一个新的计划服务
@@ -44,7 +44,7 @@ namespace DGP.Genshin.Service
                             // await Task.Delay(10000, cancellationTokenSource.Token);
                             this.Log("Tick scheduled");
                             messenger.Send(new TickScheduledMessage());
-                            DateTime current = DateTime.UtcNow + TimeSpan.FromHours(8);
+                            DateTime current = DateTime.UtcNow.AddHours(8);
                             if (current.Date > lastScheduledTime.Date)
                             {
                                 this.Log("Date changed");

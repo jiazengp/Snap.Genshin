@@ -8,7 +8,6 @@
         xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
         Title="WebView2RuntimeWindow" Height="280" Width="400"
         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">

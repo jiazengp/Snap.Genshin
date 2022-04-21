@@ -26,7 +26,7 @@ namespace DGP.Genshin.Service.Abstraction.Setting
         public static readonly SettingDefinition<DateTime?> LastAutoSignInTime = new("LastAutoSignInTime", DateTime.Today.AddDays(-1), NullableDataTimeConverter);
 
         /// <summary>
-        /// 是否启用自动qian
+        /// 是否启用自动签到
         /// </summary>
         public static readonly SettingDefinition<bool> AutoDailySignInOnLaunch = new("AutoDailySignInOnLaunch", false);
 
@@ -169,7 +169,7 @@ namespace DGP.Genshin.Service.Abstraction.Setting
 
         private static DateTime? NullableDataTimeConverter(object? str)
         {
-            return str is not null ? DateTime.Parse((string)str) : null;
+            return str is not null ? DateTimeOffset.Parse((string)str).UtcDateTime : null;
         }
     }
 }
