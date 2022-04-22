@@ -40,10 +40,10 @@
 								  ClipToBounds="true"
 								  HorizontalAlignment="Left">
                                 <ui:BitmapIcon
-                                    d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/ElementProgress.png"
+                                    d:UriSource="D:\\Development/Projects/Snap.Genshin/DGP.Genshin/Resources/Control/ElementProgress.png"
                                     Width="{TemplateBinding Width}"
                                     Height="{TemplateBinding Height}"
-                                    UriSource="pack://application:,,,/Resources/ElementProgress.png" />
+                                    UriSource="pack://application:,,,/Resources/Control/ElementProgress.png" />
                             </Grid>
                         </Grid>
                     </ControlTemplate>

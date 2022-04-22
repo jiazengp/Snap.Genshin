@@ -130,10 +130,10 @@
                 <Grid.RenderTransform>
                     <RotateTransform Angle="0" />
                 </Grid.RenderTransform>
-                <wu:Icon
+                <wu:SymbolIcon
                     x:Name="Chevron"
                     FontSize="16"
-                    Glyph="ChevronDown28" />
+                    Symbol="ChevronDown28" />
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
@@ -404,11 +404,11 @@
                                     </TextBlock.Foreground>
                                 </TextBlock>
                             </Grid>
-                            <wu:Icon
+                            <wu:SymbolIcon
                                 Grid.Column="2" Margin="36,0,0,0"
                                 VerticalAlignment="Center"
                                 FontSize="16"
-                                Glyph="ChevronRight28" />
+                                Symbol="ChevronRight28" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -472,13 +472,13 @@
                             Margin="4"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Orientation="Horizontal">
-                            <wu:Icon
+                            <wu:SymbolIcon
                                 x:Name="HyperlinkIcon"
                                 Margin="0,0,12,0"
                                 VerticalAlignment="Center"
                                 Filled="{TemplateBinding IconFilled}"
                                 FontSize="14"
-                                Glyph="{TemplateBinding Icon}" />
+                                Symbol="{TemplateBinding Icon}" />
                             <TextBlock
                                 x:Name="HyperlinkText"
                                 VerticalAlignment="Center"

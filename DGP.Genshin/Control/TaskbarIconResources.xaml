@@ -8,7 +8,7 @@
         <ContextMenu.Resources>
             <Style TargetType="ui:FontIcon">
                 <Setter Property="Margin" Value="0,4,0,0"/>
-                <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons"/>
+                <Setter Property="FontFamily" Value="{StaticResource SymbolThemeFontFamily}"/>
             </Style>
         </ContextMenu.Resources>
         <MenuItem Header="主界面" Command="{Binding ShowMainWindowCommand}">

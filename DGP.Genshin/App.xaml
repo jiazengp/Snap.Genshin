@@ -42,7 +42,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--#region ConstValues-->
-            <FontFamily x:Key="KhaenriahNeueFontFamily">pack://application:,,,/Resources/khaenriahneue.otf#Khaenriah Neue</FontFamily>
+            <FontFamily x:Key="KhaenriahNeueFontFamily">pack://application:,,,/Resources/Font/khaenriahneue.otf#Khaenriah Neue</FontFamily>
             <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
@@ -59,7 +59,7 @@
             <!--#endregion-->
             
             <!--#region OverrideConst-->
-            <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
+            <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Resources/Font/SegoeFluentIcons.ttf#Segoe Fluent Icons</FontFamily>
             <sys:Double x:Key="FlyoutThemeMaxWidth">560</sys:Double>
             <sys:Double x:Key="ContentDialogMaxHeight">640</sys:Double>
             <Thickness x:Key="PivotItemMargin">0</Thickness>
@@ -560,7 +560,7 @@
             <Style TargetType="{x:Type ge:ContentIcon}" BasedOn="{StaticResource DefaultContentIconStyle}"/>
             
             <Style TargetType="{x:Type ui:FontIcon}">
-                <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Segoe Fluent Icons.ttf#Segoe Fluent Icons"/>
+                <Setter Property="FontFamily" Value="{StaticResource SymbolThemeFontFamily}"/>
             </Style>
 
             <Style x:Key="PivotItemStyle" TargetType="TabItem" BasedOn="{StaticResource TabItemPivotStyle}">

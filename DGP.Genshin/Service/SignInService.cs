@@ -8,7 +8,6 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
-using Snap.Core.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

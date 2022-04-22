@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DataModelWeapon = DGP.Genshin.DataModel.Weapon;
+using DataModelWeapon = DGP.Genshin.DataModel.Weapon.Weapon;
 using WeaponMaterial = DGP.Genshin.DataModel.Material.Weapon;
 
 namespace DGP.Genshin.ViewModel

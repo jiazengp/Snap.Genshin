@@ -46,7 +46,7 @@
                 <ui:AppBarSeparator/>
                 <ui:AppBarButton Label="从 椰羊 导入" Command="{Binding ImportFromCocoGoatCommand}">
                     <ui:AppBarButton.Icon>
-                        <ui:BitmapIcon UriSource="pack://application:,,,/Resources/cocogoat.ico" ShowAsMonochrome="False"/>
+                        <ui:BitmapIcon UriSource="pack://application:,,,/Resources/ThirdParty/cocogoat.ico" ShowAsMonochrome="False"/>
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
                 <ui:AppBarButton Label="从 剪贴板 导入" Command="{Binding ImportFromClipboardCommand}">

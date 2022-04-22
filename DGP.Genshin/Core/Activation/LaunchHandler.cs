@@ -10,11 +10,9 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.Logging;
 using Snap.Core.Mvvm.Messaging;
-using Snap.Data.Json;
 using Snap.Threading;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -126,6 +124,18 @@ namespace DGP.Genshin.Core.Activation
                             {
                                 string data = Clipboard.GetText();
                                 return service.TryGetImportData(data);
+                            };
+
+                            App.Messenger.Send(new NavigateRequestMessage(typeof(AchievementPage), true, importer));
+                            break;
+                        }
+
+                    case "/import/uiaf":
+                        {
+                            Func<IAchievementService, IEnumerable<IdTime>?> importer = (IAchievementService service) =>
+                            {
+                                string data = Clipboard.GetText();
+                                return service.TryGetImportData(ImportAchievementSource.UIAF, data);
                             };
 
                             App.Messenger.Send(new NavigateRequestMessage(typeof(AchievementPage), true, importer));

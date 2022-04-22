@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.DataModel.Achievement;
 using DGP.Genshin.DataModel.Achievement.CocoGoat;
+using DGP.Genshin.DataModel.Achievement.UIAF;
 using DGP.Genshin.Service.Abstraction.Achievement;
 using Newtonsoft.Json;
 using Snap.Core.DependencyInjection;
@@ -32,7 +33,7 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IdTime>? TryGetImportData(ImportAchievementSource source, string fileName)
+        public IEnumerable<IdTime>? TryGetImportData(ImportAchievementSource source, string argument)
         {
             try
             {
@@ -40,11 +41,23 @@ namespace DGP.Genshin.Service
                 {
                     case ImportAchievementSource.Cocogoat:
                         {
-                            CocoGoatUserData? userData = Json.FromFile<CocoGoatUserData>(fileName);
-                            if (userData?.Value?.Achievements is List<CocoGoatAchievement> achievements)
+                            CocoGoatUserData? data = Json.FromFile<CocoGoatUserData>(argument);
+                            if (data?.Value?.Achievements is List<CocoGoatAchievement> achievements)
                             {
                                 return achievements
                                     .Select(a => new IdTime(a.Id, a.Date));
+                            }
+
+                            break;
+                        }
+
+                    case ImportAchievementSource.UIAF:
+                        {
+                            UIAF? data = Json.ToObject<UIAF>(argument);
+                            if (data?.List is List<UIAFItem> achievements)
+                            {
+                                return achievements
+                                    .Select(a => new IdTime(a.Id, DateTime.UnixEpoch.AddSeconds(a.TimeStamp)));
                             }
 
                             break;
@@ -69,7 +82,7 @@ namespace DGP.Genshin.Service
             {
                 IEnumerable<IdTimeStamp>? idTimeStamps = Json.ToObject<IEnumerable<IdTimeStamp>>(dataString);
                 return idTimeStamps?
-                    .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch + TimeSpan.FromSeconds(ts.TimeStamp)));
+                    .Select(ts => new IdTime(ts.Id, DateTime.UnixEpoch.AddSeconds(ts.TimeStamp)));
             }
             catch (JsonReaderException)
             {

@@ -10,7 +10,6 @@ using DGP.Genshin.ViewModel;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
-using Snap.Core.Logging;
 using Snap.Extenion.Enumerable;
 using Snap.Reflection;
 using Snap.Threading;

@@ -5,6 +5,8 @@
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
          xmlns:s="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer" 
          xmlns:ui="http://schemas.modernwpf.com/2019"
+         xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+         xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
          xmlns:ci="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage" 
          xmlns:genshinelements="clr-namespace:DGP.Genshin.Control.GenshinElement" 
          xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -14,6 +16,340 @@
          Name="CharacterPageView">
     <ui:Page.Resources>
         <converters:PercentageToWidthConverter x:Key="PercentageToWidthConverter" TargetWidth="283" TargetHeight="135"/>
+
+        <Style TargetType="{x:Type wu:CardExpander}" x:Key="DefaultCardExpanderStyle">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{DynamicResource SystemControlPageBackgroundAltHighBrush}"/>
+            <Setter Property="IsExpanded" Value="False" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}"/>
+            <Setter Property="MinHeight" Value="68" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type wu:CardExpander}">
+                        <Border
+                        x:Name="Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4,4,4,4">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid
+                                    Grid.Row="0"
+                                    Margin="{TemplateBinding Padding}"
+                                    VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="52" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ci:CachedBitmapIcon x:Name="CardIcon"
+                                         Grid.Column="0"
+                                         MinWidth="0"
+                                         Margin="4,0,16,0"
+                                         MaxWidth="32"
+                                         MaxHeight="32"
+                                         VerticalAlignment="Center"
+                                         UriSource="{Binding Path=(helper:IconHelper.Icon),RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    <Grid Grid.Column="1" VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition x:Name="SubtitleRow" />
+                                        </Grid.RowDefinitions>
+                                        <ContentPresenter
+                                        x:Name="Title"
+                                        Grid.Row="0"
+                                        Margin="0,0,0,4"
+                                        ContentSource="Header"
+                                        TextElement.FontWeight="Medium"
+                                        TextElement.Foreground="{TemplateBinding Foreground}" />
+                                        <TextBlock
+                                        x:Name="Subtitle"
+                                        Grid.Row="1"
+                                        FontSize="11"
+                                            TextWrapping="Wrap"
+                                            TextTrimming="None"
+                                        Text="{TemplateBinding Subtitle}">
+                                            <TextBlock.Foreground>
+                                                <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                    </Grid>
+                                </Grid>
+
+                                <ToggleButton
+                                Grid.Row="0"
+                                MinHeight="{TemplateBinding MinHeight}"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="Transparent"
+                                Content="{TemplateBinding HeaderContent}"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                OverridesDefaultStyle="True"
+                                Template="{StaticResource UiCardExpanderToggleButton}" />
+
+                                <Border
+                                x:Name="ContentGrid"
+                                Grid.Row="1"
+                                Background="Transparent"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Opacity="0.0">
+                                    <ContentPresenter/>
+                                    <Border.LayoutTransform>
+                                        <ScaleTransform ScaleY="0" />
+                                    </Border.LayoutTransform>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="helper:IconHelper.Icon" Value="">
+                                <Setter TargetName="CardIcon" Property="Margin" Value="0" />
+                            </Trigger>
+                            <Trigger Property="Subtitle" Value="{x:Null}">
+                                <Setter TargetName="Title" Property="Margin" Value="0" />
+                                <Setter TargetName="SubtitleRow" Property="Height" Value="0" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                            From="1.0"
+                                            To="0.5"
+                                            Duration="0:0:.16" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                            From="0.5"
+                                            To="1.0"
+                                            Duration="0:0:.16" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Setter TargetName="ContentGrid" Property="BorderThickness" Value="0,1,0,0" />
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="ContentGrid"
+                                            Storyboard.TargetProperty="(Border.LayoutTransform).(ScaleTransform.ScaleY)"
+                                            To="1"
+                                            Duration="0:0:0.16" />
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="ContentGrid"
+                                            Storyboard.TargetProperty="(Border.Opacity)"
+                                            To="1.0"
+                                            Duration="0:0:0.16" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="ContentGrid"
+                                            Storyboard.TargetProperty="(Border.LayoutTransform).(ScaleTransform.ScaleY)"
+                                            To="0"
+                                            Duration="0:0:0.16" />
+                                            <DoubleAnimation
+                                            Storyboard.TargetName="ContentGrid"
+                                            Storyboard.TargetProperty="(Border.Opacity)"
+                                            To="0.0"
+                                            Duration="0:0:0.16" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type wu:CardControl}" x:Key="DefaultCardControlStyle">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Transparent" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type wu:CardControl}">
+                        <Border
+                            x:Name="CardBorder"
+                            MinHeight="68"
+                            Padding="12"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <Grid x:Name="GridHeader">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="52" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ci:CachedBitmapIcon x:Name="CardIcon"
+                                         Grid.Column="0"
+                                         MinWidth="0"
+                                         Margin="4,0,16,0"
+                                         MaxWidth="32"
+                                         MaxHeight="32"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         UriSource="{Binding Path=(helper:IconHelper.Icon),RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition x:Name="SubtitleRow" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                    x:Name="TitleText"
+                                    Grid.Row="0"
+                                    Margin="0,0,0,4"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Medium"
+                                    Text="{TemplateBinding Title}" />
+                                    <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0"
+                                    FontSize="11"
+                                    Text="{TemplateBinding Subtitle}"
+                                        TextWrapping="Wrap">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Grid>
+
+                                <ContentPresenter Grid.Column="2" VerticalAlignment="Center" />
+                            </Grid>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                        From="1.0"
+                                                        To="0.5"
+                                                        Duration="0:0:.16" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                        From="0.5"
+                                                        To="1.0"
+                                                        Duration="0:0:.16" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="helper:IconHelper.Icon" Value="">
+                                <Setter TargetName="CardIcon" Property="Margin" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type wu:Card}">
+            <Setter Property="Background" Value="{DynamicResource SystemControlPageBackgroundAltHighBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type wu:Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border
+                            x:Name="CardBorder"
+                            Grid.Row="0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                            </Border>
+
+                            <Border
+                            x:Name="FooterBorder"
+                            Grid.Row="1"
+                            Padding="{TemplateBinding Padding}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="0,0,4,4"
+                            Visibility="Collapsed">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource ControlStrokeColorSecondary}" />
+                                </Border.Background>
+                                <ContentPresenter Content="{TemplateBinding Footer}" />
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasFooter" Value="True">
+                                <Setter TargetName="FooterBorder" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="CardBorder" Property="CornerRadius" Value="4,4,0,0" />
+                                <Setter TargetName="CardBorder" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </ui:Page.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -25,7 +361,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <s:SmoothScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="360">
+        <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Width="360">
             <ui:GridView 
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Characters}" 
@@ -47,7 +383,8 @@
             </ui:GridView>
         </s:SmoothScrollViewer>
         <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="1">
-            <StackPanel Margin="0,0,12,0">
+            <StackPanel Margin="4,0,12,0">
+
                 <!--名片-->
                 <Border Margin="0,0,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
                         Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
@@ -63,13 +400,29 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Margin="2.5" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.City}"/>
+                                    <ci:CachedBitmapIcon
+                                        SnapsToDevicePixels="True"
+                                        RenderOptions.BitmapScalingMode="Fant"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        UriSource="{Binding SelectedCharacter.City}"/>
                                 </Border>
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.Element}" ShowAsMonochrome="False"/>
+                                    <ci:CachedBitmapIcon
+                                        SnapsToDevicePixels="True"
+                                        RenderOptions.BitmapScalingMode="Fant"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        UriSource="{Binding SelectedCharacter.Element}"
+                                        ShowAsMonochrome="False"/>
                                 </Border>
                                 <Border Height="25" Width="25" Margin="4">
-                                    <ci:CachedBitmapIcon SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
+                                    <ci:CachedBitmapIcon
+                                        SnapsToDevicePixels="True"
+                                        RenderOptions.BitmapScalingMode="Fant"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
                                 </Border>
                             </StackPanel>
                             <Grid Grid.Row="1">
@@ -142,8 +495,11 @@
                     </Grid>
                 </Border>
                 <!--基础数值-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:CardExpander
+                    Header="基础数值"
+                    helper:IconHelper.Icon="{Binding SelectedCharacter.Element}"
+                    Margin="0,12,0,0"
+                    Style="{StaticResource DefaultCardExpanderStyle}">
                     <s:SmoothScrollViewer 
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Disabled">
@@ -202,28 +558,19 @@
                             </ItemsControl>
                         </Grid>
                     </s:SmoothScrollViewer>
-                </Border>
+                </wu:CardExpander>
                 <!--普攻-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:CardExpander
+                    Header="{Binding SelectedCharacter.NormalAttack.Name}"
+                    Margin="0,12,0,0"
+                    helper:IconHelper.Icon="{Binding SelectedCharacter.NormalAttack.Source}"
+                    Style="{StaticResource DefaultCardExpanderStyle}">
                     <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
-                        <Grid Margin="0,0,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.NormalAttack.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.NormalAttack.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.NormalAttack.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
+                        <TextBlock
+                            Text="{Binding SelectedCharacter.NormalAttack.Description}"
+                            Margin="6"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            TextWrapping="Wrap"/>
                         <s:SmoothScrollViewer 
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Disabled">
@@ -281,28 +628,19 @@
                             </Grid>
                         </s:SmoothScrollViewer>
                     </StackPanel>
-                </Border>
+                </wu:CardExpander>
                 <!--E-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:CardExpander
+                    Header="{Binding SelectedCharacter.TalentE.Name}"
+                    Margin="0,12,0,0"
+                    helper:IconHelper.Icon="{Binding SelectedCharacter.TalentE.Source}"
+                    Style="{StaticResource DefaultCardExpanderStyle}">
                     <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
-                        <Grid Margin="0,0,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.TalentE.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.TalentE.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.TalentE.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
+                        <TextBlock
+                                Text="{Binding SelectedCharacter.TalentE.Description}"
+                                Margin="6"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                TextWrapping="Wrap"/>
                         <s:SmoothScrollViewer 
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Disabled">
@@ -360,28 +698,16 @@
                             </Grid>
                         </s:SmoothScrollViewer>
                     </StackPanel>
-                </Border>
+                </wu:CardExpander>
                 <!--Q-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:CardExpander
+                    Header="{Binding SelectedCharacter.TalentQ.Name}"
+                    Margin="0,12,0,0"
+                    helper:IconHelper.Icon="{Binding SelectedCharacter.TalentQ.Source}"
+                    Style="{StaticResource DefaultCardExpanderStyle}">
                     <StackPanel Margin="6,6,6,0" HorizontalAlignment="Stretch">
-                        <Grid Margin="0,0,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.TalentQ.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.TalentQ.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.TalentQ.Description}"
+                        <TextBlock Text="{Binding SelectedCharacter.TalentQ.Description}" Margin="6"
                                                Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
                         <s:SmoothScrollViewer 
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Disabled">
@@ -439,143 +765,58 @@
                             </Grid>
                         </s:SmoothScrollViewer>
                     </StackPanel>
-                </Border>
+                </wu:CardExpander>
                 <!--天赋-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                    <ItemsControl Margin="6,-6,6,6" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding SelectedCharacter.PassiveTalents}">
+                <wu:Card Margin="0,12,0,0" Padding="0">
+                    <ItemsControl ItemsSource="{Binding SelectedCharacter.PassiveTalents}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0,12,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="64"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <ci:CachedBitmapIcon 
-                                        Height="52"
-                                        HorizontalAlignment="Center"
-                                        Margin="6" VerticalAlignment="Top"
-                                        UriSource="{Binding Source}"/>
-                                    <StackPanel Margin="6" Grid.Column="1">
-                                        <TextBlock Text="{Binding Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                        <TextBlock Text="{Binding Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                </Grid>
+                                <wu:CardControl
+                                    Style="{StaticResource DefaultCardControlStyle}"
+                                    helper:IconHelper.Icon="{Binding Source}"
+                                    Title="{Binding Name}"
+                                    Subtitle="{Binding Description}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Border>
+                </wu:Card>
                 <!--命座-->
-                <Border Margin="0,12,0,0" CornerRadius="{StaticResource CompatCornerRadius}"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                    <StackPanel Margin="6,-6,6,6" HorizontalAlignment="Stretch">
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation1.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation1.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation1.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation2.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation2.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation2.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation3.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation3.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation3.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation4.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation4.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation4.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation5.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation5.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation5.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ci:CachedBitmapIcon 
-                                Height="52"
-                                HorizontalAlignment="Center"
-                                Margin="6" VerticalAlignment="Top"
-                                UriSource="{Binding SelectedCharacter.Constellation.Constellation6.Source}"/>
-                            <StackPanel Margin="6" Grid.Column="1">
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation6.Name}"
-                                               Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,12"/>
-                                <TextBlock Text="{Binding SelectedCharacter.Constellation.Constellation6.Description}"
-                                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
+                <wu:Card Margin="0,12,0,0" Padding="0">
+                    <Border>
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation1.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation1.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation1.Description}"/>
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation2.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation2.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation2.Description}"/>
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation3.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation3.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation3.Description}"/>
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation4.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation4.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation4.Description}"/>
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation5.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation5.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation5.Description}"/>
+                            <wu:CardControl
+                                Style="{StaticResource DefaultCardControlStyle}"
+                                helper:IconHelper.Icon="{Binding SelectedCharacter.Constellation.Constellation6.Source}"
+                                Title="{Binding SelectedCharacter.Constellation.Constellation6.Name}"
+                                Subtitle="{Binding SelectedCharacter.Constellation.Constellation6.Description}"/>
+                        </StackPanel>
+                    </Border>
+                </wu:Card>
                 <!--立绘-->
                 <Border Margin="0,12,0,12" CornerRadius="{StaticResource CompatCornerRadius}">
                     <Border.Background>

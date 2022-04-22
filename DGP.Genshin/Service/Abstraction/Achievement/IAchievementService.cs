@@ -25,9 +25,9 @@ namespace DGP.Genshin.Service.Abstraction.Achievement
         /// 尝试以指定的源与指定的路径获取导入数据
         /// </summary>
         /// <param name="source">源</param>
-        /// <param name="fileName">文件路径</param>
+        /// <param name="argument">参数</param>
         /// <returns>可导入的成就数据</returns>
-        IEnumerable<IdTime>? TryGetImportData(ImportAchievementSource source, string fileName);
+        IEnumerable<IdTime>? TryGetImportData(ImportAchievementSource source, string argument);
 
         /// <summary>
         /// 从字符串中获取导入的数据

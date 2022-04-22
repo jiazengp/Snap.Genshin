@@ -14,15 +14,15 @@
         <SolidColorBrush x:Key="Star4Brush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="Star5Brush" Color="#FFBC6932"/>
 
-        <SolidColorBrush x:Key="TranslucentStar3Brush" Color="#995180CB"/>
-        <SolidColorBrush x:Key="TranslucentStar4Brush" Color="#99A156E0"/>
-        <SolidColorBrush x:Key="TranslucentStar5Brush" Color="#99BC6932"/>
+        <SolidColorBrush x:Key="TranslucentStar3Brush" Color="#665180CB"/>
+        <SolidColorBrush x:Key="TranslucentStar4Brush" Color="#66A156E0"/>
+        <SolidColorBrush x:Key="TranslucentStar5Brush" Color="#66BC6932"/>
 
         <DataTemplate x:Key="Star5ListTemplate">
             <Border
                 Margin="0,0,0,4"  
                 BorderBrush="{Binding TranslucentBackground}"
-                BorderThickness="1"
+                BorderThickness="0,0,0,0"
                 CornerRadius="{StaticResource SmallCompatCornerRadius}">
                 <Grid Margin="0,0,8,0" Background="Transparent" >
                     <ToolTipService.ToolTip>
@@ -124,8 +124,7 @@
                     <StackPanel Grid.Row="3" Margin="12,0,0,12">
                         <Border
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource TranslucentStar5Brush}"
-                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            BorderThickness="1" Margin="0,0,0,2">
                             <Grid>
                                 <TextBlock 
                                 Text="五星" 
@@ -147,8 +146,7 @@
                         </Border>
                         <Border
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource TranslucentStar4Brush}"
-                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            BorderThickness="1" Margin="0,0,0,2">
                             <Grid>
                                 <TextBlock 
                                     Text="四星" 
@@ -170,11 +168,11 @@
                         </Border>
                         <Border
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource TranslucentStar3Brush}"
-                            BorderThickness="1" Padding="4" Margin="0,0,0,4">
+                            BorderThickness="1" Margin="0,0,0,2">
                             <Grid>
                                 <TextBlock 
                                     Text="三星" 
+                                    Style="{StaticResource BaseTextBlockStyle}"
                                     Foreground="{StaticResource Star3Brush}"/>
                                 <TextBlock 
                                     HorizontalAlignment="Right"
@@ -193,8 +191,7 @@
 
                         <Border 
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                            BorderThickness="1" Margin="0,12,0,4" Padding="4" Opacity="0.8">
+                            BorderThickness="1" Margin="0,12,0,2" Opacity="0.8">
                             <Grid>
                                 <TextBlock 
                                     FontFamily="Consolas,MicroSoft YaHei UI" 
@@ -215,9 +212,8 @@
                         </Border>
                         <Border 
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                            BorderThickness="1" Margin="0,0,0,4" Padding="4" Opacity="0.8">
-                            <Grid >
+                            BorderThickness="1" Margin="0,0,0,2" Opacity="0.8">
+                            <Grid>
                                 <TextBlock 
                                     FontFamily="Consolas,MicroSoft YaHei UI" 
                                     Text="五星平均抽数"
@@ -229,11 +225,9 @@
                                     Style="{StaticResource BodyTextBlockStyle}"/>
                             </Grid>
                         </Border>
-
                         <Border 
                             CornerRadius="{StaticResource SmallCompatCornerRadius}"
-                            BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" 
-                            BorderThickness="1" Padding="4" Opacity="0.8">
+                            BorderThickness="1" Opacity="0.8">
                             <Grid>
                                 <TextBlock HorizontalAlignment="Left" FontFamily="Consolas,MicroSoft YaHei UI" 
                                                Text="{Binding MaxGetStar5Count,StringFormat={}最非 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
@@ -241,7 +235,6 @@
                                                Text="{Binding MinGetStar5Count,StringFormat={}最欧 {0} 抽}" Style="{StaticResource BodyTextBlockStyle}"/>
                             </Grid>
                         </Border>
-                        
                     </StackPanel>
                 </StackPanel>
             </Expander>

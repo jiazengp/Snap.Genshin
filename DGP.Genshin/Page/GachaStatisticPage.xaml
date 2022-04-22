@@ -169,18 +169,26 @@
                 </Border>
             </ui:PivotHelper.RightHeader>
             <TabItem Header="总览">
-                <Grid Margin="12,0,0,12">
+                <Grid Margin="12,0,0,12" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MaxWidth="320"/>
+                        <ColumnDefinition MaxWidth="320"/>
+                        <ColumnDefinition MaxWidth="320"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <!--角色祈愿-->
-                    <gachastatistic:StatisticCard Grid.Column="0" DataContext="{Binding Statistic.CharacterEvent}"/>
+                    <gachastatistic:StatisticCard
+                        Grid.Column="0"
+                        DataContext="{Binding Statistic.CharacterEvent}"
+                        HorizontalAlignment="Stretch"/>
                     <!--武器祈愿-->
-                    <gachastatistic:StatisticCard Grid.Column="1" DataContext="{Binding Statistic.WeaponEvent}"/>
+                    <gachastatistic:StatisticCard
+                        Grid.Column="1"
+                        DataContext="{Binding Statistic.WeaponEvent}"/>
                     <!--常驻祈愿-->
-                    <gachastatistic:StatisticCard Grid.Column="2" DataContext="{Binding Statistic.Permanent}"/>
+                    <gachastatistic:StatisticCard
+                        Grid.Column="2"
+                        DataContext="{Binding Statistic.Permanent}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="历史">

@@ -1,4 +1,7 @@
-﻿namespace DGP.Genshin.DataModel
+﻿using Snap.Data.Primitive;
+using System.Collections.Generic;
+
+namespace DGP.Genshin.DataModel.Weapon
 {
     /// <summary>
     /// 武器
@@ -33,7 +36,7 @@
         /// <summary>
         /// 被动名称
         /// </summary>
-        public string? PassiveDescription { get; set; }
+        public PassiveDescription? PassiveDescription { get; set; }
 
         /// <summary>
         /// 突破材料
@@ -49,6 +52,21 @@
         /// 普通怪物材料
         /// </summary>
         public Material.Material? Monster { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// 故事
+        /// </summary>
+        public string? Story { get; set; }
+
+        /// <summary>
+        /// 武器详细属性
+        /// </summary>
+        public List<NamedValue<WeaponStatValues>>? WeaponStat { get; set; }
 
         /// <inheritdoc/>
         public override string? GetBadge()

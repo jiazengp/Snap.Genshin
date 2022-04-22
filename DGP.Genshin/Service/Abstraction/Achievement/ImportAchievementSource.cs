@@ -9,5 +9,10 @@
         /// 椰羊
         /// </summary>
         Cocogoat = 0,
+
+        /// <summary>
+        /// UIAF
+        /// </summary>
+        UIAF = 1,
     }
 }

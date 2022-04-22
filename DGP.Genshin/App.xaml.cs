@@ -400,7 +400,7 @@ namespace DGP.Genshin
             ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
 
             // set app accent color to correct color.
-            Accent.Change(ThemeManager.Current.ActualAccentColor, ThemeType.Unknown);
+            Accent.Apply(ThemeManager.Current.ActualAccentColor, ThemeType.Unknown);
         }
 
         /// <summary>

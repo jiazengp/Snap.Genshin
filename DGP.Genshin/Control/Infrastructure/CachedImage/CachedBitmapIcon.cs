@@ -12,7 +12,6 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
     /// <summary>
     /// Represents an icon that uses a bitmap as its content.
     /// </summary>
-    [SuppressMessage("", "SA1101")]
     [SuppressMessage("", "SA1124")]
     [SuppressMessage("", "SA1201")]
     [SuppressMessage("", "SA1202")]
@@ -99,7 +98,8 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
         {
             _image = new CachedImage
             {
-                Visibility = Visibility.Hidden
+                Visibility = Visibility.Hidden,
+                Stretch = Stretch.Uniform,
             };
 
             _opacityMask = new ImageBrush();

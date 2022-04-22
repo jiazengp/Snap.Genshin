@@ -31,8 +31,12 @@
 
   <ItemGroup>
     <None Remove="Resources\cocogoat.ico" />
-    <None Remove="Resources\Eff_Sc_StarSky01.png" />
     <None Remove="Resources\ElementProgress.png" />
+    <None Remove="Resources\Icon\UI_ItemIcon_204.png" />
+    <None Remove="Resources\Icon\UI_ItemIcon_210.png" />
+    <None Remove="Resources\Icon\UI_ItemIcon_220021.png" />
+    <None Remove="Resources\Icon\UI_MarkQuest_Events_Proce.png" />
+    <None Remove="Resources\Icon\UI_MarkTower.png" />
     <None Remove="Resources\KhaenriahNeue.otf" />
     <None Remove="Resources\Segoe Fluent Icons.ttf" />
     <None Remove="Resources\UI_BagTabIcon_Avatar.png" />
@@ -43,12 +47,16 @@
     <None Remove="Resources\UI_GachaSettlement_Bg2.png" />
     <None Remove="Resources\UI_Icon_Achievement.png" />
     <None Remove="Resources\UI_ImgSign_ItemIcon.png" />
-    <None Remove="Resources\UI_ItemIcon_210.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\cocogoat.ico" />
-    <Resource Include="Resources\KhaenriahNeue.otf" />
+    <Resource Include="Resources\Icon\UI_ItemIcon_204.png" />
+    <Resource Include="Resources\Icon\UI_ItemIcon_210.png" />
+    <Resource Include="Resources\Icon\UI_ItemIcon_220021.png" />
+    <Resource Include="Resources\Icon\UI_MarkQuest_Events_Proce.png" />
+    <Resource Include="Resources\Icon\UI_MarkTower.png" />
+    <Resource Include="Resources\ThirdParty\cocogoat.ico" />
+    <Resource Include="Resources\Font\KhaenriahNeue.otf" />
     <Resource Include="Resources\UI_Icon_Achievement.png" />
     <Resource Include="SG_Logo.ico" />
   </ItemGroup>
@@ -58,7 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="5.8.8" />
+    <PackageReference Include="EPPlus" Version="6.0.3" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
@@ -69,7 +77,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1150.38" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1185.39" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Octokit" Version="0.50.0" />
@@ -77,7 +85,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WPF-UI" Version="1.2.2" />
+    <PackageReference Include="WPF-UI" Version="1.2.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -102,9 +110,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Eff_Sc_StarSky01.png" />
-    <Resource Include="Resources\ElementProgress.png" />
-    <Resource Include="Resources\Segoe Fluent Icons.ttf" />
+    <Resource Include="Resources\Control\ElementProgress.png" />
+    <Resource Include="Resources\Font\SegoeFluentIcons.ttf" />
     <Resource Include="Resources\UI_BagTabIcon_Avatar.png" />
     <Resource Include="Resources\UI_BagTabIcon_Weapon.png" />
     <Resource Include="Resources\UI_BtnIcon_Gacha.png" />
@@ -112,7 +119,6 @@
     <Resource Include="Resources\UI_EmotionIcon72.png" />
     <Resource Include="Resources\UI_GachaSettlement_Bg2.png" />
     <Resource Include="Resources\UI_ImgSign_ItemIcon.png" />
-    <Resource Include="Resources\UI_ItemIcon_210.png" />
   </ItemGroup>
 
 </Project>

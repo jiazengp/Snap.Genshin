@@ -138,6 +138,9 @@
             Style="{StaticResource TabControlPivotStyle}"
             ItemContainerStyle="{StaticResource PivotItemStyle}"
             Visibility="{Binding ShouldUIPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TabControl.Resources>
+                <Thickness x:Key="PivotHeaderItemMargin">12,0,0,0</Thickness>
+            </TabControl.Resources>
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="0,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"
@@ -170,7 +173,7 @@
                 </StackPanel>
             </ui:PivotHelper.RightHeader>
             <TabItem Header="角色出场">
-                <TabControl 
+                <TabControl
                     ItemsSource="{Binding AvatarParticipations}"
                     Style="{StaticResource TabControlPivotStyle}"
                     ItemContainerStyle="{StaticResource AvatarParticipationsPivotItemStyle}"/>
