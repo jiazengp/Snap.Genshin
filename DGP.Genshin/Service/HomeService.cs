@@ -18,10 +18,18 @@ namespace DGP.Genshin.Service
         /// <inheritdoc/>
         public async Task<string> GetManifestoAsync(CancellationToken cancellationToken = default)
         {
-            ManifestoWrapper? manifesto = await Json
-                .FromWebsiteAsync<ManifestoWrapper>("https://api.snapgenshin.com/manifesto", cancellationToken)
-                .ConfigureAwait(false);
-            return manifesto?.Manifesto ?? "暂无 Snap Genshin 官方公告";
+            ManifestoWrapper? manifesto;
+            try
+            {
+                manifesto = await Json
+                    .FromWebsiteAsync<ManifestoWrapper>("https://api.snapgenshin.com/manifesto", cancellationToken)
+                    .ConfigureAwait(false);
+                return manifesto?.Manifesto ?? "暂无 Snap Genshin 官方公告";
+            }
+            catch
+            {
+                return "暂无 Snap Genshin 官方公告";
+            }
         }
 
         /// <inheritdoc/>

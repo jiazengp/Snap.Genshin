@@ -2,6 +2,7 @@
 using DGP.Genshin.Service.Abstraction;
 using Snap.Core.DependencyInjection;
 using Snap.Data.Json;
+using Snap.Extenion.Enumerable;
 
 namespace DGP.Genshin.Service
 {
@@ -15,6 +16,18 @@ namespace DGP.Genshin.Service
         public MaterialList Load()
         {
             return Json.FromFileOrNew<MaterialList>(PathContext.Locate(MaterialListFileName));
+        }
+
+        /// <inheritdoc/>
+        public MaterialList Load(ICommand editCommand, ICommand removeCommand)
+        {
+            MaterialList list = Load();
+            list.ForEach(item =>
+            {
+                item.EditCommand = editCommand;
+                item.RemoveCommand = removeCommand;
+            });
+            return list;
         }
 
         /// <inheritdoc/>

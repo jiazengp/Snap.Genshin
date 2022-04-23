@@ -20,6 +20,7 @@ using Snap.Core.Logging;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
 using Snap.Extenion.Enumerable;
+using Snap.Win32;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace DGP.Genshin.ViewModel
             RemoveUserCommand = asyncRelayCommandFactory.Create(RemoveUserAsync);
             AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
             RefreshCommand = new RelayCommand(RefreshUI);
+            CopyCookieCommand = new RelayCommand(CopyCookie);
         }
 
         /// <summary>
@@ -229,6 +231,11 @@ namespace DGP.Genshin.ViewModel
         /// 刷新实施便笺命令
         /// </summary>
         public ICommand RefreshCommand { get; }
+
+        /// <summary>
+        /// 复制Cookie命令
+        /// </summary>
+        public ICommand CopyCookieCommand { get; }
 
         /// <inheritdoc/>
         public CancellationToken CancellationToken { get; set; }
@@ -393,6 +400,28 @@ namespace DGP.Genshin.ViewModel
             if (cookieUserGameRole != null)
             {
                 DailyNote = dailynoteService.GetDailyNote(cookieUserGameRole);
+            }
+        }
+
+        public void CopyCookie()
+        {
+            if (SelectedCookieUserInfo is not null)
+            {
+                Clipboard.Clear();
+                try
+                {
+                    Clipboard.SetText(SelectedCookieUserInfo.Cookie);
+                }
+                catch
+                {
+                    try
+                    {
+                        Clipboard2.SetText(SelectedCookieUserInfo.Cookie);
+                    }
+                    catch
+                    {
+                    }
+                }
             }
         }
     }

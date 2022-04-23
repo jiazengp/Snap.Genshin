@@ -42,8 +42,11 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Height="160" CornerRadius="{StaticResource CompatCornerRadius}" 
-                                Background="{StaticResource SystemControlPageBackgroundAltHighBrush}" Margin="0,0,12,12">
+                        <Border
+                            Height="160"
+                            CornerRadius="{StaticResource CompatCornerRadius}" 
+                            Background="{StaticResource SystemControlPageBackgroundAltHighBrush}"
+                            Margin="0,0,12,12">
                             <Grid Margin="12">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
@@ -55,24 +58,43 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Name}" 
-                                               Style="{StaticResource SubtitleTextBlockStyle}" />
-                                    <Button Command="{Binding SettingCommand}" Visibility="{Binding IsSettingSupported,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}"
+                                    <TextBlock
+                                        Text="{Binding Name}" 
+                                        Style="{StaticResource SubtitleTextBlockStyle}" />
+                                    <Button
+                                        Command="{Binding SettingCommand}"
+                                        Visibility="{Binding IsSettingSupported,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Content="&#xE713;" HorizontalAlignment="Right"
-                                        Padding="6" Background="Transparent"
+                                        Content="&#xE713;"
+                                        HorizontalAlignment="Right"
+                                        Padding="6"
+                                        Background="Transparent"
                                         ToolTipService.ToolTip="设置"/>
                                 </Grid>
-                                <TextBlock Grid.Row="1" Margin="0,12,0,0" Text="{Binding Description}"
-                                           TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,12,0,0"
+                                    Text="{Binding Description}"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="CharacterEllipsis"
+                                    Style="{StaticResource CaptionTextBlockStyle}"/>
                                 <Grid Grid.Row="2" Margin="0,6,0,0">
                                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center">
                                         <Run Text="作者："/>
-                                        <Run Text="{Binding Author,Mode=OneWay}" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                        <Run
+                                            Text="{Binding Author,Mode=OneWay}"
+                                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                                     </TextBlock>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center"/>
-                                        <wu:Hyperlink Margin="8,0,0,0" Content="详情" NavigateUri="{Binding DetailLink}"/>
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+                                        <TextBlock
+                                            Text="{Binding Version}"
+                                            VerticalAlignment="Center"/>
+                                        <wu:Hyperlink
+                                            Margin="8,0,0,0"
+                                            Content="详情"
+                                            NavigateUri="{Binding DetailLink}"/>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

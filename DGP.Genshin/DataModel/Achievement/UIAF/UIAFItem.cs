@@ -23,6 +23,6 @@ namespace DGP.Genshin.DataModel.Achievement.UIAF
         /// 当前进度
         /// </summary>
         [JsonProperty("current")]
-        public int Current { get; set; }
+        public int? Current { get; set; }
     }
 }

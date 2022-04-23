@@ -1,5 +1,6 @@
 ﻿using DGP.Genshin.Control.Infrastructure.CachedImage;
 using DGP.Genshin.DataModel;
+using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
@@ -22,6 +23,7 @@ namespace DGP.Genshin.Service
     internal class IntegrityCheckService : IIntegrityCheckService
     {
         private readonly MetadataViewModel metadataViewModel;
+        private readonly IMetadataService metadataService;
 
         /// <summary>
         /// 累计检查的个数
@@ -32,9 +34,10 @@ namespace DGP.Genshin.Service
         /// 构造一个新的完整性检测服务
         /// </summary>
         /// <param name="metadataViewModel">元数据视图模型</param>
-        public IntegrityCheckService(MetadataViewModel metadataViewModel)
+        public IntegrityCheckService(MetadataViewModel metadataViewModel, IMetadataService metadataService)
         {
             this.metadataViewModel = metadataViewModel;
+            this.metadataService = metadataService;
         }
 
         /// <inheritdoc/>
@@ -52,34 +55,13 @@ namespace DGP.Genshin.Service
                     return;
                 }
 
-                int totalCount = GetTotalCount(metadataViewModel);
-
-                await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
-                this.Log($"Integrity Check Complete with {totalCount} entries");
-            }
-        }
-
-        /// <summary>
-        /// 检查单个集合的Source
-        /// </summary>
-        /// <typeparam name="T">包含的物品类型</typeparam>
-        /// <param name="collection">集合</param>
-        /// <param name="totalCount">总个数</param>
-        /// <param name="progress">进度</param>
-        private async Task CheckIntegrityAsync<T>(IEnumerable<T>? collection, int totalCount, IProgress<IState> progress)
-            where T : KeySource
-        {
-            if (collection is not null)
-            {
-                await collection.ParallelForEachAsync(async t =>
+                if (await metadataService.TryEnsureDataNewestAsync(progress))
                 {
-                    if (!FileCache.Exists(t.Source))
-                    {
-                        using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
-                    }
+                    int totalCount = GetTotalCount(metadataViewModel);
 
-                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
-                });
+                    await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
+                    this.Log($"Integrity Check Complete with {totalCount} entries");
+                }
             }
         }
 
@@ -109,6 +91,30 @@ namespace DGP.Genshin.Service
                 tasks.Add(CheckIntegrityAsync(keySources, totalCount, progress));
             });
             return tasks;
+        }
+
+        /// <summary>
+        /// 检查单个集合的Source
+        /// </summary>
+        /// <typeparam name="T">包含的物品类型</typeparam>
+        /// <param name="collection">集合</param>
+        /// <param name="totalCount">总个数</param>
+        /// <param name="progress">进度</param>
+        private async Task CheckIntegrityAsync<T>(IEnumerable<T>? collection, int totalCount, IProgress<IState> progress)
+            where T : KeySource
+        {
+            if (collection is not null)
+            {
+                await collection.ParallelForEachAsync(async t =>
+                {
+                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
+
+                    if (!FileCache.Exists(t.Source))
+                    {
+                        using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
+                    }
+                });
+            }
         }
 
         /// <summary>

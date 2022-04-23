@@ -251,15 +251,16 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <s:SmoothScrollViewer Grid.Column="0" Width="360"
-                              VerticalScrollBarVisibility="Hidden">
-            <ui:GridView 
+        <s:SmoothScrollViewer
+            Grid.Column="0"
+            Width="360"
+            VerticalScrollBarVisibility="Hidden">
+            <ui:GridView
                 HorizontalAlignment="Left" 
                 ItemsSource="{Binding Weapons}" 
                 SelectedItem="{Binding SelectedWeapon}"
                 ItemsPanel="{StaticResource WrapPanelItemsPanel}"
-                Margin="12,0,0,0"
-                >
+                Margin="12,0,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <genshinelements:ContentIcon
@@ -273,13 +274,15 @@
                 </ItemsControl.ItemTemplate>
             </ui:GridView>
         </s:SmoothScrollViewer>
-        <s:SmoothScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="1">
+        <s:SmoothScrollViewer
+            VerticalScrollBarVisibility="Hidden"
+            Grid.Column="1">
             <StackPanel Margin="4,0,12,12">
                 <Border CornerRadius="{StaticResource CompatCornerRadius}">
                     <Border.Background>
-                        <ImageBrush 
-                        ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"
-                        Stretch="UniformToFill"/>
+                        <ImageBrush
+                            ImageSource="pack://application:,,,/DGP.Genshin;component/Resources/UI_GachaSettlement_Bg2.png"
+                            Stretch="UniformToFill"/>
                     </Border.Background>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -292,13 +295,24 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Ellipse Fill="#FFDAB79B" Width="100" Height="100" Margin="6"
-                             SnapsToDevicePixels="True" HorizontalAlignment="Left"/>
-                            <Border ci:ImageAsyncHelper.ImageUrl="{Binding SelectedWeapon.Source}" 
-                                RenderOptions.BitmapScalingMode="Fant" SnapsToDevicePixels="True"
-                                CornerRadius="100" Height="100" Width="100"
-                                BorderBrush="{Binding SelectedWeapon.StarSolid}" BorderThickness="2"
-                                HorizontalAlignment="Left" Margin="6"/>
+                            <Ellipse
+                                Fill="#FFDAB79B"
+                                Width="100"
+                                Height="100"
+                                Margin="6"
+                                SnapsToDevicePixels="True"
+                                HorizontalAlignment="Left"/>
+                            <Border
+                                ci:ImageAsyncHelper.ImageUrl="{Binding SelectedWeapon.Source}" 
+                                RenderOptions.BitmapScalingMode="Fant"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="100"
+                                Height="100"
+                                Width="100"
+                                BorderBrush="{Binding SelectedWeapon.StarSolid}"
+                                BorderThickness="2"
+                                HorizontalAlignment="Left"
+                                Margin="6"/>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
@@ -319,15 +333,26 @@
                                     Text="{Binding SelectedWeapon.Description}"
                                     TextWrapping="NoWrap"
                                     TextTrimming="CharacterEllipsis"/>
-                                <UniformGrid Columns="3" Grid.Row="2" Margin="3,0,3,6" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <UniformGrid
+                                    Columns="3"
+                                    Grid.Row="2"
+                                    Margin="3,0,3,6"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left">
                                     <Border Height="35" Width="35" Margin="3,6">
-                                        <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedWeapon.Ascension.Source}"/>
+                                        <ci:CachedImage
+                                            Stretch="Uniform"
+                                            ImageUrl="{Binding SelectedWeapon.Ascension.Source}"/>
                                     </Border>
                                     <Border Height="35" Width="35" Margin="3,6">
-                                        <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedWeapon.Elite.Source}"/>
+                                        <ci:CachedImage
+                                            Stretch="Uniform"
+                                            ImageUrl="{Binding SelectedWeapon.Elite.Source}"/>
                                     </Border>
                                     <Border Height="35" Width="35" Margin="3,6">
-                                        <ci:CachedImage Stretch="Uniform" ImageUrl="{Binding SelectedWeapon.Monster.Source}"/>
+                                        <ci:CachedImage
+                                            Stretch="Uniform"
+                                            ImageUrl="{Binding SelectedWeapon.Monster.Source}"/>
                                     </Border>
                                 </UniformGrid>
                             </Grid>
@@ -341,11 +366,12 @@
                     helper:IconHelper.Icon="{Binding SelectedWeapon.Type}"
                     Style="{StaticResource DefaultCardExpanderStyle}"
                     Header="基础数值">
-                    <s:SmoothScrollViewer 
-                            HorizontalScrollBarVisibility="Visible"
-                            VerticalScrollBarVisibility="Disabled">
-                        <Grid Margin="6,6,6,16" 
-                                  HorizontalAlignment="Stretch">
+                    <s:SmoothScrollViewer
+                        HorizontalScrollBarVisibility="Visible"
+                        VerticalScrollBarVisibility="Disabled">
+                        <Grid
+                            Margin="6,6,6,16" 
+                            HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="64"/>
                                 <ColumnDefinition Width="2*"/>
@@ -379,8 +405,8 @@
                                 <TextBlock Text="90" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                             </StackPanel>
                             <ItemsControl
-                                    ItemsSource="{Binding SelectedWeapon.WeaponStat}"
-                                    HorizontalAlignment="Stretch" Grid.Column="1">
+                                ItemsSource="{Binding SelectedWeapon.WeaponStat}"
+                                HorizontalAlignment="Stretch" Grid.Column="1">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="2"/>
@@ -423,8 +449,10 @@
                     </s:SmoothScrollViewer>
                 </wu:CardExpander>
                 
-                <wu:Card Margin="0,12,0,0"
-                    Padding="6" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:Card
+                    Margin="0,12,0,0"
+                    Padding="6"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                     <StackPanel>
                         <TextBlock Text="{Binding SelectedWeapon.Passive}" Style="{StaticResource BaseTextBlockStyle}"/>
                         <TabControl Style="{StaticResource TabControlPivotStyle}">
@@ -438,27 +466,46 @@
                                 </Style>
                             </TabControl.ItemContainerStyle>
                             <TabItem Header="精炼 1">
-                                <TextBlock Text="{Binding SelectedWeapon.PassiveDescription.Level1}" TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock
+                                    Text="{Binding SelectedWeapon.PassiveDescription.Level1}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                             <TabItem Header="精炼 2">
-                                <TextBlock Text="{Binding SelectedWeapon.PassiveDescription.Level2}" TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock
+                                    Text="{Binding SelectedWeapon.PassiveDescription.Level2}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                             <TabItem Header="精炼 3">
-                                <TextBlock Text="{Binding SelectedWeapon.PassiveDescription.Level3}" TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock
+                                    Text="{Binding SelectedWeapon.PassiveDescription.Level3}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                             <TabItem Header="精炼 4">
-                                <TextBlock Text="{Binding SelectedWeapon.PassiveDescription.Level4}" TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock
+                                    Text="{Binding SelectedWeapon.PassiveDescription.Level4}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                             <TabItem Header="精炼 5">
-                                <TextBlock Text="{Binding SelectedWeapon.PassiveDescription.Level5}" TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <TextBlock
+                                    Text="{Binding SelectedWeapon.PassiveDescription.Level5}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                         </TabControl>
                     </StackPanel>
                 </wu:Card>
-                <wu:Card Margin="0,12,0,0"
-                    Padding="6" Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+                <wu:Card
+                    Margin="0,12,0,0"
+                    Padding="6"
+                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
                     <StackPanel>
-                        <TextBlock Text="{Binding SelectedWeapon.Story}" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock
+                            Text="{Binding SelectedWeapon.Story}"
+                            Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </wu:Card>
             </StackPanel>

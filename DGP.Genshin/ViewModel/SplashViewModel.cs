@@ -17,11 +17,13 @@ namespace DGP.Genshin.ViewModel
     [ViewModel(InjectAs.Transient)]
     internal class SplashViewModel : ObservableObject2
     {
+        private static bool hasEverCheckMetadata = false;
+
         private readonly ICookieService cookieService;
         private readonly IIntegrityCheckService integrityCheckService;
         private readonly IMessenger messenger;
 
-        private bool hasEverSend = false;
+        private bool hasEverSend;
 
         private bool isCookieVisible = false;
         private bool isSplashNotVisible = false;
@@ -47,6 +49,8 @@ namespace DGP.Genshin.ViewModel
             this.cookieService = cookieService;
             this.integrityCheckService = integrityCheckService;
             this.messenger = messenger;
+
+            hasEverSend = false;
 
             SetCookieCommand = asyncRelayCommandFactory.Create(SetCookieAsync);
             OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
@@ -183,7 +187,11 @@ namespace DGP.Genshin.ViewModel
 
             using (IntegrityChecking.Watch())
             {
-                await integrityCheckService.CheckMetadataIntegrityAsync(progress);
+                if (!hasEverSend && !hasEverCheckMetadata)
+                {
+                    await integrityCheckService.CheckMetadataIntegrityAsync(progress);
+                    hasEverCheckMetadata = true;
+                }
             }
         }
 
@@ -192,7 +200,7 @@ namespace DGP.Genshin.ViewModel
         {
             if (!hasEverSend)
             {
-                if (IsCookieVisible == false && integrityCheckService.IntegrityChecking.IsCompleted)
+                if (IsCookieVisible == false && IntegrityChecking.IsCompleted)
                 {
                     messenger.Send(new SplashInitializationCompletedMessage(this));
                     hasEverSend = true;

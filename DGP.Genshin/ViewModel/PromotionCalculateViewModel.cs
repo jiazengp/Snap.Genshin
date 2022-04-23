@@ -36,23 +36,22 @@ namespace DGP.Genshin.ViewModel
         private readonly Calculator calculator;
         private readonly UserGameRoleProvider userGameRoleProvider;
 
-        private IEnumerable<UserGameRole>? userGameRoles;
-        private UserGameRole? selectedUserGameRole;
-        private IEnumerable<Avatar>? avatars;
         private Avatar? selectedAvatar;
-        private AvatarDetailData? avatarDetailData;
-        private Consumption? consumption = new();
-        private MaterialList? materialList;
-        private bool isListEmpty;
-
-        private List<Avatar>? fullAvatars;
         private Avatar? selectedFullAvatar;
-        private List<Weapon>? fullWeapons;
+        private AvatarDetailData? avatarDetailData;
         private AvatarDetailData? fullAvatarDetailData;
-        private Consumption? fullAvatarConsumption;
-        private Weapon? selectedFullWeapon;
         private AvatarDetailData? fullWeaponAvatarDetailData;
+        private bool isListEmpty;
+        private Consumption? consumption = new();
+        private Consumption? fullAvatarConsumption;
         private Consumption? fullWeaponConsumption;
+        private IEnumerable<Avatar>? avatars;
+        private IEnumerable<UserGameRole>? userGameRoles;
+        private List<Avatar>? fullAvatars;
+        private List<Weapon>? fullWeapons;
+        private MaterialList? materialList;
+        private UserGameRole? selectedUserGameRole;
+        private Weapon? selectedFullWeapon;
 
         /// <summary>
         /// 构造一个新的养成计算视图模型
@@ -94,36 +93,6 @@ namespace DGP.Genshin.ViewModel
         public CancellationToken CancellationToken { get; set; }
 
         /// <summary>
-        /// 玩家集合
-        /// </summary>
-        public IEnumerable<UserGameRole>? UserGameRoles
-        {
-            get => userGameRoles;
-
-            set => SetProperty(ref userGameRoles, value);
-        }
-
-        /// <summary>
-        /// 当前选中的玩家
-        /// </summary>
-        public UserGameRole? SelectedUserGameRole
-        {
-            get => selectedUserGameRole;
-
-            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarListAsync);
-        }
-
-        /// <summary>
-        /// 角色列表
-        /// </summary>
-        public IEnumerable<Avatar>? Avatars
-        {
-            get => avatars;
-
-            set => SetProperty(ref avatars, value);
-        }
-
-        /// <summary>
         /// 选中的角色
         /// </summary>
         public Avatar? SelectedAvatar
@@ -131,6 +100,15 @@ namespace DGP.Genshin.ViewModel
             get => selectedAvatar;
 
             set => SetPropertyAndCallbackOnCompletion(ref selectedAvatar, value, UpdateAvatarDetailDataAsync);
+        }
+
+        /// <summary>
+        /// 选中的全角色
+        /// </summary>
+        public Avatar? SelectedFullAvatar
+        {
+            get => selectedFullAvatar;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedFullAvatar, value, UpdateFullAvatarDetailData);
         }
 
         /// <summary>
@@ -144,6 +122,29 @@ namespace DGP.Genshin.ViewModel
         }
 
         /// <summary>
+        /// 全角色详细数据
+        /// </summary>
+        public AvatarDetailData? FullAvatarDetailData
+        {
+            get => fullAvatarDetailData;
+            set => SetProperty(ref fullAvatarDetailData, value);
+        }
+
+        /// <summary>
+        /// 全武器详细数据
+        /// </summary>
+        public AvatarDetailData? FullWeaponAvatarDetailData
+        {
+            get => fullWeaponAvatarDetailData;
+            set => SetProperty(ref fullWeaponAvatarDetailData, value);
+        }
+
+        /// <summary>
+        /// 材料清单是否为空
+        /// </summary>
+        public bool IsListEmpty { get => isListEmpty; set => SetProperty(ref isListEmpty, value); }
+
+        /// <summary>
         /// 材料消耗
         /// </summary>
         public Consumption? Consumption
@@ -151,6 +152,91 @@ namespace DGP.Genshin.ViewModel
             get => consumption;
 
             set => SetProperty(ref consumption, value);
+        }
+
+        /// <summary>
+        /// 全角色消耗
+        /// </summary>
+        public Consumption? FullAvatarConsumption
+        {
+            get => fullAvatarConsumption;
+            set => SetProperty(ref fullAvatarConsumption, value);
+        }
+
+        /// <summary>
+        /// 全武器消耗
+        /// </summary>
+        public Consumption? FullWeaponConsumption
+        {
+            get => fullWeaponConsumption;
+            set => SetProperty(ref fullWeaponConsumption, value);
+        }
+
+        /// <summary>
+        /// 角色列表
+        /// </summary>
+        public IEnumerable<Avatar>? Avatars
+        {
+            get => avatars;
+
+            set => SetProperty(ref avatars, value);
+        }
+
+        /// <summary>
+        /// 玩家集合
+        /// </summary>
+        public IEnumerable<UserGameRole>? UserGameRoles
+        {
+            get => userGameRoles;
+
+            set => SetProperty(ref userGameRoles, value);
+        }
+
+        /// <summary>
+        /// 全角色列表
+        /// </summary>
+        public List<Avatar>? FullAvatars
+        {
+            get => fullAvatars;
+            set => SetProperty(ref fullAvatars, value);
+        }
+
+        /// <summary>
+        /// 全武器列表
+        /// </summary>
+        public List<Weapon>? FullWeapons
+        {
+            get => fullWeapons;
+            set => SetProperty(ref fullWeapons, value);
+        }
+
+        /// <summary>
+        /// 材料清单
+        /// </summary>
+        public MaterialList? MaterialList
+        {
+            get => materialList;
+
+            set => SetProperty(ref materialList, value);
+        }
+
+        /// <summary>
+        /// 当前选中的玩家
+        /// </summary>
+        public UserGameRole? SelectedUserGameRole
+        {
+            get => selectedUserGameRole;
+
+            set => SetPropertyAndCallbackOnCompletion(ref selectedUserGameRole, value, UpdateAvatarListAsync);
+        }
+
+        /// <summary>
+        /// 选中的全武器
+        /// </summary>
+        public Weapon? SelectedFullWeapon
+        {
+            get => selectedFullWeapon;
+            set => SetPropertyAndCallbackOnCompletion(ref selectedFullWeapon, value, UpdateFullWeaponAvatarDetailData);
         }
 
         /// <summary>
@@ -164,86 +250,14 @@ namespace DGP.Genshin.ViewModel
         public ICommand ComputeCommand { get; }
 
         /// <summary>
-        /// 全角色列表
-        /// </summary>
-        public List<Avatar>? FullAvatars
-        {
-            get => fullAvatars;
-            set => SetProperty(ref fullAvatars, value);
-        }
-
-        /// <summary>
-        /// 选中的全角色
-        /// </summary>
-        public Avatar? SelectedFullAvatar
-        {
-            get => selectedFullAvatar;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedFullAvatar, value, UpdateFullAvatarDetailData);
-        }
-
-        /// <summary>
-        /// 全角色详细数据
-        /// </summary>
-        public AvatarDetailData? FullAvatarDetailData
-        {
-            get => fullAvatarDetailData;
-            set => SetProperty(ref fullAvatarDetailData, value);
-        }
-
-        /// <summary>
-        /// 全角色消耗
-        /// </summary>
-        public Consumption? FullAvatarConsumption
-        {
-            get => fullAvatarConsumption;
-            set => SetProperty(ref fullAvatarConsumption, value);
-        }
-
-        /// <summary>
-        /// 全角色计算命令
-        /// </summary>
-        public ICommand FullAvatarComputeCommand { get; }
-
-        /// <summary>
         /// 全角色材料添加命令
         /// </summary>
         public ICommand AddFullCharacterMaterialCommand { get; }
 
         /// <summary>
-        /// 全武器列表
+        /// 全角色计算命令
         /// </summary>
-        public List<Weapon>? FullWeapons
-        {
-            get => fullWeapons;
-            set => SetProperty(ref fullWeapons, value);
-        }
-
-        /// <summary>
-        /// 选中的全武器
-        /// </summary>
-        public Weapon? SelectedFullWeapon
-        {
-            get => selectedFullWeapon;
-            set => SetPropertyAndCallbackOnCompletion(ref selectedFullWeapon, value, UpdateFullWeaponAvatarDetailData);
-        }
-
-        /// <summary>
-        /// 全武器详细数据
-        /// </summary>
-        public AvatarDetailData? FullWeaponAvatarDetailData
-        {
-            get => fullWeaponAvatarDetailData;
-            set => SetProperty(ref fullWeaponAvatarDetailData, value);
-        }
-
-        /// <summary>
-        /// 全武器消耗
-        /// </summary>
-        public Consumption? FullWeaponConsumption
-        {
-            get => fullWeaponConsumption;
-            set => SetProperty(ref fullWeaponConsumption, value);
-        }
+        public ICommand FullAvatarComputeCommand { get; }
 
         /// <summary>
         /// 全武器计算命令
@@ -254,21 +268,6 @@ namespace DGP.Genshin.ViewModel
         /// 全武器添加材料命令
         /// </summary>
         public ICommand AddFullWeaponMaterialCommand { get; }
-
-        /// <summary>
-        /// 材料清单是否为空
-        /// </summary>
-        public bool IsListEmpty { get => isListEmpty; set => SetProperty(ref isListEmpty, value); }
-
-        /// <summary>
-        /// 材料清单
-        /// </summary>
-        public MaterialList? MaterialList
-        {
-            get => materialList;
-
-            set => SetProperty(ref materialList, value);
-        }
 
         /// <summary>
         /// 添加角色材料命令
@@ -299,20 +298,16 @@ namespace DGP.Genshin.ViewModel
         {
             try
             {
-                MaterialList = materialListService.Load();
-                MaterialList.ForEach(item =>
-                {
-                    item.EditCommand = EditMaterialCommand;
-                    item.RemoveCommand = RemoveMaterialCommand;
-                });
-
+                MaterialList = materialListService.Load(EditMaterialCommand, RemoveMaterialCommand);
                 IsListEmpty = MaterialList.IsNullOrEmpty();
 
                 UserGameRoles = await userGameRoleProvider.GetUserGameRolesAsync(CancellationToken);
                 SelectedUserGameRole = UserGameRoles.FirstOrDefault();
 
                 List<Avatar> avatars = await calculator.GetAvatarListAsync(new(), cancellationToken: CancellationToken);
-                FullAvatars = avatars.Where(x => x.Name != "旅行者").ToList();
+                FullAvatars = avatars
+                    .Where(x => x.Name != "旅行者")
+                    .ToList();
                 SelectedFullAvatar = FullAvatars.FirstOrDefault();
 
                 FullWeapons = await calculator.GetWeaponListAsync(new(), cancellationToken: CancellationToken);
@@ -397,6 +392,7 @@ namespace DGP.Genshin.ViewModel
         private async Task AddCharacterMaterialToListAsync(string? option)
         {
             Calculable calculable = Must.NotNull(SelectedAvatar!);
+
             List<ConsumeItem> items = option switch
             {
                 AvatarTag => Must.NotNull(Consumption?.AvatarConsume!),
@@ -413,15 +409,15 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                MaterialList?.Insert(0, new(calculable, items) { RemoveCommand = RemoveMaterialCommand });
+                MaterialList?.Insert(0, new(calculable, items, EditMaterialCommand, RemoveMaterialCommand));
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
 
         private async Task AddFullCharacterMaterialToListAsync(string? option)
         {
-            Must.NotNull(SelectedFullAvatar!);
-            Calculable calculable = SelectedFullAvatar;
+            Calculable calculable = Must.NotNull(SelectedFullAvatar!);
+
             List<ConsumeItem> items = option switch
             {
                 AvatarTag => Must.NotNull(FullAvatarConsumption?.AvatarConsume!),
@@ -438,11 +434,7 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, category))
             {
-                MaterialList?.Insert(0, new(calculable, items)
-                {
-                    RemoveCommand = RemoveMaterialCommand,
-                    EditCommand = EditMaterialCommand,
-                });
+                MaterialList?.Insert(0, new(calculable, items, EditMaterialCommand, RemoveMaterialCommand));
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -454,11 +446,7 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                MaterialList?.Insert(0, new(calculable, items)
-                {
-                    RemoveCommand = RemoveMaterialCommand,
-                    EditCommand = EditMaterialCommand,
-                });
+                MaterialList?.Insert(0, new(calculable, items, EditMaterialCommand, RemoveMaterialCommand));
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -470,11 +458,7 @@ namespace DGP.Genshin.ViewModel
 
             if (await ConfirmAddAsync(calculable.Name!, "武器消耗"))
             {
-                MaterialList?.Insert(0, new(calculable, items)
-                {
-                    RemoveCommand = RemoveMaterialCommand,
-                    EditCommand = EditMaterialCommand,
-                });
+                MaterialList?.Insert(0, new(calculable, items, EditMaterialCommand, RemoveMaterialCommand));
                 IsListEmpty = MaterialList.IsNullOrEmpty();
             }
         }
@@ -503,6 +487,7 @@ namespace DGP.Genshin.ViewModel
             {
                 await new MaterialListDialog(item).ShowAsync();
 
+                // remove 0 count item
                 foreach (ConsumeItem cItem in item.ConsumeItems.ToList())
                 {
                     if (cItem.Num <= 0)
@@ -540,13 +525,10 @@ namespace DGP.Genshin.ViewModel
                         new(selected.GameUid, selected.Region),
                         true,
                         CancellationToken);
-                    int index = avatars.FindIndex(x => x.Name == "旅行者");
-                    if (avatars.ExistsIndex(index))
-                    {
-                        avatars.RemoveAt(index);
-                    }
 
-                    Avatars = avatars;
+                    Avatars = avatars
+                        .Where(x => x.Name != "旅行者")
+                        .ToList();
                     SelectedAvatar = Avatars?.FirstOrDefault();
                 }
             }
@@ -562,10 +544,11 @@ namespace DGP.Genshin.ViewModel
             try
             {
                 Consumption = null;
-                Must.NotNull(SelectedUserGameRole!);
 
                 if (avatar is not null)
                 {
+                    Must.NotNull(SelectedUserGameRole!);
+
                     string uid = Must.NotNull(SelectedUserGameRole.GameUid!);
                     string region = Must.NotNull(SelectedUserGameRole.Region!);
 
