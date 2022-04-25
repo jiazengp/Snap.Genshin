@@ -1,9 +1,10 @@
 ﻿using DGP.Genshin.Control.Infrastructure.CachedImage;
+using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.IntegrityCheck;
-using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Primitive;
@@ -49,19 +50,20 @@ namespace DGP.Genshin.Service
             this.Log("Integrity Check Start");
             using (IntegrityChecking.Watch())
             {
-                if (Setting2.SkipCacheCheck)
+                if (!metadataService.IsMetaPresent)
                 {
-                    this.Log("Integrity Check Suppressed by User Settings");
-                    return;
+                    if (!await metadataService.TryEnsureDataNewestAsync(progress))
+                    {
+                        new ToastContentBuilder()
+                            .AddText("更新元数据失败")
+                            .AddText("应用可能会意外崩溃")
+                            .SafeShow();
+                    }
                 }
 
-                if (await metadataService.TryEnsureDataNewestAsync(progress))
-                {
-                    int totalCount = GetTotalCount(metadataViewModel);
-
-                    await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
-                    this.Log($"Integrity Check Complete with {totalCount} entries");
-                }
+                int totalCount = GetTotalCount(metadataViewModel);
+                await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
+                this.Log($"Integrity Check Complete with {totalCount} entries");
             }
         }
 
@@ -107,12 +109,12 @@ namespace DGP.Genshin.Service
             {
                 await collection.ParallelForEachAsync(async t =>
                 {
-                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
-
                     if (!FileCache.Exists(t.Source))
                     {
                         using MemoryStream? memoryStream = await FileCache.HitAsync(t.Source);
                     }
+
+                    progress.Report(new IntegrityState(++cumulatedCount, totalCount, t));
                 });
             }
         }

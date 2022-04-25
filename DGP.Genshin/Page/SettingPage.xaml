@@ -175,8 +175,17 @@
                     helper:CardHelper.ActionTitle="应用服务实现" 
                     helper:CardHelper.ActionSubtitle="配置应用的可更换服务实现"
                     Command="{Binding OpenImplementationPageCommand}"
-                    Margin="12,12,16,0"/>
-                
+                    Margin="12,4,16,0"/>
+
+                <wu:CardControl 
+                    helper:IconHelper.Icon="&#xEA86;" 
+                    Title="更新元数据" 
+                    Subtitle="更新用于呈现的元数据"
+                    Command="{Binding OpenImplementationPageCommand}"
+                    Margin="12,4,16,0">
+                    <Button Content="检查更新" Command="{Binding CheckMetadataCommand}"/>
+                </wu:CardControl>
+
                 <TextBlock
                     Text="缓存"
                     Style="{StaticResource BaseTextBlockStyle}"

@@ -5,6 +5,7 @@ using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Message;
 using DGP.Genshin.Page;
+using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.Service.Abstraction.Updating;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -83,6 +84,7 @@ namespace DGP.Genshin.ViewModel
             NextWallpaperCommand = new RelayCommand(SwitchToNextWallpaper);
             OpenImplementationPageCommand = new RelayCommand(() => messenger.Send(new NavigateRequestMessage(typeof(ImplementationPage))));
             DownloadCharactersCacheCommand = asyncRelayCommandFactory.Create(DownloadCharactersCacheAsync);
+            CheckMetadataCommand = asyncRelayCommandFactory.Create(CheckMetadataAsync);
         }
 
         /// <summary>
@@ -284,7 +286,12 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 下载所有角色资源命令
         /// </summary>
-        public ICommand DownloadCharactersCacheCommand { get; set; }
+        public ICommand DownloadCharactersCacheCommand { get; }
+
+        /// <summary>
+        /// 检查元数据版本
+        /// </summary>
+        public ICommand CheckMetadataCommand { get; }
 
         /// <inheritdoc/>
         public void Receive(UpdateProgressedMessage message)
@@ -389,6 +396,19 @@ namespace DGP.Genshin.ViewModel
                 PrimaryButtonText = "确认",
                 DefaultButton = ContentDialogButton.Primary,
             }.ShowAsync();
+        }
+
+        private async Task CheckMetadataAsync()
+        {
+            await App
+                .AutoWired<IMetadataService>()
+                .TryEnsureDataNewestAsync();
+
+            new ToastContentBuilder()
+                .AddText("操作完成")
+                .AddText("可能需要重启应用")
+                .AddText("以使呈现数据刷新")
+                .SafeShow();
         }
 
         [PropertyChangedCallback]

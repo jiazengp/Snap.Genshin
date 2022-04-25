@@ -3,10 +3,7 @@ using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,19 +19,59 @@ namespace DGP.Genshin.Service
         private const string MetaUrlFormat = "https://resource.snapgenshin.com/Metadata2/{0}.json";
 
         /// <inheritdoc/>
+        public bool IsMetaPresent
+        {
+            get => PathContext.FileExists(MetaFolder, MetaFile);
+        }
+
+        /// <inheritdoc/>
         public async Task<bool> TryEnsureDataNewestAsync(IProgress<IIntegrityCheckService.IIntegrityCheckState> progress, CancellationToken cancellationToken = default)
         {
-            progress.Report(new MetaState(1, 1, "检测元数据版本"));
+            try
+            {
+                progress.Report(new MetaState(1, 1, "检测元数据版本"));
+                Dictionary<string, string>? remoteVersions = await Json.FromWebsiteAsync<Dictionary<string, string>>(MetaUrl, cancellationToken);
+                Dictionary<string, string> localVersions = Json.FromFileOrNew<Dictionary<string, string>>(PathContext.Locate(MetaFolder, MetaFile));
+
+                Must.NotNull(remoteVersions!);
+
+                int count = 0;
+                foreach ((string file, string remoteVersion) in remoteVersions)
+                {
+                    if (localVersions.TryGetValue(file, out string? localVersion)
+                        && (new Version(remoteVersion) <= new Version(localVersion)))
+                    {
+                        this.Log($"Skip {file} of version {remoteVersion}.");
+                        continue;
+                    }
+
+                    this.Log($"Download {file} of version {remoteVersion}.");
+                    PathContext.CreateFolderOrIgnore(MetaFolder);
+                    await Json.WebsiteToFileAsync(string.Format(MetaUrlFormat, file), PathContext.Locate(MetaFolder, $"{file}.json"), cancellationToken);
+                    progress.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
+                }
+
+                Json.ToFile(PathContext.Locate(MetaFolder, MetaFile), remoteVersions);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.Log(ex);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> TryEnsureDataNewestAsync(CancellationToken cancellationToken = default)
+        {
             Dictionary<string, string>? remoteVersions = await Json.FromWebsiteAsync<Dictionary<string, string>>(MetaUrl, cancellationToken);
             Dictionary<string, string> localVersions = Json.FromFileOrNew<Dictionary<string, string>>(PathContext.Locate(MetaFolder, MetaFile));
 
             if (remoteVersions is not null)
             {
-                int count = 0;
                 foreach ((string file, string remoteVersion) in remoteVersions)
                 {
-                    progress.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
-
                     if (localVersions.TryGetValue(file, out string? localVersion)
                         && (new Version(remoteVersion) <= new Version(localVersion)))
                     {

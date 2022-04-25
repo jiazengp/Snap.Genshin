@@ -6,7 +6,6 @@ using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
 using Snap.Data.Primitive;
-using Snap.Net.Networking;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModel

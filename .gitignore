@@ -11,6 +11,7 @@
 
 /DGP.Genshin/bin
 /DGP.Genshin/obj
+/DGP.Genshin/Properties/PublishProfiles/
 
 /DGP.Snap.AutoVersion/bin
 /DGP.Snap.AutoVersion/obj
@@ -34,4 +35,3 @@
 cookie.dat
 latest.log
 desktop.ini
-DGP.Genshin/Properties/PublishProfiles/

@@ -26,7 +26,7 @@ namespace DGP.Genshin.SourceGeneration
             {
                 sourceCode = $@"using System.Reflection;
 
-[assembly: AssemblyVersion(""2022.4.1.0"")]";
+[assembly: AssemblyVersion(""2022.4.24.0"")]";
             }
             context.AddSource("AssemblyInfo.g.cs", sourceCode);
         }

@@ -52,11 +52,6 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public MetadataViewModel()
         {
-            if (!PathContext.FolderExists(FolderPath))
-            {
-                Verify.FailOperation("未找到Metadata文件夹，请确认完整解压了Snap Genshin 的压缩包");
-            }
-
             CharacterInitializeCommand = new RelayCommand(() => { SelectedCharacter ??= Characters?.First(); });
             WeaponInitializeCommand = new RelayCommand(() => { SelectedWeapon ??= Weapons?.First(); });
             GachaSplashCommand = new RelayCommand(() =>
@@ -228,7 +223,7 @@ namespace DGP.Genshin.ViewModel
                 }
                 else
                 {
-                    throw Verify.FailOperation($"初始化列表{fileName}失败");
+                    throw Verify.FailOperation($"无法在 Metadata 文件夹中找到 {fileName}");
                 }
             }
         }
