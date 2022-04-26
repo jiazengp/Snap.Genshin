@@ -454,7 +454,7 @@
                                                             Max="{Binding MaxLevel}"
                                                             Text="{Binding LevelTarget,Mode=TwoWay}"
                                                             Value="{Binding LevelTarget,Mode=TwoWay}"
-                                                            Width="72"
+                                                            Width="88"
                                                             Margin="6,0,0,0"/>
                                                     </StackPanel>
                                                 </Grid>

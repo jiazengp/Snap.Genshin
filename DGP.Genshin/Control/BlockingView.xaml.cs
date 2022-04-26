@@ -21,7 +21,8 @@ namespace DGP.Genshin.Control
             DataContext = this;
             InitializeComponent();
 
-            App.Messenger.RegisterAll(this);
+            App.Messenger.Register<ImageHitBeginMessage>(this);
+            App.Messenger.Register<ImageHitEndMessage>(this);
         }
 
         /// <summary>
@@ -29,7 +30,8 @@ namespace DGP.Genshin.Control
         /// </summary>
         ~BlockingView()
         {
-            App.Messenger.UnregisterAll(this);
+            App.Messenger.Unregister<ImageHitBeginMessage>(this);
+            App.Messenger.Unregister<ImageHitEndMessage>(this);
         }
 
         /// <summary>

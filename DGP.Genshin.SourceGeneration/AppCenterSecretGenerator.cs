@@ -32,10 +32,10 @@ using System.Windows;
 
 namespace DGP.Genshin
 {{
-    [DebuggerNonUserCode]
-    [GeneratedCode(""{name}"",""{version}"")]
     public partial class App : Application
     {{
+        [DebuggerNonUserCode]
+        [GeneratedCode(""{name}"",""{version}"")]
         partial void ConfigureAppCenter(bool enabled)
         {{
             if (enabled)
