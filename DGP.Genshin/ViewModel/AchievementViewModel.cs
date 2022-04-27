@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel.Achievement;
+using DGP.Genshin.DataModel.Achievement.Decomposed;
 using DGP.Genshin.Service.Abstraction.Achievement;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
@@ -124,8 +125,8 @@ namespace DGP.Genshin.ViewModel
         {
             AchievementGoals = metadataViewModel.AchievementGoals;
             Achievements = new(metadataViewModel.Achievements);
-            List<IdTime> idTimes = achievementService.GetCompletedItems();
-            SetAchievementsState(idTimes, Achievements);
+
+            SetAchievementsState(achievementService.GetCompletedItems(), Achievements);
             SelectedAchievementGoal = AchievementGoals.First();
             CollectionViewSource.GetDefaultView(Achievements).Filter = OnFilterAchievement;
 
@@ -141,7 +142,7 @@ namespace DGP.Genshin.ViewModel
         {
             if (Achievements is not null)
             {
-                achievementService.SaveCompletedItems(Achievements);
+                achievementService.SaveItems(Achievements);
             }
         }
 
@@ -190,16 +191,41 @@ namespace DGP.Genshin.ViewModel
             }
         }
 
-        private int SetAchievementsState(IEnumerable<IdTime> idTimes, ObservableCollection<Achievement> achievements)
+        private int SetAchievementsState(IEnumerable<IdTime> data, ObservableCollection<Achievement> achievements)
         {
             Dictionary<int, Achievement> mappedAchievements = achievements.ToDictionary(a => a.Id);
             int count = 0;
-            foreach (IdTime? item in idTimes)
+
+            // load completed item
+            foreach (IdTime item in data)
             {
                 Achievement achievement = mappedAchievements[item.Id];
                 achievement.CompleteDateTime = item.Time;
                 achievement.IsCompleted = true;
                 count++;
+            }
+
+            // load decomposed step
+            foreach (DecomposedAchievement decomposed in metadataViewModel.DecomposedAchievements)
+            {
+                Achievement achievement = mappedAchievements[decomposed.AchievementId];
+                achievement.Decomposition = decomposed;
+
+                // initialize steps
+                achievement.Decomposition.Steps = achievement.Decomposition.Decomposed!
+                    .Select(d => new DecomposedStep() { Description = d })
+                    .ToList();
+            }
+
+            // load completed step
+            foreach (IdSteps step in achievementService.GetCompletedSteps())
+            {
+                Achievement achievement = mappedAchievements[step.Id];
+
+                for (int i = 0; i < (step.Steps!).Count; i++)
+                {
+                    achievement.Decomposition!.Steps![i].IsCompleted = step.Steps[i];
+                }
             }
 
             return count;

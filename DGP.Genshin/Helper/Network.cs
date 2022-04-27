@@ -42,31 +42,34 @@ namespace DGP.Genshin.Helper
         /// <returns>任务</returns>
         private static async Task TryWaitNetworkConnectionAsync()
         {
-            while (!await TrySetNetworkConnectedAsync())
+            while (await TrySetNetworkConnectedAsync())
             {
-                await Task.Delay(2000);
+                await Task.Delay(5000);
             }
         }
 
         /// <summary>
         /// 尝试设置网络状态
         /// </summary>
-        /// <returns>是否设置成功</returns>
+        /// <returns>是否继续尝试</returns>
         private static async Task<bool> TrySetNetworkConnectedAsync()
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 if (await new Status().CheckStatusAsync())
                 {
-                    return NetworkConnected.Set();
+                    NetworkConnected.Set();
+                    return false;
                 }
                 else
                 {
-                    return NetworkConnected.Reset();
+                    NetworkConnected.Reset();
+                    return true;
                 }
             }
 
-            return false;
+            NetworkConnected.Reset();
+            return true;
         }
 
         private static void HandleNetworkAddressChanged(object? s, EventArgs e)

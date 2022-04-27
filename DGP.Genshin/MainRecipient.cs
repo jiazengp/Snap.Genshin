@@ -67,7 +67,9 @@ namespace DGP.Genshin
                     // preprocess
                     if (!MainWindow.HasEverOpen)
                     {
-                        CheckUpdateForWhatsNewAsync().Forget();
+                        Setting2.AppVersion.Set(App.AutoWired<IUpdateService>().CurrentVersion);
+
+                        CheckUpdateForNotificationAsync().Forget();
                         TrySignInOnStartUpAsync().Forget();
 
                         TryInitializeTaskbarIcon();
@@ -124,12 +126,6 @@ namespace DGP.Genshin
             App.Current.PluginService.Plugins.ForEach(plugin =>
             plugin.ForEachAttribute<ImportPageAttribute>(importPage =>
             navigationService.AddToNavigation(importPage)));
-        }
-
-        private async Task CheckUpdateForWhatsNewAsync()
-        {
-            await CheckUpdateForNotificationAsync();
-            Setting2.AppVersion.Set(App.AutoWired<IUpdateService>().CurrentVersion);
         }
 
         private async Task CheckUpdateForNotificationAsync()

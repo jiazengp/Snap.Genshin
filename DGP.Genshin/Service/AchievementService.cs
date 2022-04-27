@@ -16,6 +16,7 @@ namespace DGP.Genshin.Service
     internal class AchievementService : IAchievementService
     {
         private const string AchievementsFileName = "achievements.json";
+        private const string AchievementStepsFileName = "achievementsteps.json";
 
         /// <inheritdoc/>
         public List<IdTime> GetCompletedItems()
@@ -24,12 +25,25 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
-        public void SaveCompletedItems(ObservableCollection<Achievement> achievements)
+        public List<IdSteps> GetCompletedSteps()
         {
+            return Json.FromFileOrNew<List<IdSteps>>(PathContext.Locate(AchievementStepsFileName));
+        }
+
+        /// <inheritdoc/>
+        public void SaveItems(ObservableCollection<Achievement> achievements)
+        {
+            // completed items
             IEnumerable<IdTime> idTimes = achievements
                 .Where(a => a.IsCompleted)
                 .Select(a => new IdTime(a.Id, a.CompleteDateTime));
             Json.ToFile(PathContext.Locate(AchievementsFileName), idTimes);
+
+            // completed steps
+            IEnumerable<IdSteps> idStates = achievements
+                .Where(a => a.Decomposition is not null)
+                .Select(a => new IdSteps(a.Id, a.Decomposition!.Steps!.Select(s => s.IsCompleted).ToList()));
+            Json.ToFile(PathContext.Locate(AchievementStepsFileName), idStates);
         }
 
         /// <inheritdoc/>

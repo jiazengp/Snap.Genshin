@@ -16,10 +16,16 @@ namespace DGP.Genshin.Service.Abstraction.Achievement
         List<IdTime> GetCompletedItems();
 
         /// <summary>
-        /// 保存完成的项目
+        /// 从本地读取已完成的
+        /// </summary>
+        /// <returns>分步状态</returns>
+        List<IdSteps> GetCompletedSteps();
+
+        /// <summary>
+        /// 保存完成的项目与完成的步骤
         /// </summary>
         /// <param name="achievements">成就列表</param>
-        void SaveCompletedItems(ObservableCollection<DataModel.Achievement.Achievement> achievements);
+        void SaveItems(ObservableCollection<DataModel.Achievement.Achievement> achievements);
 
         /// <summary>
         /// 尝试以指定的源与指定的路径获取导入数据

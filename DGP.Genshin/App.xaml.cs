@@ -11,11 +11,13 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstraction.Setting;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
 using Snap.Core.Logging;
+using Snap.Data.Utility.Extension;
 using Snap.Extenion.Enumerable;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -347,18 +349,12 @@ namespace DGP.Genshin
         {
             Requester.ResponseFailedAction = (ex, method, desc) =>
             {
-                if (ex is AggregateException aggregateException)
+                if (ex is TaskCanceledException)
                 {
-                    foreach (Exception flattened in aggregateException.Flatten().InnerExceptions)
-                    {
-                        Crashes.TrackError(flattened, new Dictionary<string, string> { { method, desc } });
-                    }
+                    return;
                 }
 
-                if (ex is not TaskCanceledException)
-                {
-                    Crashes.TrackError(ex, new Dictionary<string, string> { { method, desc } });
-                }
+                Analytics.TrackEvent("General", ("RequestFail2", $"{method} {desc}").AsDictionary());
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using Snap.Data.Primitive;
+﻿using DGP.Genshin.DataModel.Achievement.Decomposed;
+using Snap.Data.Primitive;
 
 namespace DGP.Genshin.DataModel.Achievement
 {
@@ -61,7 +62,7 @@ namespace DGP.Genshin.DataModel.Achievement
             {
                 Set(ref isCompleted, value);
 
-                if (value)
+                if (isCompleted)
                 {
                     if (CompleteDateTime == default(DateTime))
                     {
@@ -79,5 +80,10 @@ namespace DGP.Genshin.DataModel.Achievement
         /// 完成时间
         /// </summary>
         public DateTime CompleteDateTime { get => completeDateTime; set => Set(ref completeDateTime, value); }
+
+        /// <summary>
+        /// 步骤
+        /// </summary>
+        public DecomposedAchievement? Decomposition { get; set; }
     }
 }

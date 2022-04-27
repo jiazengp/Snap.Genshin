@@ -402,7 +402,7 @@ namespace DGP.Genshin.ViewModel
         {
             await App
                 .AutoWired<IMetadataService>()
-                .TryEnsureDataNewestAsync();
+                .TryEnsureDataNewestAsync(null);
 
             new ToastContentBuilder()
                 .AddText("操作完成")

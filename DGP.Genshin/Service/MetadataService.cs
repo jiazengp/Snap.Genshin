@@ -1,11 +1,11 @@
 ﻿using DGP.Genshin.Service.Abstraction;
-using DGP.Genshin.Service.Abstraction.IntegrityCheck;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Json;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using IState = DGP.Genshin.Service.Abstraction.IntegrityCheck.IIntegrityCheckService.IIntegrityCheckState;
 
 namespace DGP.Genshin.Service
 {
@@ -14,9 +14,9 @@ namespace DGP.Genshin.Service
     internal class MetadataService : IMetadataService
     {
         private const string MetaUrl = "https://resource.snapgenshin.com/Metadata2/meta.json";
+        private const string MetaUrlFormat = "https://resource.snapgenshin.com/Metadata2/{0}.json";
         private const string MetaFolder = "Metadata";
         private const string MetaFile = "meta.json";
-        private const string MetaUrlFormat = "https://resource.snapgenshin.com/Metadata2/{0}.json";
 
         /// <inheritdoc/>
         public bool IsMetaPresent
@@ -25,11 +25,13 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
-        public async Task<bool> TryEnsureDataNewestAsync(IProgress<IIntegrityCheckService.IIntegrityCheckState> progress, CancellationToken cancellationToken = default)
+        public async Task<bool> TryEnsureDataNewestAsync(IProgress<IState>? progress, CancellationToken cancellationToken = default)
         {
             try
             {
-                progress.Report(new MetaState(1, 1, "检测元数据版本"));
+                progress?.Report(new MetaState(1, 1, "检测元数据版本"));
+                PathContext.CreateFolderOrIgnore(MetaFolder);
+
                 Dictionary<string, string>? remoteVersions = await Json.FromWebsiteAsync<Dictionary<string, string>>(MetaUrl, cancellationToken);
                 Dictionary<string, string> localVersions = Json.FromFileOrNew<Dictionary<string, string>>(PathContext.Locate(MetaFolder, MetaFile));
 
@@ -38,17 +40,33 @@ namespace DGP.Genshin.Service
                 int count = 0;
                 foreach ((string file, string remoteVersion) in remoteVersions)
                 {
+                    bool shouldPass = false;
+
+                    // 本地存在版本 且 远程版本不大于本地版本
                     if (localVersions.TryGetValue(file, out string? localVersion)
                         && (new Version(remoteVersion) <= new Version(localVersion)))
                     {
                         this.Log($"Skip {file} of version {remoteVersion}.");
-                        continue;
+                        shouldPass = true;
+
+                        if (!PathContext.FileExists(MetaFolder, $"{file}.json"))
+                        {
+                            shouldPass = false;
+                        }
                     }
 
-                    this.Log($"Download {file} of version {remoteVersion}.");
-                    PathContext.CreateFolderOrIgnore(MetaFolder);
-                    await Json.WebsiteToFileAsync(string.Format(MetaUrlFormat, file), PathContext.Locate(MetaFolder, $"{file}.json"), cancellationToken);
-                    progress.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
+                    if (shouldPass)
+                    {
+                        progress?.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
+                        continue;
+                    }
+                    else
+                    {
+                        this.Log($"Download {file} of version {remoteVersion}.");
+                        string destinationPath = PathContext.Locate(MetaFolder, $"{file}.json");
+                        await Json.WebsiteToFileAsync(string.Format(MetaUrlFormat, file), destinationPath, cancellationToken);
+                        progress?.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
+                    }
                 }
 
                 Json.ToFile(PathContext.Locate(MetaFolder, MetaFile), remoteVersions);
@@ -62,37 +80,7 @@ namespace DGP.Genshin.Service
             return false;
         }
 
-        /// <inheritdoc/>
-        public async Task<bool> TryEnsureDataNewestAsync(CancellationToken cancellationToken = default)
-        {
-            Dictionary<string, string>? remoteVersions = await Json.FromWebsiteAsync<Dictionary<string, string>>(MetaUrl, cancellationToken);
-            Dictionary<string, string> localVersions = Json.FromFileOrNew<Dictionary<string, string>>(PathContext.Locate(MetaFolder, MetaFile));
-
-            if (remoteVersions is not null)
-            {
-                foreach ((string file, string remoteVersion) in remoteVersions)
-                {
-                    if (localVersions.TryGetValue(file, out string? localVersion)
-                        && (new Version(remoteVersion) <= new Version(localVersion)))
-                    {
-                        this.Log($"Skip {file} of version {remoteVersion}.");
-                        continue;
-                    }
-
-                    this.Log($"Download {file} of version {remoteVersion}.");
-                    await Json.WebsiteToFileAsync(string.Format(MetaUrlFormat, file), PathContext.Locate(MetaFolder, $"{file}.json"), cancellationToken);
-                }
-
-                Json.ToFile(PathContext.Locate(MetaFolder, MetaFile), remoteVersions);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private class MetaState : IIntegrityCheckService.IIntegrityCheckState
+        private class MetaState : IState
         {
             /// <summary>
             /// 构造新的进度实例

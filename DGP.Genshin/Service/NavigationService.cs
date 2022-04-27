@@ -128,7 +128,7 @@ namespace DGP.Genshin.Service
             // 分析页面统计数据时不应加入启动时导航的首个页面
             if (HasEverNavigated)
             {
-                Analytics.TrackEvent("General", ("OpenUI", $"{pageType}:{(result ? "succeed" : "failed")}").AsDictionary());
+                Analytics.TrackEvent("General", ("OpenUI", pageType.ToString()).AsDictionary());
             }
 
             // fix memory leak issue

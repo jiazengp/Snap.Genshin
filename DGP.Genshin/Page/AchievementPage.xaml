@@ -105,39 +105,78 @@
                                 <DataTemplate>
                                     <wu:Card Margin="0,0,0,12" Padding="8">
                                         <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <CheckBox
-                                                MinWidth="32"
-                                                Margin="6,0,6,2"
-                                                IsChecked="{Binding IsCompleted}"/>
-                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                                <c:CachedImage
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox
+                                                    MinWidth="32"
+                                                    Margin="6,0,6,2"
+                                                    IsChecked="{Binding IsCompleted}"/>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                    <c:CachedImage
                                                     Margin="0,0,0,0"
                                                     Height="32"
                                                     Width="32"
                                                     VerticalAlignment="Center"
                                                     ImageUrl="https://webstatic.mihoyo.com/upload/event/2020/09/29/97a77a51901207ba1c4b167d7484742b_879413631620747219.png"/>
-                                                <TextBlock
+                                                    <TextBlock
                                                     Margin="6,0,0,0"
                                                     Text="{Binding FinishRewardCount}"
                                                     VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="2">
+                                                    <TextBlock Text="{Binding Title}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                                    <TextBlock Text="{Binding Description}" Margin="0,8,0,0"/>
+                                                </StackPanel>
+                                                <TextBlock
+                                                    Grid.Column="3"
+                                                    Text="{Binding CompleteDateTime,StringFormat={}{0:yyyy/MM/dd}}"
+                                                    Visibility="{Binding IsCompleted,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,12,0"/>
+                                            </Grid>
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Visibility="{Binding Decomposition,Converter={StaticResource DataVisibilityRevertConverter}}">
+                                                <Rectangle
+                                                    Margin="6,16,6,0"
+                                                    VerticalAlignment="Top"
+                                                    Height="1"
+                                                    Fill="{StaticResource SystemControlForegroundBaseMediumLowBrush}"/>
+                                                <ItemsControl
+                                                    Grid.Row="1"
+                                                    Margin="0,12,0,0"
+                                                    ItemsSource="{Binding Decomposition.Steps}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <CheckBox
+                                                                MinWidth="32"
+                                                                Margin="6,0,6,2"
+                                                                IsChecked="{Binding IsCompleted}"
+                                                                Content="{Binding Description}">
+                                                                <CheckBox.ContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock
+                                                                            Margin="10,0,0,0"
+                                                                            Text="{Binding}"
+                                                                            Style="{StaticResource BodyTextBlockStyle}"/>
+                                                                    </DataTemplate>
+                                                                </CheckBox.ContentTemplate>
+                                                            </CheckBox>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="2">
-                                                <TextBlock Text="{Binding Title}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                                <TextBlock Text="{Binding Description}" Margin="0,8,0,0"/>
-                                            </StackPanel>
-                                            <TextBlock
-                                                Grid.Column="3"
-                                                Text="{Binding CompleteDateTime,StringFormat={}{0:yyyy/MM/dd}}"
-                                                Visibility="{Binding IsCompleted,Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,12,0"/>
                                         </Grid>
+                                        
                                     </wu:Card>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

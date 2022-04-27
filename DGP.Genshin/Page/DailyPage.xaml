@@ -138,9 +138,9 @@
     <Grid>
         <TabControl
             Margin="6,0,0,0"
-            SelectedIndex="0"
             ItemsSource="{Binding Cities}"
             Style="{StaticResource TabControlPivotStyle}"
-            ItemContainerStyle="{StaticResource CitiesPivotItemStyle}"/>
+            ItemContainerStyle="{StaticResource CitiesPivotItemStyle}"
+            IsSynchronizedWithCurrentItem="True"/>
     </Grid>
 </concurrent:AsyncPage>

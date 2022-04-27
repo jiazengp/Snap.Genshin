@@ -2,6 +2,7 @@
 using DGP.Genshin.Control.GenshinElement;
 using DGP.Genshin.DataModel;
 using DGP.Genshin.DataModel.Achievement;
+using DGP.Genshin.DataModel.Achievement.Decomposed;
 using DGP.Genshin.DataModel.Character;
 using DGP.Genshin.DataModel.GachaStatistic.Banner;
 using DGP.Genshin.DataModel.Material;
@@ -33,8 +34,12 @@ namespace DGP.Genshin.ViewModel
         private const string GachaEventJson = "gachaevents.json";
         private const string AchieventsJson = "achievements.json";
         private const string AchieventGoalsJson = "achievementgoals.json";
+        private const string DecomposedAchievementsJson = "decomposedachievements.json";
 
         private const string FolderPath = "Metadata\\";
+
+        private Character? selectedCharacter;
+        private DataModelWeapon? selectedWeapon;
 
         private ObservableCollection<Character> characters = null!;
         private ObservableCollection<DataModelWeapon> weapons = null!;
@@ -43,9 +48,7 @@ namespace DGP.Genshin.ViewModel
         private List<SpecificBanner> specificBanners = null!;
         private List<Achievement> achievements = null!;
         private List<AchievementGoal> achievementGoals = null!;
-
-        private Character? selectedCharacter;
-        private DataModelWeapon? selectedWeapon;
+        private List<DecomposedAchievement> decomposedAchievements = null!;
 
         /// <summary>
         /// 构造一个新的元数据视图模型
@@ -134,6 +137,14 @@ namespace DGP.Genshin.ViewModel
         public List<AchievementGoal> AchievementGoals
         {
             get => ProbeCollcetion(ref achievementGoals, AchieventGoalsJson);
+        }
+
+        /// <summary>
+        /// 分步成就
+        /// </summary>
+        public List<DecomposedAchievement> DecomposedAchievements
+        {
+            get => ProbeCollcetion(ref decomposedAchievements, DecomposedAchievementsJson);
         }
 
         /// <summary>

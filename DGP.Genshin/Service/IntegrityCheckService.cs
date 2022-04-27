@@ -1,10 +1,9 @@
 ﻿using DGP.Genshin.Control.Infrastructure.CachedImage;
-using DGP.Genshin.Core.Notification;
 using DGP.Genshin.DataModel;
 using DGP.Genshin.Service.Abstraction;
 using DGP.Genshin.Service.Abstraction.IntegrityCheck;
+using DGP.Genshin.Service.Abstraction.Setting;
 using DGP.Genshin.ViewModel;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Primitive;
@@ -14,6 +13,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using IState = DGP.Genshin.Service.Abstraction.IntegrityCheck.IIntegrityCheckService.IIntegrityCheckState;
+#if RELEASE
+using DGP.Genshin.Core.Notification;
+using Microsoft.Toolkit.Uwp.Notifications;
+#endif
 
 namespace DGP.Genshin.Service
 {
@@ -50,7 +53,10 @@ namespace DGP.Genshin.Service
             this.Log("Integrity Check Start");
             using (IntegrityChecking.Watch())
             {
-                if (!metadataService.IsMetaPresent)
+#if RELEASE
+                // 更新后或首次启动时
+                // 每次更新后至少检查一次元数据版本
+                if (App.Current.Version > Setting2.AppVersion || !metadataService.IsMetaPresent)
                 {
                     if (!await metadataService.TryEnsureDataNewestAsync(progress))
                     {
@@ -60,7 +66,7 @@ namespace DGP.Genshin.Service
                             .SafeShow();
                     }
                 }
-
+#endif
                 int totalCount = GetTotalCount(metadataViewModel);
                 await Task.WhenAll(BuildIntegrityTasks(metadataViewModel, totalCount, progress));
                 this.Log($"Integrity Check Complete with {totalCount} entries");
