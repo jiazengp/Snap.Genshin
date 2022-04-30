@@ -70,7 +70,7 @@ namespace DGP.Genshin
         protected override void OnClosing(CancelEventArgs e)
         {
             navigationService.HasEverNavigated = false;
-            TrySaveWindowState();
+            UninitializeContent();
             if (InitializingWindow.CurrentCount < 1)
             {
                 e.Cancel = true;
@@ -117,7 +117,7 @@ namespace DGP.Genshin
             NavView.IsPaneOpen = Setting2.IsNavigationViewPaneOpen;
         }
 
-        private void TrySaveWindowState()
+        private void UninitializeContent()
         {
             if (WindowState == WindowState.Normal)
             {

@@ -1,6 +1,6 @@
 <div align="center"> 
 
-[![Snap.Genshin](https://socialify.git.ci/DGP-Studio/Snap.Genshin/image?description=1&font=Inter&forks=1&language=1&logo=https%3A%2F%2Fgithub.com%2FDGP-Studio%2FSnap.Genshin%2Fblob%2Fmain%2FDesign%2FSGLogo.png%3Fraw%3Dtrue&pattern=Signal&stargazers=1&theme=Dark)](https://github.com/DGP-Studio/Snap.Genshin/stargazers)
+[![Snap.Genshin](https://repository-images.githubusercontent.com/331187187/0a2420e5-881a-4709-9f99-fdd42f13e1fc)](https://github.com/DGP-Studio/Snap.Genshin/stargazers)
 
 |![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)|
 |-|-|-|-|
@@ -39,15 +39,9 @@
 > [Snap Genshin 开发人员文档](https://www.snapgenshin.com/development/DeveloperGuide.html)  
 > [Snap Genshin 插件开发教程](https://www.snapgenshin.com/development/PluginTutorial.html)
 
-# **我们正在为这些项目寻找维护者**
+# **注意事项**
 
-下面的项目都曾或目前仍然与 Snap Genshin 高度相关  
-由于某些原因，下方的库或项目目前已经处于 无人维护/需要更多人维护 的状态  
-如果你了解相关的知识与技巧可以尝试提交PR来拯救它们
+我们正在将项目向Win UI3 迁移，请移步至 [Snap.Hutao](https://github.com/DGP-Studio/Snap.Hutao)  
+此项目已经进入维护阶段，不再开发新功能
 
-> [解包 Json 查看器](https://github.com/DGP-Studio/DGP.Genshin.DataViewer)  
-> [Xbox实时便笺树脂小组件](https://github.com/DGP-Studio/DGP.Genshin.GamebarWidget)  
-> [GHHW 角色爬虫](https://github.com/DGP-Studio/Crawler-ghhw)  
-> [胡桃API 网页端](https://github.com/DGP-Studio/Snap.Genshin.HutaoWeb)  
-> [胡桃API 服务端](https://github.com/DGP-Studio/Snap.Genshin.Website)  
 </div>

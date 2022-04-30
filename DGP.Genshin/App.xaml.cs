@@ -11,15 +11,15 @@ using DGP.Genshin.Message;
 using DGP.Genshin.MiHoYoAPI.Request;
 using DGP.Genshin.Service.Abstraction.Setting;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
+using Snap.Core.DependencyInjection;
 using Snap.Core.Logging;
 using Snap.Data.Utility.Extension;
 using Snap.Extenion.Enumerable;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -34,6 +34,7 @@ namespace DGP.Genshin
     /// <summary>
     /// Snap Genshin
     /// </summary>
+    [LifeCycle(InjectAs.Transient)]
     public partial class App : Application
     {
         private static bool? isElevated;
@@ -393,7 +394,7 @@ namespace DGP.Genshin
 
         private void UpdateAppTheme()
         {
-            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme.Get();
+            ThemeManager.Current.ApplicationTheme = Setting2.AppTheme;
 
             // set app accent color to correct color.
             Accent.Apply(ThemeManager.Current.ActualAccentColor, ThemeType.Unknown);

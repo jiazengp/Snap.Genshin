@@ -23,10 +23,10 @@ namespace DGP.Genshin.Core
         /// 获取 <see cref="IServiceProvider"/> 的实例
         /// 存放类
         /// </summary>
-        public IServiceProvider? Services { get; protected init; }
+        public IServiceProvider? Services { get; protected set; }
 
         /// <summary>
-        /// 向容器注册服务
+        /// 向容器注册类型
         /// </summary>
         /// <param name="services">容器</param>
         /// <param name="type">待检测的类型</param>
@@ -78,9 +78,9 @@ namespace DGP.Genshin.Core
         }
 
         /// <summary>
-        /// 配置服务
-        /// 探测服务
-        /// <see cref="OnProbingServices(ServiceCollection)"/>会被调用以探测整个程序集
+        /// 配置服务，
+        /// 探测服务，
+        /// <see cref="OnProbingServices(ServiceCollection)"/>会被调用以探测整个程序集，
         /// 一旦服务配置完成，就无法继续注册
         /// </summary>
         /// <returns>服务提供器</returns>

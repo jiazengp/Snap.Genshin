@@ -19,6 +19,7 @@ namespace DGP.Genshin
 {
     /// <summary>
     /// 主窗体接收器
+    /// 负责主窗体的各类初始化任务
     /// </summary>
     internal class MainRecipient : IRecipient<SplashInitializationCompletedMessage>
     {
@@ -46,7 +47,7 @@ namespace DGP.Genshin
         /// </summary>
         ~MainRecipient()
         {
-            App.Messenger.UnregisterAll(this);
+            App.Messenger.Unregister<SplashInitializationCompletedMessage>(this);
         }
 
         /// <inheritdoc/>
