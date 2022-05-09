@@ -5,12 +5,12 @@
 |![lines](https://img.shields.io/tokei/lines/github/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub repo size](https://img.shields.io/github/repo-size/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub issues](https://img.shields.io/github/issues/DGP-Studio/Snap.Genshin?style=flat-square)|![GitHub closed issues](https://img.shields.io/github/issues-closed/DGP-Studio/Snap.Genshin?style=flat-square)|
 |-|-|-|-|
 
+|[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases)|[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)|
+|-|-|
+
 ## [www.snapgenshin.com](https://www.snapgenshin.com/home/)
 
 |如果你觉得我们的软件做的还不错，欢迎对我们投喂|[爱发电](https://afdian.net/@DismissedLight)|
-|-|-|
-
-|[![GitHub downloads](https://img.shields.io/github/downloads/DGP-Studio/Snap.Genshin/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases)|[![GitHub release (latest by date)](https://img.shields.io/github/downloads/DGP-studio/Snap.Genshin/latest/total?style=flat-square)](https://github.com/DGP-Studio/Snap.Genshin/releases/latest)|
 |-|-|
 
 ### QQ群
@@ -30,18 +30,13 @@
 |[![PaimonsNotebook](https://img.shields.io/badge/QooLianyi-Paimons_Notebook-red/total?style=flat-square)](https://github.com/QooLianyi/PaimonsNotebook)|
 |[![Xunkong](https://img.shields.io/badge/Scighost-Xunkong-red/total?style=flat-square)](https://github.com/Scighost/Xunkong)|
 
-### 插件
-
-> [Snap Genshin 插件列表](/Plugins/README.md)
-  
-### 开发人员
-
-> [Snap Genshin 开发人员文档](https://www.snapgenshin.com/development/DeveloperGuide.html)  
-> [Snap Genshin 插件开发教程](https://www.snapgenshin.com/development/PluginTutorial.html)
-
 # **注意事项**
 
 我们正在将项目向Win UI3 迁移，请移步至 [Snap.Hutao](https://github.com/DGP-Studio/Snap.Hutao)  
 此项目已经进入维护阶段，不再开发新功能，只进行必要的问题修复，迁移完成后将尽力保障平稳升级，敬请期待。
 
 </div>
+
+### 开发
+
+[![pic](https://contrib.rocks/image?repo=DGP-Studio/Snap.Genshin)](https://github.com/DGP-Studio/Snap.Genshin/graphs/contributors)
