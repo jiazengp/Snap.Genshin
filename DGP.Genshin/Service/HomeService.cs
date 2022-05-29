@@ -47,10 +47,10 @@ namespace DGP.Genshin.Service
 
                 JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
 
-                if (announcementListWrappers[0].List is List<Announcement> activities)
+                /*if (announcementListWrappers[0].List is List<Announcement> activities)
                 {
                     AdjustActivitiesTime(ref activities);
-                }
+                }*/
 
                 return wrapper;
             }
