@@ -44,7 +44,7 @@ namespace DGP.Genshin.Service
             avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
             avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
             teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
-            weaponUsages = await playerRecordClient.GetWeaponUsagesAsync(cancellationToken);
+            weaponUsages = await playerRecordClient.GetAvatarWeaponUsagesAsync(cancellationToken);
             avatarReliquaryUsages = await playerRecordClient.GetAvatarReliquaryUsagesAsync(cancellationToken);
             teamCombinations = await playerRecordClient.GetTeamCombinationsAsync(cancellationToken);
         }
@@ -95,6 +95,7 @@ namespace DGP.Genshin.Service
                 if (matched != null)
                 {
                     IList<NamedValue<double>> result = avatarConstellationNum.Rate
+                        .OrderBy(rate => rate.Id)
                         .Select(rate => new NamedValue<double>($"{rate.Id} 命", rate.Value))
                         .ToList();
 
@@ -151,11 +152,11 @@ namespace DGP.Genshin.Service
                 if (matchedAvatar != null)
                 {
                     IEnumerable<Item<double>> result = weaponUsage.Weapons
-                    .Join(
-                        weaponMap,
-                        rate => rate.Id,
-                        weapon => weapon.Id,
-                        (rate, weapon) => new Item<double>(weapon.Id, weapon.Name, weapon.Url, rate.Value));
+                        .Join(
+                            weaponMap,
+                            rate => rate.Id,
+                            weapon => weapon.Id,
+                            (rate, weapon) => new Item<double>(weapon.Id, weapon.Name, weapon.Url, rate.Value));
 
                     weaponUsagesResults
                         .Add(new Item<IList<Item<double>>>(
