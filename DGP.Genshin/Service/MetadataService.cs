@@ -13,8 +13,8 @@ namespace DGP.Genshin.Service
     [Service(typeof(IMetadataService), InjectAs.Transient)]
     internal class MetadataService : IMetadataService
     {
-        private const string MetaUrl = "https://resource.snapgenshin.com/Metadata2/meta.json";
-        private const string MetaUrlFormat = "https://resource.snapgenshin.com/Metadata2/{0}.json";
+        private const string MetaUrl = "https://metadata.snapgenshin.com/meta.json";
+        private const string MetaUrlFormat = "https://metadata.snapgenshin.com/{0}.json";
         private const string MetaFolder = "Metadata";
         private const string MetaFile = "meta.json";
 
