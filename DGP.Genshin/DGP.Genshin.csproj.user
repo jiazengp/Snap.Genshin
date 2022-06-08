@@ -33,6 +33,9 @@
     <Compile Update="Control\GenshinElement\PromotionCalculate\MaterialListDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\Launching\AccountWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\WebView2RuntimeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\AchievementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Page\AvatarRankPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Page\HutaoStatisticPage.xaml.cs">
@@ -95,6 +101,9 @@
     <Page Update="Control\GenshinElement\PromotionCalculate\MaterialListDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Control\Launching\AccountWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Control\ModernStyle\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -117,6 +126,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Page\AchievementPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Page\AvatarRankPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Resource Update="MainWindow.xaml">

@@ -181,7 +181,7 @@
                     helper:IconHelper.Icon="&#xEA86;" 
                     Title="更新元数据" 
                     Subtitle="更新用于呈现的元数据"
-                    Command="{Binding OpenImplementationPageCommand}"
+                    Command="{Binding CheckMetadataCommand}"
                     Margin="12,4,16,0">
                     <Button Content="检查更新" Command="{Binding CheckMetadataCommand}"/>
                 </wu:CardControl>

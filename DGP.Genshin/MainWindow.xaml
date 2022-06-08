@@ -27,7 +27,7 @@
         <ui:NavigationView 
             IsPaneToggleButtonVisible="True"
             x:Name="NavView" 
-            OpenPaneLength="172" 
+            OpenPaneLength="180" 
             CompactPaneLength="48"
             IsBackButtonVisible="Collapsed"
             PaneDisplayMode="Left"
@@ -83,7 +83,12 @@
                                        UriSource="pack://application:,,,/Resources/UI_Icon_Achievement.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-
+                <ui:NavigationViewItem Content="角色橱窗[施工中]" IsEnabled="False">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE8A1;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                
                 <ui:NavigationViewItemHeader Content="网页" Visibility="Collapsed"/>
                 <ui:NavigationViewItem Content="自定义网页" helpers:NavHelper.NavigateTo="{x:Type pages:WebViewLobbyPage}">
                     <ui:NavigationViewItem.Icon>

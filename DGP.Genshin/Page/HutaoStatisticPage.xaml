@@ -88,6 +88,7 @@
 
         <Style TargetType="TabItem" x:Key="TeamCombinationsPivotItemStyle" BasedOn="{StaticResource PivotItemStyle}">
             <Setter Property="Header" Value="{Binding Index}"/>
+            <Setter Property="HeaderStringFormat" Value="{}第 {0} 层"/>
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>

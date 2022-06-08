@@ -36,7 +36,7 @@ namespace DGP.Genshin.ViewModel
         private IList<Item<IList<Item<double>>>>? teamCollocations;
         private IList<Item<IList<Item<double>>>>? weaponUsages;
         private IList<Rate<Item<IList<NamedValue<double>>>>>? avatarConstellations;
-        private IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? teamCombinations;
+        private IList<Indexed<int, Rate<Two<IList<HutaoItem>>>>>? teamCombinations;
         private bool periodUploaded;
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace DGP.Genshin.ViewModel
         /// <summary>
         /// 队伍出场
         /// </summary>
-        public IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>>? TeamCombinations
+        public IList<Indexed<int, Rate<Two<IList<HutaoItem>>>>>? TeamCombinations
         {
             get => teamCombinations;
 

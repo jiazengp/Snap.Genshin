@@ -49,3 +49,6 @@
 [submodule "Common/Snap.Reflection"]
 	path = Common/Snap.Reflection
 	url = https://github.com/DGP-Studio/Snap.Reflection.git
+[submodule "DGP.Genshin.EnkaAPI"]
+	path = DGP.Genshin.EnkaAPI
+	url = https://github.com/DGP-Studio/DGP.Genshin.EnkaAPI.git

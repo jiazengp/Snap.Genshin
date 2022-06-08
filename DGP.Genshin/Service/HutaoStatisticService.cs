@@ -30,7 +30,7 @@ namespace DGP.Genshin.Service
         private IEnumerable<TeamCollocation> teamCollocations = null!;
         private IEnumerable<WeaponUsage> weaponUsages = null!;
         private IEnumerable<AvatarReliquaryUsage> avatarReliquaryUsages = null!;
-        private IEnumerable<TeamCombination> teamCombinations = null!;
+        private IEnumerable<TeamCombination2> teamCombinations = null!;
 
         /// <inheritdoc/>
         public async Task InitializeAsync(CancellationToken cancellationToken = default)
@@ -46,7 +46,7 @@ namespace DGP.Genshin.Service
             teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
             weaponUsages = await playerRecordClient.GetAvatarWeaponUsagesAsync(cancellationToken);
             avatarReliquaryUsages = await playerRecordClient.GetAvatarReliquaryUsagesAsync(cancellationToken);
-            teamCombinations = await playerRecordClient.GetTeamCombinationsAsync(cancellationToken);
+            teamCombinations = await playerRecordClient.GetTeamCombinations2Async(cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -226,14 +226,13 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
-        public IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations()
+        public IList<Indexed<int, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations()
         {
-            List<Indexed<string, Rate<Two<IList<HutaoItem>>>>> teamCombinationResults = new();
-            IEnumerable<TeamCombination> reoderded = teamCombinations
-                .OrderByDescending(x => x.Level.Floor)
-                .ThenByDescending(x => x.Level.Index);
+            List<Indexed<int, Rate<Two<IList<HutaoItem>>>>> teamCombinationResults = new();
+            IEnumerable<TeamCombination2> reoderded = teamCombinations
+                .OrderByDescending(x => x.Floor);
 
-            foreach (TeamCombination temaCombination in reoderded)
+            foreach (TeamCombination2 temaCombination in reoderded)
             {
                 IList<Rate<Two<IList<HutaoItem>>>> teamRates = temaCombination.Teams
                 .Select(team => new Rate<Two<IList<HutaoItem>>>
@@ -246,9 +245,9 @@ namespace DGP.Genshin.Service
                 .ToList();
 
                 teamCombinationResults
-                    .Add(new Indexed<string, Rate<Two<IList<HutaoItem>>>>(
-                        $"{temaCombination.Level.Floor}-{temaCombination.Level.Index}",
-                        teamRates.OrderByDescending(x => x.Value)/*.Take(16)*/.ToList()));
+                    .Add(new Indexed<int, Rate<Two<IList<HutaoItem>>>>(
+                        temaCombination.Floor,
+                        teamRates.OrderByDescending(x => x.Value).ToList()));
             }
 
             return teamCombinationResults;

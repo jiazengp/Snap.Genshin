@@ -1,4 +1,5 @@
 ﻿using DGP.Genshin.Control.Infrastructure.Observable;
+using Snap.Data.Utility;
 using Snap.Win32;
 
 namespace DGP.Genshin.Control
@@ -39,6 +40,14 @@ namespace DGP.Genshin.Control
             get => ExceptionObject.GetType().ToString();
         }
 
+        /// <summary>
+        /// 异常代码
+        /// </summary>
+        public string HResultCode
+        {
+            get => $"0x{ExceptionObject.HResult:X8}";
+        }
+
         private void CopyInfoAppBarButtonClick(object sender, RoutedEventArgs e)
         {
             string stackTrace = ExceptionObject.ToString();
@@ -59,6 +68,11 @@ namespace DGP.Genshin.Control
                 {
                 }
             }
+        }
+
+        private void CommonIssueAppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            Browser.Open("https://www.snapgenshin.com/documents/FAQ/program-crash.html");
         }
     }
 }

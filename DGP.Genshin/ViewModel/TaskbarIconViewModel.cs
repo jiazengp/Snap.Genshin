@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using DGP.Genshin.Control.Launching;
 using DGP.Genshin.Core.Notification;
 using DGP.Genshin.Factory.Abstraction;
 using DGP.Genshin.Service.Abstraction;
@@ -7,6 +8,7 @@ using DGP.Genshin.Service.Abstraction.Launching;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Snap.Core.DependencyInjection;
 using Snap.Core.Mvvm;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DGP.Genshin.ViewModel
@@ -82,13 +84,58 @@ namespace DGP.Genshin.ViewModel
 
         private async Task LaunchGameAsync()
         {
-            await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
+            LaunchViewModel launchViewModel = App.AutoWired<LaunchViewModel>();
+
+            bool shouldShowDialog = ShouldShowAccountDialog(launchViewModel);
+            bool shouldContinueLaunch = ShouldContinueLaunch(launchViewModel, shouldShowDialog);
+
+            if (shouldContinueLaunch)
             {
-                new ToastContentBuilder()
-                    .AddText("启动游戏失败")
-                    .AddText(ex.Message)
-                    .SafeShow();
-            });
+                await launchService.LaunchAsync(LaunchOption.FromCurrentSettings(), ex =>
+                {
+                    new ToastContentBuilder()
+                        .AddText("启动游戏失败")
+                        .AddText(ex.Message)
+                        .SafeShow();
+                });
+            }
+        }
+
+        private bool ShouldShowAccountDialog(LaunchViewModel launchViewModel)
+        {
+            bool shouldShowDialog = true;
+
+            // 主窗体存在
+            if (App.Current.Windows.OfType<MainWindow>().Any())
+            {
+                shouldShowDialog = false;
+            }
+            else
+            {
+                // 账号数量小于等于1
+                if (launchViewModel.Accounts.Count <= 1)
+                {
+                    shouldShowDialog = false;
+                }
+            }
+
+            return shouldShowDialog;
+        }
+
+        private bool ShouldContinueLaunch(LaunchViewModel launchViewModel, bool shouldShowDialog)
+        {
+            bool shouldContinueLaunch = true;
+
+            if (shouldShowDialog)
+            {
+                // 用户未正常关闭对话框
+                if (new AccountWindow(launchViewModel).ShowDialog() != true)
+                {
+                    shouldContinueLaunch = false;
+                }
+            }
+
+            return shouldContinueLaunch;
         }
 
         private void OpenLauncher()

@@ -67,7 +67,7 @@ namespace DGP.Genshin.Service.Abstraction
         /// 获取队伍出场次数
         /// </summary>
         /// <returns>队伍出场次数</returns>
-        IList<Indexed<string, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations();
+        IList<Indexed<int, Rate<Two<IList<HutaoItem>>>>> GetTeamCombinations();
 
         /// <summary>
         /// 获取武器使用率

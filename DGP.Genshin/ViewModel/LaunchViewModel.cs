@@ -25,7 +25,7 @@ namespace DGP.Genshin.ViewModel
     /// <summary>
     /// 启动游戏视图模型
     /// </summary>
-    [ViewModel(InjectAs.Transient)]
+    [ViewModel(InjectAs.Singleton)]
     internal class LaunchViewModel : ObservableObject2
     {
         private readonly ILaunchService launchService;

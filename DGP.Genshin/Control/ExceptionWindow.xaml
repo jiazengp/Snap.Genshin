@@ -29,32 +29,44 @@
             <Image Grid.Column="0" Source="/Resources/UI_EmotionIcon72.png" Height="64" RenderOptions.BitmapScalingMode="HighQuality"/>
             <Grid Grid.Column="1" Margin="24,0,4,0" VerticalAlignment="Center">
                 <StackPanel>
-                    <TextBlock VerticalAlignment="Center"
-                       Text="似乎遇到了一些问题" Style="{StaticResource SubheaderTextBlockStyle}"/>
-                    <TextBlock VerticalAlignment="Center"
-                       Text="我们保存了崩溃日志，以便下次启动时自动发送，关闭本窗口以结束 Snap Genshin 进程" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="似乎遇到了一些问题..." Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        VerticalAlignment="Center"
+                        Text="当你向技术人员反馈时，请提供复制的信息，而不是本窗口的截图"
+                        Foreground="Red"
+                        Style="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
                 <ui:CommandBar HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent">
+                    <ui:AppBarButton Label="常见问题" Click="CommonIssueAppBarButtonClick">
+                        <ui:AppBarButton.Icon>
+                            <ui:FontIcon Glyph="&#xEBE8;"/>
+                        </ui:AppBarButton.Icon>
+                    </ui:AppBarButton>
+                                     
                     <ui:AppBarButton Icon="Copy" Label="复制信息" Click="CopyInfoAppBarButtonClick"/>
                 </ui:CommandBar>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Margin="12,12,16,12">
+        <StackPanel Grid.Row="1" Margin="12,12,16,12">
             <TextBlock Text="{Binding ExceptionType}" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" />
-        </Grid>
+            <TextBlock Text="{Binding HResultCode,StringFormat={}错误代码：{0}}" Margin="0,12,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
+        </StackPanel>
         <smoothscrollviewer:SmoothScrollViewer Grid.Row="2" Padding="0,0,4,0">
             <StackPanel>
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
-                        <TextBlock Text="{Binding ExceptionObject.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.InnerException.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.InnerException}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
 
                 <Border Margin="12,0,12,12" Padding="0,4" CornerRadius="{StaticResource CompatCornerRadius}" Background="{StaticResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
-                        <TextBlock Text="{Binding ExceptionObject.InnerException.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
-                        <TextBlock Text="{Binding ExceptionObject.InnerException}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject.Message}" Style="{StaticResource BodyTextBlockStyle}" Margin="12"/>
+                        <TextBlock Text="{Binding ExceptionObject}" Style="{StaticResource CaptionTextBlockStyle}" Margin="12"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
