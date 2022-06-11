@@ -41,7 +41,7 @@ namespace DGP.Genshin
             if (enabled)
             {{
                 AppCenter.SetUserId(User.Id);
-                AppCenter.LogLevel = LogLevel.Verbose;
+                //AppCenter.LogLevel = LogLevel.Verbose;
 #if DEBUG
                 //DEBUG INFO should send to Snap Genshin Debug kanban
                 AppCenter.Start(""2e4fa440-132e-42a7-a288-22ab1a8606ef"", typeof(Analytics), typeof(Crashes));

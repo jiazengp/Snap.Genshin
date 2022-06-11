@@ -33,7 +33,7 @@ namespace DGP.Genshin.Page
             ViewModel.QueryCommand.Execute(uid);
         }
 
-        private void CardAction_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void CardAction_Click(object sender, RoutedEventArgs e)
         {
             string? uid = (string?)((CardAction)sender).CommandParameter;
             ViewModel.QueryCommand.Execute(uid);

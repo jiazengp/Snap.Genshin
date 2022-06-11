@@ -83,7 +83,7 @@
                                        UriSource="pack://application:,,,/Resources/UI_Icon_Achievement.png"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="角色橱窗[施工中]" IsEnabled="False">
+                <ui:NavigationViewItem Content="角色橱窗" helpers:NavHelper.NavigateTo="{x:Type pages:AvatarRankPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Glyph="&#xE8A1;"/>
                     </ui:NavigationViewItem.Icon>

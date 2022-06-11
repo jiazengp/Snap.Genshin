@@ -58,6 +58,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.Skin.Pink", "Pl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DGP.Genshin.EnkaAPI", "DGP.Genshin.EnkaAPI\DGP.Genshin.EnkaAPI.csproj", "{FE2D76CB-1272-4BE2-AE15-31543CF7A958}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGP.Genshin.DiscordPresence.Plugin", "Plugins\DGP.Genshin.DiscordPresence.Plugin\DGP.Genshin.DiscordPresence.Plugin.csproj", "{44C84F23-37E3-4321-A45E-9FF8948F7FC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -250,6 +252,14 @@ Global
 		{FE2D76CB-1272-4BE2-AE15-31543CF7A958}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE2D76CB-1272-4BE2-AE15-31543CF7A958}.Release|x64.ActiveCfg = Release|Any CPU
 		{FE2D76CB-1272-4BE2-AE15-31543CF7A958}.Release|x64.Build.0 = Release|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Debug|x64.Build.0 = Debug|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -271,6 +281,7 @@ Global
 		{2F74CAAE-49E3-4EEF-9BAD-C6B087AC3545} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{A4020CA1-B975-437F-84A3-6FF46C195D4F} = {53FDC0C8-F43F-4957-89B7-D9D35D335936}
 		{C3D504F3-9ED5-408C-BDE6-E7BF472F8A95} = {402B9B12-B187-47C3-9726-34B4931E77D7}
+		{44C84F23-37E3-4321-A45E-9FF8948F7FC8} = {402B9B12-B187-47C3-9726-34B4931E77D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {818A799C-6888-4D2C-8461-99079D87C15B}
