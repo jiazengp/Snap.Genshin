@@ -59,13 +59,15 @@ public class Showcase
                 Avatars = response.AvatarInfoList!.Select(info =>
                 {
                     HutaoItem mapItem = avatarsMap.First(x => x.Id == info.AvatarId);
-                    Character.Character baseCharacter = viewModel.Characters.First(x => x.Name == mapItem.Name);
+                    Character.Character? baseCharacter = viewModel.Characters.FirstOrDefault(x => x.Name == mapItem.Name);
 
                     return new Avatar()
                     {
                         BaseCharacter = baseCharacter,
                         FetterLevel = info.FetterInfo.ExpLevel,
                         Level = Convert.ToInt32(info.PropMap[Property.Level].Value),
+                        Stats = AvatarStatConverter.Convert(info.FightPropMap),
+                        CritScore = AvatarStatConverter.CirtScore(info.FightPropMap),
                     };
                 }).ToList(),
             };
@@ -73,25 +75,4 @@ public class Showcase
 
         return null;
     }
-}
-
-/// <summary>
-/// 角色
-/// </summary>
-public class Avatar
-{
-    /// <summary>
-    /// 基底角色信息
-    /// </summary>
-    public Character.Character BaseCharacter { get; set; } = default!;
-
-    /// <summary>
-    /// 等级
-    /// </summary>
-    public int Level { get; set; }
-
-    /// <summary>
-    /// 好感度
-    /// </summary>
-    public int FetterLevel { get; set; } = default!;
 }
