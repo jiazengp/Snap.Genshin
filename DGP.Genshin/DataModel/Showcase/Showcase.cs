@@ -39,7 +39,7 @@ public class Showcase
     /// <param name="response">Enka响应</param>
     /// <param name="avatarsMap">角色映射</param>
     /// <returns>新的角色橱窗</returns>
-    internal static Showcase? Build(EnkaResponse? response,MetadataViewModel viewModel, IEnumerable<HutaoItem> avatarsMap)
+    internal static Showcase? Build(EnkaResponse? response, MetadataViewModel viewModel, IEnumerable<HutaoItem> avatarsMap)
     {
         if (response is not null && response.IsValid && response.HasDetail)
         {

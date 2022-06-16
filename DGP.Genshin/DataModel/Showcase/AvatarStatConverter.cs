@@ -44,7 +44,7 @@ public static class AvatarStatConverter
 
     private static readonly List<int> IgnorableProperties = new()
     {
-        21, 24, 25, 26, 27, 28, 29,
+        21, 25, 26, 27, 28, 29,
         30, 31, 32,
         40, 41, 42, 43, 44, 45, 46, // 增伤
         50, 51, 52, 53, 54, 55, 56, // 抗性
@@ -80,6 +80,7 @@ public static class AvatarStatConverter
             {
                 >=1 and <=9 => null, // 直接忽略基础数值
                 >= 20 and <= 23 => new(ActualNameOf[name], $"{value:P1}"),
+                24 => null,
                 26 or 27 or 29 or 30 => new(ActualNameOf[name], $"{value:P1}"),
                 28 => new(ActualNameOf[name], $"{Math.Round(value)}"),
                 >= 40 and <= 46 => new(ActualNameOf[name], $"{value:P1}"),
