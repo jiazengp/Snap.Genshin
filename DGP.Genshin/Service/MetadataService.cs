@@ -58,7 +58,6 @@ namespace DGP.Genshin.Service
                     if (shouldPass)
                     {
                         progress?.Report(new MetaState(++count, remoteVersions.Count, $"{file}.json"));
-                        continue;
                     }
                     else
                     {
@@ -80,7 +79,7 @@ namespace DGP.Genshin.Service
             return false;
         }
 
-        private class MetaState : IState
+        public class MetaState : IState
         {
             /// <summary>
             /// 构造新的进度实例

@@ -400,15 +400,26 @@ namespace DGP.Genshin.ViewModel
 
         private async Task CheckMetadataAsync()
         {
-            await App
+            bool result = await App
                 .AutoWired<IMetadataService>()
                 .TryEnsureDataNewestAsync(null);
 
-            new ToastContentBuilder()
-                .AddText("操作完成")
-                .AddText("可能需要重启应用")
-                .AddText("以使呈现数据刷新")
-                .SafeShow();
+            ToastContentBuilder builder = new();
+
+            if (result)
+            {
+                builder
+                    .AddText("操作成功")
+                    .AddText("重启应用以使呈现数据刷新");
+            }
+            else
+            {
+                builder
+                    .AddText("操作失败")
+                    .AddText("重启应用后重试");
+            }
+
+            builder.SafeShow();
         }
 
         [PropertyChangedCallback]

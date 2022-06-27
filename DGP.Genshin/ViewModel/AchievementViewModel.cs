@@ -177,9 +177,11 @@ namespace DGP.Genshin.ViewModel
                 int totalCount = SetAchievementsState(data, Achievements);
                 this.Log(totalCount);
                 RefreshView();
+                int left = data.Count() - totalCount;
+
                 new ToastContentBuilder()
                     .AddText("导入成功")
-                    .AddText($"共同步了 {totalCount} 个成就。")
+                    .AddText($"共同步了 {totalCount} 个成就。{left} 个成就导入失败。")
                     .SafeShow();
             }
             else
@@ -199,10 +201,12 @@ namespace DGP.Genshin.ViewModel
             // load completed item
             foreach (IdTime item in data)
             {
-                Achievement achievement = mappedAchievements[item.Id];
-                achievement.CompleteDateTime = item.Time;
-                achievement.IsCompleted = true;
-                count++;
+                if (mappedAchievements.TryGetValue(item.Id,out Achievement? achievement))
+                {
+                    achievement.CompleteDateTime = item.Time;
+                    achievement.IsCompleted = true;
+                    count++;
+                }
             }
 
             // load decomposed step

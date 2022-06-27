@@ -65,7 +65,7 @@ public class Showcase
                     {
                         BaseCharacter = baseCharacter,
                         FetterLevel = info.FetterInfo.ExpLevel,
-                        Level = Convert.ToInt32(info.PropMap[Property.Level].Value),
+                        Level = Convert.ToInt32(info.PropMap["4001"].Value),
                         Stats = AvatarStatConverter.Convert(info.FightPropMap),
                         CritScore = AvatarStatConverter.CirtScore(info.FightPropMap),
                     };
