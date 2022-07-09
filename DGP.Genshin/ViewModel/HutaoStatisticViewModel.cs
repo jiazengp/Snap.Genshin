@@ -32,12 +32,14 @@ namespace DGP.Genshin.ViewModel
         private bool shouldUIPresent;
         private Overview? overview;
         private IList<Indexed<int, Item<double>>>? avatarParticipations;
+        private IList<Indexed<int, Item<double>>>? avatarParticipation2s;
         private IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? avatarReliquaryUsages;
         private IList<Item<IList<Item<double>>>>? teamCollocations;
         private IList<Item<IList<Item<double>>>>? weaponUsages;
         private IList<Rate<Item<IList<NamedValue<double>>>>>? avatarConstellations;
         private IList<Indexed<int, Rate<Two<IList<HutaoItem>>>>>? teamCombinations;
         private bool periodUploaded;
+        private Two<Item<Rank>>? rank;
 
         /// <summary>
         /// 构造一个新的胡桃数据库视图模型
@@ -97,6 +99,16 @@ namespace DGP.Genshin.ViewModel
         }
 
         /// <summary>
+        /// 角色出场率
+        /// </summary>
+        public IList<Indexed<int, Item<double>>>? AvatarParticipation2s
+        {
+            get => avatarParticipation2s;
+
+            set => SetProperty(ref avatarParticipation2s, value);
+        }
+
+        /// <summary>
         /// 角色圣遗物搭配
         /// </summary>
         public IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? AvatarReliquaryUsages
@@ -147,6 +159,15 @@ namespace DGP.Genshin.ViewModel
         }
 
         /// <summary>
+        /// 排行
+        /// </summary>
+        public Two<Item<Rank>>? Rank
+        {
+            get => rank;
+            set => SetProperty(ref rank, value);
+        }
+
+        /// <summary>
         /// 打开界面触发的命令
         /// </summary>
         public ICommand OpenUICommand { get; }
@@ -169,6 +190,7 @@ namespace DGP.Genshin.ViewModel
 
                 // V1
                 AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
+                AvatarParticipation2s = hutaoStatisticService.GetAvatarParticipation2s();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
                 WeaponUsages = hutaoStatisticService.GetWeaponUsages();
 
@@ -203,6 +225,7 @@ namespace DGP.Genshin.ViewModel
                 .GetUserGameRolesAsync(CancellationToken);
             UserGameRole? role = gameRoles.MatchedOrFirst(role => role.IsChosen);
             PeriodUploaded = await hutaoStatisticService.GetPeriodUploadedAsync(Must.NotNull(role!.GameUid!), CancellationToken);
+            Rank = await hutaoStatisticService.GetRankAsync(Must.NotNull(role!.GameUid!), CancellationToken);
         }
 
         private async Task UploadRecordsAsync()

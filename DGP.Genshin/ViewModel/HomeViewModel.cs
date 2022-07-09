@@ -47,7 +47,6 @@ namespace DGP.Genshin.ViewModel
         public AnnouncementWrapper? Announcement
         {
             get => announcement;
-
             set => SetProperty(ref announcement, value);
         }
 

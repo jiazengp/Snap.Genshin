@@ -26,6 +26,7 @@ namespace DGP.Genshin.Service
         private IEnumerable<HutaoItem> reliquaryMap = null!;
 
         private IEnumerable<AvatarParticipation> avatarParticipations = null!;
+        private IEnumerable<AvatarParticipation> avatarParticipation2s = null!;
         private IEnumerable<AvatarConstellationNum> avatarConstellationNums = null!;
         private IEnumerable<TeamCollocation> teamCollocations = null!;
         private IEnumerable<WeaponUsage> weaponUsages = null!;
@@ -42,6 +43,7 @@ namespace DGP.Genshin.Service
             reliquaryMap = await playerRecordClient.GetReliquaryMapAsync(cancellationToken);
 
             avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
+            avatarParticipation2s = await playerRecordClient.GetAvatarParticipation2sAsync(cancellationToken);
             avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
             teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
             weaponUsages = await playerRecordClient.GetAvatarWeaponUsagesAsync(cancellationToken);
@@ -62,12 +64,51 @@ namespace DGP.Genshin.Service
         }
 
         /// <inheritdoc/>
+        public async Task<Two<Item<Rank>>?> GetRankAsync(string uid, CancellationToken cancellationToken = default)
+        {
+            RankWrapper? rank = await playerRecordClient.GetRankAsync(uid, cancellationToken);
+            if (rank == null || rank.Damage == null || rank.TakeDamage == null)
+            {
+                return null;
+            }
+
+            Item<Rank> damage = new(avatarMap.First(a => a.Id == rank.Damage.AvatarId), rank.Damage);
+            Item<Rank> takeDamage = new(avatarMap.First(a => a.Id == rank.TakeDamage.AvatarId), rank.TakeDamage);
+
+            return new Two<Item<Rank>>(damage, takeDamage);
+        }
+
+        /// <inheritdoc/>
         public IList<Indexed<int, Item<double>>> GetAvatarParticipations()
         {
             List<Indexed<int, Item<double>>> avatarParticipationResults = new();
 
             // 保证 12层在前
             foreach (AvatarParticipation avatarParticipation in avatarParticipations.OrderByDescending(x => x.Floor))
+            {
+                IList<Item<double>> result = avatarParticipation.AvatarUsage
+                    .Join(
+                        avatarMap,
+                        rate => rate.Id,
+                        avatar => avatar.Id,
+                        (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value))
+                    .OrderByDescending(x => x.Value)
+                    .ToList();
+
+                avatarParticipationResults
+                    .Add(new Indexed<int, Item<double>>(avatarParticipation.Floor, result));
+            }
+
+            return avatarParticipationResults;
+        }
+
+        /// <inheritdoc/>
+        public IList<Indexed<int, Item<double>>> GetAvatarParticipation2s()
+        {
+            List<Indexed<int, Item<double>>> avatarParticipationResults = new();
+
+            // 保证 12层在前
+            foreach (AvatarParticipation avatarParticipation in avatarParticipation2s.OrderByDescending(x => x.Floor))
             {
                 IList<Item<double>> result = avatarParticipation.AvatarUsage
                     .Join(

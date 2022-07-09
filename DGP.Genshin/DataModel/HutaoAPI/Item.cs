@@ -1,4 +1,6 @@
-﻿namespace DGP.Genshin.DataModel.HutaoAPI
+﻿using DGP.Genshin.HutaoAPI.PostModel;
+
+namespace DGP.Genshin.DataModel.HutaoAPI
 {
     /// <summary>
     /// 胡桃API数据元件：
@@ -19,6 +21,19 @@
             Id = id;
             Name = name;
             Icon = icon;
+            Value = value;
+        }
+
+        /// <summary>
+        /// 构造一个新的项
+        /// </summary>
+        /// <param name="hutaoItem">胡桃物品</param>
+        /// <param name="value">值</param>
+        public Item(HutaoItem hutaoItem, TValue value)
+        {
+            Id = hutaoItem.Id;
+            Name = hutaoItem.Name;
+            Icon = hutaoItem.Url;
             Value = value;
         }
 

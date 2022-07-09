@@ -15,6 +15,7 @@
         Loaded="WindowLoaded"
         Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
     <Grid>
-        <wpf:WebView2 x:Name="WebView"/>
+        <wpf:WebView2
+            x:Name="WebView"/>
     </Grid>
 </Window>

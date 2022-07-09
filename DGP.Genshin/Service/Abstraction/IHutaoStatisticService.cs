@@ -31,6 +31,12 @@ namespace DGP.Genshin.Service.Abstraction
         IList<Rate<Item<IList<NamedValue<double>>>>> GetAvatarConstellations();
 
         /// <summary>
+        /// 获取角色使用率
+        /// </summary>
+        /// <returns>角色使用率</returns>
+        IList<Indexed<int, Item<double>>> GetAvatarParticipation2s();
+
+        /// <summary>
         /// 获取角色上场率
         /// </summary>
         /// <returns>角色上场率</returns>
@@ -50,6 +56,14 @@ namespace DGP.Genshin.Service.Abstraction
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns>当期是否上传了数据</returns>
         Task<bool> GetPeriodUploadedAsync(string uid, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// 异步获取角色排行
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>角色排行</returns>
+        Task<Two<Item<Rank>>?> GetRankAsync(string uid, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 获取圣遗物搭配

@@ -15,5 +15,6 @@
     Loaded="PageLoaded">
     <wpf:WebView2
         x:Name="WebView"
+        DefaultBackgroundColor="#00000000"
         NavigationCompleted="WebViewNavigationCompleted"/>
 </ui:Page>

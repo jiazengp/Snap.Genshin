@@ -192,38 +192,187 @@
             </TabControl.Resources>
             <ui:PivotHelper.RightHeader>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,0,0"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        VerticalAlignment="Center"
-                        TextAlignment="Left">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}满星:{0} 总计:{1}">
-                                <Binding Path="Overview.FullStarPlayerCount"/>
-                                <Binding Path="Overview.CollectedPlayerCount"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                    <TextBlock VerticalAlignment="Center" Margin="6,0">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionTextBlockStyle}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PeriodUploaded}" Value="True">
-                                        <Setter Property="Text" Value="本轮已提交"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding PeriodUploaded}" Value="False">
-                                        <Setter Property="Text" Value="本轮未提交"/>
-                                        <Setter Property="Foreground" Value="DarkRed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                    
                     <ui:CommandBar Background="Transparent" VerticalAlignment="Center">
+                        <ui:AppBarButton Label="详情">
+                            <ui:AppBarButton.Icon>
+                                <ui:FontIcon Glyph="&#xE946;"/>
+                            </ui:AppBarButton.Icon>
+                            <ui:AppBarButton.Flyout>
+                                <ui:Flyout Placement="BottomEdgeAlignedRight" >
+                                    <StackPanel SnapsToDevicePixels="True" >
+                                        <StackPanel>
+                                            <Grid>
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Margin="12">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding PeriodUploaded}" Value="True">
+                                                                    <Setter Property="Text" Value="本轮已提交，可重复提交刷新数据"/>
+                                                                    <Setter Property="Foreground" Value="LightGreen"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding PeriodUploaded}" Value="False">
+                                                                    <Setter Property="Text" Value="本轮未提交，提交后查看伤害排行"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding PeriodUploaded}" Value="True">
+                                                                <Setter Property="Background" Value="Green"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding PeriodUploaded}" Value="False">
+                                                                <Setter Property="Background" Value="DarkRed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+                                            </Grid>
+                                            <Grid Margin="0,12,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock
+                                                        Margin="0,0,0,0"
+                                                        Style="{StaticResource BaseTextBlockStyle}"
+                                                        HorizontalAlignment="Center"
+                                                        TextAlignment="Left"
+                                                        Text="满星人次"/>
+                                                    <TextBlock
+                                                        Margin="0,6,0,0"
+                                                        Style="{StaticResource BodyTextBlockStyle}"
+                                                        HorizontalAlignment="Center"
+                                                        TextAlignment="Left"
+                                                        Text="{Binding Overview.FullStarPlayerCount}"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock
+                                                        Margin="0,0,0,0"
+                                                        Style="{StaticResource BaseTextBlockStyle}"
+                                                        HorizontalAlignment="Center"
+                                                        TextAlignment="Left"
+                                                        Text="总计人次"/>
+                                                    <TextBlock
+                                                        Margin="0,6,0,0"
+                                                        Style="{StaticResource BodyTextBlockStyle}"
+                                                        HorizontalAlignment="Center"
+                                                        TextAlignment="Left"
+                                                        Text="{Binding Overview.CollectedPlayerCount}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                            
+                                            <Grid
+                                                Margin="0,12,0,0"
+                                                DataContext="{Binding Rank.First}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <cachedimage:CachedImage
+                                                        Width="64"
+                                                        Height="64"
+                                                        ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        Text="{Binding Name}"
+                                                        HorizontalAlignment="Center"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    Margin="12,0,0,0"
+                                                    VerticalAlignment="Center">
+                                                    <TextBlock
+                                                        Margin="0,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.Value,StringFormat={}最强一击：{0}}"
+                                                        Style="{StaticResource BaseTextBlockStyle}"/>
+                                                    <TextBlock
+                                                        Margin="0,6,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.Percent,StringFormat={}超过 {0:p3} 的 同个角色}"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.PercentTotal,StringFormat={}超过 {0:p3} 的 全部角色}"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Grid
+                                                Margin="0,12,0,0"
+                                                DataContext="{Binding Rank.Second}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <cachedimage:CachedImage
+                                                        Width="64"
+                                                        Height="64"
+                                                        ImageUrl="{Binding Icon}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        Text="{Binding Name}"
+                                                        HorizontalAlignment="Center"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    Margin="12,0,0,0"
+                                                    VerticalAlignment="Center">
+                                                    <TextBlock
+                                                        Margin="0,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.Value,StringFormat={}承受伤害：{0}}"
+                                                        Style="{StaticResource BaseTextBlockStyle}"/>
+                                                    <TextBlock
+                                                        Margin="0,6,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.Percent,StringFormat={}超过 {0:p3} 的 同个角色}"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value.PercentTotal,StringFormat={}超过 {0:p3} 的 全部角色}"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ui:Flyout>
+                            </ui:AppBarButton.Flyout>
+                        </ui:AppBarButton>
                         <ui:AppBarButton Icon="Upload" Label="提交我的数据" Command="{Binding UploadCommand}"/>
                     </ui:CommandBar>
                 </StackPanel>
             </ui:PivotHelper.RightHeader>
+            <TabItem Header="角色使用">
+                <TabControl
+                    ItemsSource="{Binding AvatarParticipation2s}"
+                    Style="{StaticResource TabControlPivotStyle}"
+                    ItemContainerStyle="{StaticResource AvatarParticipationsPivotItemStyle}"/>
+            </TabItem>
             <TabItem Header="角色出场">
                 <TabControl
                     ItemsSource="{Binding AvatarParticipations}"
