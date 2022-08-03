@@ -25,10 +25,11 @@
 
 |友情链接|
 |-|
-|[![GenShin-LauncherDIY](https://img.shields.io/badge/DawnFz-GenShin_Launcher_Plus_-red/total?style=flat-square)](https://github.com/DawnFz/GenShin-LauncherDIY)|
-|[![genshin-achievement-export](https://img.shields.io/badge/HolographicHat-Genshin_Achievement_Export-red/total?style=flat-square)](https://github.com/HolographicHat/genshin-achievement-export)|
+|[![GenShin-LauncherDIY](https://img.shields.io/badge/DawnFz-GenShin_Launcher_Plus-red/total?style=flat-square)](https://github.com/DawnFz/GenShin-LauncherDIY)|
+|[![YaeAchievement](https://img.shields.io/badge/HolographicHat-YaeAchievement-red/total?style=flat-square)](https://github.com/HolographicHat/YaeAchievement)|
 |[![PaimonsNotebook](https://img.shields.io/badge/QooLianyi-Paimons_Notebook-red/total?style=flat-square)](https://github.com/QooLianyi/PaimonsNotebook)|
-|[![Xunkong](https://img.shields.io/badge/Scighost-Xunkong-red/total?style=flat-square)](https://github.com/Scighost/Xunkong)|
+|[![Xunkong](https://img.shields.io/badge/xunkong-desktop-red/total?style=flat-square)](https://github.com/xunkong/desktop)|
+|[![miao-plugin](https://img.shields.io/badge/yoimiya_kokomi-miao_plugin-red/total?style=flat-square)](https://github.com/yoimiya-kokomi/miao-plugin)|
 
 # **注意事项**
 

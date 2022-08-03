@@ -6,18 +6,18 @@ using System.Windows.Media;
 
 [assembly: SnapGenshinPlugin]
 
-namespace DGP.Genshin.Skin.Pink;
+namespace DGP.Genshin.Skin.Purple;
 
 /// <summary>
 /// 粉色皮肤插件
 /// </summary>
-public class PinkSkinPlugin : IPlugin, IAppStartUp
+public class PurpleSkinPlugin : IPlugin, IAppStartUp
 {
     /// <inheritdoc/>
     public bool IsEnabled { get => true; }
 
     /// <inheritdoc/>
-    public string Name { get => "Shame 粉"; }
+    public string Name { get => "Shame 紫"; }
 
     /// <inheritdoc/>
     public string Description { get => "用 ❤️ 制作，可以让你的 Snap Genshin 拥有全新的外观。"; }
@@ -31,18 +31,18 @@ public class PinkSkinPlugin : IPlugin, IAppStartUp
     /// <inheritdoc/>
     public void Happen(IContainer container)
     {
-        Color pinkColorLight2 = Color.FromArgb(255, 255, 199, 190);
-        Color pinkColorLight1 = Color.FromArgb(255, 255, 194, 190);
-        Color pinkColor = Color.FromArgb(255, 230, 172, 172);
+        Color colorLight2 = Color.FromArgb(255, 224, 146, 255);
+        Color colorLight1 = Color.FromArgb(255, 217, 146, 255);
+        Color color = Color.FromArgb(255, 181, 126, 220);
 
         // WPFUI
-        App.Current.Resources["TextFillColorPrimary"] = pinkColor;
-        App.Current.Resources["TextFillColorSecondary"] = pinkColorLight1;
-        App.Current.Resources["TextFillColorTertiary"] = pinkColorLight2;
+        App.Current.Resources["TextFillColorPrimary"] = color;
+        App.Current.Resources["TextFillColorSecondary"] = colorLight1;
+        App.Current.Resources["TextFillColorTertiary"] = colorLight2;
 
         App.Current.Resources.MergedDictionaries.Add(new()
         {
-            Source = new("pack://application:,,,/DGP.Genshin.Skin.Pink;component/Dark.xaml"),
+            Source = new("pack://application:,,,/DGP.Genshin.Skin.Purple;component/Dark.xaml"),
         });
     }
 }

@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 // 禁用系统DPI感知
 [assembly: DisableDpiAwareness]
-
-[assembly: AssemblyDescription("原神信息速查App")]
+[assembly: AssemblyVersion("2022.7.24.10000")]
+[assembly: AssemblyDescription("Snap Genshin Final Edition")]
 [assembly: AssemblyCopyright("Copyright © DGP Studio 2022")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)] 
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]

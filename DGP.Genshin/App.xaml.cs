@@ -13,6 +13,7 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
@@ -368,8 +369,6 @@ namespace DGP.Genshin
             }
         }
 
-        partial void ConfigureAppCenter(bool enabled);
-
         private void ConfigureToastNotification()
         {
             ToastNotificationManagerCompat.OnActivated += toastNotificationHandler.OnActivatedByNotification;
@@ -414,6 +413,36 @@ namespace DGP.Genshin
                 where T : class
             {
                 return AutoWired<T>();
+            }
+        }
+    }
+
+    public partial class App : Application
+    {
+        [DebuggerNonUserCode]
+        private void ConfigureAppCenter(bool enabled)
+        {
+            if (enabled)
+            {
+                AppCenter.SetUserId(User.Id);
+
+                // AppCenter.LogLevel = LogLevel.Verbose;
+#if DEBUG
+                // DEBUG INFO should send to Snap Genshin Debug kanban
+                AppCenter.Start("2e4fa440-132e-42a7-a288-22ab1a8606ef", typeof(Analytics), typeof(Crashes));
+#else
+                // 开发测试人员请不要生成 Release 版本
+                if (!System.Diagnostics.Debugger.IsAttached)
+                {
+                    //RELEASE INFO should send to Snap Genshin kanban
+                    AppCenter.Start("dacbf853-3663-42d8-a40c-5a721d26c316", typeof(Analytics), typeof(Crashes));
+                }
+                else
+                {
+                    throw Microsoft.Verify.FailOperation("请不要生成 Release 版本");
+                }
+#endif
+                this.Log("AppCenter Initialized");
             }
         }
     }

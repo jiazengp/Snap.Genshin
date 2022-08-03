@@ -9,7 +9,6 @@ namespace DGP.Genshin.SourceGeneration
     /// Secret 获取
     /// https://appcenter.ms/orgs/DGP-Studio/apps/SG-Release-New
     /// </summary>
-    /// <param name="context"></param>
     [Generator]
     public class AppCenterGenerator : ISourceGenerator
     {

@@ -26,15 +26,6 @@ namespace DGP.Genshin.Control
         }
 
         /// <summary>
-        /// 释放消息器
-        /// </summary>
-        ~BlockingView()
-        {
-            App.Messenger.Unregister<ImageHitBeginMessage>(this);
-            App.Messenger.Unregister<ImageHitEndMessage>(this);
-        }
-
-        /// <summary>
         /// 指示当前视图是否可见
         /// </summary>
         public bool ShouldPresent
