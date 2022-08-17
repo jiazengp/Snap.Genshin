@@ -1,22 +1,19 @@
 ﻿<concurrent:AsyncPage
-    xmlns:concurrent="clr-namespace:DGP.Genshin.Control.Infrastructure.Concurrent"
     x:Class="DGP.Genshin.Page.HutaoStatisticPage"
     x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:DGP.Genshin.Page"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:DGP.Genshin.Control.Converter"
+    xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
+    xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
+    xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
+    xmlns:concurrent="clr-namespace:DGP.Genshin.Control.Infrastructure.Concurrent"
     xmlns:smoothscrollviewer="clr-namespace:DGP.Genshin.Control.Infrastructure.SmoothScrollViewer"
     xmlns:wu="clr-namespace:WPFUI.Controls;assembly=WPFUI"
-    xmlns:cachedimage="clr-namespace:DGP.Genshin.Control.Infrastructure.CachedImage"
-    xmlns:converter="clr-namespace:DGP.Genshin.Control.Converter"
-    xmlns:helper="clr-namespace:DGP.Genshin.Control.Helper"
-    xmlns:infrastructure="clr-namespace:DGP.Genshin.Control.Infrastructure"
-    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-    xmlns:genshinelement="clr-namespace:DGP.Genshin.Control.GenshinElement"
     mc:Ignorable="d" 
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -183,7 +180,19 @@
         </Style>
     </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="8"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Center"
+            TextAlignment="Center"
+            Text="胡桃数据库的数据由 DGP Studio @ 胡桃API 收集并处理生成&#10;未经开发团队允许，不得擅自大范围传播。(咨询群：910780153)"
+            TextWrapping="WrapWithOverflow"/>
         <TabControl 
+            Grid.Row="1"
             Style="{StaticResource TabControlPivotStyle}"
             ItemContainerStyle="{StaticResource PivotItemStyle}"
             Visibility="{Binding ShouldUIPresent,Converter={StaticResource BooleanToVisibilityConverter}}">

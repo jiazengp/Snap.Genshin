@@ -71,6 +71,11 @@ namespace DGP.Genshin.Service
                             if (data?.List is List<UIAFItem> achievements)
                             {
                                 return achievements
+
+                                    // WHERE achievement: status invalid && time 0001/01/01 00:00:00
+                                    // which indicates a obsolete achievement for UIAF 1.1.
+                                    // Meanwhile we want to compact with UIAF 1.0 where status will be 0 but not for time.
+                                    .Where(a => ((int)a.Status >= 2) || (a.Status == 0 && a.TimeStamp != -62135596800))
                                     .Select(a => new IdTime(a.Id, DateTime.UnixEpoch.AddSeconds(a.TimeStamp)));
                             }
 

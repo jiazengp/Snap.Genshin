@@ -1,11 +1,13 @@
 ﻿using Snap.Core.Logging;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace DGP.Genshin.Control.Infrastructure.CachedImage
 {
@@ -52,6 +54,17 @@ namespace DGP.Genshin.Control.Infrastructure.CachedImage
                 }
 
                 memoryStream.Seek(0, SeekOrigin.Begin);
+
+                // check the image format valid.
+                try
+                {
+                    _ = Image.FromStream(memoryStream);
+                }
+                catch
+                {
+                    return null;
+                }
+
                 return memoryStream;
             }
 
