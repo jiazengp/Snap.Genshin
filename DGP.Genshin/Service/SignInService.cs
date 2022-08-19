@@ -65,31 +65,33 @@ namespace DGP.Genshin.Service
 
                     (bool isOk, string result) = await new SignInProvider(cookie).SignInAsync(role);
 
-                    if (!isOk)
+                    if (isOk)
                     {
-                        // re-enqueue
-                        cookieRoles.Enqueue(first);
-                    }
+                        Setting2.LastAutoSignInTime.Set(DateTime.UtcNow.AddHours(8));
+                        new ToastContentBuilder()
+                            .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
+                            .AddText(result)
+                            .AddAttributionText(role.ToString())
+                            .SafeShow(toast => { toast.SuppressPopup = Setting2.SignInSilently; }, false);
 
-                    Setting2.LastAutoSignInTime.Set(DateTime.UtcNow.AddHours(8));
-                    new ToastContentBuilder()
-                        .AddHeader("SIGNIN", "米游社每日签到", "SIGNIN")
-                        .AddText(result)
-                        .AddAttributionText(role.ToString())
-                        .SafeShow(toast => { toast.SuppressPopup = Setting2.SignInSilently; }, false);
-
-                    if (cookieRoles.Count <= 0)
-                    {
-                        break;
+                        if (cookieRoles.Count <= 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            // Starting from 2022.4.1 or so
+                            // We need always wait 15 seconds to sign another account in.
+                            // Starting fron 2022.8.10 or so
+                            // We need more time to sign another account in.
+                            int seconds = Random.Shared.Next(15, 60);
+                            await Task.Delay(TimeSpan.FromSeconds(seconds));
+                        }
                     }
                     else
                     {
-                        // Starting from 2022.4.1 or so
-                        // We need always wait 15 seconds to sign another account in.
-                        // Starting fron 2022.8.10 or so
-                        // We need more time to sign another account in.
-                        int seconds = Random.Shared.Next(15, 60);
-                        await Task.Delay(TimeSpan.FromSeconds(seconds));
+                        // re-enqueue
+                        cookieRoles.Enqueue(first);
                     }
                 }
                 else

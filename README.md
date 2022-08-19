@@ -1,3 +1,8 @@
+# **注意事项**
+
+我们正在将项目向Win UI3 迁移，请移步至 [Snap.Hutao](https://github.com/DGP-Studio/Snap.Hutao)  
+此项目已经进入维护阶段，不再开发新功能，只进行必要的问题修复，迁移完成后将尽力保障平稳升级，敬请期待。
+
 <div align="center"> 
 
 [![Snap.Genshin](https://repository-images.githubusercontent.com/331187187/0a2420e5-881a-4709-9f99-fdd42f13e1fc)](https://github.com/DGP-Studio/Snap.Genshin/stargazers)
@@ -30,11 +35,6 @@
 |[![PaimonsNotebook](https://img.shields.io/badge/QooLianyi-Paimons_Notebook-red/total?style=flat-square)](https://github.com/QooLianyi/PaimonsNotebook)|
 |[![Xunkong](https://img.shields.io/badge/xunkong-desktop-red/total?style=flat-square)](https://github.com/xunkong/desktop)|
 |[![miao-plugin](https://img.shields.io/badge/yoimiya_kokomi-miao_plugin-red/total?style=flat-square)](https://github.com/yoimiya-kokomi/miao-plugin)|
-
-# **注意事项**
-
-我们正在将项目向Win UI3 迁移，请移步至 [Snap.Hutao](https://github.com/DGP-Studio/Snap.Hutao)  
-此项目已经进入维护阶段，不再开发新功能，只进行必要的问题修复，迁移完成后将尽力保障平稳升级，敬请期待。
 
 </div>
 
