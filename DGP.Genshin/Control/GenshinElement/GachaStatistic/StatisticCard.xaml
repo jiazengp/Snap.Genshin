@@ -220,7 +220,7 @@
                                     Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock 
                                     HorizontalAlignment="Right"
-                                    FontFamily="Consolas" 
+                                    FontFamily="Consolas,MicroSoft YaHei UI" 
                                     Text="{Binding AverageGetStar5,StringFormat={}{0:f2} 抽}"
                                     Style="{StaticResource BodyTextBlockStyle}"/>
                             </Grid>

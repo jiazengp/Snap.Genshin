@@ -85,6 +85,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1450" />
     <PackageReference Include="WPF-UI" Version="1.2.4" />
   </ItemGroup>
 

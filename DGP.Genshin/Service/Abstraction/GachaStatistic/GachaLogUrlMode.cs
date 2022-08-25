@@ -6,9 +6,9 @@
     public enum GachaLogUrlMode
     {
         /// <summary>
-        /// 从游戏日志获取
+        /// 代理获取
         /// </summary>
-        GameLogFile,
+        Proxy,
 
         /// <summary>
         /// 手动输入

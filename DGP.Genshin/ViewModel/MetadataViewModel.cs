@@ -120,7 +120,39 @@ namespace DGP.Genshin.ViewModel
         /// </summary>
         public List<SpecificBanner> SpecificBanners
         {
-            get => ProbeCollcetion(ref specificBanners, GachaEventJson);
+            get => ProbeCollcetion(ref specificBanners, GachaEventJson, list =>
+            {
+                foreach (var banner in list)
+                {
+                    banner.UpStar5List = banner.UpStar5List!.Select(s =>
+                    {
+                        Primitive p = FindPrimitiveByName(s.Name)!;
+
+                        return new DataModel.GachaStatistic.Item.StatisticItem()
+                        {
+                            StarUrl = p.Star,
+                            Source = p.Source,
+                            Name = p.Name,
+                            Badge = p.GetBadge(),
+                        };
+                    }).ToList();
+
+                    banner.UpStar4List = banner.UpStar4List!.Select(s =>
+                    {
+                        Primitive p = FindPrimitiveByName(s.Name)!;
+
+                        return new DataModel.GachaStatistic.Item.StatisticItem()
+                        {
+                            StarUrl = p.Star,
+                            Source = p.Source,
+                            Name = p.Name,
+                            Badge = p.GetBadge(),
+                        };
+                    }).ToList();
+                }
+
+                return list;
+            });
         }
 
         /// <summary>

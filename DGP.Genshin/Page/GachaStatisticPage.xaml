@@ -140,7 +140,7 @@
                     <ui:CommandBar Background="Transparent">
                         <ui:AppBarButton
                             Icon="Refresh"
-                            Label="从 日志文件 刷新"
+                            Label="代理模式刷新"
                             Command="{Binding GachaLogAutoFindCommand}"/>
                         <ui:CommandBar.SecondaryCommands>
                             <ui:AppBarButton
@@ -659,8 +659,8 @@
                     HorizontalAlignment="Center"/>
                 <wu:CardAction
                     helper:IconHelper.Icon="&#xE773;"
-                    helper:CardHelper.ActionTitle="从日志获取" 
-                    helper:CardHelper.ActionSubtitle="我们会自动扫描日志文件以找到获取记录需要的Url"
+                    helper:CardHelper.ActionTitle="从代理获取" 
+                    helper:CardHelper.ActionSubtitle="我们会监听系统流量以找到获取记录需要的Url"
                     Command="{Binding GachaLogAutoFindCommand}"
                     Margin="0,36,0,0"/>
                 <wu:CardAction

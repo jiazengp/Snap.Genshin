@@ -168,7 +168,7 @@ namespace DGP.Genshin.ViewModel
             {
                 try
                 {
-                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.GameLogFile, Progress, IsFullFetch);
+                    (bool isOk, string uid) = await gachaStatisticService.RefreshAsync(UserGachaDataCollection, GachaLogUrlMode.Proxy, Progress, IsFullFetch);
                     FetchProgress = null;
                     if (isOk)
                     {

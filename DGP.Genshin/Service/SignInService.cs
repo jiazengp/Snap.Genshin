@@ -8,6 +8,7 @@ using DGP.Genshin.Service.Abstraction.Setting;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.Threading;
 using Snap.Core.DependencyInjection;
+using Snap.Core.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -59,6 +60,8 @@ namespace DGP.Genshin.Service
 
             while (true)
             {
+                this.Log($"Current SignIn Progress: [InQueue: {cookieRoles.Count}]");
+
                 if (cookieRoles.TryDequeue(out KeyValuePair<string, UserGameRole> first))
                 {
                     (string cookie, UserGameRole role) = first;
@@ -74,28 +77,35 @@ namespace DGP.Genshin.Service
                             .AddAttributionText(role.ToString())
                             .SafeShow(toast => { toast.SuppressPopup = Setting2.SignInSilently; }, false);
 
+                        this.Log($"Current SignIn Progress: [OnePass: {first.Value.Nickname} {result}] [InQueue: {cookieRoles.Count}]");
+
                         if (cookieRoles.Count <= 0)
                         {
+                            this.Log($"Current SignIn Progress: [Queue Empty]");
                             break;
-                        }
-                        else
-                        {
-                            // Starting from 2022.4.1 or so
-                            // We need always wait 15 seconds to sign another account in.
-                            // Starting fron 2022.8.10 or so
-                            // We need more time to sign another account in.
-                            int seconds = Random.Shared.Next(15, 60);
-                            await Task.Delay(TimeSpan.FromSeconds(seconds));
                         }
                     }
                     else
                     {
+                        this.Log($"Current SignIn Progress: [ReQueue {first.Value.Nickname}]");
+
                         // re-enqueue
                         cookieRoles.Enqueue(first);
                     }
+
+                    // Starting from 2022.4.1 or so
+                    // We need always wait 15 seconds to sign another account in.
+                    // Starting fron 2022.8.10 or so
+                    // We need more time to sign another account in.
+                    // Starting from 2022.8.20
+                    // If we use 2.35.2 UA, the geetest will mostly gone.
+
+                    // int seconds = Random.Shared.Next(5, 15);
+                    await Task.Delay(TimeSpan.FromSeconds(15));
                 }
                 else
                 {
+                    this.Log($"Current SignIn Progress: [DeQueue Failed]");
                     break;
                 }
             }

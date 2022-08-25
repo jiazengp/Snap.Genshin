@@ -242,6 +242,9 @@ dotnet_diagnostic.CA1401.severity = none
 
 # SA1629: Documentation text should end with a period
 dotnet_diagnostic.SA1629.severity = none
+csharp_style_prefer_parameter_null_checking = true:suggestion
+csharp_style_prefer_method_group_conversion = true:silent
+dotnet_diagnostic.SA1310.severity = silent
 
 [*.{cs,vb}]
 dotnet_diagnostic.CA1822.severity=none

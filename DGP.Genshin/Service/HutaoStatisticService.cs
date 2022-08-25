@@ -25,7 +25,6 @@ namespace DGP.Genshin.Service
         private IEnumerable<HutaoItem> weaponMap = null!;
         private IEnumerable<HutaoItem> reliquaryMap = null!;
 
-        private IEnumerable<AvatarParticipation> avatarParticipations = null!;
         private IEnumerable<AvatarParticipation> avatarParticipation2s = null!;
         private IEnumerable<AvatarConstellationNum> avatarConstellationNums = null!;
         private IEnumerable<TeamCollocation> teamCollocations = null!;
@@ -42,7 +41,6 @@ namespace DGP.Genshin.Service
             weaponMap = await playerRecordClient.GetWeaponMapAsync(cancellationToken);
             reliquaryMap = await playerRecordClient.GetReliquaryMapAsync(cancellationToken);
 
-            avatarParticipations = await playerRecordClient.GetAvatarParticipationsAsync(cancellationToken);
             avatarParticipation2s = await playerRecordClient.GetAvatarParticipation2sAsync(cancellationToken);
             avatarConstellationNums = await playerRecordClient.GetAvatarConstellationsAsync(cancellationToken);
             teamCollocations = await playerRecordClient.GetTeamCollocationsAsync(cancellationToken);
@@ -76,30 +74,6 @@ namespace DGP.Genshin.Service
             Item<Rank> takeDamage = new(avatarMap.First(a => a.Id == rank.TakeDamage.AvatarId), rank.TakeDamage);
 
             return new Two<Item<Rank>>(damage, takeDamage);
-        }
-
-        /// <inheritdoc/>
-        public IList<Indexed<int, Item<double>>> GetAvatarParticipations()
-        {
-            List<Indexed<int, Item<double>>> avatarParticipationResults = new();
-
-            // 保证 12层在前
-            foreach (AvatarParticipation avatarParticipation in avatarParticipations.OrderByDescending(x => x.Floor))
-            {
-                IList<Item<double>> result = avatarParticipation.AvatarUsage
-                    .Join(
-                        avatarMap,
-                        rate => rate.Id,
-                        avatar => avatar.Id,
-                        (rate, avatar) => new Item<double>(avatar.Id, avatar.Name, avatar.Url, rate.Value))
-                    .OrderByDescending(x => x.Value)
-                    .ToList();
-
-                avatarParticipationResults
-                    .Add(new Indexed<int, Item<double>>(avatarParticipation.Floor, result));
-            }
-
-            return avatarParticipationResults;
         }
 
         /// <inheritdoc/>

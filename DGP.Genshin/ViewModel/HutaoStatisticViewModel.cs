@@ -31,7 +31,6 @@ namespace DGP.Genshin.ViewModel
 
         private bool shouldUIPresent;
         private Overview? overview;
-        private IList<Indexed<int, Item<double>>>? avatarParticipations;
         private IList<Indexed<int, Item<double>>>? avatarParticipation2s;
         private IList<Item<IList<NamedValue<Rate<IList<Item<int>>>>>>>? avatarReliquaryUsages;
         private IList<Item<IList<Item<double>>>>? teamCollocations;
@@ -86,16 +85,6 @@ namespace DGP.Genshin.ViewModel
         {
             get => periodUploaded;
             set => SetProperty(ref periodUploaded, value);
-        }
-
-        /// <summary>
-        /// 角色出场率
-        /// </summary>
-        public IList<Indexed<int, Item<double>>>? AvatarParticipations
-        {
-            get => avatarParticipations;
-
-            set => SetProperty(ref avatarParticipations, value);
         }
 
         /// <summary>
@@ -189,7 +178,6 @@ namespace DGP.Genshin.ViewModel
                 await UpdatePreiodUploadedAsync();
 
                 // V1
-                AvatarParticipations = hutaoStatisticService.GetAvatarParticipations();
                 AvatarParticipation2s = hutaoStatisticService.GetAvatarParticipation2s();
                 TeamCollocations = hutaoStatisticService.GetTeamCollocations();
                 WeaponUsages = hutaoStatisticService.GetWeaponUsages();

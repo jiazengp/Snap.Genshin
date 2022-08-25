@@ -24,6 +24,7 @@ namespace DGP.Genshin.ViewModel
         private const string MondstadtIcon = "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Mengde.png";
         private const string LiyueIcon = "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png";
         private const string InazumaIcon = "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Daoqi.png";
+        private const string SumeruIcon = "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Sumeru.png";
 
         private readonly MetadataViewModel metadata;
 

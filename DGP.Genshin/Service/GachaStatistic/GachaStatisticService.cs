@@ -107,7 +107,7 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             return mode switch
             {
-                GachaLogUrlMode.GameLogFile => "请在游戏中打开祈愿历史记录页面后尝试刷新",
+                GachaLogUrlMode.Proxy => "请在游戏中打开祈愿历史记录页面后尝试刷新",
                 GachaLogUrlMode.ManualInput => "请重新输入有效的Url",
                 _ => string.Empty,
             };

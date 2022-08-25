@@ -1,8 +1,18 @@
 ﻿using DGP.Genshin.Control.GenshinElement.GachaStatistic;
 using DGP.Genshin.Service.Abstraction.GachaStatistic;
+using Microsoft.VisualStudio.Threading;
+using Microsoft.Win32;
+using ModernWpf.Controls;
 using Snap.Data.Primitive;
+using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
+using Titanium.Web.Proxy;
+using Titanium.Web.Proxy.EventArguments;
+using Titanium.Web.Proxy.Models;
 
 namespace DGP.Genshin.Service.GachaStatistic
 {
@@ -27,11 +37,11 @@ namespace DGP.Genshin.Service.GachaStatistic
         {
             switch (mode)
             {
-                case GachaLogUrlMode.GameLogFile:
+                case GachaLogUrlMode.Proxy:
                     string url = string.Empty;
                     if (File.Exists(LogFilePath))
                     {
-                        url = await GetUrlFromLogFileAsync();
+                        url = await GetUrlFromProxyAsync();
                     }
 
                     bool isOk = url != string.Empty;
@@ -43,34 +53,27 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
         }
 
-        /// <summary>
-        /// 在日志文件中寻找url
-        /// </summary>
-        /// <returns>url找不到则返回空字符串</returns>
-        private static async Task<string> GetUrlFromLogFileAsync()
+        private static async Task<string> GetUrlFromProxyAsync()
         {
-            string result = string.Empty;
-
-            // share the file to make unity access it so it doesn't crash when game is running
-            using (StreamReader sr = new(File.Open(LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            ContentDialog blockingDialog = new()
             {
-                string? str;
-
-                // check till the log file end to make sure
-                while (sr.Peek() >= 0)
+                Title = "获取抽卡链接中",
+                Content = "请打开游戏 [祈愿] 功能中的 [历史记录] 页面\n关闭主界面可能导致崩溃,请勿轻易尝试",
+            };
+            using (blockingDialog.BlockInteraction())
+            {
+                using (ProxyHelper proxyHelper = new())
                 {
-                    str = await sr.ReadLineAsync();
-                    if (str is not null && str.StartsWith("OnGetWebViewPageFinish:") && str.EndsWith("#/log"))
-                    {
-                        str = str.Replace("#/log", string.Empty);
-                        string[] splitedUrl = str.Split('?');
-                        splitedUrl[0] = GachaLogBaseUrl;
-                        result = string.Join("?", splitedUrl);
-                    }
+                    string url = await proxyHelper.GetTargetUrlAsync();
+
+                    url = url.Replace("#/log", string.Empty);
+                    string[] splitedUrl = url.Split('?');
+                    splitedUrl[0] = GachaLogBaseUrl;
+                    string result = string.Join("?", splitedUrl);
+
+                    return result;
                 }
             }
-
-            return result;
         }
 
         /// <summary>
@@ -96,6 +99,93 @@ namespace DGP.Genshin.Service.GachaStatistic
             }
 
             return new(input.IsOk, result);
+        }
+    }
+}
+
+/// <summary>
+/// 代理帮助类
+/// </summary>
+internal class ProxyHelper : IDisposable
+{
+    private readonly ProxyServer proxyServer;
+    private readonly TaskCompletionSource probingUrl = new();
+
+    private string? targetUrl;
+
+    /// <summary>
+    /// 构造一个新的代理帮助类
+    /// </summary>
+    public ProxyHelper()
+    {
+        proxyServer = new ProxyServer();
+        proxyServer.BeforeRequest += OnEventAsync;
+
+        ExplicitProxyEndPoint endPoint = new(IPAddress.Any, 18371);
+        proxyServer.AddEndPoint(endPoint);
+        proxyServer.Start();
+        proxyServer.SetAsSystemProxy(endPoint, ProxyProtocolType.AllHttp);
+    }
+
+    /// <summary>
+    /// 获取Url
+    /// </summary>
+    /// <returns>url</returns>
+    public async Task<string> GetTargetUrlAsync()
+    {
+        await probingUrl.Task;
+        return targetUrl ?? string.Empty;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        proxyServer.Stop();
+        proxyServer.DisableAllSystemProxies();
+        proxyServer.Dispose();
+    }
+
+    private Task OnEventAsync(object sender, SessionEventArgs e)
+    {
+        Titanium.Web.Proxy.Http.Request request = e.HttpClient.Request;
+        if (request.Host == "webstatic.mihoyo.com" && request.RequestUri.AbsolutePath == "/hk4e/event/e20190909gacha-v2/index.html")
+        {
+            targetUrl = request.RequestUriString;
+            probingUrl.TrySetResult();
+        }
+
+        return Task.CompletedTask;
+    }
+}
+
+/// <summary>
+/// 对话框扩展
+/// </summary>
+internal static class ContentDialogExtensions
+{
+    /// <summary>
+    /// 阻止用户交互
+    /// </summary>
+    /// <param name="contentDialog">对话框</param>
+    /// <returns>用于恢复用户交互</returns>
+    public static IDisposable BlockInteraction(this ContentDialog contentDialog)
+    {
+        contentDialog.ShowAsync().Forget();
+        return new ContentDialogHider(contentDialog);
+    }
+
+    private struct ContentDialogHider : IDisposable
+    {
+        private readonly ContentDialog contentDialog;
+
+        public ContentDialogHider(ContentDialog contentDialog)
+        {
+            this.contentDialog = contentDialog;
+        }
+
+        public void Dispose()
+        {
+            contentDialog.Hide();
         }
     }
 }

@@ -379,29 +379,18 @@
                             <StackPanel>
                                 <TextBlock Text="等级" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
                                 <TextBlock Text="1" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="5" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="10" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="15" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="20" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="20+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="25" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="30" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="35" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="40" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="40+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="45" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="50" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="50+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="55" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="60" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="60+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="65" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="70" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="70+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="75" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="80" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="80+" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                <TextBlock Text="85" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                 <TextBlock Text="90" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                             </StackPanel>
                             <ItemsControl
@@ -417,29 +406,18 @@
                                         <StackPanel Margin="6,0,0,0">
                                             <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlockStyle}" Margin="0,0,0,6"/>
                                             <TextBlock Text="{Binding Value.Level1}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level5}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level10}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level15}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level20}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level20p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level25}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level30}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level35}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level40}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level40p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level45}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level50}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level50p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level55}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level60}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level60p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level65}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level70}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level70p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level75}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level80}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level80p}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
-                                            <TextBlock Text="{Binding Value.Level85}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                             <TextBlock Text="{Binding Value.Level90}" Margin="0,4,0,0" Style="{StaticResource BodyTextBlockStyle}"/>
                                         </StackPanel>
                                     </DataTemplate>
@@ -448,7 +426,7 @@
                         </Grid>
                     </s:SmoothScrollViewer>
                 </wu:CardExpander>
-                
+
                 <wu:Card
                     Margin="0,12,0,0"
                     Padding="6"
@@ -496,16 +474,6 @@
                                     Style="{StaticResource BodyTextBlockStyle}"/>
                             </TabItem>
                         </TabControl>
-                    </StackPanel>
-                </wu:Card>
-                <wu:Card
-                    Margin="0,12,0,0"
-                    Padding="6"
-                    Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
-                    <StackPanel>
-                        <TextBlock
-                            Text="{Binding SelectedWeapon.Story}"
-                            Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                 </wu:Card>
             </StackPanel>

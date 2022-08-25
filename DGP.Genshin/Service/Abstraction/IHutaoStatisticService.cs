@@ -37,12 +37,6 @@ namespace DGP.Genshin.Service.Abstraction
         IList<Indexed<int, Item<double>>> GetAvatarParticipation2s();
 
         /// <summary>
-        /// 获取角色上场率
-        /// </summary>
-        /// <returns>角色上场率</returns>
-        IList<Indexed<int, Item<double>>> GetAvatarParticipations();
-
-        /// <summary>
         /// 获取人数总览
         /// </summary>
         /// <param name="cancellationToken">取消令牌</param>
